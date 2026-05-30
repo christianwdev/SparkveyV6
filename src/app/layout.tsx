@@ -1,13 +1,13 @@
 export const dynamic = 'force-dynamic';
 
-import "./_styles/globals.scss";
+import './_styles/globals.scss';
 
-import type { ReactNode } from "react";
-import type { Viewport } from "next";
-import Script from "next/script";
-import { Inter, Roboto, Sedgwick_Ave } from "next/font/google";
-import { getLocale } from "next-intl/server";
-import { ToastContainer } from "react-toastify";
+import type { ReactNode } from 'react';
+import type { Viewport } from 'next';
+import Script from 'next/script';
+import { Inter, Roboto, Sedgwick_Ave } from 'next/font/google';
+import { getLocale } from 'next-intl/server';
+import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({
   subsets: [ 'latin' ],
