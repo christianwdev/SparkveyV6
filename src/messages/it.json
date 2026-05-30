@@ -1,0 +1,825 @@
+{
+  "Common": {
+    "brandName": "Sparkvey",
+    "viewAll": "Vedi tutto"
+  },
+  "HomeMetadata": {
+    "title": "Sparkvey | Guadagna premi, denaro e gift card online",
+    "description": "Sparkvey - Guadagna premi e denaro completando sondaggi, guardando video, facendo acquisti online e molto altro! Iscriviti oggi e inizia a trasformare il tuo tempo in ricompense di valore"
+  },
+  "LoginMetadata": {
+    "title": "Sparkvey | Accedi al tuo account",
+    "description": "Accedi al tuo account Sparkvey e inizia a guadagnare premi."
+  },
+  "SignupMetadata": {
+    "title": "Sparkvey | Registrati e inizia a guadagnare premi",
+    "description": "Crea un account Sparkvey gratuito e inizia a guadagnare premi completando sondaggi, guardando video, facendo acquisti online e molto altro!"
+  },
+  "ForgotPasswordMetadata": {
+    "title": "Sparkvey | Reimposta la tua password",
+    "description": "Reimposta la password del tuo account Sparkvey."
+  },
+  "AffiliatesMetadata": {
+    "title": "Sparkvey | Affiliati",
+    "description": "Guadagna denaro invitando altri utenti su Sparkvey."
+  },
+  "ProfileLayoutMetadata": {
+    "title": "Sparkvey | Profilo",
+    "description": "Visualizza le informazioni del tuo profilo."
+  },
+  "ProfileSettingsLayoutMetadata": {
+    "title": "Sparkvey | Impostazioni profilo",
+    "description": "Gestisci le impostazioni del tuo account."
+  },
+  "ProfileActivityMetadata": {
+    "title": "Sparkvey | Attivita profilo",
+    "description": "Visualizza tutta la tua attivita precedente."
+  },
+  "ProfileRewardsMetadata": {
+    "title": "Sparkvey | Premi profilo",
+    "description": "Visualizza tutti i premi riscattati in precedenza."
+  },
+  "Landing": {
+    "register": "Registrati",
+    "signIn": "Accedi",
+    "getStarted": "Inizia ora",
+    "heroPrefix": "Guadagna",
+    "heroSuffix": "A modo tuo - Sondaggi, Cashback e Offerte!",
+    "heroDescription": "Completa sondaggi, fai acquisti con cashback e affronta sfide per guadagnare denaro online!",
+    "totalEarnedBySparkvey": "Totale guadagnato su Sparkvey",
+    "giftcardDescription": "Riscatta i tuoi premi con gift card di oltre 200+ dei tuoi brand preferiti. Inizia oggi a guadagnare online!",
+    "bannedBannerTitle": "Accesso bloccato — questo account non può accedere a Sparkvey",
+    "rewardWords": {
+      "rewards": "Premi",
+      "money": "Denaro",
+      "giftCards": "Gift card",
+      "crypto": "Cripto"
+    }
+  },
+  "AuthLayout": {
+    "welcome": "Benvenuto!",
+    "description": "Sparkvey e una piattaforma che consente agli utenti di guadagnare denaro reale completando attivita come sondaggi e download di app.",
+    "letsStartEarning": "Iniziamo a guadagnare",
+    "totalEarnedOnSparkvey": "Totale guadagnato su Sparkvey",
+    "earnedDescription": "Attraverso task, offerte, cashback e altro",
+    "termsOfService": "Termini di servizio",
+    "privacyPolicy": "Informativa sulla privacy",
+    "goBack": "Torna indietro"
+  },
+  "Footer": {
+    "sparkvey": "Sparkvey",
+    "home": "Home",
+    "vip": "VIP",
+    "affiliates": "Affiliati",
+    "redeem": "Riscatta",
+    "waysToEarn": "Modi per guadagnare",
+    "discover": "Scopri",
+    "tasks": "Task",
+    "videos": "Video",
+    "legal": "Legale",
+    "termsOfService": "Termini di servizio",
+    "privacyPolicy": "Informativa sulla privacy",
+    "contactUs": "Contattaci",
+    "customerSupport": "Supporto clienti",
+    "language": "Lingua",
+    "english": "Inglese",
+    "spanish": "Spagnolo",
+    "copyright": "Copyright © Sparkvey 2023-{year}",
+    "german": "Tedesco",
+    "korean": "Coreano",
+    "japanese": "Giapponese",
+    "portuguese": "Portoghese",
+    "finnish": "Finlandese",
+    "norwegian": "Norvegese",
+    "french": "Francese",
+    "italian": "Italiano",
+    "polish": "Polacco"
+  },
+  "LoginPage": {
+    "title": "Accedi",
+    "disclaimer": "Accedendo, accetti i nostri <terms>Termini di servizio</terms> e la <privacy>Informativa sulla privacy</privacy>.",
+    "emailAddress": "Indirizzo email",
+    "password": "Password",
+    "forgotPassword": "Password dimenticata?",
+    "signingIn": "Accesso in corso...",
+    "signIn": "Accedi",
+    "or": "oppure",
+    "google": "Google",
+    "signInWithGoogle": "Accedi con Google",
+    "notAMember": "Non sei ancora membro?",
+    "joinToday": "Iscriviti oggi!",
+    "errors": {
+      "emailRequired": "Inserisci il tuo indirizzo email.",
+      "emailInvalid": "Questo non sembra un indirizzo email valido.",
+      "passwordRequired": "Inserisci la tua password.",
+      "passwordInvalid": "Usa almeno 8 caratteri con un numero e un carattere speciale.",
+      "genericTryAgain": "Qualcosa e andato storto, riprova.",
+      "adBlocker": "Se hai un ad blocker attivo, disattivalo per continuare. Se pensi sia un errore, contatta il supporto.",
+      "googleSignInFailed": "Si e verificato un problema durante l'accesso con Google."
+    }
+  },
+  "SignupPage": {
+    "title": "Registrati",
+    "disclaimer": "Registrandoti, accetti i nostri <terms>Termini di servizio</terms> e la <privacy>Informativa sulla privacy</privacy>.",
+    "emailAddress": "Indirizzo email",
+    "password": "Password",
+    "confirmPassword": "Conferma password",
+    "username": "Nome utente",
+    "referralCodeOptional": "Codice referral (opzionale)",
+    "back": "Indietro",
+    "continue": "Continua",
+    "creatingAccount": "Creazione account in corso...",
+    "signUp": "Registrati",
+    "or": "oppure",
+    "google": "Google",
+    "signUpWithGoogle": "Registrati con Google",
+    "alreadyMember": "Sei gia membro?",
+    "signInNow": "Accedi ora!",
+    "errors": {
+      "emailRequired": "Inserisci il tuo indirizzo email.",
+      "emailInvalid": "Questo indirizzo email non sembra corretto.",
+      "passwordRequired": "Crea una password per continuare.",
+      "passwordInvalid": "Usa almeno 8 caratteri con un numero e un carattere speciale.",
+      "confirmPasswordRequired": "Conferma la tua password.",
+      "confirmPasswordMismatch": "Le password non coincidono ancora.",
+      "usernameRequired": "Scegli un nome utente per completare la registrazione.",
+      "usernameInvalid": "I nomi utente possono contenere 3-20 lettere, numeri o underscore.",
+      "referralInvalid": "I codici referral possono contenere lettere, numeri o trattini.",
+      "missingDetails": "Sembra mancare qualcosa: ricontrolla i tuoi dati.",
+      "fixHighlighted": "Correggi i campi evidenziati prima di continuare.",
+      "adBlocker": "Se hai un ad blocker attivo, disattivalo per continuare. Se pensi sia un errore, contatta il supporto.",
+      "genericTryAgain": "Qualcosa e andato storto, riprova.",
+      "couldNotCreateAccount": "Non siamo riusciti ancora a creare il tuo account.",
+      "createAccountFailed": "Si e verificato un problema durante la creazione del tuo account.",
+      "googleSignupFailed": "Si e verificato un problema durante la registrazione con Google."
+    }
+  },
+  "ForgotPasswordPage": {
+    "title": "Password dimenticata",
+    "emailAddress": "Indirizzo email",
+    "newPassword": "Nuova password",
+    "confirmPassword": "Conferma password",
+    "sendResetEmail": "Invia email di reset",
+    "resetPassword": "Reimposta password",
+    "notAMember": "Non sei ancora membro?",
+    "joinToday": "Iscriviti oggi!",
+    "errors": {
+      "emailRequired": "Inserisci il tuo indirizzo email.",
+      "emailInvalid": "Questo indirizzo email non sembra corretto.",
+      "passwordRequired": "Crea una password per continuare.",
+      "passwordInvalid": "Usa almeno 8 caratteri con un numero e un carattere speciale.",
+      "confirmPasswordRequired": "Conferma la tua password.",
+      "confirmPasswordMismatch": "Le password non coincidono ancora.",
+      "genericTryAgain": "Qualcosa e andato storto, riprova."
+    }
+  },
+  "SupportChat": {
+    "talkingTo": "Stai parlando con",
+    "supportAgent": "Agente di supporto",
+    "typeMessage": "Scrivi il tuo messaggio...",
+    "send": "Invia"
+  },
+  "PurchaseModals": {
+    "common": {
+      "redeemItem": "Riscatta articolo",
+      "deliveryNotice": "La consegna delle ricompense puo richiedere fino a 48 ore. Ogni riscatto e soggetto a revisione e puo essere rifiutato in caso di frode.",
+      "description": "Descrizione",
+      "activationDetails": "Dettagli di attivazione",
+      "showLess": "Mostra meno",
+      "showMore": "Mostra di piu",
+      "amountInSparks": "Importo in Sparks",
+      "claimFor": "Riscatta per"
+    },
+    "crypto": {
+      "recipientAddressPlaceholder": "Indirizzo del destinatario",
+      "toasts": {
+        "enterSparksAmount": "Inserisci un importo in Sparks.",
+        "enterRecipientAddress": "Inserisci un indirizzo del destinatario."
+      }
+    },
+    "giftcard": {
+      "toasts": {
+        "selectGiftcardAmount": "Seleziona un importo della gift card."
+      }
+    },
+    "errors": {
+      "sessionVerificationFailed": "Non riusciamo a verificare la tua sessione; se hai un ad blocker attivo, disattivalo per continuare.",
+      "sessionTryAgain": "Impossibile verificare la tua sessione. Riprova.",
+      "failedToRedeemItem": "Impossibile riscattare l'articolo.",
+      "networkError": "Errore di rete durante l'elaborazione del riscatto"
+    },
+    "success": {
+      "redemptionSubmitted": "Richiesta di riscatto inviata."
+    }
+  },
+  "PromocodeModal": {
+    "title": "Riscatta codice promozionale",
+    "description": "Troverai questi codici promozionali sui nostri social e forniranno SP a un numero limitato di utenti.",
+    "placeholder": "Codice promozionale",
+    "redeemCode": "Riscatta codice"
+  },
+  "UserWithdrawalModal": {
+    "title": "Prelievo",
+    "na": "N/D",
+    "labels": {
+      "reward": "Premio",
+      "amount": "Importo",
+      "destination": "Destinazione",
+      "imageLinks": "Link immagini",
+      "keys": "Chiavi"
+    },
+    "placeholders": {
+      "rewardName": "Nome premio",
+      "sparksValue": "Valore in Sparks",
+      "destination": "Destinazione"
+    },
+    "actions": {
+      "openReward": "Apri premio",
+      "openImage": "Apri immagine {index}"
+    }
+  },
+  "Navbar": {
+    "auth": {
+      "login": "Accedi",
+      "register": "Registrati"
+    },
+    "links": {
+      "earn": "Guadagna",
+      "redeem": "Riscatta",
+      "leaderboard": "Classifica"
+    },
+    "mobile": {
+      "home": "Home",
+      "earn": "Guadagna",
+      "shop": "Shop",
+      "leaders": "Leader",
+      "refer": "Invita",
+      "support": "Supporto"
+    },
+    "emailVerification": {
+      "welcome": "Benvenuto su Sparkvey! Verifica la tua email prima di iniziare a guadagnare.",
+      "resend": "Invia di nuovo email",
+      "sending": "Invio in corso...",
+      "sent": "Email inviata"
+    },
+    "a11y": {
+      "balanceAlt": "Saldo",
+      "avatarAlt": "Avatar"
+    },
+    "toasts": {
+      "resendSuccess": "Email di verifica reinviata con successo, controlla la posta in arrivo e la cartella spam.",
+      "resendError": "Impossibile reinviare l'email di verifica, riprova."
+    }
+  },
+  "UserDropdown": {
+    "profile": "Profilo",
+    "activity": "Attivita",
+    "rewards": "Premi",
+    "settings": "Impostazioni",
+    "affiliates": "Affiliati",
+    "admin": "Admin",
+    "promocodes": "Codici promozionali",
+    "signOut": "Esci"
+  },
+  "EarnDropdown": {
+    "discover": "Scopri",
+    "tasks": "Task",
+    "videos": "Video",
+    "ptcPtsu": "PTC / PTSU"
+  },
+  "Notifications": {
+    "title": "Notifiche",
+    "none": "Nessuna notifica da mostrare...",
+    "types": {
+      "offerCredited": "Offerta accreditata",
+      "offerHeld": "Offerta in sospeso",
+      "offerPending": "Offerta in attesa",
+      "offerReleased": "Offerta rilasciata",
+      "offerReversal": "Offerta annullata",
+      "vipBonusClaimed": "Bonus VIP riscattato"
+    },
+    "messages": {
+      "offerCredited": "La tua offerta {offerName} del valore di {offerValue} sparks e stata accreditata.",
+      "offerHeld": "La tua offerta {offerName} del valore di {offerValue} sparks restera in sospeso fino al {releaseDate}.",
+      "offerPending": "La tua offerta {offerName} del valore di {offerValue} sparks e in sospeso presso il nostro provider fino al {releaseDate}.",
+      "offerReleased": "La tua offerta {offerName} del valore di {offerValue} e stata rilasciata.",
+      "offerReversal": "La tua offerta {offerName} del valore di {offerValue} e stata annullata.",
+      "vipBonusClaimed": "Hai riscattato il bonus VIP {vip} di {bonusAmount} sparks."
+    }
+  },
+  "NotFound": {
+    "imageAlt": "Pagina non trovata",
+    "description": "La pagina che stai cercando non esiste.",
+    "backHome": "Torna alla home"
+  },
+  "Discover": {
+    "sections": {
+      "offerwalls": {
+        "title": "Offerwall",
+        "description": "Guadagna Sparks completando offerte"
+      },
+      "featured": {
+        "title": "In evidenza",
+        "description": "Dai un'occhiata ad alcune delle nostre offerte in evidenza"
+      },
+      "recommended": {
+        "title": "Consigliate",
+        "description": "Ecco alcune offerte che pensiamo possano piacerti"
+      },
+      "games": {
+        "title": "Giochi",
+        "description": "Guadagna Sparks giocando"
+      },
+      "casino": {
+        "title": "Casino",
+        "description": "Registrati e gioca nei tuoi casino preferiti per ottenere sparks"
+      },
+      "finance": {
+        "title": "Finanza",
+        "description": "Che si tratti di banche, prestiti o carte di credito, abbiamo cio che fa per te"
+      },
+      "surveys": {
+        "title": "Sondaggi",
+        "description": "Guadagna Sparks completando sondaggi"
+      }
+    }
+  },
+  "DenominationDropdown": {
+    "enterCustomAmount": "Inserisci importo personalizzato",
+    "typeAmount": "Digita l'importo",
+    "typeSparksAmount": "Importo in Sparks",
+    "presetLockedPlaceholder": "Inserisci l'importo"
+  },
+  "OfferItem": {
+    "earn": "Guadagna",
+    "upTo": "fino a",
+    "sparksAlt": "Sparks"
+  },
+  "WallItem": {
+    "errors": {
+      "banned": "Il tuo account e stato bannato. Se pensi sia un errore, contatta il supporto.",
+      "verifyEmail": "Devi verificare il tuo indirizzo email prima di poter completare le offerte.",
+      "minimumEarn": "Devi guadagnare almeno {amount} Sparks per usare questa offerwall."
+    },
+    "lockedOverlay": "Guadagna ancora {amount} Sparks per sbloccare questa offerwall."
+  },
+  "TasksPage": {
+    "title": "Modi per guadagnare",
+    "subtitle": "Cerca il tuo modo preferito per guadagnare",
+    "controls": {
+      "sortBy": "Ordina per",
+      "categories": "Categorie",
+      "providers": "Provider",
+      "all": "Tutti",
+      "searchPlaceholder": "Cerca modi per guadagnare..."
+    },
+    "sort": {
+      "highToLow": "Dal piu alto al piu basso",
+      "lowToHigh": "Dal piu basso al piu alto",
+      "featured": "In evidenza",
+      "aToZ": "A-Z",
+      "zToA": "Z-A"
+    },
+    "categories": {
+      "apps": "App",
+      "games": "Giochi",
+      "casino": "Casino",
+      "travel": "Viaggi",
+      "finance": "Finanza",
+      "extensions": "Estensioni",
+      "freeTrial": "Prova gratuita"
+    },
+    "providers": {
+      "lootably": "Lootably",
+      "waxrewards": "WaxRewards",
+      "ayetstudios": "AyetStudios"
+    },
+    "empty": "Ops! Non abbiamo trovato offerte corrispondenti a questa ricerca.",
+    "loadMore": "Carica altro"
+  },
+  "PtcPtsuPage": {
+    "title": "PTC / PTSU",
+    "subtitle": "Fatti pagare per cliccare e registrarti",
+    "searchPlaceholder": "Cerca offerte specifiche...",
+    "empty": "Ops! Non abbiamo trovato offerte corrispondenti a questa ricerca.",
+    "loadMore": "Carica altro"
+  },
+  "LeaderboardMetadata": {
+    "title": "Sparkvey | Classifica",
+    "description": "Competi con altri utenti e vinci premi in classifica."
+  },
+  "TasksMetadata": {
+    "title": "Sparkvey | Task",
+    "description": "Completa i task per guadagnare premi e denaro."
+  },
+  "PtcPtsuMetadata": {
+    "title": "Sparkvey | Registrazioni e clic",
+    "description": "Fatti pagare per cliccare e registrarti"
+  },
+  "RedeemMetadata": {
+    "title": "Sparkvey | Riscatta i tuoi sparks per i premi che preferisci",
+    "description": "Riscatta i tuoi sparks per il premio che preferisci."
+  },
+  "PrivacyPolicyMetadata": {
+    "title": "Sparkvey | Informativa sulla privacy",
+    "description": "Leggi l'Informativa sulla privacy di Sparkvey."
+  },
+  "TermsOfServiceMetadata": {
+    "title": "Sparkvey | Termini di servizio",
+    "description": "Leggi i Termini di servizio di Sparkvey."
+  },
+  "LegalEnglishOnlyNotice": {
+    "message": "Questo documento legale e attualmente disponibile solo in inglese."
+  },
+  "VideosMetadata": {
+    "title": "Sparkvey | Video",
+    "description": "Guarda video per guadagnare premi e denaro."
+  },
+  "VideosPage": {
+    "title": "Guadagna guardando",
+    "subtitle": "Seleziona la tua piattaforma preferita su cui guardare video",
+    "rewardPrefix": "Guadagna fino a",
+    "rewardUnlimited": "illimitato",
+    "sparksAlt": "Sparks",
+    "platforms": {
+      "cheddar": {
+        "description": "Guarda i tuoi contenuti preferiti e guadagna"
+      },
+      "mmwatch": {
+        "description": "Guarda video"
+      }
+    }
+  },
+  "OfferMetadata": {
+    "title": "Sparkvey | {offerName}",
+    "description": "Guadagna fino a {reward} Sparks completando {offerName}. Ottieni cashback e offerte esclusive con Sparkvey.",
+    "fallbackTitle": "Sparkvey | Offerta",
+    "fallbackDescription": "Completa i task per guadagnare premi e denaro."
+  },
+  "OfferPage": {
+    "invalidOfferId": "ID offerta non valido",
+    "geoUnavailable": "Questa offerta al momento non e disponibile nel tuo paese.",
+    "notFoundImageAlt": "Pagina non trovata",
+    "notFoundDescription": "La pagina che stai cercando non esiste.",
+    "backHome": "Torna alla home"
+  },
+  "OfferPageClient": {
+    "backToTasks": "Torna ai task",
+    "sparksAlt": "Sparks",
+    "sections": {
+      "offerDetails": "Dettagli offerta",
+      "goalsProgress": "Progresso obiettivi",
+      "additionalInformation": "Informazioni aggiuntive",
+      "termsAndConditions": "Termini e condizioni",
+      "disclaimer": "Disclaimer"
+    },
+    "start": {
+      "default": "Inizia",
+      "signUpToStart": "Registrati per iniziare a guadagnare",
+      "playEarnUpTo": "Gioca e guadagna fino a {amount} sparks",
+      "playEarn": "Gioca e guadagna {amount} sparks",
+      "playEarnNoAmount": "Gioca e guadagna",
+      "earnUpTo": "Guadagna fino a {amount} sparks",
+      "earn": "Guadagna {amount} sparks"
+    },
+    "toasts": {
+      "verifyEmail": "Devi verificare il tuo indirizzo email prima di iniziare a guadagnare"
+    },
+    "disclaimer": {
+      "pending": "Le ricompense appariranno come in sospeso fino a 30 giorni",
+      "kyc": "I completamenti sospetti possono essere annullati e sottoposti a ulteriori verifiche KYC",
+      "termsAgreement": "Completando un'offerta, accetti i <terms>Termini di servizio</terms> e la <privacy>Informativa sulla privacy</privacy>",
+      "providedBySparkvey": "Questa offerta e fornita da Sparkvey.",
+      "providedByProvider": "Questa offerta e fornita da <provider>{name}</provider>"
+    }
+  },
+  "RewardMetadata": {
+    "shopTitle": "Sparkvey | Riscatta i tuoi sparks per il tuo gioco preferito nello shop",
+    "shopDescription": "Riscatta i tuoi sparks per il tuo gioco preferito nello shop.",
+    "sectionTitle": "Sparkvey | Riscatta i tuoi sparks nella nostra sezione {sectionName}",
+    "rewardTitle": "Sparkvey | Riscatta i tuoi sparks per {rewardName}",
+    "rewardDescription": "Riscatta {rewardName} su Sparkvey, la tua piattaforma di riferimento per le ricompense. Guadagna premi e denaro completando sondaggi, guardando video, facendo acquisti online e molto altro!",
+    "fallbackTitle": "Sparkvey | Riscatta i tuoi sparks per il premio che preferisci",
+    "fallbackDescription": "Riscatta i tuoi sparks per il premio che preferisci.",
+    "sections": {
+      "giftcards": {
+        "title": "Gift card",
+        "description": "Riscatta i tuoi sparks per la gift card che preferisci."
+      },
+      "cash": {
+        "title": "Contanti",
+        "description": "Riscatta i tuoi sparks per il contante che preferisci."
+      },
+      "crypto": {
+        "title": "Cripto",
+        "description": "Riscatta i tuoi sparks per la cripto che preferisci."
+      },
+      "shop": {
+        "title": "Shop",
+        "description": "Riscatta i tuoi sparks per il tuo gioco preferito nello shop."
+      }
+    }
+  },
+  "RedeemPage": {
+    "title": "Riscatta i tuoi Sparks",
+    "description": "Riscatta gli Sparks che hai guadagnato direttamente su banca, PayPal, cripto o qualsiasi carta regalo a tua scelta. Preleva con i tuoi metodi preferiti a partire da $1.",
+    "disclaimer": {
+      "companies": "Non rappresentiamo nessuna delle aziende elencate sopra. Non siamo affiliati con nessuna delle aziende elencate sopra. Non siamo responsabili per nessuna delle aziende elencate sopra.",
+      "withdrawals": "Ci riserviamo il diritto di rifiutare qualsiasi riscatto per qualsiasi motivo. I prelievi vengono in genere inviati entro 48 ore dopo la revisione della tua richiesta e potrebbero richiedere piu tempo se dobbiamo verificare la tua identita."
+    },
+    "backToAllRewards": "Torna a tutti i premi",
+    "searchPlaceholder": "Cerca modi per riscattare...",
+    "empty": "Ops! Non abbiamo trovato premi corrispondenti a questa ricerca."
+  },
+  "RewardPage": {
+    "rewardNotFound": "Premio non trovato.",
+    "backToAllRewards": "Torna a tutti i premi",
+    "show": "Mostra {mode}",
+    "less": "meno",
+    "more": "di piu",
+    "redeem": "Riscatta",
+    "sparksAlt": "Sparks",
+    "amountInSparks": "Importo in Sparks",
+    "recipientAddress": "Indirizzo destinatario",
+    "enterAddress": "Inserisci indirizzo",
+    "moreRewards": "Altri premi",
+    "errors": {
+      "sessionVerificationFailed": "Non riusciamo a verificare la tua sessione; se hai un ad blocker attivo, disattivalo per continuare. Se pensi sia un errore, contattaci a support@sparkvey.com.",
+      "networkError": "Errore di rete durante l'elaborazione del riscatto"
+    }
+  },
+  "LeaderboardPage": {
+    "loadingTitle": "Classifica",
+    "weekly": "Settimanale",
+    "monthly": "Mensile",
+    "title": "Classifica {prize} {period}",
+    "endsIn": "Termina tra",
+    "emptyTimer": "00g 00h 00m 00s",
+    "timerTemplate": "{days}g {hours}h {minutes}m {seconds}s",
+    "totalEarned": "Totale guadagnato",
+    "reward": "Premio",
+    "noUser": "Nessun utente",
+    "sparksAlt": "sparks",
+    "placementOrdinal": "{placement}°",
+    "table": {
+      "place": "Posizione",
+      "user": "Utente",
+      "earned": "Guadagnato",
+      "reward": "Premio"
+    }
+  },
+  "ProfileGeneral": {
+    "title": "Statistiche",
+    "subtitle": "Dai un'occhiata ai tuoi guadagni attuali, statistiche e altro",
+    "cards": {
+      "tasks": "Guadagnato dai task",
+      "videos": "Guadagnato dai video",
+      "referrals": "Guadagnato dai referral",
+      "shopping": "Guadagnato dallo shopping",
+      "promotions": "Guadagnato dalle promozioni"
+    }
+  },
+  "ProfileNav": {
+    "vipLevel": "VIP 0",
+    "earned": "guadagnati",
+    "nextLevel": "mancano 10.000 al livello successivo",
+    "referEarn": "Invita e guadagna il 5%",
+    "tabs": {
+      "general": "Generale",
+      "rewards": "Premi",
+      "activity": "Attivita",
+      "settings": "Impostazioni"
+    }
+  },
+  "ProfileActivity": {
+    "title": "Attivita",
+    "subtitle": "Visualizza tutta la tua attivita precedente",
+    "offer": "Offerta",
+    "cashback": "Cashback",
+    "sparks": "Sparks",
+    "na": "N/D",
+    "empty": "Non hai ancora nessuna attivita, iniziamo a guadagnare.",
+    "table": {
+      "date": "Data",
+      "reward": "Premio",
+      "activity": "Attivita",
+      "activityId": "ID attivita",
+      "status": "Stato",
+      "releaseDate": "Data di rilascio",
+      "reversedAt": "Annullato il"
+    },
+    "extraInformation": {
+      "title": "Informazioni extra",
+      "provider": "Provider",
+      "conversionId": "ID conversione",
+      "activityId": "ID attivita",
+      "offerId": "ID offerta",
+      "retailerId": "ID rivenditore"
+    }
+  },
+  "ProfileRewards": {
+    "title": "Premi precedenti",
+    "subtitle": "Visualizza tutti i premi riscattati in precedenza",
+    "sparkAlt": "Icona Spark",
+    "viewDetails": "Visualizza dettagli",
+    "empty": "Non hai ancora riscattato nessun premio. Iniziamo riscattando il tuo primo premio!",
+    "table": {
+      "reward": "Premio",
+      "price": "Prezzo",
+      "value": "Valore",
+      "status": "Stato",
+      "date": "Data",
+      "actions": "Azioni"
+    }
+  },
+  "ProfileSettings": {
+    "sections": {
+      "accountInformation": "Informazioni account",
+      "emailPreferences": "Preferenze email",
+      "sitePreferences": "Preferenze sito"
+    },
+    "labels": {
+      "emailAddress": "Indirizzo email",
+      "username": "Nome utente",
+      "paypalEmail": "Email PayPal",
+      "freeGifts": "Regali gratuiti",
+      "marketing": "Marketing",
+      "securityAlerts": "Avvisi di sicurezza",
+      "darkMode": "Modalita scura"
+    },
+    "placeholders": {
+      "username": "Inserisci un nome utente",
+      "paypalEmail": "Inserisci la tua email PayPal"
+    },
+    "actions": {
+      "save": "Salva",
+      "yes": "Si",
+      "no": "No"
+    },
+    "errors": {
+      "updateInformation": "Si e verificato un errore durante l'aggiornamento delle tue informazioni.",
+      "updateEmailPreferences": "Si e verificato un errore durante l'aggiornamento delle tue preferenze email."
+    }
+  },
+  "VIPSection": {
+    "title": "Programma VIP",
+    "subtitle": "Esplora tutti i vantaggi e i premi VIP",
+    "none": "Nessuno",
+    "currentLevel": "Livello attuale: {level}",
+    "untilNextLevel": "{current} / {next} fino al livello successivo ({level})",
+    "aria": {
+      "scrollLeft": "Scorri le card VIP a sinistra",
+      "scrollRight": "Scorri le card VIP a destra"
+    }
+  },
+  "VIPCard": {
+    "benefits": "Vantaggi",
+    "sparksAlt": "Sparks",
+    "actions": {
+      "claim": "Riscatta",
+      "bonus": "Bonus",
+      "claimed": "Riscattato",
+      "locked": "Bloccato"
+    },
+    "toasts": {
+      "unexpectedError": "Si e verificato un errore imprevisto",
+      "claimedBonus": "Hai riscattato con successo il tuo bonus {title} di {amount} Sparks"
+    }
+  },
+  "VIPRanks": {
+    "bronze1": {
+      "title": "Bronzo 1",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 1.000",
+        "Accesso ai giveaway VIP su Discord"
+      ]
+    },
+    "bronze2": {
+      "title": "Bronzo 2",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 1.000",
+        "Accesso ai giveaway VIP su Discord"
+      ]
+    },
+    "bronze3": {
+      "title": "Bronzo 3",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 1.000",
+        "Accesso ai giveaway VIP su Discord"
+      ]
+    },
+    "silver1": {
+      "title": "Argento 1",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 3.000",
+        "Accesso ai giveaway VIP su Discord"
+      ]
+    },
+    "silver2": {
+      "title": "Argento 2",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 3.000",
+        "Accesso ai giveaway VIP su Discord"
+      ]
+    },
+    "silver3": {
+      "title": "Argento 3",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 3.000",
+        "Accesso ai giveaway VIP su Discord"
+      ]
+    },
+    "gold1": {
+      "title": "Oro 1",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 5.000",
+        "Accesso ai giveaway VIP su Discord",
+        "Accesso a promozioni esclusive",
+        "3% di bonus su tutte le offerte"
+      ]
+    },
+    "gold2": {
+      "title": "Oro 2",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 5.000",
+        "Accesso ai giveaway VIP su Discord",
+        "Accesso a promozioni esclusive",
+        "3% di bonus su tutte le offerte"
+      ]
+    },
+    "gold3": {
+      "title": "Oro 3",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 5.000",
+        "Accesso ai giveaway VIP su Discord",
+        "Supporto prioritario",
+        "Accesso a promozioni esclusive",
+        "3% di bonus su tutte le offerte"
+      ]
+    },
+    "diamond": {
+      "title": "Diamante",
+      "benefits": [
+        "<spark> Limite di prelievo giornaliero di 10.000",
+        "Accesso ai giveaway VIP su Discord",
+        "Supporto prioritario",
+        "Accesso a promozioni esclusive",
+        "5% di bonus su tutte le offerte"
+      ]
+    }
+  },
+  "CashbackRetailer": {
+    "upToCashback": "Fino al {amount}% di cashback"
+  },
+  "AffiliatesPage": {
+    "title": "Affiliati",
+    "subtitle": "Guadagna denaro invitando altri utenti su Sparkvey.",
+    "stats": {
+      "referrals": "Referral",
+      "totalEarnings": "Guadagni totali",
+      "pendingEarnings": "Guadagni in sospeso",
+      "maxReferralCodes": "Codici referral massimi"
+    },
+    "inputs": {
+      "enterReferralCode": "Inserisci un codice referral",
+      "referralPrefix": "https://sparkvey.com?ref="
+    },
+    "actions": {
+      "useCode": "Usa codice",
+      "claimed": "Riscattato",
+      "createCode": "Crea codice"
+    },
+    "table": {
+      "code": "Codice",
+      "totalEarnings": "Guadagni totali",
+      "tasksCompleted": "Task completati",
+      "createdAt": "Creato il"
+    },
+    "empty": {
+      "noCodes": "Non hai ancora creato codici referral, <action>iniziamo</action>."
+    },
+    "graph": {
+      "statistics": "Statistiche",
+      "earnings": "Guadagni",
+      "sparksEarned": "Sparks guadagnati",
+      "periods": {
+        "day": "Giorno",
+        "week": "Settimana",
+        "month": "Mese",
+        "year": "Anno"
+      }
+    },
+    "a11y": {
+      "referralsAlt": "Referral",
+      "sparksAlt": "Sparks"
+    },
+    "toasts": {
+      "useCodeFailed": "Impossibile usare il codice",
+      "useCodeSuccess": "Ora stai usando il codice referral: {code}",
+      "createCodeSuccess": "Codice affiliato creato con successo",
+      "createCodeFailed": "Impossibile creare il codice affiliato",
+      "fetchGraphFailed": "Impossibile recuperare i dati del grafico",
+      "copyCodeSuccess": "Codice copiato negli appunti"
+    }
+  }
+}

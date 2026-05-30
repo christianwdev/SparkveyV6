@@ -1,0 +1,825 @@
+{
+  "Common": {
+    "brandName": "Sparkvey",
+    "viewAll": "모두 보기"
+  },
+  "HomeMetadata": {
+    "title": "Sparkvey | 온라인으로 보상, 현금, 기프트 카드를 받으세요",
+    "description": "Sparkvey - 설문조사 완료, 비디오 시청, 온라인 쇼핑 등을 통해 보상과 현금을 받으세요! 지금 가입하고 시간을 귀중한 보상으로 전환하세요"
+  },
+  "LoginMetadata": {
+    "title": "Sparkvey | 귀하의 계정에 로그인하십시오",
+    "description": "Sparkvey 계정에 로그인하고 보상을 받으세요."
+  },
+  "SignupMetadata": {
+    "title": "Sparkvey | 가입하고 보상을 받으세요",
+    "description": "무료 Sparkvey 계정을 만들고 설문조사 완료, 비디오 시청, 온라인 쇼핑 등을 통해 보상을 받으세요!"
+  },
+  "ForgotPasswordMetadata": {
+    "title": "Sparkvey | 비밀번호 재설정",
+    "description": "Sparkvey 계정 비밀번호를 재설정하세요."
+  },
+  "AffiliatesMetadata": {
+    "title": "Sparkvey | 계열사",
+    "description": "다른 사용자에게 Sparkvey를 추천하여 수익을 창출하세요."
+  },
+  "ProfileLayoutMetadata": {
+    "title": "Sparkvey | 프로필",
+    "description": "프로필 정보를 확인하세요."
+  },
+  "ProfileSettingsLayoutMetadata": {
+    "title": "Sparkvey | 프로필 설정",
+    "description": "계정 설정을 관리하세요."
+  },
+  "ProfileActivityMetadata": {
+    "title": "Sparkvey | 프로필 활동",
+    "description": "이전 활동을 모두 봅니다."
+  },
+  "ProfileRewardsMetadata": {
+    "title": "Sparkvey | 프로필 보상",
+    "description": "이전에 사용한 모든 보상을 확인하세요."
+  },
+  "Landing": {
+    "register": "회원가입",
+    "signIn": "로그인",
+    "getStarted": "시작하기",
+    "heroPrefix": "적립",
+    "heroSuffix": "귀하의 방식으로 - 설문조사, 캐시백 및 제안!",
+    "heroDescription": "설문조사를 완료하고, 캐시백으로 쇼핑하고, 온라인으로 수익을 창출하기 위한 도전에 참여하세요!",
+    "totalEarnedBySparkvey": "Sparkvey가 벌어들인 총액",
+    "giftcardDescription": "200개가 넘는 좋아하는 브랜드의 기프트 카드로 보상을 받으세요. 오늘부터 온라인으로 수익을 창출해 보세요!",
+    "bannedBannerTitle": "로그인 차단됨 — 이 계정은 Sparkvey에 액세스할 수 없습니다",
+    "rewardWords": {
+      "rewards": "보상",
+      "money": "돈",
+      "giftCards": "기프트카드",
+      "crypto": "크립토"
+    }
+  },
+  "AuthLayout": {
+    "welcome": "환영!",
+    "description": "Sparkvey는 사용자가 설문조사, 앱 다운로드 등의 작업을 완료하여 실제 현금을 얻을 수 있는 플랫폼입니다.",
+    "letsStartEarning": "수익을 시작해 보세요",
+    "totalEarnedOnSparkvey": "Sparkvey에서 얻은 총액",
+    "earnedDescription": "우리의 작업, 거래, 캐시백 등을 통해",
+    "termsOfService": "서비스 약관",
+    "privacyPolicy": "개인 정보 보호 정책",
+    "goBack": "돌아가기"
+  },
+  "Footer": {
+    "sparkvey": "Sparkvey",
+    "home": "홈",
+    "vip": "VIP",
+    "affiliates": "계열사",
+    "redeem": "교환",
+    "waysToEarn": "적립 방법",
+    "discover": "둘러보기",
+    "tasks": "작업",
+    "videos": "비디오",
+    "legal": "법적 고지",
+    "termsOfService": "서비스 약관",
+    "privacyPolicy": "개인 정보 보호 정책",
+    "contactUs": "문의하기",
+    "customerSupport": "고객 지원",
+    "language": "언어",
+    "english": "영어",
+    "spanish": "스페인어",
+    "copyright": "저작권 © Sparkvey 2023-{year}",
+    "german": "독일어",
+    "korean": "한국어",
+    "japanese": "일본어",
+    "portuguese": "포르투갈어",
+    "finnish": "핀란드어",
+    "norwegian": "노르웨이어",
+    "french": "프랑스어",
+    "italian": "이탈리아어",
+    "polish": "폴란드어"
+  },
+  "LoginPage": {
+    "title": "로그인",
+    "disclaimer": "로그인하면 <terms>서비스 약관</terms> 및 <privacy>개인정보 보호정책</privacy>에 동의하게 됩니다.",
+    "emailAddress": "이메일 주소",
+    "password": "비밀번호",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "signingIn": "로그인 중...",
+    "signIn": "로그인",
+    "or": "또는",
+    "google": "Google",
+    "signInWithGoogle": "Google로 로그인",
+    "notAMember": "회원이 아니신가요?",
+    "joinToday": "오늘 가입하세요!",
+    "errors": {
+      "emailRequired": "이메일 주소를 입력해주세요.",
+      "emailInvalid": "유효한 이메일 주소가 아닌 것 같습니다.",
+      "passwordRequired": "비밀번호를 입력해주세요.",
+      "passwordInvalid": "숫자와 특수문자를 포함하여 8자 이상 사용하세요.",
+      "genericTryAgain": "문제가 발생했습니다. 다시 시도해 주세요.",
+      "adBlocker": "광고 차단기를 활성화한 경우 계속하려면 비활성화하세요. 오류라고 생각되면 지원팀에 문의하세요.",
+      "googleSignInFailed": "Google로 로그인하는 중에 문제가 발생했습니다."
+    }
+  },
+  "SignupPage": {
+    "title": "가입",
+    "disclaimer": "가입하면 <terms>서비스 약관</terms> 및 <privacy>개인정보 보호정책</privacy>에 동의하게 됩니다.",
+    "emailAddress": "이메일 주소",
+    "password": "비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "username": "사용자 이름",
+    "referralCodeOptional": "추천 코드(선택 사항)",
+    "back": "뒤로",
+    "continue": "계속",
+    "creatingAccount": "계정을 만드는 중...",
+    "signUp": "가입",
+    "or": "또는",
+    "google": "Google",
+    "signUpWithGoogle": "Google에 가입",
+    "alreadyMember": "이미 회원이신가요?",
+    "signInNow": "지금 로그인하세요!",
+    "errors": {
+      "emailRequired": "이메일 주소를 입력해주세요.",
+      "emailInvalid": "이메일이 올바르지 않은 것 같습니다.",
+      "passwordRequired": "계속하려면 비밀번호를 만드세요.",
+      "passwordInvalid": "숫자와 특수문자를 포함하여 8자 이상을 사용하세요.",
+      "confirmPasswordRequired": "비밀번호를 확인해 주세요.",
+      "confirmPasswordMismatch": "비밀번호가 아직 일치하지 않습니다.",
+      "usernameRequired": "설정을 완료하려면 사용자 이름을 선택하세요.",
+      "usernameInvalid": "사용자 이름은 3~20자의 문자, 숫자 또는 밑줄을 사용합니다.",
+      "referralInvalid": "추천 코드는 문자, 숫자 또는 대시를 사용합니다.",
+      "missingDetails": "뭔가 누락된 것 같습니다. 세부정보를 다시 확인하세요.",
+      "fixHighlighted": "계속하기 전에 강조표시된 필드를 수정하세요.",
+      "adBlocker": "광고 차단기를 활성화한 경우 계속하려면 비활성화하세요. 오류라고 생각되면 지원팀에 문의하세요.",
+      "genericTryAgain": "문제가 발생했습니다. 다시 시도해 주세요.",
+      "couldNotCreateAccount": "아직 귀하의 계정을 만들 수 없습니다.",
+      "createAccountFailed": "귀하의 계정을 생성하는 중에 문제가 발생했습니다.",
+      "googleSignupFailed": "Google에 가입하는 중에 문제가 발생했습니다."
+    }
+  },
+  "ForgotPasswordPage": {
+    "title": "비밀번호를 잊으셨나요?",
+    "emailAddress": "이메일 주소",
+    "newPassword": "새 비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "sendResetEmail": "재설정 이메일 보내기",
+    "resetPassword": "비밀번호 재설정",
+    "notAMember": "회원이 아니신가요?",
+    "joinToday": "오늘 가입하세요!",
+    "errors": {
+      "emailRequired": "이메일 주소를 입력해주세요.",
+      "emailInvalid": "이메일이 올바르지 않은 것 같습니다.",
+      "passwordRequired": "계속하려면 비밀번호를 만드세요.",
+      "passwordInvalid": "숫자와 특수문자를 포함하여 8자 이상을 사용하세요.",
+      "confirmPasswordRequired": "비밀번호를 확인해 주세요.",
+      "confirmPasswordMismatch": "비밀번호가 아직 일치하지 않습니다.",
+      "genericTryAgain": "문제가 발생했습니다. 다시 시도해 주세요."
+    }
+  },
+  "SupportChat": {
+    "talkingTo": "대화 중",
+    "supportAgent": "지원 에이전트",
+    "typeMessage": "메시지를 입력하세요...",
+    "send": "보내기"
+  },
+  "PurchaseModals": {
+    "common": {
+      "redeemItem": "아이템 교환",
+      "deliveryNotice": "보상이 전달되기까지 최대 48시간이 걸릴 수 있습니다. 각 사용은 검토를 거쳐 사기가 발생할 경우 거부될 수 있습니다.",
+      "description": "설명",
+      "activationDetails": "활성화 세부정보",
+      "showLess": "간략히 보기",
+      "showMore": "더 보기",
+      "amountInSparks": "스파크 금액",
+      "claimFor": "에 대한 청구"
+    },
+    "crypto": {
+      "recipientAddressPlaceholder": "수취인 주소",
+      "toasts": {
+        "enterSparksAmount": "스파크 금액을 입력하세요.",
+        "enterRecipientAddress": "수취인 주소를 입력해주세요."
+      }
+    },
+    "giftcard": {
+      "toasts": {
+        "selectGiftcardAmount": "상품권 금액을 선택해주세요."
+      }
+    },
+    "errors": {
+      "sessionVerificationFailed": "세션을 확인할 수 없습니다. 광고 차단기를 활성화한 경우 계속하려면 비활성화하세요.",
+      "sessionTryAgain": "세션을 확인할 수 없습니다. 다시 시도해 주세요.",
+      "failedToRedeemItem": "아이템을 교환하지 못했습니다.",
+      "networkError": "교환을 처리하는 중 네트워크 오류가 발생했습니다."
+    },
+    "success": {
+      "redemptionSubmitted": "상환 요청이 제출되었습니다."
+    }
+  },
+  "PromocodeModal": {
+    "title": "프로모션 코드 사용",
+    "description": "이러한 프로모션 코드는 소셜 미디어에서 찾을 수 있으며 제한된 사용자에게 일부 SP를 제공합니다.",
+    "placeholder": "프로모션코드",
+    "redeemCode": "코드 사용"
+  },
+  "UserWithdrawalModal": {
+    "title": "출금",
+    "na": "N/A",
+    "labels": {
+      "reward": "보상",
+      "amount": "금액",
+      "destination": "목적지",
+      "imageLinks": "이미지 링크",
+      "keys": "키"
+    },
+    "placeholders": {
+      "rewardName": "보상 이름",
+      "sparksValue": "스파크 가치",
+      "destination": "목적지"
+    },
+    "actions": {
+      "openReward": "보상 열기",
+      "openImage": "이미지 열기 {index}"
+    }
+  },
+  "Navbar": {
+    "auth": {
+      "login": "로그인",
+      "register": "회원가입"
+    },
+    "links": {
+      "earn": "적립",
+      "redeem": "교환",
+      "leaderboard": "리더보드"
+    },
+    "mobile": {
+      "home": "홈",
+      "earn": "적립",
+      "shop": "상점",
+      "leaders": "리더",
+      "refer": "추천",
+      "support": "지원"
+    },
+    "emailVerification": {
+      "welcome": "Sparkvey에 오신 것을 환영합니다! 적립을 시작하기 전에 이메일을 확인하세요.",
+      "resend": "이메일 재전송",
+      "sending": "전송 중...",
+      "sent": "이메일 전송됨"
+    },
+    "a11y": {
+      "balanceAlt": "잔액",
+      "avatarAlt": "아바타"
+    },
+    "toasts": {
+      "resendSuccess": "확인 이메일을 성공적으로 다시 보냈습니다. 받은편지함과 정크 폴더를 확인하세요.",
+      "resendError": "확인 이메일을 다시 보내지 못했습니다. 다시 시도해 주세요."
+    }
+  },
+  "UserDropdown": {
+    "profile": "프로필",
+    "activity": "활동",
+    "rewards": "보상",
+    "settings": "설정",
+    "affiliates": "계열사",
+    "admin": "관리자",
+    "promocodes": "프로모션 코드",
+    "signOut": "로그아웃"
+  },
+  "EarnDropdown": {
+    "discover": "둘러보기",
+    "tasks": "작업",
+    "videos": "비디오",
+    "ptcPtsu": "PTC / PTSU"
+  },
+  "Notifications": {
+    "title": "알림",
+    "none": "표시할 알림이 없습니다...",
+    "types": {
+      "offerCredited": "오퍼 적립 완료",
+      "offerHeld": "오퍼 보류",
+      "offerPending": "오퍼 대기 중",
+      "offerReleased": "오퍼 지급 완료",
+      "offerReversal": "오퍼 취소",
+      "vipBonusClaimed": "VIP 보너스 수령"
+    },
+    "messages": {
+      "offerCredited": "오퍼 {offerName} ({offerValue} 스파크)가 적립되었습니다.",
+      "offerHeld": "오퍼 {offerName} ({offerValue} 스파크)는 {releaseDate}까지 보류됩니다.",
+      "offerPending": "오퍼 {offerName} ({offerValue} 스파크)는 제공업체에 의해 {releaseDate}까지 보류됩니다.",
+      "offerReleased": "오퍼 {offerName} ({offerValue} 스파크)가 지급되었습니다.",
+      "offerReversal": "오퍼 {offerName} ({offerValue} 스파크)가 취소되었습니다.",
+      "vipBonusClaimed": "{vip} VIP 보너스 {bonusAmount} 스파크를 수령했습니다."
+    }
+  },
+  "NotFound": {
+    "imageAlt": "페이지를 찾을 수 없습니다",
+    "description": "찾으시는 페이지가 존재하지 않습니다.",
+    "backHome": "홈으로 돌아가기"
+  },
+  "Discover": {
+    "sections": {
+      "offerwalls": {
+        "title": "오퍼월",
+        "description": "제안을 완료하고 스파크를 획득하세요"
+      },
+      "featured": {
+        "title": "추천",
+        "description": "우리의 주요 제안 중 일부를 확인하십시오"
+      },
+      "recommended": {
+        "title": "추천",
+        "description": "다음은 귀하가 좋아할 만한 몇 가지 제안입니다."
+      },
+      "games": {
+        "title": "게임",
+        "description": "게임을 플레이하고 스파크를 획득하세요"
+      },
+      "casino": {
+        "title": "카지노",
+        "description": "스파크를 위해 좋아하는 카지노에 가입하고 플레이하세요"
+      },
+      "finance": {
+        "title": "금융",
+        "description": "은행, 대출, 신용카드 등 무엇이든 저희가 도와드립니다"
+      },
+      "surveys": {
+        "title": "설문조사",
+        "description": "설문조사를 완료하여 스파크를 획득하세요"
+      }
+    }
+  },
+  "DenominationDropdown": {
+    "enterCustomAmount": "직접 금액 입력",
+    "typeAmount": "금액 입력",
+    "typeSparksAmount": "Sparks",
+    "presetLockedPlaceholder": "금액 입력"
+  },
+  "OfferItem": {
+    "earn": "적립",
+    "upTo": "최대",
+    "sparksAlt": "스파크"
+  },
+  "WallItem": {
+    "errors": {
+      "banned": "귀하의 계정은 금지되었습니다. 오류라고 생각되면 지원팀에 문의하세요.",
+      "verifyEmail": "제안을 완료하려면 먼저 이메일 주소를 확인해야 합니다.",
+      "minimumEarn": "이 오퍼월을 사용하려면 최소 {amount} 스파크를 획득해야 합니다."
+    },
+    "lockedOverlay": "이 오퍼월을 잠금 해제하려면 {amount} 더 많은 스파크를 획득하세요."
+  },
+  "TasksPage": {
+    "title": "적립 방법",
+    "subtitle": "선호하는 수익 창출 방법을 검색하세요",
+    "controls": {
+      "sortBy": "정렬 기준",
+      "categories": "카테고리",
+      "providers": "공급자",
+      "all": "모두",
+      "searchPlaceholder": "수익 창출 방법 검색..."
+    },
+    "sort": {
+      "highToLow": "높음에서 낮음",
+      "lowToHigh": "낮음에서 높음",
+      "featured": "추천",
+      "aToZ": "A-Z",
+      "zToA": "Z-A"
+    },
+    "categories": {
+      "apps": "앱",
+      "games": "게임",
+      "casino": "카지노",
+      "travel": "여행",
+      "finance": "금융",
+      "extensions": "확장",
+      "freeTrial": "무료 평가판"
+    },
+    "providers": {
+      "lootably": "Lootably",
+      "waxrewards": "WaxRewards",
+      "ayetstudios": "AyetStudios"
+    },
+    "empty": "어 오! 해당 검색과 일치하는 제안을 찾지 못했습니다.",
+    "loadMore": "더 로드하기"
+  },
+  "PtcPtsuPage": {
+    "title": "PTC / PTSU",
+    "subtitle": "클릭하고 가입하면 돈을 받습니다",
+    "searchPlaceholder": "특정 제안 검색...",
+    "empty": "어 오! 해당 검색과 일치하는 제안을 찾지 못했습니다.",
+    "loadMore": "더 로드하기"
+  },
+  "LeaderboardMetadata": {
+    "title": "Sparkvey | 리더보드",
+    "description": "다른 사용자와 경쟁하고 리더보드에서 상품을 획득하세요."
+  },
+  "TasksMetadata": {
+    "title": "Sparkvey | 작업",
+    "description": "작업을 완료하여 보상과 현금을 받으세요."
+  },
+  "PtcPtsuMetadata": {
+    "title": "Sparkvey | 가입 및 클릭",
+    "description": "클릭하고 가입하면 돈을 받습니다"
+  },
+  "RedeemMetadata": {
+    "title": "Sparkvey | 좋아하는 보상을 위해 스파크를 교환하세요",
+    "description": "가장 마음에 드는 보상으로 스파크를 교환하세요."
+  },
+  "PrivacyPolicyMetadata": {
+    "title": "Sparkvey | 개인 정보 보호 정책",
+    "description": "Sparkvey의 개인정보 보호정책을 읽어보세요."
+  },
+  "TermsOfServiceMetadata": {
+    "title": "Sparkvey | 서비스 약관",
+    "description": "Sparkvey의 서비스 약관을 읽어보세요."
+  },
+  "LegalEnglishOnlyNotice": {
+    "message": "이 법적 문서는 현재 영어로만 제공됩니다."
+  },
+  "VideosMetadata": {
+    "title": "Sparkvey | 비디오",
+    "description": "동영상을 시청하여 보상과 현금을 받으세요."
+  },
+  "VideosPage": {
+    "title": "시청으로 수익을 창출하세요",
+    "subtitle": "좋아하는 플랫폼을 선택하여 비디오를 시청하세요",
+    "rewardPrefix": "최대 적립",
+    "rewardUnlimited": "제한 없는",
+    "sparksAlt": "스파크",
+    "platforms": {
+      "cheddar": {
+        "description": "좋아하는 콘텐츠를 시청하고 수익을 얻으세요"
+      },
+      "mmwatch": {
+        "description": "동영상 보기"
+      }
+    }
+  },
+  "OfferMetadata": {
+    "title": "Sparkvey | {offerName}",
+    "description": "최대 {reward} 스파크를 적립하고 {offerName}을 완료하세요. Sparkvey에서 독점 캐시백과 오퍼를 만나보세요.",
+    "fallbackTitle": "Sparkvey | 오퍼",
+    "fallbackDescription": "작업을 완료하여 보상과 현금을 받으세요."
+  },
+  "OfferPage": {
+    "invalidOfferId": "잘못된 제안 ID",
+    "geoUnavailable": "이 제안은 현재 귀하의 국가에서 지원되지 않습니다.",
+    "notFoundImageAlt": "페이지를 찾을 수 없습니다",
+    "notFoundDescription": "찾으시는 페이지가 존재하지 않습니다.",
+    "backHome": "홈으로 돌아가기"
+  },
+  "OfferPageClient": {
+    "backToTasks": "작업으로 돌아가기",
+    "sparksAlt": "스파크",
+    "sections": {
+      "offerDetails": "혜택 세부정보",
+      "goalsProgress": "목표 진행상황",
+      "additionalInformation": "추가 정보",
+      "termsAndConditions": "이용약관",
+      "disclaimer": "부인 성명"
+    },
+    "start": {
+      "default": "시작",
+      "signUpToStart": "적립을 시작하려면 가입하세요",
+      "playEarnUpTo": "플레이하고 최대 {amount} 스파크를 획득하세요",
+      "playEarn": "플레이하고 {amount} 스파크를 획득하세요",
+      "playEarnNoAmount": "플레이하고 적립하세요",
+      "earnUpTo": "최대 {amount} 스파크를 획득하세요",
+      "earn": "{amount} 스파크를 획득하세요"
+    },
+    "toasts": {
+      "verifyEmail": "수익을 창출하려면 먼저 이메일 주소를 확인해야 합니다."
+    },
+    "disclaimer": {
+      "pending": "보상은 최대 30일 동안 보류 중인 것으로 표시됩니다.",
+      "kyc": "의심스러운 완료는 무효화되고 KYC를 통해 추가 조사를 받을 수 있습니다.",
+      "termsAgreement": "제안을 완료하면 <terms>서비스 약관</terms> 및 <privacy>개인정보 보호정책</privacy>에 동의하게 됩니다.",
+      "providedBySparkvey": "이 제안은 Sparkvey에서 제공됩니다.",
+      "providedByProvider": "이 제안은 <provider>{name}</provider>에서 제공됩니다."
+    }
+  },
+  "RewardMetadata": {
+    "shopTitle": "Sparkvey | 상점에서 좋아하는 게임을 위해 스파크를 교환하세요",
+    "shopDescription": "상점에서 좋아하는 게임을 위해 스파크를 교환하세요.",
+    "sectionTitle": "Sparkvey | {sectionName} 섹션에서 스파크를 교환하세요",
+    "rewardTitle": "Sparkvey | {rewardName} 동안 스파크를 교환하세요",
+    "rewardDescription": "즐겨찾는 보상 플랫폼인 Sparkvey에서 {rewardName}을(를) 사용하세요. 설문조사 완료, 비디오 시청, 온라인 쇼핑 등을 통해 보상과 현금을 받으세요!",
+    "fallbackTitle": "Sparkvey | 스파크를 좋아하는 보상으로 교환하세요",
+    "fallbackDescription": "가장 마음에 드는 보상으로 스파크를 교환하세요.",
+    "sections": {
+      "giftcards": {
+        "title": "기프트 카드",
+        "description": "좋아하는 기프트 카드로 스파크를 교환하세요."
+      },
+      "cash": {
+        "title": "현금",
+        "description": "스파크를 좋아하는 현금으로 교환하세요."
+      },
+      "crypto": {
+        "title": "크립토",
+        "description": "귀하의 스파크를 귀하가 가장 좋아하는 암호화폐로 교환하세요."
+      },
+      "shop": {
+        "title": "상점",
+        "description": "상점에서 좋아하는 게임을 위해 스파크를 교환하세요."
+      }
+    }
+  },
+  "RedeemPage": {
+    "title": "Sparks 교환",
+    "description": "적립한 Sparks를 은행, PayPal, 암호화폐 또는 원하는 기프트카드로 바로 교환하세요. $1부터 원하는 방식으로 출금할 수 있습니다.",
+    "disclaimer": {
+      "companies": "당사는 위에 나열된 어떤 회사의 대표도 아닙니다. 당사는 위에 나열된 어떤 회사와도 제휴되어 있지 않습니다. 당사는 위에 나열된 어떤 회사에 대해서도 책임을 지지 않습니다.",
+      "withdrawals": "당사는 어떤 이유로든 교환 요청을 거절할 권리를 보유합니다. 출금은 일반적으로 요청 검토 후 48시간 이내에 전송되며, 신원 확인이 필요한 경우 더 오래 걸릴 수 있습니다."
+    },
+    "backToAllRewards": "모든 보상으로 돌아가기",
+    "searchPlaceholder": "상환 방법 검색...",
+    "empty": "어 오! 해당 검색어와 일치하는 보상을 찾지 못했습니다."
+  },
+  "RewardPage": {
+    "rewardNotFound": "보상을 찾을 수 없습니다.",
+    "backToAllRewards": "모든 보상으로 돌아가기",
+    "show": "{mode} 표시",
+    "less": "더 적은",
+    "more": "더",
+    "redeem": "교환",
+    "sparksAlt": "스파크",
+    "amountInSparks": "스파크 금액",
+    "recipientAddress": "수취인 주소",
+    "enterAddress": "주소를 입력하세요",
+    "moreRewards": "더 많은 보상",
+    "errors": {
+      "sessionVerificationFailed": "세션을 확인할 수 없습니다. 광고 차단기를 활성화한 경우 계속하려면 비활성화하세요. 오류라고 생각되면 support@sparkvey.com으로 문의해 주세요.",
+      "networkError": "교환을 처리하는 중 네트워크 오류가 발생했습니다."
+    }
+  },
+  "LeaderboardPage": {
+    "loadingTitle": "리더보드",
+    "weekly": "주간",
+    "monthly": "월간",
+    "title": "{prize} {period} 리더보드",
+    "endsIn": "다음으로 끝남",
+    "emptyTimer": "00일 00시 00분 00초",
+    "timerTemplate": "{days}일 {hours}시간 {minutes}분 {seconds}초",
+    "totalEarned": "총 수익",
+    "reward": "보상",
+    "noUser": "사용자 없음",
+    "sparksAlt": "스파크",
+    "placementOrdinal": "{placement}번째",
+    "table": {
+      "place": "순위",
+      "user": "사용자",
+      "earned": "획득",
+      "reward": "보상"
+    }
+  },
+  "ProfileGeneral": {
+    "title": "통계",
+    "subtitle": "현재 수입, 통계 등을 살펴보세요.",
+    "cards": {
+      "tasks": "작업에서 획득",
+      "videos": "동영상으로 수익 창출",
+      "referrals": "추천을 통해 수익을 창출하세요",
+      "shopping": "쇼핑으로 적립",
+      "promotions": "프로모션을 통해 획득"
+    }
+  },
+  "ProfileNav": {
+    "vipLevel": "VIP 0",
+    "earned": "획득",
+    "nextLevel": "다음 레벨까지 10,000 남았습니다",
+    "referEarn": "추천 & 5% 적립",
+    "tabs": {
+      "general": "일반",
+      "rewards": "보상",
+      "activity": "활동",
+      "settings": "설정"
+    }
+  },
+  "ProfileActivity": {
+    "title": "활동",
+    "subtitle": "이전 활동 모두 보기",
+    "offer": "오퍼",
+    "cashback": "캐시백",
+    "sparks": "스파크",
+    "na": "N/A",
+    "empty": "아직 활동이 없습니다. 수익을 창출해 보세요.",
+    "table": {
+      "date": "날짜",
+      "reward": "보상",
+      "activity": "활동",
+      "activityId": "활동 ID",
+      "status": "상태",
+      "releaseDate": "출시일",
+      "reversedAt": "취소일"
+    },
+    "extraInformation": {
+      "title": "추가 정보",
+      "provider": "공급자",
+      "conversionId": "전환 ID",
+      "activityId": "활동 ID",
+      "offerId": "쿠폰 ID",
+      "retailerId": "소매점 ID"
+    }
+  },
+  "ProfileRewards": {
+    "title": "이전 보상",
+    "subtitle": "이전에 사용한 모든 보상 보기",
+    "sparkAlt": "스파크 아이콘",
+    "viewDetails": "세부정보 보기",
+    "empty": "아직 리워드를 사용하지 않았습니다. 첫 번째 보상을 사용하는 것부터 시작해 보세요!",
+    "table": {
+      "reward": "보상",
+      "price": "가격",
+      "value": "값",
+      "status": "상태",
+      "date": "날짜",
+      "actions": "작업"
+    }
+  },
+  "ProfileSettings": {
+    "sections": {
+      "accountInformation": "계정 정보",
+      "emailPreferences": "이메일 환경설정",
+      "sitePreferences": "사이트 환경설정"
+    },
+    "labels": {
+      "emailAddress": "이메일 주소",
+      "username": "사용자 이름",
+      "paypalEmail": "페이팔 이메일",
+      "freeGifts": "무료 선물",
+      "marketing": "마케팅",
+      "securityAlerts": "보안 경고",
+      "darkMode": "다크 모드"
+    },
+    "placeholders": {
+      "username": "사용자 이름을 입력하세요",
+      "paypalEmail": "PayPal 이메일을 입력하세요."
+    },
+    "actions": {
+      "save": "저장",
+      "yes": "예",
+      "no": "아니요"
+    },
+    "errors": {
+      "updateInformation": "정보를 업데이트하는 중에 오류가 발생했습니다.",
+      "updateEmailPreferences": "이메일 기본 설정을 업데이트하는 중에 오류가 발생했습니다."
+    }
+  },
+  "VIPSection": {
+    "title": "VIP 프로그램",
+    "subtitle": "모든 VIP 혜택과 보상을 살펴보세요",
+    "none": "없음",
+    "currentLevel": "현재 레벨: {level}",
+    "untilNextLevel": "다음 레벨까지 {current} / {next}({level})",
+    "aria": {
+      "scrollLeft": "VIP 카드를 왼쪽으로 스크롤",
+      "scrollRight": "VIP 카드를 오른쪽으로 스크롤"
+    }
+  },
+  "VIPCard": {
+    "benefits": "혜택",
+    "sparksAlt": "스파크",
+    "actions": {
+      "claim": "수령",
+      "bonus": "보너스",
+      "claimed": "청구됨",
+      "locked": "잠김"
+    },
+    "toasts": {
+      "unexpectedError": "예상치 못한 오류가 발생했습니다.",
+      "claimedBonus": "{title} 보너스 {amount} 스파크를 성공적으로 수령했습니다."
+    }
+  },
+  "VIPRanks": {
+    "bronze1": {
+      "title": "브론즈 1",
+      "benefits": [
+        "<spark> 1,000 일일 출금 한도",
+        "Discord VIP 경품 이용"
+      ]
+    },
+    "bronze2": {
+      "title": "브론즈 2",
+      "benefits": [
+        "<spark> 1,000 일일 출금 한도",
+        "Discord VIP 경품 이용"
+      ]
+    },
+    "bronze3": {
+      "title": "브론즈 3",
+      "benefits": [
+        "<spark> 1,000 일일 출금 한도",
+        "Discord VIP 경품 이용"
+      ]
+    },
+    "silver1": {
+      "title": "실버 1",
+      "benefits": [
+        "<spark> 3,000 일일 출금 한도",
+        "Discord VIP 경품 이용"
+      ]
+    },
+    "silver2": {
+      "title": "실버 2",
+      "benefits": [
+        "<spark> 3,000 일일 출금 한도",
+        "Discord VIP 경품 이용"
+      ]
+    },
+    "silver3": {
+      "title": "실버 3",
+      "benefits": [
+        "<spark> 3,000 일일 출금 한도",
+        "Discord VIP 경품 이용"
+      ]
+    },
+    "gold1": {
+      "title": "골드 1",
+      "benefits": [
+        "<spark> 5,000 일일 출금 한도",
+        "Discord VIP 경품 이용",
+        "독점 프로모션 이용",
+        "모든 제안에 3% 보너스"
+      ]
+    },
+    "gold2": {
+      "title": "골드 2",
+      "benefits": [
+        "<spark> 5,000 일일 출금 한도",
+        "Discord VIP 경품 이용",
+        "독점 프로모션 이용",
+        "모든 제안에 3% 보너스"
+      ]
+    },
+    "gold3": {
+      "title": "골드 3",
+      "benefits": [
+        "<spark> 5,000 일일 출금 한도",
+        "Discord VIP 경품 이용",
+        "우선 지원",
+        "독점 프로모션 이용",
+        "모든 제안에 3% 보너스"
+      ]
+    },
+    "diamond": {
+      "title": "다이아몬드",
+      "benefits": [
+        "<spark> 10,000 일일 출금 한도",
+        "Discord VIP 경품 이용",
+        "우선 지원",
+        "독점 프로모션 이용",
+        "모든 제안에 5% 보너스"
+      ]
+    }
+  },
+  "CashbackRetailer": {
+    "upToCashback": "최대 {amount}% 캐시백"
+  },
+  "AffiliatesPage": {
+    "title": "계열사",
+    "subtitle": "다른 사용자에게 Sparkvey를 추천하여 수익을 창출하세요.",
+    "stats": {
+      "referrals": "추천",
+      "totalEarnings": "총 수익",
+      "pendingEarnings": "보류 중인 수입",
+      "maxReferralCodes": "최대 추천 코드"
+    },
+    "inputs": {
+      "enterReferralCode": "추천 코드를 입력하세요",
+      "referralPrefix": "https://sparkvey.com?ref="
+    },
+    "actions": {
+      "useCode": "코드 사용",
+      "claimed": "청구됨",
+      "createCode": "코드 생성"
+    },
+    "table": {
+      "code": "코드",
+      "totalEarnings": "총 수익",
+      "tasksCompleted": "완료된 작업",
+      "createdAt": "생성 날짜"
+    },
+    "empty": {
+      "noCodes": "아직 추천 코드를 만들지 않으셨습니다. <action>시작</action>해 보세요."
+    },
+    "graph": {
+      "statistics": "통계",
+      "earnings": "수입",
+      "sparksEarned": "획득한 스파크",
+      "periods": {
+        "day": "일",
+        "week": "주",
+        "month": "월",
+        "year": "년도"
+      }
+    },
+    "a11y": {
+      "referralsAlt": "추천",
+      "sparksAlt": "스파크"
+    },
+    "toasts": {
+      "useCodeFailed": "코드를 사용하지 못했습니다.",
+      "useCodeSuccess": "현재 추천 코드를 사용하고 계십니다: {code}",
+      "createCodeSuccess": "제휴 코드가 성공적으로 생성되었습니다",
+      "createCodeFailed": "제휴코드 생성 실패",
+      "fetchGraphFailed": "그래프 데이터를 가져오지 못했습니다.",
+      "copyCodeSuccess": "코드가 클립보드에 복사되었습니다."
+    }
+  }
+}

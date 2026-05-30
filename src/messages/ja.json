@@ -1,0 +1,825 @@
+{
+  "Common": {
+    "brandName": "Sparkvey",
+    "viewAll": "すべて表示"
+  },
+  "HomeMetadata": {
+    "title": "Sparkvey | オンラインで報酬・現金・ギフトカードを獲得",
+    "description": "Sparkvey - アンケート回答、動画視聴、オンラインショッピングなどで報酬や現金を獲得できます。今すぐ参加して、あなたの時間を価値ある報酬に変えましょう"
+  },
+  "LoginMetadata": {
+    "title": "Sparkvey | アカウントにログイン",
+    "description": "Sparkveyアカウントにログインして、報酬の獲得を始めましょう。"
+  },
+  "SignupMetadata": {
+    "title": "Sparkvey | 登録して報酬獲得を始めよう",
+    "description": "無料のSparkveyアカウントを作成して、アンケート回答、動画視聴、オンラインショッピングなどで報酬を獲得しましょう。"
+  },
+  "ForgotPasswordMetadata": {
+    "title": "Sparkvey | パスワードをリセット",
+    "description": "Sparkveyアカウントのパスワードをリセットします。"
+  },
+  "AffiliatesMetadata": {
+    "title": "Sparkvey | アフィリエイト",
+    "description": "他のユーザーをSparkveyに紹介して報酬を獲得しましょう。"
+  },
+  "ProfileLayoutMetadata": {
+    "title": "Sparkvey | プロフィール",
+    "description": "プロフィール情報を表示します。"
+  },
+  "ProfileSettingsLayoutMetadata": {
+    "title": "Sparkvey | プロフィール設定",
+    "description": "アカウント設定を管理します。"
+  },
+  "ProfileActivityMetadata": {
+    "title": "Sparkvey | プロフィールアクティビティ",
+    "description": "過去のアクティビティをすべて表示します。"
+  },
+  "ProfileRewardsMetadata": {
+    "title": "Sparkvey | プロフィール報酬",
+    "description": "これまでに交換した報酬をすべて表示します。"
+  },
+  "Landing": {
+    "register": "登録",
+    "signIn": "ログイン",
+    "getStarted": "今すぐ始める",
+    "heroPrefix": "あなたらしく",
+    "heroSuffix": "稼ごう - アンケート、キャッシュバック、オファー！",
+    "heroDescription": "アンケート回答、キャッシュバック付きショッピング、チャレンジ達成でオンライン収益を獲得！",
+    "totalEarnedBySparkvey": "Sparkveyでの総獲得額",
+    "giftcardDescription": "200以上の人気ブランドのギフトカードに報酬を交換できます。今すぐオンラインで稼ぎ始めましょう！",
+    "bannedBannerTitle": "サインインはブロックされています — このアカウントはSparkveyにアクセスできません",
+    "rewardWords": {
+      "rewards": "報酬",
+      "money": "現金",
+      "giftCards": "ギフトカード",
+      "crypto": "仮想通貨"
+    }
+  },
+  "AuthLayout": {
+    "welcome": "ようこそ！",
+    "description": "Sparkveyは、アンケート回答やアプリダウンロードなどのタスクを完了することで実際の現金を獲得できるプラットフォームです。",
+    "letsStartEarning": "さあ、稼ぎ始めましょう",
+    "totalEarnedOnSparkvey": "Sparkveyでの総獲得額",
+    "earnedDescription": "タスク、案件、キャッシュバックなどで獲得",
+    "termsOfService": "利用規約",
+    "privacyPolicy": "プライバシーポリシー",
+    "goBack": "戻る"
+  },
+  "Footer": {
+    "sparkvey": "Sparkvey",
+    "home": "ホーム",
+    "vip": "VIP",
+    "affiliates": "アフィリエイト",
+    "redeem": "交換",
+    "waysToEarn": "稼ぎ方",
+    "discover": "見つける",
+    "tasks": "タスク",
+    "videos": "動画",
+    "legal": "法的情報",
+    "termsOfService": "利用規約",
+    "privacyPolicy": "プライバシーポリシー",
+    "contactUs": "お問い合わせ",
+    "customerSupport": "カスタマーサポート",
+    "language": "言語",
+    "english": "英語",
+    "spanish": "スペイン語",
+    "copyright": "Copyright © Sparkvey 2023-{year}",
+    "german": "ドイツ語",
+    "korean": "韓国語",
+    "japanese": "日本語",
+    "portuguese": "ポルトガル語",
+    "finnish": "フィンランド語",
+    "norwegian": "ノルウェー語",
+    "french": "フランス語",
+    "italian": "イタリア語",
+    "polish": "ポーランド語"
+  },
+  "LoginPage": {
+    "title": "ログイン",
+    "disclaimer": "ログインすることで、<terms>利用規約</terms>および<privacy>プライバシーポリシー</privacy>に同意したものとみなされます。",
+    "emailAddress": "メールアドレス",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "signingIn": "ログイン中...",
+    "signIn": "ログイン",
+    "or": "または",
+    "google": "Google",
+    "signInWithGoogle": "Googleでログイン",
+    "notAMember": "アカウントをお持ちではありませんか？",
+    "joinToday": "今すぐ登録！",
+    "errors": {
+      "emailRequired": "メールアドレスを入力してください。",
+      "emailInvalid": "有効なメールアドレスではないようです。",
+      "passwordRequired": "パスワードを入力してください。",
+      "passwordInvalid": "8文字以上で、数字と特殊文字を含めてください。",
+      "genericTryAgain": "問題が発生しました。もう一度お試しください。",
+      "adBlocker": "広告ブロッカーが有効な場合は、続行するために無効にしてください。エラーだと思われる場合はサポートまでご連絡ください。",
+      "googleSignInFailed": "Googleでのログイン中に問題が発生しました。"
+    }
+  },
+  "SignupPage": {
+    "title": "新規登録",
+    "disclaimer": "登録することで、<terms>利用規約</terms>および<privacy>プライバシーポリシー</privacy>に同意したものとみなされます。",
+    "emailAddress": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを確認",
+    "username": "ユーザー名",
+    "referralCodeOptional": "紹介コード（任意）",
+    "back": "戻る",
+    "continue": "続行",
+    "creatingAccount": "アカウント作成中...",
+    "signUp": "登録",
+    "or": "または",
+    "google": "Google",
+    "signUpWithGoogle": "Googleで登録",
+    "alreadyMember": "すでにメンバーですか？",
+    "signInNow": "今すぐログイン！",
+    "errors": {
+      "emailRequired": "メールアドレスを入力してください。",
+      "emailInvalid": "このメールアドレスは正しくないようです。",
+      "passwordRequired": "続行するにはパスワードを作成してください。",
+      "passwordInvalid": "8文字以上で、数字と特殊文字を含めてください。",
+      "confirmPasswordRequired": "パスワード（確認）を入力してください。",
+      "confirmPasswordMismatch": "パスワードが一致していません。",
+      "usernameRequired": "設定を完了するためにユーザー名を選択してください。",
+      "usernameInvalid": "ユーザー名は3〜20文字の英字、数字、アンダースコアが使用できます。",
+      "referralInvalid": "紹介コードには英字、数字、ハイフンを使用できます。",
+      "missingDetails": "入力漏れがあるようです。内容を再確認してください。",
+      "fixHighlighted": "続行する前に、ハイライトされた項目を修正してください。",
+      "adBlocker": "広告ブロッカーが有効な場合は、続行するために無効にしてください。エラーだと思われる場合はサポートまでご連絡ください。",
+      "genericTryAgain": "問題が発生しました。もう一度お試しください。",
+      "couldNotCreateAccount": "現在、アカウントを作成できませんでした。",
+      "createAccountFailed": "アカウント作成中に問題が発生しました。",
+      "googleSignupFailed": "Googleでの登録中に問題が発生しました。"
+    }
+  },
+  "ForgotPasswordPage": {
+    "title": "パスワードをお忘れですか",
+    "emailAddress": "メールアドレス",
+    "newPassword": "新しいパスワード",
+    "confirmPassword": "パスワードを確認",
+    "sendResetEmail": "リセットメールを送信",
+    "resetPassword": "パスワードをリセット",
+    "notAMember": "アカウントをお持ちではありませんか？",
+    "joinToday": "今すぐ登録！",
+    "errors": {
+      "emailRequired": "メールアドレスを入力してください。",
+      "emailInvalid": "このメールアドレスは正しくないようです。",
+      "passwordRequired": "続行するにはパスワードを作成してください。",
+      "passwordInvalid": "8文字以上で、数字と特殊文字を含めてください。",
+      "confirmPasswordRequired": "パスワード（確認）を入力してください。",
+      "confirmPasswordMismatch": "パスワードが一致していません。",
+      "genericTryAgain": "問題が発生しました。もう一度お試しください。"
+    }
+  },
+  "SupportChat": {
+    "talkingTo": "対応担当",
+    "supportAgent": "サポート担当者",
+    "typeMessage": "メッセージを入力...",
+    "send": "送信"
+  },
+  "PurchaseModals": {
+    "common": {
+      "redeemItem": "アイテムを交換",
+      "deliveryNotice": "報酬の配信には最大48時間かかる場合があります。各交換は審査対象であり、不正が疑われる場合は却下されることがあります。",
+      "description": "説明",
+      "activationDetails": "有効化の詳細",
+      "showLess": "表示を減らす",
+      "showMore": "もっと見る",
+      "amountInSparks": "Sparks数",
+      "claimFor": "以下で交換"
+    },
+    "crypto": {
+      "recipientAddressPlaceholder": "受取先アドレス",
+      "toasts": {
+        "enterSparksAmount": "Sparksの数量を入力してください。",
+        "enterRecipientAddress": "受取先アドレスを入力してください。"
+      }
+    },
+    "giftcard": {
+      "toasts": {
+        "selectGiftcardAmount": "ギフトカードの金額を選択してください。"
+      }
+    },
+    "errors": {
+      "sessionVerificationFailed": "セッションを確認できません。広告ブロッカーが有効な場合は無効にしてから続行してください。",
+      "sessionTryAgain": "セッションを確認できませんでした。もう一度お試しください。",
+      "failedToRedeemItem": "アイテムの交換に失敗しました。",
+      "networkError": "交換処理中にネットワークエラーが発生しました"
+    },
+    "success": {
+      "redemptionSubmitted": "交換リクエストを送信しました。"
+    }
+  },
+  "PromocodeModal": {
+    "title": "プロモコードを交換",
+    "description": "これらのプロモコードは公式SNSで配布され、対象ユーザーにSPを提供します。",
+    "placeholder": "プロモコード",
+    "redeemCode": "コードを交換"
+  },
+  "UserWithdrawalModal": {
+    "title": "出金",
+    "na": "該当なし",
+    "labels": {
+      "reward": "報酬",
+      "amount": "金額",
+      "destination": "送付先",
+      "imageLinks": "画像リンク",
+      "keys": "キー"
+    },
+    "placeholders": {
+      "rewardName": "報酬名",
+      "sparksValue": "Sparks値",
+      "destination": "送付先"
+    },
+    "actions": {
+      "openReward": "報酬を開く",
+      "openImage": "画像 {index} を開く"
+    }
+  },
+  "Navbar": {
+    "auth": {
+      "login": "ログイン",
+      "register": "登録"
+    },
+    "links": {
+      "earn": "稼ぐ",
+      "redeem": "交換",
+      "leaderboard": "ランキング"
+    },
+    "mobile": {
+      "home": "ホーム",
+      "earn": "稼ぐ",
+      "shop": "ショップ",
+      "leaders": "リーダー",
+      "refer": "紹介",
+      "support": "サポート"
+    },
+    "emailVerification": {
+      "welcome": "Sparkveyへようこそ！稼ぎ始める前にメールアドレスを認証してください。",
+      "resend": "メールを再送",
+      "sending": "送信中...",
+      "sent": "メールを送信しました"
+    },
+    "a11y": {
+      "balanceAlt": "残高",
+      "avatarAlt": "アバター"
+    },
+    "toasts": {
+      "resendSuccess": "認証メールを再送しました。受信トレイと迷惑メールフォルダをご確認ください。",
+      "resendError": "認証メールの再送に失敗しました。もう一度お試しください。"
+    }
+  },
+  "UserDropdown": {
+    "profile": "プロフィール",
+    "activity": "アクティビティ",
+    "rewards": "報酬",
+    "settings": "設定",
+    "affiliates": "アフィリエイト",
+    "admin": "管理者",
+    "promocodes": "プロモコード",
+    "signOut": "ログアウト"
+  },
+  "EarnDropdown": {
+    "discover": "見つける",
+    "tasks": "タスク",
+    "videos": "動画",
+    "ptcPtsu": "PTC / PTSU"
+  },
+  "Notifications": {
+    "title": "通知",
+    "none": "表示する通知はありません...",
+    "types": {
+      "offerCredited": "オファー付与済み",
+      "offerHeld": "オファー保留中",
+      "offerPending": "オファー処理中",
+      "offerReleased": "オファー解除済み",
+      "offerReversal": "オファー取消済み",
+      "vipBonusClaimed": "VIPボーナス受取済み"
+    },
+    "messages": {
+      "offerCredited": "あなたのオファー {offerName}（{offerValue} Sparks）が付与されました。",
+      "offerHeld": "あなたのオファー {offerName}（{offerValue} Sparks）は {releaseDate} まで保留されています。",
+      "offerPending": "あなたのオファー {offerName}（{offerValue} Sparks）は、提供元により {releaseDate} まで保留されています。",
+      "offerReleased": "あなたのオファー {offerName}（{offerValue} Sparks）が解除されました。",
+      "offerReversal": "あなたのオファー {offerName}（{offerValue} Sparks）は取り消されました。",
+      "vipBonusClaimed": "あなたは {vip} VIPボーナス（{bonusAmount} Sparks）を受け取りました。"
+    }
+  },
+  "NotFound": {
+    "imageAlt": "ページが見つかりません",
+    "description": "お探しのページは存在しません。",
+    "backHome": "ホームに戻る"
+  },
+  "Discover": {
+    "sections": {
+      "offerwalls": {
+        "title": "オファーウォール",
+        "description": "オファーを完了してSparksを獲得"
+      },
+      "featured": {
+        "title": "注目",
+        "description": "注目のオファーをチェック"
+      },
+      "recommended": {
+        "title": "おすすめ",
+        "description": "あなたにおすすめのオファーです"
+      },
+      "games": {
+        "title": "ゲーム",
+        "description": "ゲームをプレイしてSparksを獲得"
+      },
+      "casino": {
+        "title": "カジノ",
+        "description": "お気に入りのカジノに登録してプレイし、Sparksを獲得"
+      },
+      "finance": {
+        "title": "金融",
+        "description": "銀行、ローン、クレジットカードまで幅広く対応"
+      },
+      "surveys": {
+        "title": "アンケート",
+        "description": "アンケート回答でSparksを獲得"
+      }
+    }
+  },
+  "DenominationDropdown": {
+    "enterCustomAmount": "金額を直接入力",
+    "typeAmount": "金額を入力",
+    "typeSparksAmount": "Sparks",
+    "presetLockedPlaceholder": "金額を入力"
+  },
+  "OfferItem": {
+    "earn": "獲得",
+    "upTo": "最大",
+    "sparksAlt": "Sparks"
+  },
+  "WallItem": {
+    "errors": {
+      "banned": "あなたのアカウントは停止されています。誤りと思われる場合はサポートまでご連絡ください。",
+      "verifyEmail": "オファーを完了する前にメールアドレスの認証が必要です。",
+      "minimumEarn": "このオファーウォールを利用するには、少なくとも {amount} Sparks を獲得する必要があります。"
+    },
+    "lockedOverlay": "このオファーウォールのロック解除には、あと {amount} Sparks が必要です。"
+  },
+  "TasksPage": {
+    "title": "稼ぎ方",
+    "subtitle": "お好みの稼ぎ方を検索",
+    "controls": {
+      "sortBy": "並び替え",
+      "categories": "カテゴリ",
+      "providers": "提供元",
+      "all": "すべて",
+      "searchPlaceholder": "稼ぎ方を検索..."
+    },
+    "sort": {
+      "highToLow": "高い順",
+      "lowToHigh": "低い順",
+      "featured": "注目順",
+      "aToZ": "A-Z",
+      "zToA": "Z-A"
+    },
+    "categories": {
+      "apps": "アプリ",
+      "games": "ゲーム",
+      "casino": "カジノ",
+      "travel": "旅行",
+      "finance": "金融",
+      "extensions": "拡張機能",
+      "freeTrial": "無料トライアル"
+    },
+    "providers": {
+      "lootably": "Lootably",
+      "waxrewards": "WaxRewards",
+      "ayetstudios": "AyetStudios"
+    },
+    "empty": "該当するオファーが見つかりませんでした。",
+    "loadMore": "さらに読み込む"
+  },
+  "PtcPtsuPage": {
+    "title": "PTC / PTSU",
+    "subtitle": "クリックと登録で報酬を獲得",
+    "searchPlaceholder": "特定のオファーを検索...",
+    "empty": "該当するオファーが見つかりませんでした。",
+    "loadMore": "さらに読み込む"
+  },
+  "LeaderboardMetadata": {
+    "title": "Sparkvey | ランキング",
+    "description": "他のユーザーと競い、ランキングで賞品を獲得しましょう。"
+  },
+  "TasksMetadata": {
+    "title": "Sparkvey | タスク",
+    "description": "タスクを完了して報酬と現金を獲得しましょう。"
+  },
+  "PtcPtsuMetadata": {
+    "title": "Sparkvey | 登録＆クリック",
+    "description": "クリックと登録で報酬を獲得"
+  },
+  "RedeemMetadata": {
+    "title": "Sparkvey | お気に入りの報酬にSparksを交換",
+    "description": "Sparksをお気に入りの報酬に交換しましょう。"
+  },
+  "PrivacyPolicyMetadata": {
+    "title": "Sparkvey | プライバシーポリシー",
+    "description": "Sparkveyのプライバシーポリシーをお読みください。"
+  },
+  "TermsOfServiceMetadata": {
+    "title": "Sparkvey | 利用規約",
+    "description": "Sparkveyの利用規約をお読みください。"
+  },
+  "LegalEnglishOnlyNotice": {
+    "message": "この法的文書は現在、英語版のみ提供されています。"
+  },
+  "VideosMetadata": {
+    "title": "Sparkvey | 動画",
+    "description": "動画を視聴して報酬と現金を獲得しましょう。"
+  },
+  "VideosPage": {
+    "title": "視聴して獲得",
+    "subtitle": "動画を視聴するお気に入りのプラットフォームを選択",
+    "rewardPrefix": "最大",
+    "rewardUnlimited": "無制限",
+    "sparksAlt": "Sparks",
+    "platforms": {
+      "cheddar": {
+        "description": "お気に入りのコンテンツを視聴して獲得"
+      },
+      "mmwatch": {
+        "description": "動画を視聴"
+      }
+    }
+  },
+  "OfferMetadata": {
+    "title": "Sparkvey | {offerName}",
+    "description": "{offerName}を完了して最大 {reward} Sparks を獲得。Sparkveyで限定キャッシュバックとオファーを利用しましょう。",
+    "fallbackTitle": "Sparkvey | オファー",
+    "fallbackDescription": "タスクを完了して報酬と現金を獲得しましょう。"
+  },
+  "OfferPage": {
+    "invalidOfferId": "無効なオファーIDです",
+    "geoUnavailable": "このオファーは現在お住まいの国ではご利用いただけません。",
+    "notFoundImageAlt": "ページが見つかりません",
+    "notFoundDescription": "お探しのページは存在しません。",
+    "backHome": "ホームに戻る"
+  },
+  "OfferPageClient": {
+    "backToTasks": "タスクに戻る",
+    "sparksAlt": "Sparks",
+    "sections": {
+      "offerDetails": "オファー詳細",
+      "goalsProgress": "目標の進捗",
+      "additionalInformation": "追加情報",
+      "termsAndConditions": "利用条件",
+      "disclaimer": "免責事項"
+    },
+    "start": {
+      "default": "開始",
+      "signUpToStart": "登録して獲得を開始",
+      "playEarnUpTo": "プレイして最大 {amount} Sparks 獲得",
+      "playEarn": "プレイして {amount} Sparks 獲得",
+      "playEarnNoAmount": "プレイして獲得",
+      "earnUpTo": "最大 {amount} Sparks 獲得",
+      "earn": "{amount} Sparks 獲得"
+    },
+    "toasts": {
+      "verifyEmail": "獲得を開始する前にメールアドレスの認証が必要です"
+    },
+    "disclaimer": {
+      "pending": "報酬は最大30日間、保留として表示される場合があります",
+      "kyc": "不審な完了は無効化され、KYCによる追加確認が行われる場合があります",
+      "termsAgreement": "オファーを完了することで、<terms>利用規約</terms>および<privacy>プライバシーポリシー</privacy>に同意したものとみなされます",
+      "providedBySparkvey": "このオファーはSparkveyによって提供されています。",
+      "providedByProvider": "このオファーは <provider>{name}</provider> によって提供されています"
+    }
+  },
+  "RewardMetadata": {
+    "shopTitle": "Sparkvey | ショップでお気に入りのゲームにSparksを交換",
+    "shopDescription": "ショップでお気に入りのゲームにSparksを交換しましょう。",
+    "sectionTitle": "Sparkvey | {sectionName} セクションでSparksを交換",
+    "rewardTitle": "Sparkvey | {rewardName} にSparksを交換",
+    "rewardDescription": "Sparkveyで {rewardName} に交換しましょう。アンケート回答、動画視聴、オンラインショッピングなどで報酬と現金を獲得できます。",
+    "fallbackTitle": "Sparkvey | お気に入りの報酬にSparksを交換",
+    "fallbackDescription": "Sparksをお気に入りの報酬に交換しましょう。",
+    "sections": {
+      "giftcards": {
+        "title": "ギフトカード",
+        "description": "Sparksをお気に入りのギフトカードに交換しましょう。"
+      },
+      "cash": {
+        "title": "現金",
+        "description": "Sparksを現金に交換しましょう。"
+      },
+      "crypto": {
+        "title": "仮想通貨",
+        "description": "Sparksをお気に入りの仮想通貨に交換しましょう。"
+      },
+      "shop": {
+        "title": "ショップ",
+        "description": "ショップでお気に入りのゲームにSparksを交換しましょう。"
+      }
+    }
+  },
+  "RedeemPage": {
+    "title": "Sparksを交換",
+    "description": "獲得したSparksを、銀行口座、PayPal、暗号資産、またはお好きなギフトカードに直接交換できます。$1からお好みの方法で出金できます。",
+    "disclaimer": {
+      "companies": "当社は上記の企業を代表するものではありません。上記の企業とは一切提携していません。上記の企業に関して当社は責任を負いません。",
+      "withdrawals": "当社は、いかなる理由でも交換申請を拒否する権利を留保します。出金は通常、申請内容の確認後48時間以内に送信されますが、本人確認が必要な場合はさらに時間がかかることがあります。"
+    },
+    "backToAllRewards": "すべての報酬に戻る",
+    "searchPlaceholder": "交換方法を検索...",
+    "empty": "該当する報酬が見つかりませんでした。"
+  },
+  "RewardPage": {
+    "rewardNotFound": "報酬が見つかりません。",
+    "backToAllRewards": "すべての報酬に戻る",
+    "show": "{mode}を表示",
+    "less": "少なく",
+    "more": "もっと",
+    "redeem": "交換",
+    "sparksAlt": "Sparks",
+    "amountInSparks": "Sparks数",
+    "recipientAddress": "受取先アドレス",
+    "enterAddress": "アドレスを入力",
+    "moreRewards": "さらに報酬を見る",
+    "errors": {
+      "sessionVerificationFailed": "セッションを確認できません。広告ブロッカーが有効な場合は無効にしてから続行してください。エラーだと思われる場合は support@sparkvey.com までご連絡ください。",
+      "networkError": "交換処理中にネットワークエラーが発生しました"
+    }
+  },
+  "LeaderboardPage": {
+    "loadingTitle": "ランキング",
+    "weekly": "週間",
+    "monthly": "月間",
+    "title": "{prize} {period} ランキング",
+    "endsIn": "終了まで",
+    "emptyTimer": "00d 00h 00m 00s",
+    "timerTemplate": "{days}d {hours}h {minutes}m {seconds}s",
+    "totalEarned": "総獲得",
+    "reward": "報酬",
+    "noUser": "ユーザーなし",
+    "sparksAlt": "sparks",
+    "placementOrdinal": "{placement}位",
+    "table": {
+      "place": "順位",
+      "user": "ユーザー",
+      "earned": "獲得",
+      "reward": "報酬"
+    }
+  },
+  "ProfileGeneral": {
+    "title": "統計",
+    "subtitle": "現在の収益、統計などを確認できます",
+    "cards": {
+      "tasks": "タスクでの獲得",
+      "videos": "動画での獲得",
+      "referrals": "紹介での獲得",
+      "shopping": "ショッピングでの獲得",
+      "promotions": "プロモーションでの獲得"
+    }
+  },
+  "ProfileNav": {
+    "vipLevel": "VIP 0",
+    "earned": "獲得済み",
+    "nextLevel": "次のレベルまで残り 10,000",
+    "referEarn": "紹介で5%獲得",
+    "tabs": {
+      "general": "概要",
+      "rewards": "報酬",
+      "activity": "アクティビティ",
+      "settings": "設定"
+    }
+  },
+  "ProfileActivity": {
+    "title": "アクティビティ",
+    "subtitle": "これまでのアクティビティをすべて表示",
+    "offer": "オファー",
+    "cashback": "キャッシュバック",
+    "sparks": "Sparks",
+    "na": "該当なし",
+    "empty": "まだアクティビティがありません。獲得を始めましょう。",
+    "table": {
+      "date": "日付",
+      "reward": "報酬",
+      "activity": "アクティビティ",
+      "activityId": "アクティビティID",
+      "status": "ステータス",
+      "releaseDate": "解除日",
+      "reversedAt": "取消日"
+    },
+    "extraInformation": {
+      "title": "追加情報",
+      "provider": "提供元",
+      "conversionId": "コンバージョンID",
+      "activityId": "アクティビティID",
+      "offerId": "オファーID",
+      "retailerId": "小売業者ID"
+    }
+  },
+  "ProfileRewards": {
+    "title": "過去の報酬",
+    "subtitle": "これまでに交換した報酬をすべて表示",
+    "sparkAlt": "Sparkアイコン",
+    "viewDetails": "詳細を見る",
+    "empty": "まだ報酬を交換していません。最初の報酬を交換して始めましょう！",
+    "table": {
+      "reward": "報酬",
+      "price": "価格",
+      "value": "価値",
+      "status": "ステータス",
+      "date": "日付",
+      "actions": "操作"
+    }
+  },
+  "ProfileSettings": {
+    "sections": {
+      "accountInformation": "アカウント情報",
+      "emailPreferences": "メール設定",
+      "sitePreferences": "サイト設定"
+    },
+    "labels": {
+      "emailAddress": "メールアドレス",
+      "username": "ユーザー名",
+      "paypalEmail": "PayPalメール",
+      "freeGifts": "無料ギフト",
+      "marketing": "マーケティング",
+      "securityAlerts": "セキュリティ通知",
+      "darkMode": "ダークモード"
+    },
+    "placeholders": {
+      "username": "ユーザー名を入力",
+      "paypalEmail": "PayPalメールアドレスを入力"
+    },
+    "actions": {
+      "save": "保存",
+      "yes": "はい",
+      "no": "いいえ"
+    },
+    "errors": {
+      "updateInformation": "情報の更新中にエラーが発生しました。",
+      "updateEmailPreferences": "メール設定の更新中にエラーが発生しました。"
+    }
+  },
+  "VIPSection": {
+    "title": "VIPプログラム",
+    "subtitle": "VIP特典と報酬をすべてチェック",
+    "none": "なし",
+    "currentLevel": "現在のレベル: {level}",
+    "untilNextLevel": "次のレベル ({level}) まで {current} / {next}",
+    "aria": {
+      "scrollLeft": "VIPカードを左へスクロール",
+      "scrollRight": "VIPカードを右へスクロール"
+    }
+  },
+  "VIPCard": {
+    "benefits": "特典",
+    "sparksAlt": "Sparks",
+    "actions": {
+      "claim": "受け取る",
+      "bonus": "ボーナス",
+      "claimed": "受取済み",
+      "locked": "ロック中"
+    },
+    "toasts": {
+      "unexpectedError": "予期しないエラーが発生しました",
+      "claimedBonus": "{title} ボーナス {amount} Sparks を受け取りました"
+    }
+  },
+  "VIPRanks": {
+    "bronze1": {
+      "title": "ブロンズ 1",
+      "benefits": [
+        "<spark> 1,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス"
+      ]
+    },
+    "bronze2": {
+      "title": "ブロンズ 2",
+      "benefits": [
+        "<spark> 1,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス"
+      ]
+    },
+    "bronze3": {
+      "title": "ブロンズ 3",
+      "benefits": [
+        "<spark> 1,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス"
+      ]
+    },
+    "silver1": {
+      "title": "シルバー 1",
+      "benefits": [
+        "<spark> 3,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス"
+      ]
+    },
+    "silver2": {
+      "title": "シルバー 2",
+      "benefits": [
+        "<spark> 3,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス"
+      ]
+    },
+    "silver3": {
+      "title": "シルバー 3",
+      "benefits": [
+        "<spark> 3,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス"
+      ]
+    },
+    "gold1": {
+      "title": "ゴールド 1",
+      "benefits": [
+        "<spark> 5,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス",
+        "限定プロモーションへのアクセス",
+        "すべてのオファーで3%ボーナス"
+      ]
+    },
+    "gold2": {
+      "title": "ゴールド 2",
+      "benefits": [
+        "<spark> 5,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス",
+        "限定プロモーションへのアクセス",
+        "すべてのオファーで3%ボーナス"
+      ]
+    },
+    "gold3": {
+      "title": "ゴールド 3",
+      "benefits": [
+        "<spark> 5,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス",
+        "優先サポート",
+        "限定プロモーションへのアクセス",
+        "すべてのオファーで3%ボーナス"
+      ]
+    },
+    "diamond": {
+      "title": "ダイヤモンド",
+      "benefits": [
+        "<spark> 10,000 1日あたりの出金上限",
+        "Discord VIPプレゼント企画へのアクセス",
+        "優先サポート",
+        "限定プロモーションへのアクセス",
+        "すべてのオファーで5%ボーナス"
+      ]
+    }
+  },
+  "CashbackRetailer": {
+    "upToCashback": "最大 {amount}% キャッシュバック"
+  },
+  "AffiliatesPage": {
+    "title": "アフィリエイト",
+    "subtitle": "他のユーザーをSparkveyに紹介して報酬を獲得しましょう。",
+    "stats": {
+      "referrals": "紹介数",
+      "totalEarnings": "総収益",
+      "pendingEarnings": "保留中の収益",
+      "maxReferralCodes": "紹介コード上限"
+    },
+    "inputs": {
+      "enterReferralCode": "紹介コードを入力",
+      "referralPrefix": "https://sparkvey.com?ref="
+    },
+    "actions": {
+      "useCode": "コードを使用",
+      "claimed": "取得済み",
+      "createCode": "コードを作成"
+    },
+    "table": {
+      "code": "コード",
+      "totalEarnings": "総収益",
+      "tasksCompleted": "完了タスク数",
+      "createdAt": "作成日"
+    },
+    "empty": {
+      "noCodes": "まだ紹介コードを作成していません。<action>始めましょう</action>。"
+    },
+    "graph": {
+      "statistics": "統計",
+      "earnings": "収益",
+      "sparksEarned": "獲得Sparks",
+      "periods": {
+        "day": "日",
+        "week": "週",
+        "month": "月",
+        "year": "年"
+      }
+    },
+    "a11y": {
+      "referralsAlt": "紹介",
+      "sparksAlt": "Sparks"
+    },
+    "toasts": {
+      "useCodeFailed": "コードの使用に失敗しました",
+      "useCodeSuccess": "現在使用中の紹介コード: {code}",
+      "createCodeSuccess": "アフィリエイトコードを作成しました",
+      "createCodeFailed": "アフィリエイトコードの作成に失敗しました",
+      "fetchGraphFailed": "グラフデータの取得に失敗しました",
+      "copyCodeSuccess": "コードをクリップボードにコピーしました"
+    }
+  }
+}

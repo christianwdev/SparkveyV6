@@ -1,0 +1,825 @@
+{
+  "Common": {
+    "brandName": "Sparkvey",
+    "viewAll": "View All"
+  },
+  "HomeMetadata": {
+    "title": "Sparkvey | Earn Rewards, Cash, and Gift Cards Online",
+    "description": "Sparkvey - Earn rewards and cash by completing surveys, watching videos, shopping online, and more! Join today and start turning your time into valuable rewards"
+  },
+  "LoginMetadata": {
+    "title": "Sparkvey | Log in to your account",
+    "description": "Log in to your Sparkvey account and start earning rewards."
+  },
+  "SignupMetadata": {
+    "title": "Sparkvey | Sign up and start earning rewards",
+    "description": "Create a free Sparkvey account and start earning rewards by completing surveys, watching videos, shopping online, and more!"
+  },
+  "ForgotPasswordMetadata": {
+    "title": "Sparkvey | Reset your password",
+    "description": "Reset your Sparkvey account password."
+  },
+  "AffiliatesMetadata": {
+    "title": "Sparkvey | Affiliates",
+    "description": "Earn money by referring other users to Sparkvey."
+  },
+  "ProfileLayoutMetadata": {
+    "title": "Sparkvey | Profile",
+    "description": "View your profile information."
+  },
+  "ProfileSettingsLayoutMetadata": {
+    "title": "Sparkvey | Profile Settings",
+    "description": "Manage your account settings."
+  },
+  "ProfileActivityMetadata": {
+    "title": "Sparkvey | Profile Activity",
+    "description": "View all your previous activity."
+  },
+  "ProfileRewardsMetadata": {
+    "title": "Sparkvey | Profile Rewards",
+    "description": "View all your previously redeemed rewards."
+  },
+  "Landing": {
+    "register": "Register",
+    "signIn": "Sign In",
+    "getStarted": "Get Started",
+    "heroPrefix": "Earn",
+    "heroSuffix": "Your Way - Surveys, Cashback & Offers!",
+    "heroDescription": "Complete surveys, shop with cashback, and take on challenges to earn money online!",
+    "totalEarnedBySparkvey": "Total earned by Sparkvey",
+    "giftcardDescription": "Redeem your rewards for gift cards from over 200+ of your favourite brands. Start earning money online today!",
+    "bannedBannerTitle": "Sign-in blocked — this account cannot access Sparkvey",
+    "rewardWords": {
+      "rewards": "Rewards",
+      "money": "Money",
+      "giftCards": "Giftcards",
+      "crypto": "Crypto"
+    }
+  },
+  "AuthLayout": {
+    "welcome": "Welcome!",
+    "description": "Sparkvey is a platform that allows users to earn real cash by completing tasks such as surveys and app downloads.",
+    "letsStartEarning": "Let's Start Earning",
+    "totalEarnedOnSparkvey": "Total earned on Sparkvey",
+    "earnedDescription": "Through our tasks, deals, cashbacks and more",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "goBack": "Go Back"
+  },
+  "Footer": {
+    "sparkvey": "Sparkvey",
+    "home": "Home",
+    "vip": "VIP",
+    "affiliates": "Affiliates",
+    "redeem": "Redeem",
+    "waysToEarn": "Ways to Earn",
+    "discover": "Discover",
+    "tasks": "Tasks",
+    "videos": "Videos",
+    "legal": "Legal",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "contactUs": "Contact Us",
+    "customerSupport": "Customer Support",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish",
+    "copyright": "Copyright © Sparkvey 2023-{year}",
+    "german": "German",
+    "korean": "Korean",
+    "japanese": "Japanese",
+    "portuguese": "Portuguese",
+    "finnish": "Finnish",
+    "norwegian": "Norwegian",
+    "french": "French",
+    "italian": "Italian",
+    "polish": "Polish"
+  },
+  "LoginPage": {
+    "title": "Sign In",
+    "disclaimer": "By signing in, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
+    "emailAddress": "Email Address",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "signingIn": "Signing in...",
+    "signIn": "Sign In",
+    "or": "or",
+    "google": "Google",
+    "signInWithGoogle": "Sign in with Google",
+    "notAMember": "Not a member?",
+    "joinToday": "Join today!",
+    "errors": {
+      "emailRequired": "Please enter your email address.",
+      "emailInvalid": "That doesn't look like a valid email address.",
+      "passwordRequired": "Please enter your password.",
+      "passwordInvalid": "Use at least 8 characters with a number and a special character.",
+      "genericTryAgain": "Something went wrong, please try again.",
+      "adBlocker": "If you have an ad blocker enabled, please disable it to continue. If you think this is an error, please contact support.",
+      "googleSignInFailed": "We ran into an issue signing in with Google."
+    }
+  },
+  "SignupPage": {
+    "title": "Sign Up",
+    "disclaimer": "By signing up, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
+    "emailAddress": "Email Address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "username": "Username",
+    "referralCodeOptional": "Referral Code (Optional)",
+    "back": "Back",
+    "continue": "Continue",
+    "creatingAccount": "Creating account...",
+    "signUp": "Sign Up",
+    "or": "or",
+    "google": "Google",
+    "signUpWithGoogle": "Sign up with Google",
+    "alreadyMember": "Already a member?",
+    "signInNow": "Sign in now!",
+    "errors": {
+      "emailRequired": "Please enter your email address.",
+      "emailInvalid": "That email doesn't look quite right.",
+      "passwordRequired": "Create a password to continue.",
+      "passwordInvalid": "Use 8+ characters with a number and a special character.",
+      "confirmPasswordRequired": "Please confirm your password.",
+      "confirmPasswordMismatch": "Passwords don't match yet.",
+      "usernameRequired": "Pick a username to finish setting up.",
+      "usernameInvalid": "Usernames use 3-20 letters, numbers, or underscores.",
+      "referralInvalid": "Referral codes use letters, numbers, or dashes.",
+      "missingDetails": "Looks like something is missing-double-check your details.",
+      "fixHighlighted": "Please fix the highlighted fields before continuing.",
+      "adBlocker": "If you have an ad blocker enabled, please disable it to continue. If you think this is an error, please contact support.",
+      "genericTryAgain": "Something went wrong, please try again.",
+      "couldNotCreateAccount": "We couldn't create your account just yet.",
+      "createAccountFailed": "We ran into an issue creating your account.",
+      "googleSignupFailed": "We ran into an issue signing up with Google."
+    }
+  },
+  "ForgotPasswordPage": {
+    "title": "Forgot Password",
+    "emailAddress": "Email Address",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "sendResetEmail": "Send Reset Email",
+    "resetPassword": "Reset Password",
+    "notAMember": "Not a member?",
+    "joinToday": "Join today!",
+    "errors": {
+      "emailRequired": "Please enter your email address.",
+      "emailInvalid": "That email doesn't look quite right.",
+      "passwordRequired": "Create a password to continue.",
+      "passwordInvalid": "Use 8+ characters with a number and a special character.",
+      "confirmPasswordRequired": "Please confirm your password.",
+      "confirmPasswordMismatch": "Passwords don't match yet.",
+      "genericTryAgain": "Something went wrong, please try again."
+    }
+  },
+  "SupportChat": {
+    "talkingTo": "Talking to",
+    "supportAgent": "Support Agent",
+    "typeMessage": "Type your message...",
+    "send": "Send"
+  },
+  "PurchaseModals": {
+    "common": {
+      "redeemItem": "Redeem Item",
+      "deliveryNotice": "Rewards may take up to 48 hours to be delivered. Each redemption is subject to review and may be declined in case of fraud.",
+      "description": "Description",
+      "activationDetails": "Activation Details",
+      "showLess": "Show less",
+      "showMore": "Show more",
+      "amountInSparks": "Amount in Sparks",
+      "claimFor": "Claim for"
+    },
+    "crypto": {
+      "recipientAddressPlaceholder": "Recipient address",
+      "toasts": {
+        "enterSparksAmount": "Please enter a Sparks amount.",
+        "enterRecipientAddress": "Please enter a recipient address."
+      }
+    },
+    "giftcard": {
+      "toasts": {
+        "selectGiftcardAmount": "Please select a giftcard amount."
+      }
+    },
+    "errors": {
+      "sessionVerificationFailed": "We are unable to verify your session, if you have an ad blocker enabled, please disable it to continue.",
+      "sessionTryAgain": "Unable to verify your session. Please try again.",
+      "failedToRedeemItem": "Failed to redeem item.",
+      "networkError": "Network error while processing redemption"
+    },
+    "success": {
+      "redemptionSubmitted": "Redemption request submitted."
+    }
+  },
+  "PromocodeModal": {
+    "title": "Redeem Promocode",
+    "description": "These promocodes will be found on our socials and will provide some SP to limited users.",
+    "placeholder": "Promocode",
+    "redeemCode": "Redeem Code"
+  },
+  "UserWithdrawalModal": {
+    "title": "Withdrawal",
+    "na": "N/A",
+    "labels": {
+      "reward": "Reward",
+      "amount": "Amount",
+      "destination": "Destination",
+      "imageLinks": "Image Links",
+      "keys": "Keys"
+    },
+    "placeholders": {
+      "rewardName": "Reward Name",
+      "sparksValue": "Sparks value",
+      "destination": "Destination"
+    },
+    "actions": {
+      "openReward": "Open reward",
+      "openImage": "Open image {index}"
+    }
+  },
+  "Navbar": {
+    "auth": {
+      "login": "Login",
+      "register": "Register"
+    },
+    "links": {
+      "earn": "Earn",
+      "redeem": "Redeem",
+      "leaderboard": "Leaderboard"
+    },
+    "mobile": {
+      "home": "Home",
+      "earn": "Earn",
+      "shop": "Shop",
+      "leaders": "Leaders",
+      "refer": "Refer",
+      "support": "Support"
+    },
+    "emailVerification": {
+      "welcome": "Welcome to Sparkvey! Please verify your email before you start earning.",
+      "resend": "Resend Email",
+      "sending": "Sending...",
+      "sent": "Email Sent"
+    },
+    "a11y": {
+      "balanceAlt": "Balance",
+      "avatarAlt": "Avatar"
+    },
+    "toasts": {
+      "resendSuccess": "Successfully resent your verification email, please check your inbox and junk folder.",
+      "resendError": "Failed to resend your verification email, please try again."
+    }
+  },
+  "UserDropdown": {
+    "profile": "Profile",
+    "activity": "Activity",
+    "rewards": "Rewards",
+    "settings": "Settings",
+    "affiliates": "Affiliates",
+    "admin": "Admin",
+    "promocodes": "Promocodes",
+    "signOut": "Sign out"
+  },
+  "EarnDropdown": {
+    "discover": "Discover",
+    "tasks": "Tasks",
+    "videos": "Videos",
+    "ptcPtsu": "PTC / PTSU"
+  },
+  "Notifications": {
+    "title": "Notifications",
+    "none": "No notifications to display...",
+    "types": {
+      "offerCredited": "Offer Credited",
+      "offerHeld": "Offer Held",
+      "offerPending": "Offer Pending",
+      "offerReleased": "Offer Released",
+      "offerReversal": "Offer Reversed",
+      "vipBonusClaimed": "VIP Bonus Claimed"
+    },
+    "messages": {
+      "offerCredited": "Your offer {offerName} worth {offerValue} sparks has been credited.",
+      "offerHeld": "Your offer {offerName} worth {offerValue} sparks is being held until {releaseDate}.",
+      "offerPending": "Your offer {offerName} worth {offerValue} sparks is being held by our provider until {releaseDate}.",
+      "offerReleased": "Your offer {offerName} worth {offerValue} was released.",
+      "offerReversal": "Your offer {offerName} worth {offerValue} was reversed.",
+      "vipBonusClaimed": "You have claimed the {vip} VIP bonus of {bonusAmount} sparks."
+    }
+  },
+  "NotFound": {
+    "imageAlt": "Page not found",
+    "description": "The page you are looking for does not exist.",
+    "backHome": "Back to home"
+  },
+  "Discover": {
+    "sections": {
+      "offerwalls": {
+        "title": "Offerwalls",
+        "description": "Earn Sparks by completing offers"
+      },
+      "featured": {
+        "title": "Featured",
+        "description": "Check out some of our featured offers"
+      },
+      "recommended": {
+        "title": "Recommended",
+        "description": "Here are some offers we think you would enjoy"
+      },
+      "games": {
+        "title": "Games",
+        "description": "Earn Sparks by playing some games"
+      },
+      "casino": {
+        "title": "Casino",
+        "description": "Sign up and play on your favorite casinos for sparks"
+      },
+      "finance": {
+        "title": "Finance",
+        "description": "Whether it be banking, loans, or credit cards, we've got you covered"
+      },
+      "surveys": {
+        "title": "Surveys",
+        "description": "Earn Sparks by completing surveys"
+      }
+    }
+  },
+  "DenominationDropdown": {
+    "enterCustomAmount": "Enter custom amount",
+    "typeAmount": "Type amount",
+    "typeSparksAmount": "Sparks amount",
+    "presetLockedPlaceholder": "Enter amount"
+  },
+  "OfferItem": {
+    "earn": "Earn",
+    "upTo": "up to",
+    "sparksAlt": "Sparks"
+  },
+  "WallItem": {
+    "errors": {
+      "banned": "Your account is banned. If you think this is an error, please contact support.",
+      "verifyEmail": "You must verify your email address before you can complete offers.",
+      "minimumEarn": "You must earn at least {amount} Sparks to use this offerwall."
+    },
+    "lockedOverlay": "Earn {amount} more Sparks to unlock this offerwall."
+  },
+  "TasksPage": {
+    "title": "Ways to Earn",
+    "subtitle": "Search for your preferred way of earning",
+    "controls": {
+      "sortBy": "Sort by",
+      "categories": "Categories",
+      "providers": "Providers",
+      "all": "All",
+      "searchPlaceholder": "Search for ways to earn..."
+    },
+    "sort": {
+      "highToLow": "High to Low",
+      "lowToHigh": "Low to High",
+      "featured": "Featured",
+      "aToZ": "A-Z",
+      "zToA": "Z-A"
+    },
+    "categories": {
+      "apps": "Apps",
+      "games": "Games",
+      "casino": "Casino",
+      "travel": "Travel",
+      "finance": "Finance",
+      "extensions": "Extensions",
+      "freeTrial": "Free Trial"
+    },
+    "providers": {
+      "lootably": "Lootably",
+      "waxrewards": "WaxRewards",
+      "ayetstudios": "AyetStudios"
+    },
+    "empty": "Uh oh! We didn't find any offers matching that search.",
+    "loadMore": "Load More"
+  },
+  "PtcPtsuPage": {
+    "title": "PTC / PTSU",
+    "subtitle": "Get paid to click and sign up",
+    "searchPlaceholder": "Search for specific offers...",
+    "empty": "Uh oh! We didn't find any offers matching that search.",
+    "loadMore": "Load More"
+  },
+  "LeaderboardMetadata": {
+    "title": "Sparkvey | Leaderboard",
+    "description": "Compete with other users and win prizes on the leaderboard."
+  },
+  "TasksMetadata": {
+    "title": "Sparkvey | Tasks",
+    "description": "Complete tasks to earn rewards and cash."
+  },
+  "PtcPtsuMetadata": {
+    "title": "Sparkvey | Signups & Clicks",
+    "description": "Get paid to click and sign up"
+  },
+  "RedeemMetadata": {
+    "title": "Sparkvey | Redeem your sparks for your favorite rewards",
+    "description": "Redeem your sparks for your favorite reward."
+  },
+  "PrivacyPolicyMetadata": {
+    "title": "Sparkvey | Privacy Policy",
+    "description": "Read Sparkvey's Privacy Policy."
+  },
+  "TermsOfServiceMetadata": {
+    "title": "Sparkvey | Terms of Service",
+    "description": "Read Sparkvey's Terms of Service."
+  },
+  "LegalEnglishOnlyNotice": {
+    "message": "This legal document is currently provided in English only."
+  },
+  "VideosMetadata": {
+    "title": "Sparkvey | Videos",
+    "description": "Watch videos to earn rewards and cash."
+  },
+  "VideosPage": {
+    "title": "Earn by Watching",
+    "subtitle": "Select your favorite platform to watch videos on",
+    "rewardPrefix": "Earn up to",
+    "rewardUnlimited": "unlimited",
+    "sparksAlt": "Sparks",
+    "platforms": {
+      "cheddar": {
+        "description": "Watch your favorite content & earn"
+      },
+      "mmwatch": {
+        "description": "Watch videos"
+      }
+    }
+  },
+  "OfferMetadata": {
+    "title": "Sparkvey | {offerName}",
+    "description": "Earn up to {reward} Sparks for completing {offerName}. Get exclusive cashback and offers with Sparkvey.",
+    "fallbackTitle": "Sparkvey | Offer",
+    "fallbackDescription": "Complete tasks to earn rewards and cash."
+  },
+  "OfferPage": {
+    "invalidOfferId": "Invalid offer ID",
+    "geoUnavailable": "This offer is not currently supported in your country.",
+    "notFoundImageAlt": "Page not found",
+    "notFoundDescription": "The page you are looking for does not exist.",
+    "backHome": "Back to home"
+  },
+  "OfferPageClient": {
+    "backToTasks": "Back to Tasks",
+    "sparksAlt": "Sparks",
+    "sections": {
+      "offerDetails": "Offer Details",
+      "goalsProgress": "Goals Progress",
+      "additionalInformation": "Additional Information",
+      "termsAndConditions": "Terms & Conditions",
+      "disclaimer": "Disclaimer"
+    },
+    "start": {
+      "default": "Start",
+      "signUpToStart": "Sign up to start earning",
+      "playEarnUpTo": "Play & Earn up to {amount} sparks",
+      "playEarn": "Play & Earn {amount} sparks",
+      "playEarnNoAmount": "Play & Earn",
+      "earnUpTo": "Earn up to {amount} sparks",
+      "earn": "Earn {amount} sparks"
+    },
+    "toasts": {
+      "verifyEmail": "You must verify your email address before you can start earning"
+    },
+    "disclaimer": {
+      "pending": "Rewards will appear as pending for up to 30 days",
+      "kyc": "Suspicious completions may be voided and investigated further with KYC",
+      "termsAgreement": "By completing an offer, you agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>",
+      "providedBySparkvey": "This offer is provided by Sparkvey.",
+      "providedByProvider": "This offer is provided by <provider>{name}</provider>"
+    }
+  },
+  "RewardMetadata": {
+    "shopTitle": "Sparkvey | Redeem your sparks for your favorite game in the shop",
+    "shopDescription": "Redeem your sparks for your favorite game in the shop.",
+    "sectionTitle": "Sparkvey | Redeem your sparks on our {sectionName} section",
+    "rewardTitle": "Sparkvey | Redeem your sparks for {rewardName}",
+    "rewardDescription": "Redeem {rewardName} on Sparkvey, your go-to rewards platform. Earn rewards and cash by completing surveys, watching videos, shopping online, and more!",
+    "fallbackTitle": "Sparkvey | Redeem your sparks for your favorite reward",
+    "fallbackDescription": "Redeem your sparks for your favorite reward.",
+    "sections": {
+      "giftcards": {
+        "title": "Gift Cards",
+        "description": "Redeem your sparks for your favorite gift card."
+      },
+      "cash": {
+        "title": "Cash",
+        "description": "Redeem your sparks for your favorite cash."
+      },
+      "crypto": {
+        "title": "Crypto",
+        "description": "Redeem your sparks for your favorite crypto."
+      },
+      "shop": {
+        "title": "Shop",
+        "description": "Redeem your sparks for your favorite game in the shop."
+      }
+    }
+  },
+  "RedeemPage": {
+    "title": "Redeem your Sparks",
+    "description": "Redeem the Sparks you have earned directly to your Bank, PayPal, Crypto, or any gift card of your choice. Withdraw to your favorite methods starting at $1.",
+    "disclaimer": {
+      "companies": "We are not a representation of any of the companies listed above. We are not affiliated with any of the companies listed above. We are not responsible for any of the companies listed above.",
+      "withdrawals": "We reserve the right to reject any redemption for any reason. Withdrawals are typically sent within 48 hours after review of your request and may take longer if we need to verify your identity."
+    },
+    "backToAllRewards": "Back to All Rewards",
+    "searchPlaceholder": "Search for ways to redeem...",
+    "empty": "Uh oh! We didn't find any rewards matching that search."
+  },
+  "RewardPage": {
+    "rewardNotFound": "Reward not found.",
+    "backToAllRewards": "Back to All Rewards",
+    "show": "Show {mode}",
+    "less": "less",
+    "more": "more",
+    "redeem": "Redeem",
+    "sparksAlt": "Sparks",
+    "amountInSparks": "Amount in Sparks",
+    "recipientAddress": "Recipient Address",
+    "enterAddress": "Enter address",
+    "moreRewards": "More Rewards",
+    "errors": {
+      "sessionVerificationFailed": "We are unable to verify your session, if you have an ad blocker enabled, please disable it to continue. If you think this is an error, please contact us at support@sparkvey.com.",
+      "networkError": "Network error while processing redemption"
+    }
+  },
+  "LeaderboardPage": {
+    "loadingTitle": "Leaderboard",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "title": "{prize} {period} Leaderboard",
+    "endsIn": "Ends in",
+    "emptyTimer": "00d 00h 00m 00s",
+    "timerTemplate": "{days}d {hours}h {minutes}m {seconds}s",
+    "totalEarned": "Total Earned",
+    "reward": "Reward",
+    "noUser": "No User",
+    "sparksAlt": "sparks",
+    "placementOrdinal": "{placement}th",
+    "table": {
+      "place": "Place",
+      "user": "User",
+      "earned": "Earned",
+      "reward": "Reward"
+    }
+  },
+  "ProfileGeneral": {
+    "title": "Statistics",
+    "subtitle": "Have look at your current earnings, stats and more",
+    "cards": {
+      "tasks": "Earned from Tasks",
+      "videos": "Earned from Videos",
+      "referrals": "Earned from Referrals",
+      "shopping": "Earned from Shopping",
+      "promotions": "Earned from Promotions"
+    }
+  },
+  "ProfileNav": {
+    "vipLevel": "VIP 0",
+    "earned": "earned",
+    "nextLevel": "10,000 left till next level",
+    "referEarn": "Refer & Earn 5%",
+    "tabs": {
+      "general": "General",
+      "rewards": "Rewards",
+      "activity": "Activity",
+      "settings": "Settings"
+    }
+  },
+  "ProfileActivity": {
+    "title": "Activity",
+    "subtitle": "View all your previous activity",
+    "offer": "Offer",
+    "cashback": "Cashback",
+    "sparks": "Sparks",
+    "na": "N/A",
+    "empty": "You don't have any activity yet, let's get earning.",
+    "table": {
+      "date": "Date",
+      "reward": "Reward",
+      "activity": "Activity",
+      "activityId": "Activity ID",
+      "status": "Status",
+      "releaseDate": "Release Date",
+      "reversedAt": "Reversed On"
+    },
+    "extraInformation": {
+      "title": "Extra Information",
+      "provider": "Provider",
+      "conversionId": "Conversion ID",
+      "activityId": "Activity ID",
+      "offerId": "Offer ID",
+      "retailerId": "Retailer ID"
+    }
+  },
+  "ProfileRewards": {
+    "title": "Previous Rewards",
+    "subtitle": "View all your previously redeemed rewards",
+    "sparkAlt": "Spark icon",
+    "viewDetails": "View Details",
+    "empty": "You haven't redeemed any rewards yet. Let's start by redeeming your first reward!",
+    "table": {
+      "reward": "Reward",
+      "price": "Price",
+      "value": "Value",
+      "status": "Status",
+      "date": "Date",
+      "actions": "Actions"
+    }
+  },
+  "ProfileSettings": {
+    "sections": {
+      "accountInformation": "Account Information",
+      "emailPreferences": "Email Preferences",
+      "sitePreferences": "Site Preferences"
+    },
+    "labels": {
+      "emailAddress": "Email Address",
+      "username": "Username",
+      "paypalEmail": "PayPal Email",
+      "freeGifts": "Free Gifts",
+      "marketing": "Marketing",
+      "securityAlerts": "Security Alerts",
+      "darkMode": "Dark Mode"
+    },
+    "placeholders": {
+      "username": "Enter a username",
+      "paypalEmail": "Enter your PayPal email"
+    },
+    "actions": {
+      "save": "Save",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "errors": {
+      "updateInformation": "We encountered an error when trying to update your information.",
+      "updateEmailPreferences": "We encountered an error when trying to update your email preferences."
+    }
+  },
+  "VIPSection": {
+    "title": "VIP Program",
+    "subtitle": "Explore all the VIP benefits and rewards",
+    "none": "None",
+    "currentLevel": "Current Level: {level}",
+    "untilNextLevel": "{current} / {next} till next level ({level})",
+    "aria": {
+      "scrollLeft": "Scroll VIP cards left",
+      "scrollRight": "Scroll VIP cards right"
+    }
+  },
+  "VIPCard": {
+    "benefits": "Benefits",
+    "sparksAlt": "Sparks",
+    "actions": {
+      "claim": "Claim",
+      "bonus": "Bonus",
+      "claimed": "Claimed",
+      "locked": "Locked"
+    },
+    "toasts": {
+      "unexpectedError": "An unexpected error occurred",
+      "claimedBonus": "Successfully claimed your {title} bonus of {amount} Sparks"
+    }
+  },
+  "VIPRanks": {
+    "bronze1": {
+      "title": "Bronze 1",
+      "benefits": [
+        "<spark> 1,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways"
+      ]
+    },
+    "bronze2": {
+      "title": "Bronze 2",
+      "benefits": [
+        "<spark> 1,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways"
+      ]
+    },
+    "bronze3": {
+      "title": "Bronze 3",
+      "benefits": [
+        "<spark> 1,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways"
+      ]
+    },
+    "silver1": {
+      "title": "Silver 1",
+      "benefits": [
+        "<spark> 3,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways"
+      ]
+    },
+    "silver2": {
+      "title": "Silver 2",
+      "benefits": [
+        "<spark> 3,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways"
+      ]
+    },
+    "silver3": {
+      "title": "Silver 3",
+      "benefits": [
+        "<spark> 3,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways"
+      ]
+    },
+    "gold1": {
+      "title": "Gold 1",
+      "benefits": [
+        "<spark> 5,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways",
+        "Access to exclusive promotions",
+        "3% Bonus on all offers"
+      ]
+    },
+    "gold2": {
+      "title": "Gold 2",
+      "benefits": [
+        "<spark> 5,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways",
+        "Access to exclusive promotions",
+        "3% Bonus on all offers"
+      ]
+    },
+    "gold3": {
+      "title": "Gold 3",
+      "benefits": [
+        "<spark> 5,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways",
+        "Priority support",
+        "Access to exclusive promotions",
+        "3% Bonus on all offers"
+      ]
+    },
+    "diamond": {
+      "title": "Diamond",
+      "benefits": [
+        "<spark> 10,000 Daily Withdrawal Limit",
+        "Access to Discord VIP giveaways",
+        "Priority support",
+        "Access to exclusive promotions",
+        "5% Bonus on all offers"
+      ]
+    }
+  },
+  "CashbackRetailer": {
+    "upToCashback": "Up to {amount}% cashback"
+  },
+  "AffiliatesPage": {
+    "title": "Affiliates",
+    "subtitle": "Earn money by referring other users to Sparkvey.",
+    "stats": {
+      "referrals": "Referrals",
+      "totalEarnings": "Total Earnings",
+      "pendingEarnings": "Pending Earnings",
+      "maxReferralCodes": "Max Referral Codes"
+    },
+    "inputs": {
+      "enterReferralCode": "Enter a referral code",
+      "referralPrefix": "https://sparkvey.com?ref="
+    },
+    "actions": {
+      "useCode": "Use Code",
+      "claimed": "Claimed",
+      "createCode": "Create Code"
+    },
+    "table": {
+      "code": "Code",
+      "totalEarnings": "Total Earnings",
+      "tasksCompleted": "Tasks Completed",
+      "createdAt": "Created At"
+    },
+    "empty": {
+      "noCodes": "You haven't created any referral codes yet, let's get <action>started</action>."
+    },
+    "graph": {
+      "statistics": "Statistics",
+      "earnings": "Earnings",
+      "sparksEarned": "Sparks Earned",
+      "periods": {
+        "day": "Day",
+        "week": "Week",
+        "month": "Month",
+        "year": "Year"
+      }
+    },
+    "a11y": {
+      "referralsAlt": "Referrals",
+      "sparksAlt": "Sparks"
+    },
+    "toasts": {
+      "useCodeFailed": "Failed to use code",
+      "useCodeSuccess": "You are now using referral code: {code}",
+      "createCodeSuccess": "Affiliate code created successfully",
+      "createCodeFailed": "Failed to create affiliate code",
+      "fetchGraphFailed": "Failed to fetch graph data",
+      "copyCodeSuccess": "Code copied to clipboard"
+    }
+  }
+}

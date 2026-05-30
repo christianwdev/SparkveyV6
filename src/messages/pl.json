@@ -1,0 +1,825 @@
+{
+  "Common": {
+    "brandName": "Sparkvey",
+    "viewAll": "Zobacz wszystko"
+  },
+  "HomeMetadata": {
+    "title": "Sparkvey | Zdobywaj nagrody, gotowke i karty podarunkowe online",
+    "description": "Sparkvey - zdobywaj nagrody i gotowke za wypelnianie ankiet, ogladanie wideo, zakupy online i nie tylko! Dolacz juz dzis i zamieniaj swoj czas na wartosciowe nagrody."
+  },
+  "LoginMetadata": {
+    "title": "Sparkvey | Zaloguj sie do konta",
+    "description": "Zaloguj sie do konta Sparkvey i zacznij zdobywac nagrody."
+  },
+  "SignupMetadata": {
+    "title": "Sparkvey | Zarejestruj sie i zacznij zdobywac nagrody",
+    "description": "Utworz darmowe konto Sparkvey i zacznij zdobywac nagrody za ankiety, ogladanie wideo, zakupy online i nie tylko!"
+  },
+  "ForgotPasswordMetadata": {
+    "title": "Sparkvey | Zresetuj haslo",
+    "description": "Zresetuj haslo do konta Sparkvey."
+  },
+  "AffiliatesMetadata": {
+    "title": "Sparkvey | Program partnerski",
+    "description": "Zarabiaj, polecajac Sparkvey innym uzytkownikom."
+  },
+  "ProfileLayoutMetadata": {
+    "title": "Sparkvey | Profil",
+    "description": "Zobacz informacje o swoim profilu."
+  },
+  "ProfileSettingsLayoutMetadata": {
+    "title": "Sparkvey | Ustawienia profilu",
+    "description": "Zarzadzaj ustawieniami swojego konta."
+  },
+  "ProfileActivityMetadata": {
+    "title": "Sparkvey | Aktywnosc profilu",
+    "description": "Zobacz cala swoja dotychczasowa aktywnosc."
+  },
+  "ProfileRewardsMetadata": {
+    "title": "Sparkvey | Nagrody profilu",
+    "description": "Zobacz wszystkie wczesniej zrealizowane nagrody."
+  },
+  "Landing": {
+    "register": "Zarejestruj sie",
+    "signIn": "Zaloguj sie",
+    "getStarted": "Zacznij",
+    "heroPrefix": "Zarabiaj",
+    "heroSuffix": "po swojemu - ankiety, cashback i oferty!",
+    "heroDescription": "Wypelniaj ankiety, kupuj z cashbackiem i podejmuj wyzwania, aby zarabiac pieniadze online!",
+    "totalEarnedBySparkvey": "Lacznie zarobione ze Sparkvey",
+    "giftcardDescription": "Wymieniaj nagrody na karty podarunkowe od ponad 200 ulubionych marek. Zacznij zarabiac online juz dzis!",
+    "bannedBannerTitle": "Logowanie zablokowane — to konto nie ma dostepu do Sparkvey",
+    "rewardWords": {
+      "rewards": "Nagrody",
+      "money": "Gotowka",
+      "giftCards": "Karty podarunkowe",
+      "crypto": "Krypto"
+    }
+  },
+  "AuthLayout": {
+    "welcome": "Witamy!",
+    "description": "Sparkvey to platforma, na ktorej mozesz zarabiac prawdziwa gotowke za wykonywanie zadan, takich jak ankiety czy pobieranie aplikacji.",
+    "letsStartEarning": "Zacznijmy zarabiac",
+    "totalEarnedOnSparkvey": "Lacznie zarobione na Sparkvey",
+    "earnedDescription": "Dzieki zadaniom, ofertom, cashbackowi i nie tylko",
+    "termsOfService": "Regulamin",
+    "privacyPolicy": "Polityka prywatnosci",
+    "goBack": "Wroc"
+  },
+  "Footer": {
+    "sparkvey": "Sparkvey",
+    "home": "Strona glowna",
+    "vip": "VIP",
+    "affiliates": "Program partnerski",
+    "redeem": "Wymien",
+    "waysToEarn": "Sposoby zarabiania",
+    "discover": "Odkrywaj",
+    "tasks": "Zadania",
+    "videos": "Wideo",
+    "legal": "Informacje prawne",
+    "termsOfService": "Regulamin",
+    "privacyPolicy": "Polityka prywatnosci",
+    "contactUs": "Skontaktuj sie z nami",
+    "customerSupport": "Obsluga klienta",
+    "language": "Jezyk",
+    "english": "Angielski",
+    "spanish": "Hiszpanski",
+    "copyright": "Prawa autorskie © Sparkvey 2023-{year}",
+    "german": "Niemiecki",
+    "korean": "Koreanski",
+    "japanese": "Japonski",
+    "portuguese": "Portugalski",
+    "finnish": "Finski",
+    "norwegian": "Norweski",
+    "french": "Francuski",
+    "italian": "Wloski",
+    "polish": "Polski"
+  },
+  "LoginPage": {
+    "title": "Zaloguj sie",
+    "disclaimer": "Logujac sie, akceptujesz nasz <terms>Regulamin</terms> oraz <privacy>Polityke prywatnosci</privacy>.",
+    "emailAddress": "Adres e-mail",
+    "password": "Haslo",
+    "forgotPassword": "Zapomniales hasla?",
+    "signingIn": "Logowanie...",
+    "signIn": "Zaloguj sie",
+    "or": "lub",
+    "google": "Google",
+    "signInWithGoogle": "Zaloguj sie przez Google",
+    "notAMember": "Nie masz konta?",
+    "joinToday": "Dolacz juz dzis!",
+    "errors": {
+      "emailRequired": "Wpisz adres e-mail.",
+      "emailInvalid": "To nie wyglada na poprawny adres e-mail.",
+      "passwordRequired": "Wpisz haslo.",
+      "passwordInvalid": "Uzyj co najmniej 8 znakow, w tym cyfry i znaku specjalnego.",
+      "genericTryAgain": "Cos poszlo nie tak. Sprobuj ponownie.",
+      "adBlocker": "Jesli masz wlaczony adblock, wylacz go, aby kontynuowac. Jesli to blad, skontaktuj sie z supportem.",
+      "googleSignInFailed": "Wystapil problem podczas logowania przez Google."
+    }
+  },
+  "SignupPage": {
+    "title": "Zarejestruj sie",
+    "disclaimer": "Rejestrujac sie, akceptujesz nasz <terms>Regulamin</terms> oraz <privacy>Polityke prywatnosci</privacy>.",
+    "emailAddress": "Adres e-mail",
+    "password": "Haslo",
+    "confirmPassword": "Potwierdz haslo",
+    "username": "Nazwa uzytkownika",
+    "referralCodeOptional": "Kod polecajacy (opcjonalnie)",
+    "back": "Wstecz",
+    "continue": "Kontynuuj",
+    "creatingAccount": "Tworzenie konta...",
+    "signUp": "Zarejestruj sie",
+    "or": "lub",
+    "google": "Google",
+    "signUpWithGoogle": "Zarejestruj sie przez Google",
+    "alreadyMember": "Masz juz konto?",
+    "signInNow": "Zaloguj sie teraz!",
+    "errors": {
+      "emailRequired": "Wpisz adres e-mail.",
+      "emailInvalid": "Ten adres e-mail wyglada na niepoprawny.",
+      "passwordRequired": "Utworz haslo, aby kontynuowac.",
+      "passwordInvalid": "Uzyj co najmniej 8 znakow, w tym cyfry i znaku specjalnego.",
+      "confirmPasswordRequired": "Potwierdz haslo.",
+      "confirmPasswordMismatch": "Hasla nie sa zgodne.",
+      "usernameRequired": "Wybierz nazwe uzytkownika, aby zakonczyc konfiguracje.",
+      "usernameInvalid": "Nazwa uzytkownika moze miec 3-20 znakow: litery, cyfry lub podkreslenia.",
+      "referralInvalid": "Kod polecajacy moze zawierac litery, cyfry i myslniki.",
+      "missingDetails": "Wyglada na to, ze brakuje kilku danych - sprawdz formularz.",
+      "fixHighlighted": "Popraw podswietlone pola, aby kontynuowac.",
+      "adBlocker": "Jesli masz wlaczony adblock, wylacz go, aby kontynuowac. Jesli to blad, skontaktuj sie z supportem.",
+      "genericTryAgain": "Cos poszlo nie tak. Sprobuj ponownie.",
+      "couldNotCreateAccount": "Nie udalo sie jeszcze utworzyc konta.",
+      "createAccountFailed": "Wystapil problem podczas tworzenia konta.",
+      "googleSignupFailed": "Wystapil problem podczas rejestracji przez Google."
+    }
+  },
+  "ForgotPasswordPage": {
+    "title": "Zapomniane haslo",
+    "emailAddress": "Adres e-mail",
+    "newPassword": "Nowe haslo",
+    "confirmPassword": "Potwierdz haslo",
+    "sendResetEmail": "Wyslij e-mail resetujacy",
+    "resetPassword": "Zresetuj haslo",
+    "notAMember": "Nie masz konta?",
+    "joinToday": "Dolacz juz dzis!",
+    "errors": {
+      "emailRequired": "Wpisz adres e-mail.",
+      "emailInvalid": "Ten adres e-mail wyglada na niepoprawny.",
+      "passwordRequired": "Utworz haslo, aby kontynuowac.",
+      "passwordInvalid": "Uzyj co najmniej 8 znakow, w tym cyfry i znaku specjalnego.",
+      "confirmPasswordRequired": "Potwierdz haslo.",
+      "confirmPasswordMismatch": "Hasla nie sa zgodne.",
+      "genericTryAgain": "Cos poszlo nie tak. Sprobuj ponownie."
+    }
+  },
+  "SupportChat": {
+    "talkingTo": "Rozmawiasz z",
+    "supportAgent": "Agentem wsparcia",
+    "typeMessage": "Wpisz wiadomosc...",
+    "send": "Wyslij"
+  },
+  "PurchaseModals": {
+    "common": {
+      "redeemItem": "Wymien przedmiot",
+      "deliveryNotice": "Dostarczenie nagrody moze zajac do 48 godzin. Kazda realizacja podlega weryfikacji i moze zostac odrzucona w przypadku naduzyc.",
+      "description": "Opis",
+      "activationDetails": "Szczegoly aktywacji",
+      "showLess": "Pokaz mniej",
+      "showMore": "Pokaz wiecej",
+      "amountInSparks": "Kwota w Sparks",
+      "claimFor": "Wymien za"
+    },
+    "crypto": {
+      "recipientAddressPlaceholder": "Adres odbiorcy",
+      "toasts": {
+        "enterSparksAmount": "Podaj kwote w Sparks.",
+        "enterRecipientAddress": "Podaj adres odbiorcy."
+      }
+    },
+    "giftcard": {
+      "toasts": {
+        "selectGiftcardAmount": "Wybierz kwote karty podarunkowej."
+      }
+    },
+    "errors": {
+      "sessionVerificationFailed": "Nie mozemy zweryfikowac Twojej sesji. Jesli masz wlaczony adblock, wylacz go, aby kontynuowac.",
+      "sessionTryAgain": "Nie udalo sie zweryfikowac sesji. Sprobuj ponownie.",
+      "failedToRedeemItem": "Nie udalo sie zrealizowac nagrody.",
+      "networkError": "Blad sieci podczas przetwarzania realizacji"
+    },
+    "success": {
+      "redemptionSubmitted": "Zgloszenie realizacji zostalo wyslane."
+    }
+  },
+  "PromocodeModal": {
+    "title": "Zrealizuj kod promocyjny",
+    "description": "Kody promocyjne publikujemy w naszych social mediach i sa dostepne dla ograniczonej liczby uzytkownikow.",
+    "placeholder": "Kod promocyjny",
+    "redeemCode": "Zrealizuj kod"
+  },
+  "UserWithdrawalModal": {
+    "title": "Wyplata",
+    "na": "N/A",
+    "labels": {
+      "reward": "Nagroda",
+      "amount": "Kwota",
+      "destination": "Miejsce docelowe",
+      "imageLinks": "Linki do obrazow",
+      "keys": "Klucze"
+    },
+    "placeholders": {
+      "rewardName": "Nazwa nagrody",
+      "sparksValue": "Wartosc w Sparks",
+      "destination": "Miejsce docelowe"
+    },
+    "actions": {
+      "openReward": "Otworz nagrode",
+      "openImage": "Otworz obraz {index}"
+    }
+  },
+  "Navbar": {
+    "auth": {
+      "login": "Logowanie",
+      "register": "Rejestracja"
+    },
+    "links": {
+      "earn": "Zarabiaj",
+      "redeem": "Wymien",
+      "leaderboard": "Ranking"
+    },
+    "mobile": {
+      "home": "Glowna",
+      "earn": "Zarabiaj",
+      "shop": "Sklep",
+      "leaders": "Liderzy",
+      "refer": "Polecaj",
+      "support": "Wsparcie"
+    },
+    "emailVerification": {
+      "welcome": "Witamy w Sparkvey! Zweryfikuj swoj adres e-mail, zanim zaczniesz zarabiac.",
+      "resend": "Wyslij ponownie e-mail",
+      "sending": "Wysylanie...",
+      "sent": "E-mail wyslany"
+    },
+    "a11y": {
+      "balanceAlt": "Saldo",
+      "avatarAlt": "Awatar"
+    },
+    "toasts": {
+      "resendSuccess": "Wyslalismy ponownie e-mail weryfikacyjny. Sprawdz skrzynke odbiorcza oraz spam.",
+      "resendError": "Nie udalo sie wyslac ponownie e-maila weryfikacyjnego. Sprobuj ponownie."
+    }
+  },
+  "UserDropdown": {
+    "profile": "Profil",
+    "activity": "Aktywnosc",
+    "rewards": "Nagrody",
+    "settings": "Ustawienia",
+    "affiliates": "Program partnerski",
+    "admin": "Administrator",
+    "promocodes": "Kody promocyjne",
+    "signOut": "Wyloguj sie"
+  },
+  "EarnDropdown": {
+    "discover": "Odkrywaj",
+    "tasks": "Zadania",
+    "videos": "Wideo",
+    "ptcPtsu": "PTC / PTSU"
+  },
+  "Notifications": {
+    "title": "Powiadomienia",
+    "none": "Brak powiadomien do wyswietlenia...",
+    "types": {
+      "offerCredited": "Oferta naliczona",
+      "offerHeld": "Oferta wstrzymana",
+      "offerPending": "Oferta oczekujaca",
+      "offerReleased": "Oferta zwolniona",
+      "offerReversal": "Oferta cofnieta",
+      "vipBonusClaimed": "Odebrano bonus VIP"
+    },
+    "messages": {
+      "offerCredited": "Twoja oferta {offerName} o wartosci {offerValue} sparks zostala naliczona.",
+      "offerHeld": "Twoja oferta {offerName} o wartosci {offerValue} sparks jest wstrzymana do {releaseDate}.",
+      "offerPending": "Twoja oferta {offerName} o wartosci {offerValue} sparks jest wstrzymana przez dostawce do {releaseDate}.",
+      "offerReleased": "Twoja oferta {offerName} o wartosci {offerValue} zostala zwolniona.",
+      "offerReversal": "Twoja oferta {offerName} o wartosci {offerValue} zostala cofnieta.",
+      "vipBonusClaimed": "Odebrales bonus VIP {vip} o wartosci {bonusAmount} sparks."
+    }
+  },
+  "NotFound": {
+    "imageAlt": "Nie znaleziono strony",
+    "description": "Strona, ktorej szukasz, nie istnieje.",
+    "backHome": "Wroc na strone glowna"
+  },
+  "Discover": {
+    "sections": {
+      "offerwalls": {
+        "title": "Offerwalle",
+        "description": "Zdobywaj Sparks za wykonywanie ofert"
+      },
+      "featured": {
+        "title": "Polecane",
+        "description": "Sprawdz nasze wybrane oferty"
+      },
+      "recommended": {
+        "title": "Rekomendowane",
+        "description": "Oto oferty, ktore naszym zdaniem moga Ci sie spodobac"
+      },
+      "games": {
+        "title": "Gry",
+        "description": "Zdobywaj Sparks, grajac w gry"
+      },
+      "casino": {
+        "title": "Kasyno",
+        "description": "Zarejestruj sie i graj w ulubionych kasynach, aby zdobywac sparks"
+      },
+      "finance": {
+        "title": "Finanse",
+        "description": "Bankowosc, pozyczki czy karty kredytowe - wszystko w jednym miejscu"
+      },
+      "surveys": {
+        "title": "Ankiety",
+        "description": "Zdobywaj Sparks za wypelnianie ankiet"
+      }
+    }
+  },
+  "DenominationDropdown": {
+    "enterCustomAmount": "Wpisz własną kwotę",
+    "typeAmount": "Wpisz kwotę",
+    "typeSparksAmount": "Kwota w Sparks",
+    "presetLockedPlaceholder": "Wpisz kwotę"
+  },
+  "OfferItem": {
+    "earn": "Zarabiaj",
+    "upTo": "do",
+    "sparksAlt": "Sparks"
+  },
+  "WallItem": {
+    "errors": {
+      "banned": "Twoje konto zostalo zbanowane. Jesli uwazasz, ze to blad, skontaktuj sie z supportem.",
+      "verifyEmail": "Musisz zweryfikowac adres e-mail, zanim zaczniesz realizowac oferty.",
+      "minimumEarn": "Musisz zdobyc co najmniej {amount} Sparks, aby skorzystac z tego offerwalla."
+    },
+    "lockedOverlay": "Zdobadz jeszcze {amount} Sparks, aby odblokowac ten offerwall."
+  },
+  "TasksPage": {
+    "title": "Sposoby zarabiania",
+    "subtitle": "Wyszukaj preferowany sposob zarabiania",
+    "controls": {
+      "sortBy": "Sortuj wedlug",
+      "categories": "Kategorie",
+      "providers": "Dostawcy",
+      "all": "Wszystkie",
+      "searchPlaceholder": "Szukaj sposobow zarabiania..."
+    },
+    "sort": {
+      "highToLow": "Od najwyzszych",
+      "lowToHigh": "Od najnizszych",
+      "featured": "Polecane",
+      "aToZ": "A-Z",
+      "zToA": "Z-A"
+    },
+    "categories": {
+      "apps": "Aplikacje",
+      "games": "Gry",
+      "casino": "Kasyno",
+      "travel": "Podroze",
+      "finance": "Finanse",
+      "extensions": "Rozszerzenia",
+      "freeTrial": "Darmowy okres probny"
+    },
+    "providers": {
+      "lootably": "Lootably",
+      "waxrewards": "WaxRewards",
+      "ayetstudios": "AyetStudios"
+    },
+    "empty": "Ups! Nie znalezlismy ofert pasujacych do tego wyszukiwania.",
+    "loadMore": "Zaladuj wiecej"
+  },
+  "PtcPtsuPage": {
+    "title": "PTC / PTSU",
+    "subtitle": "Zarabiaj za klikniecia i rejestracje",
+    "searchPlaceholder": "Szukaj konkretnych ofert...",
+    "empty": "Ups! Nie znalezlismy ofert pasujacych do tego wyszukiwania.",
+    "loadMore": "Zaladuj wiecej"
+  },
+  "LeaderboardMetadata": {
+    "title": "Sparkvey | Ranking",
+    "description": "Rywalizuj z innymi uzytkownikami i wygrywaj nagrody w rankingu."
+  },
+  "TasksMetadata": {
+    "title": "Sparkvey | Zadania",
+    "description": "Wykonuj zadania i zdobywaj nagrody oraz gotowke."
+  },
+  "PtcPtsuMetadata": {
+    "title": "Sparkvey | Rejestracje i klikniecia",
+    "description": "Zarabiaj za klikniecia i rejestracje"
+  },
+  "RedeemMetadata": {
+    "title": "Sparkvey | Wymien sparks na ulubione nagrody",
+    "description": "Wymien sparks na swoja ulubiona nagrode."
+  },
+  "PrivacyPolicyMetadata": {
+    "title": "Sparkvey | Polityka prywatnosci",
+    "description": "Przeczytaj Polityke prywatnosci Sparkvey."
+  },
+  "TermsOfServiceMetadata": {
+    "title": "Sparkvey | Regulamin",
+    "description": "Przeczytaj Regulamin Sparkvey."
+  },
+  "LegalEnglishOnlyNotice": {
+    "message": "Ten dokument prawny jest obecnie dostepny tylko w jezyku angielskim."
+  },
+  "VideosMetadata": {
+    "title": "Sparkvey | Wideo",
+    "description": "Ogladaj wideo i zdobywaj nagrody oraz gotowke."
+  },
+  "VideosPage": {
+    "title": "Zarabiaj ogladajac",
+    "subtitle": "Wybierz ulubiona platforme do ogladania wideo",
+    "rewardPrefix": "Zarabiaj do",
+    "rewardUnlimited": "bez limitu",
+    "sparksAlt": "Sparks",
+    "platforms": {
+      "cheddar": {
+        "description": "Ogladaj ulubione tresci i zarabiaj"
+      },
+      "mmwatch": {
+        "description": "Ogladaj wideo"
+      }
+    }
+  },
+  "OfferMetadata": {
+    "title": "Sparkvey | {offerName}",
+    "description": "Zdobadz do {reward} Sparks za ukonczenie {offerName}. Korzystaj z ekskluzywnego cashbacku i ofert ze Sparkvey.",
+    "fallbackTitle": "Sparkvey | Oferta",
+    "fallbackDescription": "Wykonuj zadania i zdobywaj nagrody oraz gotowke."
+  },
+  "OfferPage": {
+    "invalidOfferId": "Nieprawidlowe ID oferty",
+    "geoUnavailable": "Ta oferta nie jest obecnie dostepna w Twoim kraju.",
+    "notFoundImageAlt": "Nie znaleziono strony",
+    "notFoundDescription": "Strona, ktorej szukasz, nie istnieje.",
+    "backHome": "Wroc na strone glowna"
+  },
+  "OfferPageClient": {
+    "backToTasks": "Wroc do zadan",
+    "sparksAlt": "Sparks",
+    "sections": {
+      "offerDetails": "Szczegoly oferty",
+      "goalsProgress": "Postep celow",
+      "additionalInformation": "Dodatkowe informacje",
+      "termsAndConditions": "Regulamin",
+      "disclaimer": "Zastrzezenie"
+    },
+    "start": {
+      "default": "Start",
+      "signUpToStart": "Zarejestruj sie, aby zaczac zarabiac",
+      "playEarnUpTo": "Graj i zarabiaj do {amount} sparks",
+      "playEarn": "Graj i zarabiaj {amount} sparks",
+      "playEarnNoAmount": "Graj i zarabiaj",
+      "earnUpTo": "Zarabiaj do {amount} sparks",
+      "earn": "Zarabiaj {amount} sparks"
+    },
+    "toasts": {
+      "verifyEmail": "Musisz zweryfikowac adres e-mail, zanim zaczniesz zarabiac"
+    },
+    "disclaimer": {
+      "pending": "Nagrody moga miec status oczekujacy nawet przez 30 dni",
+      "kyc": "Podejrzane ukonczenia moga zostac uniewaznione i dodatkowo zweryfikowane przez KYC",
+      "termsAgreement": "Realizujac oferte, akceptujesz <terms>Regulamin</terms> i <privacy>Polityke prywatnosci</privacy>",
+      "providedBySparkvey": "Ta oferta jest dostarczana przez Sparkvey.",
+      "providedByProvider": "Ta oferta jest dostarczana przez <provider>{name}</provider>"
+    }
+  },
+  "RewardMetadata": {
+    "shopTitle": "Sparkvey | Wymien sparks na ulubiona gre w sklepie",
+    "shopDescription": "Wymien sparks na ulubiona gre w sklepie.",
+    "sectionTitle": "Sparkvey | Wymien sparks w sekcji {sectionName}",
+    "rewardTitle": "Sparkvey | Wymien sparks na {rewardName}",
+    "rewardDescription": "Wymien {rewardName} w Sparkvey, Twojej ulubionej platformie nagrod. Zdobywaj nagrody i gotowke za ankiety, ogladanie wideo, zakupy online i nie tylko!",
+    "fallbackTitle": "Sparkvey | Wymien sparks na ulubiona nagrode",
+    "fallbackDescription": "Wymien sparks na ulubiona nagrode.",
+    "sections": {
+      "giftcards": {
+        "title": "Karty podarunkowe",
+        "description": "Wymien sparks na ulubiona karte podarunkowa."
+      },
+      "cash": {
+        "title": "Gotowka",
+        "description": "Wymien sparks na gotowke."
+      },
+      "crypto": {
+        "title": "Krypto",
+        "description": "Wymien sparks na ulubione krypto."
+      },
+      "shop": {
+        "title": "Sklep",
+        "description": "Wymien sparks na ulubiona gre w sklepie."
+      }
+    }
+  },
+  "RedeemPage": {
+    "title": "Wymien swoje Sparks",
+    "description": "Wymien zdobyte Sparks bezposrednio na bank, PayPal, krypto lub dowolna karte podarunkowa. Wyplacaj preferowanymi metodami juz od $1.",
+    "disclaimer": {
+      "companies": "Nie reprezentujemy zadnej z firm wymienionych powyzej. Nie jestesmy powiazani z zadna z firm wymienionych powyzej. Nie ponosimy odpowiedzialnosci za zadna z firm wymienionych powyzej.",
+      "withdrawals": "Zastrzegamy sobie prawo do odrzucenia dowolnej realizacji z dowolnego powodu. Wyplaty sa zazwyczaj wysylane w ciagu 48 godzin po sprawdzeniu Twojej prosby i moga potrwac dluzej, jesli musimy zweryfikowac Twoja tozsamosc."
+    },
+    "backToAllRewards": "Wroc do wszystkich nagrod",
+    "searchPlaceholder": "Szukaj sposobow realizacji...",
+    "empty": "Ups! Nie znalezlismy nagrod pasujacych do tego wyszukiwania."
+  },
+  "RewardPage": {
+    "rewardNotFound": "Nie znaleziono nagrody.",
+    "backToAllRewards": "Wroc do wszystkich nagrod",
+    "show": "Pokaz {mode}",
+    "less": "mniej",
+    "more": "wiecej",
+    "redeem": "Wymien",
+    "sparksAlt": "Sparks",
+    "amountInSparks": "Kwota w Sparks",
+    "recipientAddress": "Adres odbiorcy",
+    "enterAddress": "Wpisz adres",
+    "moreRewards": "Wiecej nagrod",
+    "errors": {
+      "sessionVerificationFailed": "Nie mozemy zweryfikowac Twojej sesji. Jesli masz wlaczony adblock, wylacz go, aby kontynuowac. Jesli to blad, napisz na support@sparkvey.com.",
+      "networkError": "Blad sieci podczas przetwarzania realizacji"
+    }
+  },
+  "LeaderboardPage": {
+    "loadingTitle": "Ranking",
+    "weekly": "Tygodniowy",
+    "monthly": "Miesieczny",
+    "title": "{prize} - ranking {period}",
+    "endsIn": "Koniec za",
+    "emptyTimer": "00d 00h 00m 00s",
+    "timerTemplate": "{days}d {hours}h {minutes}m {seconds}s",
+    "totalEarned": "Lacznie zarobione",
+    "reward": "Nagroda",
+    "noUser": "Brak uzytkownika",
+    "sparksAlt": "sparks",
+    "placementOrdinal": "{placement}.",
+    "table": {
+      "place": "Miejsce",
+      "user": "Uzytkownik",
+      "earned": "Zarobiono",
+      "reward": "Nagroda"
+    }
+  },
+  "ProfileGeneral": {
+    "title": "Statystyki",
+    "subtitle": "Sprawdz swoje aktualne zarobki, statystyki i nie tylko",
+    "cards": {
+      "tasks": "Zarobiono z zadan",
+      "videos": "Zarobiono z wideo",
+      "referrals": "Zarobiono z polecen",
+      "shopping": "Zarobiono z zakupow",
+      "promotions": "Zarobiono z promocji"
+    }
+  },
+  "ProfileNav": {
+    "vipLevel": "VIP 0",
+    "earned": "zarobiono",
+    "nextLevel": "Do nastepnego poziomu zostalo 10 000",
+    "referEarn": "Polecaj i zarabiaj 5%",
+    "tabs": {
+      "general": "Ogolne",
+      "rewards": "Nagrody",
+      "activity": "Aktywnosc",
+      "settings": "Ustawienia"
+    }
+  },
+  "ProfileActivity": {
+    "title": "Aktywnosc",
+    "subtitle": "Zobacz cala swoja dotychczasowa aktywnosc",
+    "offer": "Oferta",
+    "cashback": "Cashback",
+    "sparks": "Sparks",
+    "na": "N/A",
+    "empty": "Nie masz jeszcze zadnej aktywnosci - czas zaczac zarabiac.",
+    "table": {
+      "date": "Data",
+      "reward": "Nagroda",
+      "activity": "Aktywnosc",
+      "activityId": "ID aktywnosci",
+      "status": "Status",
+      "releaseDate": "Data zwolnienia",
+      "reversedAt": "Cofnięto dnia"
+    },
+    "extraInformation": {
+      "title": "Dodatkowe informacje",
+      "provider": "Dostawca",
+      "conversionId": "ID konwersji",
+      "activityId": "ID aktywnosci",
+      "offerId": "ID oferty",
+      "retailerId": "ID sprzedawcy"
+    }
+  },
+  "ProfileRewards": {
+    "title": "Poprzednie nagrody",
+    "subtitle": "Zobacz wszystkie wczesniej zrealizowane nagrody",
+    "sparkAlt": "Ikona Spark",
+    "viewDetails": "Zobacz szczegoly",
+    "empty": "Nie zrealizowales jeszcze zadnej nagrody. Zacznij od pierwszej!",
+    "table": {
+      "reward": "Nagroda",
+      "price": "Cena",
+      "value": "Wartosc",
+      "status": "Status",
+      "date": "Data",
+      "actions": "Akcje"
+    }
+  },
+  "ProfileSettings": {
+    "sections": {
+      "accountInformation": "Informacje o koncie",
+      "emailPreferences": "Preferencje e-mail",
+      "sitePreferences": "Preferencje serwisu"
+    },
+    "labels": {
+      "emailAddress": "Adres e-mail",
+      "username": "Nazwa uzytkownika",
+      "paypalEmail": "Adres e-mail PayPal",
+      "freeGifts": "Darmowe prezenty",
+      "marketing": "Marketing",
+      "securityAlerts": "Alerty bezpieczenstwa",
+      "darkMode": "Tryb ciemny"
+    },
+    "placeholders": {
+      "username": "Wpisz nazwe uzytkownika",
+      "paypalEmail": "Wpisz adres e-mail PayPal"
+    },
+    "actions": {
+      "save": "Zapisz",
+      "yes": "Tak",
+      "no": "Nie"
+    },
+    "errors": {
+      "updateInformation": "Wystapil blad podczas aktualizacji Twoich danych.",
+      "updateEmailPreferences": "Wystapil blad podczas aktualizacji preferencji e-mail."
+    }
+  },
+  "VIPSection": {
+    "title": "Program VIP",
+    "subtitle": "Poznaj wszystkie korzysci i nagrody VIP",
+    "none": "Brak",
+    "currentLevel": "Aktualny poziom: {level}",
+    "untilNextLevel": "{current} / {next} do nastepnego poziomu ({level})",
+    "aria": {
+      "scrollLeft": "Przewin karty VIP w lewo",
+      "scrollRight": "Przewin karty VIP w prawo"
+    }
+  },
+  "VIPCard": {
+    "benefits": "Korzysci",
+    "sparksAlt": "Sparks",
+    "actions": {
+      "claim": "Odbierz",
+      "bonus": "Bonus",
+      "claimed": "Odebrano",
+      "locked": "Zablokowane"
+    },
+    "toasts": {
+      "unexpectedError": "Wystapil nieoczekiwany blad",
+      "claimedBonus": "Pomyslnie odebrano bonus {title} o wartosci {amount} Sparks"
+    }
+  },
+  "VIPRanks": {
+    "bronze1": {
+      "title": "Braz 1",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 1,000",
+        "Dostep do giveawayow Discord VIP"
+      ]
+    },
+    "bronze2": {
+      "title": "Braz 2",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 1,000",
+        "Dostep do giveawayow Discord VIP"
+      ]
+    },
+    "bronze3": {
+      "title": "Braz 3",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 1,000",
+        "Dostep do giveawayow Discord VIP"
+      ]
+    },
+    "silver1": {
+      "title": "Srebro 1",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 3,000",
+        "Dostep do giveawayow Discord VIP"
+      ]
+    },
+    "silver2": {
+      "title": "Srebro 2",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 3,000",
+        "Dostep do giveawayow Discord VIP"
+      ]
+    },
+    "silver3": {
+      "title": "Srebro 3",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 3,000",
+        "Dostep do giveawayow Discord VIP"
+      ]
+    },
+    "gold1": {
+      "title": "Zloto 1",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 5,000",
+        "Dostep do giveawayow Discord VIP",
+        "Dostep do ekskluzywnych promocji",
+        "3% bonusu do wszystkich ofert"
+      ]
+    },
+    "gold2": {
+      "title": "Zloto 2",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 5,000",
+        "Dostep do giveawayow Discord VIP",
+        "Dostep do ekskluzywnych promocji",
+        "3% bonusu do wszystkich ofert"
+      ]
+    },
+    "gold3": {
+      "title": "Zloto 3",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 5,000",
+        "Dostep do giveawayow Discord VIP",
+        "Priorytetowe wsparcie",
+        "Dostep do ekskluzywnych promocji",
+        "3% bonusu do wszystkich ofert"
+      ]
+    },
+    "diamond": {
+      "title": "Diament",
+      "benefits": [
+        "<spark> Dzienne limity wyplat: 10,000",
+        "Dostep do giveawayow Discord VIP",
+        "Priorytetowe wsparcie",
+        "Dostep do ekskluzywnych promocji",
+        "5% bonusu do wszystkich ofert"
+      ]
+    }
+  },
+  "CashbackRetailer": {
+    "upToCashback": "Do {amount}% cashbacku"
+  },
+  "AffiliatesPage": {
+    "title": "Program partnerski",
+    "subtitle": "Zarabiaj, polecajac Sparkvey innym uzytkownikom.",
+    "stats": {
+      "referrals": "Polecenia",
+      "totalEarnings": "Laczne zarobki",
+      "pendingEarnings": "Oczekujace zarobki",
+      "maxReferralCodes": "Maksymalna liczba kodow polecajacych"
+    },
+    "inputs": {
+      "enterReferralCode": "Wpisz kod polecajacy",
+      "referralPrefix": "https://sparkvey.com?ref="
+    },
+    "actions": {
+      "useCode": "Uzyj kodu",
+      "claimed": "Aktywny",
+      "createCode": "Utworz kod"
+    },
+    "table": {
+      "code": "Kod",
+      "totalEarnings": "Laczne zarobki",
+      "tasksCompleted": "Ukonczone zadania",
+      "createdAt": "Data utworzenia"
+    },
+    "empty": {
+      "noCodes": "Nie utworzyles jeszcze zadnych kodow polecajacych - <action>zaczynajmy</action>."
+    },
+    "graph": {
+      "statistics": "Statystyki",
+      "earnings": "Zarobki",
+      "sparksEarned": "Zdobyte Sparks",
+      "periods": {
+        "day": "Dzien",
+        "week": "Tydzien",
+        "month": "Miesiac",
+        "year": "Rok"
+      }
+    },
+    "a11y": {
+      "referralsAlt": "Polecenia",
+      "sparksAlt": "Sparks"
+    },
+    "toasts": {
+      "useCodeFailed": "Nie udalo sie uzyc kodu",
+      "useCodeSuccess": "Korzystasz teraz z kodu polecajacego: {code}",
+      "createCodeSuccess": "Kod partnerski zostal utworzony pomyslnie",
+      "createCodeFailed": "Nie udalo sie utworzyc kodu partnerskiego",
+      "fetchGraphFailed": "Nie udalo sie pobrac danych wykresu",
+      "copyCodeSuccess": "Kod skopiowano do schowka"
+    }
+  }
+}

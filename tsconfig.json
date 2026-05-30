@@ -15,7 +15,42 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "types/*": [
+        "./types/*",
+        "./src/types/*"
+      ],
+      "@i18n/*": [
+        "./src/i18n/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
+      ],
+      "@hooks/*": [
+        "./src/app/_hooks/*"
+      ],
+      "@contexts/*": [
+        "./src/app/_contexts/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@styles/*": [
+        "./src/app/_styles/*"
+      ],
+      "@components/*": [
+        "./src/app/_components/*",
+        "./src/app/_loadingComponents/*"
+      ],
+      "@layouts/*": [
+        "./src/app/_layouts/*"
+      ],
+      "@public/*": [
+        "./public/*"
+      ]
+    }
   },
   "include": [
     "next-env.d.ts",
@@ -24,8 +59,8 @@
     ".next/types/**/*.ts",
     ".eslintrc.cjs",
     "next.config.ts",
-    "./jest.declarations.d.ts", 
-    "newtcp.js"  
+    "./jest.declarations.d.ts",
+    "newtcp.js"
   ],
   "exclude": [
     "node_modules",

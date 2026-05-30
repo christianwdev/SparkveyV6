@@ -1,0 +1,103 @@
+@use './variables.scss' as *;
+
+:root {
+  --background: #F3F5F9;
+  --offbackground: #F6F9FF;
+  --off-white: #FEFEFE;
+  --light-blue: #E9EEF9;
+  --border-light: rgba(111, 116, 135, 0.25);
+  --text-bold: #011F1D;
+  --text-light: #6F7487;
+  --text-light-link: #6F7487;
+  --light-gray: oklch(.985 0 0);
+  --profile-img: url("/img/backgrounds/profile.webp");
+
+  --accentColor: #9E38D0;
+  --off-black: #1D2736;
+  --landing-background: #FFFFFF;
+  --hover-off-black: #111a27;
+  --text-white: white;
+  --dark: none;
+  --light: block;
+}
+
+:root[data-theme='dark'] {
+  --background: #121212;
+  --text-bold: white;
+  --text-light-link: white;
+  --text-light: #6F7487;
+  --off-white: #1D1D1D;
+  --offbackground: #202020;
+  --light-blue: #232325;
+  --light-gray: oklch(.175 0 0);
+  --profile-img: url("/img/backgrounds/profiledark.webp");
+
+  --off-black: white;
+  --landing-background: #0A0F16;
+  --hover-off-black: #DADCE0;
+  --text-white: black;
+  --dark: block;
+  --light: none;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-roboto), sans-serif;
+}
+
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+html,
+body {
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+
+  height: auto;
+  min-height: 100vh;
+  max-width: 100vw;
+  background: $background;
+  color: $text-bold;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  min-height: 1080px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.whiteImage {
+  filter: grayscale(1) brightness(100);
+}
+
+.blackToWhiteImage {
+  filter: invert(100);
+}
+
+/* Web component host — em-based box is correct */
+iconify-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  color: inherit;
+}
+
+/*
+ * @iconify/react sets width/height on the <svg>; do not override with 1em here
+ * (author CSS beats SVG presentation attributes and shrinks every icon).
+ */
+svg.iconify {
+  display: inline-block;
+}

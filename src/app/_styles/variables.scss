@@ -1,0 +1,183 @@
+$max-width: 1920px;
+$border-radius: 12px;
+$navbar-height: 75px;
+$navbar-margin: 30px;
+$padding: min(160px, 10%);
+
+$topnav-z-index: 3;
+
+// device sizes
+$desktop: 1920px;
+$large-tablet: 1600px;
+$tablet: 1280px;
+$small-tablet: 1024px;
+$large-phone: 768px;
+$phone: 540px;
+$small-phone: 400px;
+
+$background: var(--background);
+$offbackground: var(--offbackground);
+$off-white: var(--off-white);
+$light-blue: var(--light-blue);
+$text-light-link: var(--text-light-link);
+$profile-img: var(--profile-img);
+
+$border-light: var(--border-light);
+$light-gray: var(--light-gray);
+
+$text-bold: var(--text-bold);
+$text-light: var(--text-light);
+$purple: #9E38D0;
+$primary: #4A3FD0;
+$green: #3FD067;
+$red: #F32525;
+$yellow: #ffcd00;
+$orange: #FF8000;
+
+$accentColor: var(--accentColor);
+$off-black: var(--off-black);
+$landing-background: var(--landing-background);
+$hover-off-black: var(--hover-off-black);
+$text-white: var(--text-white);
+$dark: var(--dark);
+$light: var(--light);
+
+@mixin standardPadding {
+  padding: 0 min(160px, 10%) 80px min(160px, 10%);
+
+  @media screen and (max-width: $phone) {
+    padding: 0 20px 80px 20px;
+  }
+}
+
+@mixin scrollableGridLayout {
+  --items-per-view: 7;
+  --gap: 16px;
+
+  display: grid;
+  grid-auto-flow: column;
+  gap: var(--gap);
+  grid-auto-columns: calc((100% - (var(--items-per-view) - 1) * var(--gap)) / var(--items-per-view) - 0.1px);
+
+  @media screen and (max-width: $large-tablet) {
+    --items-per-view: 6;
+  }
+
+  @media screen and (max-width: $tablet) {
+    --items-per-view: 5;
+  }
+
+  @media screen and (max-width: $small-tablet) {
+    --items-per-view: 4;
+  }
+
+  @media screen and (max-width: $large-phone) {
+    --items-per-view: 3;
+  }
+
+  @media screen and (max-width: 650px) {
+    --items-per-view: 2.5;
+  }
+
+  @media screen and (max-width: $phone) {
+    --items-per-view: 2;
+  }
+
+  @media screen and (max-width: $small-phone) {
+    --items-per-view: 1.5;
+  }
+
+  @media screen and (max-width: 320px) {
+    --items-per-view: 1;
+  }
+}
+
+@mixin extendedGridLayout {
+  --items-per-view: 5;
+  --gap: 16px;
+
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(var(--items-per-view), 1fr);
+  grid-auto-rows: auto;
+
+  @media screen and (max-width: $large-tablet) {
+    --items-per-view: 4;
+  }
+
+  @media screen and (max-width: $small-tablet) {
+    --items-per-view: 3;
+  }
+
+  @media screen and (max-width: $phone) {
+    --items-per-view: 2;
+  }
+
+  @media screen and (max-width: 320px) {
+    --items-per-view: 1;
+  }
+}
+
+@mixin gridLayout {
+  --items-per-view: 7;
+  --gap: 16px;
+
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(var(--items-per-view), 1fr);
+  grid-auto-rows: auto;
+
+  @media screen and (max-width: $large-tablet) {
+    --items-per-view: 6;
+  }
+
+  @media screen and (max-width: $tablet) {
+    --items-per-view: 5;
+  }
+
+  @media screen and (max-width: $small-tablet) {
+    --items-per-view: 4;
+  }
+
+  @media screen and (max-width: $large-phone) {
+    --items-per-view: 3;
+  }
+
+  @media screen and (max-width: $phone) {
+    --items-per-view: 2;
+  }
+
+  @media screen and (max-width: 320px) {
+    --items-per-view: 1;
+  }
+}
+
+@mixin clamp-lines($lines) {
+  // https://stackoverflow.com/questions/3922739/limit-text-length-to-n-lines-using-css
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+@mixin pulse {
+  animation: 1.5s infinite forwards pulse;
+
+  @keyframes pulse {
+        100% {
+          opacity: 1;
+        }
+    
+        50% {
+          opacity: 0.75;
+        }
+      
+        100% {
+          opacity: 1;
+        }
+    }
+}
+
+
