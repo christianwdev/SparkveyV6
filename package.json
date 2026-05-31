@@ -28,6 +28,7 @@
     "concurrently": "9.0.1",
     "cross-env": "10.1.0",
     "dayjs": "1.11.21",
+    "google-auth-library": "10.6.2",
     "hono": "4.12.16",
     "ioredis": "5.10.1",
     "mongodb": "7.2.0",

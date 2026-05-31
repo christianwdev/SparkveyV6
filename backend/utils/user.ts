@@ -21,6 +21,7 @@ export async function createUser(
     avatar,
     passwordHash,
     emailVerifiedAt,
+    referredBy,
   }: {
     email?: string;
     googleID?: string;
@@ -28,6 +29,7 @@ export async function createUser(
     avatar?: string;
     passwordHash?: string;
     emailVerifiedAt?: Date;
+    referredBy?: string;
   },
 ): Promise<FunctionResponse<InternalUser>> {
   try {
@@ -37,6 +39,7 @@ export async function createUser(
 
     const googleInformation = googleID ? {
       id: googleID,
+      emailAddress: email,
       verifiedAt: new Date(),
     } : undefined;
 
@@ -100,7 +103,7 @@ export async function createUser(
       },
 
       referralInformation: {
-        referredBy: undefined,
+        referredBy,
         referredByID: undefined,
       },
 

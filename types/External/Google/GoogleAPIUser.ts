@@ -1,7 +1,8 @@
 type GoogleAPIUser = {
-  email: string,
-  avatar: string,
-  id: string,
+  aud: string,
+  sub: string,
+  email?: string,
+  picture?: string,
 };
 
 export default GoogleAPIUser;
