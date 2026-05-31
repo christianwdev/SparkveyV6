@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { createId } from '@paralleldrive/cuid2';
 import { cors } from 'hono/cors';
 import { serve } from 'bun';
 import { Server } from 'socket.io';
@@ -17,7 +18,7 @@ import { createDistributedLock } from './backend/utils/distributedLock';
 
 const BACKEND_PORT = process.env.PORT ? +process.env.PORT : 6060;
 
-const app = new Hono();
+const app = new Hono<{ Variables: { requestID: string } }>();
 
 const [
   [ db, client ],
@@ -59,7 +60,9 @@ app.use(cors({
 }));
 
 // Allows us to pass in our DB instance to all our middleware
-app.use(async (context, next) => {
+app.use(async (c, next) => {
+  c.set('requestID', createId());
+
   await next();
 });
 

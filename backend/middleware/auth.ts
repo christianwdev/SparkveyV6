@@ -1,10 +1,9 @@
 // Utils
-import { consumeSession, getSessionByID } from '../utils/session';
+import { consumeSession } from '../utils/session';
 import { getRawUser } from '../utils/user';
 import { getCookie } from 'hono/cookie';
 import { getIPFromRequest } from '../utils/request';
 import { sendResponse } from '../utils/response';
-import { SESSION_COOKIE_NAME } from '../utils/cookies';
 
 // Types
 import type { Context, Next } from 'hono';

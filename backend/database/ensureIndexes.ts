@@ -30,6 +30,21 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
+  await db.collection(DatabaseCollections.postbackLogs).createIndexes([
+    {
+      key: { requestID: 1 },
+      name: 'requestID',
+    },
+    {
+      key: { status: 1, date: -1 },
+      name: 'status_date',
+    },
+    {
+      key: { provider: 1, failureReason: 1 },
+      name: 'provider_failureReason',
+    },
+  ]);
+
   await db.collection(DatabaseCollections.emailActionables).createIndexes([
     {
       key: { actionableID: 1 },

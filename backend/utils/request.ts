@@ -24,6 +24,21 @@ export const withRouteErrorHandling = createMiddleware(async (c, next) => {
   }
 });
 
+export function normalizeQuery(
+  query: Record<string, string | string[] | undefined>,
+): Record<string, string | undefined> {
+  const normalized: Record<string, string | undefined> = {};
+  for (const [ key, value ] of Object.entries(query)) {
+    if (value === undefined) {
+      normalized[key] = undefined;
+      continue;
+    }
+    normalized[key] = Array.isArray(value) ? value[0] : value;
+  }
+
+  return normalized;
+}
+
 export function getIPFromRequest(c: Context): string | undefined {
   let forwarded = c.req.header('cf-connecting-ip') as string;
   const passthrough = c.req.header('nextjs-passthrough-ip') as string;

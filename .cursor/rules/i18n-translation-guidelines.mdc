@@ -1,0 +1,56 @@
+---
+description: Guide AI translations using English as canonical source
+globs:
+  - nextjs/src/messages/*.json
+  - nextjs/src/i18n/**/*
+alwaysApply: false
+---
+
+# i18n Translation Guidelines
+
+## Core Rule
+- Treat `nextjs/src/messages/en.json` as the source of truth.
+- Keep every locale file in `nextjs/src/messages/*.json` aligned to the same namespaces and key paths as `en.json` (currently: `es`, `de`, `fr`, `it`, `ja`, `ko`, `pl`, `pt`).
+- Do not change locale routing defaults unless explicitly requested.
+
+## Required Behavior
+- When adding or editing text, update English first, then mirror the same key path in all other locale files.
+- Preserve ICU placeholders exactly (same names and braces), e.g. `{amount}`, `{code}`, `{rewardName}`.
+- Keep key structure stable; do not rename/move keys unless asked.
+- For metadata strings, keep parity across all locale files and preserve matching key names.
+- Prefer concise copy that is close in visual length to English when possible, especially for nav items, buttons, hero headings, and animated text.
+- If a direct translation is much longer, rewrite to a natural but shorter equivalent rather than literal wording.
+- Never introduce manual line breaks (`\n`) or formatting hacks to force wrapping.
+- Before finishing, verify the edited key path exists in every locale file.
+
+## Safe Edit Examples
+
+### Add new key from English base
+```json
+// en.json
+"RewardMetadata": { "newBanner": "Redeem faster this week" }
+// every other locale file (same key path)
+"RewardMetadata": { "newBanner": "<localized string>" }
+```
+
+### Update existing key in both locales
+```json
+// en.json
+"Common": { "loading": "Loading rewards..." }
+// every other locale file (same key path)
+"Common": { "loading": "<localized string>" }
+```
+
+### Preserve placeholders exactly
+```json
+// en.json
+"cashbackLine": "Get up to {amount} back"
+// every other locale file (same placeholder token)
+"cashbackLine": "<localized text with {amount}>"
+```
+
+### Metadata parity
+```json
+// keep same paths in every locale file
+"TermsOfServiceMetadata": { "title": "...", "description": "..." }
+```
