@@ -1,8 +1,6 @@
 import { Hono } from 'hono';
 
-import SiteConfig from '../../config/config';
-import { getPostbackProvider, validationFailureToLogFields } from '../../schemas/postback';
-import { logPendingPostback, updatePostbackLog } from '../../utils/postback';
+import { logPendingPostback, processPostback, updatePostbackLog } from '../../utils/postback';
 import { getIPFromRequest, normalizeQuery, withRouteErrorHandling } from '../../utils/request';
 
 const app = new Hono<{ Variables: { requestID: string } }>();
@@ -30,41 +28,26 @@ export default function routesInvoker() {
       const routeProvider = c.req.param('provider');
 
       try {
-        const provider = getPostbackProvider(routeProvider);
+        const { provider, ok, logUpdate } = processPostback({
+          routeProvider,
+          query: normalizeQuery(c.req.query()),
+          remoteIP: getIPFromRequest(c),
+          context: c,
+        });
 
         if (!provider) {
-          await updatePostbackLog(requestID, {
-            status: 'failed',
-            failureReason: 'unknown_provider',
-            failureDetail: `No provider registered for "${routeProvider}".`,
-          });
+          await updatePostbackLog(requestID, logUpdate);
 
           return c.json({ success: false, message: 'Unknown provider' }, 404);
         }
 
-        const result = provider.validate({
-          query: normalizeQuery(c.req.query()),
-          remoteIP: getIPFromRequest(c),
-        }, c);
+        await updatePostbackLog(
+          requestID,
+          logUpdate,
+          ok ? { unsetFailureFields: true } : undefined,
+        );
 
-        if (result.ok) {
-          await updatePostbackLog(requestID, {
-            status: 'completed',
-            resolvedProviderId: provider.id,
-            normalized: result.normalized,
-            ...(SiteConfig.postback.disableSecurityChecks && { securityChecksSkipped: true }),
-          });
-
-          return provider.respond(c, true);
-        }
-
-        await updatePostbackLog(requestID, {
-          status: 'failed',
-          resolvedProviderId: provider.id,
-          ...validationFailureToLogFields(result),
-        });
-
-        return provider.respond(c, false);
+        return provider.respond(c, ok);
       } catch (err) {
         await updatePostbackLog(requestID, {
           status: 'failed',

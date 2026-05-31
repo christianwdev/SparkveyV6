@@ -28,6 +28,8 @@ type InternalPostbackRequest = {
 
   /** Set when POSTBACK_DISABLE_SECURITY bypass was active for this request */
   securityChecksSkipped?: boolean;
+  retryCount?: number;
+  lastRetriedAt?: Date;
 };
 
 export default InternalPostbackRequest;
