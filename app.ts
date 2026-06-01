@@ -3,6 +3,7 @@ import { createId } from '@paralleldrive/cuid2';
 import { cors } from 'hono/cors';
 import { serve } from 'bun';
 import { Server } from 'socket.io';
+import type { TypedServer } from 'types/SocketEvents';
 import { createAdapter } from '@socket.io/redis-adapter';
 import { Server as Engine } from '@socket.io/bun-engine';
 
@@ -31,7 +32,7 @@ const [
 const redisPubClient = redisClient.duplicate();
 const redisSubClient = redisClient.duplicate();
 
-const io = new Server({
+const io: TypedServer = new Server({
   pingTimeout: 5000,
   adapter: createAdapter(redisPubClient, redisSubClient),
 });

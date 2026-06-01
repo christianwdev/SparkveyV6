@@ -4,7 +4,7 @@ import RouteResponseError from 'types/RouteResponseError';
 
 // Types
 import type { Context } from 'hono';
-import type { Socket } from 'socket.io';
+import type { TypedSocket } from 'types/SocketEvents';
 
 export const withRouteErrorHandling = createMiddleware(async (c, next) => {
   try {
@@ -58,7 +58,7 @@ export function getCountryFromRequest(c: Context): string | undefined {
   return process.env.NODE_ENV !== 'production' ? 'US' : undefined;
 }
 
-export function getIPFromSocket(socket: Socket): string | undefined {
+export function getIPFromSocket(socket: TypedSocket): string | undefined {
   let forwarded = socket.handshake.headers['cf-connecting-ip'];
   const passthrough = socket.handshake.headers['nextjs-passthrough-ip'];
   const forwardedFor = socket.handshake.headers['x-forwarded-for'];

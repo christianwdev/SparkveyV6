@@ -1,7 +1,7 @@
 // Types
 import type { MongoClient, Db } from 'mongodb';
 import type Redis from 'ioredis';
-import type { Server } from 'socket.io';
+import type { TypedServer } from 'types/SocketEvents';
 import type { DistributedLock } from '../backend/utils/distributedLock';
 
 type GlobalObject = {
@@ -10,7 +10,7 @@ type GlobalObject = {
   redisClient: Redis,
   redisPubClient: Redis,
   redisSubClient: Redis,
-  io: Server,
+  io: TypedServer,
   distributedLock?: DistributedLock,
 };
 

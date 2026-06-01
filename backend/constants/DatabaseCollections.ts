@@ -3,6 +3,7 @@ const DatabaseCollections = {
   userSessions: 'userSessions',
   emailActionables: 'emailActionables',
   postbackLogs: 'postbackLogs',
+  userEarnings: 'userEarnings',
 };
 
 export default DatabaseCollections;
