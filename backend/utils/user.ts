@@ -277,11 +277,7 @@ export async function updateUserBalance({
       },
     );
 
-    if (!user) {
-      await session.abortTransaction();
-
-      return { ok: false, error: 'notFound' };
-    }
+    if (!user) throw new Error('notFound');
 
     const now = new Date();
     const transaction: InternalTransaction = {
@@ -295,23 +291,11 @@ export async function updateUserBalance({
     };
 
     const insertResult = await db.collection<InternalTransaction>(DatabaseCollections.userTransactions).insertOne(
-      {
-        transactionID: createId(),
-        userID,
-        balanceType,
-        balanceChange,
-        balanceAfter: user.balance[ balanceType ],
-        createdAt: now,
-        updatedAt: now,
-      },
+      transaction,
       { session },
     );
 
-    if (!insertResult.acknowledged) {
-      await session.abortTransaction();
-
-      return { ok: false, error: 'internalServerError' };
-    }
+    if (!insertResult.acknowledged) throw new Error('internalServerError');
 
     await session.commitTransaction();
 
@@ -321,6 +305,10 @@ export async function updateUserBalance({
   } catch (error) {
     if (session.inTransaction()) {
       await session.abortTransaction();
+    }
+
+    if (error instanceof Error && error.message === 'notFound') {
+      return { ok: false, error: 'notFound' };
     }
 
     console.error(error);
