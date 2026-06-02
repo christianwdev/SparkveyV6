@@ -1,11 +1,13 @@
 import { createId } from '@paralleldrive/cuid2';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
+import SocketEmits from 'backend/constants/SocketEmits';
 
 // Types
 import type { Filter, WithId } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
 import type InternalUser from 'types/InternalUser';
+import type InternalTransaction from 'types/Transactions/InternalTransaction';
 import type SanitizedUser from 'types/SanitizedUser';
 
 function sanitizeSocialLink(link?: { id?: string, verifiedAt?: Date }): SanitizedUser['socialInformation'][keyof SanitizedUser['socialInformation']] {
@@ -233,6 +235,99 @@ export async function updateUserPassword(
     console.error(error);
 
     return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export type UserDocumentIncrement = {
+  [K in keyof InternalUser['statistics']['earned'] as `statistics.earned.${K}`]?: number;
+} & {
+  'statistics.withdrawn'?: number;
+};
+
+export async function updateUserBalance({
+  userID,
+  balanceType = 'sparks',
+  balanceChange,
+  inc,
+}: {
+  userID: string;
+  balanceType?: keyof InternalUser['balance'];
+  balanceChange: number;
+  inc?: UserDocumentIncrement;
+}): Promise<FunctionResponse<{ user: InternalUser; transaction: InternalTransaction }>> {
+  const { db, mongoClient, io } = getGlobalObject();
+  const session = mongoClient.startSession();
+
+  try {
+    session.startTransaction();
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      {
+        userID,
+      },
+      {
+        $inc: {
+          [`balance.${balanceType}`]: balanceChange,
+          ...inc,
+        },
+      },
+      {
+        returnDocument: 'after',
+        session,
+      },
+    );
+
+    if (!user) {
+      await session.abortTransaction();
+
+      return { ok: false, error: 'notFound' };
+    }
+
+    const now = new Date();
+    const transaction: InternalTransaction = {
+      transactionID: createId(),
+      userID,
+      balanceType,
+      balanceChange,
+      balanceAfter: user.balance[ balanceType ],
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const insertResult = await db.collection<InternalTransaction>(DatabaseCollections.userTransactions).insertOne(
+      {
+        transactionID: createId(),
+        userID,
+        balanceType,
+        balanceChange,
+        balanceAfter: user.balance[ balanceType ],
+        createdAt: now,
+        updatedAt: now,
+      },
+      { session },
+    );
+
+    if (!insertResult.acknowledged) {
+      await session.abortTransaction();
+
+      return { ok: false, error: 'internalServerError' };
+    }
+
+    await session.commitTransaction();
+
+    io.to(userID).emit(SocketEmits.userBalanceChange, user.balance[ balanceType ]);
+
+    return { ok: true, data: { user, transaction } };
+  } catch (error) {
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
+
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  } finally {
+    await session.endSession();
   }
 }
 

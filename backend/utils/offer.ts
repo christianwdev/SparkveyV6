@@ -1,16 +1,15 @@
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { createUserNotification } from 'backend/utils/notifications';
+import { updateUserBalance } from 'backend/utils/user';
 
 // Constants
-import SocketEmits from "backend/constants/SocketEmits";
 import DatabaseCollections from "backend/constants/DatabaseCollections";
 
 // Types
 import type { InternalOfferEarning } from "types/Earnings/InternalEarning";
 import type { NormalizedPostback } from "types/Postback/NormalizedPostback";
 import type FunctionResponse from "types/FunctionResponse";
-import type InternalUser from "types/InternalUser";
 
 async function getHoldDuration({
   offerID,
@@ -38,21 +37,14 @@ async function creditOfferConversion(
   conversion: InternalOfferEarning,
   postback: NormalizedPostback,
 ): Promise<void> {
-  const { db, io } = getGlobalObject();
-
-  const userUpdate = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
-    { userID: conversion.userID },
-    {
-      $inc: {
-        'balance.sparks': conversion.value,
-        'statistics.earned.offers': conversion.value,
-        'statistics.earned.total': conversion.value,
-      },
+  await updateUserBalance({
+    userID: conversion.userID,
+    balanceChange: conversion.value,
+    inc: {
+      'statistics.earned.offers': conversion.value,
+      'statistics.earned.total': conversion.value,
     },
-    { returnDocument: 'after' },
-  );
-
-  io.to(conversion.userID).emit(SocketEmits.userBalanceChange, userUpdate?.balance.sparks);
+  });
 
   void createUserNotification({
     userID: conversion.userID,
@@ -70,7 +62,7 @@ async function reverseOfferConversion(
   conversion: InternalOfferEarning,
   postback: NormalizedPostback,
 ): Promise<FunctionResponse<InternalOfferEarning>> {
-  const { db, io } = getGlobalObject();
+  const { db } = getGlobalObject();
 
   const updatedConversion = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOneAndUpdate(
     {
@@ -103,19 +95,14 @@ async function reverseOfferConversion(
   });
 
   if (conversion.status === 'completed') {
-    const userUpdate = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
-      { userID: conversion.userID },
-      {
-        $inc: {
-          'balance.sparks': -conversion.value,
-          'statistics.earned.offers': -conversion.value,
-          'statistics.earned.total': -conversion.value,
-        },
+    await updateUserBalance({
+      userID: conversion.userID,
+      balanceChange: -conversion.value,
+      inc: {
+        'statistics.earned.offers': -conversion.value,
+        'statistics.earned.total': -conversion.value,
       },
-      { returnDocument: 'after' },
-    );
-
-    io.to(conversion.userID).emit(SocketEmits.userBalanceChange, userUpdate?.balance.sparks);
+    });
   }
 
   if (!updatedConversion) return { ok: false, error: 'internalError' };

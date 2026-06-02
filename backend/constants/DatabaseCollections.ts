@@ -5,6 +5,7 @@ const DatabaseCollections = {
   postbackLogs: 'postbackLogs',
   userEarnings: 'userEarnings',
   userNotifications: 'userNotifications',
+  userTransactions: 'userTransactions',
 };
 
 export default DatabaseCollections;
