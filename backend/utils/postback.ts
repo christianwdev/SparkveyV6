@@ -7,6 +7,7 @@ import { getPostbackProvider, validationFailureToLogFields } from 'backend/schem
 import type { PostbackQuery } from 'types/Postback/PostbackValidation';
 import type InternalPostbackRequest from 'types/InternalPostbackRequest';
 
+import { handleOfferPostback } from './offer';
 import { getIPFromRequest, normalizeQuery } from './request';
 
 export type UpdatePostbackLogFields = Partial<
@@ -41,6 +42,34 @@ export type RetryPostbackResult = {
     failureDetail?: InternalPostbackRequest['failureDetail'];
   };
 };
+
+export type FulfillPostbackResult = {
+  respondOk: boolean;
+  logUpdate: UpdatePostbackLogFields;
+};
+
+function processingFailureFromError(error: string): Pick<
+  UpdatePostbackLogFields,
+  'failureReason' | 'failureDetail'
+> {
+  switch (error) {
+    case 'invalidStatus':
+      return {
+        failureReason: 'processing_failed',
+        failureDetail: 'Postback status cannot be applied to an existing conversion.',
+      };
+    case 'invalidUser':
+      return {
+        failureReason: 'processing_failed',
+        failureDetail: 'Postback is missing a resolvable user.',
+      };
+    default:
+      return {
+        failureReason: 'internal_error',
+        failureDetail: `Offer processing failed: ${error}`,
+      };
+  }
+}
 
 const FAILURE_FIELDS_TO_CLEAR = [
   'failureReason',
@@ -116,6 +145,53 @@ export function processPostback({
   };
 }
 
+export async function fulfillPostback(
+  requestID: string,
+  logUpdate: UpdatePostbackLogFields,
+): Promise<FulfillPostbackResult> {
+  const normalized = logUpdate.normalized;
+
+  if (!normalized) {
+    return {
+      respondOk: false,
+      logUpdate: {
+        ...logUpdate,
+        status: 'failed',
+        failureReason: 'internal_error',
+        failureDetail: 'Missing normalized postback after validation.',
+      },
+    };
+  }
+
+  if (normalized.skipProcessing) {
+    return {
+      respondOk: true,
+      logUpdate: { ...logUpdate, status: 'completed' },
+    };
+  }
+
+  const result = await handleOfferPostback({
+    postbackInformation: normalized,
+    requestID,
+  });
+
+  if (result.ok || result.error === 'alreadyHandled') {
+    return {
+      respondOk: true,
+      logUpdate: { ...logUpdate, status: 'completed' },
+    };
+  }
+
+  return {
+    respondOk: false,
+    logUpdate: {
+      ...logUpdate,
+      status: 'failed',
+      ...processingFailureFromError(result.error),
+    },
+  };
+}
+
 export async function getPostbackLog(requestID: string) {
   return postbackLogs().findOne({ requestID });
 }
@@ -179,13 +255,34 @@ export async function retryPostbackLog(requestID: string): Promise<RetryPostback
     context: createReplayContext(),
   });
 
-  if (ok) {
-    await updatePostbackLog(
-      requestID,
-      { ...logUpdate, retryCount, lastRetriedAt: new Date() },
-      { unsetFailureFields: true },
-    );
+  if (!ok) {
+    await updatePostbackLog(requestID, {
+      ...logUpdate,
+      retryCount,
+      lastRetriedAt: new Date(),
+    });
 
+    return {
+      success: false,
+      message: 'Postback replay failed validation',
+      data: {
+        ok: false,
+        retryCount,
+        failureReason: logUpdate.failureReason,
+        failureDetail: logUpdate.failureDetail,
+      },
+    };
+  }
+
+  const { respondOk, logUpdate: fulfilledLogUpdate } = await fulfillPostback(requestID, logUpdate);
+
+  await updatePostbackLog(
+    requestID,
+    { ...fulfilledLogUpdate, retryCount, lastRetriedAt: new Date() },
+    respondOk ? { unsetFailureFields: true } : undefined,
+  );
+
+  if (respondOk) {
     return {
       success: true,
       message: 'Postback replay succeeded',
@@ -193,20 +290,14 @@ export async function retryPostbackLog(requestID: string): Promise<RetryPostback
     };
   }
 
-  await updatePostbackLog(requestID, {
-    ...logUpdate,
-    retryCount,
-    lastRetriedAt: new Date(),
-  });
-
   return {
     success: false,
-    message: 'Postback replay failed validation',
+    message: 'Postback replay failed processing',
     data: {
       ok: false,
       retryCount,
-      failureReason: logUpdate.failureReason,
-      failureDetail: logUpdate.failureDetail,
+      failureReason: fulfilledLogUpdate.failureReason,
+      failureDetail: fulfilledLogUpdate.failureDetail,
     },
   };
 }

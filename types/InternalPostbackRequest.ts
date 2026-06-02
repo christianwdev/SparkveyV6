@@ -4,6 +4,7 @@ export type PostbackLogFailureReason =
   | 'unknown_provider'
   | 'invalid_params'
   | 'security_failed'
+  | 'processing_failed'
   | 'internal_error';
 
 export type PostbackLogValidationIssue = {

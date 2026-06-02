@@ -42,9 +42,26 @@ export class AdscendPostbackProvider extends PostbackProvider<AdscendQuery> {
   }
 
   normalize(data: AdscendQuery): NormalizedPostbackFields {
+    if (data.status === '3') {
+      return {
+        user: data.user,
+        value: parseRevenue(data.value),
+        usdValue: parseRevenue(data.usdValue),
+        offerID: data.offerID,
+        offerName: data.offerName,
+        conversionID: data.conversionID,
+        status: 'completed',
+        skipProcessing: true,
+        offerDisplayName: data.offerDisplayName,
+        userIP: data.userIP,
+        eventName: data.eventName,
+        eventID: data.eventID,
+      };
+    }
+
     let status: NormalizedPostbackStatus = 'completed';
 
-    if (data.status === '3' || data.status === '2') {
+    if (data.status === '2') {
       status = 'reversed';
     }
 

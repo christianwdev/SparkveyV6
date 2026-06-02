@@ -1,6 +1,11 @@
 import { Hono } from 'hono';
 
-import { logPendingPostback, processPostback, updatePostbackLog } from '../../utils/postback';
+import {
+  fulfillPostback,
+  logPendingPostback,
+  processPostback,
+  updatePostbackLog,
+} from '../../utils/postback';
 import { getIPFromRequest, normalizeQuery, withRouteErrorHandling } from '../../utils/request';
 
 const app = new Hono<{ Variables: { requestID: string } }>();
@@ -41,13 +46,24 @@ export default function routesInvoker() {
           return c.json({ success: false, message: 'Unknown provider' }, 404);
         }
 
-        await updatePostbackLog(
+        if (!ok) {
+          await updatePostbackLog(requestID, logUpdate);
+
+          return provider.respond(c, false);
+        }
+
+        const { respondOk, logUpdate: fulfilledLogUpdate } = await fulfillPostback(
           requestID,
           logUpdate,
-          ok ? { unsetFailureFields: true } : undefined,
         );
 
-        return provider.respond(c, ok);
+        await updatePostbackLog(
+          requestID,
+          fulfilledLogUpdate,
+          respondOk ? { unsetFailureFields: true } : undefined,
+        );
+
+        return provider.respond(c, respondOk);
       } catch (err) {
         await updatePostbackLog(requestID, {
           status: 'failed',

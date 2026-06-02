@@ -12,9 +12,17 @@ import type { NormalizedPostback } from "types/Postback/NormalizedPostback";
 import type FunctionResponse from "types/FunctionResponse";
 import type InternalUser from "types/InternalUser";
 
-async function getHoldDuration({ value }: { offerID: string; value: number }): Promise<Date> {
-  // We should add checks checking if an offer should be held or if it's safe.
-
+async function getHoldDuration({
+  offerID,
+  value,
+  userID,
+  userIP,
+}: {
+  offerID: string;
+  value: number;
+  userID: string;
+  userIP?: string;
+}): Promise<Date | undefined> {
   if (value < 3_000) {
     return new Date(Date.now() + 24 * 60 * 60 * 1000);
   }
@@ -24,6 +32,37 @@ async function getHoldDuration({ value }: { offerID: string; value: number }): P
   }
 
   return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+}
+
+async function creditOfferConversion(
+  conversion: InternalOfferEarning,
+  postback: NormalizedPostback,
+): Promise<void> {
+  const { db, io } = getGlobalObject();
+
+  const userUpdate = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+    { userID: conversion.userID },
+    {
+      $inc: {
+        'balance.sparks': conversion.value,
+        'statistics.earned.offers': conversion.value,
+        'statistics.earned.total': conversion.value,
+      },
+    },
+    { returnDocument: 'after' },
+  );
+
+  io.to(conversion.userID).emit(SocketEmits.userBalanceChange, userUpdate?.balance.sparks);
+
+  void createUserNotification({
+    userID: conversion.userID,
+    meta: {
+      type: 'offerCredited',
+      offerValue: conversion.value,
+      provider: postback.provider,
+      offerName: postback.offerName,
+    },
+  });
 }
 
 /** Provider sent a chargeback for a conversion we already credited. */
@@ -42,10 +81,15 @@ async function reverseOfferConversion(
       $set: {
         status: 'reversed',
         reversedAt: new Date(),
-        heldUntil: undefined,
+        updatedAt: new Date(),
+      },
+      $unset: {
+        heldUntil: ''
       },
     },
-    { returnDocument: 'after' },
+    {
+      returnDocument: 'after'
+    },
   );
 
   void createUserNotification({
@@ -79,7 +123,7 @@ async function reverseOfferConversion(
   return { ok: true, data: updatedConversion };
 }
 
-/** Advertiser approved a provider-pending conversion; move it onto our hold queue. */
+/** Advertiser approved a provider-pending conversion; credit immediately or move onto our hold queue. */
 async function confirmAdvertiserOffer(
   conversion: InternalOfferEarning,
   postback: NormalizedPostback,
@@ -89,35 +133,45 @@ async function confirmAdvertiserOffer(
   const heldUntil = await getHoldDuration({
     offerID: conversion.offerID,
     value: conversion.value,
+    userID: conversion.userID,
+    userIP: postback.userIP,
   });
+
+  const status = heldUntil ? 'held' : 'completed';
 
   const updatedConversion = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOneAndUpdate(
     {
       conversionID: conversion.conversionID,
-      status: 'providerPending'
+      status: 'providerPending',
     },
     {
       $set: {
-        status: 'held',
+        status,
         heldUntil,
         updatedAt: new Date(),
       },
     },
-    { returnDocument: 'after' },
+    {
+      returnDocument: 'after',
+    },
   );
 
-  void createUserNotification({
-    userID: conversion.userID,
-    meta: {
-      type: 'offerAdvConfirmed',
-      offerValue: conversion.value,
-      provider: postback.provider,
-      offerName: postback.offerName,
-      releaseDate: heldUntil,
-    },
-  });
-
   if (!updatedConversion) return { ok: false, error: 'internalError' };
+
+  if (heldUntil) {
+    void createUserNotification({
+      userID: conversion.userID,
+      meta: {
+        type: 'offerAdvConfirmed',
+        offerValue: conversion.value,
+        provider: postback.provider,
+        offerName: postback.offerName,
+        releaseDate: heldUntil,
+      },
+    });
+  } else {
+    await creditOfferConversion(updatedConversion, postback);
+  }
 
   return { ok: true, data: updatedConversion };
 }
@@ -131,12 +185,15 @@ async function handleNewOfferPostback(
 
   const { db } = getGlobalObject();
 
+  const awaitingAdvertiser = postback.status === 'held';
   const heldUntil = await getHoldDuration({
     offerID: postback.offerID,
     value: postback.value,
+    userID: postback.user,
+    userIP: postback.userIP,
   });
 
-  const awaitingAdvertiser = postback.status === 'held';
+  const now = new Date();
 
   const conversion: InternalOfferEarning = {
     type: 'offer',
@@ -144,38 +201,49 @@ async function handleNewOfferPostback(
     conversionID: postback.conversionID,
     value: postback.value,
     usdValue: postback.usdValue,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    heldUntil,
-    status: awaitingAdvertiser ? 'providerPending' : 'held',
+    createdAt: now,
+    updatedAt: now,
+    status: awaitingAdvertiser
+      ? 'providerPending'
+      : heldUntil
+        ? 'held'
+        : 'completed',
     postbackLogID: requestID,
     offerID: postback.offerID,
     offerName: postback.offerName,
     offerDisplayName: postback.offerDisplayName ?? postback.offerName,
+    ...(heldUntil && { heldUntil }),
   };
 
   const insertResult = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).insertOne(conversion);
 
   if (!insertResult.acknowledged) return { ok: false, error: 'internalError' };
 
-  void createUserNotification({
-    userID: postback.user,
-    meta: awaitingAdvertiser
-      ? {
+  if (awaitingAdvertiser) {
+    void createUserNotification({
+      userID: postback.user,
+      meta: {
         type: 'offerPending',
         offerValue: postback.value,
         provider: postback.provider,
         offerName: postback.offerName,
-        releaseDate: heldUntil,
-      }
-      : {
+        releaseDate: heldUntil ?? now,
+      },
+    });
+  } else if (heldUntil) {
+    void createUserNotification({
+      userID: postback.user,
+      meta: {
         type: 'offerHeld',
         offerValue: postback.value,
         provider: postback.provider,
         offerName: postback.offerName,
         releaseDate: heldUntil,
       },
-  });
+    });
+  } else {
+    await creditOfferConversion(conversion, postback);
+  }
 
   return { ok: true, data: conversion };
 }
