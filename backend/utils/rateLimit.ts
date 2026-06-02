@@ -1,5 +1,6 @@
 import { createMiddleware } from 'hono/factory';
 import { SLIDING_WINDOW_RATE_LIMIT_LUA_SCRIPT } from 'backend/lua/SlidingWindowRateLimit';
+import { getGlobalObject } from 'backend/utils/globalObject';
 import { getIPFromRequest } from './request';
 import { sendResponse } from './response';
 
@@ -33,7 +34,7 @@ async function attemptRateLimit(
   config: SlidingWindowLogConfig,
   memberSuffix?: string,
 ): Promise<RateLimitResult> {
-  const redis = global.globalObject.redisClient;
+  const { redisClient: redis } = getGlobalObject();
   const { maxRequests, windowSeconds } = config;
 
   const now = Date.now();

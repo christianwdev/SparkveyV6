@@ -9,6 +9,9 @@ import startDatabase from '../database/database';
 import startRedis from '../database/redis';
 import { createDistributedLock } from '../utils/distributedLock';
 
+// Types
+import type GlobalObject from 'types/GlobalObject';
+
 const [
   [ db, client ],
   [ redisClient ],
@@ -33,6 +36,6 @@ global.globalObject = {
   redisSubClient,
   io,
   distributedLock: createDistributedLock(redisClient),
-};
+} satisfies GlobalObject;
 
 console.log('Worker is running');

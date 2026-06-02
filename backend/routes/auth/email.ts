@@ -102,7 +102,7 @@ export default function routeInvoker() {
       // TODO: wire sessionID (_sessionID) — e.g. merge anonymous session on register
       // TODO: wire referralCode (_referralCode)
 
-      const [ existingUserError, existingUser ] = await getRawUser({
+      const existingUserResult = await getRawUser({
         $or: [
           {
             'emailInformation.emailAddress': email,
@@ -113,50 +113,61 @@ export default function routeInvoker() {
         ],
       });
 
-      if (existingUserError) throw new RouteResponseError({ status: 500, message: existingUserError });
-      if (existingUser) throw new RouteResponseError({ status: 400, message: 'User already exists' });
+      if (!existingUserResult.ok && existingUserResult.error !== 'notFound') {
+        throw new RouteResponseError({ status: 500, message: existingUserResult.error });
+      }
+
+      if (existingUserResult.ok) {
+        throw new RouteResponseError({ status: 400, message: 'User already exists' });
+      }
 
       const hashedPassword = await Bun.password.hash(password, {
         algorithm: 'bcrypt',
         cost: 10,
       });
 
-      const [ createUserError, newUser ] = await createUser({
+      const createUserResult = await createUser({
         email,
         username,
         passwordHash: hashedPassword,
       });
 
-      if (createUserError) throw new RouteResponseError({ status: 500, message: createUserError });
+      if (!createUserResult.ok) {
+        throw new RouteResponseError({ status: 500, message: createUserResult.error });
+      }
 
-      const [ actionableError, actionable ] = await createEmailActionable({
-        userID: newUser.userID,
+      const actionableResult = await createEmailActionable({
+        userID: createUserResult.data.userID,
         email,
         type: 'verification',
       });
 
-      if (actionableError) throw new RouteResponseError({ status: 500, message: actionableError });
+      if (!actionableResult.ok) {
+        throw new RouteResponseError({ status: 500, message: actionableResult.error });
+      }
 
       const [ emailSendError, emailErrorMessage ] = await sendVerificationEmail({
         email,
-        code: actionable.actionableID,
+        code: actionableResult.data.actionableID,
       });
 
       if (emailSendError) throw new RouteResponseError({ status: 500, message: emailErrorMessage });
 
-      const [ sessionError ] = await startSession({
+      const sessionResult = await startSession({
         c,
-        userID: newUser.userID,
+        userID: createUserResult.data.userID,
       });
 
-      if (sessionError) throw new RouteResponseError({ status: 500, message: sessionError });
+      if (!sessionResult.ok) {
+        throw new RouteResponseError({ status: 500, message: sessionResult.error });
+      }
 
       return sendResponse({
         c,
         status: 200,
         success: true,
         message: 'Account created. Please check your email to verify your account.',
-        data: sanitizeUser(newUser),
+        data: sanitizeUser(createUserResult.data),
       });
     },
   );
@@ -169,19 +180,30 @@ export default function routeInvoker() {
     async (c) => {
       const { email, password } = c.req.valid('json');
 
-      const [ userError, user ] = await getRawUser({
+      const userResult = await getRawUser({
         'emailInformation.emailAddress': email,
         password: { $type: 'string' },
       });
 
-      if (userError && userError !== 'notFound') {
-        throw new RouteResponseError({ status: 500, message: userError });
+      if (!userResult.ok) {
+        if (userResult.error !== 'notFound') {
+          throw new RouteResponseError({ status: 500, message: userResult.error });
+        }
+
+        throw new RouteResponseError({
+          status: 401,
+          message: INVALID_CREDENTIALS_MESSAGE,
+        });
       }
 
-      const hasPassword = typeof user?.password === 'string' && user.password.length > 0;
-      const passwordHash = hasPassword ? user.password : DUMMY_PASSWORD_HASH;
+      const user = userResult.data;
+
+      const passwordHash = typeof user.password === 'string' && user.password.length > 0
+        ? user.password
+        : DUMMY_PASSWORD_HASH;
+      const hasPassword = passwordHash !== DUMMY_PASSWORD_HASH;
       const passwordValid = await Bun.password.verify(password, passwordHash);
-      const isBanned = user?.bannedUntil && user.bannedUntil > new Date();
+      const isBanned = user.bannedUntil && user.bannedUntil > new Date();
 
       if (!passwordValid || !hasPassword || isBanned) {
         throw new RouteResponseError({
@@ -190,12 +212,14 @@ export default function routeInvoker() {
         });
       }
 
-      const [ sessionError ] = await startSession({
+      const sessionResult = await startSession({
         c,
         userID: user.userID,
       });
 
-      if (sessionError) throw new RouteResponseError({ status: 500, message: sessionError });
+      if (!sessionResult.ok) {
+        throw new RouteResponseError({ status: 500, message: sessionResult.error });
+      }
 
       return sendResponse({
         c,
@@ -214,22 +238,22 @@ export default function routeInvoker() {
     async (c) => {
       const { email } = c.req.valid('json');
 
-      const [ userError, user ] = await getRawUser({
+      const userResult = await getRawUser({
         'emailInformation.emailAddress': email,
         password: { $type: 'string' },
       });
 
-      if (!userError && user) {
-        const [ actionableError, actionable ] = await createEmailActionable({
-          userID: user.userID,
+      if (userResult.ok) {
+        const actionableResult = await createEmailActionable({
+          userID: userResult.data.userID,
           email,
           type: 'forgotPassword',
         });
 
-        if (!actionableError) {
+        if (actionableResult.ok) {
           await sendForgottenPassword({
             email,
-            code: actionable.actionableID,
+            code: actionableResult.data.actionableID,
           });
         }
       }
@@ -251,12 +275,12 @@ export default function routeInvoker() {
     async (c) => {
       const { code, password } = c.req.valid('json');
 
-      const [ actionableError, actionable ] = await findValidEmailActionable({
+      const actionableResult = await findValidEmailActionable({
         actionableID: code,
         type: 'forgotPassword',
       });
 
-      if (actionableError) {
+      if (!actionableResult.ok) {
         throw new RouteResponseError({
           status: 400,
           message: 'Invalid or expired password reset link.',
@@ -268,15 +292,19 @@ export default function routeInvoker() {
         cost: 10,
       });
 
-      const [ updateError ] = await updateUserPassword(actionable.userID, hashedPassword);
+      const updateResult = await updateUserPassword(actionableResult.data.userID, hashedPassword);
 
-      if (updateError) throw new RouteResponseError({ status: 500, message: updateError });
+      if (!updateResult.ok) {
+        throw new RouteResponseError({ status: 500, message: updateResult.error });
+      }
 
-      await expireUserSessions(actionable.userID);
+      await expireUserSessions(actionableResult.data.userID);
 
-      const [ markError ] = await markEmailActionableAccessed(actionable.actionableID);
+      const markResult = await markEmailActionableAccessed(actionableResult.data.actionableID);
 
-      if (markError) throw new RouteResponseError({ status: 500, message: markError });
+      if (!markResult.ok) {
+        throw new RouteResponseError({ status: 500, message: markResult.error });
+      }
 
       return sendResponse({
         c,
@@ -293,22 +321,22 @@ export default function routeInvoker() {
     async (c) => {
       const { code } = c.req.param();
 
-      const [ actionableError, actionable ] = await findValidEmailActionable({
+      const actionableResult = await findValidEmailActionable({
         actionableID: code,
         type: 'verification',
       });
 
-      if (actionableError) {
+      if (!actionableResult.ok) {
         return c.redirect(buildFrontendURL('/email-verified', { error: 'invalid' }));
       }
 
-      const [ verifyError ] = await verifyUserEmail(actionable.userID);
+      const verifyResult = await verifyUserEmail(actionableResult.data.userID);
 
-      if (verifyError) {
+      if (!verifyResult.ok) {
         return c.redirect(buildFrontendURL('/email-verified', { error: 'internal' }));
       }
 
-      await markEmailActionableAccessed(actionable.actionableID);
+      await markEmailActionableAccessed(actionableResult.data.actionableID);
 
       return c.redirect(buildFrontendURL('/email-verified', { success: true }));
     },

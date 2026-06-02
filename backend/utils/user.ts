@@ -1,4 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
+import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 
 // Types
@@ -33,7 +34,7 @@ export async function createUser(
   },
 ): Promise<FunctionResponse<InternalUser>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const userID = createId();
 
@@ -45,7 +46,7 @@ export async function createUser(
 
     const user: InternalUser = {
       userID,
-      username,
+      username: username ?? '',
       avatar,
       password: passwordHash,
 
@@ -129,29 +130,29 @@ export async function createUser(
 
     const result = await db.collection(DatabaseCollections.users).insertOne(user);
 
-    if (!result.acknowledged) return [ 'internalServerError' ];
+    if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
 
-    return [ undefined, user ];
+    return { ok: true, data: user };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
-export async function getRawUser(partialUser: Filter<InternalUser>): Promise<FunctionResponse<InternalUser | null>> {
+export async function getRawUser(partialUser: Filter<InternalUser>): Promise<FunctionResponse<InternalUser>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOne(partialUser);
 
-    if (!user) return [ 'notFound' ];
+    if (!user) return { ok: false, error: 'notFound' };
 
-    return [ undefined, user ];
+    return { ok: true, data: user };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
@@ -186,7 +187,7 @@ export function sanitizeUser(user: InternalUser | WithId<InternalUser>): Sanitiz
 
 export async function verifyUserEmail(userID: string): Promise<FunctionResponse<InternalUser>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
       { userID },
@@ -198,13 +199,13 @@ export async function verifyUserEmail(userID: string): Promise<FunctionResponse<
       { returnDocument: 'after' },
     );
 
-    if (!user) return [ 'notFound' ];
+    if (!user) return { ok: false, error: 'notFound' };
 
-    return [ undefined, user ];
+    return { ok: true, data: user };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
@@ -213,7 +214,7 @@ export async function updateUserPassword(
   passwordHash: string,
 ): Promise<FunctionResponse<InternalUser>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
       { userID },
@@ -225,26 +226,26 @@ export async function updateUserPassword(
       { returnDocument: 'after' },
     );
 
-    if (!user) return [ 'notFound' ];
+    if (!user) return { ok: false, error: 'notFound' };
 
-    return [ undefined, user ];
+    return { ok: true, data: user };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
 export async function getSanitizedUser(partialUser: Filter<InternalUser>): Promise<FunctionResponse<SanitizedUser>> {
   try {
-    const [ userError, user ] = await getRawUser(partialUser);
+    const userResult = await getRawUser(partialUser);
 
-    if (userError) return [ userError ];
+    if (!userResult.ok) return userResult;
 
-    return [ undefined, sanitizeUser(user) ];
+    return { ok: true, data: sanitizeUser(userResult.data) };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }

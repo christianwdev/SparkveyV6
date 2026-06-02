@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 
 // Types
@@ -24,7 +25,7 @@ export async function createEmailActionable(
   },
 ): Promise<FunctionResponse<{ actionableID: string }>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
     const issueDate = new Date();
     const actionableID = crypto.randomBytes(32).toString('hex');
 
@@ -52,13 +53,13 @@ export async function createEmailActionable(
 
     const result = await db.collection<EmailActionable>(DatabaseCollections.emailActionables).insertOne(actionable);
 
-    if (!result.acknowledged) return [ 'internalServerError' ];
+    if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
 
-    return [ undefined, { actionableID } ];
+    return { ok: true, data: { actionableID } };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
@@ -72,7 +73,7 @@ export async function findValidEmailActionable(
   },
 ): Promise<FunctionResponse<EmailActionable>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const actionable = await db.collection<EmailActionable>(DatabaseCollections.emailActionables).findOne({
       actionableID,
@@ -82,13 +83,13 @@ export async function findValidEmailActionable(
       deactivatedAt: { $exists: false },
     });
 
-    if (!actionable) return [ 'notFound' ];
+    if (!actionable) return { ok: false, error: 'notFound' };
 
-    return [ undefined, actionable ];
+    return { ok: true, data: actionable };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
@@ -96,7 +97,7 @@ export async function markEmailActionableAccessed(
   actionableID: string,
 ): Promise<FunctionResponse<void>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const result = await db.collection<EmailActionable>(DatabaseCollections.emailActionables).findOneAndUpdate(
       {
@@ -111,12 +112,12 @@ export async function markEmailActionableAccessed(
       },
     );
 
-    if (!result) return [ 'notFound' ];
+    if (!result) return { ok: false, error: 'notFound' };
 
-    return [ undefined, undefined ];
+    return { ok: true, data: undefined };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }

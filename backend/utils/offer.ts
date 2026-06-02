@@ -1,4 +1,5 @@
 import DatabaseCollections from "backend/constants/DatabaseCollections";
+import { getGlobalObject } from 'backend/utils/globalObject';
 
 // Types
 import type {
@@ -19,11 +20,10 @@ async function handleOfferPostbackWithOldConversion(
     postbackInformation: NormalizedPostback;
   }
 ): Promise<FunctionResponse<InternalOfferEarning>> {
-  const db = global.globalObject.db;
-  const io = global.globalObject.io;
+  const { db, io } = getGlobalObject();
 
   try {
-    if (oldConversion.status === 'reversed') return [ 'alreadyHandled' ];
+    if (oldConversion.status === 'reversed') return { ok: false, error: 'alreadyHandled' };
 
     // No matter what if the offer is reversed we'll need to update the data some way.
     if (postbackInformation.status === 'reversed') {
@@ -66,7 +66,9 @@ async function handleOfferPostbackWithOldConversion(
         io.to(oldConversion.userID).emit(SocketEmits.userBalanceChange, userUpdate?.balance.sparks);
       }
 
-      return [ undefined, updatedConversion ];
+      if (!updatedConversion) return { ok: false, error: 'internalError' };
+
+      return { ok: true, data: updatedConversion };
     }
 
     // Now if the provider says the offer was cleared, we should update it to our own held status.
@@ -88,14 +90,16 @@ async function handleOfferPostbackWithOldConversion(
 
       // Send notifications
 
-      return [ undefined, updatedConversion ];
+      if (!updatedConversion) return { ok: false, error: 'internalError' };
+
+      return { ok: true, data: updatedConversion };
     }
 
-    return [ 'alreadyHandled' ];
+    return { ok: false, error: 'alreadyHandled' };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalError' ];
+    return { ok: false, error: 'internalError' };
   }
 }
 
@@ -126,7 +130,7 @@ export async function handleOfferPostback({
   postbackInformation: NormalizedPostback;
   requestID: string;
 }): Promise<FunctionResponse<InternalOfferEarning>> {
-  const db = global.globalObject.db;
+  const { db } = getGlobalObject();
 
   try {
     const oldConversionLog = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOne(
@@ -143,7 +147,9 @@ export async function handleOfferPostback({
     }
 
     // We should only ever receive reverses if theres an old conversion.
-    if (postbackInformation.status === 'reversed') return [ 'invalidStatus' ];
+    if (postbackInformation.status === 'reversed') return { ok: false, error: 'invalidStatus' };
+
+    if (!postbackInformation.user) return { ok: false, error: 'invalidUser' };
 
     const holdDuration = await getHoldDuration({
       offerID: postbackInformation.offerID,
@@ -163,19 +169,19 @@ export async function handleOfferPostback({
       postbackLogID: requestID,
       offerID: postbackInformation.offerID,
       offerName: postbackInformation.offerName,
-      offerDisplayName: postbackInformation.offerDisplayName,
+      offerDisplayName: postbackInformation.offerDisplayName ?? postbackInformation.offerName,
     };
 
     const insertedConversion = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).insertOne(newConversion);
 
-    if (!insertedConversion.acknowledged) return [ 'internalError' ];
+    if (!insertedConversion.acknowledged) return { ok: false, error: 'internalError' };
 
     // Send notifications
 
-    return [ undefined, newConversion ];
+    return { ok: true, data: newConversion };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalError' ];
+    return { ok: false, error: 'internalError' };
   }
 }

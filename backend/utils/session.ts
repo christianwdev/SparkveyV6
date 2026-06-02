@@ -6,6 +6,7 @@ import type FunctionResponse from 'types/FunctionResponse';
 import DatabaseCollections from '../constants/DatabaseCollections';
 
 // Utils
+import { getGlobalObject } from 'backend/utils/globalObject';
 import { getIPFromRequest } from './request';
 import { SESSION_COOKIE_NAME, getSessionCookieOptions } from './cookies';
 import { setCsrfCookie } from './csrf';
@@ -28,7 +29,7 @@ export async function startSession(
   },
 ): Promise<FunctionResponse<UserSession>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const userAgent = c.req.header('user-agent');
 
@@ -62,11 +63,11 @@ export async function startSession(
     setCookie(c, SESSION_COOKIE_NAME, sessionID, getSessionCookieOptions(timeLeft));
     setCsrfCookie(c, timeLeft);
 
-    return [ undefined, userSession ];
+    return { ok: true, data: userSession };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
@@ -80,7 +81,7 @@ export async function consumeSession(
   },
 ): Promise<FunctionResponse<UserSession>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const session = await db.collection<UserSession>(DatabaseCollections.userSessions).findOneAndUpdate(
       {
@@ -100,19 +101,19 @@ export async function consumeSession(
       },
     );
 
-    if (!session) return [ 'notFound' ];
+    if (!session) return { ok: false, error: 'notFound' };
 
-    return [ undefined, session ];
+    return { ok: true, data: session };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
 export async function getActiveUserSessions(userID: string): Promise<FunctionResponse<UserSession[]>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const sessions = await db.collection<UserSession>(DatabaseCollections.userSessions).find({
       userID,
@@ -121,17 +122,17 @@ export async function getActiveUserSessions(userID: string): Promise<FunctionRes
       },
     }).toArray();
 
-    return [ undefined, sessions ];
+    return { ok: true, data: sessions };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
 export async function getSessionByID(sessionID: string): Promise<FunctionResponse<UserSession>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const session = await db.collection<UserSession>(DatabaseCollections.userSessions).findOne(
       {
@@ -139,13 +140,13 @@ export async function getSessionByID(sessionID: string): Promise<FunctionRespons
       }
     );
 
-    if (!session) return [ 'notFound' ];
+    if (!session) return { ok: false, error: 'notFound' };
 
-    return [ undefined, session ];
+    return { ok: true, data: session };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
@@ -159,7 +160,7 @@ export async function consumeSessionByID(
   },
 ): Promise<FunctionResponse<UserSession>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const session = await db.collection<UserSession>(DatabaseCollections.userSessions).findOneAndUpdate(
       {
@@ -182,13 +183,13 @@ export async function consumeSessionByID(
       },
     );
 
-    if (!session) return [ 'notFound' ];
+    if (!session) return { ok: false, error: 'notFound' };
 
-    return [ undefined, session ];
+    return { ok: true, data: session };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
@@ -196,15 +197,15 @@ export function getSessionTwoFactorStatus(
   user: InternalUser,
   session: UserSession,
 ): FunctionResponse<{ required: boolean; verified: boolean }> {
-  return [ undefined, {
+  return { ok: true, data: {
     required: !!session.twoFactor?.verified,
     verified: session.twoFactor?.verified ?? false,
-  } ];
+  } };
 }
 
-export async function expireUserSessions(userID: string): Promise<FunctionResponse<boolean>> {
+export async function expireUserSessions(userID: string): Promise<FunctionResponse<void>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const result = await db.collection<UserSession>(DatabaseCollections.userSessions).updateMany(
       {
@@ -219,19 +220,19 @@ export async function expireUserSessions(userID: string): Promise<FunctionRespon
       },
     );
 
-    if (!result.acknowledged) return [ 'internalServerError' ];
+    if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
 
-    return [ undefined, true ];
+    return { ok: true, data: undefined };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }
 
-export async function deleteSession({ sessionID }: { sessionID: string }): Promise<FunctionResponse<boolean>> {
+export async function deleteSession({ sessionID }: { sessionID: string }): Promise<FunctionResponse<void>> {
   try {
-    const db = global.globalObject.db;
+    const { db } = getGlobalObject();
 
     const result = await db.collection<UserSession>(DatabaseCollections.userSessions).updateOne({
       sessionID,
@@ -245,13 +246,13 @@ export async function deleteSession({ sessionID }: { sessionID: string }): Promi
       },
     });
 
-    if (!result.acknowledged) return [ 'internalServerError' ];
-    if (result.matchedCount === 0) return [ 'notFound' ];
+    if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
+    if (result.matchedCount === 0) return { ok: false, error: 'notFound' };
 
-    return [ undefined, true ];
+    return { ok: true, data: undefined };
   } catch (error) {
     console.error(error);
 
-    return [ 'internalServerError' ];
+    return { ok: false, error: 'internalServerError' };
   }
 }

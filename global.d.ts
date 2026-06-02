@@ -4,7 +4,7 @@ import type * as React from 'react';
 // TS doesn't like you overwriting the global object, so we're just gonna add a variable to it
 declare global {
 
-  var globalObject: GlobalObject;
+  var globalObject: GlobalObject | undefined;
 
   namespace JSX {
     interface IntrinsicElements {

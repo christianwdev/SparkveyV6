@@ -93,7 +93,7 @@ export default function routeInvoker() {
         }
       }
 
-      const [ userError, existingUser ] = await getRawUser({
+      const existingUserResult = await getRawUser({
         $or: [
           { 'emailInformation.emailAddress': data.email },
           { 'socialInformation.google.emailAddress': data.email },
@@ -101,15 +101,17 @@ export default function routeInvoker() {
         ],
       });
 
-      if (userError && userError !== 'notFound') return c.redirect(buildFrontendURL('/', { error: 'internal' }));
+      if (!existingUserResult.ok && existingUserResult.error !== 'notFound') {
+        return c.redirect(buildFrontendURL('/', { error: 'internal' }));
+      }
 
-      let user = existingUser;
+      let user = existingUserResult.ok ? existingUserResult.data : undefined;
 
       if (user) {
         const isBanned = user.bannedUntil && user.bannedUntil > new Date();
         if (isBanned) return c.redirect(buildFrontendURL('/', { error: 'banned' }));
       } else {
-        const [ creationError, newUser ] = await createUser({
+        const createUserResult = await createUser({
           email: data.email,
           googleID: data.sub,
           referredBy: affiliateCode,
@@ -118,13 +120,18 @@ export default function routeInvoker() {
           emailVerifiedAt: new Date(),
         });
 
-        if (creationError) return c.redirect(buildFrontendURL('/', { error: 'google_create' }));
+        if (!createUserResult.ok) {
+          return c.redirect(buildFrontendURL('/', { error: 'google_create' }));
+        }
 
-        user = newUser;
+        user = createUserResult.data;
       }
 
-      const [ sessionError ] = await startSession({ c, userID: user.userID });
-      if (sessionError) return c.redirect(buildFrontendURL('/', { error: 'session' }));
+      const sessionResult = await startSession({ c, userID: user.userID });
+
+      if (!sessionResult.ok) {
+        return c.redirect(buildFrontendURL('/', { error: 'session' }));
+      }
 
       return c.redirect(buildFrontendURL(redirectPath));
     } catch (error) {

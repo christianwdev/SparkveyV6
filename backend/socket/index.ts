@@ -1,5 +1,7 @@
+import { getGlobalObject } from 'backend/utils/globalObject';
+
 function startSocketServer() {
-  const io = global.globalObject.io;
+  const { io } = getGlobalObject();
 
   io.on('connection', async () => {
     console.log('A user connected');

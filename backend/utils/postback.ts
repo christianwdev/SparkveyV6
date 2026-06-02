@@ -2,6 +2,7 @@ import type { Context } from 'hono';
 
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import SiteConfig from 'backend/config/config';
+import { getGlobalObject } from 'backend/utils/globalObject';
 import { getPostbackProvider, validationFailureToLogFields } from 'backend/schemas/postback';
 import type { PostbackQuery } from 'backend/schemas/postback/PostbackProvider';
 import type InternalPostbackRequest from 'types/InternalPostbackRequest';
@@ -48,7 +49,9 @@ const FAILURE_FIELDS_TO_CLEAR = [
 ] as const;
 
 function postbackLogs() {
-  return global.globalObject.db.collection<InternalPostbackRequest>(
+  const { db } = getGlobalObject();
+
+  return db.collection<InternalPostbackRequest>(
     DatabaseCollections.postbackLogs,
   );
 }
@@ -59,7 +62,7 @@ function createReplayContext(): Context {
     req: {
       header: () => undefined,
     },
-  } as Context;
+  } as unknown as Context;
 }
 
 export function processPostback({
@@ -121,7 +124,7 @@ export async function logPendingPostback(c: Context) {
   const logObject: InternalPostbackRequest = {
     date: new Date(),
     originalURL: c.req.url,
-    provider: c.req.param('provider'),
+    provider: c.req.param('provider') ?? '',
     query: normalizeQuery(c.req.query()),
     remoteIP: getIPFromRequest(c) ?? null,
     status: 'pending',

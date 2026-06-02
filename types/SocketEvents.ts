@@ -1,11 +1,6 @@
 import type { Server, Socket } from 'socket.io';
 import type { Socket as ClientSocket } from 'socket.io-client';
-
-export type UserNotification = {
-  id: string,
-  title: string,
-  message: string,
-};
+import type { UserNotification } from 'types/UserNotification/UserNotifications';
 
 export interface ServerToClientEvents {
   userBalanceChange: (sparks: number | undefined) => void,

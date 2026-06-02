@@ -15,22 +15,22 @@ export async function optionalAuth(c: Context<{ Variables: { user: InternalUser 
 
   if (!sessionID) return await next();
 
-  const [ sessionError, session ] = await consumeSession({
+  const sessionResult = await consumeSession({
     sessionParams: {
       sessionID,
     },
-    ipAddress: getIPFromRequest(c),
+    ipAddress: getIPFromRequest(c) || '',
   });
 
-  if (sessionError || !session) return await next();
+  if (!sessionResult.ok) return await next();
 
-  const [ userError, user ] = await getRawUser({
-    userID: session?.userID,
+  const userResult = await getRawUser({
+    userID: sessionResult.data.userID,
   });
 
-  if (userError || !user) return await next();
+  if (!userResult.ok) return await next();
 
-  c.set('user', user);
+  c.set('user', userResult.data);
 
   await next();
 }
@@ -40,23 +40,23 @@ export async function requireAuth(c: Context<{ Variables: { user: InternalUser, 
 
   if (!sessionID) return sendResponse({ c, status: 401, success: false, message: 'You are not signed in' });
 
-  const [ sessionError, session ] = await consumeSession({
+  const sessionResult = await consumeSession({
     sessionParams: {
       sessionID,
     },
     ipAddress: c.req.header('x-forwarded-for') || '',
   });
 
-  if (sessionError || !session) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
+  if (!sessionResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
 
-  const [ userError, user ] = await getRawUser({
-    userID: session?.userID,
+  const userResult = await getRawUser({
+    userID: sessionResult.data.userID,
   });
 
-  if (userError || !user) return sendResponse({ c, status: 401, success: false, message: 'This user does not exist' });
+  if (!userResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This user does not exist' });
 
-  c.set('user', user);
-  c.set('session', session);
+  c.set('user', userResult.data);
+  c.set('session', sessionResult.data);
 
   await next();
 }
@@ -66,16 +66,16 @@ export async function requireUserID(c: Context<{ Variables: { userID: string } }
 
   if (!sessionID) return sendResponse({ c, status: 401, success: false, message: 'You are not signed in' });
 
-  const [ sessionError, session ] = await consumeSession({
+  const sessionResult = await consumeSession({
     sessionParams: {
       sessionID,
     },
-    ipAddress: getIPFromRequest(c),
+    ipAddress: getIPFromRequest(c) || '',
   });
 
-  if (sessionError || !session) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
+  if (!sessionResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
 
-  c.set('userID', session.userID);
+  c.set('userID', sessionResult.data.userID);
 
   await next();
 }
@@ -85,22 +85,22 @@ export async function requireAdmin(c: Context<{ Variables: { user: InternalUser 
 
   if (!sessionID) return sendResponse({ c, status: 401, success: false, message: 'You are not signed in' });
 
-  const [ sessionError, session ] = await consumeSession({
+  const sessionResult = await consumeSession({
     sessionParams: {
       sessionID,
     },
-    ipAddress: getIPFromRequest(c),
+    ipAddress: getIPFromRequest(c) || '',
   });
 
-  if (sessionError || !session) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
+  if (!sessionResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
 
-  const [ userError, user ] = await getRawUser({
-    userID: session?.userID,
+  const userResult = await getRawUser({
+    userID: sessionResult.data.userID,
   });
 
-  if (!user) return sendResponse({ c, status: 401, success: false, message: 'This user does not exist' });
+  if (!userResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This user does not exist' });
 
-  c.set('user', user);
+  c.set('user', userResult.data);
 
   await next();
 }

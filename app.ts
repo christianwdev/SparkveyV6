@@ -17,6 +17,9 @@ import startRedis from './backend/database/redis';
 import startSocketServer from './backend/socket';
 import { createDistributedLock } from './backend/utils/distributedLock';
 
+// Types
+import type GlobalObject from 'types/GlobalObject';
+
 const BACKEND_PORT = process.env.PORT ? +process.env.PORT : 6060;
 
 const app = new Hono<{ Variables: { requestID: string } }>();
@@ -51,7 +54,7 @@ global.globalObject = {
   redisSubClient,
   io,
   distributedLock: createDistributedLock(redisClient),
-};
+} satisfies GlobalObject;
 
 startSocketServer();
 
