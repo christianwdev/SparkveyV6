@@ -7,7 +7,8 @@ import { isIPWhitelisted } from 'backend/utils/ip';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   user: z.string().min(1),
@@ -39,7 +40,7 @@ export class ToroxPostbackProvider extends PostbackProvider<ToroxQuery> {
     return isIPWhitelisted(ctx.remoteIP, config.walls.torox.security.whitelistedIPs);
   }
 
-  normalize(data: ToroxQuery): NormalizedPostback {
+  normalize(data: ToroxQuery): NormalizedPostbackFields {
     const value = parseRevenue(data.value);
 
     return {

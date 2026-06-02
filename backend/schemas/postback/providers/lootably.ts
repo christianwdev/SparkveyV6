@@ -7,7 +7,8 @@ import { parseRevenue } from 'backend/utils/number';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   user: z.string().min(1),
@@ -50,7 +51,7 @@ export class LootablyPostbackProvider extends PostbackProvider<LootablyQuery> {
     return expected === ctx.query.hash;
   }
 
-  normalize(data: LootablyQuery): NormalizedPostback {
+  normalize(data: LootablyQuery): NormalizedPostbackFields {
     return {
       user: data.user,
       value: parseRevenue(data.value),

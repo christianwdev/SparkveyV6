@@ -13,16 +13,20 @@ import type { PostbackProvider } from './PostbackProvider';
 
 export type {
   NormalizedPostback,
+  NormalizedPostbackFields,
   NormalizedPostbackStatus,
+} from 'types/Postback/NormalizedPostback';
+
+export type {
   PostbackQuery,
   PostbackValidationContext,
   PostbackValidationFailure,
   PostbackValidationFailureLogFields,
   PostbackValidationResult,
-  PostbackProvider,
-} from './PostbackProvider';
+} from 'types/Postback/PostbackValidation';
 
-export { validationFailureToLogFields } from './PostbackProvider';
+export { PostbackProvider } from './PostbackProvider';
+export { validationFailureToLogFields } from './validationFailureToLogFields';
 
 const providers: PostbackProvider[] = [
   new AyetstudiosPostbackProvider(),

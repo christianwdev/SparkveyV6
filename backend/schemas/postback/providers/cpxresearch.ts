@@ -6,7 +6,8 @@ import { parseRevenue } from 'backend/utils/number';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const CPXRESEARCH_WHITELIST = [
   '188.40.3.73',
@@ -45,7 +46,7 @@ export class CpxresearchPostbackProvider extends PostbackProvider<CpxresearchQue
     return isIPWhitelisted(ctx.remoteIP, CPXRESEARCH_WHITELIST);
   }
 
-  normalize(data: CpxresearchQuery): NormalizedPostback {
+  normalize(data: CpxresearchQuery): NormalizedPostbackFields {
     return {
       user: data.user,
       value: parseRevenue(data.value),

@@ -294,6 +294,7 @@
       "offerCredited": "오퍼 적립 완료",
       "offerHeld": "오퍼 보류",
       "offerPending": "오퍼 대기 중",
+      "offerAdvConfirmed": "오퍼 확인됨",
       "offerReleased": "오퍼 지급 완료",
       "offerReversal": "오퍼 취소",
       "vipBonusClaimed": "VIP 보너스 수령"
@@ -302,6 +303,7 @@
       "offerCredited": "오퍼 {offerName} ({offerValue} 스파크)가 적립되었습니다.",
       "offerHeld": "오퍼 {offerName} ({offerValue} 스파크)는 {releaseDate}까지 보류됩니다.",
       "offerPending": "오퍼 {offerName} ({offerValue} 스파크)는 제공업체에 의해 {releaseDate}까지 보류됩니다.",
+      "offerAdvConfirmed": "오퍼 {offerName} ({offerValue} 스파크)가 광고주에 의해 확인되었으며 {releaseDate}까지 보류됩니다.",
       "offerReleased": "오퍼 {offerName} ({offerValue} 스파크)가 지급되었습니다.",
       "offerReversal": "오퍼 {offerName} ({offerValue} 스파크)가 취소되었습니다.",
       "vipBonusClaimed": "{vip} VIP 보너스 {bonusAmount} 스파크를 수령했습니다."

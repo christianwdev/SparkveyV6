@@ -294,6 +294,7 @@
       "offerCredited": "Oferta naliczona",
       "offerHeld": "Oferta wstrzymana",
       "offerPending": "Oferta oczekujaca",
+      "offerAdvConfirmed": "Oferta potwierdzona",
       "offerReleased": "Oferta zwolniona",
       "offerReversal": "Oferta cofnieta",
       "vipBonusClaimed": "Odebrano bonus VIP"
@@ -302,6 +303,7 @@
       "offerCredited": "Twoja oferta {offerName} o wartosci {offerValue} sparks zostala naliczona.",
       "offerHeld": "Twoja oferta {offerName} o wartosci {offerValue} sparks jest wstrzymana do {releaseDate}.",
       "offerPending": "Twoja oferta {offerName} o wartosci {offerValue} sparks jest wstrzymana przez dostawce do {releaseDate}.",
+      "offerAdvConfirmed": "Twoja oferta {offerName} o wartosci {offerValue} sparks zostala potwierdzona przez reklamodawce i jest wstrzymana do {releaseDate}.",
       "offerReleased": "Twoja oferta {offerName} o wartosci {offerValue} zostala zwolniona.",
       "offerReversal": "Twoja oferta {offerName} o wartosci {offerValue} zostala cofnieta.",
       "vipBonusClaimed": "Odebrales bonus VIP {vip} o wartosci {bonusAmount} sparks."

@@ -294,6 +294,7 @@
       "offerCredited": "オファー付与済み",
       "offerHeld": "オファー保留中",
       "offerPending": "オファー処理中",
+      "offerAdvConfirmed": "オファー確認済み",
       "offerReleased": "オファー解除済み",
       "offerReversal": "オファー取消済み",
       "vipBonusClaimed": "VIPボーナス受取済み"
@@ -302,6 +303,7 @@
       "offerCredited": "あなたのオファー {offerName}（{offerValue} Sparks）が付与されました。",
       "offerHeld": "あなたのオファー {offerName}（{offerValue} Sparks）は {releaseDate} まで保留されています。",
       "offerPending": "あなたのオファー {offerName}（{offerValue} Sparks）は、提供元により {releaseDate} まで保留されています。",
+      "offerAdvConfirmed": "あなたのオファー {offerName}（{offerValue} Sparks）は広告主により確認され、{releaseDate} まで保留されています。",
       "offerReleased": "あなたのオファー {offerName}（{offerValue} Sparks）が解除されました。",
       "offerReversal": "あなたのオファー {offerName}（{offerValue} Sparks）は取り消されました。",
       "vipBonusClaimed": "あなたは {vip} VIPボーナス（{bonusAmount} Sparks）を受け取りました。"

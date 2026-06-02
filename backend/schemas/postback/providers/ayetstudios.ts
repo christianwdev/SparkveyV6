@@ -8,7 +8,8 @@ import { parseRevenue } from 'backend/utils/number';
 import { isIPWhitelisted } from 'backend/utils/ip';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, NormalizedPostbackStatus, PostbackQuery, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields, NormalizedPostbackStatus } from 'types/Postback/NormalizedPostback';
+import type { PostbackQuery, PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   user: z.string().min(1),
@@ -44,7 +45,7 @@ export class AyetstudiosPostbackProvider extends PostbackProvider<AyetstudiosQue
     return this.verifyHmac(ctx.query, security.secret, providedHash);
   }
 
-  normalize(data: AyetstudiosQuery): NormalizedPostback {
+  normalize(data: AyetstudiosQuery): NormalizedPostbackFields {
     let conversionID = data.conversionID;
     let status: NormalizedPostbackStatus = 'completed';
     if (conversionID.startsWith('r-')) {

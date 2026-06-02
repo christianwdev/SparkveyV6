@@ -7,7 +7,8 @@ import { isIPWhitelisted } from 'backend/utils/ip';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, NormalizedPostbackStatus, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields, NormalizedPostbackStatus } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   userID: z.string().min(1),
@@ -37,7 +38,7 @@ export class GemiadsPostbackProvider extends PostbackProvider<GemiadsQuery> {
     return isIPWhitelisted(ctx.remoteIP, config.walls.gemiads.security.whitelistedIPs);
   }
 
-  normalize(data: GemiadsQuery): NormalizedPostback {
+  normalize(data: GemiadsQuery): NormalizedPostbackFields {
     const statusRaw = data.status.trim().toLowerCase();
     let status: NormalizedPostbackStatus = 'completed';
     if (statusRaw === 'rejected' || statusRaw === 'reversed') status = 'reversed';

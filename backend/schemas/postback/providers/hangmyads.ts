@@ -6,7 +6,8 @@ import { parseRevenue } from 'backend/utils/number';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   secret: z.string().min(1),
@@ -40,7 +41,7 @@ export class HangmyadsPostbackProvider extends PostbackProvider<HangmyadsQuery> 
     return Boolean(ctx.query.secret && expected && ctx.query.secret === expected);
   }
 
-  normalize(data: HangmyadsQuery): NormalizedPostback {
+  normalize(data: HangmyadsQuery): NormalizedPostbackFields {
     const usdValue = parseRevenue(data.usdValue) / 100;
     const rate = config.walls.hangmyads.rate || 0.75;
 

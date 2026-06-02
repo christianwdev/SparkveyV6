@@ -294,6 +294,7 @@
       "offerCredited": "Offer Credited",
       "offerHeld": "Offer Held",
       "offerPending": "Offer Pending",
+      "offerAdvConfirmed": "Offer Confirmed",
       "offerReleased": "Offer Released",
       "offerReversal": "Offer Reversed",
       "vipBonusClaimed": "VIP Bonus Claimed"
@@ -302,6 +303,7 @@
       "offerCredited": "Your offer {offerName} worth {offerValue} sparks has been credited.",
       "offerHeld": "Your offer {offerName} worth {offerValue} sparks is being held until {releaseDate}.",
       "offerPending": "Your offer {offerName} worth {offerValue} sparks is being held by our provider until {releaseDate}.",
+      "offerAdvConfirmed": "Your offer {offerName} worth {offerValue} sparks was confirmed by the advertiser and is being held until {releaseDate}.",
       "offerReleased": "Your offer {offerName} worth {offerValue} was released.",
       "offerReversal": "Your offer {offerName} worth {offerValue} was reversed.",
       "vipBonusClaimed": "You have claimed the {vip} VIP bonus of {bonusAmount} sparks."

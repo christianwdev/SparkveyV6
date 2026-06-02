@@ -4,7 +4,7 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import SiteConfig from 'backend/config/config';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { getPostbackProvider, validationFailureToLogFields } from 'backend/schemas/postback';
-import type { PostbackQuery } from 'backend/schemas/postback/PostbackProvider';
+import type { PostbackQuery } from 'types/Postback/PostbackValidation';
 import type InternalPostbackRequest from 'types/InternalPostbackRequest';
 
 import { getIPFromRequest, normalizeQuery } from './request';

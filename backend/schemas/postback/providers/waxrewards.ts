@@ -7,7 +7,8 @@ import { isIPWhitelisted } from 'backend/utils/ip';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   user: z.string().min(1),
@@ -40,7 +41,7 @@ export class WaxrewardsPostbackProvider extends PostbackProvider<WaxrewardsQuery
     return isIPWhitelisted(ctx.remoteIP, config.walls.waxrewards.security.whitelistedIPs);
   }
 
-  normalize(data: WaxrewardsQuery): NormalizedPostback {
+  normalize(data: WaxrewardsQuery): NormalizedPostbackFields {
     return {
       user: data.user,
       value: parseRevenue(data.value),

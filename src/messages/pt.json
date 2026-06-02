@@ -294,6 +294,7 @@
       "offerCredited": "Oferta creditada",
       "offerHeld": "Oferta em retenção",
       "offerPending": "Oferta pendente",
+      "offerAdvConfirmed": "Oferta confirmada",
       "offerReleased": "Oferta liberada",
       "offerReversal": "Oferta estornada",
       "vipBonusClaimed": "Bônus VIP resgatado"
@@ -302,6 +303,7 @@
       "offerCredited": "Sua oferta {offerName} no valor de {offerValue} sparks foi creditada.",
       "offerHeld": "Sua oferta {offerName} no valor de {offerValue} sparks está em retenção até {releaseDate}.",
       "offerPending": "Sua oferta {offerName} no valor de {offerValue} sparks está em retenção pelo nosso provedor até {releaseDate}.",
+      "offerAdvConfirmed": "Sua oferta {offerName} no valor de {offerValue} sparks foi confirmada pelo anunciante e está em retenção até {releaseDate}.",
       "offerReleased": "Sua oferta {offerName} no valor de {offerValue} foi liberada.",
       "offerReversal": "Sua oferta {offerName} no valor de {offerValue} foi estornada.",
       "vipBonusClaimed": "Você resgatou o bônus VIP {vip} de {bonusAmount} sparks."

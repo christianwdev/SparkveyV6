@@ -7,7 +7,8 @@ import { isIPWhitelisted } from 'backend/utils/ip';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   user: z.string().min(1),
@@ -37,7 +38,7 @@ export class TimewallPostbackProvider extends PostbackProvider<TimewallQuery> {
     return isIPWhitelisted(ctx.remoteIP, config.walls.timewall.security.whitelistedIPs);
   }
 
-  normalize(data: TimewallQuery): NormalizedPostback {
+  normalize(data: TimewallQuery): NormalizedPostbackFields {
     const value = parseRevenue(data.value);
 
     return {

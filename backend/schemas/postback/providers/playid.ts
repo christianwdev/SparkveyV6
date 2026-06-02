@@ -6,7 +6,8 @@ import config from 'backend/config/config';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   clickid: z.string().min(1),
@@ -33,7 +34,7 @@ export class PlayidPostbackProvider extends PostbackProvider<PlayidQuery> {
     return Boolean(ctx.query.secret && expected && ctx.query.secret === expected);
   }
 
-  normalize(data: PlayidQuery): NormalizedPostback {
+  normalize(data: PlayidQuery): NormalizedPostbackFields {
     return {
       clickID: data.clickid,
       value: 0,

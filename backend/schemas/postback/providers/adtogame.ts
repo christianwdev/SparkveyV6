@@ -6,7 +6,8 @@ import { parseRevenue } from 'backend/utils/number';
 import type { Context } from 'hono';
 
 import { PostbackProvider } from '../PostbackProvider';
-import type { NormalizedPostback, PostbackValidationContext } from '../PostbackProvider';
+import type { NormalizedPostbackFields } from 'types/Postback/NormalizedPostback';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
 const querySchema = z.object({
   offerID: z.string().min(1),
@@ -46,7 +47,7 @@ export class AdtogamePostbackProvider extends PostbackProvider<AdtogameQuery> {
     return Boolean(ctx.query.secret && expected && ctx.query.secret === expected);
   }
 
-  normalize(data: AdtogameQuery): NormalizedPostback {
+  normalize(data: AdtogameQuery): NormalizedPostbackFields {
     const currencyRate = data.currency
       ? (config.walls.adtowall.currencyRates[data.currency] ?? 1)
       : 1;

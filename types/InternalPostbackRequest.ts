@@ -1,4 +1,4 @@
-import type { NormalizedPostback } from 'backend/schemas/postback/PostbackProvider';
+import type { NormalizedPostback } from './Postback/NormalizedPostback';
 
 export type PostbackLogFailureReason =
   | 'unknown_provider'

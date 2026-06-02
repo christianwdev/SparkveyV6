@@ -26,6 +26,13 @@ type UserOfferNotificationMeta =
     offerName: string,
   }
   | {
+    type: 'offerAdvConfirmed',
+    offerValue: number,
+    provider: string,
+    releaseDate: Date,
+    offerName: string,
+  }
+  | {
     type: 'offerReleased',
     offerValue: number,
     provider: string,
