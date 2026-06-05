@@ -12,7 +12,7 @@ const SiteConfig = {
     cookieDomain: process.env.COOKIE_DOMAIN,
   },
   database: {
-    name: process.env.DATABASE_NAME,
+    name: process.env.MONGODB_DATABASE_NAME,
   },
   walls: {
     adgatemedia: {

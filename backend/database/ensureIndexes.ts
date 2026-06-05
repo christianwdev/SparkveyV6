@@ -45,6 +45,14 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
+  await db.collection(DatabaseCollections.rewards).createIndexes([
+    {
+      key: { rewardID: 1, providerName: 1 },
+      unique: true,
+      name: 'rewardID_providerName_unique',
+    },
+  ]);
+
   await db.collection(DatabaseCollections.emailActionables).createIndexes([
     {
       key: { actionableID: 1 },

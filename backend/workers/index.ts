@@ -1,15 +1,18 @@
 import { Server } from 'socket.io';
 import { createAdapter } from '@socket.io/redis-adapter';
-import type { TypedServer } from 'types/SocketEvents';
 
 // Databases
 import startDatabase from '../database/database';
 
-// Config
+// Utils
 import startRedis from '../database/redis';
 import { createDistributedLock } from '../utils/distributedLock';
 
+// Workers
+import startRewardsWorkers from './rewards';
+
 // Types
+import type { TypedServer } from 'types/SocketEvents';
 import type GlobalObject from 'types/GlobalObject';
 
 const [
@@ -37,5 +40,7 @@ global.globalObject = {
   io,
   distributedLock: createDistributedLock(redisClient),
 } satisfies GlobalObject;
+
+startRewardsWorkers();
 
 console.log('Worker is running');
