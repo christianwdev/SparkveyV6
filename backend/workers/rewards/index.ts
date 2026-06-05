@@ -1,3 +1,4 @@
+import CCPaymentWorker from './ccpayment';
 import TremendousWorker from './tremendous';
 
 // Utils
@@ -14,13 +15,16 @@ async function ingestRewards() {
 
   const [
     [ tremendousErr, tremendousRewards ],
+    [ ccpaymentErr, ccpaymentRewards ],
   ] = await Promise.all([
     TremendousWorker(),
+    CCPaymentWorker(),
   ]);
 
   const ingestedRewards: InternalReward[] = [];
 
   if (!tremendousErr) ingestedRewards.push(...tremendousRewards);
+  if (!ccpaymentErr) ingestedRewards.push(...ccpaymentRewards);
 
   const { upserted, modified, failed } = await processConvertedWorkersRewards({
     convertedRewards: ingestedRewards,
