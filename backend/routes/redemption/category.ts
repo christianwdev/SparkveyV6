@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
 
 // Utils
-import { fetchFeaturedRewardsByCategory, fetchRewardsByCategory } from 'backend/utils/rewards';
-import { withRouteErrorHandling } from 'backend/utils/request';
+import { CATEGORY_REWARDS_PAGE_SIZE, fetchFeaturedRewardsByCategory, fetchRewardsByCategory } from 'backend/utils/rewards';
+import { normalizeQuery, withRouteErrorHandling } from 'backend/utils/request';
 import { sendResponse } from 'backend/utils/response';
 
 // Types
@@ -54,18 +54,26 @@ export default function routeInvoker() {
 
     if (!category) throw new RouteResponseError({ status: 404, message: 'Category not found' });
 
-    const rewards = await fetchRewardsByCategory(categoryID);
+    const { skip: skipQuery } = normalizeQuery(c.req.query());
+    const skip = Number(skipQuery ?? '0');
 
-    const categoryWithRewards: RewardsCategory = {
-      ...category,
-      rewards,
-    };
+    if (!Number.isInteger(skip) || skip < 0) {
+      throw new RouteResponseError({ status: 400, message: 'Invalid skip' });
+    }
+
+    const rewards = await fetchRewardsByCategory(categoryID, {
+      skip,
+      limit: CATEGORY_REWARDS_PAGE_SIZE,
+    });
 
     return sendResponse({
       c,
       status: 200,
       success: true,
-      data: categoryWithRewards,
+      data: {
+        ...category,
+        rewards,
+      },
     });
   });
 

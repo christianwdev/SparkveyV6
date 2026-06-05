@@ -11,6 +11,8 @@ import type InternalReward from 'types/Reward/InternalReward';
 const BATCH_SIZE = 100;
 const FEATURED_REWARDS_LIMIT = 10;
 
+export const CATEGORY_REWARDS_PAGE_SIZE = 20;
+
 type ProcessConvertedWorkersRewardsResult = {
   upserted: number;
   modified: number;
@@ -18,18 +20,12 @@ type ProcessConvertedWorkersRewardsResult = {
 };
 
 type FetchRewardsByCategoryOptions = {
+  skip?: number,
   limit?: number,
 };
 
-export async function fetchRewardsByCategory(
-  categoryID: string,
-  {
-    limit,
-  }: FetchRewardsByCategoryOptions = {},
-): Promise<InternalReward[]> {
-  const { db } = getGlobalObject();
-
-  const pipeline: Document[] = [
+function buildRewardsByCategoryPipeline(categoryID: string): Document[] {
+  return [
     {
       $match: {
         status: 'active',
@@ -49,6 +45,23 @@ export async function fetchRewardsByCategory(
       },
     },
   ];
+}
+
+export async function fetchRewardsByCategory(
+  categoryID: string,
+  {
+    skip = 0,
+    limit,
+  }: FetchRewardsByCategoryOptions = {},
+): Promise<InternalReward[]> {
+  const { db } = getGlobalObject();
+  const pipeline: Document[] = [
+    ...buildRewardsByCategoryPipeline(categoryID),
+  ];
+
+  if (skip > 0) {
+    pipeline.push({ $skip: skip });
+  }
 
   if (limit !== undefined) {
     pipeline.push({ $limit: limit });
@@ -73,7 +86,7 @@ export async function fetchFeaturedRewardsByCategory(
     limit?: number,
   } = {},
 ): Promise<InternalReward[]> {
-  return fetchRewardsByCategory(categoryID, { limit });
+  return fetchRewardsByCategory(categoryID, { skip: 0, limit });
 }
 
 export async function processConvertedWorkersRewards(
