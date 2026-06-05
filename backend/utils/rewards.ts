@@ -5,16 +5,76 @@ import DatabaseCollections from '../constants/DatabaseCollections';
 import { getGlobalObject } from './globalObject';
 
 // Types
-import type { AnyBulkWriteOperation, UpdateFilter } from 'mongodb';
+import type { AnyBulkWriteOperation, Document, UpdateFilter } from 'mongodb';
 import type InternalReward from 'types/Reward/InternalReward';
 
 const BATCH_SIZE = 100;
+const FEATURED_REWARDS_LIMIT = 10;
 
 type ProcessConvertedWorkersRewardsResult = {
   upserted: number;
   modified: number;
   failed: number;
 };
+
+type FetchRewardsByCategoryOptions = {
+  limit?: number,
+};
+
+export async function fetchRewardsByCategory(
+  categoryID: string,
+  {
+    limit,
+  }: FetchRewardsByCategoryOptions = {},
+): Promise<InternalReward[]> {
+  const { db } = getGlobalObject();
+
+  const pipeline: Document[] = [
+    {
+      $match: {
+        status: 'active',
+        categories: categoryID,
+        disabledAt: { $exists: false },
+      },
+    },
+    {
+      $addFields: {
+        sortPriority: { $ifNull: [ '$featuredSpot', Number.MAX_SAFE_INTEGER ] },
+      },
+    },
+    {
+      $sort: {
+        sortPriority: 1,
+        rewardName: 1,
+      },
+    },
+  ];
+
+  if (limit !== undefined) {
+    pipeline.push({ $limit: limit });
+  }
+
+  pipeline.push({
+    $project: {
+      sortPriority: 0,
+    },
+  });
+
+  return db.collection<InternalReward>(DatabaseCollections.rewards)
+    .aggregate<InternalReward>(pipeline)
+    .toArray();
+}
+
+export async function fetchFeaturedRewardsByCategory(
+  categoryID: string,
+  {
+    limit = FEATURED_REWARDS_LIMIT,
+  }: {
+    limit?: number,
+  } = {},
+): Promise<InternalReward[]> {
+  return fetchRewardsByCategory(categoryID, { limit });
+}
 
 export async function processConvertedWorkersRewards(
   {
