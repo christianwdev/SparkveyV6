@@ -7,11 +7,87 @@ import { getGlobalObject } from './globalObject';
 // Types
 import type { AnyBulkWriteOperation, Document, UpdateFilter } from 'mongodb';
 import type InternalReward from 'types/Reward/InternalReward';
+import type FunctionResponse from 'types/FunctionResponse';
 
 const BATCH_SIZE = 100;
 const FEATURED_REWARDS_LIMIT = 10;
 
 export const CATEGORY_REWARDS_PAGE_SIZE = 20;
+export const SPARKS_PER_USD = 1000;
+
+export type ValidateRewardValueError =
+  | 'invalidValue'
+  | 'rewardUnavailable'
+  | 'valueTooLow'
+  | 'valueTooHigh'
+  | 'valueNotAllowed';
+
+export type ValidateUserBalanceError = 'insufficientBalance';
+
+export function getRedemptionSparksCost(
+  reward: InternalReward,
+  value: number,
+): number {
+  switch (reward.providerName) {
+    case 'ccpayment':
+      return value;
+    case 'tremendous':
+      return value * SPARKS_PER_USD;
+  }
+}
+
+export function validateRewardValue({
+  reward,
+  value,
+}: {
+  reward: InternalReward,
+  value: unknown,
+}): FunctionResponse<{ sparksCost: number }, ValidateRewardValueError> {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) {
+    return { ok: false, error: 'invalidValue' };
+  }
+
+  if (reward.status !== 'active' || reward.disabledAt !== undefined) {
+    return { ok: false, error: 'rewardUnavailable' };
+  }
+
+  switch (reward.providerName) {
+    case 'ccpayment': {
+      if (value < reward.meta.minimumAmount) {
+        return { ok: false, error: 'valueTooLow' };
+      }
+
+      if (value > reward.meta.maximumAmount) {
+        return { ok: false, error: 'valueTooHigh' };
+      }
+
+      break;
+    }
+
+    case 'tremendous': {
+      if (reward.meta.type === 'variable') {
+        if (value < reward.meta.minimumValue) {
+          return { ok: false, error: 'valueTooLow' };
+        }
+
+        if (value > reward.meta.maximumValue) {
+          return { ok: false, error: 'valueTooHigh' };
+        }
+      } else if (!reward.meta.denominations.includes(value)) {
+        return { ok: false, error: 'valueNotAllowed' };
+      }
+
+      break;
+    }
+  }
+
+  return {
+    ok: true,
+    data: {
+      sparksCost: getRedemptionSparksCost(reward, value),
+    },
+  };
+}
 
 type ProcessConvertedWorkersRewardsResult = {
   upserted: number;
@@ -24,27 +100,20 @@ type FetchRewardsByCategoryOptions = {
   limit?: number,
 };
 
-function buildRewardsByCategoryPipeline(categoryID: string): Document[] {
-  return [
-    {
-      $match: {
-        status: 'active',
-        categories: categoryID,
-        disabledAt: { $exists: false },
-      },
-    },
-    {
-      $addFields: {
-        sortPriority: { $ifNull: [ '$featuredSpot', Number.MAX_SAFE_INTEGER ] },
-      },
-    },
-    {
-      $sort: {
-        sortPriority: 1,
-        rewardName: 1,
-      },
-    },
-  ];
+export async function getRewardByID(rewardID: string): Promise<FunctionResponse<InternalReward>> {
+  try {
+    const { db } = getGlobalObject();
+
+  const reward = await db.collection<InternalReward>(DatabaseCollections.rewards).findOne({ rewardID });
+
+  if (!reward) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: reward };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
 }
 
 export async function fetchRewardsByCategory(
@@ -56,7 +125,26 @@ export async function fetchRewardsByCategory(
 ): Promise<InternalReward[]> {
   const { db } = getGlobalObject();
   const pipeline: Document[] = [
-    ...buildRewardsByCategoryPipeline(categoryID),
+    [
+      {
+        $match: {
+          status: 'active',
+          categories: categoryID,
+          disabledAt: { $exists: false },
+        },
+      },
+      {
+        $addFields: {
+          sortPriority: { $ifNull: [ '$featuredSpot', Number.MAX_SAFE_INTEGER ] },
+        },
+      },
+      {
+        $sort: {
+          sortPriority: 1,
+          rewardName: 1,
+        },
+      },
+    ],
   ];
 
   if (skip > 0) {

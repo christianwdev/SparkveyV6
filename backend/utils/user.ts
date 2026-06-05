@@ -4,7 +4,7 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import SocketEmits from 'backend/constants/SocketEmits';
 
 // Types
-import type { Filter, WithId } from 'mongodb';
+import type { ClientSession, Filter, WithId } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
 import type InternalUser from 'types/InternalUser';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
@@ -244,27 +244,40 @@ export type UserDocumentIncrement = {
   'statistics.withdrawn'?: number;
 };
 
+export type UpdateUserBalanceError = 'notFound' | 'insufficientBalance' | 'internalServerError';
+
 export async function updateUserBalance({
   userID,
   balanceType = 'sparks',
   balanceChange,
   inc,
+  minBalance,
+  session: externalSession,
 }: {
   userID: string;
   balanceType?: keyof InternalUser['balance'];
   balanceChange: number;
   inc?: UserDocumentIncrement;
-}): Promise<FunctionResponse<{ user: InternalUser; transaction: InternalTransaction }>> {
+  minBalance?: number;
+  session?: ClientSession;
+}): Promise<FunctionResponse<{ user: InternalUser; transaction: InternalTransaction }, UpdateUserBalanceError>> {
   const { db, mongoClient, io } = getGlobalObject();
-  const session = mongoClient.startSession();
+  const ownsSession = externalSession === undefined;
+  const session = externalSession ?? mongoClient.startSession();
 
   try {
-    session.startTransaction();
+    if (ownsSession) {
+      session.startTransaction();
+    }
+
+    const filter: Filter<InternalUser> = { userID };
+
+    if (minBalance !== undefined) {
+      filter[`balance.${balanceType}`] = { $gte: minBalance };
+    }
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
-      {
-        userID,
-      },
+      filter,
       {
         $inc: {
           [`balance.${balanceType}`]: balanceChange,
@@ -277,7 +290,20 @@ export async function updateUserBalance({
       },
     );
 
-    if (!user) throw new Error('notFound');
+    if (!user) {
+      if (minBalance !== undefined) {
+        const userExists = await db.collection<InternalUser>(DatabaseCollections.users).findOne(
+          { userID },
+          { session, projection: { userID: 1 } },
+        );
+
+        if (userExists) {
+          throw new Error('insufficientBalance');
+        }
+      }
+
+      throw new Error('notFound');
+    }
 
     const now = new Date();
     const transaction: InternalTransaction = {
@@ -297,25 +323,35 @@ export async function updateUserBalance({
 
     if (!insertResult.acknowledged) throw new Error('internalServerError');
 
-    await session.commitTransaction();
+    if (ownsSession) {
+      await session.commitTransaction();
 
-    io.to(userID).emit(SocketEmits.userBalanceChange, user.balance[ balanceType ]);
+      io.to(userID).emit(SocketEmits.userBalanceChange, user.balance[ balanceType ]);
+    }
 
     return { ok: true, data: { user, transaction } };
   } catch (error) {
-    if (session.inTransaction()) {
+    if (ownsSession && session.inTransaction()) {
       await session.abortTransaction();
     }
 
-    if (error instanceof Error && error.message === 'notFound') {
-      return { ok: false, error: 'notFound' };
+    if (error instanceof Error) {
+      if (error.message === 'notFound') {
+        return { ok: false, error: 'notFound' };
+      }
+
+      if (error.message === 'insufficientBalance') {
+        return { ok: false, error: 'insufficientBalance' };
+      }
     }
 
     console.error(error);
 
     return { ok: false, error: 'internalServerError' };
   } finally {
-    await session.endSession();
+    if (ownsSession) {
+      await session.endSession();
+    }
   }
 }
 

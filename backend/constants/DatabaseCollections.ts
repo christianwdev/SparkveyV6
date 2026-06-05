@@ -6,6 +6,7 @@ const DatabaseCollections = {
   userEarnings: 'userEarnings',
   userNotifications: 'userNotifications',
   userTransactions: 'userTransactions',
+  userRedemptions: 'userRedemptions',
   rewards: 'rewards',
 };
 
