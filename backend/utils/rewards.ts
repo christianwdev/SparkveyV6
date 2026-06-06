@@ -104,7 +104,9 @@ export async function getRewardByID(rewardID: string): Promise<FunctionResponse<
   try {
     const { db } = getGlobalObject();
 
-  const reward = await db.collection<InternalReward>(DatabaseCollections.rewards).findOne({ rewardID });
+  const reward = await db.collection<InternalReward>(DatabaseCollections.rewards).findOne({
+    rewardID
+  });
 
   if (!reward) return { ok: false, error: 'notFound' };
 

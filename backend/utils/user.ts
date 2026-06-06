@@ -46,6 +46,8 @@ export async function createUser(
       verifiedAt: new Date(),
     } : undefined;
 
+    const sanitizedEmail = sanitizeEmail(email);
+
     const user: InternalUser = {
       userID,
       username: username ?? '',
@@ -57,7 +59,7 @@ export async function createUser(
       },
 
       emailInformation: {
-        emailAddress: email,
+        emailAddress: sanitizedEmail,
         verifiedAt: emailVerifiedAt,
       },
 
@@ -367,4 +369,10 @@ export async function getSanitizedUser(partialUser: Filter<InternalUser>): Promi
 
     return { ok: false, error: 'internalServerError' };
   }
+}
+
+function sanitizeEmail(email?: string): string | undefined {
+  if (typeof email !== 'string' || email.trim().length === 0) return undefined;
+
+  return email.trim().toLowerCase().trim();
 }

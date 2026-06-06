@@ -46,6 +46,7 @@
     "socket.io": "4.8.3",
     "socket.io-client": "4.8.3",
     "syncguard": "2.5.3",
+    "tremendous": "4.12.0",
     "tsx": "4.19.1",
     "zod": "4.4.2"
   },

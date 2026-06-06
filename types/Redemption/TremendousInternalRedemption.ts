@@ -3,7 +3,7 @@ import type { InternalRedemptionStatus } from './BaseInternalRedemption';
 
 type RequestedTremendousInternalRedemption = BaseInternalRedemption & {
   providerName: 'tremendous';
-  status: Omit<InternalRedemptionStatus, 'completed'>;
+  status: Exclude<InternalRedemptionStatus, 'completed'>;
   meta: {
     requestCurrencyCode: string,
     requestRewardAmount: number,

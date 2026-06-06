@@ -1,4 +1,4 @@
-export type InternalRedemptionStatus = 'pending' | 'completed' | 'failed' | 'rejected';
+export type InternalRedemptionStatus = 'pending' | 'approved' | 'completed' | 'failed' | 'rejected';
 export type InternalRedemptionProvider = 'ccpayment' | 'tremendous';
 
 type BaseInternalRedemption = {
