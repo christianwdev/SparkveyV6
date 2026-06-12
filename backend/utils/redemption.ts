@@ -5,6 +5,7 @@ import DatabaseCollections from '../constants/DatabaseCollections';
 import SocketEmits from '../constants/SocketEmits';
 
 // Utils
+import { checkCCPAddressValidity } from './ccpayment';
 import { getGlobalObject } from './globalObject';
 import { createUserNotification } from './notifications';
 import { SPARKS_PER_USD } from './rewards';
@@ -41,9 +42,9 @@ type NewInternalRedemption =
 
 type BuildRedemptionResult =
   | { ok: true, data: NewInternalRedemption }
-  | { ok: false, error: Exclude<HandlePurchaseError, 'insufficientBalance' | 'internalServerError'> };
+  | { ok: false, error: Exclude<HandlePurchaseError, 'insufficientBalance'> };
 
-function buildRedemption({
+async function buildRedemption({
   user,
   reward,
   value,
@@ -55,7 +56,7 @@ function buildRedemption({
   value: number;
   walletAddress?: unknown;
   currencyCode?: unknown;
-}): BuildRedemptionResult {
+}): Promise<BuildRedemptionResult> {
   const now = new Date();
   const base = {
     redemptionID: createId(),
@@ -73,13 +74,27 @@ function buildRedemption({
         return { ok: false, error: 'invalidWalletAddress' };
       }
 
+      const trimmedAddress = walletAddress.trim();
+      const validityResult = await checkCCPAddressValidity({
+        chain: reward.meta.currencyNetwork,
+        address: trimmedAddress,
+      });
+
+      if (!validityResult.ok) {
+        return { ok: false, error: 'internalServerError' };
+      }
+
+      if (!validityResult.data.addrIsValid) {
+        return { ok: false, error: 'invalidWalletAddress' };
+      }
+
       const redemption: RequestedCCPaymentInternalRedemption = {
         ...base,
         providerName: 'ccpayment',
         value,
         usdValue: value / SPARKS_PER_USD,
         meta: {
-          walletAddress: walletAddress.trim(),
+          walletAddress: trimmedAddress,
           currencySymbol: reward.meta.currencySymbol,
           currencyNetwork: reward.meta.currencyNetwork,
           currencyRate: 1,
@@ -140,7 +155,7 @@ export async function handlePurchase({
   walletAddress?: unknown;
   currencyCode?: unknown;
 }): Promise<FunctionResponse<InternalRedemption, HandlePurchaseError>> {
-  const redemptionResult = buildRedemption({
+  const redemptionResult = await buildRedemption({
     user,
     reward,
     value,
@@ -148,9 +163,7 @@ export async function handlePurchase({
     currencyCode,
   });
 
-  if (!redemptionResult.ok) {
-    return redemptionResult;
-  }
+  if (!redemptionResult.ok) return redemptionResult;
 
   const { db, mongoClient, io } = getGlobalObject();
   const session = mongoClient.startSession();
