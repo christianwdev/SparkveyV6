@@ -9,6 +9,7 @@ import type FunctionResponse from 'types/FunctionResponse';
 import type InternalUser from 'types/InternalUser';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
 import type SanitizedUser from 'types/SanitizedUser';
+import type InternalRedemption from 'types/Redemption/InternalRedemption';
 
 function sanitizeSocialLink(link?: { id?: string, verifiedAt?: Date }): SanitizedUser['socialInformation'][keyof SanitizedUser['socialInformation']] {
   if (!link?.id) return undefined;
@@ -369,6 +370,31 @@ export async function getSanitizedUser(partialUser: Filter<InternalUser>): Promi
 
     return { ok: false, error: 'internalServerError' };
   }
+}
+
+export async function getUserRedemptionHistory(
+  {
+    userID,
+    limit = 10,
+    offset = 0,
+  }: {
+    userID: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<FunctionResponse<InternalRedemption[]>> {
+    try {
+      const { db } = getGlobalObject();
+
+      const redemptions = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).find({
+        userID,
+      }).sort({ createdAt: -1 }).skip(offset).limit(limit).toArray();
+
+      return { ok: true, data: redemptions };
+    } catch (error) {
+      console.error(error);
+
+      return { ok: false, error: 'internalServerError' };
+    }
 }
 
 function sanitizeEmail(email?: string): string | undefined {
