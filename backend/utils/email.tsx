@@ -15,7 +15,7 @@ export async function sendForgottenPassword(
     email: string,
     code: string,
   },
-): Promise<[ err: true, message: string ] | [ err: false ]> {
+): Promise<[err: true, message: string] | [err: false]> {
   try {
     const renderedEmail = await render(
       ForgotPassword({
@@ -31,13 +31,13 @@ export async function sendForgottenPassword(
       replyTo: 'support@sparkvey.com',
     });
 
-    if (response.error) return [ true, 'We encountered an error when trying to send your email.' ];
+    if (response.error) return [true, 'We encountered an error when trying to send your email.'];
 
-    return [ false ];
+    return [false];
   } catch (err) {
     console.error(err);
 
-    return [ true, 'Internal server error' ];
+    return [true, 'Internal server error'];
   }
 }
 
@@ -49,7 +49,7 @@ export async function sendVerificationEmail(
     email: string,
     code: string,
   },
-): Promise<[ err: true, message: string ] | [ err: false ]> {
+): Promise<[err: true, message: string] | [err: false]> {
   try {
     const renderedEmail = await render(
       VerifyEmail({
@@ -65,12 +65,12 @@ export async function sendVerificationEmail(
       replyTo: 'support@sparkvey.com',
     });
 
-    if (response.error) return [ true, 'We encountered an error when trying to send your email.' ];
+    if (response.error) return [true, 'We encountered an error when trying to send your email.'];
 
-    return [ false ];
+    return [false];
   } catch (err) {
     console.error(err);
 
-    return [ true, 'Internal server error' ];
+    return [true, 'Internal server error'];
   }
 }
