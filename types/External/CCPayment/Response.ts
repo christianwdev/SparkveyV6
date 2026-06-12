@@ -3,4 +3,3 @@ export type CCPaymentResponse<T> = {
   msg: string;
   data: T;
 };
-
