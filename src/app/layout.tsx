@@ -8,6 +8,7 @@ import Script from 'next/script';
 import { Inter, Roboto, Sedgwick_Ave } from 'next/font/google';
 import { getLocale } from 'next-intl/server';
 import { ToastContainer } from 'react-toastify';
+import { GA4_MEASUREMENT_ID } from '@utils/analytics';
 
 const inter = Inter({
   subsets: [ 'latin' ],
@@ -72,7 +73,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
         <Script
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-LC7WKZ7FBD"
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
         />
         <Script
           id="gtag-script"
@@ -82,7 +83,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', 'G-LC7WKZ7FBD');
+                gtag('config', '${GA4_MEASUREMENT_ID}', {
+                  user_properties: {
+                    app_locale: ${JSON.stringify(locale)}
+                  }
+                });
               `
           }}
         />

@@ -3,6 +3,7 @@ import { hasLocale } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@i18n/routing';
+import Ga4LocaleTracker from '@components/Ga4LocaleTracker';
 
 // Types
 import type { ReactNode } from 'react';
@@ -41,6 +42,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
+      <Ga4LocaleTracker />
       {children}
     </NextIntlClientProvider>
   );
