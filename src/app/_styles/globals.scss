@@ -1,7 +1,7 @@
 @use './variables.scss' as *;
 
 :root {
-  --background: #F3F5F9;
+  --background: #FFFFFF;
   --offbackground: #F6F9FF;
   --off-white: #FEFEFE;
   --light-blue: #E9EEF9;
@@ -14,7 +14,6 @@
 
   --accentColor: #9E38D0;
   --off-black: #1D2736;
-  --landing-background: #FFFFFF;
   --hover-off-black: #111a27;
   --text-white: white;
   --dark: none;
@@ -22,7 +21,7 @@
 }
 
 :root[data-theme='dark'] {
-  --background: #121212;
+  --background: #0A0F16;
   --text-bold: white;
   --text-light-link: white;
   --text-light: #6F7487;
@@ -33,7 +32,6 @@
   --profile-img: url("/img/backgrounds/profiledark.webp");
 
   --off-black: white;
-  --landing-background: #0A0F16;
   --hover-off-black: #DADCE0;
   --text-white: black;
   --dark: block;
@@ -48,6 +46,7 @@
 }
 
 html {
+  overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-gutter: stable;
 }
@@ -62,7 +61,7 @@ body {
 
   height: auto;
   min-height: 100vh;
-  max-width: 100vw;
+  max-width: 100%;
   background: $background;
   color: $text-bold;
   display: flex;

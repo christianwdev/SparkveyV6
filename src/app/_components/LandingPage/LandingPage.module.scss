@@ -1,0 +1,23 @@
+@use '@styles/variables.scss' as *;
+@use 'sass:color';
+
+.landingContainer {
+  width: 100%;
+  min-height: 100vh;
+  background: $background;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+
+  padding-top: $navbar-height + $navbar-margin !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+
+  @include standardPadding;
+
+  * {
+    font-family: var(--font-inter), sans-serif;
+  }
+}

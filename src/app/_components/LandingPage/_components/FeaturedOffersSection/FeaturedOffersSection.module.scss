@@ -1,0 +1,50 @@
+@use '@styles/variables.scss' as *;
+
+.featuredOffersSection {
+  width: 100%;
+  max-width: $content-max-width;
+  margin: 0 auto;
+  padding: 96px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+
+  > .titleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    > h3 {
+      font-family: var(--font-parkinsans), sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: $primary;
+    }
+  
+    > h2 {
+      font-weight: 600;
+      font-size: 48px;
+      color: $text-bold;
+  
+      > span {
+        font-family: var(--font-sedgwick-ave), sans-serif;
+        color: $primary;
+        font-weight: 400;
+      }
+    }
+  
+    > p {
+      font-size: 16px;
+      color: $text-light;
+      font-weight: 400;
+      max-width: 430px;
+    }
+  }
+
+  > .offersContainer {
+    @include horizontal-scroll-grid(4, 16px);
+  }
+}

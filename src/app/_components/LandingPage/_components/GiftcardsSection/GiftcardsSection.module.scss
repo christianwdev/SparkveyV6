@@ -1,0 +1,58 @@
+@use '@styles/variables.scss' as *;
+
+.giftcardsSection {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  
+  padding: 32px 0;
+  max-width: $content-max-width;
+  width: 100%;
+
+  overflow: hidden;
+
+  > .giftcardDescription {
+    font-weight: 400;
+    font-size: 14px;
+    color: $text-light;
+    text-align: left;
+    max-width: 230px;
+    letter-spacing: -1%;
+  }
+
+  > .divider {
+    width: 1px;
+    min-width: 1px;
+    height: 70px;
+    background: $border-light;
+    margin-right: 24px;
+  }
+
+  > .giftcardsSlider {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    gap: 45px;
+
+    mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 20%, #FFFFFF 80%, rgba(255, 255, 255, 0) 100%);
+    mask-size: 100% 100%;
+    mask-position: center;
+    mask-repeat: no-repeat;
+
+    > .giftcardsList {
+      display: flex;
+      gap: 60px;
+
+      animation: slide 60s linear infinite;
+
+      @keyframes slide {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(calc(-100% - 45px));
+        }
+      }
+    }
+  }
+}

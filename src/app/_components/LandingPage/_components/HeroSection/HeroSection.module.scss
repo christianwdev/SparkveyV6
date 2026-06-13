@@ -1,0 +1,191 @@
+@use '@styles/variables.scss' as *;
+@use 'sass:color';
+
+.heroContainer {
+  width: 100%;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 80px 0;
+  box-sizing: border-box;
+
+  > .shapesWrapper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1920px;
+    height: 100vh;
+    z-index: -1;
+
+    > .macaroni {
+      position: absolute;
+      top: 110px;
+      left: 400px;
+      width: 118px;
+      height: 118px;
+    }
+    
+    > .spring {
+      position: absolute;
+      top: 200px;
+      right: 100px;
+      width: 223px;
+      height: 223px;
+    }
+
+    > .cone {
+      position: absolute;
+      top: 450px;
+      left: 170px;
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  > .circleWrapper {
+    position: absolute;
+    
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    width: 2450px;
+    z-index: -1;
+
+    user-select: none;
+    pointer-events: none;
+
+    > .circle {        
+      width: 100%;
+
+      &.dark {
+        display: $dark;
+      }
+
+      &.light {
+        display: $light;
+      }
+
+      > svg {
+        width: 100%;
+      }
+    }
+  }
+
+  > .titleContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+
+    > .h2 {
+      font-family: var(--font-parkinsans), sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      letter-spacing: -2%;
+      text-align: center;
+      color: $primary;
+    }
+
+    > h1 {
+      text-align: center;
+  
+      font-size: 48px;
+      color: $text-bold;
+      font-weight: 600;
+      line-height: 1;
+  
+      max-width: 800px;
+      margin: 0 auto;
+
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+      text-wrap: balance;
+    }
+
+    > p {
+      text-align: center;
+      font-size: 1em;
+      color: $text-light;
+      font-weight: 400;
+      line-height: 1.4;
+      max-width: 600px;
+      overflow-wrap: anywhere;
+    }
+  }
+
+  > .earnedStat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 24px;
+    gap: 4px;
+
+    > h2 {
+      color: $text-bold;
+      font-size: 2.25em;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+
+  p {
+    font-size: 1em;
+    color: $text-light;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  > a {
+    border: none;
+    outline: none;
+    background: unset;
+    cursor: pointer;
+
+    border-radius: 10px;
+    padding: 14px 20px;
+
+    font-size: 1em;
+    font-weight: 600;
+    white-space: normal;
+    text-align: center;
+
+    transition: all 0.2s ease-in-out;
+  }
+
+  > .signupButton {
+    background-color: $off-black;
+    color: $text-white;
+
+    &:hover {
+      background-color: $hover-off-black;
+    }
+  }
+
+  > .loginButton {
+    background-color: transparent;
+    border: 1px solid $border-light;
+    color: $text-bold;
+
+    &:hover {
+      background-color: $primary;
+      border-color: $primary;
+      color: white;
+    }
+  }
+}

@@ -1,0 +1,110 @@
+@use '@styles/variables.scss' as *;
+@use 'sass:color';
+
+.navbarWrapper {
+  height: $navbar-height;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+
+  @supports (animation-timeline: scroll()) {
+    animation: navbar-border linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0 1px;
+    animation-duration: auto;
+  }
+
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+
+  @include standardPadding;
+
+  > .contentWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    max-width: $content-max-width;
+
+    > .logo {
+      color: $text-bold;
+    }
+  
+    > .ctaButtons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    
+      > a {
+        border: none;
+        outline: none;
+        background: unset;
+        cursor: pointer;
+    
+        border-radius: 10px;
+        padding: 12px 20px;
+    
+        font-size: 1em;
+        font-weight: 600;
+        white-space: normal;
+        text-align: center;
+        letter-spacing: -2%;
+    
+        transition: all 0.2s ease-in-out;
+      }
+    
+      > .signupButton {
+        background-color: $off-black;
+        color: $text-white;
+    
+        &:hover {
+          background-color: $hover-off-black;
+        }
+      }
+    
+      > .loginButton {
+        background-color: transparent;
+        border: 1px solid $border-light;
+        color: $text-bold;
+    
+        &:hover {
+          background-color: $primary;
+          border-color: $primary;
+          color: white;
+        }
+      }
+    }
+  
+    > .links {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+  
+      > a {
+        color: $text-light;
+      }
+    }
+  }
+}
+
+@keyframes navbar-border {
+  from {
+    border-bottom-color: transparent;
+  }
+
+  to {
+    border-bottom-color: $border-light;
+  }
+}

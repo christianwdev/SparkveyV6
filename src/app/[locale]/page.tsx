@@ -1,3 +1,5 @@
-export default function Page() {
-  return <h1>Hello World</h1>;
+import LandingPage from '@components/LandingPage/LandingPage';
+
+export default async function Page() {
+  return <LandingPage />;
 }

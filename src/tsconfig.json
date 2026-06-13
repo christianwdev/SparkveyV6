@@ -31,7 +31,7 @@
         "./app/_layouts/*",
       ],
       "@public/*": [
-        "../public/*",
+        "./public/*",
       ],
       "types/*": [
         "./types/*",

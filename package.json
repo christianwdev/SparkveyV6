@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build-frontend": "NEXT_PUBLIC_ENV=production next build",
+    "build-frontend": "NEXT_PUBLIC_ENV=production next build src/ --webpack",
     "build-backend": "tsc --project tsconfig.json",
     "worker": "bun run ./backend/workers/index.ts",
-    "start": "cross-env NEXT_PUBLIC_ENV=development NODE_ENV=development concurrently -p \"[{name}]\" -n \"Frontend,Backend\" -c \"bgBlue.bold,bgMagenta.bold\" \"next dev\" \"bun --watch --env-file=.env app.ts\"",
+    "start": "cross-env NEXT_PUBLIC_ENV=development NODE_ENV=development concurrently -p \"[{name}]\" -n \"Frontend,Backend\" -c \"bgBlue.bold,bgMagenta.bold\" \"next dev src/ --webpack\" \"bun --watch --env-file=.env app.ts\"",
     "build": "npm run build-frontend && npm run build-backend",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "start-frontend": "NEXT_PUBLIC_ENV=production next start -p 4000",
+    "start-frontend": "NEXT_PUBLIC_ENV=production next start src/ -p 4000",
     "start-backend": "NODE_ENV=production bun run app.ts"
   },
   "dependencies": {

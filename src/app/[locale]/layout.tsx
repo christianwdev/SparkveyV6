@@ -3,7 +3,7 @@ import { hasLocale } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@i18n/routing';
-import Ga4LocaleTracker from '@components/Ga4LocaleTracker';
+import Ga4LocaleTracker from '@components/GoogleAnalytics/Ga4LocaleTracker';
 
 // Types
 import type { ReactNode } from 'react';

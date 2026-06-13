@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import path from 'path';
 
-const STYLES_DIR = path.resolve(__dirname, './src/app/_styles');
+const STYLES_DIR = path.resolve(__dirname, './app/_styles');
 const withNextIntl = createNextIntlPlugin();
 const NEXT_BUILD_CPUS = Number(process.env.NEXT_BUILD_CPUS ?? 2);
 
@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
   },
 
   turbopack: {
-    root: __dirname,
+    root: path.resolve(__dirname, '../'),
   },
 
   env: {

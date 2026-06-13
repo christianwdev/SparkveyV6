@@ -5,7 +5,7 @@ import './_styles/globals.scss';
 import type { ReactNode } from 'react';
 import type { Viewport } from 'next';
 import Script from 'next/script';
-import { Inter, Roboto, Sedgwick_Ave } from 'next/font/google';
+import { Inter, Roboto, Sedgwick_Ave, Parkinsans } from 'next/font/google';
 import { getLocale } from 'next-intl/server';
 import { ToastContainer } from 'react-toastify';
 import { GA4_MEASUREMENT_ID } from '@utils/analytics';
@@ -31,6 +31,13 @@ const sedgwickAve = Sedgwick_Ave({
   display: 'swap',
 });
 
+const parkinsans = Parkinsans({
+  subsets: [ 'latin' ],
+  weight: [ '400', '600' ],
+  variable: '--font-parkinsans',
+  display: 'swap',
+});
+
 export const metadata = {
   metadataBase: new URL('https://sparkvey.com'),
   title: 'Sparkvey | Earn Rewards, Cash, and Gift Cards Online',
@@ -51,7 +58,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const locale = await getLocale();
 
   return (
-    <html lang={locale} className={`${inter.variable} ${roboto.variable} ${sedgwickAve.variable}`}>
+    <html lang={locale} className={`${inter.variable} ${roboto.variable} ${sedgwickAve.variable} ${parkinsans.variable}`}>
       <head>
         {process.env.NODE_ENV === 'production' ? (
           <Script

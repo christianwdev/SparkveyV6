@@ -42,12 +42,14 @@
   "Landing": {
     "register": "Register",
     "signIn": "Sign In",
-    "getStarted": "Get Started",
+    "getStarted": "Start Earning Free",
+    "exploreOffers": "Explore Offers",
+    "heroHeadline": "Get Paid To Complete Simple Tasks",
     "heroPrefix": "Earn",
     "heroSuffix": "Your Way - Surveys, Cashback & Offers!",
     "heroDescription": "Complete surveys, shop with cashback, and take on challenges to earn money online!",
     "totalEarnedBySparkvey": "Total earned by Sparkvey",
-    "giftcardDescription": "Redeem your rewards for gift cards from over 200+ of your favourite brands. Start earning money online today!",
+    "giftcardDescription": "Choose from popular gift cards, crypto, shopping rewards, and more.",
     "bannedBannerTitle": "Sign-in blocked — this account cannot access Sparkvey",
     "rewardWords": {
       "rewards": "Rewards",

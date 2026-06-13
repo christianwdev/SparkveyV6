@@ -1,0 +1,23 @@
+@use '@styles/variables.scss' as *;
+
+.animatedTextContainer {
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  vertical-align: middle;
+  width: auto;
+  white-space: nowrap;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 100%;
+
+  > .animatedText {
+    display: inline-block;
+    width: auto;
+    color: inherit;
+    font-family: var(--font-sedgwick-ave), cursive;
+    color: $accentColor;
+    will-change: transform, opacity;
+    font-weight: 400;
+  }
+}
