@@ -4,6 +4,38 @@ import stylistic from "@stylistic/eslint-plugin";
 import packageJson from "eslint-plugin-package-json";
 import * as jsoncParser from "jsonc-eslint-parser";
 
+const iconifyJsxExtensionRule = {
+  meta: {
+    type: "problem",
+    docs: {
+      description: "Require .jsx extension on ~icons imports",
+    },
+    schema: [],
+    messages: {
+      missingJsxExtension:
+        "Icon imports from ~icons must use a .jsx extension (e.g. '~icons/mdi/account.jsx').",
+    },
+  },
+  create(context) {
+    return {
+      ImportDeclaration(node) {
+        const source = node.source.value;
+
+        if (
+          typeof source === "string"
+          && source.startsWith("~icons/")
+          && !source.endsWith(".jsx")
+        ) {
+          context.report({
+            node: node.source,
+            messageId: "missingJsxExtension",
+          });
+        }
+      },
+    };
+  },
+};
+
 /** @type {import("eslint").Linter.Config[]} */
 const eslintConfig = [
   ...nextCoreWebVitals,
@@ -60,6 +92,13 @@ const eslintConfig = [
         tsconfigRootDir: import.meta.dirname,
       },
     },
+    plugins: {
+      sparkvey: {
+        rules: {
+          "iconify-jsx-extension": iconifyJsxExtensionRule,
+        },
+      },
+    },
     rules: {
       "@typescript-eslint/consistent-type-imports": [
         "error",
@@ -68,6 +107,7 @@ const eslintConfig = [
           fixStyle: "separate-type-imports",
         },
       ],
+      "sparkvey/iconify-jsx-extension": "error",
     },
   },
   {

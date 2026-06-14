@@ -1,0 +1,51 @@
+---
+description: Use Bun as the package manager and runtime for this project
+alwaysApply: true
+---
+
+# Use Bun
+
+This project uses **Bun** for dependency management and backend/runtime scripts. Do not use npm, yarn, or pnpm unless the user explicitly asks.
+
+## Package management
+
+```bash
+# Install dependencies
+bun install
+
+# Add / remove packages
+bun add <package>
+bun add -d <package>
+bun remove <package>
+```
+
+## Running scripts
+
+```bash
+# Prefer bun run for package.json scripts
+bun run start
+bun run lint
+bun run build-frontend
+
+# Direct Bun execution for backend entrypoints
+bun run app.ts
+bun --watch --env-file=.env app.ts
+```
+
+## Rules
+
+- Use `bun.lock` as the lockfile source of truth — never generate or commit `package-lock.json`, `yarn.lock`, or `pnpm-lock.yaml`.
+- When installing or updating dependencies, use `bun add` / `bun remove`, not `npm install` or `npx`.
+- When running project scripts in the terminal, use `bun run <script>`, not `npm run <script>`.
+- The backend and workers run on Bun (`bun run app.ts`, `bun run ./backend/workers/index.ts`).
+- Frontend dev/build still uses Next.js via existing scripts; invoke them through `bun run`, not npm.
+
+## Avoid
+
+```bash
+npm install
+npm run lint
+npx some-package
+yarn add foo
+pnpm add foo
+```

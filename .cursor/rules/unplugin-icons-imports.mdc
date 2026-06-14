@@ -1,0 +1,33 @@
+---
+description: Require .jsx extension on unplugin-icons (~icons) imports
+globs:
+  - src/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# unplugin-icons Import Convention
+
+This project uses `unplugin-icons` with the Next.js webpack plugin. Icon imports must include a `.jsx` extension so Next resolves them as compiled React components instead of filesystem paths.
+
+Required dev dependencies: `unplugin-icons`, `@svgr/core`, `@svgr/plugin-jsx`, and the relevant `@iconify-json/*` packs.
+
+## Required
+
+```typescript
+import AccountIcon from '~icons/mdi/account.jsx';
+import GiftIcon from '~icons/solar/gift-bold.jsx';
+```
+
+## Forbidden
+
+```typescript
+import AccountIcon from '~icons/mdi/account';
+import GiftIcon from '~icons/mdi/gift-outline.tsx';
+```
+
+## Rules
+
+- Always use the `~icons/<set>/<icon-name>.jsx` import path.
+- Always end the import with `.jsx` — never omit the extension or use `.ts`/`.tsx`.
+- Import icons as default exports and render them as components: `<AccountIcon />`.
+- Place icon imports in a dedicated `// Icons` block, matching existing project style.

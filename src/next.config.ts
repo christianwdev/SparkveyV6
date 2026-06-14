@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import path from 'path';
+import Icons from 'unplugin-icons/webpack';
 
 const STYLES_DIR = path.resolve(__dirname, './app/_styles');
 const withNextIntl = createNextIntlPlugin();
@@ -40,6 +41,17 @@ const nextConfig: NextConfig = {
 
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
+
+  webpack(config) {
+    config.plugins.push(
+      Icons({
+        compiler: 'jsx',
+        jsx: 'react',
+      }),
+    );
+
+    return config;
+  },
 };
 
 export default withNextIntl(nextConfig);

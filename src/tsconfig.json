@@ -46,6 +46,7 @@
   "include": [
     "jsx.declarations.d.ts",
     "svg.d.ts",
+    "unplugin-icons.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
