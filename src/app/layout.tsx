@@ -36,6 +36,7 @@ const parkinsans = Parkinsans({
   weight: [ '400', '600' ],
   variable: '--font-parkinsans',
   display: 'swap',
+  adjustFontFallback: false,
 });
 
 export const metadata = {
