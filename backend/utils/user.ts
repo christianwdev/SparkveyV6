@@ -10,6 +10,9 @@ import type InternalUser from 'types/InternalUser';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
 import type SanitizedUser from 'types/SanitizedUser';
 import type InternalRedemption from 'types/Redemption/InternalRedemption';
+import type InternalEarning from 'types/Earnings/InternalEarning';
+import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
+import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
 
 function sanitizeSocialLink(link?: { id?: string, verifiedAt?: Date }): SanitizedUser['socialInformation'][keyof SanitizedUser['socialInformation']] {
   if (!link?.id) return undefined;
@@ -377,19 +380,68 @@ export async function getUserRedemptionHistory(
     userID,
     limit = 10,
     offset = 0,
+    status,
+    type,
   }: {
     userID: string;
     limit?: number;
     offset?: number;
+    status?: InternalRedemptionStatus;
+    type?: InternalRedemptionProvider;
   }): Promise<FunctionResponse<InternalRedemption[]>> {
     try {
       const { db } = getGlobalObject();
 
-      const redemptions = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).find({
-        userID,
-      }).sort({ createdAt: -1 }).skip(offset).limit(limit).toArray();
+      const query: Filter<InternalRedemption> = { userID };
+      if (status !== undefined) query.status = status;
+      if (type !== undefined) query.providerName = type;
+
+      const redemptions = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).find(query)
+        .sort({
+          createdAt: -1,
+        })
+        .skip(offset)
+        .limit(limit)
+        .toArray() ?? [];
 
       return { ok: true, data: redemptions };
+    } catch (error) {
+      console.error(error);
+
+      return { ok: false, error: 'internalServerError' };
+    }
+}
+
+export async function getUserEarningsHistory(
+  {
+    userID,
+    limit = 10,
+    offset = 0,
+    status,
+    type,
+  }: {
+    userID: string;
+    limit?: number;
+    offset?: number;
+    status?: InternalEarningStatus;
+    type?: InternalEarning['type'];
+  }): Promise<FunctionResponse<InternalEarning[]>> {
+    try {
+      const { db } = getGlobalObject();
+
+      const query: Filter<InternalEarning> = { userID };
+      if (status !== undefined) query.status = status;
+      if (type !== undefined) query.type = type;
+
+      const earnings = await db.collection<InternalEarning>(DatabaseCollections.userEarnings).find(query)
+        .sort({
+          createdAt: -1,
+        })
+        .skip(offset)
+        .limit(limit)
+        .toArray() ?? [];
+
+      return { ok: true, data: earnings };
     } catch (error) {
       console.error(error);
 
