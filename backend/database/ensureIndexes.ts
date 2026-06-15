@@ -64,4 +64,17 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       name: 'userID_type_deactivatedAt',
     },
   ]);
+
+  await db.collection(DatabaseCollections.affiliateCodes).createIndexes([
+    {
+      key: { code: 1 },
+      unique: true,
+      partialFilterExpression: { disabledAt: { $exists: false } },
+      name: 'code_unique_when_active',
+    },
+    {
+      key: { userID: 1, createdAt: -1 },
+      name: 'userID_createdAt',
+    },
+  ]);
 }

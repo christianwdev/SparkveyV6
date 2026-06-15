@@ -8,6 +8,7 @@ const DatabaseCollections = {
   userTransactions: 'userTransactions',
   userRedemptions: 'userRedemptions',
   rewards: 'rewards',
+  affiliateCodes: 'affiliateCodes',
 };
 
 export default DatabaseCollections;

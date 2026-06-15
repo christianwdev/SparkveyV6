@@ -79,6 +79,10 @@ type InternalUser = {
   referralInformation: {
     referredBy?: string,
     referredByID?: string,
+
+    totalEarnings: number,
+    tasksCompleted: number,
+    pendingEarnings: number,
   },
 
   userConfiguration: {

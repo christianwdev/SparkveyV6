@@ -114,6 +114,10 @@ export async function createUser(
       referralInformation: {
         referredBy,
         referredByID: undefined,
+
+        totalEarnings: 0,
+        tasksCompleted: 0,
+        pendingEarnings: 0,
       },
 
       userConfiguration: {
