@@ -9,6 +9,7 @@ import { sendResponse } from '../utils/response';
 import type { Context, Next } from 'hono';
 import type InternalUser from 'types/InternalUser';
 import type UserSession from 'types/UserSession';
+import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 export async function optionalAuth(c: Context<{ Variables: { user: InternalUser } }>, next: Next) {
   const sessionID = getCookie(c, 'sessionID');
@@ -80,27 +81,37 @@ export async function requireUserID(c: Context<{ Variables: { userID: string } }
   await next();
 }
 
-export async function requireAdmin(c: Context<{ Variables: { user: InternalUser } }>, next: Next) {
-  const sessionID = getCookie(c, 'sessionID');
+export function requireAdmin(permission?: StaffPermissions) {
+  return async (c: Context<{ Variables: { user: InternalUser } }>, next: Next) => {
+    const sessionID = getCookie(c, 'sessionID');
 
-  if (!sessionID) return sendResponse({ c, status: 401, success: false, message: 'You are not signed in' });
+    if (!sessionID) return sendResponse({ c, status: 401, success: false, message: 'You are not signed in' });
 
-  const sessionResult = await consumeSession({
-    sessionParams: {
-      sessionID,
-    },
-    ipAddress: getIPFromRequest(c) || '',
-  });
+    const sessionResult = await consumeSession({
+      sessionParams: {
+        sessionID,
+      },
+      ipAddress: getIPFromRequest(c) || '',
+    });
 
-  if (!sessionResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
+    if (!sessionResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
 
-  const userResult = await getRawUser({
-    userID: sessionResult.data.userID,
-  });
+    const userResult = await getRawUser({
+      userID: sessionResult.data.userID,
+    });
 
-  if (!userResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This user does not exist' });
+    if (!userResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This user does not exist' });
 
-  c.set('user', userResult.data);
+    const { staffPermissions = StaffPermissions.NONE } = userResult.data;
 
-  await next();
+    if (permission !== undefined) {
+      if ((staffPermissions & permission) !== permission) return sendResponse({ c, status: 403, success: false, message: 'You do not have permission to access this resource' });
+    } else {
+      if (staffPermissions === StaffPermissions.NONE) return sendResponse({ c, status: 403, success: false, message: 'You do not have permission to access this resource' });
+    }
+
+    c.set('user', userResult.data);
+
+    await next();
+  };
 }

@@ -101,6 +101,8 @@ type InternalUser = {
     colorTheme?: 'light' | 'dark',
   },
 
+  staffPermissions?: number,
+
   bannedUntil?: Date,
   creationDate: Date,
 };
