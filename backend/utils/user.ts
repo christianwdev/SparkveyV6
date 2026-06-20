@@ -300,20 +300,8 @@ export async function updateUserBalance({
       },
     );
 
-    if (!user) {
-      if (minBalance !== undefined) {
-        const userExists = await db.collection<InternalUser>(DatabaseCollections.users).findOne(
-          { userID },
-          { session, projection: { userID: 1 } },
-        );
-
-        if (userExists) {
-          throw new Error('insufficientBalance');
-        }
-      }
-
-      throw new Error('notFound');
-    }
+    if (!!minBalance && !user) throw new Error('insufficientBalance');
+    if (!user) throw new Error('notFound');
 
     const now = new Date();
     const transaction: InternalTransaction = {
@@ -321,7 +309,7 @@ export async function updateUserBalance({
       userID,
       balanceType,
       balanceChange,
-      balanceAfter: user.balance[ balanceType ],
+      balanceAfter: user.balance[balanceType],
       createdAt: now,
       updatedAt: now,
     };
@@ -335,8 +323,7 @@ export async function updateUserBalance({
 
     if (ownsSession) {
       await session.commitTransaction();
-
-      io.to(userID).emit(SocketEmits.userBalanceChange, user.balance[ balanceType ]);
+      io.to(userID).emit(SocketEmits.userBalanceChange, user.balance[balanceType]);
     }
 
     return { ok: true, data: { user, transaction } };
@@ -346,13 +333,8 @@ export async function updateUserBalance({
     }
 
     if (error instanceof Error) {
-      if (error.message === 'notFound') {
-        return { ok: false, error: 'notFound' };
-      }
-
-      if (error.message === 'insufficientBalance') {
-        return { ok: false, error: 'insufficientBalance' };
-      }
+      if (error.message === 'notFound') return { ok: false, error: 'notFound' };
+      if (error.message === 'insufficientBalance') return { ok: false, error: 'insufficientBalance' };
     }
 
     console.error(error);
