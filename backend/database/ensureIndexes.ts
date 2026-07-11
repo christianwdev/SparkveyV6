@@ -77,4 +77,16 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       name: 'userID_createdAt',
     },
   ]);
+
+  await db.collection(DatabaseCollections.offers).createIndexes([
+    {
+      key: { offerID: 1, provider: 1 },
+      unique: true,
+      name: 'offerID_provider_unique',
+    },
+    {
+      key: { status: 1, provider: 1, updatedAt: 1 },
+      name: 'status_provider_updatedAt',
+    },
+  ]);
 }

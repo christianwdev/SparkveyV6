@@ -10,6 +10,7 @@ import { createDistributedLock } from '../utils/distributedLock';
 
 // Workers
 import startRewardsWorkers from './rewards';
+import startOffersWorkers from './offers';
 
 // Types
 import type { TypedServer } from 'types/SocketEvents';
@@ -42,5 +43,6 @@ global.globalObject = {
 } satisfies GlobalObject;
 
 startRewardsWorkers();
+startOffersWorkers();
 
 console.log('Worker is running');
