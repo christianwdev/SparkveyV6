@@ -69,7 +69,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     {
       key: { code: 1 },
       unique: true,
-      partialFilterExpression: { disabledAt: { $exists: false } },
+      partialFilterExpression: { disabledAt: null },
       name: 'code_unique_when_active',
     },
     {

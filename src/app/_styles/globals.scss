@@ -18,6 +18,9 @@
   --text-white: white;
   --dark: none;
   --light: block;
+
+  --backgroundColorDarkAlways: #0A0F16;
+  --textColorDarkAlways: white;
 }
 
 :root[data-theme='dark'] {
@@ -36,6 +39,9 @@
   --text-white: black;
   --dark: block;
   --light: none;
+
+  --backgroundColorDarkAlways: #0A0F16;
+  --textColorDarkAlways: white;
 }
 
 * {

@@ -1,0 +1,197 @@
+@use '@styles/variables.scss' as *;
+
+.authPageWrapper {
+  display: flex;
+  
+  min-height: 100vh;
+  width: 100%;
+  background-color: #0A0F16;
+  padding: 12px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    user-select: none;
+    pointer-events: none;
+    
+    background-image: url('/img/stocks/darkellipse.png');
+    width: 100vw;
+    height: 100vh;
+    min-width: 1000px;
+
+    left: 0;
+    background-position-y: 100px;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    z-index: 0;
+  }
+
+  > .splashContainer {
+    flex: 1;
+    max-width: 600px;
+    padding: 32px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+
+    > .logo {
+      filter: brightness(0) invert(1);
+    }
+
+    > .splashContent {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: white;
+      max-width: 500px;
+
+      > .welcomeText {
+        font-size: 48px;
+        font-weight: 500;
+        color: white;
+      }
+
+      > p {
+        font-size: 16px;
+        font-weight: 400;
+        color: $text-light;
+      }
+
+      > .earningInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        margin-top: 100px;
+
+        > h2 {
+          font-size: 2.5em;
+          font-weight: 400;
+          color: $primary;
+          font-family: var(--font-sedgwick-ave), cursive;
+        }
+
+        > .earned {
+          font-size: 24px;
+          font-weight: 700;
+          color: #DADCE0;
+
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          > span:not(.comma) {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #1D2736;
+            border-radius: 8px;
+
+            text-align: center;
+            line-height: 50px;
+          }
+        }
+
+        > .earnedDescription {
+          display: flex;
+          flex-direction: column;
+          margin-top: 10px;
+
+          > p {
+          font-size: 14px;
+            font-weight: 400;
+            color: $text-light;
+          }
+        }
+      }
+    }
+
+    > .footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      > a {
+        color: $text-light;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 400;
+      }
+    }
+  }
+
+  > .authPageContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $off-white;
+    position: relative;
+
+    border-radius: 24px;
+    padding: 50px;
+    box-sizing: border-box;
+    flex: 2;
+
+    > .goBack {
+      all: unset;
+
+      position: absolute;
+      top: 80px;
+      right: 100px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      height: 40px;
+      padding: 0 24px;
+
+      border-radius: 8px;
+      font-weight: 400;
+      font-size: 14px;
+
+      cursor: pointer;
+
+      transition: background-color 0.2s ease-in-out;
+
+      background-color: transparent;
+      border: 1px solid #DADCE0;
+      color: $text-bold;
+
+      &:hover {
+        background-color: #DADCE0;
+      }
+    }
+  }
+
+  @media (max-width: $small-tablet) {
+    flex-direction: column;
+    
+    &::before {
+      background-position-y: 0;
+      background-position-x: center;
+    }
+
+    > .splashContainer {
+      max-width: unset;
+      gap: 36px;
+      padding: 48px 24px;
+    }
+
+    > .authPageContent {
+      padding: 100px 24px;
+
+      > .goBack {
+        top: 24px;
+        right: 24px;
+      }
+    }
+  }
+}

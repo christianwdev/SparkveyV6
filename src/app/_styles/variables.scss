@@ -41,6 +41,9 @@ $text-white: var(--text-white);
 $dark: var(--dark);
 $light: var(--light);
 
+$backgroundColorDarkAlways: var(--backgroundColorDarkAlways);
+$textColorDarkAlways: var(--textColorDarkAlways);
+
 @mixin standardPadding {
   padding: 0 min(160px, 10%) 80px min(160px, 10%);
 
@@ -63,18 +66,18 @@ $light: var(--light);
   animation: 1.5s infinite forwards pulse;
 
   @keyframes pulse {
-        100% {
-          opacity: 1;
-        }
-    
-        50% {
-          opacity: 0.75;
-        }
-      
-        100% {
-          opacity: 1;
-        }
+    0% {
+      opacity: 1;
     }
+    
+    50% {
+      opacity: 0.75;
+    }
+      
+    100% {
+      opacity: 1;
+    }
+  }
 }
 
 @mixin horizontal-scroll-grid($columns, $gap) {

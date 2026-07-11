@@ -207,7 +207,9 @@ export async function getUserAffiliateData(
     if (!codesResult.ok) return codesResult;
 
     const referredUsers = await db.collection<InternalUser>(DatabaseCollections.users).find(
-      { 'referralInformation.referredByID': userID },
+      {
+        'referralInformation.referredByID': userID
+      },
       {
         projection: {
           userID: 1,

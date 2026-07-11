@@ -1,7 +1,14 @@
 import styles from './Navbar.module.scss';
-import { getTranslations } from 'next-intl/server';
+
+// Components
 import { Link } from '@i18n/navigation';
 import LogoType from '@components/LogoType/LogoType';
+
+// Constants
+import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
+
+// Utils
+import { getTranslations } from 'next-intl/server';
 
 export default async function Navbar() {
   const t = await getTranslations('Landing');
@@ -21,7 +28,7 @@ export default async function Navbar() {
         </div>
 
         <div className={styles.ctaButtons}>
-          <Link href="/login" className={styles.loginButton}>{t('signIn')}</Link>
+          <Link href={FrontendRedirectPaths.signin} className={styles.loginButton}>{t('signIn')}</Link>
           <Link href="/signup" className={styles.signupButton}>{t('register')}</Link>
         </div>
     </div>
