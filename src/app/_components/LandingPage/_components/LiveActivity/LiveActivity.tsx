@@ -69,15 +69,6 @@ function randomActivity(): Activity {
   };
 }
 
-function targetOpacity(rowIndex: number): number {
-  if (rowIndex === MAX_ACTIVITIES) return 0;
-  if (rowIndex === MAX_ACTIVITIES - 1) return 0.25;
-  if (rowIndex === MAX_ACTIVITIES - 2) return 0.5;
-  if (rowIndex === MAX_ACTIVITIES - 3) return 0.75;
-
-  return 1;
-}
-
 const INITIAL_ACTIVITIES = Array.from({ length: MAX_ACTIVITIES }, (_, index) => initialActivity(index));
 
 export default function LiveActivity() {
@@ -118,15 +109,13 @@ export default function LiveActivity() {
         </div>
 
         <div className={styles.activityCards}>
-          {activities.map((activity, index) => {
-            const opacity = targetOpacity(index);
-
+          {activities.map((activity) => {
             return (
               <motion.div
                 key={activity.id}
                 layout="position"
-                initial={activity.animateIn ? { opacity: 0, y: -CARD_SLOT, scale: 0.98 } : false}
-                animate={{ opacity, y: 0, scale: 1 }}
+                initial={activity.animateIn ? { y: -CARD_SLOT, scale: 0.98 } : false}
+                animate={{ y: 0, scale: 1 }}
                 transition={{
                   layout: CARD_TRANSITION,
                   y: CARD_TRANSITION,
