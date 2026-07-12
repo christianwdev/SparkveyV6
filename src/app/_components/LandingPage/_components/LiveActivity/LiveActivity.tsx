@@ -1,9 +1,15 @@
 'use client';
 
-import * as React from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './LiveActivity.module.scss';
+
+// Utils
+import { getLandingSocket } from '@utils/landingSocket';
+
+// Types
+import type { LandingLiveActivityItem } from 'types/LandingHomepageResponse';
 
 type Activity = {
   id: string;
@@ -13,84 +19,68 @@ type Activity = {
   animateIn: boolean;
 };
 
-const NAMES = [
-  'John Doe',
-  'Jane Smith',
-  'Alex Rivera',
-  'Sam Chen',
-  'Morgan Lee',
-  'Taylor Brooks',
-  'Jordan Park',
-  'Casey Nguyen',
-];
-
-const ACTIONS = [
-  'completed a task',
-  'earned a bonus',
-  'redeemed a reward',
-  'finished a survey',
-  'claimed daily bonus',
-];
-
 const MAX_ACTIVITIES = 5;
 const CARD_SLOT = 80;
 const CARD_TRANSITION = { duration: 0.3, ease: 'easeOut' } as const;
 const TRIM_DELAY_MS = CARD_TRANSITION.duration * 1000 + 50;
 
-let activitySeq = 0;
-
 function avatarUrl(seed: string): string {
   return `https://api.dicebear.com/10.x/initial-face/webp?seed=${encodeURIComponent(seed)}`;
 }
 
-function initialActivity(index: number): Activity {
-  const name = NAMES[index % NAMES.length];
-  const action = ACTIONS[index % ACTIONS.length];
+function activityMessage(item: LandingLiveActivityItem): string {
+  if (item.type === 'shopping') {
+    return `${item.username} shopped at ${item.label}`;
+  }
 
+  return `${item.username} completed ${item.label}`;
+}
+
+function toActivity(item: LandingLiveActivityItem, animateIn = false): Activity {
   return {
-    id: `initial-${index}`,
-    avatar: avatarUrl(name),
-    message: `${name} ${action}`,
-    amount: 50 + index * 25,
-    animateIn: false,
+    id: item.id,
+    avatar: item.avatar || avatarUrl(item.username),
+    message: activityMessage(item),
+    amount: item.value,
+    animateIn,
   };
 }
 
-function randomActivity(): Activity {
-  const name = NAMES[Math.floor(Math.random() * NAMES.length)];
-  const action = ACTIONS[Math.floor(Math.random() * ACTIONS.length)];
+type LiveActivityProps = {
+  initialActivities: LandingLiveActivityItem[];
+};
 
-  return {
-    id: String(++activitySeq),
-    avatar: avatarUrl(name),
-    message: `${name} ${action}`,
-    amount: Math.round(25 + Math.random() * 175),
-    animateIn: true,
-  };
-}
+export default function LiveActivity({ initialActivities }: LiveActivityProps) {
+  const [ activities, setActivities ] = useState<Activity[]>(() =>
+    initialActivities.slice(0, MAX_ACTIVITIES).map((item) => toActivity(item)),
+  );
+  const trimTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-const INITIAL_ACTIVITIES = Array.from({ length: MAX_ACTIVITIES }, (_, index) => initialActivity(index));
+  useEffect(() => {
+    const socket = getLandingSocket();
 
-export default function LiveActivity() {
-  const [ activities, setActivities ] = React.useState<Activity[]>(INITIAL_ACTIVITIES);
-  const trimTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    const onLiveActivity = (item: LandingLiveActivityItem) => {
+      setActivities((prev) => {
+        if (prev.some((activity) => activity.id === item.id)) return prev;
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      const next = randomActivity();
-      setActivities((prev) => [ next, ...prev ].slice(0, MAX_ACTIVITIES + 1));
+        return [ toActivity(item, true), ...prev ].slice(0, MAX_ACTIVITIES + 1);
+      });
 
       if (trimTimer.current) clearTimeout(trimTimer.current);
       trimTimer.current = setTimeout(() => {
         setActivities((prev) => prev.slice(0, MAX_ACTIVITIES));
       }, TRIM_DELAY_MS);
-    }, 2500);
+    };
+
+    socket.on('liveActivity', onLiveActivity);
 
     return () => {
-      clearInterval(timer);
+      socket.off('liveActivity', onLiveActivity);
       if (trimTimer.current) clearTimeout(trimTimer.current);
     };
   }, []);
+
+  if (activities.length === 0) return null;
 
   return (
     <div className={styles.liveActivityContainer} id="live-activity">
@@ -136,7 +126,7 @@ export default function LiveActivity() {
                 <p className={styles.activityAmount}>
                   +
                   <Image src="/img/logo.svg" alt="Spark" width={16} height={16} />
-                  {activity.amount}
+                  {activity.amount.toLocaleString()}
                 </p>
               </motion.div>
             );

@@ -5,6 +5,7 @@ import redemptionRouteInvoker from './redemption';
 import affiliatesRouteInvoker from './affiliates';
 import profileRouteInvoker from './profile';
 import offersRouteInvoker from './offers';
+import landingRouteInvoker from './landing';
 
 const app = new Hono();
 
@@ -15,6 +16,7 @@ export default function routesInvoker() {
   app.route('/profile', profileRouteInvoker());
   app.route('/affiliates', affiliatesRouteInvoker());
   app.route('/offers', offersRouteInvoker());
+  app.route('/landing', landingRouteInvoker());
 
   return app;
 }

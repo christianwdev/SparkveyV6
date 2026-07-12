@@ -38,6 +38,10 @@ const redisSubClient = redisClient.duplicate();
 const io: TypedServer = new Server({
   pingTimeout: 5000,
   adapter: createAdapter(redisPubClient, redisSubClient),
+  cors: {
+    origin: config.server.domains || true,
+    credentials: true,
+  },
 });
 
 const engine = new Engine({

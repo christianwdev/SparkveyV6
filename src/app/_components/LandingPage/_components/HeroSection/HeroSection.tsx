@@ -1,15 +1,15 @@
 import styles from './HeroSection.module.scss';
 import Image from 'next/image';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 import { Link } from '@i18n/navigation';
 import AnimatedText from '../AnimatedText/AnimatedText';
+import AnimatedEarnedStat from './AnimatedEarnedStat';
 
 type LandingProps = {
   usdEarned: number;
 };
 
-export default async function LandingPage({ usdEarned }: LandingProps) {
-  const locale = await getLocale();
+export default async function HeroSection({ usdEarned }: LandingProps) {
   const t = await getTranslations('Landing');
 
   return (
@@ -85,10 +85,7 @@ export default async function LandingPage({ usdEarned }: LandingProps) {
         <Link href="/login" className={styles.loginButton}>{t('exploreOffers')}</Link>
       </div>
 
-      <div className={styles.earnedStat}>
-        <h2>{usdEarned.toLocaleString(locale, { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 })}+</h2>
-        <p>{t('totalEarnedBySparkvey')}</p>
-      </div>
+      <AnimatedEarnedStat initialUsdEarned={usdEarned} />
     </div>
   );
 }

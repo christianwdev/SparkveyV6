@@ -11,6 +11,7 @@ const DatabaseCollections = {
   affiliateCodes: 'affiliateCodes',
   offers: 'offers',
   offerHistory: 'offerHistory',
+  siteStatistics: 'siteStatistics',
 };
 
 export default DatabaseCollections;
