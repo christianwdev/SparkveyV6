@@ -5,11 +5,10 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import styles from './LiveActivity.module.scss';
 
-// Utils
-import { getLandingSocket } from '@utils/landingSocket';
-
 // Types
 import type { LandingLiveActivityItem } from 'types/LandingHomepageResponse';
+import { useSocket } from '@contexts/SocketContext';
+import SocketEmits from '@constants/SocketEmits';
 
 type Activity = {
   id: string;
@@ -51,14 +50,13 @@ type LiveActivityProps = {
 };
 
 export default function LiveActivity({ initialActivities }: LiveActivityProps) {
+  const { socket } = useSocket();
   const [ activities, setActivities ] = useState<Activity[]>(() =>
     initialActivities.slice(0, MAX_ACTIVITIES).map((item) => toActivity(item)),
   );
   const trimTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const socket = getLandingSocket();
-
     const onLiveActivity = (item: LandingLiveActivityItem) => {
       setActivities((prev) => {
         if (prev.some((activity) => activity.id === item.id)) return prev;
@@ -67,18 +65,19 @@ export default function LiveActivity({ initialActivities }: LiveActivityProps) {
       });
 
       if (trimTimer.current) clearTimeout(trimTimer.current);
+
       trimTimer.current = setTimeout(() => {
         setActivities((prev) => prev.slice(0, MAX_ACTIVITIES));
       }, TRIM_DELAY_MS);
     };
 
-    socket.on('liveActivity', onLiveActivity);
+    if (socket) socket.on(SocketEmits.liveActivity, onLiveActivity);
 
     return () => {
-      socket.off('liveActivity', onLiveActivity);
+      if (socket) socket.off(SocketEmits.liveActivity, onLiveActivity);
       if (trimTimer.current) clearTimeout(trimTimer.current);
     };
-  }, []);
+  }, [ socket ]);
 
   if (activities.length === 0) return null;
 

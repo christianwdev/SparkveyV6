@@ -90,6 +90,7 @@ export async function adjustTotalEarnedUsd(deltaUsd: number): Promise<number> {
 
     if (updated) {
       emitSiteStatistics(updated.totalEarnedUsd);
+
       return updated.totalEarnedUsd;
     }
 

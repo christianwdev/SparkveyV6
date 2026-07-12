@@ -1,22 +1,22 @@
 'use client';
 
+import styles from './HeroSection.module.scss';
+
 import { useState, useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { animate, useMotionValue } from 'framer-motion';
 
-// Utils
-import { getLandingSocket } from '@utils/landingSocket';
-
 // Types
 import type { SiteStatisticsPayload } from 'types/SocketEvents';
-
-import styles from './HeroSection.module.scss';
+import { useSocket } from '@contexts/SocketContext';
+import SocketEmits from '@constants/SocketEmits';
 
 type AnimatedEarnedStatProps = {
   initialUsdEarned: number;
 };
 
 export default function AnimatedEarnedStat({ initialUsdEarned }: AnimatedEarnedStatProps) {
+  const { socket } = useSocket();
   const locale = useLocale();
   const t = useTranslations('Landing');
   const motionValue = useMotionValue(initialUsdEarned);
@@ -29,8 +29,6 @@ export default function AnimatedEarnedStat({ initialUsdEarned }: AnimatedEarnedS
   }, [ motionValue ]);
 
   useEffect(() => {
-    const socket = getLandingSocket();
-
     const onSiteStatistics = ({ totalEarnedUsd }: SiteStatisticsPayload) => {
       void animate(motionValue, totalEarnedUsd, {
         duration: 0.8,
@@ -38,12 +36,12 @@ export default function AnimatedEarnedStat({ initialUsdEarned }: AnimatedEarnedS
       });
     };
 
-    socket.on('siteStatistics', onSiteStatistics);
+    if (socket) socket.on(SocketEmits.siteStatistics, onSiteStatistics);
 
     return () => {
-      socket.off('siteStatistics', onSiteStatistics);
+      if (socket) socket.off(SocketEmits.siteStatistics, onSiteStatistics);
     };
-  }, [ motionValue ]);
+  }, [ motionValue, socket ]);
 
   const label = displayValue.toLocaleString(locale, {
     style: 'currency',
