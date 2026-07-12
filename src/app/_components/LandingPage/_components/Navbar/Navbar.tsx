@@ -28,7 +28,7 @@ export default async function Navbar() {
         </div>
 
         <div className={styles.ctaButtons}>
-          <Link href={FrontendRedirectPaths.signin} className={styles.loginButton}>{t('signIn')}</Link>
+          <Link href={FrontendRedirectPaths.login} className={styles.loginButton}>{t('signIn')}</Link>
           <Link href="/signup" className={styles.signupButton}>{t('register')}</Link>
         </div>
     </div>
