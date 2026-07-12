@@ -78,6 +78,20 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
+  // Backfill geoUnrestricted on offers ingested before the field was introduced.
+  // Uses geos.0 dot-notation (whether first element exists) — runs instantly after
+  // the first startup because geoUnrestricted:{$exists:false} matches nothing.
+  await Promise.all([
+    db.collection(DatabaseCollections.offers).updateMany(
+      { geoUnrestricted: { $exists: false }, 'geos.0': { $exists: false } },
+      { $set: { geoUnrestricted: true } },
+    ),
+    db.collection(DatabaseCollections.offers).updateMany(
+      { geoUnrestricted: { $exists: false }, 'geos.0': { $exists: true } },
+      { $set: { geoUnrestricted: false } },
+    ),
+  ]);
+
   await db.collection(DatabaseCollections.offers).createIndexes([
     {
       key: { offerID: 1, provider: 1 },
@@ -87,6 +101,51 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     {
       key: { status: 1, provider: 1, updatedAt: 1 },
       name: 'status_provider_updatedAt',
+    },
+    {
+      key: { status: 1, geos: 1 },
+      name: 'status_geos',
+    },
+    {
+      key: { status: 1, offerType: 1 },
+      name: 'status_offerType',
+    },
+
+    // getFeaturedOffers sort
+    {
+      key: { status: 1, featuredPriority: 1 },
+      sparse: true,
+      name: 'status_featuredPriority',
+    },
+
+    // recentGeoFill branch A: geo-unrestricted offers sorted by recency
+    {
+      key: { status: 1, geoUnrestricted: 1, updatedAt: -1 },
+      name: 'status_geoUnrestricted_updatedAt',
+    },
+
+    // recentGeoFill branch A with offerType: typed geo-unrestricted fills
+    {
+      key: { status: 1, geoUnrestricted: 1, offerType: 1, updatedAt: -1 },
+      name: 'status_geoUnrestricted_offerType_updatedAt',
+    },
+
+    // recentGeoFill branch B: country-specific offers sorted by recency
+    // geos is multikey; updatedAt as trailing key covers the sort so no in-memory sort is needed.
+    {
+      key: { status: 1, geos: 1, updatedAt: -1 },
+      name: 'status_geos_updatedAt',
+    },
+  ]);
+
+  await db.collection(DatabaseCollections.userEarnings).createIndexes([
+    {
+      key: { type: 1, status: 1, createdAt: -1, offerID: 1 },
+      name: 'type_status_createdAt_offerID',
+    },
+    {
+      key: { userID: 1, type: 1, createdAt: -1 },
+      name: 'userID_type_createdAt',
     },
   ]);
 }

@@ -26,6 +26,9 @@ type InternalOfferEarning = InternalEarningBase & {
   postbackLogID: string;
 
   offerID: string;
+  provider: string;
+  externalID: string;
+
   offerName: string;
   offerDisplayName: string;
 

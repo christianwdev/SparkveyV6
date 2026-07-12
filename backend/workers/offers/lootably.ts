@@ -1,4 +1,4 @@
-import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers';
+import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers/ingest';
 
 import type LootablyOffer from 'types/External/Lootably/LootablyOffer';
 import type { IngestedOffer } from 'types/Offer/InternalOffer';

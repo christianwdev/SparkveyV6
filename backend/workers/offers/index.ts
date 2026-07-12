@@ -1,7 +1,7 @@
 import LootablyWorker from './lootably';
 import AyetStudioWorker from './ayetstudio';
 import FastAskWorker from './fastask';
-import { processConvertedWorkersOffers } from '../../utils/offers';
+import { processConvertedWorkersOffers } from '../../utils/offers/ingest';
 import { getGlobalObject } from '../../utils/globalObject';
 import { LockError } from '../../utils/distributedLock';
 

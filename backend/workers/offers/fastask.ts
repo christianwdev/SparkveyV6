@@ -1,4 +1,4 @@
-import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers';
+import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers/ingest';
 
 import type FastAskOffer from 'types/External/FastAsk/FastAskOffer';
 import type { IngestedOffer } from 'types/Offer/InternalOffer';

@@ -75,6 +75,7 @@ type InternalOffer = {
   geos: string[],
   geosBlacklist: string[],
   geoRequirements: GeoRequirement[],
+  geoUnrestricted: boolean,
 
   multiReward: boolean,
   reward: OfferReward[],
@@ -85,6 +86,7 @@ type InternalOffer = {
   createdAt: Date,
 };
 
-export type IngestedOffer = Omit<InternalOffer, 'updatedAt' | 'createdAt' | 'rawDescription'>;
+// geoUnrestricted is computed server-side from geos.length; workers must not set it.
+export type IngestedOffer = Omit<InternalOffer, 'updatedAt' | 'createdAt' | 'rawDescription' | 'geoUnrestricted'>;
 
 export default InternalOffer;

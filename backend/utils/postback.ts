@@ -7,7 +7,7 @@ import { getPostbackProvider, validationFailureToLogFields } from 'backend/schem
 import type { PostbackQuery } from 'types/Postback/PostbackValidation';
 import type InternalPostbackRequest from 'types/InternalPostbackRequest';
 
-import { handleOfferPostback } from './offer';
+import { handleOfferPostback } from './offers/postback';
 import { getIPFromRequest, normalizeQuery } from './request';
 
 export type UpdatePostbackLogFields = Partial<

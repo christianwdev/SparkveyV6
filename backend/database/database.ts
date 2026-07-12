@@ -11,6 +11,7 @@ export default async function startDatabase(): Promise<[ db: Db, client: MongoCl
 
   const client = await MongoClient.connect(process.env.MONGODB_URI, {
     compressors: [ 'zstd' ],
+    maxPoolSize: 20,
   });
 
   const db = client.db(SiteConfig.database.name);

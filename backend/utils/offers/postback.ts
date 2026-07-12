@@ -2,6 +2,7 @@
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { createUserNotification } from 'backend/utils/notifications';
 import { updateUserBalance } from 'backend/utils/user';
+import { createOfferID } from 'backend/utils/offers/ingest';
 
 // Constants
 import DatabaseCollections from "backend/constants/DatabaseCollections";
@@ -196,7 +197,9 @@ async function handleNewOfferPostback(
         ? 'held'
         : 'completed',
     postbackLogID: requestID,
-    offerID: postback.offerID,
+    offerID: createOfferID({ provider: postback.provider, externalID: postback.offerID }),
+    provider: postback.provider,
+    externalID: postback.offerID,
     offerName: postback.offerName,
     offerDisplayName: postback.offerDisplayName ?? postback.offerName,
     ...(heldUntil && { heldUntil }),

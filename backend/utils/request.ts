@@ -50,12 +50,15 @@ export function getIPFromRequest(c: Context): string | undefined {
 }
 
 export function getCountryFromRequest(c: Context): string | undefined {
+  if (process.env.NODE_ENV !== 'production') return 'US';
+
   const passthrough = c.req.header('nextjs-passthrough-ip-country') as string;
   const cfIPCountry = c.req.header('cf-ipcountry') as string;
+
   if (passthrough) return passthrough;
   if (cfIPCountry) return cfIPCountry;
 
-  return process.env.NODE_ENV !== 'production' ? 'US' : undefined;
+  return '';
 }
 
 export function getIPFromSocket(socket: TypedSocket): string | undefined {

@@ -1,4 +1,4 @@
-import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers';
+import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers/ingest';
 
 import type AyetOffer from 'types/External/AyetStudios/AyetOffer';
 import type { IngestedOffer } from 'types/Offer/InternalOffer';

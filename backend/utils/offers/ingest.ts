@@ -1,12 +1,12 @@
 import uuidv5 from 'uuidv5';
 import { GoogleGenAI } from '@google/genai';
 
-import DatabaseCollections from '../constants/DatabaseCollections';
-import { getGlobalObject } from './globalObject';
+import DatabaseCollections from '../../constants/DatabaseCollections';
+import { getGlobalObject } from '../globalObject';
 
 import type { AnyBulkWriteOperation, UpdateFilter } from 'mongodb';
-import type { IngestedOffer } from 'types/Offer/InternalOffer';
 import type InternalOffer from 'types/Offer/InternalOffer';
+import type { IngestedOffer } from 'types/Offer/InternalOffer';
 import type OfferHistory from 'types/Offer/History/OfferHistory';
 import type OfferReward from 'types/Offer/OfferReward';
 import type OfferType from 'types/Offer/OfferType';
@@ -208,6 +208,7 @@ export async function processConvertedWorkersOffers({
 
     const $set: UpdateFilter<InternalOffer> = {
       ...rest,
+      geoUnrestricted: offer.geos.length === 0,
       rawDescription: description,
       updatedAt: now,
     };
