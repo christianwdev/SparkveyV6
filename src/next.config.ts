@@ -40,6 +40,7 @@ const nextConfig: NextConfig = {
   },
 
   reactStrictMode: true,
+  reactCompiler: true,
   productionBrowserSourceMaps: false,
 
   webpack(config) {

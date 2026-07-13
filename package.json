@@ -56,8 +56,8 @@
   },
   "devDependencies": {
     "@iconify-json/mdi": "1.2.3",
-    "@iconify-json/solar": "1.2.5",
     "@iconify-json/octicon": "1.2.5",
+    "@iconify-json/solar": "1.2.5",
     "@stylistic/eslint-plugin": "5.10.0",
     "@svgr/core": "8.1.0",
     "@svgr/plugin-jsx": "8.1.0",
@@ -65,6 +65,7 @@
     "@types/node": "20.10.3",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
+    "babel-plugin-react-compiler": "1.0.0",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.4",
     "eslint-plugin-package-json": "0.91.2",
