@@ -1,19 +1,24 @@
 import Image from 'next/image';
+import { getTranslations } from 'next-intl/server';
 import styles from './HowItWorks.module.scss';
 
 import AccountIcon from '~icons/octicon/person-24.jsx';
 import ClipboardCheckIcon from '~icons/mdi/clipboard-check-outline.jsx';
 import GiftIcon from '~icons/mdi/gift-outline.jsx';
 
-export default function HowItWorks() {
+export default async function HowItWorks() {
+  const t = await getTranslations('Landing.howItWorks');
+
   return (
     <div className={styles.howItWorks} id="how-it-works">
       <div className={styles.titleContainer}>
-        <h3>How it Works</h3>
+        <h3>{t('eyebrow')}</h3>
         <h2>
-          Start earning in <span>3 Simple Steps</span>
+          {t.rich('title', {
+            highlight: (chunks) => <span>{chunks}</span>,
+          })}
         </h2>
-        <p>Browse surveys, app trials, games, and cashback opportunities matched to your interests.</p>
+        <p>{t('description')}</p>
       </div>
 
       <div className={styles.previewCards}>
@@ -21,7 +26,7 @@ export default function HowItWorks() {
           <div className={styles.cardImage}>
             <Image
               src="/img/stocks/onboarding-image.png"
-              alt="Sparkvey onboarding"
+              alt={t('alts.onboarding')}
               fill
               sizes="(max-width: 1024px) 100vw, 360px"
             />
@@ -33,7 +38,7 @@ export default function HowItWorks() {
           <div className={styles.cardImage}>
             <Image
               src="/img/stocks/earn-image.png"
-              alt="Ways to earn on Sparkvey"
+              alt={t('alts.earn')}
               fill
               sizes="(max-width: 1024px) 100vw, 360px"
             />
@@ -45,7 +50,7 @@ export default function HowItWorks() {
           <div className={styles.cardImage}>
             <Image
               src="/img/stocks/redeem-image.png"
-              alt="Redeem rewards on Sparkvey"
+              alt={t('alts.redeem')}
               fill
               sizes="(max-width: 1024px) 100vw, 360px"
             />
@@ -61,30 +66,24 @@ export default function HowItWorks() {
           <div className={`${styles.stepIcon} ${styles.active}`}>
             <AccountIcon />
           </div>
-          <p className={styles.stepTitle}>Sign Up Free</p>
-          <p className={styles.stepDescription}>
-            Create your Sparkvey account and unlock available earning opportunities.
-          </p>
+          <p className={styles.stepTitle}>{t('steps.signUp.title')}</p>
+          <p className={styles.stepDescription}>{t('steps.signUp.description')}</p>
         </div>
 
         <div className={styles.step}>
           <div className={styles.stepIcon}>
             <ClipboardCheckIcon />
           </div>
-          <p className={styles.stepTitle}>Complete Tasks</p>
-          <p className={styles.stepDescription}>
-            Take surveys, try apps, play games, and shop to start stacking up Sparks.
-          </p>
+          <p className={styles.stepTitle}>{t('steps.completeTasks.title')}</p>
+          <p className={styles.stepDescription}>{t('steps.completeTasks.description')}</p>
         </div>
 
         <div className={styles.step}>
           <div className={styles.stepIcon}>
             <GiftIcon />
           </div>
-          <p className={styles.stepTitle}>Redeem Rewards</p>
-          <p className={styles.stepDescription}>
-            Turn your earnings into gift cards, crypto, and other available rewards.
-          </p>
+          <p className={styles.stepTitle}>{t('steps.redeem.title')}</p>
+          <p className={styles.stepDescription}>{t('steps.redeem.description')}</p>
         </div>
       </div>
     </div>

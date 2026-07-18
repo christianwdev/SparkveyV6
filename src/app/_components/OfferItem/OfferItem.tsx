@@ -1,5 +1,8 @@
 import styles from './OfferItem.module.scss';
 
+// Components
+import Skeleton from '@components/Skeleton/Skeleton';
+
 // Hooks
 import { Link } from '@i18n/navigation';
 
@@ -7,7 +10,8 @@ import { Link } from '@i18n/navigation';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
-type OfferItemProps = {
+type OfferItemLoadedProps = {
+  loading?: false;
   offerName: string;
   offerDescription: string;
   offerImageUrl: string;
@@ -15,7 +19,34 @@ type OfferItemProps = {
   totalReward: number;
 };
 
+type OfferItemLoadingProps = {
+  loading: true;
+};
+
+type OfferItemProps = OfferItemLoadedProps | OfferItemLoadingProps;
+
+function OfferItemLoading() {
+  return (
+    <div className={styles.offerItemContainer} aria-hidden>
+      <Skeleton width="100%" height={210} borderRadius={12} />
+      <div className={styles.offerInformation}>
+        <Skeleton width="70%" height={16} />
+        <Skeleton width="90%" height={14} />
+        <Skeleton width="40%" height={20} style={{ marginTop: 'auto' }} />
+      </div>
+    </div>
+  );
+}
+
 export default function OfferItem(props: OfferItemProps) {
+  if (props.loading) {
+    return <OfferItemLoading />;
+  }
+
+  return <OfferItemLoaded {...props} />;
+}
+
+function OfferItemLoaded(props: OfferItemLoadedProps) {
   const t = useTranslations('OfferItem');
 
   return (

@@ -1,40 +1,66 @@
+'use client';
+
+import { Suspense, use } from 'react';
+import { useTranslations } from 'next-intl';
 import OfferItem from '@components/OfferItem/OfferItem';
 import styles from './FeaturedOffersSection.module.scss';
-
-// Types
-import type InternalOffer from 'types/Offer/InternalOffer';
+import type { LandingHomepageResponse } from 'types/LandingHomepageResponse';
 
 type FeaturedOffersSectionProps = {
-  offers: InternalOffer[];
+  initialHomepagePromise: Promise<LandingHomepageResponse>;
 };
 
-export default function FeaturedOffersSection({ offers }: FeaturedOffersSectionProps) {
-  if (offers.length === 0) return null;
+const SKELETON_COUNT = 4;
+
+function FeaturedOffersFallback() {
+  return (
+    <div className={styles.offersContainer} aria-hidden>
+      {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+        <OfferItem key={index} loading />
+      ))}
+    </div>
+  );
+}
+
+function FeaturedOffersList({ initialHomepagePromise }: FeaturedOffersSectionProps) {
+  const { popularOffers } = use(initialHomepagePromise);
+
+  if (popularOffers.length === 0) return null;
+
+  return (
+    <div className={styles.offersContainer}>
+      {popularOffers.map((offer) => (
+        <OfferItem
+          key={offer.offerID}
+          offerName={offer.displayName || offer.name}
+          offerDescription={offer.description}
+          offerImageUrl={offer.image}
+          offerLink="/signup"
+          totalReward={offer.totalReward}
+        />
+      ))}
+    </div>
+  );
+}
+
+export default function FeaturedOffersSection({ initialHomepagePromise }: FeaturedOffersSectionProps) {
+  const t = useTranslations('Landing.featuredOffers');
 
   return (
     <div className={styles.featuredOffersSection}>
       <div className={styles.titleContainer}>
-        <h3>Featured Offers</h3>
+        <h3>{t('eyebrow')}</h3>
         <h2>
-          Explore <span>Reward Opportunities</span>
+          {t.rich('title', {
+            highlight: (chunks) => <span>{chunks}</span>,
+          })}
         </h2>
-        <p>
-          Browse surveys, app trials, games, and cashback opportunities matched to your interests.
-        </p>
+        <p>{t('description')}</p>
       </div>
 
-      <div className={styles.offersContainer}>
-        {offers.map((offer) => (
-          <OfferItem
-            key={offer.offerID}
-            offerName={offer.displayName || offer.name}
-            offerDescription={offer.description}
-            offerImageUrl={offer.image}
-            offerLink="/signup"
-            totalReward={offer.totalReward}
-          />
-        ))}
-      </div>
+      <Suspense fallback={<FeaturedOffersFallback />}>
+        <FeaturedOffersList initialHomepagePromise={initialHomepagePromise} />
+      </Suspense>
     </div>
   );
 }

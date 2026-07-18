@@ -1,0 +1,153 @@
+@use '@styles/variables.scss' as *;
+
+.footerContainer {
+  width: 100%;
+  margin-top: auto;
+  background: #F6F7F7;
+
+  > .content {
+    width: 100%;
+    max-width: $content-max-width;
+    margin: 0 auto;
+    padding: 70px 0 40px;
+    box-sizing: border-box;
+
+    > .links {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
+      gap: 48px 48px;
+      padding-bottom: 64px;
+
+      > .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 320px;
+        min-width: 0;
+
+        > .logo {
+          display: inline-flex;
+          width: fit-content;
+          max-width: 100%;
+          color: $text-bold;
+
+          > svg {
+            width: min(129px, 100%);
+            height: auto;
+          }
+        }
+
+        > p {
+          color: $text-light;
+          font-size: 14px;
+          line-height: 1.6;
+        }
+      }
+
+      > .category {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 0;
+
+        > p {
+          color: $text-bold;
+          font-size: 16px;
+          font-weight: 700;
+        }
+
+        > a {
+          color: $text-light;
+          font-size: 14px;
+          width: fit-content;
+          max-width: 100%;
+          transition: color 0.15s ease;
+
+          &:hover {
+            color: $text-bold;
+          }
+        }
+
+        > .logos {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-top: 4px;
+
+          > a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            border: 1px solid $border-light;
+            border-radius: 50%;
+            color: $text-light;
+            transition: color 0.15s ease, border-color 0.15s ease;
+
+            &:hover {
+              color: $text-bold;
+              border-color: $text-light;
+            }
+          }
+        }
+
+        > .languageSection {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+          margin-top: 8px;
+          width: 100%;
+          max-width: 220px;
+
+          > p {
+            color: $text-bold;
+            font-size: 16px;
+            font-weight: 700;
+          }
+        }
+      }
+    }
+
+    > .bottomBar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px 24px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(111, 116, 135, 0.18);
+
+      > .legalLinks {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        color: $text-light;
+        font-size: 13px;
+        min-width: 0;
+
+        > a {
+          color: $text-light;
+          white-space: nowrap;
+          transition: color 0.15s ease;
+
+          &:hover {
+            color: $text-bold;
+          }
+        }
+
+        > span {
+          line-height: 1;
+        }
+      }
+
+      > p {
+        color: $text-light;
+        font-size: 13px;
+        text-align: right;
+        min-width: 0;
+      }
+    }
+  }
+}

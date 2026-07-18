@@ -96,7 +96,8 @@
       overflow-y: clip;
       mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000000 40%, #000000 60%, rgba(0, 0, 0, 0) 100%);
 
-      > .activityCard {
+      > .activityCard,
+      > .activityCardSkeleton {
         display: flex;
         align-items: center;
         flex-shrink: 0;

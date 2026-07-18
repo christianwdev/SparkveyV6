@@ -66,19 +66,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={locale} className={`${inter.variable} ${roboto.variable} ${sedgwickAve.variable} ${parkinsans.variable}`}>
       <head>
-        {process.env.NODE_ENV === 'production' ? (
-          <Script
-            strategy="afterInteractive"
-            src="https://v.sparkvey.com/prod/bundle.js"
-            verisoul-project-id="392db427-4164-4c05-a888-ed25c85d62d5"
-          />
-        ) : (
-          <Script
-            strategy="afterInteractive"
-            src="https://v.sparkvey.com/sandbox/bundle.js"
-            verisoul-project-id={process.env.VERISOUL_PROJECT_ID}
-          />
-        )}
+        {/* <Script
+          strategy="afterInteractive"
+          src={`https://v.sparkvey.com/${process.env.NODE_ENV === 'production' ? 'prod' : 'sandbox'}/bundle.js`}
+          verisoul-project-id={process.env.VERISOUL_PROJECT_ID ?? '392db427-4164-4c05-a888-ed25c85d62d5'}
+        /> */}
         <Script
           strategy="afterInteractive"
           src='https://static.cloudflareinsights.com/beacon.min.js'

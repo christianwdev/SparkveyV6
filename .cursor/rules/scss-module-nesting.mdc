@@ -1,0 +1,65 @@
+---
+description: Nest SCSS module selectors under the root container; avoid flat sibling blocks
+globs:
+  - src/**/*.{scss,sass,css}
+alwaysApply: false
+---
+
+# SCSS Module Nesting
+
+CSS Modules in this project nest every local class under the component root. Mirror the DOM hierarchy with `>` child selectors. Do not leave sibling class blocks at the file root.
+
+## Required
+
+```scss
+@use '@styles/variables.scss' as *;
+
+.sectionContainer {
+  // root styles...
+
+  > .titleContainer {
+    > h2 { }
+    > p { }
+  }
+
+  > .itemsContainer {
+    > .item {
+      > .header {
+        > .icon { }
+
+        > h3 { }
+      }
+
+      > .body {
+        > p { }
+      }
+
+      &[open] {
+        > .header > .icon { }
+      }
+    }
+  }
+}
+```
+
+## Forbidden
+
+```scss
+// ❌ Flat sibling blocks at the root
+.sectionContainer { }
+
+.item { }
+
+.icon { }
+
+.item[open] > .header > .icon { }
+```
+
+## Rules
+
+- One root class per module (the component's outer wrapper). Nest everything else under it.
+- Prefer `> .child` for direct children so selectors stay tight and match the JSX tree.
+- Nest pseudo-elements, pseudo-classes, and state (`&:hover`, `&[open]`, `&::before`) on the element they belong to — not as separate top-level rules.
+- Keep local SCSS variables (`$toggle-size`, etc.) at the top of the file above the root class.
+- Import shared tokens with `@use '@styles/variables.scss' as *;`.
+- Class names used in JSX (`styles.item`) remain nested in SCSS; CSS Modules still exports them.

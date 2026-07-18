@@ -1,0 +1,8 @@
+@use '@styles/variables.scss' as *;
+
+.skeleton {
+  @include pulse;
+  flex-shrink: 0;
+  background: $light-gray;
+  border-radius: 8px;
+}

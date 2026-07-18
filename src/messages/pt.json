@@ -56,6 +56,117 @@
       "money": "Dinheiro",
       "giftCards": "Gift cards",
       "crypto": "Crypto"
+    },
+    "nav": {
+      "earn": "Ganhar",
+      "rewards": "Recompensas",
+      "faq": "FAQ",
+      "aboutUs": "Sobre nós"
+    },
+    "featuredOffers": {
+      "eyebrow": "Ofertas em destaque",
+      "title": "Explore <highlight>oportunidades de recompensa</highlight>",
+      "description": "Navegue por pesquisas, testes de apps, jogos e oportunidades de cashback combinadas com seus interesses."
+    },
+    "howItWorks": {
+      "eyebrow": "Como funciona",
+      "title": "Comece a ganhar em <highlight>3 passos simples</highlight>",
+      "description": "Navegue por pesquisas, testes de apps, jogos e oportunidades de cashback combinadas com seus interesses.",
+      "steps": {
+        "signUp": {
+          "title": "Cadastre-se grátis",
+          "description": "Crie sua conta Sparkvey e desbloqueie oportunidades de ganho disponíveis."
+        },
+        "completeTasks": {
+          "title": "Conclua tarefas",
+          "description": "Faça pesquisas, teste apps, jogue e compre para começar a acumular Sparks."
+        },
+        "redeem": {
+          "title": "Resgate recompensas",
+          "description": "Transforme seus ganhos em gift cards, cripto e outras recompensas disponíveis."
+        }
+      },
+      "alts": {
+        "onboarding": "Onboarding Sparkvey",
+        "earn": "Formas de ganhar na Sparkvey",
+        "redeem": "Resgatar recompensas na Sparkvey"
+      }
+    },
+    "waysToEarn": {
+      "eyebrow": "Formas de ganhar",
+      "title": "Várias formas de <highlight>ganhar recompensas</highlight>",
+      "description": "A Sparkvey oferece opções flexíveis de ganho, para você concluir as tarefas que gosta e resgatar seu saldo por recompensas reais.",
+      "imageAlt": "Formas de ganhar",
+      "surveys": {
+        "title": "Pesquisas pagas",
+        "description": "Complete pesquisas pagas para ganhar recompensas."
+      },
+      "cashback": {
+        "title": "Ganhe cashback",
+        "description": "Compre com cashback para ganhar recompensas."
+      },
+      "games": {
+        "title": "Jogue games",
+        "description": "Jogue para ganhar recompensas."
+      }
+    },
+    "liveActivity": {
+      "eyebrow": "Atividade ao vivo",
+      "title": "Veja recompensas em <highlight>tempo real</highlight>",
+      "description": "Usuários da Sparkvey concluem tarefas, ganham bônus e resgatam recompensas todos os dias.",
+      "watchTitle": "Assista ganhos <highlight>ao vivo</highlight>",
+      "shoppedAt": "{username} comprou em {label}",
+      "completed": "{username} concluiu {label}",
+      "avatarAlt": "Avatar",
+      "sparkAlt": "Spark",
+      "funArrowAlt": "Seta decorativa"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Perguntas <highlight>frequentes</highlight>",
+      "description": "Encontre respostas rápidas sobre como a Sparkvey funciona, como os usuários ganham recompensas e o que esperar antes de começar.",
+      "questions": {
+        "whatIsSparkvey": {
+          "title": "O que é a Sparkvey?",
+          "answer": "A Sparkvey é uma plataforma de recompensas onde você ganha Sparks concluindo pesquisas, jogando, comprando com cashback e finalizando ofertas pagas. Você pode resgatar esses Sparks por dinheiro, gift cards, cripto e mais."
+        },
+        "howDoIEarn": {
+          "title": "Como ganho na Sparkvey?",
+          "answer": "Após o cadastro, navegue pelas tarefas disponíveis e escolha o que deseja concluir. As opções comuns incluem pesquisas pagas, ofertas de jogos, cashback de compras e outros desafios de parceiros. Quando uma tarefa é verificada, Sparks são adicionados ao seu saldo."
+        },
+        "whatAreSparks": {
+          "title": "Quanto valem os Sparks?",
+          "answer": "Sparks são a moeda de recompensa da Sparkvey. 1.000 Sparks equivalem a US$ 1, então seu saldo converte de forma clara ao resgatar dinheiro, gift cards ou cripto."
+        },
+        "howToCashOut": {
+          "title": "Como resgato minhas recompensas?",
+          "answer": "Abra a página Resgatar e escolha um método de pagamento como PayPal, transferência bancária, cripto ou um gift card. Selecione o valor, confirme os detalhes e envie sua solicitação."
+        },
+        "minimumWithdrawal": {
+          "title": "Qual é o saque mínimo?",
+          "answer": "Você pode resgatar recompensas a partir de US$ 1 (1.000 Sparks), dependendo do método de pagamento escolhido. As opções e denominações exatas podem variar conforme a recompensa."
+        },
+        "withdrawalTime": {
+          "title": "Quanto tempo levam os saques?",
+          "answer": "A maioria dos saques é analisada e enviada em até 48 horas. A entrega pode demorar mais se for necessária verificação de identidade ou se o provedor da recompensa tiver seu próprio prazo de processamento."
+        },
+        "isItFree": {
+          "title": "A Sparkvey é gratuita?",
+          "answer": "Sim. Criar uma conta e ganhar na Sparkvey é gratuito. Você nunca precisa pagar para acessar ofertas, pesquisas ou oportunidades de cashback."
+        },
+        "missingCredit": {
+          "title": "Por que não fui creditado por uma tarefa?",
+          "answer": "Os créditos podem atrasar enquanto os parceiros verificam as conclusões, e algumas ofertas podem aparecer como retidas ou pendentes antes da liberação dos Sparks. Certifique-se de seguir exatamente os requisitos da oferta. Se uma recompensa ainda não aparecer após a janela de rastreamento indicada, contate o suporte com os detalhes da sua oferta."
+        },
+        "isSparkveyLegit": {
+          "title": "A Sparkvey é legítima?",
+          "answer": "A Sparkvey é uma plataforma real de recompensas que paga usuários por concluir ofertas e pesquisas de anunciantes. Os ganhos vêm de campanhas de parceiros, e os resgates são processados por provedores de pagamento estabelecidos para dinheiro, gift cards e cripto."
+        },
+        "whoCanJoin": {
+          "title": "Quem pode entrar na Sparkvey?",
+          "answer": "Qualquer pessoa que queira ganhar recompensas online pode se cadastrar. A disponibilidade das ofertas depende da sua localização e das regras de elegibilidade dos parceiros, então as tarefas que você vê podem variar por país e dispositivo."
+        }
+      }
     }
   },
   "AuthLayout": {
@@ -79,14 +190,14 @@
     "tasks": "Tarefas",
     "videos": "Vídeos",
     "legal": "Legal",
-    "termsOfService": "Termos de Serviço",
+    "termsOfService": "Termos de uso",
     "privacyPolicy": "Política de Privacidade",
     "contactUs": "Fale conosco",
     "customerSupport": "Suporte ao cliente",
     "language": "Idioma",
     "english": "Inglês",
     "spanish": "Espanhol",
-    "copyright": "Copyright © Sparkvey 2023-{year}",
+    "copyright": "© Copyright {year}, Todos os direitos reservados pela Sparkvey",
     "german": "Alemão",
     "korean": "Coreano",
     "japanese": "Japonês",
@@ -95,7 +206,8 @@
     "norwegian": "Norueguês",
     "french": "Francês",
     "italian": "Italiano",
-    "polish": "Polonês"
+    "polish": "Polonês",
+    "description": "A Sparkvey é uma plataforma de recompensas online onde os usuários podem ganhar com pesquisas, ofertas, cashback, jogos, vídeos e tarefas online simples."
   },
   "LoginPage": {
     "title": "Entrar",

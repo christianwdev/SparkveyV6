@@ -31,7 +31,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode; isAuthenticat
       return;
     }
 
-    // Open the socket connection
     const newSocket: Socket = io(scope, {
       transports: [ 'websocket' ],
       secure: true,
@@ -41,7 +40,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode; isAuthenticat
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSocket(newSocket);
 
-    // Cleanup function
     return () => {
       newSocket.disconnect();
     };

@@ -56,6 +56,117 @@
       "money": "現金",
       "giftCards": "ギフトカード",
       "crypto": "仮想通貨"
+    },
+    "nav": {
+      "earn": "稼ぐ",
+      "rewards": "報酬",
+      "faq": "FAQ",
+      "aboutUs": "会社概要"
+    },
+    "featuredOffers": {
+      "eyebrow": "注目のオファー",
+      "title": "<highlight>報酬のチャンス</highlight>を探す",
+      "description": "興味に合わせたアンケート、アプリ体験、ゲーム、キャッシュバックの機会を閲覧できます。"
+    },
+    "howItWorks": {
+      "eyebrow": "ご利用の流れ",
+      "title": "<highlight>かんたん3ステップ</highlight>で稼ぎ始めよう",
+      "description": "興味に合わせたアンケート、アプリ体験、ゲーム、キャッシュバックの機会を閲覧できます。",
+      "steps": {
+        "signUp": {
+          "title": "無料で登録",
+          "description": "Sparkveyアカウントを作成し、利用可能な稼ぎ方をアンロックしましょう。"
+        },
+        "completeTasks": {
+          "title": "タスクを完了",
+          "description": "アンケート回答、アプリ体験、ゲーム、ショッピングでSparksを貯めましょう。"
+        },
+        "redeem": {
+          "title": "報酬を交換",
+          "description": "貯めたSparksをギフトカード、暗号資産、その他の報酬に交換できます。"
+        }
+      },
+      "alts": {
+        "onboarding": "Sparkveyのオンボーディング",
+        "earn": "Sparkveyでの稼ぎ方",
+        "redeem": "Sparkveyで報酬を交換"
+      }
+    },
+    "waysToEarn": {
+      "eyebrow": "稼ぎ方",
+      "title": "<highlight>報酬を稼ぐ</highlight>さまざまな方法",
+      "description": "Sparkveyでは柔軟な稼ぎ方を選べるので、好きなタスクをこなし、残高を本物の報酬に交換できます。",
+      "imageAlt": "稼ぎ方",
+      "surveys": {
+        "title": "有料アンケート",
+        "description": "有料アンケートに回答して報酬を獲得しましょう。"
+      },
+      "cashback": {
+        "title": "キャッシュバック",
+        "description": "キャッシュバック付きで買い物して報酬を獲得しましょう。"
+      },
+      "games": {
+        "title": "ゲームで稼ぐ",
+        "description": "ゲームをプレイして報酬を獲得しましょう。"
+      }
+    },
+    "liveActivity": {
+      "eyebrow": "ライブアクティビティ",
+      "title": "<highlight>リアルタイム</highlight>で報酬を確認",
+      "description": "Sparkveyユーザーは毎日、タスク完了、ボーナス獲得、報酬交換を行っています。",
+      "watchTitle": "<highlight>ライブ収益</highlight>を見る",
+      "shoppedAt": "{username} が {label} で買い物しました",
+      "completed": "{username} が {label} を完了しました",
+      "avatarAlt": "アバター",
+      "sparkAlt": "Spark",
+      "funArrowAlt": "装飾の矢印"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "よくある<highlight>質問</highlight>",
+      "description": "Sparkveyの仕組み、報酬の稼ぎ方、始める前に知っておきたいことをすぐに確認できます。",
+      "questions": {
+        "whatIsSparkvey": {
+          "title": "Sparkveyとは？",
+          "answer": "Sparkveyは、アンケート回答、ゲームプレイ、キャッシュバック付きショッピング、有料オファーの完了でSparksを稼げる報酬プラットフォームです。貯めたSparksは現金、ギフトカード、暗号資産などに交換できます。"
+        },
+        "howDoIEarn": {
+          "title": "Sparkveyでどうやって稼ぎますか？",
+          "answer": "登録後、利用可能なタスクを見て好きなものを選びます。有料アンケート、ゲームオファー、ショッピングキャッシュバック、その他のパートナーチャレンジなどが一般的です。タスクが確認されると、Sparksが残高に追加されます。"
+        },
+        "whatAreSparks": {
+          "title": "Sparksの価値は？",
+          "answer": "SparksはSparkveyの報酬通貨です。1,000 Sparks = 1米ドルなので、現金、ギフトカード、暗号資産への交換時にわかりやすく換算できます。"
+        },
+        "howToCashOut": {
+          "title": "報酬の換金方法は？",
+          "answer": "交換ページを開き、PayPal、銀行振込、暗号資産、ギフトカードなどの受取方法を選びます。金額を選択し、内容を確認して申請してください。"
+        },
+        "minimumWithdrawal": {
+          "title": "最低出金額は？",
+          "answer": "選択する受取方法によりますが、1ドル（1,000 Sparks）から報酬を交換できます。正確な選択肢や金額は報酬ごとに異なる場合があります。"
+        },
+        "withdrawalTime": {
+          "title": "出金にはどのくらい時間がかかりますか？",
+          "answer": "ほとんどの出金は審査後48時間以内に送信されます。本人確認が必要な場合や、報酬プロバイダー側の処理時間がある場合は、さらに時間がかかることがあります。"
+        },
+        "isItFree": {
+          "title": "Sparkveyは無料ですか？",
+          "answer": "はい。アカウント作成とSparkveyでの獲得は無料です。オファー、アンケート、キャッシュバックへのアクセスに料金はかかりません。"
+        },
+        "missingCredit": {
+          "title": "タスクの報酬が反映されないのはなぜ？",
+          "answer": "パートナーによる完了確認中は反映が遅れることがあり、一部のオファーはSparks解放前に保留または保留中と表示される場合があります。オファー条件を正確に満たしているか確認してください。記載のトラッキング期間を過ぎても反映されない場合は、オファー詳細を添えてサポートへご連絡ください。"
+        },
+        "isSparkveyLegit": {
+          "title": "Sparkveyは信頼できますか？",
+          "answer": "Sparkveyは、広告主のオファーやアンケート完了に対してユーザーへ報酬を支払う本物の報酬プラットフォームです。収益はパートナーキャンペーンから生まれ、現金・ギフトカード・暗号資産の交換は確立された支払いプロバイダー経由で処理されます。"
+        },
+        "whoCanJoin": {
+          "title": "誰がSparkveyに参加できますか？",
+          "answer": "オンラインで報酬を稼ぎたい方なら誰でも登録できます。オファーの表示はお住まいの地域やパートナーの対象条件により異なるため、国や端末によって見えるタスクが変わる場合があります。"
+        }
+      }
     }
   },
   "AuthLayout": {
@@ -86,7 +197,7 @@
     "language": "言語",
     "english": "英語",
     "spanish": "スペイン語",
-    "copyright": "Copyright © Sparkvey 2023-{year}",
+    "copyright": "© Copyright {year}, All Rights Reserved by Sparkvey",
     "german": "ドイツ語",
     "korean": "韓国語",
     "japanese": "日本語",
@@ -95,7 +206,8 @@
     "norwegian": "ノルウェー語",
     "french": "フランス語",
     "italian": "イタリア語",
-    "polish": "ポーランド語"
+    "polish": "ポーランド語",
+    "description": "Sparkveyは、アンケート、オファー、キャッシュバック、ゲーム、動画、簡単なオンラインタスクで稼げるオンライン報酬プラットフォームです。"
   },
   "LoginPage": {
     "title": "ログイン",

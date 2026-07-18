@@ -14,6 +14,7 @@ alwaysApply: false
 - Do not change locale routing defaults unless explicitly requested.
 
 ## Required Behavior
+- You should do these translations through your own weights and model rather than using a translation API. You only need to translate new keys, do not retranslate the whole file or other keys that we are not adding.
 - When adding or editing text, update English first, then mirror the same key path in all other locale files.
 - Preserve ICU placeholders exactly (same names and braces), e.g. `{amount}`, `{code}`, `{rewardName}`.
 - Keep key structure stable; do not rename/move keys unless asked.

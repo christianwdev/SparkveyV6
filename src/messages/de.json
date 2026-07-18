@@ -56,6 +56,117 @@
       "money": "Geld",
       "giftCards": "Geschenkkarten",
       "crypto": "Krypto"
+    },
+    "nav": {
+      "earn": "Verdienen",
+      "rewards": "Belohnungen",
+      "faq": "FAQ",
+      "aboutUs": "Über uns"
+    },
+    "featuredOffers": {
+      "eyebrow": "Top-Angebote",
+      "title": "Entdecke <highlight>Belohnungsmöglichkeiten</highlight>",
+      "description": "Durchsuche Umfragen, App-Tests, Spiele und Cashback-Angebote, die zu deinen Interessen passen."
+    },
+    "howItWorks": {
+      "eyebrow": "So funktioniert es",
+      "title": "Starte in <highlight>3 einfachen Schritten</highlight>",
+      "description": "Durchsuche Umfragen, App-Tests, Spiele und Cashback-Angebote, die zu deinen Interessen passen.",
+      "steps": {
+        "signUp": {
+          "title": "Kostenlos anmelden",
+          "description": "Erstelle dein Sparkvey-Konto und schalte verfügbare Verdienstmöglichkeiten frei."
+        },
+        "completeTasks": {
+          "title": "Aufgaben erledigen",
+          "description": "Mach Umfragen, teste Apps, spiele Spiele und shoppe, um Sparks zu sammeln."
+        },
+        "redeem": {
+          "title": "Belohnungen einlösen",
+          "description": "Tausche deine Einnahmen gegen Geschenkkarten, Krypto und andere verfügbare Belohnungen."
+        }
+      },
+      "alts": {
+        "onboarding": "Sparkvey Onboarding",
+        "earn": "Verdienstmöglichkeiten auf Sparkvey",
+        "redeem": "Belohnungen auf Sparkvey einlösen"
+      }
+    },
+    "waysToEarn": {
+      "eyebrow": "Verdienstmöglichkeiten",
+      "title": "Mehrere Wege, um <highlight>Belohnungen zu verdienen</highlight>",
+      "description": "Sparkvey bietet dir flexible Verdienstoptionen, damit du Aufgaben erledigen kannst, die dir Spaß machen, und dein Guthaben gegen echte Belohnungen eintauschen kannst.",
+      "imageAlt": "Verdienstmöglichkeiten",
+      "surveys": {
+        "title": "Bezahlte Umfragen",
+        "description": "Beantworte bezahlte Umfragen, um Belohnungen zu verdienen."
+      },
+      "cashback": {
+        "title": "Cashback verdienen",
+        "description": "Shoppe mit Cashback, um Belohnungen zu verdienen."
+      },
+      "games": {
+        "title": "Spiele spielen",
+        "description": "Spiele Spiele, um Belohnungen zu verdienen."
+      }
+    },
+    "liveActivity": {
+      "eyebrow": "Live-Aktivität",
+      "title": "Sieh Belohnungen in <highlight>Echtzeit</highlight>",
+      "description": "Sparkvey-Nutzer erledigen jeden Tag Aufgaben, verdienen Boni und lösen Belohnungen ein.",
+      "watchTitle": "Live-<highlight>Einnahmen</highlight> beobachten",
+      "shoppedAt": "{username} hat bei {label} eingekauft",
+      "completed": "{username} hat {label} abgeschlossen",
+      "avatarAlt": "Avatar",
+      "sparkAlt": "Spark",
+      "funArrowAlt": "Pfeil"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Häufig gestellte <highlight>Fragen</highlight>",
+      "description": "Finde schnelle Antworten dazu, wie Sparkvey funktioniert, wie Nutzer Belohnungen verdienen und was dich vor dem Start erwartet.",
+      "questions": {
+        "whatIsSparkvey": {
+          "title": "Was ist Sparkvey?",
+          "answer": "Sparkvey ist eine Belohnungsplattform, auf der du Sparks verdienst, indem du Umfragen ausfüllst, Spiele spielst, mit Cashback einkaufst und bezahlte Angebote abschließt. Du kannst diese Sparks gegen Bargeld, Geschenkkarten, Krypto und mehr eintauschen."
+        },
+        "howDoIEarn": {
+          "title": "Wie verdiene ich auf Sparkvey?",
+          "answer": "Nach der Anmeldung durchsuchst du verfügbare Aufgaben und wählst aus, was du erledigen möchtest. Üblich sind bezahlte Umfragen, Spieleangebote, Shopping-Cashback und andere Partner-Challenges. Nach der Verifizierung werden Sparks deinem Guthaben gutgeschrieben."
+        },
+        "whatAreSparks": {
+          "title": "Was sind Sparks wert?",
+          "answer": "Sparks sind die Belohnungswährung von Sparkvey. 1.000 Sparks entsprechen 1 USD, sodass sich dein Guthaben beim Einlösen klar umrechnen lässt."
+        },
+        "howToCashOut": {
+          "title": "Wie löse ich meine Belohnungen aus?",
+          "answer": "Öffne die Einlöse-Seite und wähle eine Auszahlungsmethode wie PayPal, Banküberweisung, Krypto oder eine Geschenkkarte. Wähle den Betrag, bestätige die Angaben und sende deine Anfrage ab."
+        },
+        "minimumWithdrawal": {
+          "title": "Wie hoch ist der Mindestauszahlungsbetrag?",
+          "answer": "Du kannst Belohnungen ab 1 USD (1.000 Sparks) einlösen, je nach gewählter Auszahlungsmethode. Verfügbare Optionen und Beträge können je nach Belohnung variieren."
+        },
+        "withdrawalTime": {
+          "title": "Wie lange dauern Auszahlungen?",
+          "answer": "Die meisten Auszahlungen werden innerhalb von 48 Stunden geprüft und gesendet. Die Zustellung kann länger dauern, wenn eine Identitätsprüfung nötig ist oder der Belohnungsanbieter eigene Bearbeitungszeiten hat."
+        },
+        "isItFree": {
+          "title": "Ist Sparkvey kostenlos?",
+          "answer": "Ja. Die Kontoerstellung und das Verdienen auf Sparkvey sind kostenlos. Du musst nie bezahlen, um auf Angebote, Umfragen oder Cashback zuzugreifen."
+        },
+        "missingCredit": {
+          "title": "Warum wurde mir eine Aufgabe nicht gutgeschrieben?",
+          "answer": "Gutschriften können verzögert werden, während Partner Abschlüsse prüfen, und einige Angebote können als gehalten oder ausstehend angezeigt werden, bevor Sparks freigegeben werden. Achte darauf, die Angebotsbedingungen genau einzuhalten. Wenn eine Belohnung nach dem angegebenen Tracking-Zeitraum immer noch fehlt, kontaktiere den Support mit deinen Angebotsdetails."
+        },
+        "isSparkveyLegit": {
+          "title": "Ist Sparkvey seriös?",
+          "answer": "Sparkvey ist eine echte Belohnungsplattform, die Nutzer für abgeschlossene Werbeangebote und Umfragen bezahlt. Einnahmen stammen aus Partnerkampagnen, und Einlösungen laufen über etablierte Auszahlungsanbieter für Bargeld, Geschenkkarten und Krypto."
+        },
+        "whoCanJoin": {
+          "title": "Wer kann Sparkvey nutzen?",
+          "answer": "Jeder, der online Belohnungen verdienen möchte, kann sich anmelden. Die Verfügbarkeit von Angeboten hängt von Standort und Partnerregeln ab, daher können die angezeigten Aufgaben je nach Land und Gerät variieren."
+        }
+      }
     }
   },
   "AuthLayout": {
@@ -86,7 +197,7 @@
     "language": "Sprache",
     "english": "Englisch",
     "spanish": "Spanisch",
-    "copyright": "Copyright © Sparkvey 2023-{year}",
+    "copyright": "© Copyright {year}, Alle Rechte vorbehalten von Sparkvey",
     "german": "Deutsch",
     "korean": "Koreanisch",
     "japanese": "Japanisch",
@@ -95,7 +206,8 @@
     "norwegian": "Norwegisch",
     "french": "Französisch",
     "italian": "Italienisch",
-    "polish": "Polnisch"
+    "polish": "Polnisch",
+    "description": "Sparkvey ist eine Online-Belohnungsplattform, auf der Nutzer durch Umfragen, Angebote, Cashback, Spiele, Videos und einfache Online-Aufgaben verdienen können."
   },
   "LoginPage": {
     "title": "Anmelden",

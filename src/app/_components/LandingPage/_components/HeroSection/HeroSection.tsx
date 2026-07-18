@@ -1,16 +1,36 @@
+'use client';
+
+import { Suspense, use } from 'react';
 import styles from './HeroSection.module.scss';
 import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from 'next-intl';
 import { Link } from '@i18n/navigation';
 import AnimatedText from '../AnimatedText/AnimatedText';
 import AnimatedEarnedStat from './AnimatedEarnedStat';
+import Skeleton from '@components/Skeleton/Skeleton';
+import type { LandingHomepageResponse } from 'types/LandingHomepageResponse';
 
 type LandingProps = {
-  usdEarned: number;
+  initialHomepagePromise: Promise<LandingHomepageResponse>;
 };
 
-export default async function HeroSection({ usdEarned }: LandingProps) {
-  const t = await getTranslations('Landing');
+function EarnedStatFallback() {
+  return (
+    <div className={styles.earnedStat} aria-hidden>
+      <Skeleton width={180} height="2.25em" />
+      <Skeleton width={220} height="1em" />
+    </div>
+  );
+}
+
+function HeroEarnedStat({ initialHomepagePromise }: LandingProps) {
+  const { totalEarned } = use(initialHomepagePromise);
+
+  return <AnimatedEarnedStat initialUsdEarned={totalEarned} />;
+}
+
+export default function HeroSection({ initialHomepagePromise }: LandingProps) {
+  const t = useTranslations('Landing');
 
   return (
     <div className={styles.heroContainer}>
@@ -85,7 +105,9 @@ export default async function HeroSection({ usdEarned }: LandingProps) {
         <Link href="/login" className={styles.loginButton}>{t('exploreOffers')}</Link>
       </div>
 
-      <AnimatedEarnedStat initialUsdEarned={usdEarned} />
+      <Suspense fallback={<EarnedStatFallback />}>
+        <HeroEarnedStat initialHomepagePromise={initialHomepagePromise} />
+      </Suspense>
     </div>
   );
 }

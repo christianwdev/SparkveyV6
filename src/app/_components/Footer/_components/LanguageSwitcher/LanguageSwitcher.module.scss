@@ -1,0 +1,88 @@
+@use '@styles/variables.scss' as *;
+
+.languageSwitcher {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+
+    > .languageDropdown {
+        width: 100%;
+        max-width: 220px;
+
+        > .languageDropdownTrigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            border: 1px solid $border-light;
+            background: transparent;
+            color: $text-light;
+            padding: 10px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+
+            > img {
+                border-radius: 100%;
+                object-fit: cover;
+            }
+
+            > span {
+                margin-right: auto;
+            }
+
+            > .triggerChevron {
+                transform: rotate(90deg);
+                transition: transform 0.2s ease;
+                color: $text-light;
+            }
+        }
+
+        > .activeTrigger {
+            > .triggerChevron {
+                transform: rotate(270deg);
+            }
+        }
+
+        > .languageDropdownMenu {
+            flex-direction: column;
+            border: 1px solid $border-light;
+            background: $off-white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: min(320px, 50vh);
+            overscroll-behavior: contain;
+            z-index: 30;
+            padding: 4px 0;
+
+            > a {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: $text-light;
+                font-size: 14px;
+                padding: 8px 10px;
+                transition: background-color 0.15s ease;
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.04);
+                }
+
+                > img {
+                    border-radius: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            > .activeLanguage {
+                color: $primary;
+                font-weight: 600;
+                background-color: rgba(0, 0, 0, 0.04);
+            }
+        }
+    }
+}

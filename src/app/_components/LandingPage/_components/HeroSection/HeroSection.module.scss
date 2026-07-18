@@ -1,5 +1,4 @@
 @use '@styles/variables.scss' as *;
-@use 'sass:color';
 
 .heroContainer {
   width: 100%;
@@ -120,6 +119,51 @@
     }
   }
 
+  > .ctaButtons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    > a {
+      border: none;
+      outline: none;
+      background: unset;
+      cursor: pointer;
+
+      border-radius: 10px;
+      padding: 14px 20px;
+
+      font-size: 1em;
+      font-weight: 600;
+      white-space: normal;
+      text-align: center;
+
+      transition: all 0.2s ease-in-out;
+    }
+
+    > .signupButton {
+      background-color: $off-black;
+      color: $text-white;
+
+      &:hover {
+        background-color: $hover-off-black;
+      }
+    }
+
+    > .loginButton {
+      background-color: transparent;
+      border: 1px solid $border-light;
+      color: $text-bold;
+
+      &:hover {
+        background-color: $primary;
+        border-color: $primary;
+        color: white;
+      }
+    }
+  }
+
   > .earnedStat {
     display: flex;
     flex-direction: column;
@@ -133,59 +177,14 @@
       font-weight: 700;
       margin: 0;
     }
-  }
 
-  p {
-    font-size: 1em;
-    color: $text-light;
-    font-weight: 400;
-    line-height: 1.4;
-    text-align: center;
-    overflow-wrap: anywhere;
-  }
-}
-
-.ctaButtons {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  > a {
-    border: none;
-    outline: none;
-    background: unset;
-    cursor: pointer;
-
-    border-radius: 10px;
-    padding: 14px 20px;
-
-    font-size: 1em;
-    font-weight: 600;
-    white-space: normal;
-    text-align: center;
-
-    transition: all 0.2s ease-in-out;
-  }
-
-  > .signupButton {
-    background-color: $off-black;
-    color: $text-white;
-
-    &:hover {
-      background-color: $hover-off-black;
-    }
-  }
-
-  > .loginButton {
-    background-color: transparent;
-    border: 1px solid $border-light;
-    color: $text-bold;
-
-    &:hover {
-      background-color: $primary;
-      border-color: $primary;
-      color: white;
+    > p {
+      font-size: 1em;
+      color: $text-light;
+      font-weight: 400;
+      line-height: 1.4;
+      text-align: center;
+      overflow-wrap: anywhere;
     }
   }
 }

@@ -56,6 +56,117 @@
       "money": "Money",
       "giftCards": "Giftcards",
       "crypto": "Crypto"
+    },
+    "nav": {
+      "earn": "Earn",
+      "rewards": "Rewards",
+      "faq": "FAQ",
+      "aboutUs": "About Us"
+    },
+    "featuredOffers": {
+      "eyebrow": "Featured Offers",
+      "title": "Explore <highlight>Reward Opportunities</highlight>",
+      "description": "Browse surveys, app trials, games, and cashback opportunities matched to your interests."
+    },
+    "howItWorks": {
+      "eyebrow": "How it Works",
+      "title": "Start earning in <highlight>3 Simple Steps</highlight>",
+      "description": "Browse surveys, app trials, games, and cashback opportunities matched to your interests.",
+      "steps": {
+        "signUp": {
+          "title": "Sign Up Free",
+          "description": "Create your Sparkvey account and unlock available earning opportunities."
+        },
+        "completeTasks": {
+          "title": "Complete Tasks",
+          "description": "Take surveys, try apps, play games, and shop to start stacking up Sparks."
+        },
+        "redeem": {
+          "title": "Redeem Rewards",
+          "description": "Turn your earnings into gift cards, crypto, and other available rewards."
+        }
+      },
+      "alts": {
+        "onboarding": "Sparkvey onboarding",
+        "earn": "Ways to earn on Sparkvey",
+        "redeem": "Redeem rewards on Sparkvey"
+      }
+    },
+    "waysToEarn": {
+      "eyebrow": "Ways to Earn",
+      "title": "Multiple ways to <highlight>Earn Rewards</highlight>",
+      "description": "Sparkvey gives you flexible earning options, so you can complete the tasks you enjoy and redeem your balance for real rewards.",
+      "imageAlt": "Ways to earn",
+      "surveys": {
+        "title": "Paid Surveys",
+        "description": "Complete paid surveys to earn rewards."
+      },
+      "cashback": {
+        "title": "Earn Cashback",
+        "description": "Shop with cashback to earn rewards."
+      },
+      "games": {
+        "title": "Play Games",
+        "description": "Play games to earn rewards."
+      }
+    },
+    "liveActivity": {
+      "eyebrow": "Live Activity",
+      "title": "See rewards happening in <highlight>Real Time</highlight>",
+      "description": "Sparkvey users are completing tasks, earning bonuses, and redeeming rewards every day.",
+      "watchTitle": "Watch Live <highlight>Earnings</highlight>",
+      "shoppedAt": "{username} shopped at {label}",
+      "completed": "{username} completed {label}",
+      "avatarAlt": "Avatar",
+      "sparkAlt": "Spark",
+      "funArrowAlt": "Fun arrow"
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Frequently Asked <highlight>Questions</highlight>",
+      "description": "Find quick answers about how Sparkvey works, how users earn rewards, and what to expect before getting started.",
+      "questions": {
+        "whatIsSparkvey": {
+          "title": "What is Sparkvey?",
+          "answer": "Sparkvey is a rewards platform where you earn Sparks by completing surveys, playing games, shopping with cashback, and finishing paid offers. You can redeem those Sparks for cash, gift cards, crypto, and more."
+        },
+        "howDoIEarn": {
+          "title": "How do I earn on Sparkvey?",
+          "answer": "After signing up, browse available tasks and pick what you want to complete. Common options include paid surveys, game offers, shopping cashback, and other partner challenges. When a task is verified, Sparks are added to your balance."
+        },
+        "whatAreSparks": {
+          "title": "What are Sparks worth?",
+          "answer": "Sparks are Sparkvey's reward currency. 1,000 Sparks equal $1 USD, so your balance converts cleanly when you redeem for cash, gift cards, or crypto."
+        },
+        "howToCashOut": {
+          "title": "How do I cash out my rewards?",
+          "answer": "Open the Redeem page and choose a payout method such as PayPal, bank transfer, crypto, or a gift card. Select your amount, confirm the details, and submit your request."
+        },
+        "minimumWithdrawal": {
+          "title": "What is the minimum withdrawal?",
+          "answer": "You can redeem rewards starting at $1 (1,000 Sparks), depending on the payout method you choose. Exact options and denominations may vary by reward."
+        },
+        "withdrawalTime": {
+          "title": "How long do withdrawals take?",
+          "answer": "Most withdrawals are reviewed and sent within 48 hours. Delivery can take longer if identity verification is needed or if the reward provider has its own processing time."
+        },
+        "isItFree": {
+          "title": "Is Sparkvey free to use?",
+          "answer": "Yes. Creating an account and earning on Sparkvey is free. You never need to pay to access offers, surveys, or cashback opportunities."
+        },
+        "missingCredit": {
+          "title": "Why wasn't I credited for a task?",
+          "answer": "Credits can be delayed while partners verify completions, and some offers may show as held or pending before Sparks are released. Make sure you followed the offer requirements exactly. If a reward still doesn't appear after the stated tracking window, contact support with your offer details."
+        },
+        "isSparkveyLegit": {
+          "title": "Is Sparkvey legit?",
+          "answer": "Sparkvey is a real rewards platform that pays users for completing advertiser offers and surveys. Earnings come from partner campaigns, and redemptions are processed through established payout providers for cash, gift cards, and crypto."
+        },
+        "whoCanJoin": {
+          "title": "Who can join Sparkvey?",
+          "answer": "Anyone looking to earn online rewards can sign up. Offer availability depends on your location and partner eligibility rules, so the tasks you see may vary by country and device."
+        }
+      }
     }
   },
   "AuthLayout": {
@@ -70,6 +181,7 @@
   },
   "Footer": {
     "sparkvey": "Sparkvey",
+    "description": "Sparkvey is an online rewards platform where users can earn through surveys, offers, cashback, games, videos, and simple online tasks.",
     "home": "Home",
     "vip": "VIP",
     "affiliates": "Affiliates",
@@ -79,14 +191,14 @@
     "tasks": "Tasks",
     "videos": "Videos",
     "legal": "Legal",
-    "termsOfService": "Terms of Service",
+    "termsOfService": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
     "contactUs": "Contact Us",
     "customerSupport": "Customer Support",
     "language": "Language",
     "english": "English",
     "spanish": "Spanish",
-    "copyright": "Copyright © Sparkvey 2023-{year}",
+    "copyright": "© Copyright {year}, All Rights Reserved by Sparkvey",
     "german": "German",
     "korean": "Korean",
     "japanese": "Japanese",

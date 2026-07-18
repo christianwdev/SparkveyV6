@@ -6,26 +6,32 @@ import FeaturedOffersSection from './_components/FeaturedOffersSection/FeaturedO
 import HowItWorks from './_components/HowItWorks/HowItWorks';
 import WaysToEarn from './_components/WaysToEarn/WaysToEarn';
 import LiveActivity from './_components/LiveActivity/LiveActivity';
+import FrequentlyAskedQuestions from './_components/FrequentlyAskedQuestions/FrequentlyAskedQuestions';
 
 // Utils
 import { getHomepage } from '@utils/landing';
-import { clientRequest } from '@utils/clientRequest';
+import { serverRequest } from '@utils/serverRequest';
+import Footer from '@components/Footer/Footer';
 
-export default async function LandingPage() {
-  const { totalEarned, popularOffers, liveActivity } = await getHomepage({
-    request: clientRequest,
+export default function LandingPage() {
+  const initialHomepagePromise = getHomepage({
+    request: serverRequest,
   });
 
   return (
-    <div className={styles.landingContainer}>
-      <Navbar />
+    <>
+      <div className={styles.landingContainer}>
+        <Navbar />
 
-      <HeroSection usdEarned={totalEarned} />
-      <GiftcardsSection />
-      <FeaturedOffersSection offers={popularOffers} />
-      <HowItWorks />
-      <WaysToEarn />
-      <LiveActivity initialActivities={liveActivity} />
-    </div>
+        <HeroSection initialHomepagePromise={initialHomepagePromise} />
+        <GiftcardsSection />
+        <FeaturedOffersSection initialHomepagePromise={initialHomepagePromise} />
+        <HowItWorks />
+        <WaysToEarn />
+        <LiveActivity initialHomepagePromise={initialHomepagePromise} />
+        <FrequentlyAskedQuestions />
+      </div>
+      <Footer />
+    </>
   );
 }
