@@ -47,23 +47,36 @@ function buildAggGeoMatch(country: string, offerPrefix = '') {
  * `limit` items. Both branches of recentGeoFill are mutually exclusive
  * (geoUnrestricted vs geo-specific), so no deduplication is needed.
  */
-function mergeSortedOffers(a: InternalOffer[], b: InternalOffer[], limit: number): InternalOffer[] {
-  const result: InternalOffer[] = [];
-  let ai = 0;
-  let bi = 0;
+function mergeSortedOffers(
+  leftOffers: InternalOffer[],
+  rightOffers: InternalOffer[],
+  limit: number
+): InternalOffer[] {
+  const merged: InternalOffer[] = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
 
-  while (result.length < limit && (ai < a.length || bi < b.length)) {
-    const aMs = ai < a.length ? new Date(a[ai].updatedAt).getTime() : -Infinity;
-    const bMs = bi < b.length ? new Date(b[bi].updatedAt).getTime() : -Infinity;
+  while (
+    merged.length < limit &&
+    (leftIndex < leftOffers.length || rightIndex < rightOffers.length)
+  ) {
+    const leftUpdatedAtMs =
+      leftIndex < leftOffers.length
+        ? new Date(leftOffers[leftIndex].updatedAt).getTime()
+        : -Infinity;
+    const rightUpdatedAtMs =
+      rightIndex < rightOffers.length
+        ? new Date(rightOffers[rightIndex].updatedAt).getTime()
+        : -Infinity;
 
-    if (aMs >= bMs) {
-      result.push(a[ai++]);
+    if (leftUpdatedAtMs >= rightUpdatedAtMs) {
+      merged.push(leftOffers[leftIndex++]);
     } else {
-      result.push(b[bi++]);
+      merged.push(rightOffers[rightIndex++]);
     }
   }
 
-  return result;
+  return merged;
 }
 
 /**
@@ -114,8 +127,9 @@ async function recentGeoFill(
   ]);
 
   const validAny = geoAny.filter(o => !o.geosBlacklist.includes(country));
+  const validSpecific = geoSpecific.filter(o => !o.geosBlacklist.includes(country));
 
-  return mergeSortedOffers(validAny, geoSpecific, limit);
+  return mergeSortedOffers(validAny, validSpecific, limit);
 }
 
 /**
