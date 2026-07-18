@@ -1,4 +1,5 @@
 import DatabaseCollections from '../constants/DatabaseCollections';
+import { ensureSiteStatistics } from '../utils/siteStatistics';
 
 import type { Db } from 'mongodb';
 
@@ -147,5 +148,11 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       key: { userID: 1, type: 1, createdAt: -1 },
       name: 'userID_type_createdAt',
     },
+    {
+      key: { status: 1, createdAt: -1 },
+      name: 'status_createdAt',
+    },
   ]);
+
+  await ensureSiteStatistics(db);
 }

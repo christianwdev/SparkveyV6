@@ -9,6 +9,10 @@ import { Inter, Roboto, Sedgwick_Ave, Parkinsans } from 'next/font/google';
 import { getLocale } from 'next-intl/server';
 import { ToastContainer } from 'react-toastify';
 import { GA4_MEASUREMENT_ID } from '@utils/analytics';
+import { getUser } from '@utils/user';
+import { serverRequest } from '@utils/serverRequest';
+import { UserProvider } from '@contexts/UserProvider';
+import { SocketProvider } from '@contexts/SocketContext';
 
 const inter = Inter({
   subsets: [ 'latin' ],
@@ -56,6 +60,7 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
+  const user = await getUser({ request: serverRequest });
   const locale = await getLocale();
 
   return (
@@ -101,8 +106,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body>
-        <ToastContainer position="bottom-right" />
-        {children}
+        <SocketProvider isAuthenticated={!!user}>
+          <UserProvider initialUser={user}>
+            <ToastContainer position="bottom-right" />
+            {children}
+          </UserProvider>
+        </SocketProvider>
       </body>
     </html>
   );

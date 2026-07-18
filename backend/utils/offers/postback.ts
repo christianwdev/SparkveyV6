@@ -3,6 +3,8 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 import { createUserNotification } from 'backend/utils/notifications';
 import { updateUserBalance } from 'backend/utils/user';
 import { createOfferID } from 'backend/utils/offers/ingest';
+import { adjustTotalEarnedUsd } from 'backend/utils/siteStatistics';
+import { emitLiveActivity } from 'backend/utils/liveActivity';
 
 // Constants
 import DatabaseCollections from "backend/constants/DatabaseCollections";
@@ -108,6 +110,12 @@ async function reverseOfferConversion(
 
   if (!updatedConversion) return { ok: false, error: 'internalError' };
 
+  try {
+    await adjustTotalEarnedUsd(-conversion.usdValue);
+  } catch (error) {
+    console.error('Failed to adjust site totalEarnedUsd on reversal', error);
+  }
+
   return { ok: true, data: updatedConversion };
 }
 
@@ -208,6 +216,14 @@ async function handleNewOfferPostback(
   const insertResult = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).insertOne(conversion);
 
   if (!insertResult.acknowledged) return { ok: false, error: 'internalError' };
+
+  try {
+    await adjustTotalEarnedUsd(conversion.usdValue);
+  } catch (error) {
+    console.error('Failed to adjust site totalEarnedUsd on earning', error);
+  }
+
+  emitLiveActivity(conversion);
 
   if (awaitingAdvertiser) {
     void createUserNotification({

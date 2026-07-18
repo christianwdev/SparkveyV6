@@ -1,7 +1,7 @@
-type APIResponse = {
+type APIResponse<T> = {
   success: boolean,
   message?: string,
-  data?: unknown,
+  data?: T,
   requestID: string,
 };
 

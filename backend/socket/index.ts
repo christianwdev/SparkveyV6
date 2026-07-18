@@ -1,10 +1,11 @@
 import { getGlobalObject } from 'backend/utils/globalObject';
+import SocketRooms from 'backend/constants/SocketRooms';
 
 function startSocketServer() {
   const { io } = getGlobalObject();
 
-  io.on('connection', async () => {
-    console.log('A user connected');
+  io.on('connection', (socket) => {
+    void socket.join(SocketRooms.landing);
   });
 }
 

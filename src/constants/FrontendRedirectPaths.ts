@@ -1,6 +1,6 @@
 const FrontendRedirectPaths = {
   home: '/',
-  signin: '/signin',
+  login: '/login',
   register: '/register',
   forgotPassword: '/forgot-password',
 } as const;

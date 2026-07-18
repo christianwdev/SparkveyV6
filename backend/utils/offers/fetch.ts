@@ -185,6 +185,28 @@ async function getWeeklyPopularOffers(country: string): Promise<InternalOffer[]>
     .toArray();
 }
 
+export function getPopularOffers({
+  country,
+  limit,
+}: {
+  country: string;
+  limit: number;
+}): Promise<InternalOffer[]> {
+  return withCache(`offers:popular:${country}:${limit}`, CACHE_TTL_SECONDS, async () => {
+    const weekly = await getWeeklyPopularOffers(country);
+
+    if (weekly.length >= limit) return weekly.slice(0, limit);
+
+    const fill = await recentGeoFill(
+      country,
+      weekly.map(o => o.offerID),
+      limit - weekly.length,
+    );
+
+    return [ ...weekly, ...fill ].slice(0, limit);
+  });
+}
+
 export function getOffersByCategory({
   slug,
   country,

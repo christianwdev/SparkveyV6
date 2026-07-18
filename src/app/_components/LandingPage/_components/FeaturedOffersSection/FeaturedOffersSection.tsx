@@ -1,17 +1,16 @@
 import OfferItem from '@components/OfferItem/OfferItem';
 import styles from './FeaturedOffersSection.module.scss';
 
-const offers = new Array(10).fill(
-  {
-    name: 'Survey',
-    description: 'Complete a survey and earn 90,000 Sparks',
-    imageUrl: 'https://imagedelivery.net/oHD0oLOHVpmE-9Vp-RXuVg/603c1989-a7f6-4211-efe1-240627416000/public',
-    link: 'https://www.sparkvey.com',
-    reward: 90000,
-  },
-);
+// Types
+import type InternalOffer from 'types/Offer/InternalOffer';
 
-export default function FeaturedOffersSection() {
+type FeaturedOffersSectionProps = {
+  offers: InternalOffer[];
+};
+
+export default function FeaturedOffersSection({ offers }: FeaturedOffersSectionProps) {
+  if (offers.length === 0) return null;
+
   return (
     <div className={styles.featuredOffersSection}>
       <div className={styles.titleContainer}>
@@ -26,7 +25,14 @@ export default function FeaturedOffersSection() {
 
       <div className={styles.offersContainer}>
         {offers.map((offer) => (
-          <OfferItem key={offer.name} offerName={offer.name} offerDescription={offer.description} offerImageUrl={offer.imageUrl} offerLink={offer.link} totalReward={offer.reward} />
+          <OfferItem
+            key={offer.offerID}
+            offerName={offer.displayName || offer.name}
+            offerDescription={offer.description}
+            offerImageUrl={offer.image}
+            offerLink="/signup"
+            totalReward={offer.totalReward}
+          />
         ))}
       </div>
     </div>
