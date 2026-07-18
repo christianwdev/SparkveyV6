@@ -3,6 +3,19 @@
     "brandName": "Sparkvey",
     "viewAll": "Zobacz wszystko"
   },
+  "HomePage": {
+    "sections": {
+      "featured": { "title": "Polecane oferty" },
+      "popular": { "title": "Popularne oferty" },
+      "game": { "title": "Gry" },
+      "finance": { "title": "Finanse" },
+      "surveys": { "title": "Ankiety" },
+      "viewAll": "Zobacz wszystko",
+      "showLess": "Pokaż mniej",
+      "previous": "Poprzednie oferty",
+      "next": "Następne oferty"
+    }
+  },
   "HomeMetadata": {
     "title": "Sparkvey | Zdobywaj nagrody, gotowke i karty podarunkowe online",
     "description": "Sparkvey - zdobywaj nagrody i gotowke za wypelnianie ankiet, ogladanie wideo, zakupy online i nie tylko! Dolacz juz dzis i zamieniaj swoj czas na wartosciowe nagrody."

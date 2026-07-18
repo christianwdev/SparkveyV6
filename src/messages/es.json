@@ -3,6 +3,19 @@
     "brandName": "Sparkvey",
     "viewAll": "Ver todo"
   },
+  "HomePage": {
+    "sections": {
+      "featured": { "title": "Ofertas destacadas" },
+      "popular": { "title": "Ofertas populares" },
+      "game": { "title": "Juegos" },
+      "finance": { "title": "Finanzas" },
+      "surveys": { "title": "Encuestas" },
+      "viewAll": "Ver todo",
+      "showLess": "Ver menos",
+      "previous": "Ofertas anteriores",
+      "next": "Ofertas siguientes"
+    }
+  },
   "HomeMetadata": {
     "title": "Sparkvey | Gana recompensas, dinero y tarjetas regalo en linea",
     "description": "Sparkvey: gana recompensas y dinero completando encuestas, viendo videos, comprando en linea y mucho mas. Unete hoy y convierte tu tiempo en recompensas reales."

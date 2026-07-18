@@ -3,6 +3,19 @@
     "brandName": "Sparkvey",
     "viewAll": "Alle anzeigen"
   },
+  "HomePage": {
+    "sections": {
+      "featured": { "title": "Empfohlene Angebote" },
+      "popular": { "title": "Beliebte Angebote" },
+      "game": { "title": "Spiele" },
+      "finance": { "title": "Finanzen" },
+      "surveys": { "title": "Umfragen" },
+      "viewAll": "Alle anzeigen",
+      "showLess": "Weniger anzeigen",
+      "previous": "Vorherige Angebote",
+      "next": "Nächste Angebote"
+    }
+  },
   "HomeMetadata": {
     "title": "Sparkvey | Verdiene online Belohnungen, Bargeld und Geschenkkarten",
     "description": "Sparkvey - Verdiene Belohnungen und Bargeld durch Umfragen, Videos ansehen, Online-Shopping und mehr! Werde noch heute Mitglied und verwandle deine Zeit in wertvolle Belohnungen"

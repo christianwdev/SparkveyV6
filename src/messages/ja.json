@@ -3,6 +3,19 @@
     "brandName": "Sparkvey",
     "viewAll": "すべて表示"
   },
+  "HomePage": {
+    "sections": {
+      "featured": { "title": "注目のオファー" },
+      "popular": { "title": "人気のオファー" },
+      "game": { "title": "ゲーム" },
+      "finance": { "title": "金融" },
+      "surveys": { "title": "アンケート" },
+      "viewAll": "すべて表示",
+      "showLess": "表示を減らす",
+      "previous": "前のオファー",
+      "next": "次のオファー"
+    }
+  },
   "HomeMetadata": {
     "title": "Sparkvey | オンラインで報酬・現金・ギフトカードを獲得",
     "description": "Sparkvey - アンケート回答、動画視聴、オンラインショッピングなどで報酬や現金を獲得できます。今すぐ参加して、あなたの時間を価値ある報酬に変えましょう"

@@ -3,6 +3,19 @@
     "brandName": "Sparkvey",
     "viewAll": "모두 보기"
   },
+  "HomePage": {
+    "sections": {
+      "featured": { "title": "추천 오퍼" },
+      "popular": { "title": "인기 오퍼" },
+      "game": { "title": "게임" },
+      "finance": { "title": "금융" },
+      "surveys": { "title": "설문조사" },
+      "viewAll": "모두 보기",
+      "showLess": "간단히 보기",
+      "previous": "이전 오퍼",
+      "next": "다음 오퍼"
+    }
+  },
   "HomeMetadata": {
     "title": "Sparkvey | 온라인으로 보상, 현금, 기프트 카드를 받으세요",
     "description": "Sparkvey - 설문조사 완료, 비디오 시청, 온라인 쇼핑 등을 통해 보상과 현금을 받으세요! 지금 가입하고 시간을 귀중한 보상으로 전환하세요"

@@ -1,0 +1,9 @@
+@use '@styles/variables.scss' as *;
+
+.homePage {
+  width: 100%;
+  max-width: $content-max-width;
+  min-height: calc(100vh - #{$navbar-height});
+  margin: $navbar-height auto 0;
+  padding: 24px 0 48px 0;
+}

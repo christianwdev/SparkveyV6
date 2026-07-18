@@ -1,0 +1,145 @@
+@use '@styles/variables.scss' as *;
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 0;
+  border-bottom: 1px solid $border-light;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    > h2 {
+      color: $text-bold;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    > .controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      > .expandButton {
+        border: 0;
+        padding: 0;
+        color: $primary;
+        background: transparent;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      > .carouselControls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        > button {
+          display: grid;
+          width: 36px;
+          height: 36px;
+          place-items: center;
+          border: 1px solid $border-light;
+          border-radius: 50%;
+          color: $text-bold;
+          background: $off-white;
+          cursor: pointer;
+          transition: opacity 150ms ease, color 150ms ease;
+
+          &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+          }
+
+          > svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 2;
+          }
+        }
+      }
+    }
+  }
+
+  > .carousel,
+  > .expandedOffers {
+    display: grid;
+    gap: 16px;
+  }
+
+  > .carousel {
+    grid-auto-columns: calc((100% - (16px * (var(--offers-per-view) - 1))) / var(--offers-per-view));
+    grid-auto-flow: column;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > * {
+      min-width: 0;
+      scroll-snap-align: start;
+    }
+  }
+
+  > .expandedOffers {
+    grid-template-columns: repeat(var(--offers-per-view), minmax(0, 1fr));
+  }
+
+  @media screen and (max-width: $small-tablet) {
+    > .carousel {
+      grid-auto-columns: calc((100% - 32px) / 3);
+    }
+
+    > .expandedOffers {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    padding: 24px 0;
+
+    > .carousel {
+      grid-auto-columns: calc((100% - 16px) / 2);
+    }
+
+    > .expandedOffers {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: $small-phone) {
+    > .header {
+      align-items: flex-start;
+
+      > h2 {
+        font-size: 20px;
+      }
+
+      > .controls {
+        gap: 10px;
+
+        > .carouselControls > button {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+  }
+}

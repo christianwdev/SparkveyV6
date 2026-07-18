@@ -3,6 +3,19 @@
     "brandName": "Sparkvey",
     "viewAll": "View All"
   },
+  "HomePage": {
+    "sections": {
+      "featured": { "title": "Featured Offers" },
+      "popular": { "title": "Popular Offers" },
+      "game": { "title": "Games" },
+      "finance": { "title": "Finance" },
+      "surveys": { "title": "Surveys" },
+      "viewAll": "View all",
+      "showLess": "Show less",
+      "previous": "Previous offers",
+      "next": "Next offers"
+    }
+  },
   "HomeMetadata": {
     "title": "Sparkvey | Earn Rewards, Cash, and Gift Cards Online",
     "description": "Sparkvey - Earn rewards and cash by completing surveys, watching videos, shopping online, and more! Join today and start turning your time into valuable rewards"

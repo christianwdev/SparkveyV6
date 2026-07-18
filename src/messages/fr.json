@@ -3,6 +3,19 @@
     "brandName": "Sparkvey",
     "viewAll": "Voir tout"
   },
+  "HomePage": {
+    "sections": {
+      "featured": { "title": "Offres en vedette" },
+      "popular": { "title": "Offres populaires" },
+      "game": { "title": "Jeux" },
+      "finance": { "title": "Finance" },
+      "surveys": { "title": "Sondages" },
+      "viewAll": "Voir tout",
+      "showLess": "Voir moins",
+      "previous": "Offres précédentes",
+      "next": "Offres suivantes"
+    }
+  },
   "HomeMetadata": {
     "title": "Sparkvey | Gagnez des récompenses, de l'argent et des cartes-cadeaux en ligne",
     "description": "Sparkvey - Gagnez des récompenses et de l'argent en répondant à des sondages, en regardant des vidéos, en faisant vos achats en ligne, et plus encore ! Inscrivez-vous dès aujourd'hui et transformez votre temps en récompenses de valeur."

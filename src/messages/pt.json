@@ -3,6 +3,19 @@
     "brandName": "Sparkvey",
     "viewAll": "Ver tudo"
   },
+  "HomePage": {
+    "sections": {
+      "featured": { "title": "Ofertas em destaque" },
+      "popular": { "title": "Ofertas populares" },
+      "game": { "title": "Jogos" },
+      "finance": { "title": "Finanças" },
+      "surveys": { "title": "Pesquisas" },
+      "viewAll": "Ver tudo",
+      "showLess": "Ver menos",
+      "previous": "Ofertas anteriores",
+      "next": "Próximas ofertas"
+    }
+  },
   "HomeMetadata": {
     "title": "Sparkvey | Ganhe recompensas, dinheiro e gift cards online",
     "description": "Sparkvey - Ganhe recompensas e dinheiro ao completar pesquisas, assistir a vídeos, fazer compras online e muito mais! Junte-se hoje e comece a transformar seu tempo em recompensas valiosas"
