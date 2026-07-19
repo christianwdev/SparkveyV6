@@ -1,5 +1,4 @@
 @use '@styles/variables.scss' as *;
-@use 'sass:color';
 
 .navbarWrapper {
   height: $navbar-height;
@@ -13,12 +12,12 @@
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid rgba(111, 116, 135, 0);
 
   @supports (animation-timeline: scroll()) {
     animation: navbar-border linear both;
     animation-timeline: scroll(root block);
-    animation-range: 0 1px;
+    animation-range: 0 64px;
     animation-duration: auto;
   }
 
@@ -28,8 +27,8 @@
   @include standardPadding;
 
   > .contentWrapper {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     width: 100%;
     height: 100%;
@@ -39,45 +38,50 @@
     > .logo {
       color: $text-bold;
     }
-  
+
     > .ctaButtons {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
       justify-content: center;
-    
+
+      &:last-child {
+        grid-column: 3;
+        justify-content: flex-end;
+      }
+
       > a {
         border: none;
         outline: none;
         background: unset;
         cursor: pointer;
-    
+
         border-radius: 10px;
         padding: 12px 20px;
-    
+
         font-size: 1em;
         font-weight: 600;
         white-space: normal;
         text-align: center;
         letter-spacing: -2%;
-    
+
         transition: all 0.2s ease-in-out;
       }
-    
+
       > .signupButton {
         background-color: $off-black;
         color: $text-white;
-    
+
         &:hover {
           background-color: $hover-off-black;
         }
       }
-    
+
       > .loginButton {
         background-color: transparent;
         border: 1px solid $border-light;
         color: $text-bold;
-    
+
         &:hover {
           background-color: $primary;
           border-color: $primary;
@@ -85,15 +89,59 @@
         }
       }
     }
-  
+
     > .links {
       display: flex;
       gap: 40px;
       flex-wrap: wrap;
       justify-content: center;
-  
+
       > a {
         color: $text-light;
+      }
+    }
+
+    > .userProfile {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 24px;
+
+      > .sparkBalance {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-bold;
+      }
+
+      > .notificationsButton {
+        display: grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        padding: 0;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: $text-light;
+        cursor: pointer;
+        transition: color 0.15s ease;
+
+        > svg {
+          width: 22px;
+          height: 22px;
+        }
+
+        &:hover {
+          color: $text-bold;
+        }
+
+        &:focus-visible {
+          outline: 2px solid $primary;
+          outline-offset: 2px;
+        }
       }
     }
   }
@@ -101,10 +149,10 @@
 
 @keyframes navbar-border {
   from {
-    border-bottom-color: transparent;
+    border-bottom-color: rgba(111, 116, 135, 0);
   }
 
   to {
-    border-bottom-color: $border-light;
+    border-bottom-color: rgba(111, 116, 135, 0.25);
   }
 }

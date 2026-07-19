@@ -1,17 +1,27 @@
 {
-  "Common": {
-    "brandName": "Sparkvey",
-    "viewAll": "すべて表示"
-  },
   "HomePage": {
     "sections": {
-      "featured": { "title": "注目のオファー" },
-      "popular": { "title": "人気のオファー" },
-      "game": { "title": "ゲーム" },
-      "finance": { "title": "金融" },
-      "surveys": { "title": "アンケート" },
+      "featured": {
+        "title": "注目",
+        "description": "まずはここから"
+      },
+      "popular": {
+        "title": "人気",
+        "description": "最近よく選ばれているもの"
+      },
+      "game": {
+        "title": "ゲーム",
+        "description": "スマホ・PC向けのゲーム"
+      },
+      "finance": {
+        "title": "金融",
+        "description": "銀行・クレジット関連のオファー"
+      },
+      "surveys": {
+        "title": "アンケート",
+        "description": "短い質問への回答"
+      },
       "viewAll": "すべて表示",
-      "showLess": "表示を減らす",
       "previous": "前のオファー",
       "next": "次のオファー"
     }
@@ -63,18 +73,12 @@
     "heroDescription": "アンケート回答、キャッシュバック付きショッピング、チャレンジ達成でオンライン収益を獲得！",
     "totalEarnedBySparkvey": "Sparkveyでの総獲得額",
     "giftcardDescription": "200以上の人気ブランドのギフトカードに報酬を交換できます。今すぐオンラインで稼ぎ始めましょう！",
-    "bannedBannerTitle": "サインインはブロックされています — このアカウントはSparkveyにアクセスできません",
+    "sparksAlt": "Sparks",
     "rewardWords": {
       "rewards": "報酬",
       "money": "現金",
       "giftCards": "ギフトカード",
       "crypto": "仮想通貨"
-    },
-    "nav": {
-      "earn": "稼ぐ",
-      "rewards": "報酬",
-      "faq": "FAQ",
-      "aboutUs": "会社概要"
     },
     "featuredOffers": {
       "eyebrow": "注目のオファー",
@@ -202,7 +206,6 @@
     "discover": "見つける",
     "tasks": "タスク",
     "videos": "動画",
-    "legal": "法的情報",
     "termsOfService": "利用規約",
     "privacyPolicy": "プライバシーポリシー",
     "contactUs": "お問い合わせ",
@@ -215,8 +218,6 @@
     "korean": "韓国語",
     "japanese": "日本語",
     "portuguese": "ポルトガル語",
-    "finnish": "フィンランド語",
-    "norwegian": "ノルウェー語",
     "french": "フランス語",
     "italian": "イタリア語",
     "polish": "ポーランド語",
@@ -366,75 +367,25 @@
     }
   },
   "Navbar": {
-    "auth": {
-      "login": "ログイン",
-      "register": "登録"
-    },
     "links": {
       "earn": "稼ぐ",
       "redeem": "交換",
       "leaderboard": "ランキング"
     },
-    "mobile": {
-      "home": "ホーム",
-      "earn": "稼ぐ",
-      "shop": "ショップ",
-      "leaders": "リーダー",
-      "refer": "紹介",
-      "support": "サポート"
-    },
-    "emailVerification": {
-      "welcome": "Sparkveyへようこそ！稼ぎ始める前にメールアドレスを認証してください。",
-      "resend": "メールを再送",
-      "sending": "送信中...",
-      "sent": "メールを送信しました"
-    },
     "a11y": {
-      "balanceAlt": "残高",
       "avatarAlt": "アバター"
-    },
-    "toasts": {
-      "resendSuccess": "認証メールを再送しました。受信トレイと迷惑メールフォルダをご確認ください。",
-      "resendError": "認証メールの再送に失敗しました。もう一度お試しください。"
     }
   },
   "UserDropdown": {
     "profile": "プロフィール",
-    "activity": "アクティビティ",
-    "rewards": "報酬",
+    "earnings": "収益",
+    "redemptions": "換金",
     "settings": "設定",
     "affiliates": "アフィリエイト",
-    "admin": "管理者",
-    "promocodes": "プロモコード",
     "signOut": "ログアウト"
   },
-  "EarnDropdown": {
-    "discover": "見つける",
-    "tasks": "タスク",
-    "videos": "動画",
-    "ptcPtsu": "PTC / PTSU"
-  },
   "Notifications": {
-    "title": "通知",
-    "none": "表示する通知はありません...",
-    "types": {
-      "offerCredited": "オファー付与済み",
-      "offerHeld": "オファー保留中",
-      "offerPending": "オファー処理中",
-      "offerAdvConfirmed": "オファー確認済み",
-      "offerReleased": "オファー解除済み",
-      "offerReversal": "オファー取消済み",
-      "vipBonusClaimed": "VIPボーナス受取済み"
-    },
-    "messages": {
-      "offerCredited": "あなたのオファー {offerName}（{offerValue} Sparks）が付与されました。",
-      "offerHeld": "あなたのオファー {offerName}（{offerValue} Sparks）は {releaseDate} まで保留されています。",
-      "offerPending": "あなたのオファー {offerName}（{offerValue} Sparks）は、提供元により {releaseDate} まで保留されています。",
-      "offerAdvConfirmed": "あなたのオファー {offerName}（{offerValue} Sparks）は広告主により確認され、{releaseDate} まで保留されています。",
-      "offerReleased": "あなたのオファー {offerName}（{offerValue} Sparks）が解除されました。",
-      "offerReversal": "あなたのオファー {offerName}（{offerValue} Sparks）は取り消されました。",
-      "vipBonusClaimed": "あなたは {vip} VIPボーナス（{bonusAmount} Sparks）を受け取りました。"
-    }
+    "title": "通知"
   },
   "NotFound": {
     "imageAlt": "ページが見つかりません",

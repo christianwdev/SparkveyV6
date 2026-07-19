@@ -55,11 +55,19 @@ function OfferItemLoaded(props: OfferItemLoadedProps) {
         <Image
           src={props.offerImageUrl}
           fill
-          sizes='100%'
+          sizes="100%"
+          alt=""
+          aria-hidden
+          className={styles.blurredImage}
+          style={{ objectFit: 'cover' }}
+        />
+        <Image
+          src={props.offerImageUrl}
+          fill
+          sizes="100%"
           alt={props.offerName}
-          style={{
-            objectFit: 'cover',
-          }}
+          className={styles.offerImage}
+          style={{ objectFit: 'cover' }}
         />
       </div>
 
@@ -67,9 +75,17 @@ function OfferItemLoaded(props: OfferItemLoadedProps) {
         <p className={styles.title}>{props.offerName}</p>
         <p className={styles.description}>{props.offerDescription}</p>
         <p className={styles.userReward}>
-          {t('earn')} {t('upTo')}
-          <span>
-            <Image src='/img/logo.svg' alt={t('sparksAlt')} height={11} width={11} />
+          <span className={styles.rewardLabel}>
+            {t('earn')} {t('upTo')}
+          </span>
+          <span className={styles.rewardAmount}>
+            <Image
+              className={styles.sparkIcon}
+              src="/img/logo.svg"
+              alt={t('sparksAlt')}
+              height={11}
+              width={11}
+            />
             <strong>{props.totalReward?.toLocaleString()}</strong>
           </span>
         </p>

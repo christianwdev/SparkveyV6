@@ -7,6 +7,8 @@
   max-width: 100%;
   height: 320px;
   border-radius: 16px;
+  container-type: inline-size;
+  container-name: offer-item;
 
   border: 1px solid #D8D8D8;
   overflow: hidden;
@@ -27,6 +29,16 @@
 
     display: flex;
     justify-content: flex-end;
+
+    > .blurredImage {
+      z-index: 0;
+      transform: scale(1.35);
+      filter: blur(32px);
+    }
+
+    > .offerImage {
+      z-index: 1;
+    }
 
     > .icons {
       display: flex;
@@ -92,22 +104,43 @@
     > .userReward {
       display: flex;
       align-items: center;
-      gap: 3px;
-      
+      flex-wrap: nowrap;
+      gap: clamp(2px, 1.2cqw, 4px);
+      min-width: 0;
+
       font-weight: 500;
-      font-size: 16px;
+      font-size: clamp(11px, 7.2cqw, 16px);
       color: $text-light;
+      line-height: 1.2;
 
       margin-top: auto;
       white-space: nowrap;
 
-      > span {
+      > .rewardLabel {
+        flex-shrink: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      > .rewardAmount {
         display: flex;
         align-items: center;
-        gap: 3px;
+        flex-shrink: 0;
+        gap: clamp(2px, 1.2cqw, 4px);
         color: $primary;
-        font-size: 20px;
+        font-size: clamp(13px, 9cqw, 20px);
+
+        > .sparkIcon {
+          width: clamp(9px, 5.5cqw, 11px);
+          height: clamp(9px, 5.5cqw, 11px);
+        }
       }
+    }
+  }
+
+  @container offer-item (max-width: 160px) {
+    > .offerInformation > .userReward > .rewardLabel {
+      display: none;
     }
   }
 }

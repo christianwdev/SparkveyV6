@@ -13,14 +13,28 @@
 
   > .header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
 
-    > h2 {
-      color: $text-bold;
-      font-size: 24px;
-      font-weight: 600;
+    > .titleGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+
+      > h2 {
+        color: $text-bold;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 1.25;
+      }
+
+      > p {
+        color: $text-light;
+        font-size: 14px;
+        line-height: 1.4;
+      }
     }
 
     > .controls {
@@ -28,14 +42,11 @@
       align-items: center;
       gap: 16px;
 
-      > .expandButton {
-        border: 0;
-        padding: 0;
+      > .viewAll {
         color: $primary;
-        background: transparent;
-        font: inherit;
         font-weight: 600;
-        cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap;
       }
 
       > .carouselControls {
@@ -63,26 +74,18 @@
           > svg {
             width: 20px;
             height: 20px;
-            fill: none;
-            stroke: currentColor;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            stroke-width: 2;
           }
         }
       }
     }
   }
 
-  > .carousel,
-  > .expandedOffers {
-    display: grid;
-    gap: 16px;
-  }
-
   > .carousel {
-    grid-auto-columns: calc((100% - (16px * (var(--offers-per-view) - 1))) / var(--offers-per-view));
+    display: grid;
+    grid-template-rows: repeat(var(--rows), auto);
     grid-auto-flow: column;
+    grid-auto-columns: calc((100% - (16px * (var(--offers-per-view) - 1))) / var(--offers-per-view));
+    gap: 16px;
     overflow-x: auto;
     scroll-snap-type: x proximity;
     scroll-behavior: smooth;
@@ -98,17 +101,9 @@
     }
   }
 
-  > .expandedOffers {
-    grid-template-columns: repeat(var(--offers-per-view), minmax(0, 1fr));
-  }
-
   @media screen and (max-width: $small-tablet) {
     > .carousel {
       grid-auto-columns: calc((100% - 32px) / 3);
-    }
-
-    > .expandedOffers {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
@@ -118,18 +113,13 @@
     > .carousel {
       grid-auto-columns: calc((100% - 16px) / 2);
     }
-
-    > .expandedOffers {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 
   @media screen and (max-width: $small-phone) {
     > .header {
-      align-items: flex-start;
-
-      > h2 {
-        font-size: 20px;
+      > .titleGroup > h2 {
+        font-size: 18px;
+        font-weight: 500;
       }
 
       > .controls {

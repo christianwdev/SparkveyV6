@@ -1,17 +1,27 @@
 {
-  "Common": {
-    "brandName": "Sparkvey",
-    "viewAll": "Alle anzeigen"
-  },
   "HomePage": {
     "sections": {
-      "featured": { "title": "Empfohlene Angebote" },
-      "popular": { "title": "Beliebte Angebote" },
-      "game": { "title": "Spiele" },
-      "finance": { "title": "Finanzen" },
-      "surveys": { "title": "Umfragen" },
+      "featured": {
+        "title": "Empfohlen",
+        "description": "Ein paar Angebote zum Anschauen"
+      },
+      "popular": {
+        "title": "Beliebt",
+        "description": "Was andere gerade machen"
+      },
+      "game": {
+        "title": "Spiele",
+        "description": "Spiele für Mobil und Desktop"
+      },
+      "finance": {
+        "title": "Finanzen",
+        "description": "Banking, Kredit und ähnliche Angebote"
+      },
+      "surveys": {
+        "title": "Umfragen",
+        "description": "Kurze Fragebögen"
+      },
       "viewAll": "Alle anzeigen",
-      "showLess": "Weniger anzeigen",
       "previous": "Vorherige Angebote",
       "next": "Nächste Angebote"
     }
@@ -63,18 +73,12 @@
     "heroDescription": "Beantworte Umfragen, shoppe mit Cashback und stelle dich Herausforderungen, um online Geld zu verdienen!",
     "totalEarnedBySparkvey": "Insgesamt bei Sparkvey verdient",
     "giftcardDescription": "Loese deine Belohnungen gegen Geschenkkarten von ueber 200+ deiner Lieblingsmarken ein. Starte noch heute und verdiene online Geld!",
-    "bannedBannerTitle": "Anmeldung gesperrt — dieses Konto hat keinen Zugang zu Sparkvey",
+    "sparksAlt": "Sparks",
     "rewardWords": {
       "rewards": "Belohnungen",
       "money": "Geld",
       "giftCards": "Geschenkkarten",
       "crypto": "Krypto"
-    },
-    "nav": {
-      "earn": "Verdienen",
-      "rewards": "Belohnungen",
-      "faq": "FAQ",
-      "aboutUs": "Über uns"
     },
     "featuredOffers": {
       "eyebrow": "Top-Angebote",
@@ -202,7 +206,6 @@
     "discover": "Entdecken",
     "tasks": "Aufgaben",
     "videos": "Videos",
-    "legal": "Rechtliches",
     "termsOfService": "Nutzungsbedingungen",
     "privacyPolicy": "Datenschutzrichtlinie",
     "contactUs": "Kontakt",
@@ -215,8 +218,6 @@
     "korean": "Koreanisch",
     "japanese": "Japanisch",
     "portuguese": "Portugiesisch",
-    "finnish": "Finnisch",
-    "norwegian": "Norwegisch",
     "french": "Französisch",
     "italian": "Italienisch",
     "polish": "Polnisch",
@@ -366,75 +367,25 @@
     }
   },
   "Navbar": {
-    "auth": {
-      "login": "Anmelden",
-      "register": "Registrieren"
-    },
     "links": {
       "earn": "Verdienen",
       "redeem": "Einloesen",
       "leaderboard": "Bestenliste"
     },
-    "mobile": {
-      "home": "Startseite",
-      "earn": "Verdienen",
-      "shop": "Shop",
-      "leaders": "Top-Nutzer",
-      "refer": "Empfehlen",
-      "support": "Support"
-    },
-    "emailVerification": {
-      "welcome": "Willkommen bei Sparkvey! Bitte bestaetige deine E-Mail, bevor du mit dem Verdienen beginnst.",
-      "resend": "E-Mail erneut senden",
-      "sending": "Wird gesendet...",
-      "sent": "E-Mail gesendet"
-    },
     "a11y": {
-      "balanceAlt": "Kontostand",
       "avatarAlt": "Avatar"
-    },
-    "toasts": {
-      "resendSuccess": "Deine Bestaetigungs-E-Mail wurde erfolgreich erneut gesendet. Bitte pruefe deinen Posteingang und den Spam-Ordner.",
-      "resendError": "Deine Bestaetigungs-E-Mail konnte nicht erneut gesendet werden. Bitte versuche es erneut."
     }
   },
   "UserDropdown": {
     "profile": "Profil",
-    "activity": "Aktivitaet",
-    "rewards": "Belohnungen",
+    "earnings": "Einnahmen",
+    "redemptions": "Auszahlungen",
     "settings": "Einstellungen",
     "affiliates": "Affiliates",
-    "admin": "Admin",
-    "promocodes": "Promocodes",
     "signOut": "Abmelden"
   },
-  "EarnDropdown": {
-    "discover": "Entdecken",
-    "tasks": "Aufgaben",
-    "videos": "Videos",
-    "ptcPtsu": "PTC / PTSU"
-  },
   "Notifications": {
-    "title": "Benachrichtigungen",
-    "none": "Keine Benachrichtigungen zum Anzeigen...",
-    "types": {
-      "offerCredited": "Angebot gutgeschrieben",
-      "offerHeld": "Angebot zurueckgehalten",
-      "offerPending": "Angebot ausstehend",
-      "offerAdvConfirmed": "Angebot bestaetigt",
-      "offerReleased": "Angebot freigegeben",
-      "offerReversal": "Angebot storniert",
-      "vipBonusClaimed": "VIP-Bonus beansprucht"
-    },
-    "messages": {
-      "offerCredited": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wurde gutgeschrieben.",
-      "offerHeld": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wird bis {releaseDate} zurueckgehalten.",
-      "offerPending": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wird von unserem Anbieter bis {releaseDate} zurueckgehalten.",
-      "offerAdvConfirmed": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wurde vom Werbetreibenden bestaetigt und wird bis {releaseDate} zurueckgehalten.",
-      "offerReleased": "Dein Angebot {offerName} im Wert von {offerValue} wurde freigegeben.",
-      "offerReversal": "Dein Angebot {offerName} im Wert von {offerValue} wurde storniert.",
-      "vipBonusClaimed": "Du hast den {vip} VIP-Bonus von {bonusAmount} Sparks beansprucht."
-    }
+    "title": "Benachrichtigungen"
   },
   "NotFound": {
     "imageAlt": "Seite nicht gefunden",

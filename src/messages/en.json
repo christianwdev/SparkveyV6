@@ -1,17 +1,27 @@
 {
-  "Common": {
-    "brandName": "Sparkvey",
-    "viewAll": "View All"
-  },
   "HomePage": {
     "sections": {
-      "featured": { "title": "Featured Offers" },
-      "popular": { "title": "Popular Offers" },
-      "game": { "title": "Games" },
-      "finance": { "title": "Finance" },
-      "surveys": { "title": "Surveys" },
+      "featured": {
+        "title": "Featured",
+        "description": "A few offers worth a look"
+      },
+      "popular": {
+        "title": "Popular",
+        "description": "What people are doing lately"
+      },
+      "game": {
+        "title": "Games",
+        "description": "Mobile and desktop games"
+      },
+      "finance": {
+        "title": "Finance",
+        "description": "Banking, credit, and related offers"
+      },
+      "surveys": {
+        "title": "Surveys",
+        "description": "Short questionnaires"
+      },
       "viewAll": "View all",
-      "showLess": "Show less",
       "previous": "Previous offers",
       "next": "Next offers"
     }
@@ -63,18 +73,12 @@
     "heroDescription": "Complete surveys, shop with cashback, and take on challenges to earn money online!",
     "totalEarnedBySparkvey": "Total earned by Sparkvey",
     "giftcardDescription": "Choose from popular gift cards, crypto, shopping rewards, and more.",
-    "bannedBannerTitle": "Sign-in blocked — this account cannot access Sparkvey",
+    "sparksAlt": "Sparks",
     "rewardWords": {
       "rewards": "Rewards",
       "money": "Money",
       "giftCards": "Giftcards",
       "crypto": "Crypto"
-    },
-    "nav": {
-      "earn": "Earn",
-      "rewards": "Rewards",
-      "faq": "FAQ",
-      "aboutUs": "About Us"
     },
     "featuredOffers": {
       "eyebrow": "Featured Offers",
@@ -203,7 +207,6 @@
     "discover": "Discover",
     "tasks": "Tasks",
     "videos": "Videos",
-    "legal": "Legal",
     "termsOfService": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
     "contactUs": "Contact Us",
@@ -216,8 +219,6 @@
     "korean": "Korean",
     "japanese": "Japanese",
     "portuguese": "Portuguese",
-    "finnish": "Finnish",
-    "norwegian": "Norwegian",
     "french": "French",
     "italian": "Italian",
     "polish": "Polish"
@@ -366,75 +367,25 @@
     }
   },
   "Navbar": {
-    "auth": {
-      "login": "Login",
-      "register": "Register"
-    },
     "links": {
       "earn": "Earn",
       "redeem": "Redeem",
       "leaderboard": "Leaderboard"
     },
-    "mobile": {
-      "home": "Home",
-      "earn": "Earn",
-      "shop": "Shop",
-      "leaders": "Leaders",
-      "refer": "Refer",
-      "support": "Support"
-    },
-    "emailVerification": {
-      "welcome": "Welcome to Sparkvey! Please verify your email before you start earning.",
-      "resend": "Resend Email",
-      "sending": "Sending...",
-      "sent": "Email Sent"
-    },
     "a11y": {
-      "balanceAlt": "Balance",
       "avatarAlt": "Avatar"
-    },
-    "toasts": {
-      "resendSuccess": "Successfully resent your verification email, please check your inbox and junk folder.",
-      "resendError": "Failed to resend your verification email, please try again."
     }
   },
   "UserDropdown": {
     "profile": "Profile",
-    "activity": "Activity",
-    "rewards": "Rewards",
+    "earnings": "Earnings",
+    "redemptions": "Redemptions",
     "settings": "Settings",
     "affiliates": "Affiliates",
-    "admin": "Admin",
-    "promocodes": "Promocodes",
     "signOut": "Sign out"
   },
-  "EarnDropdown": {
-    "discover": "Discover",
-    "tasks": "Tasks",
-    "videos": "Videos",
-    "ptcPtsu": "PTC / PTSU"
-  },
   "Notifications": {
-    "title": "Notifications",
-    "none": "No notifications to display...",
-    "types": {
-      "offerCredited": "Offer Credited",
-      "offerHeld": "Offer Held",
-      "offerPending": "Offer Pending",
-      "offerAdvConfirmed": "Offer Confirmed",
-      "offerReleased": "Offer Released",
-      "offerReversal": "Offer Reversed",
-      "vipBonusClaimed": "VIP Bonus Claimed"
-    },
-    "messages": {
-      "offerCredited": "Your offer {offerName} worth {offerValue} sparks has been credited.",
-      "offerHeld": "Your offer {offerName} worth {offerValue} sparks is being held until {releaseDate}.",
-      "offerPending": "Your offer {offerName} worth {offerValue} sparks is being held by our provider until {releaseDate}.",
-      "offerAdvConfirmed": "Your offer {offerName} worth {offerValue} sparks was confirmed by the advertiser and is being held until {releaseDate}.",
-      "offerReleased": "Your offer {offerName} worth {offerValue} was released.",
-      "offerReversal": "Your offer {offerName} worth {offerValue} was reversed.",
-      "vipBonusClaimed": "You have claimed the {vip} VIP bonus of {bonusAmount} sparks."
-    }
+    "title": "Notifications"
   },
   "NotFound": {
     "imageAlt": "Page not found",

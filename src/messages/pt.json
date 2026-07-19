@@ -1,17 +1,27 @@
 {
-  "Common": {
-    "brandName": "Sparkvey",
-    "viewAll": "Ver tudo"
-  },
   "HomePage": {
     "sections": {
-      "featured": { "title": "Ofertas em destaque" },
-      "popular": { "title": "Ofertas populares" },
-      "game": { "title": "Jogos" },
-      "finance": { "title": "Finanças" },
-      "surveys": { "title": "Pesquisas" },
+      "featured": {
+        "title": "Em destaque",
+        "description": "Algumas ofertas para olhar"
+      },
+      "popular": {
+        "title": "Populares",
+        "description": "O que as pessoas estão fazendo"
+      },
+      "game": {
+        "title": "Jogos",
+        "description": "Jogos para celular e desktop"
+      },
+      "finance": {
+        "title": "Finanças",
+        "description": "Bancos, crédito e ofertas relacionadas"
+      },
+      "surveys": {
+        "title": "Pesquisas",
+        "description": "Questionários curtos"
+      },
       "viewAll": "Ver tudo",
-      "showLess": "Ver menos",
       "previous": "Ofertas anteriores",
       "next": "Próximas ofertas"
     }
@@ -63,18 +73,12 @@
     "heroDescription": "Complete pesquisas, compre com cashback e participe de desafios para ganhar dinheiro online!",
     "totalEarnedBySparkvey": "Total ganho na Sparkvey",
     "giftcardDescription": "Resgate suas recompensas por gift cards de mais de 200+ marcas favoritas. Comece a ganhar dinheiro online hoje!",
-    "bannedBannerTitle": "Login bloqueado — esta conta não pode acessar a Sparkvey",
+    "sparksAlt": "Sparks",
     "rewardWords": {
       "rewards": "Recompensas",
       "money": "Dinheiro",
       "giftCards": "Gift cards",
       "crypto": "Crypto"
-    },
-    "nav": {
-      "earn": "Ganhar",
-      "rewards": "Recompensas",
-      "faq": "FAQ",
-      "aboutUs": "Sobre nós"
     },
     "featuredOffers": {
       "eyebrow": "Ofertas em destaque",
@@ -202,7 +206,6 @@
     "discover": "Descobrir",
     "tasks": "Tarefas",
     "videos": "Vídeos",
-    "legal": "Legal",
     "termsOfService": "Termos de uso",
     "privacyPolicy": "Política de Privacidade",
     "contactUs": "Fale conosco",
@@ -215,8 +218,6 @@
     "korean": "Coreano",
     "japanese": "Japonês",
     "portuguese": "Português",
-    "finnish": "Finlandês",
-    "norwegian": "Norueguês",
     "french": "Francês",
     "italian": "Italiano",
     "polish": "Polonês",
@@ -366,75 +367,25 @@
     }
   },
   "Navbar": {
-    "auth": {
-      "login": "Entrar",
-      "register": "Cadastrar"
-    },
     "links": {
       "earn": "Ganhar",
       "redeem": "Resgatar",
       "leaderboard": "Ranking"
     },
-    "mobile": {
-      "home": "Início",
-      "earn": "Ganhar",
-      "shop": "Loja",
-      "leaders": "Líderes",
-      "refer": "Indicar",
-      "support": "Suporte"
-    },
-    "emailVerification": {
-      "welcome": "Boas-vindas à Sparkvey! Verifique seu e-mail antes de começar a ganhar.",
-      "resend": "Reenviar e-mail",
-      "sending": "Enviando...",
-      "sent": "E-mail enviado"
-    },
     "a11y": {
-      "balanceAlt": "Saldo",
       "avatarAlt": "Avatar"
-    },
-    "toasts": {
-      "resendSuccess": "E-mail de verificação reenviado com sucesso. Verifique sua caixa de entrada e a pasta de spam.",
-      "resendError": "Falha ao reenviar seu e-mail de verificação. Tente novamente."
     }
   },
   "UserDropdown": {
     "profile": "Perfil",
-    "activity": "Atividade",
-    "rewards": "Recompensas",
+    "earnings": "Ganhos",
+    "redemptions": "Resgates",
     "settings": "Configurações",
     "affiliates": "Afiliados",
-    "admin": "Admin",
-    "promocodes": "Códigos promocionais",
     "signOut": "Sair"
   },
-  "EarnDropdown": {
-    "discover": "Descobrir",
-    "tasks": "Tarefas",
-    "videos": "Vídeos",
-    "ptcPtsu": "PTC / PTSU"
-  },
   "Notifications": {
-    "title": "Notificações",
-    "none": "Nenhuma notificação para exibir...",
-    "types": {
-      "offerCredited": "Oferta creditada",
-      "offerHeld": "Oferta em retenção",
-      "offerPending": "Oferta pendente",
-      "offerAdvConfirmed": "Oferta confirmada",
-      "offerReleased": "Oferta liberada",
-      "offerReversal": "Oferta estornada",
-      "vipBonusClaimed": "Bônus VIP resgatado"
-    },
-    "messages": {
-      "offerCredited": "Sua oferta {offerName} no valor de {offerValue} sparks foi creditada.",
-      "offerHeld": "Sua oferta {offerName} no valor de {offerValue} sparks está em retenção até {releaseDate}.",
-      "offerPending": "Sua oferta {offerName} no valor de {offerValue} sparks está em retenção pelo nosso provedor até {releaseDate}.",
-      "offerAdvConfirmed": "Sua oferta {offerName} no valor de {offerValue} sparks foi confirmada pelo anunciante e está em retenção até {releaseDate}.",
-      "offerReleased": "Sua oferta {offerName} no valor de {offerValue} foi liberada.",
-      "offerReversal": "Sua oferta {offerName} no valor de {offerValue} foi estornada.",
-      "vipBonusClaimed": "Você resgatou o bônus VIP {vip} de {bonusAmount} sparks."
-    }
+    "title": "Notificações"
   },
   "NotFound": {
     "imageAlt": "Página não encontrada",
