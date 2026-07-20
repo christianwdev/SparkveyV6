@@ -70,7 +70,7 @@
     "eslint-config-next": "16.2.4",
     "eslint-plugin-package-json": "0.91.2",
     "jsonc-eslint-parser": "3.1.0",
-    "typescript": "7.0.2",
+    "typescript": "5.9.3",
     "unplugin-icons": "23.0.1"
   }
 }

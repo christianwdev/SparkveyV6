@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 
 // Middleware
-import { requireAuth } from 'backend/middleware/auth';
+import { requireAuth, requireUserID } from 'backend/middleware/auth';
 import {
   withRouteErrorHandling,
   getCountryFromRequest,
@@ -14,6 +14,7 @@ import { sendResponse } from 'backend/utils/response';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
+import SiteConfig from 'backend/config/config';
 
 const app = new Hono<{ Variables: { user: InternalUser } }>();
 
@@ -78,6 +79,27 @@ export default function routesInvoker() {
       success: true,
       data: result.data,
     });
+  });
+
+  app.get('/redirect/:surveyId', requireUserID, withRouteErrorHandling, async (c) => {
+    const surveyId = c.req.param('surveyId');
+    const userId = c.get('userID');
+
+    if (!surveyId) {
+      return sendResponse({
+        c,
+        status: 400,
+        success: false,
+        message: 'Survey ID is required',
+      });
+    }
+
+    const redirectURL = new URL('https://offers.cpx-research.com/index.php');
+    redirectURL.searchParams.set('app_id', SiteConfig.surveys.cpxresearch.appId);
+    redirectURL.searchParams.set('ext_user_id', userId);
+    redirectURL.searchParams.set('survey_id', surveyId);
+
+    return c.redirect(redirectURL.toString());
   });
 
   return app;

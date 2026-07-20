@@ -42,9 +42,13 @@ export function normalizeQuery(
 export function getIPFromRequest(c: Context): string | undefined {
   let forwarded = c.req.header('cf-connecting-ip') as string;
   const passthrough = c.req.header('nextjs-passthrough-ip') as string;
+
   if (passthrough) forwarded = passthrough;
+
   const forwardedFor = c.req.header('x-forwarded-for')?.split(',')[0]?.trim();
   const realIP = c.req.header('x-real-ip');
+
+  if (process.env.NODE_ENV !== 'production') return '140.174.21.171';
 
   return forwarded ?? forwardedFor ?? realIP;
 }

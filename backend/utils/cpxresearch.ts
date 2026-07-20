@@ -5,6 +5,7 @@ import { SPARKS_PER_USD } from 'backend/utils/rewards';
 
 import type InternalUser from 'types/User/InternalUser';
 import type { CpxSurvey, CpxSurveysResponse } from 'types/CPX/CpxSurveysResponse';
+import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 import type FunctionResponse from 'types/FunctionResponse';
 
 export type SurveyProfilerFields = {
@@ -16,53 +17,25 @@ export type SurveyProfilerFields = {
   zipCode?: string,
 };
 
-export type NormalizedCpxSurvey = {
-  id: string,
-  loiMinutes: number,
-  payout: number,
-  sparks: number,
-  conversionRate: number,
-  score: number | null,
-  ratingCount: number,
-  ratingAverage: number,
-  type: string,
-  isTop: boolean,
-  publisherPayoutUsd: number,
-  href: string,
-  requiresWebcam: boolean,
-};
-
-export type FetchCpxSurveysResult = {
-  countAvailable: number,
-  countReturned: number,
-  surveys: NormalizedCpxSurvey[],
-};
-
 export function buildCpxSecureHash(extUserId: string, secureHashSecret: string): string {
   return createHash('md5').update(`${extUserId}-${secureHashSecret}`).digest('hex');
 }
 
-function normalizeSurvey(survey: CpxSurvey): NormalizedCpxSurvey {
+function normalizeSurvey(survey: CpxSurvey): SanitizedCPXSurvey {
   const payout = Number(survey.payout) || 0;
-  const href = survey.href_new || survey.href;
 
   return {
     id: String(survey.id),
     loiMinutes: Number(survey.loi) || 0,
-    payout,
     sparks: Math.round(payout * SPARKS_PER_USD),
-    conversionRate: Number(survey.conversion_rate) || 0,
     score: survey.score !== undefined
       ? Number(survey.score)
       : survey.quality_score !== undefined
         ? Number(survey.quality_score)
         : null,
-    ratingCount: Number(survey.statistics_rating_count) || 0,
     ratingAverage: Number(survey.statistics_rating_avg) || 0,
     type: survey.type,
     isTop: Number(survey.top) === 1,
-    publisherPayoutUsd: Number(survey.payout_publisher_usd) || 0,
-    href,
     requiresWebcam: Number(survey.webcam) === 1,
   };
 }
@@ -72,7 +45,6 @@ export async function fetchCpxSurveys({
   ipUser,
   userAgent,
   limit,
-  fallbackCountry,
   subid1,
   subid2,
 }: {
@@ -83,8 +55,12 @@ export async function fetchCpxSurveys({
   fallbackCountry?: string,
   subid1?: string,
   subid2?: string,
-}): Promise<FunctionResponse<FetchCpxSurveysResult, 'notConfigured' | 'missingIp' | 'upstreamError' | 'invalidResponse'>> {
+}): Promise<FunctionResponse<SanitizedCPXSurvey[], 'notConfigured' | 'missingIp' | 'upstreamError' | 'invalidResponse'>> {
   const { appId, secureHash, endpoint, defaultLimit } = SiteConfig.surveys.cpxresearch;
+
+  if (!user.personalInformation.completedAt) {
+    return { ok: true, data: [] };
+  }
 
   if (!appId || !secureHash) {
     return { ok: false, error: 'notConfigured' };
@@ -146,11 +122,7 @@ export async function fetchCpxSurveys({
 
     return {
       ok: true,
-      data: {
-        countAvailable: Number(payload.count_available_surveys) || 0,
-        countReturned: Number(payload.count_returned_surveys) || 0,
-        surveys: payload.surveys.map(normalizeSurvey),
-      },
+      data: payload.surveys.map(normalizeSurvey),
     };
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {

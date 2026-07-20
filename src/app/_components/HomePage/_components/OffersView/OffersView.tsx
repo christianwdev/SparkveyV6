@@ -3,6 +3,7 @@
 import { Suspense, use } from 'react';
 import OfferCarouselSection from '../OfferCarouselSection/OfferCarouselSection';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
+import type InternalOffer from 'types/Offer/InternalOffer';
 
 type OffersViewProps = {
   initialHomepagePromise: Promise<HomepageOffersResponse | null>;
@@ -54,7 +55,7 @@ function OffersViewContent({
         <OfferCarouselSection
           key={titleKey}
           titleKey={titleKey}
-          offers={homepage?.[titleKey]}
+          offers={homepage?.[titleKey] as InternalOffer[]}
           viewAllHref={viewAllHref}
           maxRows={maxRows}
           offersPerView={offersPerView}
