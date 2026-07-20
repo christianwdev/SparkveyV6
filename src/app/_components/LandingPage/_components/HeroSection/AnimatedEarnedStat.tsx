@@ -4,7 +4,7 @@ import styles from './HeroSection.module.scss';
 
 import { useState, useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { animate, useMotionValue } from 'framer-motion';
+import { animate, useMotionValue, useReducedMotion } from 'framer-motion';
 
 // Types
 import type { SiteStatisticsPayload } from 'types/SocketEvents';
@@ -19,6 +19,7 @@ export default function AnimatedEarnedStat({ initialUsdEarned }: AnimatedEarnedS
   const { socket } = useSocket();
   const locale = useLocale();
   const t = useTranslations('Landing');
+  const prefersReducedMotion = useReducedMotion();
   const motionValue = useMotionValue(initialUsdEarned);
   const [ displayValue, setDisplayValue ] = useState(initialUsdEarned);
 
@@ -30,6 +31,11 @@ export default function AnimatedEarnedStat({ initialUsdEarned }: AnimatedEarnedS
 
   useEffect(() => {
     const onSiteStatistics = ({ totalEarnedUsd }: SiteStatisticsPayload) => {
+      if (prefersReducedMotion) {
+        motionValue.set(totalEarnedUsd);
+        return;
+      }
+
       void animate(motionValue, totalEarnedUsd, {
         duration: 0.8,
         ease: 'easeOut',
@@ -41,7 +47,7 @@ export default function AnimatedEarnedStat({ initialUsdEarned }: AnimatedEarnedS
     return () => {
       if (socket) socket.off(SocketEmits.siteStatistics, onSiteStatistics);
     };
-  }, [ motionValue, socket ]);
+  }, [ motionValue, prefersReducedMotion, socket ]);
 
   const label = displayValue.toLocaleString(locale, {
     style: 'currency',

@@ -23,12 +23,12 @@ const SiteConfig = {
     ayetstudios: {
       security: {
         whitelistedIPs: [] as string[],
-        secret: process.env.AYETSTUDIOS_POSTBACK_SECRET ?? '',
+        secret: process.env.AYETSTUDIOS_POSTBACK_SECRET,
       },
     },
     lootably: {
       security: {
-        secret: process.env.LOOTABLY_POSTBACK_SECRET ?? '',
+        secret: process.env.LOOTABLY_POSTBACK_SECRET,
       },
     },
     waxrewards: {
@@ -38,7 +38,7 @@ const SiteConfig = {
     },
     adtowall: {
       security: {
-        secret: process.env.ADTOWALL_POSTBACK_SECRET ?? '',
+        secret: process.env.ADTOWALL_POSTBACK_SECRET,
       },
       currencyRates: {} as Record<string, number>,
     },
@@ -59,14 +59,14 @@ const SiteConfig = {
     },
     monlix: {
       security: {
-        secret: process.env.MONLIX_POSTBACK_SECRET ?? '',
+        secret: process.env.MONLIX_POSTBACK_SECRET,
       },
     },
     hangmyads: {
       security: {
-        secret: process.env.HANGMYADS_POSTBACK_SECRET ?? '',
+        secret: process.env.HANGMYADS_POSTBACK_SECRET,
       },
-      rate: Number(process.env.HANGMYADS_RATE ?? 0.75),
+      rate: Number(process.env.HANGMYADS_RATE),
     },
     gemiads: {
       security: {
@@ -80,34 +80,34 @@ const SiteConfig = {
     },
     playfina: {
       security: {
-        secret: process.env.PLAYFINA_POSTBACK_SECRET ?? '0e23003fa4406b13307088e54bb27065',
+        secret: process.env.PLAYFINA_POSTBACK_SECRET,
       },
     },
     affilirise: {
       security: {
-        secret: process.env.AFFILIRISE_POSTBACK_SECRET ?? '62aafbd40f6deb225356aab524416c45',
+        secret: process.env.AFFILIRISE_POSTBACK_SECRET,
       },
     },
     kong: {
       security: {
-        secret: process.env.KONG_POSTBACK_SECRET ?? '9d07d7ab37c45709ca86a61b504c41c1',
+        secret: process.env.KONG_POSTBACK_SECRET,
       },
     },
     bitstarz: {
       security: {
-        secret: process.env.BITSTARZ_POSTBACK_SECRET ?? '509eba73d210a8195da8908fa7697cec',
+        secret: process.env.BITSTARZ_POSTBACK_SECRET,
       },
     },
     playid: {
       security: {
-        secret: process.env.PLAYID_POSTBACK_SECRET ?? '4e6c6d2a3f50ef37ddf7981991704a4e',
+        secret: process.env.PLAYID_POSTBACK_SECRET,
       },
     },
   },
   surveys: {
     cpxresearch: {
-      appId: process.env.CPX_APP_ID ?? '',
-      secureHash: process.env.CPX_SECURE_HASH ?? '',
+      appId: process.env.CPX_APP_ID,
+      secureHash: process.env.CPX_SECURE_HASH,
       endpoint: 'https://live-api.cpx-research.com/api/get-surveys.php',
       defaultLimit: 12,
     },

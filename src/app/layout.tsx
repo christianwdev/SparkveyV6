@@ -13,6 +13,7 @@ import { getUser } from '@utils/user';
 import { serverRequest } from '@utils/serverRequest';
 import { UserProvider } from '@contexts/UserProvider';
 import { SocketProvider } from '@contexts/SocketContext';
+import MotionProvider from '@contexts/MotionProvider';
 
 const inter = Inter({
   subsets: [ 'latin' ],
@@ -100,8 +101,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       <body>
         <SocketProvider isAuthenticated={!!user}>
           <UserProvider initialUser={user}>
-            <ToastContainer position="bottom-right" />
-            {children}
+            <MotionProvider>
+              <ToastContainer position="bottom-right" />
+              {children}
+            </MotionProvider>
           </UserProvider>
         </SocketProvider>
       </body>
