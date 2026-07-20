@@ -2,10 +2,8 @@ type SanitizedCPXSurvey = {
   id: string,
   loiMinutes: number,
   sparks: number,
-  score: number | null,
-  ratingAverage: number,
+  recommended: number,
   type: string,
-  isTop: boolean,
   requiresWebcam: boolean,
 };
 

@@ -21,21 +21,42 @@ export function buildCpxSecureHash(extUserId: string, secureHashSecret: string):
   return createHash('md5').update(`${extUserId}-${secureHashSecret}`).digest('hex');
 }
 
+function computeRecommended(survey: CpxSurvey): number {
+  const isTop = Number(survey.top) === 1;
+  const rating = Math.min(Math.max(Number(survey.statistics_rating_avg) || 0, 0), 5);
+  const conversionRate = Math.min(Math.max(Number(survey.conversion_rate) || 0, 0), 100);
+  const payout = Math.max(Number(survey.payout) || 0, 0);
+
+  const topScore = isTop ? 25 : 0;
+  const ratingScore = (rating / 5) * 20;
+  const conversionScore = (conversionRate / 100) * 35;
+  const payoutScore = (Math.min(payout, 5) / 5) * 20;
+
+  return Math.round(topScore + ratingScore + conversionScore + payoutScore);
+}
+
+function compareSurveys(a: CpxSurvey, b: CpxSurvey): number {
+  const topDiff = Number(b.top) - Number(a.top);
+  if (topDiff !== 0) return topDiff;
+
+  const ratingDiff = (Number(b.statistics_rating_avg) || 0) - (Number(a.statistics_rating_avg) || 0);
+  if (ratingDiff !== 0) return ratingDiff;
+
+  const conversionDiff = (Number(b.conversion_rate) || 0) - (Number(a.conversion_rate) || 0);
+  if (conversionDiff !== 0) return conversionDiff;
+
+  return (Number(b.payout) || 0) - (Number(a.payout) || 0);
+}
+
 function normalizeSurvey(survey: CpxSurvey): SanitizedCPXSurvey {
   const payout = Number(survey.payout) || 0;
 
   return {
     id: String(survey.id),
     loiMinutes: Number(survey.loi) || 0,
-    sparks: Math.round(payout * SPARKS_PER_USD),
-    score: survey.score !== undefined
-      ? Number(survey.score)
-      : survey.quality_score !== undefined
-        ? Number(survey.quality_score)
-        : null,
-    ratingAverage: Number(survey.statistics_rating_avg) || 0,
+    sparks: Math.round(payout / 100 * SPARKS_PER_USD),
+    recommended: computeRecommended(survey),
     type: survey.type,
-    isTop: Number(survey.top) === 1,
     requiresWebcam: Number(survey.webcam) === 1,
   };
 }
@@ -122,7 +143,7 @@ export async function fetchCpxSurveys({
 
     return {
       ok: true,
-      data: payload.surveys.map(normalizeSurvey),
+      data: [ ...payload.surveys ].sort(compareSurveys).map(normalizeSurvey),
     };
   } catch (error) {
     if (process.env.NODE_ENV === 'development') {

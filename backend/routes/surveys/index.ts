@@ -95,7 +95,7 @@ export default function routesInvoker() {
     }
 
     const redirectURL = new URL('https://offers.cpx-research.com/index.php');
-    redirectURL.searchParams.set('app_id', SiteConfig.surveys.cpxresearch.appId);
+    redirectURL.searchParams.set('app_id', SiteConfig.surveys.cpxresearch.appId ?? '');
     redirectURL.searchParams.set('ext_user_id', userId);
     redirectURL.searchParams.set('survey_id', surveyId);
 
