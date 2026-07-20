@@ -33,6 +33,7 @@ export default function AnimatedEarnedStat({ initialUsdEarned }: AnimatedEarnedS
     const onSiteStatistics = ({ totalEarnedUsd }: SiteStatisticsPayload) => {
       if (prefersReducedMotion) {
         motionValue.set(totalEarnedUsd);
+
         return;
       }
 
