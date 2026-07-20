@@ -99,7 +99,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body>
-        <SocketProvider isAuthenticated={!!user}>
+        <SocketProvider>
           <UserProvider initialUser={user}>
             <MotionProvider>
               <ToastContainer position="bottom-right" />

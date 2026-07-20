@@ -17,12 +17,10 @@ const SocketContext = createContext<SocketContextType>({ socket: null });
 
 export const useSocket = () => useContext(SocketContext);
 
-export const SocketProvider: React.FC<{ children: React.ReactNode; isAuthenticated?: boolean }> = ({ children, isAuthenticated = false }) => {
+export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [ socket, setSocket ] = useState<Socket | null>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-
     const scope = getScope();
 
     if (!scope) {
@@ -33,7 +31,6 @@ export const SocketProvider: React.FC<{ children: React.ReactNode; isAuthenticat
 
     const newSocket: Socket = io(scope, {
       transports: [ 'websocket' ],
-      secure: true,
       withCredentials: true,
     });
 
@@ -43,7 +40,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode; isAuthenticat
     return () => {
       newSocket.disconnect();
     };
-  }, [ isAuthenticated ]);
+  }, []);
 
   return (
     <SocketContext.Provider value={{ socket }}>
