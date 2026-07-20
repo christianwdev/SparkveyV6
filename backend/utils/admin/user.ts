@@ -9,7 +9,7 @@ import { getAffiliateCodesByUserID } from 'backend/utils/affiliateCode';
 // Types
 import type { Filter } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type UserSession from 'types/UserSession';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
 import type EmailActionable from 'types/EmailActionable';

@@ -9,7 +9,7 @@ import { claimReferralEarnings, createAffiliateCode, disableAffiliateCode, getNu
 import RouteResponseError from 'types/RouteResponseError';
 
 // Types
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import { sendResponse } from 'backend/utils/response';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';

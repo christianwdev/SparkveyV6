@@ -1,5 +1,5 @@
 import type { Db } from 'mongodb';
-import type InternalUser from './InternalUser';
+import type InternalUser from './User/InternalUser';
 import type UserSession from './UserSession';
 
 type HonoVariables = {

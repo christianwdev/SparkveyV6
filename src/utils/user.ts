@@ -1,7 +1,7 @@
 import type { clientRequest } from "./clientRequest";
 import type { serverRequest } from "./serverRequest";
 import { getScope } from "./scope";
-import type SanitizedUser from "types/SanitizedUser";
+import type SanitizedUser from "types/User/SanitizedUser";
 import type APIResponse from "types/APIResponse";
 
 type RequestFn = typeof clientRequest | typeof serverRequest;

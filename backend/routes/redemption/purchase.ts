@@ -9,7 +9,7 @@ import RouteResponseError from 'types/RouteResponseError';
 import { requireAuth } from 'backend/middleware/auth';
 
 // Types
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type UserSession from 'types/UserSession';
 
 const app = new Hono<{ Variables: { user: InternalUser, session: UserSession } }>();

@@ -11,7 +11,7 @@ import {
 import { sendResponse } from 'backend/utils/response';
 
 // Types
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type OfferType from 'types/Offer/OfferType';
 import { OfferTypeSet } from 'types/Offer/OfferType';
 

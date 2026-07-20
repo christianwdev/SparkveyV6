@@ -6,9 +6,9 @@ import SocketEmits from 'backend/constants/SocketEmits';
 // Types
 import type { ClientSession, Filter, WithId } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
-import type SanitizedUser from 'types/SanitizedUser';
+import type SanitizedUser from 'types/User/SanitizedUser';
 import type InternalRedemption from 'types/Redemption/InternalRedemption';
 import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
@@ -93,9 +93,10 @@ export async function createUser(
         newsletterAlerts: true,
       },
 
-      privacySettings: {
+      userPreferences: {
         anonymous: false,
         hideStats: false,
+        colorTheme: undefined,
       },
 
       statistics: {
@@ -126,15 +127,7 @@ export async function createUser(
         maxAffiliateCodes: 0,
       },
 
-      personalInformation: {
-        firstName: undefined,
-        lastName: undefined,
-        dateOfBirth: undefined,
-        gender: undefined,
-        country: undefined,
-        city: undefined,
-        colorTheme: undefined,
-      },
+      personalInformation: {},
 
       bannedUntil: undefined,
       creationDate: new Date(),
@@ -185,7 +178,7 @@ export function sanitizeUser(user: InternalUser | WithId<InternalUser>): Sanitiz
       discord: sanitizeSocialLink(user.socialInformation.discord),
     },
     notificationPreferences: user.notificationPreferences,
-    privacySettings: user.privacySettings,
+    userPreferences: user.userPreferences,
     statistics: user.statistics,
     referralInformation: {
       referredBy: user.referralInformation.referredBy,
@@ -194,6 +187,7 @@ export function sanitizeUser(user: InternalUser | WithId<InternalUser>): Sanitiz
     personalInformation: user.personalInformation,
     bannedUntil: user.bannedUntil,
     creationDate: user.creationDate,
+    staffPermissions: user.staffPermissions,
   };
 }
 

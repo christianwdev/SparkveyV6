@@ -8,8 +8,8 @@ import { useSocket } from '@contexts/SocketContext';
 
 // Types
 import type { ReactNode } from 'react';
-import type SanitizedUser from 'types/SanitizedUser';
-import type InternalUser from 'types/InternalUser';
+import type SanitizedUser from 'types/User/SanitizedUser';
+import type InternalUser from 'types/User/InternalUser';
 type UserContextType = {
   user: SanitizedUser | null,
   setUser: React.Dispatch<React.SetStateAction<SanitizedUser | null>>,

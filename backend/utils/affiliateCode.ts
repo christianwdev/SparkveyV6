@@ -11,7 +11,7 @@ import { getRawUser } from 'backend/utils/user';
 import type { Filter } from 'mongodb';
 import type AffiliateCode from 'types/AffiliateCode';
 import type FunctionResponse from 'types/FunctionResponse';
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
 
 export type CreateAffiliateCodeError = 'alreadyExists' | 'internalServerError';

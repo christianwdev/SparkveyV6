@@ -13,7 +13,7 @@ import { createTremendousOrder } from './tremendous';
 import { getRawUser, updateUserBalance } from './user';
 
 // Types
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type InternalReward from 'types/Reward/InternalReward';
 import type InternalRedemption from 'types/Redemption/InternalRedemption';
 import type { RequestedCCPaymentInternalRedemption } from 'types/Redemption/CCPaymentInternalRedemption';
@@ -69,7 +69,8 @@ async function buildRedemption({
   };
 
   switch (reward.providerName) {
-    case 'ccpayment': {
+    case 'ccpayment':
+      {
       if (typeof walletAddress !== 'string' || walletAddress.trim().length === 0) {
         return { ok: false, error: 'invalidWalletAddress' };
       }
@@ -103,7 +104,8 @@ async function buildRedemption({
 
       return { ok: true, data: redemption };
     }
-    case 'tremendous': {
+    case 'tremendous':
+      {
       const resolvedCurrencyCode = typeof currencyCode === 'string' && currencyCode.length > 0
         ? currencyCode
         : 'USD';

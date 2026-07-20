@@ -7,6 +7,7 @@ import affiliatesRouteInvoker from './affiliates';
 import profileRouteInvoker from './profile';
 import offersRouteInvoker from './offers';
 import landingRouteInvoker from './landing';
+import surveysRouteInvoker from './surveys';
 
 const app = new Hono();
 
@@ -19,6 +20,7 @@ export default function routesInvoker() {
   app.route('/affiliates', affiliatesRouteInvoker());
   app.route('/offers', offersRouteInvoker());
   app.route('/landing', landingRouteInvoker());
+  app.route('/surveys', surveysRouteInvoker());
 
   return app;
 }

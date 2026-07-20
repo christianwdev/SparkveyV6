@@ -7,7 +7,7 @@ import { sendResponse } from '../utils/response';
 
 // Types
 import type { Context, Next } from 'hono';
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type UserSession from 'types/UserSession';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 

@@ -8,7 +8,7 @@ import { requireAuth } from 'backend/middleware/auth';
 import { sendResponse } from 'backend/utils/response';
 
 // Types
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 
 const app = new Hono<{ Variables: { user: InternalUser } }>();
 

@@ -17,7 +17,7 @@ import {
 } from 'backend/utils/user';
 
 // Types
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 
 const app = new Hono<{ Variables: { user: InternalUser } }>();
 

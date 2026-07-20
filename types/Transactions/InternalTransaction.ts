@@ -1,4 +1,4 @@
-import type InternalUser from "types/InternalUser";
+import type InternalUser from "types/User/InternalUser";
 
 type InternalTransaction = {
   transactionID: string;

@@ -31,7 +31,7 @@ import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 
 // Types
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 const app = new Hono<{ Variables: { user: InternalUser } }>();

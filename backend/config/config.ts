@@ -104,6 +104,14 @@ const SiteConfig = {
       },
     },
   },
+  surveys: {
+    cpxresearch: {
+      appId: process.env.CPX_APP_ID ?? '',
+      secureHash: process.env.CPX_SECURE_HASH ?? '',
+      endpoint: 'https://live-api.cpx-research.com/api/get-surveys.php',
+      defaultLimit: 12,
+    },
+  },
 };
 
 export default SiteConfig;

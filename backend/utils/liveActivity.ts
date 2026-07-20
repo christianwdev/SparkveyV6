@@ -8,7 +8,7 @@ import { getGlobalObject } from './globalObject';
 import { withCache } from './cache';
 
 // Types
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { LandingLiveActivityItem } from 'types/LandingHomepageResponse';
 
@@ -17,13 +17,13 @@ const LIVE_ACTIVITY_LIMIT = 5;
 
 const NON_REVERSED_STATUSES = [ 'completed', 'held', 'providerPending' ] as const;
 
-type LiveActivityUser = Pick<InternalUser, 'username' | 'avatar' | 'privacySettings'>;
+type LiveActivityUser = Pick<InternalUser, 'username' | 'avatar' | 'userPreferences'>;
 
 export function earningToLiveActivityItem(
   earning: InternalEarning,
   user?: LiveActivityUser | null,
 ): LandingLiveActivityItem {
-  const isAnonymous = user?.privacySettings?.anonymous ?? false;
+  const isAnonymous = user?.userPreferences?.anonymous ?? false;
 
   return {
     id: earning.conversionID,
@@ -44,7 +44,7 @@ export async function emitLiveActivity(earning: InternalEarning): Promise<void> 
       .collection<InternalUser>(DatabaseCollections.users)
       .findOne(
         { userID: earning.userID },
-        { projection: { username: 1, avatar: 1, privacySettings: 1 } },
+        { projection: { username: 1, avatar: 1, userPreferences: 1 } },
       );
 
     io.to(SocketRooms.landing).emit(
@@ -78,7 +78,7 @@ export async function getLiveActivity({
       .collection<InternalUser>(DatabaseCollections.users)
       .find(
         { userID: { $in: userIDs } },
-        { projection: { userID: 1, username: 1, avatar: 1, privacySettings: 1 } },
+        { projection: { userID: 1, username: 1, avatar: 1, userPreferences: 1 } },
       )
       .toArray();
 

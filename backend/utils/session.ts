@@ -13,7 +13,7 @@ import { setCsrfCookie } from './csrf';
 
 // Types
 import type UserSession from 'types/UserSession';
-import type InternalUser from 'types/InternalUser';
+import type InternalUser from 'types/User/InternalUser';
 import type { Context } from 'hono';
 import type { ClientSession } from 'mongodb';
 

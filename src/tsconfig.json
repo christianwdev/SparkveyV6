@@ -16,8 +16,9 @@
       }
     ],
     "strictNullChecks": true,
-    "baseUrl": ".",
+    "types": [ "bun", "node" ],
     "paths": {
+      "*": [ "./*" ],
       "@utils/*": [ "./utils/*" ],
       "@hooks/*": [ "./app/_hooks/*" ],
       "@contexts/*": [ "./app/_contexts/*" ],
@@ -25,23 +26,23 @@
       "@styles/*": [ "./app/_styles/*" ],
       "@components/*": [
         "./app/_components/*",
-        "./app/_loadingComponents/*",
+        "./app/_loadingComponents/*"
       ],
       "@layouts/*": [
-        "./app/_layouts/*",
+        "./app/_layouts/*"
       ],
       "@public/*": [
-        "./public/*",
+        "./public/*"
       ],
       "types/*": [
         "./types/*",
         "../types/*",
-        "../_discord/types/*",
+        "../_discord/types/*"
       ],
       "@i18n/*": [
-        "./i18n/*",
-      ],
-    },
+        "./i18n/*"
+      ]
+    }
   },
   "include": [
     "jsx.declarations.d.ts",
@@ -50,7 +51,7 @@
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
