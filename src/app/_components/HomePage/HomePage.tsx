@@ -5,6 +5,7 @@ import Footer from '@components/Footer/Footer';
 import Navbar from '@components/Navbar/Navbar';
 import { getUsersHomepage } from '@utils/homepage';
 import { serverRequest } from '@utils/serverRequest';
+import Carousel from '../Carousel/Carousel';
 
 export default function HomePage() {
   const initialHomepagePromise = getUsersHomepage({
@@ -15,6 +16,13 @@ export default function HomePage() {
     <>
       <Navbar />
       <main className={styles.homePage}>
+        <Carousel
+          autoPlay={15_000}
+        >
+          <p key="one">one</p>
+          <p key="two">two</p>
+          <p key="three">three</p>
+        </Carousel>
         <OffersView
           initialHomepagePromise={initialHomepagePromise}
           viewAllHref="/tasks"

@@ -6,8 +6,8 @@ import {
   useLayoutEffect,
   useRef,
   type ReactNode,
-  type UIEvent,
 } from 'react';
+import { useReducedMotion } from 'framer-motion';
 
 // Icons
 import ArrowLeftIcon from '~icons/solar/alt-arrow-left-linear.jsx';
@@ -39,12 +39,13 @@ export default function Carousel({
 }: CarouselProps) {
   const slides = Children.toArray(children).filter(Boolean);
   const canLoop = slides.length > 1;
+  const slideCount = slides.length;
+  const prefersReducedMotion = useReducedMotion();
 
   const trackRef = useRef<HTMLDivElement>(null);
-  const lastScrollRef = useRef<number | undefined>(undefined);
+  const leadingCloneRef = useRef<HTMLDivElement>(null);
   const lastInteractedAtRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval>>(undefined);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   function scrollBySlide(direction: 1 | -1) {
     const track = trackRef.current;
@@ -52,21 +53,123 @@ export default function Carousel({
 
     track.scrollBy({
       left: track.clientWidth * direction,
-      behavior: 'smooth',
+      behavior: prefersReducedMotion ? 'instant' : 'smooth',
     });
   }
 
-  // Jump past the leading clone before first paint so SSR/hydration don't flash it.
+  /**
+   * Same SSR-safe prime as V5: leading clone stays out of layout until we can
+   * scroll past it in the same frame, so scrollLeft 0 never paints the clone.
+   */
   useLayoutEffect(() => {
+    if (!canLoop) return;
+
+    const track = trackRef.current;
+    const leading = leadingCloneRef.current;
+    if (!track || !leading) return;
+
+    let primed = false;
+
+    function prime() {
+      if (primed) return true;
+
+      const el = trackRef.current;
+      const clone = leadingCloneRef.current;
+      if (!el || !clone) return false;
+
+      const slideWidth = el.clientWidth;
+      if (slideWidth === 0) return false;
+
+      clone.style.display = 'block';
+      el.scrollLeft = slideWidth;
+      primed = true;
+
+      return true;
+    }
+
+    leading.style.display = 'none';
+
+    if (prime()) return;
+
+    const observer = new ResizeObserver(() => {
+      if (prime()) observer.disconnect();
+    });
+
+    observer.observe(track);
+
+    return () => observer.disconnect();
+  }, [ canLoop, slideCount ]);
+
+  // When settled on a clone, jump to the matching real slide (live scrollLeft).
+  useEffect(() => {
     const track = trackRef.current;
     if (!track || !canLoop) return;
 
-    track.scrollLeft = track.clientWidth;
-  }, [ canLoop, slides.length ]);
+    let wrapping = false;
+    let settleTimer: ReturnType<typeof setTimeout> | undefined;
+
+    function normalizeLoopPosition() {
+      const el = trackRef.current;
+      if (!el || wrapping) return;
+
+      const slideWidth = el.clientWidth;
+      if (slideWidth === 0) return;
+
+      const index = Math.round(el.scrollLeft / slideWidth);
+      const lastCloneIndex = slideCount + 1;
+
+      if (index <= 0) {
+        wrapping = true;
+        el.scrollTo({
+          left: slideCount * slideWidth,
+          behavior: 'instant',
+        });
+        wrapping = false;
+
+        return;
+      }
+
+      if (index >= lastCloneIndex) {
+        wrapping = true;
+        el.scrollTo({
+          left: slideWidth,
+          behavior: 'instant',
+        });
+        wrapping = false;
+      }
+    }
+
+    function scheduleNormalize() {
+      lastInteractedAtRef.current = Date.now();
+
+      if (wrapping) return;
+
+      if (settleTimer !== undefined) {
+        clearTimeout(settleTimer);
+      }
+
+      settleTimer = setTimeout(() => {
+        normalizeLoopPosition();
+      }, 80);
+    }
+
+    track.addEventListener('scroll', scheduleNormalize, { passive: true });
+    track.addEventListener('scrollend', normalizeLoopPosition);
+
+    return () => {
+      track.removeEventListener('scroll', scheduleNormalize);
+      track.removeEventListener('scrollend', normalizeLoopPosition);
+
+      if (settleTimer !== undefined) {
+        clearTimeout(settleTimer);
+      }
+    };
+  }, [ canLoop, slideCount ]);
 
   useEffect(() => {
-    if (!canLoop || autoPlay === false) return;
+    if (!canLoop || autoPlay === false || prefersReducedMotion) return;
 
+    const idleMs = autoPlay;
     lastInteractedAtRef.current = Date.now();
 
     function stopAutoPlay() {
@@ -80,11 +183,17 @@ export default function Carousel({
       stopAutoPlay();
 
       timerRef.current = setInterval(() => {
-        if (autoPlay === false) return;
-        if (Date.now() < lastInteractedAtRef.current + autoPlay) return;
+        if (Date.now() < lastInteractedAtRef.current + idleMs) return;
 
         lastInteractedAtRef.current = Date.now();
-        scrollBySlide(1);
+
+        const track = trackRef.current;
+        if (!track) return;
+
+        track.scrollBy({
+          left: track.clientWidth,
+          behavior: prefersReducedMotion ? 'instant' : 'smooth',
+        });
       }, 1000);
     }
 
@@ -103,69 +212,12 @@ export default function Carousel({
     return () => {
       stopAutoPlay();
       document.removeEventListener('visibilitychange', onVisibilityChange);
-
-      if (debounceRef.current !== undefined) {
-        clearTimeout(debounceRef.current);
-      }
     };
-  }, [ canLoop, autoPlay ]);
-
-  function handleScroll(event: UIEvent<HTMLDivElement>) {
-    if (!canLoop) return;
-
-    const track = event.currentTarget;
-    const currentScroll = track.scrollLeft;
-    const lastScroll = lastScrollRef.current;
-    const hasLastScroll = typeof lastScroll === 'number';
-    const slideWidth = track.clientWidth;
-    const isUserScroll = track.style.overflow !== 'hidden';
-    const delta = hasLastScroll ? currentScroll - lastScroll : 0;
-
-    // 10px buffer so snap/rounding doesn't miss the clone edge
-    const maxScroll = track.scrollWidth - track.clientWidth - 10;
-    const minScroll = slideWidth - 10;
-
-    if (hasLastScroll && delta < 0 && currentScroll < minScroll && isUserScroll) {
-      track.style.overflow = 'hidden';
-      track.scrollTo({ left: 0, behavior: 'smooth' });
-    }
-
-    if (hasLastScroll && delta > 0 && currentScroll > maxScroll && isUserScroll) {
-      track.style.overflow = 'hidden';
-      track.scrollTo({ left: maxScroll, behavior: 'smooth' });
-    }
-
-    if (!isUserScroll) {
-      if (debounceRef.current !== undefined) {
-        clearTimeout(debounceRef.current);
-      }
-
-      debounceRef.current = setTimeout(() => {
-        if (currentScroll <= 1) {
-          track.scrollTo({
-            left: track.scrollWidth - slideWidth * 2,
-            behavior: 'instant',
-          });
-        }
-
-        if (currentScroll >= maxScroll) {
-          track.scrollTo({
-            left: slideWidth,
-            behavior: 'instant',
-          });
-        }
-
-        track.style.overflow = 'auto';
-      }, 75);
-    }
-
-    lastScrollRef.current = currentScroll;
-    lastInteractedAtRef.current = Date.now();
-  }
+  }, [ autoPlay, canLoop, prefersReducedMotion ]);
 
   if (slides.length === 0) return null;
 
-  const columnCount = canLoop ? slides.length + 2 : slides.length;
+  const columnCount = canLoop ? slideCount + 2 : slideCount;
 
   return (
     <div
@@ -180,11 +232,15 @@ export default function Carousel({
         style={{
           gridTemplateColumns: `repeat(${columnCount}, 100%)`,
         }}
-        onScroll={handleScroll}
       >
         {canLoop && (
-          <div className={styles.slide} aria-hidden>
-            {slides[slides.length - 1]}
+          <div
+            ref={leadingCloneRef}
+            className={styles.slide}
+            style={{ display: 'none' }}
+            aria-hidden
+          >
+            {slides[slideCount - 1]}
           </div>
         )}
 
@@ -194,7 +250,7 @@ export default function Carousel({
             className={styles.slide}
             role="group"
             aria-roledescription="slide"
-            aria-label={`${index + 1} of ${slides.length}`}
+            aria-label={`${index + 1} of ${slideCount}`}
           >
             {slide}
           </div>
