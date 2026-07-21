@@ -372,6 +372,11 @@
       "redeem": "Redeem",
       "leaderboard": "Leaderboard"
     },
+    "earnMenu": {
+      "explore": "Explore",
+      "tasks": "Tasks",
+      "surveys": "Surveys"
+    },
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -435,6 +440,23 @@
     "upTo": "up to",
     "sparksAlt": "Sparks"
   },
+  "SurveyItem": {
+    "title": "Survey",
+    "duration": "{minutes} min",
+    "webcam": "Webcam",
+    "webcamRequired": "Webcam required",
+    "top": "Top survey",
+    "ratingLabel": "Rated {rating} out of 5",
+    "ratingUnavailable": "No ratings yet",
+    "earn": "Earn",
+    "sparksAlt": "Sparks"
+  },
+  "SurveysPage": {
+    "title": "Surveys",
+    "description": "Pick a survey that fits your time and start earning Sparks.",
+    "empty": "No surveys are available right now. Check back soon.",
+    "error": "We couldn't load surveys. Please try again in a moment."
+  },
   "WallItem": {
     "errors": {
       "banned": "Your account is banned. If you think this is an error, please contact support.",
@@ -491,6 +513,10 @@
   "TasksMetadata": {
     "title": "Sparkvey | Tasks",
     "description": "Complete tasks to earn rewards and cash."
+  },
+  "SurveysMetadata": {
+    "title": "Sparkvey | Surveys",
+    "description": "Complete short surveys to earn Sparks and redeem rewards."
   },
   "PtcPtsuMetadata": {
     "title": "Sparkvey | Signups & Clicks",

@@ -372,6 +372,11 @@
       "redeem": "Échanger",
       "leaderboard": "Classement"
     },
+    "earnMenu": {
+      "explore": "Explorer",
+      "tasks": "Tâches",
+      "surveys": "Sondages"
+    },
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -435,6 +440,23 @@
     "upTo": "jusqu'à",
     "sparksAlt": "Sparks"
   },
+  "SurveyItem": {
+    "title": "Sondage",
+    "duration": "{minutes} min",
+    "webcam": "Webcam",
+    "webcamRequired": "Webcam requise",
+    "top": "Sondage top",
+    "ratingLabel": "Noté {rating} sur 5",
+    "ratingUnavailable": "Pas encore de notes",
+    "earn": "Gagnez",
+    "sparksAlt": "Sparks"
+  },
+  "SurveysPage": {
+    "title": "Sondages",
+    "description": "Choisissez un sondage adapté à votre temps et gagnez des Sparks.",
+    "empty": "Aucun sondage n'est disponible pour le moment. Revenez bientôt.",
+    "error": "Impossible de charger les sondages. Réessayez dans un instant."
+  },
   "WallItem": {
     "errors": {
       "banned": "Votre compte est banni. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter le support.",
@@ -491,6 +513,10 @@
   "TasksMetadata": {
     "title": "Sparkvey | Tâches",
     "description": "Complétez des tâches pour gagner des récompenses et de l'argent."
+  },
+  "SurveysMetadata": {
+    "title": "Sparkvey | Sondages",
+    "description": "Répondez à de courts sondages pour gagner des Sparks et échanger des récompenses."
   },
   "PtcPtsuMetadata": {
     "title": "Sparkvey | Inscriptions et clics",

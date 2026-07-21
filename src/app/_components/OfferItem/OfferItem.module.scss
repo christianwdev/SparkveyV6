@@ -12,6 +12,14 @@
 
   border: 1px solid #D8D8D8;
   overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+
+  &:hover {
+    border-color: rgba(158, 56, 208, 0.35);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  }
 
   > .imageContainer {
     width: 100%;

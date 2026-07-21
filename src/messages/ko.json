@@ -372,6 +372,11 @@
       "redeem": "교환",
       "leaderboard": "리더보드"
     },
+    "earnMenu": {
+      "explore": "탐색",
+      "tasks": "작업",
+      "surveys": "설문조사"
+    },
     "a11y": {
       "avatarAlt": "아바타"
     }
@@ -435,6 +440,23 @@
     "upTo": "최대",
     "sparksAlt": "스파크"
   },
+  "SurveyItem": {
+    "title": "설문조사",
+    "duration": "{minutes}분",
+    "webcam": "웹캠",
+    "webcamRequired": "웹캠 필요",
+    "top": "인기 설문",
+    "ratingLabel": "5점 만점에 {rating}점",
+    "ratingUnavailable": "아직 평가 없음",
+    "earn": "적립",
+    "sparksAlt": "스파크"
+  },
+  "SurveysPage": {
+    "title": "설문조사",
+    "description": "시간에 맞는 설문을 선택하고 Sparks를 적립하세요.",
+    "empty": "지금은 이용 가능한 설문이 없습니다. 곧 다시 확인해 주세요.",
+    "error": "설문을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요."
+  },
   "WallItem": {
     "errors": {
       "banned": "귀하의 계정은 금지되었습니다. 오류라고 생각되면 지원팀에 문의하세요.",
@@ -491,6 +513,10 @@
   "TasksMetadata": {
     "title": "Sparkvey | 작업",
     "description": "작업을 완료하여 보상과 현금을 받으세요."
+  },
+  "SurveysMetadata": {
+    "title": "Sparkvey | 설문조사",
+    "description": "짧은 설문을 완료하고 Sparks를 적립해 보상으로 교환하세요."
   },
   "PtcPtsuMetadata": {
     "title": "Sparkvey | 가입 및 클릭",

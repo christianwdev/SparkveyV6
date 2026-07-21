@@ -56,7 +56,8 @@ function normalizeSurvey(survey: CpxSurvey): SanitizedCPXSurvey {
     loiMinutes: Number(survey.loi) || 0,
     sparks: Math.round(payout / 100 * SPARKS_PER_USD),
     recommended: computeRecommended(survey),
-    type: survey.type,
+    ratingAvg: Math.min(Math.max(Number(survey.statistics_rating_avg) || 0, 0), 5),
+    isTop: Number(survey.top) === 1,
     requiresWebcam: Number(survey.webcam) === 1,
   };
 }

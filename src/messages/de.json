@@ -372,6 +372,11 @@
       "redeem": "Einloesen",
       "leaderboard": "Bestenliste"
     },
+    "earnMenu": {
+      "explore": "Entdecken",
+      "tasks": "Aufgaben",
+      "surveys": "Umfragen"
+    },
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -435,6 +440,23 @@
     "upTo": "bis zu",
     "sparksAlt": "Sparks"
   },
+  "SurveyItem": {
+    "title": "Umfrage",
+    "duration": "{minutes} Min.",
+    "webcam": "Webcam",
+    "webcamRequired": "Webcam erforderlich",
+    "top": "Top-Umfrage",
+    "ratingLabel": "Mit {rating} von 5 bewertet",
+    "ratingUnavailable": "Noch keine Bewertungen",
+    "earn": "Verdiene",
+    "sparksAlt": "Sparks"
+  },
+  "SurveysPage": {
+    "title": "Umfragen",
+    "description": "Wähle eine Umfrage, die zu deiner Zeit passt, und verdiene Sparks.",
+    "empty": "Derzeit sind keine Umfragen verfügbar. Schau bald wieder vorbei.",
+    "error": "Umfragen konnten nicht geladen werden. Bitte versuche es gleich erneut."
+  },
   "WallItem": {
     "errors": {
       "banned": "Dein Konto wurde gesperrt. Wenn du denkst, dass dies ein Fehler ist, kontaktiere bitte den Support.",
@@ -491,6 +513,10 @@
   "TasksMetadata": {
     "title": "Sparkvey | Aufgaben",
     "description": "Schliesse Aufgaben ab, um Belohnungen und Bargeld zu verdienen."
+  },
+  "SurveysMetadata": {
+    "title": "Sparkvey | Umfragen",
+    "description": "Beantworte kurze Umfragen, um Sparks zu verdienen und Belohnungen einzulösen."
   },
   "PtcPtsuMetadata": {
     "title": "Sparkvey | Registrierungen & Klicks",

@@ -372,6 +372,11 @@
       "redeem": "交換",
       "leaderboard": "ランキング"
     },
+    "earnMenu": {
+      "explore": "探索",
+      "tasks": "タスク",
+      "surveys": "アンケート"
+    },
     "a11y": {
       "avatarAlt": "アバター"
     }
@@ -435,6 +440,23 @@
     "upTo": "最大",
     "sparksAlt": "Sparks"
   },
+  "SurveyItem": {
+    "title": "アンケート",
+    "duration": "{minutes}分",
+    "webcam": "カメラ",
+    "webcamRequired": "ウェブカメラが必要です",
+    "top": "人気アンケート",
+    "ratingLabel": "5段階中{rating}",
+    "ratingUnavailable": "まだ評価がありません",
+    "earn": "獲得",
+    "sparksAlt": "Sparks"
+  },
+  "SurveysPage": {
+    "title": "アンケート",
+    "description": "自分の時間に合うアンケートを選んでSparksを獲得しましょう。",
+    "empty": "現在利用できるアンケートはありません。しばらくしてからご確認ください。",
+    "error": "アンケートを読み込めませんでした。しばらくしてからもう一度お試しください。"
+  },
   "WallItem": {
     "errors": {
       "banned": "あなたのアカウントは停止されています。誤りと思われる場合はサポートまでご連絡ください。",
@@ -491,6 +513,10 @@
   "TasksMetadata": {
     "title": "Sparkvey | タスク",
     "description": "タスクを完了して報酬と現金を獲得しましょう。"
+  },
+  "SurveysMetadata": {
+    "title": "Sparkvey | アンケート",
+    "description": "短いアンケートに答えてSparksを獲得し、報酬と交換しましょう。"
   },
   "PtcPtsuMetadata": {
     "title": "Sparkvey | 登録＆クリック",

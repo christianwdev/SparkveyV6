@@ -5,9 +5,9 @@ import styles from './Navbar.module.scss';
 // Components
 import { Link } from '@i18n/navigation';
 import LogoType from '@components/LogoType/LogoType';
-import NotificationsIcon from '~icons/mdi/bell.jsx';
 import Image from 'next/image';
 import UserDropdown from './_components/UserDropdown/UserDropdown';
+import EarnDropdown from './_components/EarnDropdown/EarnDropdown';
 
 // Constants
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
@@ -16,6 +16,11 @@ import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { useTranslations } from 'next-intl';
 import { useUser } from '@contexts/UserProvider';
 import { useFormatter } from 'next-intl';
+
+// Icons
+import NotificationsIcon from '~icons/mdi/bell.jsx';
+import GiftIcon from '~icons/solar/gift-linear.jsx';
+import RankingIcon from '~icons/solar/cup-star-linear.jsx';
 
 type NavbarProps = {
   showLinks?: boolean;
@@ -40,9 +45,15 @@ export default function Navbar({ showLinks }: NavbarProps) {
 
         {shouldShowLinks && (
           <div className={styles.links}>
-            <Link href="/earn">{tNav('links.earn')}</Link>
-            <Link href="/redeem">{tNav('links.redeem')}</Link>
-            <Link href="/leaderboard">{tNav('links.leaderboard')}</Link>
+            <EarnDropdown />
+            <Link href="/redeem" className={styles.navLink}>
+              <GiftIcon className={styles.navIcon} aria-hidden />
+              <span>{tNav('links.redeem')}</span>
+            </Link>
+            <Link href="/leaderboard" className={styles.navLink}>
+              <RankingIcon className={styles.navIcon} aria-hidden />
+              <span>{tNav('links.leaderboard')}</span>
+            </Link>
           </div>
         )}
 

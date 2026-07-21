@@ -4,7 +4,9 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@i18n/navigation';
 import OfferItem from '@components/OfferItem/OfferItem';
+import SurveyItem from '@components/SurveyItem/SurveyItem';
 import type InternalOffer from 'types/Offer/InternalOffer';
+import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
 import styles from './OfferCarouselSection.module.scss';
 
@@ -12,19 +14,31 @@ import styles from './OfferCarouselSection.module.scss';
 import ArrowLeftIcon from '~icons/solar/alt-arrow-left-linear.jsx';
 import ArrowRightIcon from '~icons/solar/alt-arrow-right-linear.jsx';
 
-type OfferCarouselSectionProps = {
-  offers?: InternalOffer[];
-  titleKey: keyof HomepageOffersResponse;
+type OfferSectionKey = keyof Omit<HomepageOffersResponse, 'surveys'>;
+
+type BaseCarouselProps = {
   viewAllHref?: string;
   maxRows?: number;
   offersPerView?: number;
   loading?: boolean;
 };
 
+type OfferCarouselSectionProps = BaseCarouselProps & (
+  | {
+    titleKey: OfferSectionKey;
+    offers?: InternalOffer[];
+    surveys?: never;
+  }
+  | {
+    titleKey: 'surveys';
+    surveys?: SanitizedCPXSurvey[];
+    offers?: never;
+  }
+);
+
 const SCROLL_TOLERANCE = 2;
 const DEFAULT_OFFERS_PER_VIEW = 5;
 const DEFAULT_MAX_ROWS = 1;
-const SKELETON_COUNT = 6;
 
 function resolveRowCount(offerCount: number, offersPerView: number, maxRows: number) {
   if (maxRows <= 1 || offerCount < offersPerView * 2) {
@@ -41,19 +55,24 @@ function resolveRowCount(offerCount: number, offersPerView: number, maxRows: num
   return Math.max(1, rows);
 }
 
-export default function OfferCarouselSection({
-  offers = [],
-  titleKey,
-  viewAllHref,
-  maxRows = DEFAULT_MAX_ROWS,
-  offersPerView = DEFAULT_OFFERS_PER_VIEW,
-  loading = false,
-}: OfferCarouselSectionProps) {
+export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
+  const {
+    titleKey,
+    viewAllHref,
+    maxRows = DEFAULT_MAX_ROWS,
+    offersPerView = DEFAULT_OFFERS_PER_VIEW,
+    loading = false,
+  } = props;
+
   const t = useTranslations('HomePage.sections');
   const [ canScrollLeft, setCanScrollLeft ] = useState(false);
   const [ canScrollRight, setCanScrollRight ] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const itemCount = loading ? SKELETON_COUNT : offers.length;
+
+  const isSurveys = titleKey === 'surveys';
+  const items = (isSurveys ? props.surveys : props.offers) ?? [];
+  const skeletonCount = Math.max(1, maxRows) * offersPerView;
+  const itemCount = loading ? skeletonCount : items.length;
   const rowCount = resolveRowCount(itemCount, offersPerView, maxRows);
 
   useEffect(() => {
@@ -82,9 +101,9 @@ export default function OfferCarouselSection({
       resizeObserver.disconnect();
       carousel.removeEventListener('scroll', updateScrollState);
     };
-  }, [ offers, rowCount, offersPerView, loading ]);
+  }, [ props.offers, props.surveys, rowCount, offersPerView, loading ]);
 
-  if (!loading && offers.length === 0) return null;
+  if (!loading && items.length === 0) return null;
 
   const scrollByPage = (direction: 1 | -1) => {
     const carousel = carouselRef.current;
@@ -145,20 +164,35 @@ export default function OfferCarouselSection({
         } as CSSProperties}
       >
         {loading
-          ? Array.from({ length: SKELETON_COUNT }, (_, index) => (
-            <OfferItem key={index} loading />
+          ? Array.from({ length: skeletonCount }, (_, index) => (
+            isSurveys
+              ? <SurveyItem key={index} loading />
+              : <OfferItem key={index} loading />
           ))
-          : offers.map((offer) => (
-            <OfferItem
-              key={offer.offerID}
-              loading={false}
-              offerName={offer.displayName || offer.name}
-              offerDescription={offer.description}
-              offerImageUrl={offer.image}
-              offerLink={offer.trackingURL}
-              totalReward={offer.totalReward}
-            />
-          ))}
+          : isSurveys
+            ? (props.surveys ?? []).map((survey) => (
+              <SurveyItem
+                key={survey.id}
+                loading={false}
+                surveyId={survey.id}
+                loiMinutes={survey.loiMinutes}
+                sparks={survey.sparks}
+                ratingAvg={survey.ratingAvg}
+                isTop={survey.isTop}
+                requiresWebcam={survey.requiresWebcam}
+              />
+            ))
+            : (props.offers ?? []).map((offer) => (
+              <OfferItem
+                key={offer.offerID}
+                loading={false}
+                offerName={offer.displayName || offer.name}
+                offerDescription={offer.description}
+                offerImageUrl={offer.image}
+                offerLink={offer.trackingURL}
+                totalReward={offer.totalReward}
+              />
+            ))}
       </div>
     </section>
   );

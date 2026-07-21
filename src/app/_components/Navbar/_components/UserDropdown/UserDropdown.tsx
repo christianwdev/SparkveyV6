@@ -10,7 +10,6 @@ import { useUser } from '@contexts/UserProvider';
 import { clientRequest } from '@utils/clientRequest';
 import { getScope } from '@utils/scope';
 import type APIResponse from 'types/APIResponse';
-import type { ComponentType, SVGProps } from 'react';
 
 // Icons
 import ProfileIcon from '~icons/solar/user-rounded-linear.jsx';
@@ -128,13 +127,17 @@ export default function UserDropdown() {
         aria-expanded={active}
         aria-haspopup="menu"
       >
-        <Image
-          className={styles.avatar}
-          src={user.avatar ?? ''}
-          alt={tNav('a11y.avatarAlt')}
-          width={48}
-          height={48}
-        />
+        {user.avatar ? (
+          <Image
+            className={styles.avatar}
+            src={user.avatar}
+            alt={tNav('a11y.avatarAlt')}
+            width={48}
+            height={48}
+          />
+        ) : (
+          <ProfileIcon className={styles.avatarFallback} aria-hidden />
+        )}
       </button>
 
       <AnimatePresence>

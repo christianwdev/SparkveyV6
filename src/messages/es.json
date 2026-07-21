@@ -372,6 +372,11 @@
       "redeem": "Canjear",
       "leaderboard": "Clasificacion"
     },
+    "earnMenu": {
+      "explore": "Explorar",
+      "tasks": "Tareas",
+      "surveys": "Encuestas"
+    },
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -435,6 +440,23 @@
     "upTo": "hasta",
     "sparksAlt": "Sparks"
   },
+  "SurveyItem": {
+    "title": "Encuesta",
+    "duration": "{minutes} min",
+    "webcam": "Cámara",
+    "webcamRequired": "Se requiere cámara web",
+    "top": "Encuesta top",
+    "ratingLabel": "Valoración de {rating} de 5",
+    "ratingUnavailable": "Sin valoraciones aún",
+    "earn": "Gana",
+    "sparksAlt": "Sparks"
+  },
+  "SurveysPage": {
+    "title": "Encuestas",
+    "description": "Elige una encuesta que se adapte a tu tiempo y empieza a ganar Sparks.",
+    "empty": "No hay encuestas disponibles ahora. Vuelve pronto.",
+    "error": "No pudimos cargar las encuestas. Inténtalo de nuevo en un momento."
+  },
   "WallItem": {
     "errors": {
       "banned": "Tu cuenta esta bloqueada. Si crees que se trata de un error, contacta con soporte.",
@@ -491,6 +513,10 @@
   "TasksMetadata": {
     "title": "Sparkvey | Tareas",
     "description": "Completa tareas para ganar recompensas y dinero."
+  },
+  "SurveysMetadata": {
+    "title": "Sparkvey | Encuestas",
+    "description": "Completa encuestas cortas para ganar Sparks y canjear recompensas."
   },
   "PtcPtsuMetadata": {
     "title": "Sparkvey | Registros y clics",

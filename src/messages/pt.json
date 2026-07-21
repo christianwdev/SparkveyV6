@@ -372,6 +372,11 @@
       "redeem": "Resgatar",
       "leaderboard": "Ranking"
     },
+    "earnMenu": {
+      "explore": "Explorar",
+      "tasks": "Tarefas",
+      "surveys": "Pesquisas"
+    },
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -435,6 +440,23 @@
     "upTo": "até",
     "sparksAlt": "Sparks"
   },
+  "SurveyItem": {
+    "title": "Pesquisa",
+    "duration": "{minutes} min",
+    "webcam": "Webcam",
+    "webcamRequired": "Webcam necessária",
+    "top": "Pesquisa top",
+    "ratingLabel": "Avaliado {rating} de 5",
+    "ratingUnavailable": "Sem avaliações ainda",
+    "earn": "Ganhe",
+    "sparksAlt": "Sparks"
+  },
+  "SurveysPage": {
+    "title": "Pesquisas",
+    "description": "Escolha uma pesquisa que caiba no seu tempo e comece a ganhar Sparks.",
+    "empty": "Nenhuma pesquisa disponível no momento. Volte em breve.",
+    "error": "Não foi possível carregar as pesquisas. Tente novamente em instantes."
+  },
   "WallItem": {
     "errors": {
       "banned": "Sua conta está banida. Se você acredita que isso é um erro, entre em contato com o suporte.",
@@ -491,6 +513,10 @@
   "TasksMetadata": {
     "title": "Sparkvey | Tarefas",
     "description": "Complete tarefas para ganhar recompensas e dinheiro."
+  },
+  "SurveysMetadata": {
+    "title": "Sparkvey | Pesquisas",
+    "description": "Complete pesquisas curtas para ganhar Sparks e resgatar recompensas."
   },
   "PtcPtsuMetadata": {
     "title": "Sparkvey | Cadastros e Cliques",

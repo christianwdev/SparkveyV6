@@ -52,23 +52,27 @@ function OfferItemLoaded(props: OfferItemLoadedProps) {
   return (
     <Link href={props.offerLink} className={styles.offerItemContainer}>
       <div className={styles.imageContainer}>
-        <Image
-          src={props.offerImageUrl}
-          fill
-          sizes="100%"
-          alt=""
-          aria-hidden
-          className={styles.blurredImage}
-          style={{ objectFit: 'cover' }}
-        />
-        <Image
-          src={props.offerImageUrl}
-          fill
-          sizes="100%"
-          alt={props.offerName}
-          className={styles.offerImage}
-          style={{ objectFit: 'cover' }}
-        />
+        {props.offerImageUrl ? (
+          <>
+            <Image
+              src={props.offerImageUrl}
+              fill
+              sizes="100%"
+              alt=""
+              aria-hidden
+              className={styles.blurredImage}
+              style={{ objectFit: 'cover' }}
+            />
+            <Image
+              src={props.offerImageUrl}
+              fill
+              sizes="100%"
+              alt={props.offerName}
+              className={styles.offerImage}
+              style={{ objectFit: 'cover' }}
+            />
+          </>
+        ) : null}
       </div>
 
       <div className={styles.offerInformation}>

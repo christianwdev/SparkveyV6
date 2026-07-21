@@ -372,6 +372,11 @@
       "redeem": "Wymien",
       "leaderboard": "Ranking"
     },
+    "earnMenu": {
+      "explore": "Odkrywaj",
+      "tasks": "Zadania",
+      "surveys": "Ankiety"
+    },
     "a11y": {
       "avatarAlt": "Awatar"
     }
@@ -435,6 +440,23 @@
     "upTo": "do",
     "sparksAlt": "Sparks"
   },
+  "SurveyItem": {
+    "title": "Ankieta",
+    "duration": "{minutes} min",
+    "webcam": "Kamera",
+    "webcamRequired": "Wymagana kamera",
+    "top": "Topowa ankieta",
+    "ratingLabel": "Ocena {rating} na 5",
+    "ratingUnavailable": "Brak ocen",
+    "earn": "Zarabiaj",
+    "sparksAlt": "Sparks"
+  },
+  "SurveysPage": {
+    "title": "Ankiety",
+    "description": "Wybierz ankietę dopasowaną do Twojego czasu i zacznij zdobywać Sparks.",
+    "empty": "Brak dostępnych ankiet. Wróć wkrótce.",
+    "error": "Nie udało się wczytać ankiet. Spróbuj ponownie za chwilę."
+  },
   "WallItem": {
     "errors": {
       "banned": "Twoje konto zostalo zbanowane. Jesli uwazasz, ze to blad, skontaktuj sie z supportem.",
@@ -491,6 +513,10 @@
   "TasksMetadata": {
     "title": "Sparkvey | Zadania",
     "description": "Wykonuj zadania i zdobywaj nagrody oraz gotowke."
+  },
+  "SurveysMetadata": {
+    "title": "Sparkvey | Ankiety",
+    "description": "Wypełniaj krótkie ankiety, zbieraj Sparks i wymieniaj je na nagrody."
   },
   "PtcPtsuMetadata": {
     "title": "Sparkvey | Rejestracje i klikniecia",

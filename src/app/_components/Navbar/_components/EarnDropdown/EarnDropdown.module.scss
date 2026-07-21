@@ -1,37 +1,51 @@
 @use '@styles/variables.scss' as *;
 
-.userDropdown {
+.earnDropdown {
   position: relative;
 
   > .trigger {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
+    gap: 6px;
     padding: 0;
-    border: 1px solid $primary;
-    border-radius: 10px;
+    border: none;
     background: transparent;
-    overflow: hidden;
+    color: $text-light;
+    font-size: inherit;
+    font-weight: inherit;
     cursor: pointer;
+    transition: color 0.15s ease;
 
-    > .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      object-fit: cover;
+    > .triggerIcon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      transition: color 0.15s ease;
     }
 
-    > .avatarFallback {
-      width: 28px;
-      height: 28px;
-      color: $primary;
+    > .chevron {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+
+    > .chevronOpen {
+      transform: rotate(180deg);
+    }
+
+    &:hover,
+    &.triggerActive {
+      color: $text-bold;
+
+      > .triggerIcon {
+        color: $primary;
+      }
     }
 
     &:focus-visible {
       outline: 2px solid $primary;
-      outline-offset: 2px;
+      outline-offset: 4px;
+      border-radius: 4px;
     }
   }
 
@@ -42,7 +56,7 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
-      min-width: 200px;
+      min-width: 180px;
       padding: 6px;
       border: 1px solid $border-light;
       border-radius: 12px;
@@ -50,8 +64,7 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
       overflow: hidden;
 
-      > .menuItem,
-      > .signOut {
+      > .menuItem {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -64,31 +77,30 @@
         font-size: 14px;
         font-weight: 500;
         text-align: left;
+        text-decoration: none;
         cursor: pointer;
         transition: background-color 0.15s ease, color 0.15s ease;
 
         > .itemIcon {
+          display: block;
           width: 18px;
           height: 18px;
           flex-shrink: 0;
-          color: $primary;
           transition: color 0.15s ease;
         }
 
-        &:hover {
+        &:hover,
+        &.menuItemActive {
           background-color: rgba(0, 0, 0, 0.04);
-          color: $text-bold;
+
+          > .itemIcon {
+            color: $primary;
+          }
         }
 
         &:focus-visible {
           outline: 2px solid $primary;
           outline-offset: 1px;
-        }
-      }
-
-      > .signOut {
-        > .itemIcon {
-          color: $red !important;
         }
       }
     }

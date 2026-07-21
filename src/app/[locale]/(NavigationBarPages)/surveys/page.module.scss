@@ -1,0 +1,69 @@
+@use '@styles/variables.scss' as *;
+
+.surveysPage {
+  width: 100%;
+  max-width: $content-max-width;
+  min-height: calc(100vh - #{$navbar-height});
+  margin: $navbar-height auto 0;
+  padding: 32px 0 64px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    > h1 {
+      margin: 0;
+      color: $text-bold;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+
+    > p {
+      margin: 0;
+      color: $text-light;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.45;
+      max-width: 520px;
+    }
+  }
+
+  > .surveysGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+
+    @media screen and (max-width: $small-tablet) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media screen and (max-width: $large-phone) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  > .statusMessage {
+    margin: 0;
+    padding: 32px 0;
+    color: $text-light;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: $large-phone) {
+    padding: 24px 16px 48px;
+
+    > .header > h1 {
+      font-size: 24px;
+    }
+  }
+}

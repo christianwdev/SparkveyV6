@@ -3,6 +3,7 @@ import OffersView from './_components/OffersView/OffersView';
 
 import Footer from '@components/Footer/Footer';
 import Navbar from '@components/Navbar/Navbar';
+import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { getUsersHomepage } from '@utils/homepage';
 import { serverRequest } from '@utils/serverRequest';
 import Carousel from '../Carousel/Carousel';
@@ -25,7 +26,8 @@ export default function HomePage() {
         </Carousel>
         <OffersView
           initialHomepagePromise={initialHomepagePromise}
-          viewAllHref="/tasks"
+          viewAllHref={FrontendRedirectPaths.tasks}
+          surveysViewAllHref={FrontendRedirectPaths.surveys}
           maxRows={2}
           offersPerView={6}
         />

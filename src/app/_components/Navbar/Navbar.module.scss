@@ -92,12 +92,33 @@
 
     > .links {
       display: flex;
+      align-items: center;
       gap: 40px;
       flex-wrap: wrap;
       justify-content: center;
 
-      > a {
+      > .navLink {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         color: $text-light;
+        text-decoration: none;
+        transition: color 0.15s ease;
+
+        > .navIcon {
+          width: 18px;
+          height: 18px;
+          flex-shrink: 0;
+          transition: color 0.15s ease;
+        }
+
+        &:hover {
+          color: $text-bold;
+
+          > .navIcon {
+            color: $primary;
+          }
+        }
       }
     }
 
