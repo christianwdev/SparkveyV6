@@ -31,20 +31,10 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  // Partial unique usernames for live accounts. Best-effort: skip if legacy duplicates exist.
-  await db.collection(DatabaseCollections.users).createIndex(
-    { username: 1 },
-    {
-      unique: true,
-      name: 'username_unique_active',
-      partialFilterExpression: {
-        deletedAt: { $exists: false },
-        username: { $type: 'string', $gt: '' },
-      },
-    },
-  ).catch((error) => {
-    console.error('Failed to ensure username_unique_active index', error);
-  });
+  // MongoDB partial indexes do not support `$exists: false` (rewrites to unsupported `$not`).
+  // Username uniqueness for live accounts is enforced in application code until we store
+  // an explicit `deletedAt: null` on active users and can index on that.
+  await db.collection(DatabaseCollections.users).dropIndex('username_unique_active').catch(() => {});
 
   await db.collection(DatabaseCollections.deletedAccountFingerprints).createIndexes([
     {

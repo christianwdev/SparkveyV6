@@ -48,6 +48,19 @@ export default function SettingsPageClient() {
 
   if (!user) return null;
 
+  const notificationPreferences = {
+    securityAlerts: user.notificationPreferences?.securityAlerts ?? true,
+    marketingAlerts: user.notificationPreferences?.marketingAlerts ?? true,
+    promotionalAlerts: user.notificationPreferences?.promotionalAlerts ?? true,
+    newsletterAlerts: user.notificationPreferences?.newsletterAlerts ?? true,
+  };
+
+  const userPreferences = {
+    anonymous: user.userPreferences?.anonymous ?? false,
+    hideStats: user.userPreferences?.hideStats ?? false,
+    colorTheme: user.userPreferences?.colorTheme,
+  };
+
   const emailChange = searchParams.get('emailChange');
   const queryStatus = !status && emailChange
     ? emailChange === 'success'
@@ -300,7 +313,7 @@ export default function SettingsPageClient() {
               </span>
               <input
                 type="checkbox"
-                checked={user.notificationPreferences[key]}
+                checked={notificationPreferences[key]}
                 disabled={pending === `notify-${key}`}
                 onChange={(event) => {
                   const checked = event.target.checked;
@@ -329,7 +342,7 @@ export default function SettingsPageClient() {
             </span>
             <input
               type="checkbox"
-              checked={user.userPreferences.anonymous}
+              checked={userPreferences.anonymous}
               disabled={pending === 'pref-anonymous'}
               onChange={(event) => {
                 const checked = event.target.checked;
@@ -348,7 +361,7 @@ export default function SettingsPageClient() {
             </span>
             <input
               type="checkbox"
-              checked={user.userPreferences.hideStats}
+              checked={userPreferences.hideStats}
               disabled={pending === 'pref-hideStats'}
               onChange={(event) => {
                 const checked = event.target.checked;
@@ -376,10 +389,10 @@ export default function SettingsPageClient() {
             </span>
             <input
               type="checkbox"
-              checked={user.userPreferences.colorTheme === 'dark'}
+              checked={userPreferences.colorTheme === 'dark'}
               disabled={pending === 'pref-theme'}
               onChange={(event) => {
-                const previousTheme = user.userPreferences.colorTheme;
+                const previousTheme = userPreferences.colorTheme;
                 const colorTheme = event.target.checked ? 'dark' : 'light';
                 document.documentElement.dataset.theme = colorTheme;
                 void run(
