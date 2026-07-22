@@ -1,0 +1,250 @@
+@use '@styles/variables.scss' as *;
+
+.profileLayoutContainer {
+  width: 100%;
+  max-width: $content-max-width;
+  margin: 0 auto;
+  padding-bottom: 80px;
+
+  > .profileLayoutHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 12px;
+    border: 1px solid $border-light;
+
+    padding: 24px;
+
+    > img {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+    }
+
+    > .userStats {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+      margin-left: auto;
+      padding-left: 24px;
+      border-left: 1px solid $border-light;
+      min-width: 0;
+
+      > .summaryStats {
+        display: flex;
+        align-items: stretch;
+        gap: 16px;
+
+        > .stat {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          min-width: 0;
+
+          > .statIcon {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba($primary, 0.1);
+            color: $primary;
+
+            > svg {
+              width: 18px;
+              height: 18px;
+            }
+          }
+
+          > .statContent {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+
+            > .statLabel {
+              font-size: 13px;
+              font-weight: 500;
+              color: $text-light;
+              white-space: nowrap;
+            }
+
+            > .statValue {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              font-size: 16px;
+              font-weight: 600;
+              color: $primary;
+
+              > img {
+                width: 14px;
+                height: 14px;
+              }
+            }
+          }
+        }
+      }
+
+      > .earningsBreakdown {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        > .breakdownTitle {
+          font-size: 12px;
+          font-weight: 500;
+          color: $text-light;
+        }
+
+        > .breakdownBar {
+          display: flex;
+          width: 100%;
+          height: 6px;
+          border-radius: 999px;
+          overflow: hidden;
+          background: $border-light;
+
+          > span {
+            min-width: 2px;
+            height: 100%;
+
+            &[data-category='offers'] { background: $primary; }
+            &[data-category='surveys'] { background: #4B7BEC; }
+            &[data-category='cashback'] { background: $orange; }
+            &[data-category='videos'] { background: $yellow; }
+            &[data-category='affiliates'] { background: $green; }
+            &[data-category='bonus'] { background: #E85D9A; }
+          }
+        }
+
+        > .breakdownLegend {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px 14px;
+          margin: 0;
+          padding: 0;
+          list-style: none;
+
+          > li {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 500;
+
+            > .swatch {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              flex-shrink: 0;
+
+              &[data-category='offers'] { background: $primary; }
+              &[data-category='surveys'] { background: #4B7BEC; }
+              &[data-category='cashback'] { background: $orange; }
+              &[data-category='videos'] { background: $yellow; }
+              &[data-category='affiliates'] { background: $green; }
+              &[data-category='bonus'] { background: #E85D9A; }
+            }
+
+            > .legendLabel {
+              color: $text-light;
+            }
+
+            > .legendValue {
+              color: $text-bold;
+            }
+          }
+        }
+      }
+    }
+
+    > .userInformation {
+      display: flex;
+      flex-direction: column;
+      height: 100px;
+      gap: 4px;
+
+      min-width: 200px;
+
+      > .username {
+        font-size: 16px;
+        font-weight: 500;
+        color: $text-bold;
+      }
+
+      > .userID {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        > p {
+          font-size: 16px;
+          font-weight: 500;
+          color: $text-light;
+        }
+
+        > .copyButton {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          border: none;
+          background: transparent;
+          color: $primary;
+          cursor: pointer;
+
+          > svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+
+      > .xpContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: auto;
+        gap: 8px;
+
+        > .xpContainerHeader {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          gap: 8px;
+
+          > .xpLabel {
+            font-size: 16px;
+            font-weight: 500;
+            color: $text-bold;
+          }
+
+          > .xpValue {
+            font-size: 16px;
+            font-weight: 500;
+            color: $primary;
+          }
+        }
+
+        > .xpProgress {
+          width: 100%;
+          height: 8px;
+          border-radius: 4px;
+          background: $border-light;
+
+          > .xpProgressBar {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+            background: $primary;
+          }
+        }
+      }
+    }
+  }
+}

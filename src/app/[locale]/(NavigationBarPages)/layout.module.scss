@@ -1,0 +1,7 @@
+@use '@styles/variables.scss' as *;
+
+.content {
+  width: 100%;
+  @include pageBelowNavbar;
+  @include standardPadding;
+}

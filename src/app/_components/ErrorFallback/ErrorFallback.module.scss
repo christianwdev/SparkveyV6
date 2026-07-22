@@ -1,0 +1,98 @@
+@use '@styles/variables.scss' as *;
+
+.fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 64px 24px;
+  text-align: center;
+  box-sizing: border-box;
+
+  > .title {
+    margin: 0;
+    color: $text-bold;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  > .description {
+    margin: 0;
+    color: $text-light;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  > .reference {
+    margin: 0;
+    color: $text-light;
+    font-size: 13px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    word-break: break-all;
+  }
+
+  > .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+
+    > .primary,
+    > .secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 120px;
+      height: 40px;
+      padding: 0 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    > .primary {
+      border: unset;
+      background: $primary;
+      color: white;
+    }
+
+    > .secondary {
+      border: 1px solid $border-light;
+      background: $off-white;
+      color: $text-bold;
+    }
+  }
+}
+
+.pageShell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: calc(100vh - #{$navbar-offset});
+  padding: $navbar-offset 16px 48px;
+  box-sizing: border-box;
+}
+
+.globalShell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+  padding: 48px 16px;
+  box-sizing: border-box;
+  background: var(--background, #ffffff);
+  color: var(--text-bold, #011F1D);
+  font-family: var(--font-roboto), system-ui, sans-serif;
+}
