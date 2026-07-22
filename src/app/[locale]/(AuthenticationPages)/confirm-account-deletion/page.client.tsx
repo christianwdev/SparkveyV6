@@ -1,13 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@i18n/navigation';
 import { confirmAccountDeletion } from '@utils/auth';
 import styles from '../confirmAction.module.scss';
 
-export default function ConfirmAccountDeletionClient() {
+function ConfirmAccountDeletionContent() {
   const t = useTranslations('ConfirmAccountDeletion');
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -65,5 +65,13 @@ export default function ConfirmAccountDeletionClient() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function ConfirmAccountDeletionClient() {
+  return (
+    <Suspense fallback={null}>
+      <ConfirmAccountDeletionContent />
+    </Suspense>
   );
 }

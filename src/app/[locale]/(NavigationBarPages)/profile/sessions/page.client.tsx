@@ -16,10 +16,6 @@ import LinuxIcon from '~icons/mdi/linux.jsx';
 import DevicesIcon from '~icons/solar/devices-linear.jsx';
 import LaptopIcon from '~icons/solar/laptop-minimalistic-linear.jsx';
 
-type SessionsPageClientProps = {
-  initialSessions: SanitizedUserSession[] | null;
-};
-
 function DeviceIcon({ platform }: { platform: DevicePlatform }) {
   switch (platform) {
     case 'windows':
@@ -67,13 +63,11 @@ function formatLocation(
   return unknownLabel;
 }
 
-export default function SessionsPageClient({ initialSessions }: SessionsPageClientProps) {
+export default function SessionsPageClient() {
   const t = useTranslations('ProfileSessions');
   const locale = useLocale();
   const formatter = useFormatter();
-  const { data: sessions = [], isPending } = useSessionsQuery({
-    initialData: initialSessions,
-  });
+  const { data: sessions = [], isPending } = useSessionsQuery();
   const revokeSession = useRevokeSessionMutation();
 
   const columns: DataTableColumn<SanitizedUserSession>[] = [
@@ -175,7 +169,7 @@ export default function SessionsPageClient({ initialSessions }: SessionsPageClie
         columns={columns}
         rows={sessions}
         getRowKey={(row) => row.sessionID}
-        loading={isPending && sessions.length === 0}
+        loading={isPending}
         emptyMessage={t('empty')}
       />
     </div>

@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { toast } from 'react-toastify';
 import { useUser } from '@contexts/UserProvider';
 import {
   requestAccountDeletion,
@@ -15,25 +16,13 @@ import {
 import { applyColorTheme, isColorTheme } from '@utils/theme';
 import styles from './page.module.scss';
 
-const USERNAME_COOLDOWN_MS = 24 * 60 * 60 * 1000;
-
-function getUsernameCooldownRemaining(usernameChangedAt?: Date | string) {
-  if (!usernameChangedAt) return 0;
-  const changedAt = usernameChangedAt instanceof Date
-    ? usernameChangedAt
-    : new Date(usernameChangedAt);
-  const remaining = USERNAME_COOLDOWN_MS - (Date.now() - changedAt.getTime());
-
-  return remaining > 0 ? remaining : 0;
-}
-
 function isValidNewPassword(password: string) {
   return password.length >= 8
     && /\d/.test(password)
     && /[^A-Za-z0-9]/.test(password);
 }
 
-export default function SettingsPageClient() {
+function SettingsPageContent() {
   const t = useTranslations('ProfileSettings');
   const { user, setUser } = useUser();
   const searchParams = useSearchParams();
@@ -43,9 +32,22 @@ export default function SettingsPageClient() {
   const [ currentPassword, setCurrentPassword ] = useState('');
   const [ newPassword, setNewPassword ] = useState('');
   const [ confirmPassword, setConfirmPassword ] = useState('');
-  const [ status, setStatus ] = useState<{ tone: 'positive' | 'negative', message: string } | null>(null);
   const [ pending, setPending ] = useState<string | null>(null);
   const [ deleteArmed, setDeleteArmed ] = useState(false);
+
+  const emailChange = searchParams.get('emailChange');
+
+  useEffect(() => {
+    if (!emailChange) return;
+
+    if (emailChange === 'success') {
+      toast.success(t('banners.emailChangeSuccess'), { toastId: 'email-change-status' });
+    } else if (emailChange === 'taken' || emailChange === 'unavailable') {
+      toast.error(t('banners.emailChangeUnavailable'), { toastId: 'email-change-status' });
+    } else {
+      toast.error(t('banners.emailChangeInvalid'), { toastId: 'email-change-status' });
+    }
+  }, [ emailChange, t ]);
 
   if (!user) return null;
 
@@ -62,31 +64,18 @@ export default function SettingsPageClient() {
     colorTheme: user.userPreferences?.colorTheme,
   };
 
-  const emailChange = searchParams.get('emailChange');
-  const queryStatus = !status && emailChange
-    ? emailChange === 'success'
-      ? { tone: 'positive' as const, message: t('banners.emailChangeSuccess') }
-      : emailChange === 'taken' || emailChange === 'unavailable'
-        ? { tone: 'negative' as const, message: t('banners.emailChangeUnavailable') }
-        : { tone: 'negative' as const, message: t('banners.emailChangeInvalid') }
-    : null;
-  const visibleStatus = status ?? queryStatus;
-
-  const cooldownMs = getUsernameCooldownRemaining(user.usernameChangedAt);
-  const usernameLocked = cooldownMs > 0;
-
   const run = async (
     key: string,
     action: () => Promise<{ success?: boolean, message?: string, data?: typeof user } | null>,
     fallbackError: string,
+    { quiet = false }: { quiet?: boolean } = {},
   ) => {
     setPending(key);
-    setStatus(null);
 
     try {
       const response = await action();
       if (!response?.success) {
-        setStatus({ tone: 'negative', message: response?.message || fallbackError });
+        toast.error(response?.message || fallbackError, { toastId: `settings-error-${key}` });
 
         return;
       }
@@ -95,14 +84,15 @@ export default function SettingsPageClient() {
         setUser(response.data);
         if (response.data.username) setUsername(response.data.username);
       }
-      setStatus({
-        tone: 'positive',
-        message: response.message || t('success.saved'),
-      });
+
+      // Toggle rows already show state — skip success toasts so rapid flips don't spam.
+      if (!quiet) {
+        toast.success(response.message || t('success.saved'), { toastId: 'settings-saved' });
+      }
     } catch {
-      setStatus({ tone: 'negative', message: fallbackError });
+      toast.error(fallbackError, { toastId: `settings-error-${key}` });
     } finally {
-      setPending(null);
+      setPending((current) => (current === key ? null : current));
     }
   };
 
@@ -112,12 +102,6 @@ export default function SettingsPageClient() {
         <h1>{t('title')}</h1>
         <p>{t('subtitle')}</p>
       </div>
-
-      {visibleStatus ? (
-        <p className={styles.banner} data-tone={visibleStatus.tone}>
-          {visibleStatus.message}
-        </p>
-      ) : null}
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
@@ -144,22 +128,18 @@ export default function SettingsPageClient() {
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
                 placeholder={t('placeholders.username')}
-                disabled={usernameLocked || pending === 'username'}
+                disabled={pending === 'username'}
                 minLength={3}
                 maxLength={32}
                 required
               />
-              {usernameLocked ? (
-                <p className={styles.hint}>{t('hints.usernameCooldown')}</p>
-              ) : (
-                <p className={styles.hint}>{t('hints.usernameLimit')}</p>
-              )}
+              <p className={styles.hint}>{t('hints.usernameLimit')}</p>
             </div>
             <div className={styles.actions}>
               <button
                 type="submit"
                 className={styles.button}
-                disabled={usernameLocked || pending === 'username' || username.trim() === user.username}
+                disabled={pending === 'username' || username.trim() === user.username}
               >
                 {t('actions.saveUsername')}
               </button>
@@ -217,13 +197,13 @@ export default function SettingsPageClient() {
               onSubmit={(event) => {
                 event.preventDefault();
                 if (newPassword !== confirmPassword) {
-                  setStatus({ tone: 'negative', message: t('errors.passwordMismatch') });
+                  toast.error(t('errors.passwordMismatch'));
 
                   return;
                 }
 
                 if (!isValidNewPassword(newPassword)) {
-                  setStatus({ tone: 'negative', message: t('errors.passwordRules') });
+                  toast.error(t('errors.passwordRules'));
 
                   return;
                 }
@@ -328,6 +308,7 @@ export default function SettingsPageClient() {
                     `notify-${key}`,
                     () => updateNotificationPreferencesSetting({ [key]: checked }),
                     t('errors.updateEmailPreferences'),
+                    { quiet: true },
                   );
                 }}
               />
@@ -360,6 +341,7 @@ export default function SettingsPageClient() {
                     'pref-anonymous',
                     () => updateUserPreferencesSetting({ anonymous: checked }),
                     t('errors.updatePreferences'),
+                    { quiet: true },
                   );
                 }}
               />
@@ -381,6 +363,7 @@ export default function SettingsPageClient() {
                     'pref-hideStats',
                     () => updateUserPreferencesSetting({ hideStats: checked }),
                     t('errors.updatePreferences'),
+                    { quiet: true },
                   );
                 }}
               />
@@ -424,6 +407,7 @@ export default function SettingsPageClient() {
                         return response;
                       },
                       t('errors.updatePreferences'),
+                      { quiet: true },
                     );
                   }}
               />
@@ -482,5 +466,13 @@ export default function SettingsPageClient() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function SettingsPageClient() {
+  return (
+    <Suspense fallback={null}>
+      <SettingsPageContent />
+    </Suspense>
   );
 }

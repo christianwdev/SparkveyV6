@@ -8,12 +8,9 @@ import Pagination from '@components/Pagination/Pagination';
 import { useEarningsHistoryQuery } from '@hooks/useEarningsHistoryQuery';
 import { PROFILE_HISTORY_PAGE_SIZE } from '@utils/profile';
 import type { InternalEarningStatus, InternalOfferEarning } from 'types/Earnings/InternalEarning';
+import PortalTooltip from '../_components/PortalTooltip';
 import { toDate } from '../_utils/date';
 import styles from '../profilePage.module.scss';
-
-type EarningsPageClientProps = {
-  initialEarnings: InternalOfferEarning[] | null;
-};
 
 function statusTone(status: InternalEarningStatus) {
   switch (status) {
@@ -40,7 +37,7 @@ function statusDate(row: InternalOfferEarning) {
   return null;
 }
 
-export default function EarningsPageClient({ initialEarnings }: EarningsPageClientProps) {
+export default function EarningsPageClient() {
   const t = useTranslations('ProfileActivity');
   const formatter = useFormatter();
   const [ page, setPage ] = useState(1);
@@ -50,7 +47,6 @@ export default function EarningsPageClient({ initialEarnings }: EarningsPageClie
   const { data: earnings = [], isPending, isFetching } = useEarningsHistoryQuery({
     page,
     type: 'offer',
-    initialData: page === 1 ? initialEarnings : undefined,
   });
 
   const copyActivityId = async (conversionID: string) => {
@@ -75,19 +71,21 @@ export default function EarningsPageClient({ initialEarnings }: EarningsPageClie
         const isCopied = copiedId === row.conversionID;
 
         return (
-          <button
-            type="button"
-            className={styles.activityId}
-            onClick={() => {
-              void copyActivityId(row.conversionID);
-            }}
-            aria-label={isCopied ? t('copied') : t('copyActivityId')}
-          >
-            {shortActivityId(row.conversionID)}
-            <span className={styles.tooltip} role="tooltip">
-              {isCopied ? t('copied') : row.conversionID}
-            </span>
-          </button>
+          <PortalTooltip content={isCopied ? t('copied') : row.conversionID}>
+            {(tooltipProps) => (
+              <button
+                type="button"
+                className={styles.activityId}
+                {...tooltipProps}
+                onClick={() => {
+                  void copyActivityId(row.conversionID);
+                }}
+                aria-label={isCopied ? t('copied') : t('copyActivityId')}
+              >
+                {shortActivityId(row.conversionID)}
+              </button>
+            )}
+          </PortalTooltip>
         );
       },
     },
@@ -113,20 +111,28 @@ export default function EarningsPageClient({ initialEarnings }: EarningsPageClie
           ? row.status
           : null;
 
+        if (!formattedDate || !tooltipKey) {
+          return (
+            <span className={styles.status} data-tone={statusTone(row.status)}>
+              {t(`statuses.${row.status}`)}
+            </span>
+          );
+        }
+
         return (
-          <span
-            className={styles.status}
-            data-tone={statusTone(row.status)}
-            data-has-tooltip={formattedDate && tooltipKey ? 'true' : undefined}
-            tabIndex={formattedDate && tooltipKey ? 0 : undefined}
-          >
-            {t(`statuses.${row.status}`)}
-            {formattedDate && tooltipKey ? (
-              <span className={styles.tooltip} role="tooltip">
-                {t(`statusDates.${tooltipKey}`, { date: formattedDate })}
+          <PortalTooltip content={t(`statusDates.${tooltipKey}`, { date: formattedDate })}>
+            {(tooltipProps) => (
+              <span
+                className={styles.status}
+                data-tone={statusTone(row.status)}
+                data-has-tooltip="true"
+                tabIndex={0}
+                {...tooltipProps}
+              >
+                {t(`statuses.${row.status}`)}
               </span>
-            ) : null}
-          </span>
+            )}
+          </PortalTooltip>
         );
       },
     },

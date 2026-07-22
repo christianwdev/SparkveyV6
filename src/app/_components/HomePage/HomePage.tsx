@@ -5,29 +5,21 @@ import Footer from '@components/Footer/Footer';
 import IsolateErrorBoundary from '@components/IsolateErrorBoundary/IsolateErrorBoundary';
 import Navbar from '@components/Navbar/Navbar';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
-import { getUsersHomepage } from '@utils/homepage';
-import { serverRequest } from '@utils/serverRequest';
 import Carousel from '../Carousel/Carousel';
 
-export default async function HomePage() {
-  const initialHomepage = await getUsersHomepage({
-    request: serverRequest,
-  });
-
+export default function HomePage() {
   return (
     <>
       <Navbar />
       <main className={styles.homePage}>
         <div className={styles.content}>
-          <Carousel
-            autoPlay={15_000}
-          >
+          <Carousel autoPlay={15_000}>
             <p key="one">one</p>
             <p key="two">two</p>
             <p key="three">three</p>
           </Carousel>
           <OffersView
-            initialHomepage={initialHomepage}
+            initialHomepage={null}
             viewAllHref={FrontendRedirectPaths.tasks}
             surveysViewAllHref={FrontendRedirectPaths.surveys}
             maxRows={2}

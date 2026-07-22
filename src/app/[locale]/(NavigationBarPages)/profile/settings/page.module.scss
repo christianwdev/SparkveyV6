@@ -30,23 +30,6 @@ $switch-pad: 3px;
     }
   }
 
-  > .banner {
-    padding: 12px 14px;
-    border-radius: 10px;
-    background: $light-gray;
-    color: $text-bold;
-    font-size: 14px;
-    font-weight: 500;
-
-    &[data-tone='positive'] {
-      color: $green;
-    }
-
-    &[data-tone='negative'] {
-      color: $red;
-    }
-  }
-
   > .preferencesGrid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

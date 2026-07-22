@@ -44,6 +44,7 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
 
   webpack(config) {
+    config.cache = false;
     config.plugins.push(
       Icons({
         compiler: 'jsx',

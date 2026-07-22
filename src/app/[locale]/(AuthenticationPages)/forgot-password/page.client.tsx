@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@i18n/navigation';
@@ -17,7 +17,7 @@ function isValidNewPassword(password: string) {
     && /[^A-Za-z0-9]/.test(password);
 }
 
-export default function ForgotPasswordPageClient() {
+function ForgotPasswordPageContent() {
   const t = useTranslations('ForgotPasswordPage');
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -199,5 +199,13 @@ export default function ForgotPasswordPageClient() {
         <Link href="/signup">{t('joinToday')}</Link>
       </p>
     </div>
+  );
+}
+
+export default function ForgotPasswordPageClient() {
+  return (
+    <Suspense fallback={null}>
+      <ForgotPasswordPageContent />
+    </Suspense>
   );
 }

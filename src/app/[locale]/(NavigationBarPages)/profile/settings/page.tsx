@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { getTranslations } from 'next-intl/server';
 import SettingsPageClient from './page.client';
 
@@ -12,9 +11,5 @@ export async function generateMetadata() {
 }
 
 export default function ProfileSettingsPage() {
-  return (
-    <Suspense fallback={null}>
-      <SettingsPageClient />
-    </Suspense>
-  );
+  return <SettingsPageClient />;
 }

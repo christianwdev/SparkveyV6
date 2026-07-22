@@ -1,11 +1,12 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Link } from '@i18n/navigation';
 import styles from './page.module.scss';
 
-export default function LoginPageClient() {
+function LoginPageContent() {
   const t = useTranslations('Login');
   const searchParams = useSearchParams();
   const accountDeleted = searchParams.get('accountDeleted');
@@ -42,5 +43,13 @@ export default function LoginPageClient() {
         <Link href="/">{t('backHome')}</Link>
       </p>
     </div>
+  );
+}
+
+export default function LoginPageClient() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
   );
 }

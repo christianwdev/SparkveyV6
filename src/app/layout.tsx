@@ -8,7 +8,8 @@ import Script from 'next/script';
 import { cookies } from 'next/headers';
 import { Inter, Roboto, Sedgwick_Ave, Parkinsans } from 'next/font/google';
 import { getLocale } from 'next-intl/server';
-import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './_styles/toast.scss';
 import { GA4_MEASUREMENT_ID } from '@utils/analytics';
 import { getUser } from '@utils/user';
 import { serverRequest } from '@utils/serverRequest';
@@ -18,6 +19,7 @@ import { SocketProvider } from '@contexts/SocketContext';
 import MotionProvider from '@contexts/MotionProvider';
 import QueryProvider from '@contexts/QueryProvider';
 import PreserveNextHistoryState from '@contexts/PreserveNextHistoryState';
+import AppToastContainer from '@components/AppToastContainer/AppToastContainer';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 const inter = Inter({
@@ -115,7 +117,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <SocketProvider>
               <UserProvider initialUser={user}>
                 <MotionProvider>
-                  <ToastContainer position="bottom-right" />
+                  <AppToastContainer />
                   {children}
                 </MotionProvider>
               </UserProvider>

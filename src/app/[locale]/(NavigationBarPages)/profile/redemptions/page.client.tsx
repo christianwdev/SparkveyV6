@@ -12,10 +12,6 @@ import type { InternalRedemptionStatus } from 'types/Redemption/BaseInternalRede
 import { toDate } from '../_utils/date';
 import styles from '../profilePage.module.scss';
 
-type RedemptionsPageClientProps = {
-  initialRedemptions: InternalRedemption[] | null;
-};
-
 function statusTone(status: InternalRedemptionStatus) {
   switch (status) {
     case 'completed':
@@ -36,14 +32,13 @@ function getRewardLink(row: InternalRedemption): string | null {
   return row.meta.link;
 }
 
-export default function RedemptionsPageClient({ initialRedemptions }: RedemptionsPageClientProps) {
+export default function RedemptionsPageClient() {
   const t = useTranslations('ProfileRewards');
   const formatter = useFormatter();
   const [ page, setPage ] = useState(1);
 
   const { data: redemptions = [], isPending, isFetching } = useRedemptionsHistoryQuery({
     page,
-    initialData: page === 1 ? initialRedemptions : undefined,
   });
 
   const columns: DataTableColumn<InternalRedemption>[] = [

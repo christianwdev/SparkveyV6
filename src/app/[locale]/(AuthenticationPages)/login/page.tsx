@@ -1,13 +1,10 @@
-import { Suspense } from 'react';
 import AuthenticationLayout from '../_components/AuthenticationLayout/AuthenticationLayout';
 import LoginPageClient from './page.client';
 
 export default function LoginPage() {
   return (
     <AuthenticationLayout>
-      <Suspense fallback={null}>
-        <LoginPageClient />
-      </Suspense>
+      <LoginPageClient />
     </AuthenticationLayout>
   );
 }

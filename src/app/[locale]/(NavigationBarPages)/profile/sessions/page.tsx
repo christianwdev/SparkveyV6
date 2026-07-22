@@ -1,6 +1,4 @@
 import { getTranslations } from 'next-intl/server';
-import { getSessions } from '@utils/profile';
-import { serverRequest } from '@utils/serverRequest';
 import SessionsPageClient from './page.client';
 
 export async function generateMetadata() {
@@ -12,10 +10,6 @@ export async function generateMetadata() {
   };
 }
 
-export default async function ProfileSessionsPage() {
-  const initialSessions = await getSessions({
-    request: serverRequest,
-  });
-
-  return <SessionsPageClient initialSessions={initialSessions} />;
+export default function ProfileSessionsPage() {
+  return <SessionsPageClient />;
 }

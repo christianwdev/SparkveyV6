@@ -3,23 +3,17 @@
 import { useTranslations } from 'next-intl';
 import SurveyItem from '@components/SurveyItem/SurveyItem';
 import { useSurveysQuery } from '@hooks/useSurveysQuery';
-import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 import styles from './page.module.scss';
-
-type SurveysPageClientProps = {
-  initialSurveys: SanitizedCPXSurvey[] | null;
-};
 
 const SKELETON_COUNT = 21;
 
-export default function SurveysPageClient({ initialSurveys }: SurveysPageClientProps) {
+export default function SurveysPageClient() {
   const t = useTranslations('SurveysPage');
   const { data: surveys, isPending } = useSurveysQuery({
     limit: 50,
-    initialData: initialSurveys,
   });
 
-  if (isPending && !surveys) {
+  if (isPending || !surveys) {
     return (
       <div className={styles.surveysGrid} aria-hidden>
         {Array.from({ length: SKELETON_COUNT }, (_, index) => (
@@ -29,7 +23,7 @@ export default function SurveysPageClient({ initialSurveys }: SurveysPageClientP
     );
   }
 
-  if (!surveys || surveys.length === 0) {
+  if (surveys.length === 0) {
     return <p className={styles.statusMessage}>{t('empty')}</p>;
   }
 

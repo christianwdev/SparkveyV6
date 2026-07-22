@@ -2,7 +2,6 @@ import { getTranslations } from 'next-intl/server';
 import { redirect } from '@i18n/navigation';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { getUser } from '@utils/user';
-import { getSurveys } from '@utils/surveys';
 import { serverRequest } from '@utils/serverRequest';
 import type { AppLocale } from '@i18n/routing';
 import SurveysPageClient from './page.client';
@@ -34,11 +33,6 @@ export default async function Page({ params }: PageProps) {
     redirect({ href: FrontendRedirectPaths.login, locale: locale as AppLocale });
   }
 
-  const initialSurveys = await getSurveys({
-    request: serverRequest,
-    limit: 50,
-  });
-
   return (
     <main className={styles.surveysPage}>
       <div className={styles.header}>
@@ -46,7 +40,7 @@ export default async function Page({ params }: PageProps) {
         <p>{t('description')}</p>
       </div>
 
-      <SurveysPageClient initialSurveys={initialSurveys} />
+      <SurveysPageClient />
     </main>
   );
 }

@@ -124,4 +124,9 @@ svg.iconify {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* Toastify auto-dismiss is driven by this animation — keep its real duration. */
+  .Toastify__progress-bar--animated {
+    animation-duration: 2800ms !important;
+  }
 }

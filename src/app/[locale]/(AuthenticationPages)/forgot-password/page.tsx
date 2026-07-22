@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { getTranslations } from 'next-intl/server';
 import AuthenticationLayout from '../_components/AuthenticationLayout/AuthenticationLayout';
 import ForgotPasswordPageClient from './page.client';
@@ -15,9 +14,7 @@ export async function generateMetadata() {
 export default function ForgotPasswordPage() {
   return (
     <AuthenticationLayout>
-      <Suspense fallback={null}>
-        <ForgotPasswordPageClient />
-      </Suspense>
+      <ForgotPasswordPageClient />
     </AuthenticationLayout>
   );
 }

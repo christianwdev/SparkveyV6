@@ -25,11 +25,9 @@
     }
   }
 
-  .tooltip {
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 8px);
-    z-index: 2;
+  .portalTooltip {
+    position: fixed;
+    z-index: 10000;
     min-width: max-content;
     max-width: 280px;
     padding: 6px 10px;
@@ -39,16 +37,14 @@
     font-family: inherit;
     font-size: 12px;
     font-weight: 500;
+    line-height: 1.3;
     text-transform: none;
     white-space: nowrap;
     pointer-events: none;
-    opacity: 0;
-    transform: translateX(-50%) translateY(4px);
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transform: translate(-50%, -100%);
   }
 
   .activityId {
-    position: relative;
     display: inline-flex;
     align-items: center;
     padding: 0;
@@ -64,12 +60,6 @@
     &:hover,
     &:focus-visible {
       color: $primary;
-    }
-
-    &:hover > .tooltip,
-    &:focus-visible > .tooltip {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
     }
   }
 
@@ -110,12 +100,6 @@
 
     &[data-has-tooltip='true'] {
       cursor: help;
-    }
-
-    &:hover > .tooltip,
-    &:focus-visible > .tooltip {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
     }
   }
 

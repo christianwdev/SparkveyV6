@@ -1,25 +1,16 @@
 'use client';
 
+import { Suspense, useEffect, useRef } from 'react';
 import { useQueryStates } from 'nuqs';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import OfferItem from '@components/OfferItem/OfferItem';
 import Dropdown from '@components/Dropdown/Dropdown';
-import {
-  useBrowseOffers,
-  type BrowseOffersFilters,
-} from '@hooks/useBrowseOffers';
-import type InternalOffer from 'types/Offer/InternalOffer';
+import { useBrowseOffers } from '@hooks/useBrowseOffers';
 import type { BrowseOffersSort } from 'types/Offer/BrowseOffersSort';
+import { tasksSearchParams } from '@utils/tasksSearchParams';
 import SearchIcon from '~icons/mdi/magnify.jsx';
-import { tasksSearchParams } from './parsers';
 import styles from './page.module.scss';
-
-type TasksPageClientProps = {
-  initialOffers: InternalOffer[];
-  initialFilters: BrowseOffersFilters;
-};
 
 const INFINITE_SCROLL_CAP = 100;
 
@@ -53,10 +44,19 @@ function toggleValue(list: string[], value: string) {
     : [ ...list, value ];
 }
 
-export default function TasksPageClient({
-  initialOffers,
-  initialFilters,
-}: TasksPageClientProps) {
+function TasksPageFallback() {
+  return (
+    <div className={styles.tasksContent}>
+      <div className={styles.tasksWrapper} aria-hidden>
+        {Array.from({ length: 12 }, (_, index) => (
+          <OfferItem key={index} loading />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TasksPageContent() {
   const t = useTranslations('TasksPage');
   const urlSearchParams = useSearchParams();
   const [ filters, setFilters ] = useQueryStates(tasksSearchParams);
@@ -67,6 +67,7 @@ export default function TasksPageClient({
 
   const {
     data,
+    isPending,
     isFetching,
     isFetchingNextPage,
     hasNextPage,
@@ -76,12 +77,10 @@ export default function TasksPageClient({
     sort: filters.sort,
     categories: filters.categories,
     providers: filters.providers,
-    initialOffers,
-    initialFilters,
   });
 
   const offers = data?.pages.flatMap(page => page) ?? [];
-  const loading = isFetching && !isFetchingNextPage;
+  const loading = isPending || (isFetching && !isFetchingNextPage);
   const canScrollLoad = Boolean(hasNextPage) && offers.length < INFINITE_SCROLL_CAP;
 
   useEffect(() => {
@@ -199,5 +198,13 @@ export default function TasksPageClient({
 
       <div ref={sentinelRef} className={styles.scrollSentinel} aria-hidden />
     </div>
+  );
+}
+
+export default function TasksPageClient() {
+  return (
+    <Suspense fallback={<TasksPageFallback />}>
+      <TasksPageContent />
+    </Suspense>
   );
 }

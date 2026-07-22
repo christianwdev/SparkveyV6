@@ -3,6 +3,7 @@ import {
   parseAsArrayOf,
   parseAsString,
   parseAsStringLiteral,
+  createSearchParamsCache,
 } from 'nuqs/server';
 import {
   BrowseOffersSorts,
@@ -17,3 +18,5 @@ export const tasksSearchParams = {
   categories: parseAsArrayOf(parseAsString).withDefault([]),
   providers: parseAsArrayOf(parseAsString).withDefault([]),
 };
+
+export const tasksSearchParamsCache = createSearchParamsCache(tasksSearchParams);
