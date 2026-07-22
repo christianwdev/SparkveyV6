@@ -5,12 +5,14 @@ import './_styles/globals.scss';
 import type { ReactNode } from 'react';
 import type { Viewport } from 'next';
 import Script from 'next/script';
+import { cookies } from 'next/headers';
 import { Inter, Roboto, Sedgwick_Ave, Parkinsans } from 'next/font/google';
 import { getLocale } from 'next-intl/server';
 import { ToastContainer } from 'react-toastify';
 import { GA4_MEASUREMENT_ID } from '@utils/analytics';
 import { getUser } from '@utils/user';
 import { serverRequest } from '@utils/serverRequest';
+import { resolveColorTheme, THEME_COOKIE_NAME } from '@utils/theme';
 import { UserProvider } from '@contexts/UserProvider';
 import { SocketProvider } from '@contexts/SocketContext';
 import MotionProvider from '@contexts/MotionProvider';
@@ -66,9 +68,14 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const user = await getUser({ request: serverRequest });
   const locale = await getLocale();
+  const cookieStore = await cookies();
+  const theme = resolveColorTheme(
+    user?.userPreferences?.colorTheme,
+    cookieStore.get(THEME_COOKIE_NAME)?.value,
+  );
 
   return (
-    <html lang={locale} className={`${inter.variable} ${roboto.variable} ${sedgwickAve.variable} ${parkinsans.variable}`}>
+    <html lang={locale} data-theme={theme} className={`${inter.variable} ${roboto.variable} ${sedgwickAve.variable} ${parkinsans.variable}`}>
       <head>
         {/* <Script
           strategy="afterInteractive"

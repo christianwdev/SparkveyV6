@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 // Constants
 import SocketEmits from '@constants/SocketEmits';
 import { useSocket } from '@contexts/SocketContext';
+import { applyColorTheme, isColorTheme } from '@utils/theme';
 
 // Types
 import type { ReactNode } from 'react';
@@ -39,13 +40,13 @@ export const UserProvider = (props: UserProviderProps) => {
 
   useEffect(() => {
     const theme = user?.userPreferences?.colorTheme;
-    if (theme === 'dark' || theme === 'light') {
-      document.documentElement.dataset.theme = theme;
+    if (isColorTheme(theme)) {
+      applyColorTheme(theme);
 
       return;
     }
 
-    delete document.documentElement.dataset.theme;
+    // Keep SSR cookie/html theme when preference is unset (e.g. logged out).
   }, [ user?.userPreferences?.colorTheme ]);
 
   useEffect(() => {

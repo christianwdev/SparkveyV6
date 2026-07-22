@@ -12,6 +12,7 @@ import {
   updateUserPreferencesSetting,
   updateUsernameSetting,
 } from '@utils/profile';
+import { applyColorTheme, isColorTheme } from '@utils/theme';
 import styles from './page.module.scss';
 
 const USERNAME_COOLDOWN_MS = 24 * 60 * 60 * 1000;
@@ -124,172 +125,176 @@ export default function SettingsPageClient() {
           <p>{t('sectionDescriptions.account')}</p>
         </div>
 
-        <form
-          className={styles.form}
-          onSubmit={(event) => {
-            event.preventDefault();
-            void run(
-              'username',
-              () => updateUsernameSetting({ username: username.trim() }),
-              t('errors.updateUsername'),
-            );
-          }}
-        >
-          <div className={styles.field}>
-            <label htmlFor="settings-username">{t('labels.username')}</label>
-            <input
-              id="settings-username"
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              placeholder={t('placeholders.username')}
-              disabled={usernameLocked || pending === 'username'}
-              minLength={3}
-              maxLength={32}
-              required
-            />
-            {usernameLocked ? (
-              <p className={styles.hint}>{t('hints.usernameCooldown')}</p>
-            ) : (
-              <p className={styles.hint}>{t('hints.usernameLimit')}</p>
-            )}
-          </div>
-          <div className={styles.actions}>
-            <button
-              type="submit"
-              className={styles.button}
-              disabled={usernameLocked || pending === 'username' || username.trim() === user.username}
-            >
-              {t('actions.saveUsername')}
-            </button>
-          </div>
-        </form>
-
-        <form
-          className={styles.form}
-          onSubmit={(event) => {
-            event.preventDefault();
-            void run(
-              'email',
-              async () => {
-                const response = await requestEmailChange({ email: email.trim() });
-                if (response?.success) setEmail('');
-
-                return response;
-              },
-              t('errors.updateEmail'),
-            );
-          }}
-        >
-          <div className={styles.field}>
-            <label htmlFor="settings-current-email">{t('labels.currentEmail')}</label>
-            <input
-              id="settings-current-email"
-              value={user.emailInformation.emailAddress ?? ''}
-              disabled
-              readOnly
-            />
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="settings-new-email">{t('labels.newEmail')}</label>
-            <input
-              id="settings-new-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder={t('placeholders.newEmail')}
-              disabled={pending === 'email'}
-              required
-            />
-            <p className={styles.hint}>{t('hints.emailChange')}</p>
-          </div>
-          <div className={styles.actions}>
-            <button type="submit" className={styles.button} disabled={pending === 'email' || !email.trim()}>
-              {t('actions.changeEmail')}
-            </button>
-          </div>
-        </form>
-
-        {user.hasPassword ? (
+        <div className={styles.accountGrid}>
           <form
             className={styles.form}
             onSubmit={(event) => {
               event.preventDefault();
-              if (newPassword !== confirmPassword) {
-                setStatus({ tone: 'negative', message: t('errors.passwordMismatch') });
-
-                return;
-              }
-
-              if (!isValidNewPassword(newPassword)) {
-                setStatus({ tone: 'negative', message: t('errors.passwordRules') });
-
-                return;
-              }
-
               void run(
-                'password',
-                async () => {
-                  const response = await updatePassword({
-                    currentPassword,
-                    newPassword,
-                  });
-                  if (response?.success) {
-                    setCurrentPassword('');
-                    setNewPassword('');
-                    setConfirmPassword('');
-                  }
-
-                  return response;
-                },
-                t('errors.updatePassword'),
+                'username',
+                () => updateUsernameSetting({ username: username.trim() }),
+                t('errors.updateUsername'),
               );
             }}
           >
             <div className={styles.field}>
-              <label htmlFor="settings-current-password">{t('labels.currentPassword')}</label>
+              <label htmlFor="settings-username">{t('labels.username')}</label>
               <input
-                id="settings-current-password"
-                type="password"
-                value={currentPassword}
-                onChange={(event) => setCurrentPassword(event.target.value)}
-                disabled={pending === 'password'}
+                id="settings-username"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                placeholder={t('placeholders.username')}
+                disabled={usernameLocked || pending === 'username'}
+                minLength={3}
+                maxLength={32}
                 required
               />
-            </div>
-            <div className={styles.field}>
-              <label htmlFor="settings-new-password">{t('labels.newPassword')}</label>
-              <input
-                id="settings-new-password"
-                type="password"
-                value={newPassword}
-                onChange={(event) => setNewPassword(event.target.value)}
-                disabled={pending === 'password'}
-                required
-                minLength={8}
-              />
-              <p className={styles.hint}>{t('hints.passwordRules')}</p>
-            </div>
-            <div className={styles.field}>
-              <label htmlFor="settings-confirm-password">{t('labels.confirmPassword')}</label>
-              <input
-                id="settings-confirm-password"
-                type="password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                disabled={pending === 'password'}
-                required
-                minLength={8}
-              />
+              {usernameLocked ? (
+                <p className={styles.hint}>{t('hints.usernameCooldown')}</p>
+              ) : (
+                <p className={styles.hint}>{t('hints.usernameLimit')}</p>
+              )}
             </div>
             <div className={styles.actions}>
-              <button type="submit" className={styles.button} disabled={pending === 'password'}>
-                {t('actions.updatePassword')}
+              <button
+                type="submit"
+                className={styles.button}
+                disabled={usernameLocked || pending === 'username' || username.trim() === user.username}
+              >
+                {t('actions.saveUsername')}
               </button>
             </div>
           </form>
-        ) : (
-          <p className={styles.statusMessage}>{t('hints.oauthPassword')}</p>
-        )}
+
+          <form
+            className={styles.form}
+            onSubmit={(event) => {
+              event.preventDefault();
+              void run(
+                'email',
+                async () => {
+                  const response = await requestEmailChange({ email: email.trim() });
+                  if (response?.success) setEmail('');
+
+                  return response;
+                },
+                t('errors.updateEmail'),
+              );
+            }}
+          >
+            <div className={styles.field}>
+              <label htmlFor="settings-current-email">{t('labels.currentEmail')}</label>
+              <input
+                id="settings-current-email"
+                value={user.emailInformation.emailAddress ?? ''}
+                disabled
+                readOnly
+              />
+            </div>
+            <div className={styles.field}>
+              <label htmlFor="settings-new-email">{t('labels.newEmail')}</label>
+              <input
+                id="settings-new-email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder={t('placeholders.newEmail')}
+                disabled={pending === 'email'}
+                required
+              />
+              <p className={styles.hint}>{t('hints.emailChange')}</p>
+            </div>
+            <div className={styles.actions}>
+              <button type="submit" className={styles.button} disabled={pending === 'email' || !email.trim()}>
+                {t('actions.changeEmail')}
+              </button>
+            </div>
+          </form>
+
+          {user.hasPassword ? (
+            <form
+              className={`${styles.form} ${styles.accountWide}`}
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (newPassword !== confirmPassword) {
+                  setStatus({ tone: 'negative', message: t('errors.passwordMismatch') });
+
+                  return;
+                }
+
+                if (!isValidNewPassword(newPassword)) {
+                  setStatus({ tone: 'negative', message: t('errors.passwordRules') });
+
+                  return;
+                }
+
+                void run(
+                  'password',
+                  async () => {
+                    const response = await updatePassword({
+                      currentPassword,
+                      newPassword,
+                    });
+                    if (response?.success) {
+                      setCurrentPassword('');
+                      setNewPassword('');
+                      setConfirmPassword('');
+                    }
+
+                    return response;
+                  },
+                  t('errors.updatePassword'),
+                );
+              }}
+            >
+              <div className={styles.passwordFields}>
+                <div className={styles.field}>
+                  <label htmlFor="settings-current-password">{t('labels.currentPassword')}</label>
+                  <input
+                    id="settings-current-password"
+                    type="password"
+                    value={currentPassword}
+                    onChange={(event) => setCurrentPassword(event.target.value)}
+                    disabled={pending === 'password'}
+                    required
+                  />
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor="settings-new-password">{t('labels.newPassword')}</label>
+                  <input
+                    id="settings-new-password"
+                    type="password"
+                    value={newPassword}
+                    onChange={(event) => setNewPassword(event.target.value)}
+                    disabled={pending === 'password'}
+                    required
+                    minLength={8}
+                  />
+                  <p className={styles.hint}>{t('hints.passwordRules')}</p>
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor="settings-confirm-password">{t('labels.confirmPassword')}</label>
+                  <input
+                    id="settings-confirm-password"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    disabled={pending === 'password'}
+                    required
+                    minLength={8}
+                  />
+                </div>
+              </div>
+              <div className={styles.actions}>
+                <button type="submit" className={styles.button} disabled={pending === 'password'}>
+                  {t('actions.updatePassword')}
+                </button>
+              </div>
+            </form>
+          ) : (
+            <p className={`${styles.statusMessage} ${styles.accountWide}`}>{t('hints.oauthPassword')}</p>
+          )}
+        </div>
       </section>
 
       <section className={styles.section}>
@@ -297,7 +302,7 @@ export default function SettingsPageClient() {
           <h2>{t('sections.emailPreferences')}</h2>
           <p>{t('sectionDescriptions.emailPreferences')}</p>
         </div>
-        <div className={styles.toggleList}>
+        <div className={styles.toggleGrid}>
           {(
             [
               [ 'securityAlerts', 'securityAlerts', 'securityAlertsHint' ],
@@ -313,6 +318,8 @@ export default function SettingsPageClient() {
               </span>
               <input
                 type="checkbox"
+                role="switch"
+                className={styles.switch}
                 checked={notificationPreferences[key]}
                 disabled={pending === `notify-${key}`}
                 onChange={(event) => {
@@ -329,93 +336,101 @@ export default function SettingsPageClient() {
         </div>
       </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <h2>{t('sections.personalPreferences')}</h2>
-          <p>{t('sectionDescriptions.personalPreferences')}</p>
-        </div>
-        <div className={styles.toggleList}>
-          <label className={styles.toggleRow}>
-            <span className={styles.toggleCopy}>
-              <span>{t('labels.anonymous')}</span>
-              <small>{t('hints.anonymous')}</small>
-            </span>
-            <input
-              type="checkbox"
-              checked={userPreferences.anonymous}
-              disabled={pending === 'pref-anonymous'}
-              onChange={(event) => {
-                const checked = event.target.checked;
-                void run(
-                  'pref-anonymous',
-                  () => updateUserPreferencesSetting({ anonymous: checked }),
-                  t('errors.updatePreferences'),
-                );
-              }}
-            />
-          </label>
-          <label className={styles.toggleRow}>
-            <span className={styles.toggleCopy}>
-              <span>{t('labels.hideStats')}</span>
-              <small>{t('hints.hideStats')}</small>
-            </span>
-            <input
-              type="checkbox"
-              checked={userPreferences.hideStats}
-              disabled={pending === 'pref-hideStats'}
-              onChange={(event) => {
-                const checked = event.target.checked;
-                void run(
-                  'pref-hideStats',
-                  () => updateUserPreferencesSetting({ hideStats: checked }),
-                  t('errors.updatePreferences'),
-                );
-              }}
-            />
-          </label>
-        </div>
-      </section>
+      <div className={styles.preferencesGrid}>
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2>{t('sections.personalPreferences')}</h2>
+            <p>{t('sectionDescriptions.personalPreferences')}</p>
+          </div>
+          <div className={styles.toggleList}>
+            <label className={styles.toggleRow}>
+              <span className={styles.toggleCopy}>
+                <span>{t('labels.anonymous')}</span>
+                <small>{t('hints.anonymous')}</small>
+              </span>
+              <input
+                type="checkbox"
+                role="switch"
+                className={styles.switch}
+                checked={userPreferences.anonymous}
+                disabled={pending === 'pref-anonymous'}
+                onChange={(event) => {
+                  const checked = event.target.checked;
+                  void run(
+                    'pref-anonymous',
+                    () => updateUserPreferencesSetting({ anonymous: checked }),
+                    t('errors.updatePreferences'),
+                  );
+                }}
+              />
+            </label>
+            <label className={styles.toggleRow}>
+              <span className={styles.toggleCopy}>
+                <span>{t('labels.hideStats')}</span>
+                <small>{t('hints.hideStats')}</small>
+              </span>
+              <input
+                type="checkbox"
+                role="switch"
+                className={styles.switch}
+                checked={userPreferences.hideStats}
+                disabled={pending === 'pref-hideStats'}
+                onChange={(event) => {
+                  const checked = event.target.checked;
+                  void run(
+                    'pref-hideStats',
+                    () => updateUserPreferencesSetting({ hideStats: checked }),
+                    t('errors.updatePreferences'),
+                  );
+                }}
+              />
+            </label>
+          </div>
+        </section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <h2>{t('sections.appearance')}</h2>
-          <p>{t('sectionDescriptions.appearance')}</p>
-        </div>
-        <div className={styles.toggleList}>
-          <label className={styles.toggleRow}>
-            <span className={styles.toggleCopy}>
-              <span>{t('labels.darkMode')}</span>
-              <small>{t('hints.darkMode')}</small>
-            </span>
-            <input
-              type="checkbox"
-              checked={userPreferences.colorTheme === 'dark'}
-              disabled={pending === 'pref-theme'}
-              onChange={(event) => {
-                const previousTheme = userPreferences.colorTheme;
-                const colorTheme = event.target.checked ? 'dark' : 'light';
-                document.documentElement.dataset.theme = colorTheme;
-                void run(
-                  'pref-theme',
-                  async () => {
-                    const response = await updateUserPreferencesSetting({ colorTheme });
-                    if (!response?.success) {
-                      if (previousTheme === 'dark' || previousTheme === 'light') {
-                        document.documentElement.dataset.theme = previousTheme;
-                      } else {
-                        delete document.documentElement.dataset.theme;
-                      }
-                    }
+        <section className={styles.section}>
+          <div className={styles.sectionHeader}>
+            <h2>{t('sections.appearance')}</h2>
+            <p>{t('sectionDescriptions.appearance')}</p>
+          </div>
+          <div className={styles.toggleList}>
+            <label className={styles.toggleRow}>
+              <span className={styles.toggleCopy}>
+                <span>{t('labels.darkMode')}</span>
+                <small>{t('hints.darkMode')}</small>
+              </span>
+              <input
+                type="checkbox"
+                role="switch"
+                className={styles.switch}
+                checked={userPreferences.colorTheme === 'dark'}
+                disabled={pending === 'pref-theme'}
+                  onChange={(event) => {
+                    const previousTheme = userPreferences.colorTheme;
+                    const colorTheme = event.target.checked ? 'dark' : 'light';
+                    applyColorTheme(colorTheme);
+                    void run(
+                      'pref-theme',
+                      async () => {
+                        const response = await updateUserPreferencesSetting({ colorTheme });
+                        if (!response?.success) {
+                          if (isColorTheme(previousTheme)) {
+                            applyColorTheme(previousTheme);
+                          } else {
+                            applyColorTheme('light');
+                          }
+                        }
 
-                    return response;
-                  },
-                  t('errors.updatePreferences'),
-                );
-              }}
-            />
-          </label>
-        </div>
-      </section>
+                        return response;
+                      },
+                      t('errors.updatePreferences'),
+                    );
+                  }}
+              />
+            </label>
+          </div>
+        </section>
+      </div>
 
       <section className={`${styles.section} ${styles.dangerSection}`}>
         <div className={styles.sectionHeader}>

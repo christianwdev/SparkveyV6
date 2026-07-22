@@ -11,6 +11,9 @@
   --text-light-link: #6F7487;
   --light-gray: oklch(.985 0 0);
   --profile-img: url("/img/backgrounds/profile.webp");
+  --navbar-background: rgba(255, 255, 255, 0.5);
+  --surface-muted: #F6F7F7;
+  --steps-line: #EED2FB;
 
   --accentColor: #9E38D0;
   --off-black: #1D2736;
@@ -28,11 +31,16 @@
   --text-bold: white;
   --text-light-link: white;
   --text-light: #6F7487;
-  --off-white: #1D1D1D;
-  --offbackground: #202020;
-  --light-blue: #232325;
-  --light-gray: oklch(.175 0 0);
+  /* Cool blue-black surfaces — match #0A0F16, not flat gray */
+  --off-white: #121A24;
+  --offbackground: #0E1420;
+  --light-blue: #182230;
+  --light-gray: #121A24;
   --profile-img: url("/img/backgrounds/profiledark.webp");
+  --navbar-background: rgba(10, 15, 22, 0.7);
+  --surface-muted: #121A24;
+  --steps-line: #5B2A7A;
+  --border-light: rgba(148, 163, 184, 0.18);
 
   --off-black: white;
   --hover-off-black: #DADCE0;
