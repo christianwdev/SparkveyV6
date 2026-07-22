@@ -1,12 +1,12 @@
 import { Suspense } from 'react';
 import AuthenticationLayout from '../_components/AuthenticationLayout/AuthenticationLayout';
-import LoginPageClient from './page.client';
+import ConfirmAccountDeletionClient from './page.client';
 
-export default function LoginPage() {
+export default function ConfirmAccountDeletionPage() {
   return (
     <AuthenticationLayout>
       <Suspense fallback={null}>
-        <LoginPageClient />
+        <ConfirmAccountDeletionClient />
       </Suspense>
     </AuthenticationLayout>
   );

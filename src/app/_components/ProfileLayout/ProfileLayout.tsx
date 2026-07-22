@@ -25,8 +25,8 @@ import SessionsIcon from '~icons/solar/devices-linear.jsx';
 const PROFILE_NAV = [
   { href: FrontendRedirectPaths.profileEarnings, labelKey: 'earnings', Icon: EarningsIcon },
   { href: FrontendRedirectPaths.profileRedemptions, labelKey: 'redemptions', Icon: GiftIcon },
-  { href: FrontendRedirectPaths.profileSettings, labelKey: 'settings', Icon: SettingsIcon },
   { href: FrontendRedirectPaths.profileSessions, labelKey: 'sessions', Icon: SessionsIcon },
+  { href: FrontendRedirectPaths.profileSettings, labelKey: 'settings', Icon: SettingsIcon },
 ] as const;
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {

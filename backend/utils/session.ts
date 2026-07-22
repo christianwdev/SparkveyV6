@@ -105,6 +105,9 @@ export async function consumeSession(
     const session = await db.collection<UserSession>(DatabaseCollections.userSessions).findOneAndUpdate(
       {
         ...sessionParams,
+        expiryDate: {
+          $gt: new Date(),
+        },
       },
       {
         $addToSet: {

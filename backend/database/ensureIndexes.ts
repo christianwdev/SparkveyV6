@@ -31,6 +31,33 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
+  // Partial unique usernames for live accounts. Best-effort: skip if legacy duplicates exist.
+  await db.collection(DatabaseCollections.users).createIndex(
+    { username: 1 },
+    {
+      unique: true,
+      name: 'username_unique_active',
+      partialFilterExpression: {
+        deletedAt: { $exists: false },
+        username: { $type: 'string', $gt: '' },
+      },
+    },
+  ).catch((error) => {
+    console.error('Failed to ensure username_unique_active index', error);
+  });
+
+  await db.collection(DatabaseCollections.deletedAccountFingerprints).createIndexes([
+    {
+      key: { emailHash: 1 },
+      unique: true,
+      name: 'emailHash_unique',
+    },
+    {
+      key: { userID: 1, deletedAt: -1 },
+      name: 'userID_deletedAt',
+    },
+  ]);
+
   await db.collection(DatabaseCollections.postbackLogs).createIndexes([
     {
       key: { requestID: 1 },

@@ -10,6 +10,9 @@ import type {
   InternalRedemptionStatus,
 } from 'types/Redemption/BaseInternalRedemption';
 import type SanitizedUserSession from 'types/SanitizedUserSession';
+import type SanitizedUser from 'types/User/SanitizedUser';
+import type NotificationPreferences from 'types/User/Parts/NotificationPreferences';
+import type UserPreferences from 'types/User/Parts/UserPreferences';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
@@ -122,4 +125,74 @@ export async function revokeSession(
   } catch {
     return false;
   }
+}
+
+async function postSettings<T>(
+  path: string,
+  data?: object,
+): Promise<APIResponse<T> | null> {
+  try {
+    const response = await fetch(`${getScope()}/profile/settings${path}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: data ? { 'Content-Type': 'application/json' } : undefined,
+      body: data ? JSON.stringify(data) : undefined,
+    });
+
+    const payload = await response.json() as APIResponse<T>;
+
+    return payload ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function updatePassword(body: {
+  currentPassword: string,
+  newPassword: string,
+}): Promise<APIResponse<SanitizedUser> | null> {
+  return postSettings<SanitizedUser>('/password', body);
+}
+
+export async function requestEmailChange(body: {
+  email: string,
+}): Promise<APIResponse<null> | null> {
+  return postSettings<null>('/email', body);
+}
+
+export async function updateUsernameSetting(body: {
+  username: string,
+}): Promise<APIResponse<SanitizedUser> | null> {
+  return postSettings<SanitizedUser>('/username', body);
+}
+
+export async function updateNotificationPreferencesSetting(
+  body: Partial<Pick<
+    NotificationPreferences,
+    'securityAlerts' | 'marketingAlerts' | 'promotionalAlerts' | 'newsletterAlerts'
+  >>,
+): Promise<APIResponse<SanitizedUser> | null> {
+  return postSettings<SanitizedUser>('/notification-preferences', body);
+}
+
+export async function updateUserPreferencesSetting(
+  body: Partial<UserPreferences>,
+): Promise<APIResponse<SanitizedUser> | null> {
+  return postSettings<SanitizedUser>('/user-preferences', body);
+}
+
+export async function requestAccountDeletion(): Promise<APIResponse<null> | null> {
+  return postSettings<null>('/delete');
+}
+
+export async function confirmEmailChange(body: {
+  code: string,
+}): Promise<APIResponse<SanitizedUser> | null> {
+  return postSettings<SanitizedUser>('/email/confirm', body);
+}
+
+export async function confirmAccountDeletion(body: {
+  code: string,
+}): Promise<APIResponse<null> | null> {
+  return postSettings<null>('/delete/confirm', body);
 }

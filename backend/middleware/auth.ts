@@ -42,6 +42,7 @@ export async function optionalAuth(c: Context<{ Variables: { user: InternalUser 
   });
 
   if (!userResult.ok) return await next();
+  if (userResult.data.deletedAt) return await next();
 
   c.set('user', userResult.data);
 
@@ -67,6 +68,10 @@ export async function requireAuth(c: Context<{ Variables: { user: InternalUser, 
   });
 
   if (!userResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This user does not exist' });
+
+  if (userResult.data.deletedAt) {
+    return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
+  }
 
   c.set('user', userResult.data);
   c.set('session', sessionResult.data);
@@ -113,6 +118,9 @@ export function requireAdmin(permission?: StaffPermissions) {
     });
 
     if (!userResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This user does not exist' });
+    if (userResult.data.deletedAt) {
+      return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
+    }
 
     const { staffPermissions = StaffPermissions.NONE } = userResult.data;
 

@@ -1,0 +1,212 @@
+@use '@styles/variables.scss' as *;
+
+.settingsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    > h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-light;
+    }
+  }
+
+  > .banner {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: $light-gray;
+    color: $text-bold;
+    font-size: 14px;
+    font-weight: 500;
+
+    &[data-tone='positive'] {
+      color: $green;
+    }
+
+    &[data-tone='negative'] {
+      color: $red;
+    }
+  }
+
+  > .section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid $border-light;
+
+    > .sectionHeader {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      > h2 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: $text-bold;
+      }
+
+      > p {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+      }
+    }
+
+    > .form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 420px;
+
+      > .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        > label {
+          font-size: 13px;
+          font-weight: 500;
+          color: $text-light;
+        }
+
+        > input {
+          height: 40px;
+          padding: 0 12px;
+          border: 1px solid $border-light;
+          border-radius: 8px;
+          background: $background;
+          color: $text-bold;
+          font-size: 14px;
+
+          &:focus {
+            outline: 1px solid $primary;
+          }
+        }
+
+        > .hint {
+          margin: 0;
+          font-size: 12px;
+          font-weight: 500;
+          color: $text-light;
+        }
+      }
+
+      > .actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+
+    > .toggleList {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      > .toggleRow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: $light-gray;
+
+        > .toggleCopy {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+
+          > span {
+            font-size: 14px;
+            font-weight: 500;
+            color: $text-bold;
+          }
+
+          > small {
+            font-size: 12px;
+            font-weight: 500;
+            color: $text-light;
+          }
+        }
+
+        > input[type='checkbox'] {
+          width: 18px;
+          height: 18px;
+          accent-color: $primary;
+          cursor: pointer;
+        }
+      }
+    }
+
+    &.dangerSection {
+      border-color: rgba(243, 37, 37, 0.35);
+
+      > .sectionHeader > h2 {
+        color: $red;
+      }
+    }
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 8px;
+    background: $primary;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    &.secondary {
+      background: $light-gray;
+      color: $text-bold;
+    }
+
+    &.danger {
+      background: $red;
+    }
+  }
+
+  .statusMessage {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: $text-light;
+
+    &[data-tone='positive'] {
+      color: $green;
+    }
+
+    &[data-tone='negative'] {
+      color: $red;
+    }
+  }
+}

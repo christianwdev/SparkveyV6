@@ -9,8 +9,9 @@ import type GoogleAPIUser from 'types/External/Google/GoogleAPIUser';
 
 // Utils
 import { startSession } from 'backend/utils/session';
-import { createUser, getRawUser } from 'backend/utils/user';
+import { createUser, getRawUser, sanitizeEmail } from 'backend/utils/user';
 import { buildFrontendURL } from 'backend/utils/frontendUrl';
+import { isDeletedEmail } from 'backend/utils/deletedAccountFingerprint';
 
 const app = new Hono();
 
@@ -108,15 +109,26 @@ export default function routeInvoker() {
       let user = existingUserResult.ok ? existingUserResult.data : undefined;
 
       if (user) {
+        if (user.deletedAt) return c.redirect(buildFrontendURL('/', { error: 'banned' }));
         const isBanned = user.bannedUntil && user.bannedUntil > new Date();
         if (isBanned) return c.redirect(buildFrontendURL('/', { error: 'banned' }));
       } else {
+        const email = sanitizeEmail(data.email);
+        if (!email) {
+          return c.redirect(buildFrontendURL('/', { error: 'google_create' }));
+        }
+
+        const deletedEmail = await isDeletedEmail(email);
+        if (!deletedEmail.ok || deletedEmail.data) {
+          return c.redirect(buildFrontendURL('/', { error: 'banned' }));
+        }
+
         const createUserResult = await createUser({
-          email: data.email,
+          email,
           googleID: data.sub,
           referredBy: affiliateCode,
           avatar: data.picture,
-          username: data.email.split('@')[0],
+          username: email.split('@')[0],
           emailVerifiedAt: new Date(),
         });
 

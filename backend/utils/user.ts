@@ -44,13 +44,13 @@ export async function createUser(
 
     const userID = createId();
 
+    const sanitizedEmail = sanitizeEmail(email);
+
     const googleInformation = googleID ? {
       id: googleID,
-      emailAddress: email,
+      emailAddress: sanitizedEmail,
       verifiedAt: new Date(),
     } : undefined;
-
-    const sanitizedEmail = sanitizeEmail(email);
 
     const user: InternalUser = {
       userID,
@@ -167,6 +167,7 @@ export function sanitizeUser(user: InternalUser | WithId<InternalUser>): Sanitiz
     username: user.username,
     avatar: user.avatar,
     balance: user.balance,
+    hasPassword: typeof user.password === 'string' && user.password.length > 0,
     emailInformation: user.emailInformation,
     phoneInformation: user.phoneInformation,
     paymentInformation: user.paymentInformation,
@@ -185,6 +186,8 @@ export function sanitizeUser(user: InternalUser | WithId<InternalUser>): Sanitiz
     },
     userConfiguration: user.userConfiguration,
     personalInformation: user.personalInformation,
+    usernameChangedAt: user.usernameChangedAt,
+    deletedAt: user.deletedAt,
     bannedUntil: user.bannedUntil,
     creationDate: user.creationDate,
     staffPermissions: user.staffPermissions,
@@ -196,7 +199,7 @@ export async function verifyUserEmail(userID: string): Promise<FunctionResponse<
     const { db } = getGlobalObject();
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
-      { userID },
+      { userID, deletedAt: { $exists: false } },
       {
         $set: {
           'emailInformation.verifiedAt': new Date(),
@@ -223,7 +226,7 @@ export async function updateUserPassword(
     const { db } = getGlobalObject();
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
-      { userID },
+      { userID, deletedAt: { $exists: false } },
       {
         $set: {
           password: passwordHash,
@@ -429,8 +432,260 @@ export async function getUserEarningsHistory(
     }
 }
 
-function sanitizeEmail(email?: string): string | undefined {
+export function sanitizeEmail(email?: string): string | undefined {
   if (typeof email !== 'string' || email.trim().length === 0) return undefined;
 
   return email.trim().toLowerCase().trim();
+}
+
+const USERNAME_CHANGE_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+
+export async function updateUsername(
+  {
+    userID,
+    username,
+  }: {
+    userID: string,
+    username: string,
+  },
+): Promise<FunctionResponse<InternalUser, 'notFound' | 'usernameTaken' | 'cooldown' | 'internalServerError'>> {
+  try {
+    const { db } = getGlobalObject();
+    const now = new Date();
+
+    const current = await db.collection<InternalUser>(DatabaseCollections.users).findOne({ userID });
+    if (!current) return { ok: false, error: 'notFound' };
+    if (current.deletedAt) return { ok: false, error: 'notFound' };
+
+    if (
+      current.usernameChangedAt
+      && now.getTime() - current.usernameChangedAt.getTime() < USERNAME_CHANGE_COOLDOWN_MS
+    ) {
+      return { ok: false, error: 'cooldown' };
+    }
+
+    if (current.username === username) {
+      return { ok: true, data: current };
+    }
+
+    const taken = await db.collection<InternalUser>(DatabaseCollections.users).findOne({
+      username,
+      userID: { $ne: userID },
+      deletedAt: { $exists: false },
+    });
+
+    if (taken) return { ok: false, error: 'usernameTaken' };
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      { userID, deletedAt: { $exists: false } },
+      {
+        $set: {
+          username,
+          usernameChangedAt: now,
+        },
+      },
+      { returnDocument: 'after' },
+    );
+
+    if (!user) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: user };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function updateUserEmail(
+  {
+    userID,
+    email,
+  }: {
+    userID: string,
+    email: string,
+  },
+): Promise<FunctionResponse<InternalUser>> {
+  try {
+    const { db } = getGlobalObject();
+    const sanitized = sanitizeEmail(email);
+    if (!sanitized) return { ok: false, error: 'internalServerError' };
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      { userID, deletedAt: { $exists: false } },
+      {
+        $set: {
+          'emailInformation.emailAddress': sanitized,
+          'emailInformation.verifiedAt': new Date(),
+        },
+      },
+      { returnDocument: 'after' },
+    );
+
+    if (!user) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: user };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function updateNotificationPreferences(
+  {
+    userID,
+    notificationPreferences,
+  }: {
+    userID: string,
+    notificationPreferences: Partial<InternalUser['notificationPreferences']>,
+  },
+): Promise<FunctionResponse<InternalUser>> {
+  try {
+    const { db } = getGlobalObject();
+    const $set: Record<string, unknown> = {};
+
+    for (const [ key, value ] of Object.entries(notificationPreferences)) {
+      if (value !== undefined) {
+        $set[`notificationPreferences.${key}`] = value;
+      }
+    }
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      { userID, deletedAt: { $exists: false } },
+      { $set },
+      { returnDocument: 'after' },
+    );
+
+    if (!user) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: user };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function updateUserPreferences(
+  {
+    userID,
+    userPreferences,
+  }: {
+    userID: string,
+    userPreferences: Partial<InternalUser['userPreferences']>,
+  },
+): Promise<FunctionResponse<InternalUser>> {
+  try {
+    const { db } = getGlobalObject();
+    const $set: Record<string, unknown> = {};
+
+    for (const [ key, value ] of Object.entries(userPreferences)) {
+      if (value !== undefined) {
+        $set[`userPreferences.${key}`] = value;
+      }
+    }
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      { userID, deletedAt: { $exists: false } },
+      { $set },
+      { returnDocument: 'after' },
+    );
+
+    if (!user) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: user };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+/** Scrub PII while retaining userID + ledger history for fraud correlation. */
+export async function anonymizeDeletedUser(
+  userID: string,
+): Promise<FunctionResponse<InternalUser>> {
+  try {
+    const { db } = getGlobalObject();
+    const now = new Date();
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      { userID, deletedAt: { $exists: false } },
+      {
+        $set: {
+          username: `deleted_${userID.slice(0, 8)}`,
+          emailInformation: {},
+          phoneInformation: {},
+          paymentInformation: {
+            cryptoWallets: [],
+          },
+          socialInformation: {},
+          personalInformation: {},
+          notificationPreferences: {
+            preferredMethod: 'email',
+            securityAlerts: false,
+            marketingAlerts: false,
+            promotionalAlerts: false,
+            newsletterAlerts: false,
+          },
+          deletedAt: now,
+          bannedUntil: new Date('9999-12-31T23:59:59.999Z'),
+        },
+        $unset: {
+          avatar: '',
+          password: '',
+          usernameChangedAt: '',
+        },
+      },
+      { returnDocument: 'after' },
+    );
+
+    if (user) return { ok: true, data: user };
+
+    // Idempotent: parallel confirm clicks may race after the first anonymize succeeds.
+    const existing = await db.collection<InternalUser>(DatabaseCollections.users).findOne({
+      userID,
+      deletedAt: { $exists: true },
+    });
+
+    if (!existing) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: existing };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function isEmailInUse(
+  email: string,
+  excludeUserID?: string,
+): Promise<FunctionResponse<boolean>> {
+  try {
+    const { db } = getGlobalObject();
+    const sanitized = sanitizeEmail(email);
+    if (!sanitized) return { ok: true, data: false };
+
+    const query: Filter<InternalUser> = {
+      $or: [
+        { 'emailInformation.emailAddress': sanitized },
+        { 'socialInformation.google.emailAddress': sanitized },
+      ],
+      deletedAt: { $exists: false },
+    };
+
+    if (excludeUserID) {
+      query.userID = { $ne: excludeUserID };
+    }
+
+    const existing = await db.collection<InternalUser>(DatabaseCollections.users).findOne(query);
+
+    return { ok: true, data: !!existing };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
 }

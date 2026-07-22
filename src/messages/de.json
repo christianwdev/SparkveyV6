@@ -764,31 +764,88 @@
   },
   "ProfileSettings": {
     "sections": {
-      "accountInformation": "Kontoinformationen",
-      "emailPreferences": "E-Mail-Einstellungen",
-      "sitePreferences": "Website-Einstellungen"
+      "accountInformation": "Account Information",
+      "emailPreferences": "Email Preferences",
+      "sitePreferences": "Site Preferences",
+      "personalPreferences": "Personal Preferences",
+      "appearance": "Appearance",
+      "dangerZone": "Danger Zone"
     },
     "labels": {
-      "emailAddress": "E-Mail-Adresse",
-      "username": "Benutzername",
-      "paypalEmail": "PayPal-E-Mail",
-      "freeGifts": "Kostenlose Geschenke",
+      "emailAddress": "Email Address",
+      "username": "Username",
+      "paypalEmail": "PayPal Email",
+      "freeGifts": "Free Gifts",
       "marketing": "Marketing",
-      "securityAlerts": "Sicherheitswarnungen",
-      "darkMode": "Dunkler Modus"
+      "securityAlerts": "Security Alerts",
+      "darkMode": "Dark Mode",
+      "currentEmail": "Current email",
+      "newEmail": "New email",
+      "newsletter": "Newsletter",
+      "anonymous": "Anonymous profile",
+      "hideStats": "Hide stats",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm new password"
     },
     "placeholders": {
-      "username": "Benutzernamen eingeben",
-      "paypalEmail": "Deine PayPal-E-Mail eingeben"
+      "username": "Enter a username",
+      "paypalEmail": "Enter your PayPal email",
+      "newEmail": "Enter your new email"
     },
     "actions": {
-      "save": "Speichern",
-      "yes": "Ja",
-      "no": "Nein"
+      "save": "Save",
+      "yes": "Yes",
+      "no": "No",
+      "saveUsername": "Save username",
+      "changeEmail": "Send confirmation",
+      "updatePassword": "Update password",
+      "deleteAccount": "Delete account",
+      "confirmDelete": "Send deletion email",
+      "cancel": "Cancel"
     },
     "errors": {
-      "updateInformation": "Beim Aktualisieren deiner Informationen ist ein Fehler aufgetreten.",
-      "updateEmailPreferences": "Beim Aktualisieren deiner E-Mail-Einstellungen ist ein Fehler aufgetreten."
+      "updateInformation": "We encountered an error when trying to update your information.",
+      "updateEmailPreferences": "We encountered an error when trying to update your email preferences.",
+      "updateUsername": "We could not update your username.",
+      "updateEmail": "We could not start the email change.",
+      "updatePassword": "We could not update your password.",
+      "updatePreferences": "We could not update your preferences.",
+      "deleteAccount": "We could not start account deletion.",
+      "passwordMismatch": "New passwords do not match.",
+      "passwordRules": "Password must be at least 8 characters and include a number and a special character."
+    },
+    "title": "Settings",
+    "subtitle": "Manage your account, preferences, and security.",
+    "sectionDescriptions": {
+      "account": "Update your username, email, and password.",
+      "emailPreferences": "Choose which emails you want to receive.",
+      "personalPreferences": "Control how you appear across Sparkvey.",
+      "appearance": "Choose a light or dark theme.",
+      "dangerZone": "Permanently delete your account after email confirmation."
+    },
+    "hints": {
+      "usernameCooldown": "You can change your username again after 24 hours.",
+      "usernameLimit": "You can change your username once every 24 hours.",
+      "emailChange": "We will email a confirmation link to the new address. You will need to sign in again after confirming.",
+      "passwordRules": "At least 8 characters, one number, and one special character.",
+      "securityAlertsHint": "Important account and security notices.",
+      "marketingHint": "Product updates and promotions.",
+      "freeGiftsHint": "Free gift and bonus opportunity emails.",
+      "newsletterHint": "Occasional Sparkvey newsletter.",
+      "anonymous": "Hide your username on public activity.",
+      "hideStats": "Hide your stats from other users.",
+      "darkMode": "Use the dark color theme.",
+      "deleteAccount": "We will email you a link to confirm. Your personal data will be removed; fraud-prevention records may be retained in hashed form.",
+      "oauthPassword": "This account uses social sign-in and does not have a password."
+    },
+    "banners": {
+      "emailChangeSuccess": "Your email address has been updated.",
+      "emailChangeInvalid": "That email confirmation link is invalid or expired.",
+      "emailChangeUnavailable": "That email address cannot be used."
+    },
+    "success": {
+      "saved": "Saved successfully."
     }
   },
   "VIPSection": {
@@ -1009,5 +1066,43 @@
     "next": "Nächste Seite",
     "page": "Seite {page}",
     "range": "{start}–{end}"
+  },
+  "Login": {
+    "title": "Sign in",
+    "subtitle": "Access your Sparkvey account.",
+    "hint": "Need to get back to browsing?",
+    "backHome": "Return home",
+    "banners": {
+      "accountDeletedSuccess": "Your account has been deleted.",
+      "accountDeletedInvalid": "That account deletion link is invalid or expired.",
+      "accountDeletedError": "We could not complete account deletion. Please try again.",
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email."
+    }
+  },
+  "ConfirmAccountDeletion": {
+    "title": "Confirm account deletion",
+    "description": "This permanently removes personal information from your account. Fraud-prevention records may be retained in hashed form. This cannot be undone.",
+    "actions": {
+      "confirm": "Delete my account",
+      "deleting": "Deleting…",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "missingCode": "This deletion link is missing a confirmation code.",
+      "failed": "We could not delete your account. The link may be invalid or expired."
+    }
+  },
+  "ConfirmEmailChange": {
+    "title": "Confirm email change",
+    "description": "Click below to confirm your new email address. You will need to sign in again afterward.",
+    "actions": {
+      "confirm": "Confirm new email",
+      "confirming": "Confirming…",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "missingCode": "This confirmation link is missing a code.",
+      "failed": "We could not update your email. The link may be invalid or expired."
+    }
   }
 }

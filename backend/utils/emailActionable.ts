@@ -10,7 +10,9 @@ const VERIFICATION_EXPIRY_MS = 24 * 60 * 60 * 1000;
 const FORGOT_PASSWORD_EXPIRY_MS = 60 * 60 * 1000;
 
 function getExpiryMs(type: EmailActionable['type']) {
-  return type === 'verification' ? VERIFICATION_EXPIRY_MS : FORGOT_PASSWORD_EXPIRY_MS;
+  if (type === 'forgotPassword') return FORGOT_PASSWORD_EXPIRY_MS;
+
+  return VERIFICATION_EXPIRY_MS;
 }
 
 export async function createEmailActionable(
@@ -93,6 +95,44 @@ export async function findValidEmailActionable(
   }
 }
 
+export async function claimEmailActionable(
+  {
+    actionableID,
+    type,
+  }: {
+    actionableID: string;
+    type: EmailActionable['type'];
+  },
+): Promise<FunctionResponse<EmailActionable>> {
+  try {
+    const { db } = getGlobalObject();
+
+    const actionable = await db.collection<EmailActionable>(DatabaseCollections.emailActionables).findOneAndUpdate(
+      {
+        actionableID,
+        type,
+        expiryDate: { $gt: new Date() },
+        accessedDate: { $exists: false },
+        deactivatedAt: { $exists: false },
+      },
+      {
+        $set: {
+          accessedDate: new Date(),
+        },
+      },
+      { returnDocument: 'after' },
+    );
+
+    if (!actionable) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: actionable };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
 export async function markEmailActionableAccessed(
   actionableID: string,
 ): Promise<FunctionResponse<void>> {
@@ -113,6 +153,68 @@ export async function markEmailActionableAccessed(
     );
 
     if (!result) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: undefined };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function deactivateUserEmailActionables(
+  {
+    userID,
+    types,
+  }: {
+    userID: string;
+    types?: EmailActionable['type'][];
+  },
+): Promise<FunctionResponse<void>> {
+  try {
+    const { db } = getGlobalObject();
+    const filter: Record<string, unknown> = {
+      userID,
+      deactivatedAt: { $exists: false },
+      accessedDate: { $exists: false },
+    };
+
+    if (types?.length) {
+      filter.type = { $in: types };
+    }
+
+    await db.collection<EmailActionable>(DatabaseCollections.emailActionables).updateMany(
+      filter,
+      {
+        $set: {
+          deactivatedAt: new Date(),
+        },
+      },
+    );
+
+    return { ok: true, data: undefined };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function scrubUserEmailActionables(
+  userID: string,
+): Promise<FunctionResponse<void>> {
+  try {
+    const { db } = getGlobalObject();
+
+    await db.collection<EmailActionable>(DatabaseCollections.emailActionables).updateMany(
+      { userID },
+      {
+        $set: {
+          email: '',
+          deactivatedAt: new Date(),
+        },
+      },
+    );
 
     return { ok: true, data: undefined };
   } catch (error) {
