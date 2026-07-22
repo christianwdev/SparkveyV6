@@ -11,6 +11,8 @@
   --text-light-link: #6F7487;
   --light-gray: oklch(.985 0 0);
   --profile-img: url("/img/backgrounds/profile.webp");
+  --navbar-background: rgba(255, 255, 255, 0.5);
+  --surface-muted: #F6F7F7;
 
   --accentColor: #9E38D0;
   --off-black: #1D2736;
@@ -31,8 +33,11 @@
   --off-white: #1D1D1D;
   --offbackground: #202020;
   --light-blue: #232325;
-  --light-gray: oklch(.175 0 0);
+  /* Cool lift off #0A0F16 — same blue-black family as body, not flat gray */
+  --light-gray: #121A24;
   --profile-img: url("/img/backgrounds/profiledark.webp");
+  --navbar-background: rgba(10, 15, 22, 0.7);
+  --surface-muted: #121A24;
 
   --off-black: white;
   --hover-off-black: #DADCE0;
