@@ -44,6 +44,7 @@ export default async function AyetStudioWorker(): Promise<[ error: true ] | [ er
       if (process.env.NODE_ENV === 'development') {
         console.error(`AyetStudio API responded with status ${httpRequest.status}`);
       }
+
       return [ true ];
     }
 
@@ -53,6 +54,7 @@ export default async function AyetStudioWorker(): Promise<[ error: true ] | [ er
       if (process.env.NODE_ENV === 'development') {
         console.error(`AyetStudio API error: ${(offersJSON as ErrorResponse).message}`);
       }
+
       return [ true ];
     }
 
@@ -98,7 +100,7 @@ export default async function AyetStudioWorker(): Promise<[ error: true ] | [ er
         geoRequirements: [],
         multiReward: false,
         reward,
-        totalReward: reward.reduce((pv, cv) => pv + (cv.value === 'variable' ? 0 : cv.value), 0),
+        totalReward: reward.reduce((total, item) => total + (item.value === 'variable' ? Infinity : item.value), 0),
         hash,
       });
     }
@@ -107,6 +109,7 @@ export default async function AyetStudioWorker(): Promise<[ error: true ] | [ er
   } catch (err) {
     console.error(`AyetStudio worker error: ${err}`);
     if (process.env.NODE_ENV === 'development') console.error(err);
+
     return [ true ];
   }
 }
@@ -133,10 +136,14 @@ function buildDescription(offer: AyetOffer): string {
 
 function convertPaymentModel(offer: AyetOffer): PaymentModel {
   switch (offer.conversionType) {
-    case 'cpa': return 'CPA';
-    case 'cpi': return 'CPI';
-    case 'cpl': return 'CPL';
-    default: return 'CPA';
+    case 'cpa':
+      return 'CPA';
+    case 'cpi':
+      return 'CPI';
+    case 'cpl':
+      return 'CPL';
+    default:
+      return 'CPA';
   }
 }
 
@@ -160,24 +167,60 @@ function convertOfferType(offer: AyetOffer): OfferType[] {
       case 'games_sports':
       case 'games_strategy':
       case 'games_trivia':
-      case 'games_word': types.add('game'); break;
-      case 'entertainment': types.add('entertainment'); break;
-      case 'productivity': types.add('productivity'); break;
-      case 'tools': types.add('tools'); break;
-      case 'finance': types.add('finance'); break;
-      case 'business': types.add('business'); break;
-      case 'family': types.add('family'); break;
-      case 'food_and_drink': types.add('food'); break;
-      case 'travel_and_local': types.add('travel'); break;
-      case 'sports': types.add('sports'); break;
-      case 'news_and_magazines': types.add('news'); break;
-      case 'health_and_fitness': types.add('health_and_fitness'); break;
-      case 'maps_and_navigation': types.add('maps'); break;
-      case 'photography': types.add('photography'); break;
-      case 'social': types.add('social'); break;
-      case 'education': types.add('education'); break;
-      case 'house_and_home': types.add('house'); break;
-      case 'books_and_reference': types.add('books'); break;
+      case 'games_word':
+        types.add('game');
+        break;
+      case 'entertainment':
+        types.add('entertainment');
+        break;
+      case 'productivity':
+        types.add('productivity');
+        break;
+      case 'tools':
+        types.add('tools');
+        break;
+      case 'finance':
+        types.add('finance');
+        break;
+      case 'business':
+        types.add('business');
+        break;
+      case 'family':
+        types.add('family');
+        break;
+      case 'food_and_drink':
+        types.add('food');
+        break;
+      case 'travel_and_local':
+        types.add('travel');
+        break;
+      case 'sports':
+        types.add('sports');
+        break;
+      case 'news_and_magazines':
+        types.add('news');
+        break;
+      case 'health_and_fitness':
+        types.add('health_and_fitness');
+        break;
+      case 'maps_and_navigation':
+        types.add('maps');
+        break;
+      case 'photography':
+        types.add('photography');
+        break;
+      case 'social':
+        types.add('social');
+        break;
+      case 'education':
+        types.add('education');
+        break;
+      case 'house_and_home':
+        types.add('house');
+        break;
+      case 'books_and_reference':
+        types.add('books');
+        break;
     }
   }
 
@@ -189,8 +232,12 @@ function convertOS(offer: AyetOffer): OperatingSystem[] {
 
   for (const platform of offer.platforms) {
     switch (platform) {
-      case 'ios': osList.add('ios'); break;
-      case 'android': osList.add('android'); break;
+      case 'ios':
+        osList.add('ios');
+        break;
+      case 'android':
+        osList.add('android');
+        break;
       case 'desktop':
         osList.add('windows');
         osList.add('macos');
@@ -206,10 +253,18 @@ function convertDevices(offer: AyetOffer): OfferDevice[] {
 
   for (const device of offer.devices) {
     switch (device) {
-      case 'mac': devices.add('mac'); break;
-      case 'phone': devices.add('smartphone'); break;
-      case 'pc': devices.add('desktop'); break;
-      case 'tablet': devices.add('smartphone'); break;
+      case 'mac':
+        devices.add('mac');
+        break;
+      case 'phone':
+        devices.add('smartphone');
+        break;
+      case 'pc':
+        devices.add('desktop');
+        break;
+      case 'tablet':
+        devices.add('smartphone');
+        break;
     }
   }
 

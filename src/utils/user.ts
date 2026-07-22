@@ -7,9 +7,13 @@ import type APIResponse from "types/APIResponse";
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
 export async function getUser({ request }: { request: RequestFn }): Promise<SanitizedUser | null> {
-  const response = await request<APIResponse<SanitizedUser>>({ url: `${getScope()}/user/get` });
+  try {
+    const response = await request<APIResponse<SanitizedUser>>({ url: `${getScope()}/user/get` });
 
-  if (!response.data?.success) return null;
+    if (!response.data?.success) return null;
 
-  return response.data.data ?? null;
+    return response.data.data ?? null;
+  } catch {
+    return null;
+  }
 }

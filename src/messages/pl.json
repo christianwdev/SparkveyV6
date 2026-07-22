@@ -675,14 +675,14 @@
     }
   },
   "ProfileGeneral": {
-    "title": "Statystyki",
-    "subtitle": "Sprawdz swoje aktualne zarobki, statystyki i nie tylko",
+    "title": "Statistics",
+    "subtitle": "Have a look at your current earnings, stats and more",
     "cards": {
-      "tasks": "Zarobiono z zadan",
-      "videos": "Zarobiono z wideo",
-      "referrals": "Zarobiono z polecen",
-      "shopping": "Zarobiono z zakupow",
-      "promotions": "Zarobiono z promocji"
+      "tasks": "Task Earn",
+      "videos": "Video Earn",
+      "referrals": "Referrals",
+      "shopping": "Shopping",
+      "promotions": "Bonuses"
     }
   },
   "ProfileNav": {
@@ -694,7 +694,8 @@
       "general": "Ogolne",
       "rewards": "Nagrody",
       "activity": "Aktywnosc",
-      "settings": "Ustawienia"
+      "settings": "Ustawienia",
+      "sessions": "Sessions"
     }
   },
   "ProfileActivity": {
@@ -927,5 +928,38 @@
       "fetchGraphFailed": "Nie udalo sie pobrac danych wykresu",
       "copyCodeSuccess": "Kod skopiowano do schowka"
     }
+  },
+  "ErrorPage": {
+    "title": "Coś poszło nie tak",
+    "description": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie lub wróć na stronę główną.",
+    "reference": "Numer referencyjny",
+    "tryAgain": "Spróbuj ponownie",
+    "home": "Strona główna"
+  },
+  "ProfileLayout": {
+    "sparks": "Sparks",
+    "memberSince": "Członek od {date}",
+    "totalEarned": "Łącznie zarobione",
+    "withdrawn": "Wypłacone",
+    "balance": "Saldo",
+    "navLabel": "Sekcje profilu",
+    "earningsBreakdown": "Earnings breakdown",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "earned": {
+      "offers": "Oferty",
+      "surveys": "Ankiety",
+      "cashback": "Cashback",
+      "videos": "Filmy",
+      "affiliates": "Partnerzy",
+      "bonus": "Bonus"
+    }
+  },
+  "ProfileSessions": {
+    "metadataTitle": "Sparkvey | Sessions",
+    "metadataDescription": "Manage your active Sparkvey sessions.",
+    "title": "Sessions",
+    "subtitle": "Devices currently signed in to your account",
+    "empty": "Session management is coming soon."
   }
 }

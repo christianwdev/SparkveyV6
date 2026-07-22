@@ -37,6 +37,7 @@ function FeaturedOffersList({ initialHomepagePromise }: FeaturedOffersSectionPro
           offerImageUrl={offer.image}
           offerLink="/signup"
           totalReward={offer.totalReward}
+          operatingSystem={offer.operatingSystem}
         />
       ))}
     </div>

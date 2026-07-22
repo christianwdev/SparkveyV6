@@ -3,6 +3,7 @@ $content-max-width: 1180px;
 $border-radius: 12px;
 $navbar-height: 75px;
 $navbar-margin: 30px;
+$navbar-offset: $navbar-height + $navbar-margin;
 $padding: min(160px, 10%);
 
 $topnav-z-index: 3;
@@ -44,12 +45,20 @@ $light: var(--light);
 $backgroundColorDarkAlways: var(--backgroundColorDarkAlways);
 $textColorDarkAlways: var(--textColorDarkAlways);
 
+// Horizontal gutter only — keep max-width on an inner child, not the same element.
 @mixin standardPadding {
-  padding: 0 min(160px, 10%) 80px min(160px, 10%);
+  padding-left: $padding;
+  padding-right: $padding;
 
   @media screen and (max-width: $phone) {
-    padding: 0 20px 80px 20px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
+}
+
+@mixin pageBelowNavbar {
+  margin: $navbar-offset auto 0;
+  min-height: calc(100vh - #{$navbar-offset});
 }
 
 @mixin clamp-lines($lines) {

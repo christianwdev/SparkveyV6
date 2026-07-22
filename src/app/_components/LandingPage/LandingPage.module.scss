@@ -9,14 +9,13 @@
   z-index: 0;
   overflow: hidden;
 
-  padding-top: $navbar-height + $navbar-margin !important;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 32px;
 
-  padding-bottom: 0 !important;
   @include standardPadding;
+  padding-top: $navbar-offset;
 
   * {
     font-family: var(--font-inter), sans-serif;

@@ -1,36 +1,35 @@
 'use client';
 
-import { Suspense, use } from 'react';
 import { useTranslations } from 'next-intl';
 import SurveyItem from '@components/SurveyItem/SurveyItem';
+import { useSurveysQuery } from '@hooks/useSurveysQuery';
 import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 import styles from './page.module.scss';
 
 type SurveysPageClientProps = {
-  initialSurveysPromise: Promise<SanitizedCPXSurvey[] | null>;
+  initialSurveys: SanitizedCPXSurvey[] | null;
 };
 
 const SKELETON_COUNT = 21;
 
-function SurveysFallback() {
-  return (
-    <div className={styles.surveysGrid} aria-hidden>
-      {Array.from({ length: SKELETON_COUNT }, (_, index) => (
-        <SurveyItem key={index} loading />
-      ))}
-    </div>
-  );
-}
-
-function SurveysContent({ initialSurveysPromise }: SurveysPageClientProps) {
+export default function SurveysPageClient({ initialSurveys }: SurveysPageClientProps) {
   const t = useTranslations('SurveysPage');
-  const surveys = use(initialSurveysPromise);
+  const { data: surveys, isPending } = useSurveysQuery({
+    limit: 50,
+    initialData: initialSurveys,
+  });
 
-  if (surveys === null) {
-    return <p className={styles.statusMessage}>{t('error')}</p>;
+  if (isPending && !surveys) {
+    return (
+      <div className={styles.surveysGrid} aria-hidden>
+        {Array.from({ length: SKELETON_COUNT }, (_, index) => (
+          <SurveyItem key={index} loading />
+        ))}
+      </div>
+    );
   }
 
-  if (surveys.length === 0) {
+  if (!surveys || surveys.length === 0) {
     return <p className={styles.statusMessage}>{t('empty')}</p>;
   }
 
@@ -49,13 +48,5 @@ function SurveysContent({ initialSurveysPromise }: SurveysPageClientProps) {
         />
       ))}
     </div>
-  );
-}
-
-export default function SurveysPageClient(props: SurveysPageClientProps) {
-  return (
-    <Suspense fallback={<SurveysFallback />}>
-      <SurveysContent {...props} />
-    </Suspense>
   );
 }

@@ -84,7 +84,7 @@ export default async function FastAskWorker(): Promise<[ error: true ] | [ error
         geoRequirements: [],
         multiReward: false,
         reward,
-        totalReward: reward.reduce((pv, cv) => pv + (cv.value === 'variable' ? 0 : cv.value), 0),
+        totalReward: reward.reduce((total, item) => total + (item.value === 'variable' ? Infinity : item.value), 0),
         hash,
       });
     }

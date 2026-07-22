@@ -5,11 +5,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { usePopper } from 'react-popper';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
-import { Link, useRouter } from '@i18n/navigation';
+import { Link } from '@i18n/navigation';
 import { useUser } from '@contexts/UserProvider';
-import { clientRequest } from '@utils/clientRequest';
-import { getScope } from '@utils/scope';
-import type APIResponse from 'types/APIResponse';
+import { useLogout } from '@hooks/useLogout';
+import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 
 // Icons
 import ProfileIcon from '~icons/solar/user-rounded-linear.jsx';
@@ -22,28 +21,27 @@ import SignOutIcon from '~icons/solar/logout-2-linear.jsx';
 import styles from './UserDropdown.module.scss';
 
 const MENU_LINKS = [
-  { href: '/profile', labelKey: 'profile', Icon: ProfileIcon },
-  { href: '/profile/earnings', labelKey: 'earnings', Icon: EarningsIcon },
-  { href: '/profile/redemptions', labelKey: 'redemptions', Icon: RedemptionsIcon },
-  { href: '/profile/settings', labelKey: 'settings', Icon: SettingsIcon },
-  { href: '/affiliates', labelKey: 'affiliates', Icon: AffiliatesIcon },
+  { href: FrontendRedirectPaths.profile, labelKey: 'profile', Icon: ProfileIcon },
+  { href: FrontendRedirectPaths.profileEarnings, labelKey: 'earnings', Icon: EarningsIcon },
+  { href: FrontendRedirectPaths.profileRedemptions, labelKey: 'redemptions', Icon: RedemptionsIcon },
+  { href: FrontendRedirectPaths.profileSettings, labelKey: 'settings', Icon: SettingsIcon },
+  { href: FrontendRedirectPaths.affiliates, labelKey: 'affiliates', Icon: AffiliatesIcon },
 ];
 
 export default function UserDropdown() {
   const t = useTranslations('UserDropdown');
   const tNav = useTranslations('Navbar');
-  const router = useRouter();
-  const { user, setUser } = useUser();
+  const { user } = useUser();
+  const logout = useLogout();
 
   const [ active, setActive ] = useState(false);
-  const [ signingOut, setSigningOut ] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const [ referenceElement, setReferenceElement ] = useState<HTMLButtonElement | null>(null);
   const [ popperElement, setPopperElement ] = useState<HTMLDivElement | null>(null);
 
   const { styles: popperStyles, attributes, update } = usePopper(referenceElement, popperElement, {
     placement: 'bottom-end',
-    strategy: 'absolute',
+    strategy: 'fixed',
     modifiers: [
       {
         name: 'offset',
@@ -68,7 +66,7 @@ export default function UserDropdown() {
   useEffect(() => {
     if (!active) return;
 
-    function handleClick(e: MouseEvent) {
+    function handlePointerDown(e: PointerEvent) {
       if (!dropdownRef.current) return;
       if (dropdownRef.current.contains(e.target as Node)) return;
 
@@ -79,42 +77,27 @@ export default function UserDropdown() {
       if (e.key === 'Escape') setActive(false);
     }
 
-    document.addEventListener('click', handleClick);
+    function handlePopState() {
+      setActive(false);
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown);
     document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('popstate', handlePopState);
 
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('pointerdown', handlePointerDown);
       document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('popstate', handlePopState);
     };
   }, [ active ]);
 
   useEffect(() => {
     if (!active) return;
-    update?.();
+    void update?.();
   }, [ active, update ]);
 
   if (!user) return null;
-
-  async function handleSignOut() {
-    if (signingOut) return;
-
-    setSigningOut(true);
-
-    try {
-      await clientRequest<APIResponse<null>>({
-        url: `${getScope()}/auth/logout`,
-        method: 'POST',
-        credentials: 'include',
-      });
-    } catch {
-      // Clear local auth state even if the request fails.
-    } finally {
-      setUser(null);
-      setActive(false);
-      setSigningOut(false);
-      router.push('/');
-    }
-  }
 
   return (
     <div className={styles.userDropdown} ref={dropdownRef}>
@@ -122,7 +105,7 @@ export default function UserDropdown() {
         ref={setReferenceElement}
         type="button"
         className={styles.trigger}
-        onClick={() => setActive(!active)}
+        onClick={() => setActive(current => !current)}
         aria-label={tNav('a11y.avatarAlt')}
         aria-expanded={active}
         aria-haspopup="menu"
@@ -173,8 +156,11 @@ export default function UserDropdown() {
                 type="button"
                 role="menuitem"
                 className={styles.signOut}
-                onClick={handleSignOut}
-                disabled={signingOut}
+                onClick={() => {
+                  setActive(false);
+                  logout.mutate();
+                }}
+                disabled={logout.isPending}
               >
                 <SignOutIcon className={styles.itemIcon} aria-hidden />
                 <span>{t('signOut')}</span>

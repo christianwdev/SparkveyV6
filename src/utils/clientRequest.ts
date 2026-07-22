@@ -14,25 +14,28 @@ type ClientSideResponse<T> = {
 };
 
 async function clientRequest<ReturnType>(config: RequestConfig): Promise<ClientSideResponse<ReturnType>> {
-  const { url, credentials, ...fetchConfig } = config;
+  const { url, credentials, data, headers, ...fetchConfig } = config;
+  const method = (fetchConfig.method ?? 'GET').toUpperCase();
+  const hasBody = data !== undefined && method !== 'GET' && method !== 'HEAD';
 
-  try {
-    const response = await fetch(url, {
-      ...fetchConfig,
-      body: JSON.stringify(config.data),
-      credentials: credentials ?? 'omit',
-      headers: {
-        ...(fetchConfig.headers || {}),
-        'Content-Type': 'application/json',
-      } as Record<string, string>,
-    });
+  const response = await fetch(url, {
+    ...fetchConfig,
+    method,
+    ...(hasBody ? { body: JSON.stringify(data) } : {}),
+    credentials: credentials ?? 'omit',
+    headers: {
+      ...(headers || {}),
+      ...(hasBody ? { 'Content-Type': 'application/json' } : {}),
+    } as Record<string, string>,
+  });
 
-    const data = await response.json() as ReturnType;
-
-    return {
-      data,
-    };
-  } catch (err) {
-    throw err;
+  if (!response.ok) {
+    throw new Error(`Request failed (${response.status}) for ${url}`);
   }
+
+  const responseData = await response.json() as ReturnType;
+
+  return {
+    data: responseData,
+  };
 }

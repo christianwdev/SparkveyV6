@@ -40,19 +40,13 @@ const SCROLL_TOLERANCE = 2;
 const DEFAULT_OFFERS_PER_VIEW = 5;
 const DEFAULT_MAX_ROWS = 1;
 
-function resolveRowCount(offerCount: number, offersPerView: number, maxRows: number) {
-  if (maxRows <= 1 || offerCount < offersPerView * 2) {
+function resolveRowCount(itemCount: number, itemsPerView: number, maxRows: number) {
+  if (maxRows <= 1 || itemCount <= itemsPerView) {
     return 1;
   }
 
-  let rows = Math.min(maxRows, Math.floor(offerCount / offersPerView));
-
-  // Prefer a row count that splits offers evenly across rows.
-  while (rows > 1 && offerCount % rows !== 0) {
-    rows -= 1;
-  }
-
-  return Math.max(1, rows);
+  // Column-flow grid: use up to maxRows once there are enough items to wrap.
+  return Math.min(maxRows, Math.ceil(itemCount / itemsPerView));
 }
 
 export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
@@ -191,6 +185,7 @@ export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
                 offerImageUrl={offer.image}
                 offerLink={offer.trackingURL}
                 totalReward={offer.totalReward}
+                operatingSystem={offer.operatingSystem}
               />
             ))}
       </div>

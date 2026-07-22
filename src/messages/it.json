@@ -675,14 +675,14 @@
     }
   },
   "ProfileGeneral": {
-    "title": "Statistiche",
-    "subtitle": "Dai un'occhiata ai tuoi guadagni attuali, statistiche e altro",
+    "title": "Statistics",
+    "subtitle": "Have a look at your current earnings, stats and more",
     "cards": {
-      "tasks": "Guadagnato dai task",
-      "videos": "Guadagnato dai video",
-      "referrals": "Guadagnato dai referral",
-      "shopping": "Guadagnato dallo shopping",
-      "promotions": "Guadagnato dalle promozioni"
+      "tasks": "Task Earn",
+      "videos": "Video Earn",
+      "referrals": "Referrals",
+      "shopping": "Shopping",
+      "promotions": "Bonuses"
     }
   },
   "ProfileNav": {
@@ -694,7 +694,8 @@
       "general": "Generale",
       "rewards": "Premi",
       "activity": "Attivita",
-      "settings": "Impostazioni"
+      "settings": "Impostazioni",
+      "sessions": "Sessions"
     }
   },
   "ProfileActivity": {
@@ -927,5 +928,38 @@
       "fetchGraphFailed": "Impossibile recuperare i dati del grafico",
       "copyCodeSuccess": "Codice copiato negli appunti"
     }
+  },
+  "ErrorPage": {
+    "title": "Qualcosa è andato storto",
+    "description": "Si è verificato un errore imprevisto. Riprova oppure torna alla home.",
+    "reference": "Riferimento",
+    "tryAgain": "Riprova",
+    "home": "Vai alla home"
+  },
+  "ProfileLayout": {
+    "sparks": "Sparks",
+    "memberSince": "Membro dal {date}",
+    "totalEarned": "Totale guadagnato",
+    "withdrawn": "Prelevato",
+    "balance": "Saldo",
+    "navLabel": "Sezioni del profilo",
+    "earningsBreakdown": "Earnings breakdown",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "earned": {
+      "offers": "Offerte",
+      "surveys": "Sondaggi",
+      "cashback": "Cashback",
+      "videos": "Video",
+      "affiliates": "Affiliati",
+      "bonus": "Bonus"
+    }
+  },
+  "ProfileSessions": {
+    "metadataTitle": "Sparkvey | Sessions",
+    "metadataDescription": "Manage your active Sparkvey sessions.",
+    "title": "Sessions",
+    "subtitle": "Devices currently signed in to your account",
+    "empty": "Session management is coming soon."
   }
 }

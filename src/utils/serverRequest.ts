@@ -44,6 +44,12 @@ async function serverRequest<ReturnType>(config: RequestConfig): Promise<ServerS
       data,
     };
   } catch (err) {
-    throw err;
+    // Soft-fail during SSR so a down API does not 500 the whole Next tree
+    // (root layout and pages call this during render).
+    console.error(`[serverRequest] ${url}`, err);
+
+    return {
+      data: null as ReturnType,
+    };
   }
 }

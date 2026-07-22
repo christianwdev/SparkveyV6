@@ -9,6 +9,12 @@ import { Link } from '@i18n/navigation';
 // Types
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import type OperatingSystem from 'types/Offer/OperatingSystem';
+
+// Icons
+import AppleIcon from '~icons/mdi/apple.jsx';
+import AndroidIcon from '~icons/mdi/android.jsx';
+import WindowsIcon from '~icons/mdi/microsoft-windows.jsx';
 
 type OfferItemLoadedProps = {
   loading?: false;
@@ -17,6 +23,7 @@ type OfferItemLoadedProps = {
   offerImageUrl: string;
   offerLink: string;
   totalReward: number;
+  operatingSystem?: OperatingSystem[];
 };
 
 type OfferItemLoadingProps = {
@@ -48,6 +55,8 @@ export default function OfferItem(props: OfferItemProps) {
 
 function OfferItemLoaded(props: OfferItemLoadedProps) {
   const t = useTranslations('OfferItem');
+  const operatingSystem = props.operatingSystem ?? [];
+  const showAll = operatingSystem.length === 0;
 
   return (
     <Link href={props.offerLink} className={styles.offerItemContainer}>
@@ -73,6 +82,18 @@ function OfferItemLoaded(props: OfferItemLoadedProps) {
             />
           </>
         ) : null}
+
+        <div className={styles.icons}>
+          {(showAll || operatingSystem.includes('ios') || operatingSystem.includes('macos')) && (
+            <AppleIcon aria-hidden />
+          )}
+          {(showAll || operatingSystem.includes('windows')) && (
+            <WindowsIcon aria-hidden />
+          )}
+          {(showAll || operatingSystem.includes('android')) && (
+            <AndroidIcon aria-hidden />
+          )}
+        </div>
       </div>
 
       <div className={styles.offerInformation}>
@@ -90,7 +111,11 @@ function OfferItemLoaded(props: OfferItemLoadedProps) {
               height={11}
               width={11}
             />
-            <strong>{props.totalReward?.toLocaleString()}</strong>
+            <strong>
+              {Number.isFinite(props.totalReward)
+                ? props.totalReward.toLocaleString()
+                : '∞'}
+            </strong>
           </span>
         </p>
       </div>

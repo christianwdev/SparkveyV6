@@ -37,7 +37,7 @@ export default function EarnDropdown() {
 
   const { styles: popperStyles, attributes, update } = usePopper(referenceElement, popperElement, {
     placement: 'bottom-start',
-    strategy: 'absolute',
+    strategy: 'fixed',
     modifiers: [
       {
         name: 'offset',
@@ -62,7 +62,7 @@ export default function EarnDropdown() {
   useEffect(() => {
     if (!active) return;
 
-    function handleClick(e: MouseEvent) {
+    function handlePointerDown(e: PointerEvent) {
       if (!dropdownRef.current) return;
       if (dropdownRef.current.contains(e.target as Node)) return;
 
@@ -73,18 +73,24 @@ export default function EarnDropdown() {
       if (e.key === 'Escape') setActive(false);
     }
 
-    document.addEventListener('click', handleClick);
+    function handlePopState() {
+      setActive(false);
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown);
     document.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('popstate', handlePopState);
 
     return () => {
-      document.removeEventListener('click', handleClick);
+      document.removeEventListener('pointerdown', handlePointerDown);
       document.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('popstate', handlePopState);
     };
   }, [ active ]);
 
   useEffect(() => {
     if (!active) return;
-    update?.();
+    void update?.();
   }, [ active, update ]);
 
   return (

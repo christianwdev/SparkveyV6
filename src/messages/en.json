@@ -676,25 +676,26 @@
   },
   "ProfileGeneral": {
     "title": "Statistics",
-    "subtitle": "Have look at your current earnings, stats and more",
+    "subtitle": "Have a look at your current earnings, stats and more",
     "cards": {
-      "tasks": "Earned from Tasks",
-      "videos": "Earned from Videos",
-      "referrals": "Earned from Referrals",
-      "shopping": "Earned from Shopping",
-      "promotions": "Earned from Promotions"
+      "tasks": "Task Earn",
+      "videos": "Video Earn",
+      "referrals": "Referrals",
+      "shopping": "Shopping",
+      "promotions": "Bonuses"
     }
   },
   "ProfileNav": {
-    "vipLevel": "VIP 0",
+    "vipLevel": "Member",
     "earned": "earned",
     "nextLevel": "10,000 left till next level",
-    "referEarn": "Refer & Earn 5%",
+    "referEarn": "Refer to Earn",
     "tabs": {
-      "general": "General",
-      "rewards": "Rewards",
+      "settings": "Account Setting",
       "activity": "Activity",
-      "settings": "Settings"
+      "rewards": "Rewards",
+      "sessions": "Sessions",
+      "general": "General"
     }
   },
   "ProfileActivity": {
@@ -927,5 +928,38 @@
       "fetchGraphFailed": "Failed to fetch graph data",
       "copyCodeSuccess": "Code copied to clipboard"
     }
+  },
+  "ErrorPage": {
+    "title": "Something went wrong",
+    "description": "We hit an unexpected error. Try again, or head home if it keeps happening.",
+    "reference": "Reference",
+    "tryAgain": "Try again",
+    "home": "Go home"
+  },
+  "ProfileLayout": {
+    "sparks": "Sparks",
+    "memberSince": "Member since {date}",
+    "totalEarned": "Total earned",
+    "withdrawn": "Withdrawn",
+    "balance": "Balance",
+    "navLabel": "Profile sections",
+    "earningsBreakdown": "Earnings breakdown",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "earned": {
+      "offers": "Offers",
+      "surveys": "Surveys",
+      "cashback": "Cashback",
+      "videos": "Videos",
+      "affiliates": "Affiliates",
+      "bonus": "Bonus"
+    }
+  },
+  "ProfileSessions": {
+    "metadataTitle": "Sparkvey | Sessions",
+    "metadataDescription": "Manage your active Sparkvey sessions.",
+    "title": "Sessions",
+    "subtitle": "Devices currently signed in to your account",
+    "empty": "Session management is coming soon."
   }
 }

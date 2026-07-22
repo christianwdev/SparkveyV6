@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Link } from '@i18n/navigation';
 import { LOCALES } from '@i18n/routing';
+import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import LogoType from '@components/LogoType/LogoType';
 import LanguageSwitcher from './_components/LanguageSwitcher/LanguageSwitcher';
 import styles from './Footer.module.scss';
@@ -38,7 +39,7 @@ export default function Footer() {
           <div className={styles.category}>
             <p>{t('sparkvey')}</p>
             <Link href="/">{t('home')}</Link>
-            <Link href="/profile">{t('vip')}</Link>
+            <Link href={FrontendRedirectPaths.profile}>{t('vip')}</Link>
             <Link href="/affiliates">{t('affiliates')}</Link>
             <Link href="/redeem">{t('redeem')}</Link>
           </div>

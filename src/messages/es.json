@@ -675,14 +675,14 @@
     }
   },
   "ProfileGeneral": {
-    "title": "Estadisticas",
-    "subtitle": "Consulta tus ganancias actuales, estadisticas y mucho mas",
+    "title": "Statistics",
+    "subtitle": "Have a look at your current earnings, stats and more",
     "cards": {
-      "tasks": "Ganado en tareas",
-      "videos": "Ganado en videos",
-      "referrals": "Ganado en referidos",
-      "shopping": "Ganado en compras",
-      "promotions": "Ganado en promociones"
+      "tasks": "Task Earn",
+      "videos": "Video Earn",
+      "referrals": "Referrals",
+      "shopping": "Shopping",
+      "promotions": "Bonuses"
     }
   },
   "ProfileNav": {
@@ -694,7 +694,8 @@
       "general": "General",
       "rewards": "Recompensas",
       "activity": "Actividad",
-      "settings": "Configuracion"
+      "settings": "Configuracion",
+      "sessions": "Sessions"
     }
   },
   "ProfileActivity": {
@@ -927,5 +928,38 @@
       "fetchGraphFailed": "No se pudieron obtener los datos del grafico",
       "copyCodeSuccess": "Codigo copiado al portapapeles"
     }
+  },
+  "ErrorPage": {
+    "title": "Algo salió mal",
+    "description": "Ocurrió un error inesperado. Inténtalo de nuevo o vuelve al inicio.",
+    "reference": "Referencia",
+    "tryAgain": "Intentar de nuevo",
+    "home": "Ir al inicio"
+  },
+  "ProfileLayout": {
+    "sparks": "Sparks",
+    "memberSince": "Miembro desde {date}",
+    "totalEarned": "Total ganado",
+    "withdrawn": "Retirado",
+    "balance": "Saldo",
+    "navLabel": "Secciones del perfil",
+    "earningsBreakdown": "Earnings breakdown",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "earned": {
+      "offers": "Ofertas",
+      "surveys": "Encuestas",
+      "cashback": "Cashback",
+      "videos": "Videos",
+      "affiliates": "Afiliados",
+      "bonus": "Bonos"
+    }
+  },
+  "ProfileSessions": {
+    "metadataTitle": "Sparkvey | Sessions",
+    "metadataDescription": "Manage your active Sparkvey sessions.",
+    "title": "Sessions",
+    "subtitle": "Devices currently signed in to your account",
+    "empty": "Session management is coming soon."
   }
 }

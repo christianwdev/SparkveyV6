@@ -675,14 +675,14 @@
     }
   },
   "ProfileGeneral": {
-    "title": "통계",
-    "subtitle": "현재 수입, 통계 등을 살펴보세요.",
+    "title": "Statistics",
+    "subtitle": "Have a look at your current earnings, stats and more",
     "cards": {
-      "tasks": "작업에서 획득",
-      "videos": "동영상으로 수익 창출",
-      "referrals": "추천을 통해 수익을 창출하세요",
-      "shopping": "쇼핑으로 적립",
-      "promotions": "프로모션을 통해 획득"
+      "tasks": "Task Earn",
+      "videos": "Video Earn",
+      "referrals": "Referrals",
+      "shopping": "Shopping",
+      "promotions": "Bonuses"
     }
   },
   "ProfileNav": {
@@ -694,7 +694,8 @@
       "general": "일반",
       "rewards": "보상",
       "activity": "활동",
-      "settings": "설정"
+      "settings": "설정",
+      "sessions": "Sessions"
     }
   },
   "ProfileActivity": {
@@ -927,5 +928,38 @@
       "fetchGraphFailed": "그래프 데이터를 가져오지 못했습니다.",
       "copyCodeSuccess": "코드가 클립보드에 복사되었습니다."
     }
+  },
+  "ErrorPage": {
+    "title": "문제가 발생했습니다",
+    "description": "예상치 못한 오류가 발생했습니다. 다시 시도하거나 홈으로 이동해 주세요.",
+    "reference": "참조 코드",
+    "tryAgain": "다시 시도",
+    "home": "홈으로"
+  },
+  "ProfileLayout": {
+    "sparks": "Sparks",
+    "memberSince": "{date}부터 회원",
+    "totalEarned": "총 적립",
+    "withdrawn": "출금",
+    "balance": "잔액",
+    "navLabel": "프로필 섹션",
+    "earningsBreakdown": "Earnings breakdown",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "earned": {
+      "offers": "오퍼",
+      "surveys": "설문",
+      "cashback": "캐시백",
+      "videos": "영상",
+      "affiliates": "제휴",
+      "bonus": "보너스"
+    }
+  },
+  "ProfileSessions": {
+    "metadataTitle": "Sparkvey | Sessions",
+    "metadataDescription": "Manage your active Sparkvey sessions.",
+    "title": "Sessions",
+    "subtitle": "Devices currently signed in to your account",
+    "empty": "Session management is coming soon."
   }
 }

@@ -675,14 +675,14 @@
     }
   },
   "ProfileGeneral": {
-    "title": "統計",
-    "subtitle": "現在の収益、統計などを確認できます",
+    "title": "Statistics",
+    "subtitle": "Have a look at your current earnings, stats and more",
     "cards": {
-      "tasks": "タスクでの獲得",
-      "videos": "動画での獲得",
-      "referrals": "紹介での獲得",
-      "shopping": "ショッピングでの獲得",
-      "promotions": "プロモーションでの獲得"
+      "tasks": "Task Earn",
+      "videos": "Video Earn",
+      "referrals": "Referrals",
+      "shopping": "Shopping",
+      "promotions": "Bonuses"
     }
   },
   "ProfileNav": {
@@ -694,7 +694,8 @@
       "general": "概要",
       "rewards": "報酬",
       "activity": "アクティビティ",
-      "settings": "設定"
+      "settings": "設定",
+      "sessions": "Sessions"
     }
   },
   "ProfileActivity": {
@@ -927,5 +928,38 @@
       "fetchGraphFailed": "グラフデータの取得に失敗しました",
       "copyCodeSuccess": "コードをクリップボードにコピーしました"
     }
+  },
+  "ErrorPage": {
+    "title": "問題が発生しました",
+    "description": "予期しないエラーが発生しました。もう一度お試しいただくか、ホームに戻ってください。",
+    "reference": "参照コード",
+    "tryAgain": "再試行",
+    "home": "ホームへ"
+  },
+  "ProfileLayout": {
+    "sparks": "Sparks",
+    "memberSince": "{date}からメンバー",
+    "totalEarned": "合計獲得",
+    "withdrawn": "出金済み",
+    "balance": "残高",
+    "navLabel": "プロフィールセクション",
+    "earningsBreakdown": "Earnings breakdown",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "earned": {
+      "offers": "オファー",
+      "surveys": "アンケート",
+      "cashback": "キャッシュバック",
+      "videos": "動画",
+      "affiliates": "アフィリエイト",
+      "bonus": "ボーナス"
+    }
+  },
+  "ProfileSessions": {
+    "metadataTitle": "Sparkvey | Sessions",
+    "metadataDescription": "Manage your active Sparkvey sessions.",
+    "title": "Sessions",
+    "subtitle": "Devices currently signed in to your account",
+    "empty": "Session management is coming soon."
   }
 }

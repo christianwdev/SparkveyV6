@@ -1,12 +1,12 @@
 'use client';
 
-import { Suspense, use } from 'react';
 import OfferCarouselSection from '../OfferCarouselSection/OfferCarouselSection';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
+import { useHomepageOffers } from '@hooks/useHomepageOffers';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
 
 type OffersViewProps = {
-  initialHomepagePromise: Promise<HomepageOffersResponse | null>;
+  initialHomepage: HomepageOffersResponse | null;
   viewAllHref?: string;
   surveysViewAllHref?: string;
   maxRows?: number;
@@ -24,43 +24,18 @@ function surveysPerView(offersPerView?: number) {
   return Math.min(3, Math.max(1, offersPerView ?? 3));
 }
 
-function OffersViewFallback({
+export default function OffersView({
+  initialHomepage,
   viewAllHref,
-  surveysViewAllHref,
-  maxRows,
-  offersPerView,
-}: Omit<OffersViewProps, 'initialHomepagePromise'>) {
-  return (
-    <>
-      {OFFER_SECTION_KEYS.map((titleKey) => (
-        <OfferCarouselSection
-          key={titleKey}
-          titleKey={titleKey}
-          loading
-          viewAllHref={viewAllHref}
-          maxRows={maxRows}
-          offersPerView={offersPerView}
-        />
-      ))}
-      <OfferCarouselSection
-        titleKey="surveys"
-        loading
-        viewAllHref={surveysViewAllHref}
-        maxRows={maxRows}
-        offersPerView={surveysPerView(offersPerView)}
-      />
-    </>
-  );
-}
-
-function OffersViewContent({
-  initialHomepagePromise,
-  viewAllHref,
-  surveysViewAllHref,
+  surveysViewAllHref = FrontendRedirectPaths.surveys,
   maxRows,
   offersPerView,
 }: OffersViewProps) {
-  const homepage = use(initialHomepagePromise);
+  const { data: homepage, isPending } = useHomepageOffers({
+    initialData: initialHomepage,
+  });
+
+  const loading = isPending && !homepage;
 
   return (
     <>
@@ -68,6 +43,7 @@ function OffersViewContent({
         <OfferCarouselSection
           key={titleKey}
           titleKey={titleKey}
+          loading={loading}
           offers={homepage?.[titleKey]}
           viewAllHref={viewAllHref}
           maxRows={maxRows}
@@ -76,31 +52,12 @@ function OffersViewContent({
       ))}
       <OfferCarouselSection
         titleKey="surveys"
+        loading={loading}
         surveys={homepage?.surveys}
         viewAllHref={surveysViewAllHref}
         maxRows={maxRows}
         offersPerView={surveysPerView(offersPerView)}
       />
     </>
-  );
-}
-
-export default function OffersView(props: OffersViewProps) {
-  return (
-    <Suspense
-      fallback={(
-        <OffersViewFallback
-          viewAllHref={props.viewAllHref}
-          surveysViewAllHref={props.surveysViewAllHref ?? FrontendRedirectPaths.surveys}
-          maxRows={props.maxRows}
-          offersPerView={props.offersPerView}
-        />
-      )}
-    >
-      <OffersViewContent
-        {...props}
-        surveysViewAllHref={props.surveysViewAllHref ?? FrontendRedirectPaths.surveys}
-      />
-    </Suspense>
   );
 }

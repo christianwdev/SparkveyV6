@@ -3,9 +3,8 @@
 .surveysPage {
   width: 100%;
   max-width: $content-max-width;
-  min-height: calc(100vh - #{$navbar-height});
-  margin: $navbar-height auto 0;
-  padding: 32px 0 64px;
+  margin: 0 auto;
+  padding: 0 0 64px;
   box-sizing: border-box;
 
   display: flex;

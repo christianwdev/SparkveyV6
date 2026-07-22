@@ -3,7 +3,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 
 // Utils
 import { getSiteStatistics } from '@utils/landing';
-import { clientRequest } from '@utils/clientRequest';
+import { serverRequest } from '@utils/serverRequest';
 
 // Hooks
 import { Link } from '@i18n/navigation';
@@ -12,7 +12,7 @@ import LogoType from '@components/LogoType/LogoType';
 export default async function AuthenticationLayout(props: { children: React.ReactNode }) {
   const locale = await getLocale();
   const t = await getTranslations('AuthLayout');
-  const usdEarned = await getSiteStatistics({ request: clientRequest });
+  const usdEarned = await getSiteStatistics({ request: serverRequest });
 
   const usdEarnedString = usdEarned.toLocaleString(locale, { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).split('');
 

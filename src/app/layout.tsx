@@ -14,6 +14,9 @@ import { serverRequest } from '@utils/serverRequest';
 import { UserProvider } from '@contexts/UserProvider';
 import { SocketProvider } from '@contexts/SocketContext';
 import MotionProvider from '@contexts/MotionProvider';
+import QueryProvider from '@contexts/QueryProvider';
+import PreserveNextHistoryState from '@contexts/PreserveNextHistoryState';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 const inter = Inter({
   subsets: [ 'latin' ],
@@ -99,14 +102,19 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         />
       </head>
       <body>
-        <SocketProvider>
-          <UserProvider initialUser={user}>
-            <MotionProvider>
-              <ToastContainer position="bottom-right" />
-              {children}
-            </MotionProvider>
-          </UserProvider>
-        </SocketProvider>
+        <NuqsAdapter>
+          <PreserveNextHistoryState />
+          <QueryProvider>
+            <SocketProvider>
+              <UserProvider initialUser={user}>
+                <MotionProvider>
+                  <ToastContainer position="bottom-right" />
+                  {children}
+                </MotionProvider>
+              </UserProvider>
+            </SocketProvider>
+          </QueryProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

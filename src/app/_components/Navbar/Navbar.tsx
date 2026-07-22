@@ -39,9 +39,9 @@ export default function Navbar({ showLinks }: NavbarProps) {
   return (
     <div className={styles.navbarWrapper}>
       <div className={styles.contentWrapper}>
-        <div className={styles.logo}>
+        <Link href={FrontendRedirectPaths.home} className={styles.logo}>
           <LogoType highlight={true} />
-        </div>
+        </Link>
 
         {shouldShowLinks && (
           <div className={styles.links}>

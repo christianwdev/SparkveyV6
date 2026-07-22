@@ -2,8 +2,14 @@
 
 .homePage {
   width: 100%;
-  max-width: $content-max-width;
-  min-height: calc(100vh - #{$navbar-height});
-  margin: $navbar-height auto 0;
-  padding: 24px 0 48px 0;
+  @include pageBelowNavbar;
+  @include standardPadding;
+  padding-bottom: 48px;
+
+  > .content {
+    width: 100%;
+    max-width: $content-max-width;
+    margin: 0 auto;
+  }
 }
+

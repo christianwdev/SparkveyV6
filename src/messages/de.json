@@ -675,14 +675,14 @@
     }
   },
   "ProfileGeneral": {
-    "title": "Statistiken",
-    "subtitle": "Sieh dir deine aktuellen Einnahmen, Statistiken und mehr an",
+    "title": "Statistics",
+    "subtitle": "Have a look at your current earnings, stats and more",
     "cards": {
-      "tasks": "Durch Aufgaben verdient",
-      "videos": "Durch Videos verdient",
-      "referrals": "Durch Empfehlungen verdient",
-      "shopping": "Durch Shopping verdient",
-      "promotions": "Durch Promotionen verdient"
+      "tasks": "Task Earn",
+      "videos": "Video Earn",
+      "referrals": "Referrals",
+      "shopping": "Shopping",
+      "promotions": "Bonuses"
     }
   },
   "ProfileNav": {
@@ -694,7 +694,8 @@
       "general": "Allgemein",
       "rewards": "Belohnungen",
       "activity": "Aktivitaet",
-      "settings": "Einstellungen"
+      "settings": "Einstellungen",
+      "sessions": "Sessions"
     }
   },
   "ProfileActivity": {
@@ -927,5 +928,38 @@
       "fetchGraphFailed": "Diagrammdaten konnten nicht geladen werden",
       "copyCodeSuccess": "Code in die Zwischenablage kopiert"
     }
+  },
+  "ErrorPage": {
+    "title": "Etwas ist schiefgelaufen",
+    "description": "Es ist ein unerwarteter Fehler aufgetreten. Bitte versuche es erneut oder gehe zur Startseite.",
+    "reference": "Referenz",
+    "tryAgain": "Erneut versuchen",
+    "home": "Zur Startseite"
+  },
+  "ProfileLayout": {
+    "sparks": "Sparks",
+    "memberSince": "Mitglied seit {date}",
+    "totalEarned": "Insgesamt verdient",
+    "withdrawn": "Ausgezahlt",
+    "balance": "Guthaben",
+    "navLabel": "Profilbereiche",
+    "earningsBreakdown": "Earnings breakdown",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "earned": {
+      "offers": "Angebote",
+      "surveys": "Umfragen",
+      "cashback": "Cashback",
+      "videos": "Videos",
+      "affiliates": "Partner",
+      "bonus": "Bonus"
+    }
+  },
+  "ProfileSessions": {
+    "metadataTitle": "Sparkvey | Sessions",
+    "metadataDescription": "Manage your active Sparkvey sessions.",
+    "title": "Sessions",
+    "subtitle": "Devices currently signed in to your account",
+    "empty": "Session management is coming soon."
   }
 }

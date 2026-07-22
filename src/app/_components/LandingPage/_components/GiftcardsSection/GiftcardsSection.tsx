@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styles from './GiftcardsSection.module.scss';
 import { useTranslations } from 'next-intl';
 
@@ -26,24 +27,26 @@ export default function GiftcardsSection() {
       <div className={styles.giftcardsSlider}>
         <div className={styles.giftcardsList}>
           {giftcardsList.map((giftcard) => (
-            <img
+            <Image
               src={giftcard.logo}
               alt={giftcard.name}
               key={giftcard.name}
               height={40}
-              loading="lazy"
+              width={120}
+              style={{ width: 'auto', height: 40 }}
             />
           ))}
         </div>
 
         <div className={styles.giftcardsList} aria-hidden="true">
           {giftcardsList.map((giftcard) => (
-            <img
+            <Image
               src={giftcard.logo}
-              alt={giftcard.name}
+              alt=""
               key={giftcard.name}
               height={40}
-              loading="lazy"
+              width={120}
+              style={{ width: 'auto', height: 40 }}
             />
           ))}
         </div>

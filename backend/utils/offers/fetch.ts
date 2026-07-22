@@ -10,7 +10,22 @@ import { withCache } from '../cache';
 import type InternalOffer from 'types/Offer/InternalOffer';
 import type { InternalOfferEarning } from 'types/Earnings/InternalEarning';
 import type OfferType from 'types/Offer/OfferType';
+import type OfferWallType from 'types/Offer/OfferWallType';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
+import {
+  DEFAULT_BROWSE_OFFERS_SORT,
+  type BrowseOffersSort,
+} from 'types/Offer/BrowseOffersSort';
+
+export type BrowseOffersParams = {
+  country: string;
+  categories?: OfferType[];
+  providers?: OfferWallType[];
+  search?: string;
+  sort?: BrowseOffersSort;
+  skip?: number;
+  limit?: number;
+};
 
 const SECTION_LIMIT = 20;
 const CACHE_TTL_SECONDS = 900; // 15 minutes
@@ -301,4 +316,134 @@ export async function getHomepageOffers({
     finance: fillFromBag(financeFromWeekly, financeFill, SECTION_LIMIT),
     surveys: [],
   };
+}
+
+/** Browse/search offers for the tasks page. */
+export async function browseOffers({
+  country,
+  categories = [],
+  providers = [],
+  search,
+  sort = DEFAULT_BROWSE_OFFERS_SORT,
+  skip = 0,
+  limit = 28,
+}: BrowseOffersParams): Promise<InternalOffer[]> {
+  const { db } = getGlobalObject();
+  const safeSkip = Math.max(0, skip);
+  const safeLimit = Math.min(Math.max(1, limit), 50);
+
+  const match: Record<string, unknown> = {
+    status: 'active',
+    geosBlacklist: { $nin: [ country ] },
+    $and: [
+      {
+        $or: [
+          { geoUnrestricted: true },
+          { geos: country },
+        ],
+      },
+    ],
+  };
+
+  if (categories.length > 0) {
+    match.offerType = { $in: categories };
+  }
+
+  if (providers.length > 0) {
+    match.provider = { $in: providers };
+  }
+
+  const trimmedSearch = search?.trim();
+
+  if (trimmedSearch) {
+    // Escape regex metacharacters so user input is matched literally.
+    const pattern = trimmedSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    (match.$and as Record<string, unknown>[]).push({
+      $or: [
+        { name: { $regex: pattern, $options: 'i' } },
+        { displayName: { $regex: pattern, $options: 'i' } },
+        { description: { $regex: pattern, $options: 'i' } },
+      ],
+    });
+  }
+
+  let sortStage: Record<string, 1 | -1>;
+
+  switch (sort) {
+    case 'low_to_high_reward':
+      sortStage = { sortReward: 1, updatedAt: -1, offerID: 1 };
+      break;
+    case 'featured':
+      sortStage = { hasFeatured: -1, featuredPriority: 1, updatedAt: -1, offerID: 1 };
+      break;
+    case 'a-z':
+      sortStage = { name: 1, offerID: 1 };
+      break;
+    case 'z-a':
+      sortStage = { name: -1, offerID: 1 };
+      break;
+    case 'high_to_low_reward':
+    default:
+      sortStage = { sortReward: -1, updatedAt: -1, offerID: 1 };
+      break;
+  }
+
+  const offers = await db
+    .collection<InternalOffer>(DatabaseCollections.offers)
+    .aggregate<InternalOffer>([
+      { $match: match },
+      {
+        $addFields: {
+          // Infinity / variable payouts sort as 0; displayed totalReward stays Infinity.
+          sortReward: {
+            $cond: [
+              {
+                $or: [
+                  { $eq: [ '$totalReward', Infinity ] },
+                  {
+                    $gt: [
+                      {
+                        $size: {
+                          $filter: {
+                            input: { $ifNull: [ '$reward', [] ] },
+                            as: 'reward',
+                            cond: { $eq: [ '$$reward.value', 'variable' ] },
+                          },
+                        },
+                      },
+                      0,
+                    ],
+                  },
+                ],
+              },
+              0,
+              { $ifNull: [ '$totalReward', 0 ] },
+            ],
+          },
+          hasFeatured: {
+            $cond: [
+              { $in: [ { $type: '$featuredPriority' }, [ 'double', 'int', 'long', 'decimal' ] ] },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+      { $sort: sortStage },
+      { $skip: safeSkip },
+      { $limit: safeLimit },
+      {
+        $project: {
+          sortReward: 0,
+          hasFeatured: 0,
+        },
+      },
+    ])
+    .toArray();
+
+  return offers.map((offer) => (
+    offer.reward?.some(reward => reward.value === 'variable')
+      ? { ...offer, totalReward: Infinity }
+      : offer
+  ));
 }

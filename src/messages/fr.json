@@ -675,14 +675,14 @@
     }
   },
   "ProfileGeneral": {
-    "title": "Statistiques",
-    "subtitle": "Consultez vos gains actuels, vos stats et plus encore",
+    "title": "Statistics",
+    "subtitle": "Have a look at your current earnings, stats and more",
     "cards": {
-      "tasks": "Gagné via les tâches",
-      "videos": "Gagné via les vidéos",
-      "referrals": "Gagné via les parrainages",
-      "shopping": "Gagné via le shopping",
-      "promotions": "Gagné via les promotions"
+      "tasks": "Task Earn",
+      "videos": "Video Earn",
+      "referrals": "Referrals",
+      "shopping": "Shopping",
+      "promotions": "Bonuses"
     }
   },
   "ProfileNav": {
@@ -694,7 +694,8 @@
       "general": "Général",
       "rewards": "Récompenses",
       "activity": "Activité",
-      "settings": "Paramètres"
+      "settings": "Paramètres",
+      "sessions": "Sessions"
     }
   },
   "ProfileActivity": {
@@ -927,5 +928,38 @@
       "fetchGraphFailed": "Échec de récupération des données du graphique",
       "copyCodeSuccess": "Code copié dans le presse-papiers"
     }
+  },
+  "ErrorPage": {
+    "title": "Une erreur est survenue",
+    "description": "Une erreur inattendue s'est produite. Réessaie ou retourne à l'accueil.",
+    "reference": "Référence",
+    "tryAgain": "Réessayer",
+    "home": "Accueil"
+  },
+  "ProfileLayout": {
+    "sparks": "Sparks",
+    "memberSince": "Membre depuis {date}",
+    "totalEarned": "Total gagné",
+    "withdrawn": "Retiré",
+    "balance": "Solde",
+    "navLabel": "Sections du profil",
+    "earningsBreakdown": "Earnings breakdown",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "earned": {
+      "offers": "Offres",
+      "surveys": "Sondages",
+      "cashback": "Cashback",
+      "videos": "Vidéos",
+      "affiliates": "Affiliés",
+      "bonus": "Bonus"
+    }
+  },
+  "ProfileSessions": {
+    "metadataTitle": "Sparkvey | Sessions",
+    "metadataDescription": "Manage your active Sparkvey sessions.",
+    "title": "Sessions",
+    "subtitle": "Devices currently signed in to your account",
+    "empty": "Session management is coming soon."
   }
 }

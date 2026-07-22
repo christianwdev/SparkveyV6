@@ -4,6 +4,7 @@
   width: 100%;
   margin-top: auto;
   background: #F6F7F7;
+  @include standardPadding;
 
   > .content {
     width: 100%;

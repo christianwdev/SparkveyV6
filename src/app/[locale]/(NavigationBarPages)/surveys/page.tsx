@@ -34,7 +34,7 @@ export default async function Page({ params }: PageProps) {
     redirect({ href: FrontendRedirectPaths.login, locale: locale as AppLocale });
   }
 
-  const initialSurveysPromise = getSurveys({
+  const initialSurveys = await getSurveys({
     request: serverRequest,
     limit: 50,
   });
@@ -46,7 +46,7 @@ export default async function Page({ params }: PageProps) {
         <p>{t('description')}</p>
       </div>
 
-      <SurveysPageClient initialSurveysPromise={initialSurveysPromise} />
+      <SurveysPageClient initialSurveys={initialSurveys} />
     </main>
   );
 }
