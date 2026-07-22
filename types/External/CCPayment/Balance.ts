@@ -7,4 +7,3 @@ export type CCPaymentBalance = {
   available_balance: string;
   frozen_balance: string;
 };
-

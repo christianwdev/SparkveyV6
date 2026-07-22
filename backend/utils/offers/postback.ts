@@ -15,10 +15,7 @@ import type { NormalizedPostback } from "types/Postback/NormalizedPostback";
 import type FunctionResponse from "types/FunctionResponse";
 
 async function getHoldDuration({
-  offerID,
   value,
-  userID,
-  userIP,
 }: {
   offerID: string;
   value: number;

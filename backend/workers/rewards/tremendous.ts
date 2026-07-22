@@ -1,6 +1,3 @@
-// Utils
-import { getGlobalObject } from '../../utils/globalObject';
-
 // Types
 import type ExternalTremendousReward from 'types/External/Tremendous/TremendousReward';
 import type InternalReward from 'types/Reward/InternalReward';
@@ -30,10 +27,6 @@ export default async function TremendousWorker(): Promise<[ error: true ] | [ er
 }
 
 async function fetchTremendousRewards(): Promise<[ error: true ] | [ error: false, data: InternalReward[], hasMore: boolean ]> {
-  const {
-    db,
-  } = getGlobalObject();
-
   const httpRequest = await fetch(`${TREMENDOUS_ENDPOINT}/api/v2/products`, {
     method: 'GET',
     headers: {
@@ -147,24 +140,4 @@ function buildDenominationTremendousReward(
   };
 
   return builtReward;
-}
-
-function convertCurrencyToUSD(
-  {
-    amount,
-    currencyCode,
-    rates,
-  }: {
-    amount: number,
-    currencyCode: string,
-    rates: Record<string, number>,
-  },
-): number | null {
-  if (currencyCode === 'USD') return amount;
-
-  const currencyRate = rates[currencyCode];
-
-  if (!currencyRate || currencyRate <= 0) return null;
-
-  return amount / currencyRate;
 }

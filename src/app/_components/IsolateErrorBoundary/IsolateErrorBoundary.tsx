@@ -1,6 +1,6 @@
 'use client';
 
-import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Component, type ReactNode } from 'react';
 import { reportError } from '@utils/reportError';
 
 type IsolateErrorBoundaryProps = {
@@ -27,7 +27,7 @@ export default class IsolateErrorBoundary extends Component<
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, _info: ErrorInfo) {
+  componentDidCatch(error: Error) {
     reportError(error, {
       source: this.props.source ?? 'isolate-boundary',
     });

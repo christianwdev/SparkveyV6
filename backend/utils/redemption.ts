@@ -131,14 +131,7 @@ async function buildRedemption({
   }
 }
 
-async function shouldRedemptionBeInstant({
-  requestAmount,
-  userID,
-}: {
-  requestAmount: number;
-  userID: string;
-}): Promise<boolean> {
-
+async function shouldRedemptionBeInstant(): Promise<boolean> {
   return false;
 }
 
@@ -185,10 +178,7 @@ export async function handlePurchase({
 
     if (!balanceResult.ok) throw new Error(balanceResult.error);
 
-    const isInstant = await shouldRedemptionBeInstant({
-      requestAmount: value,
-      userID: user.userID,
-    });
+    const isInstant = await shouldRedemptionBeInstant();
 
     const redemption: NewInternalRedemption = {
       ...redemptionResult.data,

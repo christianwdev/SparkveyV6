@@ -13,4 +13,3 @@ export type CCPaymentWithdrawResponse = {
     recordId: string,
   };
 };
-

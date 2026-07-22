@@ -98,12 +98,10 @@ export default function routeInvoker() {
         email,
         username,
         password,
-        sessionID: _sessionID,
-        referralCode: _referralCode,
       } = c.req.valid('json');
 
-      // TODO: wire sessionID (_sessionID) — e.g. merge anonymous session on register
-      // TODO: wire referralCode (_referralCode)
+      // TODO: wire sessionID — e.g. merge anonymous session on register
+      // TODO: wire referralCode
 
       const normalizedEmail = sanitizeEmail(email);
       if (!normalizedEmail) {

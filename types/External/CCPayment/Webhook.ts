@@ -4,4 +4,3 @@ export type CCPaymentWebhookPayload = {
   timestamp: string;
   data: unknown; // Specific payload depends on msg_type
 };
-

@@ -139,6 +139,16 @@ const sparkveyPlugin = {
 
 /** @type {import("eslint").Linter.Config[]} */
 const eslintConfig = [
+  {
+    ignores: [
+      "**/.next/**",
+      "**/out/**",
+      "**/build/**",
+      "**/node_modules/**",
+      "next-env.d.ts",
+      "src/next-env.d.ts",
+    ],
+  },
   ...nextCoreWebVitals,
   ...nextTypescript,
   {

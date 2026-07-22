@@ -84,6 +84,29 @@ export default function AlreadyHaveOAuthAccount(
               </Text>
             </Column>
           </Row>
+          <Row
+            style={{
+              margin: '20px 0px',
+            }}
+          >
+            <Column>
+              <Link
+                href={redirectURL}
+                style={{
+                  color: 'white',
+                  backgroundColor: colors.primary,
+                  padding: '16px 24px',
+                  borderRadius: '4px',
+                  fontSize: '0.9em',
+                  fontWeight: '600',
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                Sign in
+              </Link>
+            </Column>
+          </Row>
           <Row>
             <Column>
               <Text>

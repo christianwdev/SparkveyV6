@@ -18,6 +18,7 @@ export type BrowseOffersFilters = {
 
 type UseBrowseOffersParams = BrowseOffersFilters & {
   initialOffers?: InternalOffer[];
+
   /** Filters used when `initialOffers` was fetched on the server. */
   initialFilters?: BrowseOffersFilters;
 };

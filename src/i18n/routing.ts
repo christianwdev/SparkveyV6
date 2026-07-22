@@ -13,4 +13,3 @@ export type AppLocale = (typeof LOCALES)[number];
 export function isSupportedLocale(locale: string): locale is AppLocale {
   return LOCALES.includes(locale as AppLocale);
 }
-

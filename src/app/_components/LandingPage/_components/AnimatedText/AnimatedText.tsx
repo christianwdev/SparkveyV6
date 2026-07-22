@@ -7,58 +7,67 @@ type AnimatedTextProps = {
   words: string[];
 };
 
+const FALLBACK_WORDS = [ 'Rewards' ];
+
 export default function AnimatedText({ words }: AnimatedTextProps) {
   const position = useRef<number>(0);
   const rewardWordTextRef = useRef<HTMLSpanElement | null>(null);
   const rewardWordContainerRef = useRef<HTMLSpanElement | null>(null);
-  const safeWords = words.length > 0 ? words : [ 'Rewards' ];
+  const safeWords = words.length > 0 ? words : FALLBACK_WORDS;
 
-  const startRewardWordAnimation = async () => {
-    const textEl = rewardWordTextRef.current;
-    const containerEl = rewardWordContainerRef.current;
+  useEffect(() => {
+    if (safeWords.length < 2) return;
 
-    if (!textEl || !containerEl) {
-      return;
-    }
+    let cancelled = false;
 
-    const measuredWidth = Math.ceil(textEl.getBoundingClientRect().width);
-    containerEl.style.width = `${measuredWidth}px`;
+    const startRewardWordAnimation = () => {
+      const textEl = rewardWordTextRef.current;
+      const containerEl = rewardWordContainerRef.current;
 
-    const animateUp = textEl.animate([
-      { transform: 'translateY(0)', opacity: 1 },
-      { transform: 'translateY(-22px)', opacity: 0 },
-    ], {
-      delay: 2000,
-      duration: 460,
-      easing: 'ease-in-out',
-    });
+      if (!textEl || !containerEl || cancelled) {
+        return;
+      }
 
-    animateUp.onfinish = () => {
-      if (!rewardWordTextRef.current || !rewardWordContainerRef.current) return;
+      const measuredWidth = Math.ceil(textEl.getBoundingClientRect().width);
+      containerEl.style.width = `${measuredWidth}px`;
 
-      position.current = (position.current + 1) % safeWords.length;
-      rewardWordTextRef.current.textContent = safeWords[position.current];
-
-      const nextWidth = Math.ceil(rewardWordTextRef.current.getBoundingClientRect().width);
-      rewardWordContainerRef.current.style.width = `${nextWidth}px`;
-
-      const animateDown = rewardWordTextRef.current?.animate([
-        { transform: 'translateY(22px)', opacity: 0 },
+      const animateUp = textEl.animate([
         { transform: 'translateY(0)', opacity: 1 },
+        { transform: 'translateY(-22px)', opacity: 0 },
       ], {
+        delay: 2000,
         duration: 460,
         easing: 'ease-in-out',
       });
 
-      animateDown.onfinish = () => {
-        startRewardWordAnimation();
+      animateUp.onfinish = () => {
+        if (cancelled || !rewardWordTextRef.current || !rewardWordContainerRef.current) return;
+
+        position.current = (position.current + 1) % safeWords.length;
+        rewardWordTextRef.current.textContent = safeWords[position.current];
+
+        const nextWidth = Math.ceil(rewardWordTextRef.current.getBoundingClientRect().width);
+        rewardWordContainerRef.current.style.width = `${nextWidth}px`;
+
+        const animateDown = rewardWordTextRef.current.animate([
+          { transform: 'translateY(22px)', opacity: 0 },
+          { transform: 'translateY(0)', opacity: 1 },
+        ], {
+          duration: 460,
+          easing: 'ease-in-out',
+        });
+
+        animateDown.onfinish = () => {
+          startRewardWordAnimation();
+        };
       };
     };
-  };
 
-  useEffect(() => {
-    if (safeWords.length < 2) return;
     startRewardWordAnimation();
+
+    return () => {
+      cancelled = true;
+    };
   }, [ safeWords ]);
 
   return (

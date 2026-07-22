@@ -52,7 +52,8 @@ export function validateRewardValue({
   }
 
   switch (reward.providerName) {
-    case 'ccpayment': {
+    case 'ccpayment':
+      {
       if (value < reward.meta.minimumAmount) {
         return { ok: false, error: 'valueTooLow' };
       }
@@ -64,7 +65,8 @@ export function validateRewardValue({
       break;
     }
 
-    case 'tremendous': {
+    case 'tremendous':
+      {
       if (reward.meta.type === 'variable') {
         if (value < reward.meta.minimumValue) {
           return { ok: false, error: 'valueTooLow' };
