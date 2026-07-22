@@ -713,7 +713,11 @@
       "activityId": "활동 ID",
       "status": "상태",
       "releaseDate": "출시일",
-      "reversedAt": "취소일"
+      "reversedAt": "취소일",
+      "type": "유형",
+      "offer": "오퍼",
+      "provider": "제공자",
+      "earned": "적립"
     },
     "extraInformation": {
       "title": "추가 정보",
@@ -722,7 +726,19 @@
       "activityId": "활동 ID",
       "offerId": "쿠폰 ID",
       "retailerId": "소매점 ID"
-    }
+    },
+    "statuses": {
+      "completed": "완료",
+      "providerPending": "대기 중",
+      "held": "보류",
+      "reversed": "취소됨"
+    },
+    "statusDates": {
+      "held": "{date}에 지급",
+      "reversed": "{date}에 취소됨"
+    },
+    "copyActivityId": "활동 ID 복사",
+    "copied": "복사됨"
   },
   "ProfileRewards": {
     "title": "이전 보상",
@@ -737,6 +753,13 @@
       "status": "상태",
       "date": "날짜",
       "actions": "작업"
+    },
+    "statuses": {
+      "pending": "대기 중",
+      "approved": "승인됨",
+      "completed": "완료",
+      "failed": "실패",
+      "rejected": "거절됨"
     }
   },
   "ProfileSettings": {
@@ -953,6 +976,12 @@
       "videos": "영상",
       "affiliates": "제휴",
       "bonus": "보너스"
+    },
+    "nav": {
+      "earnings": "수익",
+      "redemptions": "환전",
+      "settings": "설정",
+      "sessions": "세션"
     }
   },
   "ProfileSessions": {
@@ -960,6 +989,25 @@
     "metadataDescription": "Manage your active Sparkvey sessions.",
     "title": "Sessions",
     "subtitle": "Devices currently signed in to your account",
-    "empty": "Session management is coming soon."
+    "empty": "활성 세션이 없습니다.",
+    "table": {
+      "device": "기기",
+      "location": "위치",
+      "ipAddress": "IP 주소",
+      "issued": "발급일",
+      "lastAccessed": "최근 접속",
+      "expires": "만료",
+      "current": "현재",
+      "actions": "작업",
+      "revoke": "취소",
+      "unknownLocation": "알 수 없음"
+    }
+  },
+  "Pagination": {
+    "label": "페이지 매김",
+    "previous": "이전 페이지",
+    "next": "다음 페이지",
+    "page": "{page}페이지",
+    "range": "{start}–{end}"
   }
 }

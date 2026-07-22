@@ -53,16 +53,39 @@ export function getIPFromRequest(c: Context): string | undefined {
   return forwarded ?? forwardedFor ?? realIP;
 }
 
+export function getUserAgentFromRequest(c: Context): string | undefined {
+  const passthrough = c.req.header('nextjs-passthrough-user-agent');
+  if (passthrough) return passthrough;
+
+  return c.req.header('user-agent') || undefined;
+}
+
 export function getCountryFromRequest(c: Context): string | undefined {
   if (process.env.NODE_ENV !== 'production') return 'US';
 
   const passthrough = c.req.header('nextjs-passthrough-ip-country') as string;
   const cfIPCountry = c.req.header('cf-ipcountry') as string;
 
-  if (passthrough) return passthrough;
-  if (cfIPCountry) return cfIPCountry;
+  if (passthrough) return passthrough || undefined;
+  if (cfIPCountry && cfIPCountry !== 'XX' && cfIPCountry !== 'T1') return cfIPCountry;
 
-  return '';
+  return undefined;
+}
+
+export function getCityFromRequest(c: Context): string | undefined {
+  if (process.env.NODE_ENV !== 'production') return 'Dallas';
+
+  const passthrough = c.req.header('nextjs-passthrough-ip-city') as string;
+  const cfIPCity = c.req.header('cf-ipcity') as string;
+  const city = passthrough || cfIPCity;
+
+  if (!city) return undefined;
+
+  try {
+    return decodeURIComponent(city.replace(/\+/g, ' ')).trim() || undefined;
+  } catch {
+    return city.trim() || undefined;
+  }
 }
 
 export function getIPFromSocket(socket: TypedSocket): string | undefined {

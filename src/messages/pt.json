@@ -710,10 +710,14 @@
       "date": "Data",
       "reward": "Recompensa",
       "activity": "Atividade",
-      "activityId": "ID da Atividade",
+      "activityId": "ID da atividade",
       "status": "Status",
       "releaseDate": "Data de Liberação",
-      "reversedAt": "Revertido em"
+      "reversedAt": "Revertido em",
+      "type": "Tipo",
+      "offer": "Oferta",
+      "provider": "Provedor",
+      "earned": "Ganho"
     },
     "extraInformation": {
       "title": "Informações Extras",
@@ -722,7 +726,19 @@
       "activityId": "ID da Atividade",
       "offerId": "ID da Oferta",
       "retailerId": "ID do Varejista"
-    }
+    },
+    "statuses": {
+      "completed": "Concluído",
+      "providerPending": "Pendente",
+      "held": "Retido",
+      "reversed": "Revertido"
+    },
+    "statusDates": {
+      "held": "Libera em {date}",
+      "reversed": "Revertido em {date}"
+    },
+    "copyActivityId": "Copiar ID da atividade",
+    "copied": "Copiado"
   },
   "ProfileRewards": {
     "title": "Recompensas Anteriores",
@@ -737,6 +753,13 @@
       "status": "Status",
       "date": "Data",
       "actions": "Ações"
+    },
+    "statuses": {
+      "pending": "Pendente",
+      "approved": "Aprovado",
+      "completed": "Concluído",
+      "failed": "Falhou",
+      "rejected": "Rejeitado"
     }
   },
   "ProfileSettings": {
@@ -953,6 +976,12 @@
       "videos": "Vídeos",
       "affiliates": "Afiliados",
       "bonus": "Bônus"
+    },
+    "nav": {
+      "earnings": "Ganhos",
+      "redemptions": "Resgates",
+      "settings": "Configurações",
+      "sessions": "Sessões"
     }
   },
   "ProfileSessions": {
@@ -960,6 +989,25 @@
     "metadataDescription": "Manage your active Sparkvey sessions.",
     "title": "Sessions",
     "subtitle": "Devices currently signed in to your account",
-    "empty": "Session management is coming soon."
+    "empty": "Nenhuma sessão ativa encontrada.",
+    "table": {
+      "device": "Dispositivo",
+      "location": "Localização",
+      "ipAddress": "Endereço IP",
+      "issued": "Emitida",
+      "lastAccessed": "Último acesso",
+      "expires": "Expira",
+      "current": "Atual",
+      "actions": "Ações",
+      "revoke": "Revogar",
+      "unknownLocation": "Desconhecida"
+    }
+  },
+  "Pagination": {
+    "label": "Paginação",
+    "previous": "Página anterior",
+    "next": "Próxima página",
+    "page": "Página {page}",
+    "range": "{start}–{end}"
   }
 }

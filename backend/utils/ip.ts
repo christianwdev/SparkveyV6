@@ -64,3 +64,21 @@ export function isIPWhitelisted(
 
   return whitelist.some(entry => matchIPEntry(normalizedIP, entry));
 }
+
+export function maskIPAddress(ipAddress?: string): string {
+  if (!ipAddress) return '•••';
+
+  const normalized = normalizeIP(ipAddress);
+
+  if (normalized.includes(':')) {
+    const groups = normalized.split(':').filter(Boolean);
+    if (groups.length === 0) return '•••';
+
+    return `${groups.slice(0, 2).join(':')}:••••`;
+  }
+
+  const octets = normalized.split('.');
+  if (octets.length !== 4) return '•••';
+
+  return `${octets[0]}.${octets[1]}.***.***`;
+}

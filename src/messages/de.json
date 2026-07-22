@@ -710,10 +710,14 @@
       "date": "Datum",
       "reward": "Belohnung",
       "activity": "Aktivitaet",
-      "activityId": "Aktivitaets-ID",
+      "activityId": "Aktivitäts-ID",
       "status": "Status",
       "releaseDate": "Freigabedatum",
-      "reversedAt": "Storniert am"
+      "reversedAt": "Storniert am",
+      "type": "Typ",
+      "offer": "Angebot",
+      "provider": "Anbieter",
+      "earned": "Verdient"
     },
     "extraInformation": {
       "title": "Zusaetzliche Informationen",
@@ -722,7 +726,19 @@
       "activityId": "Aktivitaets-ID",
       "offerId": "Angebots-ID",
       "retailerId": "Haendler-ID"
-    }
+    },
+    "statuses": {
+      "completed": "Abgeschlossen",
+      "providerPending": "Ausstehend",
+      "held": "Einbehalten",
+      "reversed": "Storniert"
+    },
+    "statusDates": {
+      "held": "Freigabe am {date}",
+      "reversed": "Storniert am {date}"
+    },
+    "copyActivityId": "Aktivitäts-ID kopieren",
+    "copied": "Kopiert"
   },
   "ProfileRewards": {
     "title": "Bisherige Belohnungen",
@@ -737,6 +753,13 @@
       "status": "Status",
       "date": "Datum",
       "actions": "Aktionen"
+    },
+    "statuses": {
+      "pending": "Ausstehend",
+      "approved": "Genehmigt",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen",
+      "rejected": "Abgelehnt"
     }
   },
   "ProfileSettings": {
@@ -953,6 +976,12 @@
       "videos": "Videos",
       "affiliates": "Partner",
       "bonus": "Bonus"
+    },
+    "nav": {
+      "earnings": "Einnahmen",
+      "redemptions": "Auszahlungen",
+      "settings": "Einstellungen",
+      "sessions": "Sitzungen"
     }
   },
   "ProfileSessions": {
@@ -960,6 +989,25 @@
     "metadataDescription": "Manage your active Sparkvey sessions.",
     "title": "Sessions",
     "subtitle": "Devices currently signed in to your account",
-    "empty": "Session management is coming soon."
+    "empty": "Keine aktiven Sitzungen gefunden.",
+    "table": {
+      "device": "Gerät",
+      "location": "Standort",
+      "ipAddress": "IP-Adresse",
+      "issued": "Ausgestellt",
+      "lastAccessed": "Zuletzt verwendet",
+      "expires": "Läuft ab",
+      "current": "Aktuell",
+      "actions": "Aktionen",
+      "revoke": "Widerrufen",
+      "unknownLocation": "Unbekannt"
+    }
+  },
+  "Pagination": {
+    "label": "Seitennummerierung",
+    "previous": "Vorherige Seite",
+    "next": "Nächste Seite",
+    "page": "Seite {page}",
+    "range": "{start}–{end}"
   }
 }

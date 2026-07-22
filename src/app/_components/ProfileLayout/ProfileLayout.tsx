@@ -2,6 +2,8 @@
 
 import { useRef, useState } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
+import { Link, usePathname } from '@i18n/navigation';
+import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import style from './ProfileLayout.module.scss';
 
 // Components
@@ -15,21 +17,23 @@ import CopyIcon from '~icons/solar/copy-linear.jsx';
 import CheckIcon from '~icons/solar/check-read-linear.jsx';
 import GraphUpIcon from '~icons/solar/graph-up-linear.jsx';
 import CardSendIcon from '~icons/solar/card-send-linear.jsx';
-import WalletIcon from '~icons/solar/wallet-money-linear.jsx';
+import GiftIcon from '~icons/solar/gift-linear.jsx';
+import EarningsIcon from '~icons/solar/chart-linear.jsx';
+import SettingsIcon from '~icons/solar/settings-linear.jsx';
+import SessionsIcon from '~icons/solar/devices-linear.jsx';
 
-const EARNED_CATEGORIES = [
-  'offers',
-  'surveys',
-  'cashback',
-  'videos',
-  'affiliates',
-  'bonus',
+const PROFILE_NAV = [
+  { href: FrontendRedirectPaths.profileEarnings, labelKey: 'earnings', Icon: EarningsIcon },
+  { href: FrontendRedirectPaths.profileRedemptions, labelKey: 'redemptions', Icon: GiftIcon },
+  { href: FrontendRedirectPaths.profileSettings, labelKey: 'settings', Icon: SettingsIcon },
+  { href: FrontendRedirectPaths.profileSessions, labelKey: 'sessions', Icon: SessionsIcon },
 ] as const;
 
 export default function ProfileLayout({ children }: { children: React.ReactNode }) {
   const { user } = useUser();
   const t = useTranslations('ProfileLayout');
   const formatter = useFormatter();
+  const pathname = usePathname();
   const [ copied, setCopied ] = useState(false);
   const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -49,18 +53,10 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
 
   const { earned, withdrawn } = user.statistics;
   const summaryStats = [
-    { label: t('totalEarned'), value: earned.total, Icon: GraphUpIcon },
-    { label: t('withdrawn'), value: withdrawn, Icon: CardSendIcon },
-    { label: t('balance'), value: user.balance.sparks, Icon: WalletIcon },
+    { key: 'total', label: t('totalEarned'), value: earned.total, Icon: GraphUpIcon },
+    { key: 'withdrawn', label: t('withdrawn'), value: withdrawn, Icon: CardSendIcon },
+    { key: 'bonus', label: t('earned.bonus'), value: earned.bonus, Icon: GiftIcon },
   ];
-
-  const breakdown = EARNED_CATEGORIES
-    .map((key) => ({
-      key,
-      label: t(`earned.${key}`),
-      value: earned[key],
-    }))
-    .filter((item) => item.value > 0);
 
   return (
     <div className={style.profileLayoutContainer}>
@@ -80,7 +76,6 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
               {copied ? <CheckIcon aria-hidden /> : <CopyIcon aria-hidden />}
             </button>
           </div>
-
           <div className={style.xpContainer}>
             <div className={style.xpContainerHeader}>
               <p className={style.xpLabel}>Silver</p>
@@ -92,56 +87,49 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
           </div>
         </div>
 
-        <div className={style.userStats}>
-          <div className={style.summaryStats}>
-            {summaryStats.map(({ label, value, Icon }) => (
-              <div key={label} className={style.stat}>
-                <div className={style.statIcon} aria-hidden>
-                  <Icon />
-                </div>
-                <div className={style.statContent}>
-                  <p className={style.statLabel}>{label}</p>
-                  <p className={style.statValue}>
-                    <Image
-                      src="/img/logo.svg"
-                      alt=""
-                      width={14}
-                      height={14}
-                      aria-hidden
-                    />
-                    <span>{formatter.number(value)}</span>
-                  </p>
-                </div>
+        <div className={style.statistics}>
+          {summaryStats.map(({ key, label, value, Icon }) => (
+            <div key={key} className={style.statCard}>
+              <div className={style.statCardHeader}>
+                <Icon aria-hidden />
+                <p>{label}</p>
               </div>
-            ))}
-          </div>
-
-          {earned.total > 0 && breakdown.length > 0 && (
-            <div className={style.earningsBreakdown}>
-              <p className={style.breakdownTitle}>{t('earningsBreakdown')}</p>
-              <div className={style.breakdownBar} aria-hidden>
-                {breakdown.map((item) => (
-                  <span
-                    key={item.key}
-                    data-category={item.key}
-                    style={{ flexGrow: item.value, flexBasis: 0 }}
-                  />
-                ))}
+              <div className={style.statCardValue}>
+                <Image
+                  src="/img/logo.svg"
+                  alt=""
+                  width={14}
+                  height={14}
+                  aria-hidden
+                />
+                <p>{formatter.number(value)}</p>
               </div>
-              <ul className={style.breakdownLegend}>
-                {breakdown.map((item) => (
-                  <li key={item.key}>
-                    <span className={style.swatch} data-category={item.key} aria-hidden />
-                    <span className={style.legendLabel}>{item.label}</span>
-                    <span className={style.legendValue}>{formatter.number(item.value)}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
-          )}
+          ))}
         </div>
       </div>
-      {children}
+
+      <nav className={style.profileNav} aria-label={t('navLabel')}>
+        {PROFILE_NAV.map(({ href, labelKey, Icon }) => {
+          const isActive = pathname === href || pathname.startsWith(`${href}/`);
+
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={[ style.navLink, isActive ? style.navLinkActive : '' ].filter(Boolean).join(' ')}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              <Icon aria-hidden />
+              <span>{t(`nav.${labelKey}`)}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className={style.profileContent}>
+        {children}
+      </div>
     </div>
   );
 }

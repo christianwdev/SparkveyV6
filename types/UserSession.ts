@@ -12,6 +12,8 @@ type Session = {
   currentIPAddress: string,
 
   userAgent?: string,
+  country?: string,
+  city?: string,
 
   twoFactor?: {
     verified: boolean,

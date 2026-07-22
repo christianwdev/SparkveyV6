@@ -710,10 +710,14 @@
       "date": "Date",
       "reward": "Récompense",
       "activity": "Activité",
-      "activityId": "ID d'activité",
+      "activityId": "ID d’activité",
       "status": "Statut",
       "releaseDate": "Date de libération",
-      "reversedAt": "Annulé le"
+      "reversedAt": "Annulé le",
+      "type": "Type",
+      "offer": "Offre",
+      "provider": "Fournisseur",
+      "earned": "Gagné"
     },
     "extraInformation": {
       "title": "Informations supplémentaires",
@@ -722,7 +726,19 @@
       "activityId": "ID d'activité",
       "offerId": "ID de l'offre",
       "retailerId": "ID du marchand"
-    }
+    },
+    "statuses": {
+      "completed": "Terminé",
+      "providerPending": "En attente",
+      "held": "En retenue",
+      "reversed": "Annulé"
+    },
+    "statusDates": {
+      "held": "Libéré le {date}",
+      "reversed": "Annulé le {date}"
+    },
+    "copyActivityId": "Copier l’ID d’activité",
+    "copied": "Copié"
   },
   "ProfileRewards": {
     "title": "Récompenses précédentes",
@@ -737,6 +753,13 @@
       "status": "Statut",
       "date": "Date",
       "actions": "Actions"
+    },
+    "statuses": {
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "completed": "Terminé",
+      "failed": "Échoué",
+      "rejected": "Refusé"
     }
   },
   "ProfileSettings": {
@@ -953,6 +976,12 @@
       "videos": "Vidéos",
       "affiliates": "Affiliés",
       "bonus": "Bonus"
+    },
+    "nav": {
+      "earnings": "Gains",
+      "redemptions": "Retraits",
+      "settings": "Paramètres",
+      "sessions": "Sessions"
     }
   },
   "ProfileSessions": {
@@ -960,6 +989,25 @@
     "metadataDescription": "Manage your active Sparkvey sessions.",
     "title": "Sessions",
     "subtitle": "Devices currently signed in to your account",
-    "empty": "Session management is coming soon."
+    "empty": "Aucune session active trouvée.",
+    "table": {
+      "device": "Appareil",
+      "location": "Localisation",
+      "ipAddress": "Adresse IP",
+      "issued": "Émise",
+      "lastAccessed": "Dernier accès",
+      "expires": "Expire",
+      "current": "Actuelle",
+      "actions": "Actions",
+      "revoke": "Révoquer",
+      "unknownLocation": "Inconnue"
+    }
+  },
+  "Pagination": {
+    "label": "Pagination",
+    "previous": "Page précédente",
+    "next": "Page suivante",
+    "page": "Page {page}",
+    "range": "{start}–{end}"
   }
 }

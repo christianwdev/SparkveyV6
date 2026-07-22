@@ -713,7 +713,11 @@
       "activityId": "アクティビティID",
       "status": "ステータス",
       "releaseDate": "解除日",
-      "reversedAt": "取消日"
+      "reversedAt": "取消日",
+      "type": "種類",
+      "offer": "オファー",
+      "provider": "プロバイダー",
+      "earned": "獲得"
     },
     "extraInformation": {
       "title": "追加情報",
@@ -722,7 +726,19 @@
       "activityId": "アクティビティID",
       "offerId": "オファーID",
       "retailerId": "小売業者ID"
-    }
+    },
+    "statuses": {
+      "completed": "完了",
+      "providerPending": "保留中",
+      "held": "ホールド",
+      "reversed": "取消済み"
+    },
+    "statusDates": {
+      "held": "{date}に解放",
+      "reversed": "{date}に取消"
+    },
+    "copyActivityId": "アクティビティIDをコピー",
+    "copied": "コピーしました"
   },
   "ProfileRewards": {
     "title": "過去の報酬",
@@ -737,6 +753,13 @@
       "status": "ステータス",
       "date": "日付",
       "actions": "操作"
+    },
+    "statuses": {
+      "pending": "保留中",
+      "approved": "承認済み",
+      "completed": "完了",
+      "failed": "失敗",
+      "rejected": "拒否"
     }
   },
   "ProfileSettings": {
@@ -953,6 +976,12 @@
       "videos": "動画",
       "affiliates": "アフィリエイト",
       "bonus": "ボーナス"
+    },
+    "nav": {
+      "earnings": "収益",
+      "redemptions": "換金",
+      "settings": "設定",
+      "sessions": "セッション"
     }
   },
   "ProfileSessions": {
@@ -960,6 +989,25 @@
     "metadataDescription": "Manage your active Sparkvey sessions.",
     "title": "Sessions",
     "subtitle": "Devices currently signed in to your account",
-    "empty": "Session management is coming soon."
+    "empty": "アクティブなセッションはありません。",
+    "table": {
+      "device": "デバイス",
+      "location": "場所",
+      "ipAddress": "IPアドレス",
+      "issued": "発行日",
+      "lastAccessed": "最終アクセス",
+      "expires": "有効期限",
+      "current": "現在",
+      "actions": "操作",
+      "revoke": "取り消す",
+      "unknownLocation": "不明"
+    }
+  },
+  "Pagination": {
+    "label": "ページネーション",
+    "previous": "前のページ",
+    "next": "次のページ",
+    "page": "{page}ページ",
+    "range": "{start}–{end}"
   }
 }

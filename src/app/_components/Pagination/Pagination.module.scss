@@ -1,0 +1,75 @@
+@use '@styles/variables.scss' as *;
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  > .range {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: $text-light;
+  }
+
+  > .controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    > .arrow,
+    > .pageGroup > .pageButton {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 8px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: $text-bold;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+
+      &:hover:not(:disabled) {
+        background: $light-gray;
+      }
+
+      &:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+    }
+
+    > .arrow {
+      > svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    > .pageGroup {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+
+      > .ellipsis {
+        min-width: 20px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+      }
+
+      > .pageButtonActive {
+        background: $light-gray;
+        color: $text-bold;
+      }
+    }
+  }
+}

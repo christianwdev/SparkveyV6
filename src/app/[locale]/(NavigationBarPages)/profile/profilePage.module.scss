@@ -1,0 +1,174 @@
+@use '@styles/variables.scss' as *;
+
+.profilePage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    > h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-light;
+    }
+  }
+
+  .tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    z-index: 2;
+    min-width: max-content;
+    max-width: 280px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: $text-bold;
+    color: $background;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: none;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .activityId {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: $text-light;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      color: $primary;
+    }
+
+    &:hover > .tooltip,
+    &:focus-visible > .tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  .sparkValue {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    > img {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .status {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: $light-gray;
+    font-size: 12px;
+    font-weight: 500;
+    color: $text-light;
+    text-transform: capitalize;
+
+    &[data-tone='positive'] {
+      color: $green;
+    }
+
+    &[data-tone='warning'] {
+      color: $orange;
+    }
+
+    &[data-tone='negative'] {
+      color: $red;
+    }
+
+    &[data-has-tooltip='true'] {
+      cursor: help;
+    }
+
+    &:hover > .tooltip,
+    &:focus-visible > .tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+
+  .deviceCell {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    > .deviceIcon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: $text-light;
+      flex-shrink: 0;
+
+      > svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .currentBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: $light-gray;
+    color: $primary;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .actionLink {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: $primary;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      text-decoration: underline;
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+}

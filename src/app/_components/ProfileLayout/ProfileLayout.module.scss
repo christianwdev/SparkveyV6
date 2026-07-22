@@ -9,6 +9,7 @@
   > .profileLayoutHeader {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 12px;
 
     border-radius: 12px;
@@ -22,151 +23,13 @@
       border-radius: 10px;
     }
 
-    > .userStats {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 14px;
-      margin-left: auto;
-      padding-left: 24px;
-      border-left: 1px solid $border-light;
-      min-width: 0;
-
-      > .summaryStats {
-        display: flex;
-        align-items: stretch;
-        gap: 16px;
-
-        > .stat {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          min-width: 0;
-
-          > .statIcon {
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba($primary, 0.1);
-            color: $primary;
-
-            > svg {
-              width: 18px;
-              height: 18px;
-            }
-          }
-
-          > .statContent {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            min-width: 0;
-
-            > .statLabel {
-              font-size: 13px;
-              font-weight: 500;
-              color: $text-light;
-              white-space: nowrap;
-            }
-
-            > .statValue {
-              display: flex;
-              align-items: center;
-              gap: 4px;
-              font-size: 16px;
-              font-weight: 600;
-              color: $primary;
-
-              > img {
-                width: 14px;
-                height: 14px;
-              }
-            }
-          }
-        }
-      }
-
-      > .earningsBreakdown {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-
-        > .breakdownTitle {
-          font-size: 12px;
-          font-weight: 500;
-          color: $text-light;
-        }
-
-        > .breakdownBar {
-          display: flex;
-          width: 100%;
-          height: 6px;
-          border-radius: 999px;
-          overflow: hidden;
-          background: $border-light;
-
-          > span {
-            min-width: 2px;
-            height: 100%;
-
-            &[data-category='offers'] { background: $primary; }
-            &[data-category='surveys'] { background: #4B7BEC; }
-            &[data-category='cashback'] { background: $orange; }
-            &[data-category='videos'] { background: $yellow; }
-            &[data-category='affiliates'] { background: $green; }
-            &[data-category='bonus'] { background: #E85D9A; }
-          }
-        }
-
-        > .breakdownLegend {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px 14px;
-          margin: 0;
-          padding: 0;
-          list-style: none;
-
-          > li {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 500;
-
-            > .swatch {
-              width: 8px;
-              height: 8px;
-              border-radius: 50%;
-              flex-shrink: 0;
-
-              &[data-category='offers'] { background: $primary; }
-              &[data-category='surveys'] { background: #4B7BEC; }
-              &[data-category='cashback'] { background: $orange; }
-              &[data-category='videos'] { background: $yellow; }
-              &[data-category='affiliates'] { background: $green; }
-              &[data-category='bonus'] { background: #E85D9A; }
-            }
-
-            > .legendLabel {
-              color: $text-light;
-            }
-
-            > .legendValue {
-              color: $text-bold;
-            }
-          }
-        }
-      }
-    }
-
     > .userInformation {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       height: 100px;
-      gap: 4px;
+      margin-right: 52px;
+      gap: 8px;
 
       min-width: 200px;
 
@@ -209,7 +72,7 @@
         flex-direction: column;
         align-items: flex-start;
         margin-top: auto;
-        gap: 8px;
+        gap: 4px;
 
         > .xpContainerHeader {
           display: flex;
@@ -246,5 +109,113 @@
         }
       }
     }
+
+    > .statistics {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+      justify-content: flex-end;
+      flex: 1;
+      gap: 8px;
+
+      > .statCard {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+        min-width: 112px;
+        flex: 1;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: $light-gray;
+
+        > .statCardHeader {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: $text-light;
+
+          > svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+          }
+
+          > p {
+            font-size: 14px;
+            font-weight: 500;
+          }
+        }
+
+        > .statCardValue {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+
+          > img {
+            width: 14px;
+            height: 14px;
+          }
+
+          > p {
+            font-size: 18px;
+            font-weight: 600;
+            color: $text-bold;
+          }
+        }
+      }
+
+      @media screen and (max-width: $large-phone) {
+        margin-left: 0;
+        width: 100%;
+
+        > .statCard {
+          flex: 1;
+          min-width: 0;
+        }
+      }
+    }
+  }
+
+  > .profileNav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    overflow-x: auto;
+
+    > .navLink {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-light;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+
+      > svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+
+      &:hover {
+        color: $text-bold;
+        background: $light-gray;
+      }
+
+      &.navLinkActive {
+        color: $text-bold;
+        background: $light-gray;
+      }
+    }
+  }
+
+  > .profileContent {
+    margin-top: 24px;
   }
 }

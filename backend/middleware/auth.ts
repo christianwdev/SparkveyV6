@@ -2,7 +2,11 @@
 import { consumeSession } from '../utils/session';
 import { getRawUser } from '../utils/user';
 import { getCookie } from 'hono/cookie';
-import { getIPFromRequest } from '../utils/request';
+import {
+  getCityFromRequest,
+  getCountryFromRequest,
+  getIPFromRequest,
+} from '../utils/request';
 import { sendResponse } from '../utils/response';
 
 // Types
@@ -10,6 +14,14 @@ import type { Context, Next } from 'hono';
 import type InternalUser from 'types/User/InternalUser';
 import type UserSession from 'types/UserSession';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
+
+function getSessionConsumeContext(c: Context) {
+  return {
+    ipAddress: getIPFromRequest(c) || '',
+    country: getCountryFromRequest(c),
+    city: getCityFromRequest(c),
+  };
+}
 
 export async function optionalAuth(c: Context<{ Variables: { user: InternalUser } }>, next: Next) {
   const sessionID = getCookie(c, 'sessionID');
@@ -20,7 +32,7 @@ export async function optionalAuth(c: Context<{ Variables: { user: InternalUser 
     sessionParams: {
       sessionID,
     },
-    ipAddress: getIPFromRequest(c) || '',
+    ...getSessionConsumeContext(c),
   });
 
   if (!sessionResult.ok) return await next();
@@ -45,7 +57,7 @@ export async function requireAuth(c: Context<{ Variables: { user: InternalUser, 
     sessionParams: {
       sessionID,
     },
-    ipAddress: c.req.header('x-forwarded-for') || '',
+    ...getSessionConsumeContext(c),
   });
 
   if (!sessionResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
@@ -71,7 +83,7 @@ export async function requireUserID(c: Context<{ Variables: { userID: string } }
     sessionParams: {
       sessionID,
     },
-    ipAddress: getIPFromRequest(c) || '',
+    ...getSessionConsumeContext(c),
   });
 
   if (!sessionResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });
@@ -91,7 +103,7 @@ export function requireAdmin(permission?: StaffPermissions) {
       sessionParams: {
         sessionID,
       },
-      ipAddress: getIPFromRequest(c) || '',
+      ...getSessionConsumeContext(c),
     });
 
     if (!sessionResult.ok) return sendResponse({ c, status: 401, success: false, message: 'This session is no longer valid' });

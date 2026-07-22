@@ -713,7 +713,11 @@
       "activityId": "Activity ID",
       "status": "Status",
       "releaseDate": "Release Date",
-      "reversedAt": "Reversed On"
+      "reversedAt": "Reversed On",
+      "type": "Type",
+      "offer": "Offer",
+      "provider": "Provider",
+      "earned": "Earned"
     },
     "extraInformation": {
       "title": "Extra Information",
@@ -722,7 +726,19 @@
       "activityId": "Activity ID",
       "offerId": "Offer ID",
       "retailerId": "Retailer ID"
-    }
+    },
+    "statuses": {
+      "completed": "Completed",
+      "providerPending": "Pending",
+      "held": "Held",
+      "reversed": "Reversed"
+    },
+    "statusDates": {
+      "held": "Releases {date}",
+      "reversed": "Reversed on {date}"
+    },
+    "copyActivityId": "Copy activity ID",
+    "copied": "Copied"
   },
   "ProfileRewards": {
     "title": "Previous Rewards",
@@ -737,6 +753,13 @@
       "status": "Status",
       "date": "Date",
       "actions": "Actions"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "completed": "Completed",
+      "failed": "Failed",
+      "rejected": "Rejected"
     }
   },
   "ProfileSettings": {
@@ -953,6 +976,12 @@
       "videos": "Videos",
       "affiliates": "Affiliates",
       "bonus": "Bonus"
+    },
+    "nav": {
+      "earnings": "Earnings",
+      "redemptions": "Redemptions",
+      "settings": "Settings",
+      "sessions": "Sessions"
     }
   },
   "ProfileSessions": {
@@ -960,6 +989,25 @@
     "metadataDescription": "Manage your active Sparkvey sessions.",
     "title": "Sessions",
     "subtitle": "Devices currently signed in to your account",
-    "empty": "Session management is coming soon."
+    "empty": "No active sessions found.",
+    "table": {
+      "device": "Device",
+      "location": "Location",
+      "ipAddress": "IP address",
+      "issued": "Issued",
+      "lastAccessed": "Last accessed",
+      "expires": "Expires",
+      "current": "Current",
+      "actions": "Actions",
+      "revoke": "Revoke",
+      "unknownLocation": "Unknown"
+    }
+  },
+  "Pagination": {
+    "label": "Pagination",
+    "previous": "Previous page",
+    "next": "Next page",
+    "page": "Page {page}",
+    "range": "{start}–{end}"
   }
 }

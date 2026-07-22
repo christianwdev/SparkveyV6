@@ -35,6 +35,7 @@ async function serverRequest<ReturnType>(config: RequestConfig): Promise<ServerS
         [NextJSPassthroughHeaders.ip]: nextHeaders.get('cf-connecting-ip') ?? '',
         [NextJSPassthroughHeaders.userAgent]: nextHeaders.get('user-agent') ?? '',
         [NextJSPassthroughHeaders.ipCountry]: nextHeaders.get('cf-ipcountry') ?? '',
+        [NextJSPassthroughHeaders.ipCity]: nextHeaders.get('cf-ipcity') ?? '',
       } as Record<string, string>,
     });
 
