@@ -4,7 +4,6 @@ import {
   useCallback,
   useEffect,
   useId,
-  useRef,
   useState,
   type CSSProperties,
   type ReactNode,
@@ -31,16 +30,16 @@ type TooltipCoords = {
 
 export default function PortalTooltip({ content, children }: PortalTooltipProps) {
   const tooltipId = useId();
-  const anchorRef = useRef<HTMLElement | null>(null);
+  const [ anchor, setAnchor ] = useState<HTMLElement | null>(null);
+  const [ portalRoot, setPortalRoot ] = useState<Element | null>(null);
   const [ coords, setCoords ] = useState<TooltipCoords | null>(null);
-  const [ mounted, setMounted ] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
+  const setAnchorRef = useCallback((node: HTMLElement | null) => {
+    setAnchor(node);
+    setPortalRoot(node?.closest(`.${styles.profilePage}`) ?? null);
   }, []);
 
   const updatePosition = useCallback(() => {
-    const anchor = anchorRef.current;
     if (!anchor) return;
 
     const rect = anchor.getBoundingClientRect();
@@ -48,7 +47,7 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
       left: rect.left + (rect.width / 2),
       top: rect.top - 8,
     });
-  }, []);
+  }, [ anchor ]);
 
   const show = useCallback(() => {
     updatePosition();
@@ -78,8 +77,6 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
     }
     : undefined;
 
-  const portalRoot = anchorRef.current?.closest(`.${styles.profilePage}`) ?? null;
-
   return (
     <>
       {children({
@@ -88,11 +85,9 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
         onFocus: show,
         onMouseEnter: show,
         onMouseLeave: hide,
-        ref: (node) => {
-          anchorRef.current = node;
-        },
+        ref: setAnchorRef,
       })}
-      {mounted && coords && portalRoot
+      {coords && portalRoot
         ? createPortal(
           <span
             id={tooltipId}

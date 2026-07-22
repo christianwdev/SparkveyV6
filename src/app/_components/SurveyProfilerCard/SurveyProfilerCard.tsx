@@ -4,27 +4,23 @@ import { useTranslations } from 'next-intl';
 import styles from './SurveyProfilerCard.module.scss';
 
 import UserIdIcon from '~icons/mdi/card-account-details-outline.jsx';
-import ArrowRightIcon from '~icons/mdi/arrow-right.jsx';
 
 type SurveyProfilerCardProps = {
-  onClick: () => void;
   variant?: 'grid' | 'carousel';
 };
 
+/** Visual stub until the profiler flow is rebuilt. */
 export default function SurveyProfilerCard({
-  onClick,
   variant = 'grid',
 }: SurveyProfilerCardProps) {
   const t = useTranslations('SurveysPage.profiler');
 
   return (
-    <button
-      type="button"
+    <div
       className={[
         styles.profilerCard,
         variant === 'carousel' ? styles.carousel : '',
       ].filter(Boolean).join(' ')}
-      onClick={onClick}
     >
       <div className={styles.media}>
         <UserIdIcon aria-hidden className={styles.icon} />
@@ -36,10 +32,7 @@ export default function SurveyProfilerCard({
         <p className={styles.description}>{t('description')}</p>
       </div>
 
-      <span className={styles.cta}>
-        {t('cta')}
-        <ArrowRightIcon aria-hidden />
-      </span>
-    </button>
+      <span className={styles.cta}>{t('cta')}</span>
+    </div>
   );
 }

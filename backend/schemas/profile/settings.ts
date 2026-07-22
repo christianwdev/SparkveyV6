@@ -9,6 +9,7 @@ export const changePasswordBodySchema = z.object({
 
 export const changeEmailBodySchema = z.object({
   email: z.string().email().max(254),
+
   // Required server-side when the account has a password (step-up auth).
   currentPassword: z.string().min(1).optional(),
 });
@@ -37,6 +38,7 @@ export const userPreferencesBodySchema = z.object({
 );
 
 const isoDateOnlySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+
 // Sparkvey-owned profiler fields (names/city are not forwarded to CPX).
 const personNameSchema = z.string().trim().min(1).max(64).regex(/^[^\p{Cc}\p{Cf}]+$/u);
 const citySchema = z.string().trim().min(1).max(96).regex(/^[^\p{Cc}\p{Cf}]+$/u);

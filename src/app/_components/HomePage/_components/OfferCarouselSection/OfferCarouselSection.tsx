@@ -30,14 +30,12 @@ type OfferCarouselSectionProps = BaseCarouselProps & (
     offers?: InternalOffer[];
     surveys?: never;
     showProfilerCard?: never;
-    onProfilerClick?: never;
   }
   | {
     titleKey: 'surveys';
     surveys?: SanitizedCPXSurvey[];
     offers?: never;
     showProfilerCard?: boolean;
-    onProfilerClick?: () => void;
   }
 );
 
@@ -74,6 +72,7 @@ export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
   const skeletonCount = Math.max(1, maxRows) * offersPerView;
   const contentCount = items.length + (showProfilerCard ? 1 : 0);
   const itemCount = loading ? skeletonCount + (showProfilerCard ? 1 : 0) : contentCount;
+
   // Profiler spans 2 rows, so force 2 rows when present and maxRows allows it.
   const rowCount = showProfilerCard && maxRows >= 2
     ? Math.max(2, resolveRowCount(itemCount, offersPerView, maxRows))
@@ -167,11 +166,8 @@ export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
           '--rows': rowCount,
         } as CSSProperties}
       >
-        {showProfilerCard && props.onProfilerClick && (
-          <SurveyProfilerCard
-            variant="carousel"
-            onClick={props.onProfilerClick}
-          />
+        {showProfilerCard && (
+          <SurveyProfilerCard variant="carousel" />
         )}
         {loading
           ? Array.from({ length: skeletonCount }, (_, index) => (

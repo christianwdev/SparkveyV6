@@ -35,7 +35,8 @@ type AdminEmailActionable = Omit<EmailActionable, 'actionableID'> & {
 };
 
 function sanitizeAdminUser(user: InternalUser): AdminUser {
-  const { password: _password, ...adminUser } = user;
+  const { password, ...adminUser } = user;
+  void password;
 
   return adminUser;
 }
@@ -62,6 +63,7 @@ function sanitizeAdminSession(session: UserSession): AdminUserSession {
 function sanitizeAdminEmailActionable(actionable: EmailActionable): AdminEmailActionable {
   return {
     ...actionable,
+
     // Never return the raw secret that can confirm email/password/deletion actions.
     actionableID: `${actionable.actionableID.slice(0, 8)}…`,
   };

@@ -14,16 +14,9 @@
   text-align: left;
   font: inherit;
   color: inherit;
-  cursor: pointer;
   border: 1px solid rgba(158, 56, 208, 0.28);
   background:
     linear-gradient(165deg, rgba(158, 56, 208, 0.14) 0%, rgba(158, 56, 208, 0.04) 42%, $off-white 100%);
-  transition: border-color 150ms ease, box-shadow 150ms ease;
-
-  &:hover {
-    border-color: rgba(158, 56, 208, 0.5);
-    box-shadow: 0 8px 22px rgba(158, 56, 208, 0.12);
-  }
 
   &.carousel {
     min-height: 0;
@@ -84,21 +77,16 @@
   > .cta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
     align-self: flex-start;
     height: 36px;
     padding: 0 14px;
     border-radius: 8px;
-    background: $primary;
+    background: rgba(158, 56, 208, 0.45);
     color: white;
     font-size: 13px;
     font-weight: 600;
     line-height: 1;
-
-    > svg {
-      width: 16px;
-      height: 16px;
-    }
+    opacity: 0.85;
   }
 
   @media screen and (max-width: $large-phone) {
