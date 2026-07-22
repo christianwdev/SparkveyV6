@@ -8,6 +8,8 @@ type SanitizedUser = Omit<
   InternalUser,
   'password' | 'socialInformation' | 'referralInformation'
 > & {
+  hasPassword: boolean,
+
   socialInformation: {
     google?: SanitizedSocialLink,
     steam?: SanitizedSocialLink,

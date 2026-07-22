@@ -1,0 +1,47 @@
+@use '@styles/variables.scss' as *;
+
+.loginPage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+
+  > h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: $text-bold;
+  }
+
+  > p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-light;
+  }
+
+  > .banner {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: $light-gray;
+    font-size: 14px;
+    font-weight: 500;
+
+    &[data-tone='positive'] {
+      color: $green;
+    }
+
+    &[data-tone='negative'] {
+      color: $red;
+    }
+  }
+
+  > .hint {
+    a {
+      color: $primary;
+      font-weight: 600;
+    }
+  }
+}

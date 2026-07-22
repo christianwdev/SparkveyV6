@@ -20,7 +20,8 @@ export default function Footer() {
   if (
     normalizedPath.includes('/admin') ||
     normalizedPath.includes('/login') ||
-    normalizedPath.includes('/signup')
+    normalizedPath.includes('/signup') ||
+    normalizedPath.includes('/forgot-password')
   ) {
     return null;
   }

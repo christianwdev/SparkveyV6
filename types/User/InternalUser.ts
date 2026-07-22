@@ -32,6 +32,8 @@ type InternalUser = {
 
   staffPermissions?: number,
 
+  usernameChangedAt?: Date,
+  deletedAt?: Date,
   bannedUntil?: Date,
   creationDate: Date,
 };

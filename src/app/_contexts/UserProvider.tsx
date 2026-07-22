@@ -38,6 +38,17 @@ export const UserProvider = (props: UserProviderProps) => {
   ]);
 
   useEffect(() => {
+    const theme = user?.userPreferences?.colorTheme;
+    if (theme === 'dark' || theme === 'light') {
+      document.documentElement.dataset.theme = theme;
+
+      return;
+    }
+
+    delete document.documentElement.dataset.theme;
+  }, [ user?.userPreferences?.colorTheme ]);
+
+  useEffect(() => {
     if (!socket) return;
 
     socket.on(SocketEmits.userUpdate, (user: SanitizedUser) => {

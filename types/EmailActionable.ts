@@ -6,7 +6,7 @@ type EmailActionable = {
   deactivatedAt?: Date,
   userID: string,
   email: string,
-  type: 'verification' | 'forgotPassword',
+  type: 'verification' | 'forgotPassword' | 'emailChange' | 'accountDeletion',
 };
 
 export default EmailActionable;

@@ -1,0 +1,113 @@
+@use '@styles/variables.scss' as *;
+
+.forgotPasswordPage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 420px;
+
+  > h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: $text-bold;
+  }
+
+  > p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-light;
+    line-height: 1.5;
+  }
+
+  > .status {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: $light-gray;
+    font-size: 14px;
+    font-weight: 500;
+
+    &[data-tone='positive'] {
+      color: $green;
+    }
+
+    &[data-tone='negative'] {
+      color: $red;
+    }
+  }
+
+  > .form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 4px;
+
+    > .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      > label {
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+      }
+
+      > input {
+        height: 40px;
+        padding: 0 12px;
+        border: 1px solid $border-light;
+        border-radius: 8px;
+        background: $background;
+        color: $text-bold;
+        font-size: 14px;
+
+        &:focus {
+          outline: 1px solid $primary;
+        }
+      }
+
+      > .hint {
+        margin: 0;
+        font-size: 12px;
+        font-weight: 500;
+        color: $text-light;
+      }
+    }
+
+    > .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      padding: 0 16px;
+      border: none;
+      border-radius: 8px;
+      background: $primary;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  > .footerLinks {
+    margin: 8px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-light;
+
+    a {
+      color: $primary;
+      font-weight: 600;
+    }
+  }
+}

@@ -2,6 +2,7 @@ const DatabaseCollections = {
   users: 'users',
   userSessions: 'userSessions',
   emailActionables: 'emailActionables',
+  deletedAccountFingerprints: 'deletedAccountFingerprints',
   postbackLogs: 'postbackLogs',
   userEarnings: 'userEarnings',
   userNotifications: 'userNotifications',

@@ -1,0 +1,63 @@
+@use '@styles/variables.scss' as *;
+
+.confirmCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 420px;
+
+  > h1 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: $text-bold;
+  }
+
+  > p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-light;
+    line-height: 1.5;
+  }
+
+  > .error {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $red;
+  }
+
+  > .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+
+    > .button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: $primary;
+      color: white;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      &.secondary {
+        background: $light-gray;
+        color: $text-bold;
+      }
+
+      &.danger {
+        background: $red;
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { z } from 'zod';
 import {
   createUser,
   getRawUser,
+  sanitizeEmail,
   sanitizeUser,
   updateUserPassword,
   verifyUserEmail,
@@ -16,11 +17,12 @@ import { rateLimit } from 'backend/utils/rateLimit';
 import { buildFrontendURL } from 'backend/utils/frontendUrl';
 import { expireUserSessions, startSession } from 'backend/utils/session';
 import {
+  claimEmailActionable,
   createEmailActionable,
   findValidEmailActionable,
-  markEmailActionableAccessed,
 } from 'backend/utils/emailActionable';
 import { sendForgottenPassword, sendVerificationEmail } from 'backend/utils/email';
+import { isDeletedEmail } from 'backend/utils/deletedAccountFingerprint';
 import { newPasswordSchema } from 'backend/schemas/password';
 import RouteResponseError from 'types/RouteResponseError';
 
@@ -78,6 +80,7 @@ const resetPasswordBodySchema = z.object({
 
 const INVALID_CREDENTIALS_MESSAGE = 'Invalid email or password';
 const FORGOT_PASSWORD_SUCCESS_MESSAGE = 'If an account exists with that email, a password reset link has been sent.';
+const EMAIL_UNAVAILABLE_MESSAGE = 'This email cannot be used to create an account.';
 
 /** Bcrypt (cost 10) used when no account/password exists so verify always runs. */
 const DUMMY_PASSWORD_HASH = '$2b$10$IcmtA9HO1LrR7OXzQRcZiOq1RNy8n2Q85AP/tU7uJ0DV7BdsiiWaC';
@@ -102,23 +105,37 @@ export default function routeInvoker() {
       // TODO: wire sessionID (_sessionID) — e.g. merge anonymous session on register
       // TODO: wire referralCode (_referralCode)
 
+      const normalizedEmail = sanitizeEmail(email);
+      if (!normalizedEmail) {
+        throw new RouteResponseError({ status: 400, message: EMAIL_UNAVAILABLE_MESSAGE });
+      }
+
+      const deletedEmailResult = await isDeletedEmail(normalizedEmail);
+      if (!deletedEmailResult.ok) {
+        throw new RouteResponseError({ status: 500, message: 'internalServerError' });
+      }
+
       const existingUserResult = await getRawUser({
         $or: [
           {
-            'emailInformation.emailAddress': email,
+            'emailInformation.emailAddress': normalizedEmail,
           },
           {
-            'socialInformation.google.emailAddress': email,
+            'socialInformation.google.emailAddress': normalizedEmail,
           },
         ],
+        deletedAt: { $exists: false },
       });
 
       if (!existingUserResult.ok && existingUserResult.error !== 'notFound') {
         throw new RouteResponseError({ status: 500, message: existingUserResult.error });
       }
 
-      if (existingUserResult.ok) {
-        throw new RouteResponseError({ status: 400, message: 'User already exists' });
+      if (deletedEmailResult.data || existingUserResult.ok) {
+        throw new RouteResponseError({
+          status: 400,
+          message: EMAIL_UNAVAILABLE_MESSAGE,
+        });
       }
 
       const hashedPassword = await Bun.password.hash(password, {
@@ -127,7 +144,7 @@ export default function routeInvoker() {
       });
 
       const createUserResult = await createUser({
-        email,
+        email: normalizedEmail,
         username,
         passwordHash: hashedPassword,
       });
@@ -138,7 +155,7 @@ export default function routeInvoker() {
 
       const actionableResult = await createEmailActionable({
         userID: createUserResult.data.userID,
-        email,
+        email: normalizedEmail,
         type: 'verification',
       });
 
@@ -147,7 +164,7 @@ export default function routeInvoker() {
       }
 
       const [ emailSendError, emailErrorMessage ] = await sendVerificationEmail({
-        email,
+        email: normalizedEmail,
         code: actionableResult.data.actionableID,
       });
 
@@ -178,7 +195,15 @@ export default function routeInvoker() {
     withRouteErrorHandling,
     zValidator('json', loginBodySchema),
     async (c) => {
-      const { email, password } = c.req.valid('json');
+      const email = sanitizeEmail(c.req.valid('json').email);
+      const { password } = c.req.valid('json');
+
+      if (!email) {
+        throw new RouteResponseError({
+          status: 401,
+          message: INVALID_CREDENTIALS_MESSAGE,
+        });
+      }
 
       const userResult = await getRawUser({
         'emailInformation.emailAddress': email,
@@ -204,8 +229,9 @@ export default function routeInvoker() {
       const hasPassword = passwordHash !== DUMMY_PASSWORD_HASH;
       const passwordValid = await Bun.password.verify(password, passwordHash);
       const isBanned = user.bannedUntil && user.bannedUntil > new Date();
+      const isDeleted = !!user.deletedAt;
 
-      if (!passwordValid || !hasPassword || isBanned) {
+      if (!passwordValid || !hasPassword || isBanned || isDeleted) {
         throw new RouteResponseError({
           status: 401,
           message: INVALID_CREDENTIALS_MESSAGE,
@@ -236,25 +262,28 @@ export default function routeInvoker() {
     withRouteErrorHandling,
     zValidator('json', forgotPasswordBodySchema),
     async (c) => {
-      const { email } = c.req.valid('json');
+      const email = sanitizeEmail(c.req.valid('json').email);
 
-      const userResult = await getRawUser({
-        'emailInformation.emailAddress': email,
-        password: { $type: 'string' },
-      });
-
-      if (userResult.ok) {
-        const actionableResult = await createEmailActionable({
-          userID: userResult.data.userID,
-          email,
-          type: 'forgotPassword',
+      if (email) {
+        const userResult = await getRawUser({
+          'emailInformation.emailAddress': email,
+          password: { $type: 'string' },
+          deletedAt: { $exists: false },
         });
 
-        if (actionableResult.ok) {
-          await sendForgottenPassword({
+        if (userResult.ok && !userResult.data.deletedAt) {
+          const actionableResult = await createEmailActionable({
+            userID: userResult.data.userID,
             email,
-            code: actionableResult.data.actionableID,
+            type: 'forgotPassword',
           });
+
+          if (actionableResult.ok) {
+            await sendForgottenPassword({
+              email,
+              code: actionableResult.data.actionableID,
+            });
+          }
         }
       }
 
@@ -298,13 +327,12 @@ export default function routeInvoker() {
         throw new RouteResponseError({ status: 500, message: updateResult.error });
       }
 
+      await claimEmailActionable({
+        actionableID: code,
+        type: 'forgotPassword',
+      });
+
       await expireUserSessions(actionableResult.data.userID);
-
-      const markResult = await markEmailActionableAccessed(actionableResult.data.actionableID);
-
-      if (!markResult.ok) {
-        throw new RouteResponseError({ status: 500, message: markResult.error });
-      }
 
       return sendResponse({
         c,
@@ -336,7 +364,10 @@ export default function routeInvoker() {
         return c.redirect(buildFrontendURL('/email-verified', { error: 'internal' }));
       }
 
-      await markEmailActionableAccessed(actionableResult.data.actionableID);
+      await claimEmailActionable({
+        actionableID: code,
+        type: 'verification',
+      });
 
       return c.redirect(buildFrontendURL('/email-verified', { success: true }));
     },
