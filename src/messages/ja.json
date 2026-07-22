@@ -284,11 +284,18 @@
   },
   "ForgotPasswordPage": {
     "title": "パスワードをお忘れですか",
+    "description": "メールアドレスを入力してください。アカウントがある場合、リセット用リンクを送信します。",
+    "resetDescription": "アカウントの新しいパスワードを設定してください。",
     "emailAddress": "メールアドレス",
     "newPassword": "新しいパスワード",
     "confirmPassword": "パスワードを確認",
     "sendResetEmail": "リセットメールを送信",
+    "sending": "送信中…",
     "resetPassword": "パスワードをリセット",
+    "resetting": "リセット中…",
+    "emailSent": "そのメールのアカウントがある場合、パスワードリセット用リンクを送信しました。",
+    "rememberPassword": "パスワードを思い出しましたか？",
+    "signIn": "ログイン",
     "notAMember": "アカウントをお持ちではありませんか？",
     "joinToday": "今すぐ登録！",
     "errors": {
@@ -1076,7 +1083,8 @@
       "accountDeletedSuccess": "Your account has been deleted.",
       "accountDeletedInvalid": "That account deletion link is invalid or expired.",
       "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email."
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
+      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
     }
   },
   "ConfirmAccountDeletion": {

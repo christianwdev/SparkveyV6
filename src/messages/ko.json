@@ -284,11 +284,18 @@
   },
   "ForgotPasswordPage": {
     "title": "비밀번호를 잊으셨나요?",
+    "description": "이메일을 입력하세요. 계정이 있으면 재설정 링크를 보내드립니다.",
+    "resetDescription": "계정에 사용할 새 비밀번호를 선택하세요.",
     "emailAddress": "이메일 주소",
     "newPassword": "새 비밀번호",
     "confirmPassword": "비밀번호 확인",
     "sendResetEmail": "재설정 이메일 보내기",
+    "sending": "전송 중…",
     "resetPassword": "비밀번호 재설정",
+    "resetting": "재설정 중…",
+    "emailSent": "해당 이메일의 계정이 있으면 비밀번호 재설정 링크를 보냈습니다.",
+    "rememberPassword": "비밀번호가 기억나시나요?",
+    "signIn": "로그인",
     "notAMember": "회원이 아니신가요?",
     "joinToday": "오늘 가입하세요!",
     "errors": {
@@ -1076,7 +1083,8 @@
       "accountDeletedSuccess": "Your account has been deleted.",
       "accountDeletedInvalid": "That account deletion link is invalid or expired.",
       "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email."
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
+      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
     }
   },
   "ConfirmAccountDeletion": {

@@ -284,11 +284,18 @@
   },
   "ForgotPasswordPage": {
     "title": "Esqueci a Senha",
+    "description": "Digite seu e-mail. Se existir uma conta, enviaremos um link para redefinir a senha.",
+    "resetDescription": "Escolha uma nova senha para a sua conta.",
     "emailAddress": "E-mail",
     "newPassword": "Nova senha",
     "confirmPassword": "Confirmar senha",
     "sendResetEmail": "Enviar e-mail de redefinição",
+    "sending": "Enviando…",
     "resetPassword": "Redefinir senha",
+    "resetting": "Redefinindo…",
+    "emailSent": "Se existir uma conta com esse e-mail, um link de redefinição foi enviado.",
+    "rememberPassword": "Lembrou da senha?",
+    "signIn": "Entrar",
     "notAMember": "Ainda não é membro?",
     "joinToday": "Junte-se hoje!",
     "errors": {
@@ -1076,7 +1083,8 @@
       "accountDeletedSuccess": "Your account has been deleted.",
       "accountDeletedInvalid": "That account deletion link is invalid or expired.",
       "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email."
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
+      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
     }
   },
   "ConfirmAccountDeletion": {

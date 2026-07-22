@@ -284,11 +284,18 @@
   },
   "ForgotPasswordPage": {
     "title": "Zapomniane haslo",
+    "description": "Podaj adres e-mail. Jesli konto istnieje, wyslemy link do resetu hasla.",
+    "resetDescription": "Wybierz nowe haslo do swojego konta.",
     "emailAddress": "Adres e-mail",
     "newPassword": "Nowe haslo",
     "confirmPassword": "Potwierdz haslo",
     "sendResetEmail": "Wyslij e-mail resetujacy",
+    "sending": "Wysylanie…",
     "resetPassword": "Zresetuj haslo",
+    "resetting": "Resetowanie…",
+    "emailSent": "Jesli istnieje konto z tym e-mailem, wyslalismy link do resetu hasla.",
+    "rememberPassword": "Przypomniales sobie haslo?",
+    "signIn": "Zaloguj sie",
     "notAMember": "Nie masz konta?",
     "joinToday": "Dolacz juz dzis!",
     "errors": {
@@ -1076,7 +1083,8 @@
       "accountDeletedSuccess": "Your account has been deleted.",
       "accountDeletedInvalid": "That account deletion link is invalid or expired.",
       "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email."
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
+      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
     }
   },
   "ConfirmAccountDeletion": {

@@ -284,11 +284,18 @@
   },
   "ForgotPasswordPage": {
     "title": "Passwort vergessen",
+    "description": "Gib deine E-Mail-Adresse ein. Falls ein Konto existiert, senden wir einen Link zum Zuruecksetzen.",
+    "resetDescription": "Waehle ein neues Passwort fuer dein Konto.",
     "emailAddress": "E-Mail-Adresse",
     "newPassword": "Neues Passwort",
     "confirmPassword": "Passwort bestaetigen",
     "sendResetEmail": "E-Mail zum Zuruecksetzen senden",
+    "sending": "Wird gesendet…",
     "resetPassword": "Passwort zuruecksetzen",
+    "resetting": "Wird zurueckgesetzt…",
+    "emailSent": "Falls ein Konto mit dieser E-Mail existiert, wurde ein Link zum Zuruecksetzen gesendet.",
+    "rememberPassword": "Passwort wieder eingefallen?",
+    "signIn": "Anmelden",
     "notAMember": "Noch kein Mitglied?",
     "joinToday": "Jetzt beitreten!",
     "errors": {
@@ -1076,7 +1083,8 @@
       "accountDeletedSuccess": "Your account has been deleted.",
       "accountDeletedInvalid": "That account deletion link is invalid or expired.",
       "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email."
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
+      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
     }
   },
   "ConfirmAccountDeletion": {

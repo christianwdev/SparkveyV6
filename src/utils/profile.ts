@@ -184,15 +184,3 @@ export async function updateUserPreferencesSetting(
 export async function requestAccountDeletion(): Promise<APIResponse<null> | null> {
   return postSettings<null>('/delete');
 }
-
-export async function confirmEmailChange(body: {
-  code: string,
-}): Promise<APIResponse<SanitizedUser> | null> {
-  return postSettings<SanitizedUser>('/email/confirm', body);
-}
-
-export async function confirmAccountDeletion(body: {
-  code: string,
-}): Promise<APIResponse<null> | null> {
-  return postSettings<null>('/delete/confirm', body);
-}

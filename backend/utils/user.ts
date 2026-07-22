@@ -521,14 +521,27 @@ export async function updateUserEmail(
     const sanitized = sanitizeEmail(email);
     if (!sanitized) return { ok: false, error: 'internalServerError' };
 
+    const existing = await db.collection<InternalUser>(DatabaseCollections.users).findOne({
+      userID,
+      deletedAt: { $exists: false },
+    });
+
+    if (!existing) return { ok: false, error: 'notFound' };
+
+    const $set: Record<string, unknown> = {
+      'emailInformation.emailAddress': sanitized,
+      'emailInformation.verifiedAt': new Date(),
+    };
+
+    // Keep Google email in sync so availability/registration checks don't keep the
+    // previous address occupied after a confirmed email change.
+    if (existing.socialInformation?.google) {
+      $set['socialInformation.google.emailAddress'] = sanitized;
+    }
+
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
       { userID, deletedAt: { $exists: false } },
-      {
-        $set: {
-          'emailInformation.emailAddress': sanitized,
-          'emailInformation.verifiedAt': new Date(),
-        },
-      },
+      { $set },
       { returnDocument: 'after' },
     );
 

@@ -349,20 +349,25 @@ export default function routeInvoker() {
     async (c) => {
       const { code } = c.req.param();
 
-      const claimResult = await claimEmailActionable({
+      const actionableResult = await findValidEmailActionable({
         actionableID: code,
         type: 'verification',
       });
 
-      if (!claimResult.ok) {
+      if (!actionableResult.ok) {
         return c.redirect(buildFrontendURL('/email-verified', { error: 'invalid' }));
       }
 
-      const verifyResult = await verifyUserEmail(claimResult.data.userID);
+      const verifyResult = await verifyUserEmail(actionableResult.data.userID);
 
       if (!verifyResult.ok) {
         return c.redirect(buildFrontendURL('/email-verified', { error: 'internal' }));
       }
+
+      await claimEmailActionable({
+        actionableID: code,
+        type: 'verification',
+      });
 
       return c.redirect(buildFrontendURL('/email-verified', { success: true }));
     },

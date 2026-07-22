@@ -10,6 +10,7 @@ export default function LoginPageClient() {
   const searchParams = useSearchParams();
   const accountDeleted = searchParams.get('accountDeleted');
   const emailChange = searchParams.get('emailChange');
+  const passwordReset = searchParams.get('passwordReset');
 
   let banner: { tone: 'positive' | 'negative', message: string } | null = null;
 
@@ -21,6 +22,8 @@ export default function LoginPageClient() {
     banner = { tone: 'negative', message: t('banners.accountDeletedError') };
   } else if (emailChange === 'success') {
     banner = { tone: 'positive', message: t('banners.emailChangeSuccess') };
+  } else if (passwordReset === 'success') {
+    banner = { tone: 'positive', message: t('banners.passwordResetSuccess') };
   }
 
   return (

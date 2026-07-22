@@ -284,11 +284,18 @@
   },
   "ForgotPasswordPage": {
     "title": "He olvidado mi contrasena",
+    "description": "Introduce tu correo. Si existe una cuenta, enviaremos un enlace para restablecer la contrasena.",
+    "resetDescription": "Elige una nueva contrasena para tu cuenta.",
     "emailAddress": "Correo electronico",
     "newPassword": "Nueva contrasena",
     "confirmPassword": "Confirmar contrasena",
     "sendResetEmail": "Enviar correo de restablecimiento",
+    "sending": "Enviando…",
     "resetPassword": "Restablecer contrasena",
+    "resetting": "Restableciendo…",
+    "emailSent": "Si existe una cuenta con ese correo, se ha enviado un enlace para restablecer la contrasena.",
+    "rememberPassword": "Recuerdas tu contrasena?",
+    "signIn": "Iniciar sesion",
     "notAMember": "No tienes cuenta?",
     "joinToday": "Unete hoy",
     "errors": {
@@ -1076,7 +1083,8 @@
       "accountDeletedSuccess": "Your account has been deleted.",
       "accountDeletedInvalid": "That account deletion link is invalid or expired.",
       "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email."
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
+      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
     }
   },
   "ConfirmAccountDeletion": {

@@ -284,11 +284,18 @@
   },
   "ForgotPasswordPage": {
     "title": "Forgot Password",
+    "description": "Enter your email and we'll send a reset link if an account exists.",
+    "resetDescription": "Choose a new password for your account.",
     "emailAddress": "Email Address",
     "newPassword": "New Password",
     "confirmPassword": "Confirm Password",
     "sendResetEmail": "Send Reset Email",
+    "sending": "Sending…",
     "resetPassword": "Reset Password",
+    "resetting": "Resetting…",
+    "emailSent": "If an account exists with that email, a password reset link has been sent.",
+    "rememberPassword": "Remember your password?",
+    "signIn": "Sign in",
     "notAMember": "Not a member?",
     "joinToday": "Join today!",
     "errors": {
@@ -857,7 +864,8 @@
       "accountDeletedSuccess": "Your account has been deleted.",
       "accountDeletedInvalid": "That account deletion link is invalid or expired.",
       "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email."
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
+      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
     }
   },
   "ConfirmAccountDeletion": {

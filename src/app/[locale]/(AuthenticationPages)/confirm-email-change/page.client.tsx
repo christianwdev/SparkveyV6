@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@i18n/navigation';
-import { confirmEmailChange } from '@utils/profile';
+import { confirmEmailChange } from '@utils/auth';
 import styles from '../confirmAction.module.scss';
 
 export default function ConfirmEmailChangeClient() {
