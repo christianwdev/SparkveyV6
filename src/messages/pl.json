@@ -54,6 +54,60 @@
     "title": "Sparkvey | Ustawienia profilu",
     "description": "Zarzadzaj ustawieniami swojego konta."
   },
+  "ProfileProfiler": {
+    "metadataTitle": "Sparkvey | Profiler",
+    "metadataDescription": "Uzupełnij profiler osobisty, aby lepiej dopasować ankiety.",
+    "title": "Profiler",
+    "subtitle": "Odpowiedz na kilka pytań, aby znaleźć więcej ankiet.",
+    "subtitleCompleted": "Twój profiler jest kompletny. Możesz zaktualizować dane w dowolnym momencie.",
+    "sections": {
+      "details": "Dane osobowe"
+    },
+    "sectionDescriptions": {
+      "details": "Te informacje zostają w Sparkvey i pomagają dopasować ankiety."
+    },
+    "fields": {
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "dateOfBirth": "Data urodzenia",
+      "gender": "Płeć",
+      "country": "Kraj",
+      "city": "Miasto",
+      "zipCode": "Kod pocztowy",
+      "month": "Miesiąc",
+      "day": "Dzień",
+      "year": "Rok"
+    },
+    "placeholders": {
+      "gender": "Wybierz płeć",
+      "country": "Wybierz kraj",
+      "month": "Miesiąc",
+      "day": "Dzień",
+      "year": "Rok",
+      "dateOfBirth": "Wybierz datę"
+    },
+    "gender": {
+      "male": "Mężczyzna",
+      "female": "Kobieta",
+      "other": "Inna"
+    },
+    "hints": {
+      "age": "Musisz mieć co najmniej 18 lat."
+    },
+    "actions": {
+      "save": "Zapisz profiler",
+      "update": "Zaktualizuj profiler",
+      "saving": "Zapisywanie...",
+      "close": "Zamknij"
+    },
+    "success": {
+      "saved": "Profiler zapisany."
+    },
+    "errors": {
+      "required": "Wypełnij wszystkie wymagane pola.",
+      "save": "Nie udało się zapisać profilera. Spróbuj ponownie."
+    }
+  },
   "ProfileActivityMetadata": {
     "title": "Sparkvey | Aktywnosc profilu",
     "description": "Zobacz cala swoja dotychczasowa aktywnosc."
@@ -462,7 +516,13 @@
     "title": "Ankiety",
     "description": "Wybierz ankietę dopasowaną do Twojego czasu i zacznij zdobywać Sparks.",
     "empty": "Brak dostępnych ankiet. Wróć wkrótce.",
-    "error": "Nie udało się wczytać ankiet. Spróbuj ponownie za chwilę."
+    "error": "Nie udało się wczytać ankiet. Spróbuj ponownie za chwilę.",
+    "profiler": {
+      "eyebrow": "Odblokuj więcej ankiet",
+      "title": "Uzupełnij profiler",
+      "description": "Podaj kilka informacji, aby otrzymywać lepiej płatne ankiety.",
+      "cta": "Rozpocznij profiler"
+    }
   },
   "WallItem": {
     "errors": {

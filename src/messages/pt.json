@@ -54,6 +54,60 @@
     "title": "Sparkvey | Configurações do perfil",
     "description": "Gerencie as configurações da sua conta."
   },
+  "ProfileProfiler": {
+    "metadataTitle": "Sparkvey | Profiler",
+    "metadataDescription": "Complete seu profiler pessoal para melhores pesquisas.",
+    "title": "Profiler",
+    "subtitle": "Responda algumas perguntas para encontrar mais pesquisas.",
+    "subtitleCompleted": "Seu profiler está completo. Você pode atualizar os dados a qualquer momento.",
+    "sections": {
+      "details": "Dados pessoais"
+    },
+    "sectionDescriptions": {
+      "details": "Essas informações ficam na Sparkvey e ajudam a combinar você com pesquisas."
+    },
+    "fields": {
+      "firstName": "Nome",
+      "lastName": "Sobrenome",
+      "dateOfBirth": "Data de nascimento",
+      "gender": "Gênero",
+      "country": "País",
+      "city": "Cidade",
+      "zipCode": "CEP / Código postal",
+      "month": "Mês",
+      "day": "Dia",
+      "year": "Ano"
+    },
+    "placeholders": {
+      "gender": "Selecione o gênero",
+      "country": "Selecione o país",
+      "month": "Mês",
+      "day": "Dia",
+      "year": "Ano",
+      "dateOfBirth": "Selecionar data"
+    },
+    "gender": {
+      "male": "Masculino",
+      "female": "Feminino",
+      "other": "Outro"
+    },
+    "hints": {
+      "age": "Você precisa ter pelo menos 18 anos."
+    },
+    "actions": {
+      "save": "Salvar profiler",
+      "update": "Atualizar profiler",
+      "saving": "Salvando...",
+      "close": "Fechar"
+    },
+    "success": {
+      "saved": "Profiler salvo."
+    },
+    "errors": {
+      "required": "Preencha todos os campos obrigatórios.",
+      "save": "Não foi possível salvar o profiler. Tente novamente."
+    }
+  },
   "ProfileActivityMetadata": {
     "title": "Sparkvey | Atividade do perfil",
     "description": "Veja toda a sua atividade anterior."
@@ -462,7 +516,13 @@
     "title": "Pesquisas",
     "description": "Escolha uma pesquisa que caiba no seu tempo e comece a ganhar Sparks.",
     "empty": "Nenhuma pesquisa disponível no momento. Volte em breve.",
-    "error": "Não foi possível carregar as pesquisas. Tente novamente em instantes."
+    "error": "Não foi possível carregar as pesquisas. Tente novamente em instantes.",
+    "profiler": {
+      "eyebrow": "Desbloqueie mais pesquisas",
+      "title": "Complete seu profiler",
+      "description": "Compartilhe alguns dados para receber pesquisas com melhor pagamento.",
+      "cta": "Iniciar profiler"
+    }
   },
   "WallItem": {
     "errors": {

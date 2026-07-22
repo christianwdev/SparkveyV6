@@ -54,6 +54,60 @@
     "title": "Sparkvey | Paramètres du profil",
     "description": "Gérez les paramètres de votre compte."
   },
+  "ProfileProfiler": {
+    "metadataTitle": "Sparkvey | Profil",
+    "metadataDescription": "Complétez votre profil personnel pour de meilleurs sondages.",
+    "title": "Profil",
+    "subtitle": "Répondez à quelques questions pour trouver plus de sondages.",
+    "subtitleCompleted": "Votre profil est complet. Vous pouvez mettre à jour vos infos à tout moment.",
+    "sections": {
+      "details": "Informations personnelles"
+    },
+    "sectionDescriptions": {
+      "details": "Ces informations restent sur Sparkvey et aident à vous matcher avec des sondages."
+    },
+    "fields": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "dateOfBirth": "Date de naissance",
+      "gender": "Genre",
+      "country": "Pays",
+      "city": "Ville",
+      "zipCode": "Code postal",
+      "month": "Mois",
+      "day": "Jour",
+      "year": "Année"
+    },
+    "placeholders": {
+      "gender": "Sélectionner le genre",
+      "country": "Sélectionner le pays",
+      "month": "Mois",
+      "day": "Jour",
+      "year": "Année",
+      "dateOfBirth": "Sélectionner une date"
+    },
+    "gender": {
+      "male": "Homme",
+      "female": "Femme",
+      "other": "Autre"
+    },
+    "hints": {
+      "age": "Vous devez avoir au moins 18 ans."
+    },
+    "actions": {
+      "save": "Enregistrer le profil",
+      "update": "Mettre à jour le profil",
+      "saving": "Enregistrement...",
+      "close": "Fermer"
+    },
+    "success": {
+      "saved": "Profil enregistré."
+    },
+    "errors": {
+      "required": "Veuillez remplir tous les champs obligatoires.",
+      "save": "Impossible d'enregistrer le profil. Réessayez."
+    }
+  },
   "ProfileActivityMetadata": {
     "title": "Sparkvey | Activité du profil",
     "description": "Consultez toute votre activité précédente."
@@ -462,7 +516,13 @@
     "title": "Sondages",
     "description": "Choisissez un sondage adapté à votre temps et gagnez des Sparks.",
     "empty": "Aucun sondage n'est disponible pour le moment. Revenez bientôt.",
-    "error": "Impossible de charger les sondages. Réessayez dans un instant."
+    "error": "Impossible de charger les sondages. Réessayez dans un instant.",
+    "profiler": {
+      "eyebrow": "Débloquez plus de sondages",
+      "title": "Complétez votre profil",
+      "description": "Partagez quelques infos pour accéder à des sondages mieux rémunérés.",
+      "cta": "Commencer le profil"
+    }
   },
   "WallItem": {
     "errors": {

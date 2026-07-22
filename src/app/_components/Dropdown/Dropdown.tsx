@@ -16,6 +16,8 @@ type DropdownProps<T = string> = {
     value: T;
   }[];
   className?: string;
+  fullWidth?: boolean;
+  hideLabel?: boolean;
 };
 
 export default function Dropdown<T extends string | number = string>(props: DropdownProps<T>) {
@@ -38,7 +40,9 @@ export default function Dropdown<T extends string | number = string>(props: Drop
         .join(', ');
     }
 
-    return props.values.find(value => value.value === props.selected)?.label ?? '';
+    return props.values.find(value => value.value === props.selected)?.label
+      ?? props.defaultValue
+      ?? '';
   }, [ props.selected, props.defaultValue, props.values ]);
 
   useEffect(() => {
@@ -63,6 +67,7 @@ export default function Dropdown<T extends string | number = string>(props: Drop
       className={[
         styles.dropdownContainer,
         active ? styles.active : '',
+        props.fullWidth ? styles.fullWidth : '',
         props.className,
       ].filter(Boolean).join(' ')}
       onClick={(event) => {
@@ -70,9 +75,9 @@ export default function Dropdown<T extends string | number = string>(props: Drop
         setActive(current => !current);
       }}
     >
-      <p className={styles.label}>{props.label}</p>
+      {!props.hideLabel && <p className={styles.label}>{props.label}</p>}
       <p className={styles.selected}>
-        <span>{selectedText}</span>
+        <span>{selectedText || props.defaultValue || props.label}</span>
         <ChevronIcon aria-hidden />
       </p>
 

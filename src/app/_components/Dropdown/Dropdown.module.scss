@@ -56,6 +56,23 @@
     display: none;
   }
 
+  &.fullWidth {
+    width: 100%;
+    min-width: 0;
+    background: $light-gray;
+
+    > .selected > span {
+      max-width: none;
+      flex: 1;
+    }
+
+    > .dropdown {
+      left: 0;
+      right: 0;
+      width: 100%;
+    }
+  }
+
   &.active {
     z-index: 50;
 
@@ -68,29 +85,39 @@
       top: calc(100% + 4px);
       gap: 2px;
       width: max(100%, 160px);
+      max-height: 220px;
+      overflow-x: hidden;
+      overflow-y: auto;
       padding: 6px;
       box-sizing: border-box;
       border: 1px solid $border-light;
       border-radius: 8px;
       background: $off-white;
       cursor: auto;
+      scrollbar-width: thin;
 
       > button {
         display: flex;
         align-items: center;
         gap: 8px;
         width: 100%;
-        height: 36px;
-        padding: 0 14px;
+        min-height: 36px;
+        height: auto;
+        padding: 8px 14px;
         border: unset;
         outline: unset;
         background: unset;
         color: $text-light;
         font-size: 12px;
+        text-align: left;
         cursor: pointer;
 
         > p {
           margin: 0;
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         > .indicator {

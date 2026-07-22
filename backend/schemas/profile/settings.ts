@@ -32,3 +32,15 @@ export const userPreferencesBodySchema = z.object({
   (value) => Object.values(value).some((entry) => entry !== undefined),
   { message: 'At least one preference is required' },
 );
+
+const isoDateOnlySchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+
+export const personalInformationBodySchema = z.object({
+  firstName: z.string().trim().min(1).max(64),
+  lastName: z.string().trim().min(1).max(64),
+  dateOfBirth: isoDateOnlySchema,
+  gender: z.enum([ 'male', 'female', 'other' ]),
+  country: z.string().trim().length(2).transform((value) => value.toUpperCase()),
+  city: z.string().trim().min(1).max(96),
+  zipCode: z.string().trim().min(1).max(32),
+});

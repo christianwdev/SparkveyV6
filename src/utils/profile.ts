@@ -181,6 +181,18 @@ export async function updateUserPreferencesSetting(
   return postSettings<SanitizedUser>('/user-preferences', body);
 }
 
+export async function updatePersonalInformationSetting(body: {
+  firstName: string,
+  lastName: string,
+  dateOfBirth: string,
+  gender: 'male' | 'female' | 'other',
+  country: string,
+  city: string,
+  zipCode: string,
+}): Promise<APIResponse<SanitizedUser> | null> {
+  return postSettings<SanitizedUser>('/personal-information', body);
+}
+
 export async function requestAccountDeletion(): Promise<APIResponse<null> | null> {
   return postSettings<null>('/delete');
 }

@@ -16,6 +16,7 @@ import {
   sanitizeEmail,
   sanitizeUser,
   updateNotificationPreferences,
+  updatePersonalInformation,
   updateUserPassword,
   updateUserPreferences,
   updateUsername,
@@ -30,6 +31,7 @@ import {
   changePasswordBodySchema,
   changeUsernameBodySchema,
   notificationPreferencesBodySchema,
+  personalInformationBodySchema,
   userPreferencesBodySchema,
 } from 'backend/schemas/profile/settings';
 
@@ -271,6 +273,79 @@ export default function routesInvoker() {
         status: 200,
         success: true,
         message: 'Preferences updated.',
+        data: sanitizeUser(result.data),
+      });
+    },
+  );
+
+  app.post(
+    '/personal-information',
+    withRouteErrorHandling,
+    zValidator('json', personalInformationBodySchema),
+    async (c) => {
+      const user = c.get('user');
+      const body = c.req.valid('json');
+
+      const [ year, month, day ] = body.dateOfBirth.split('-').map(Number);
+      const dateOfBirth = new Date(Date.UTC(year, month - 1, day));
+
+      if (
+        Number.isNaN(dateOfBirth.getTime())
+        || dateOfBirth.getUTCFullYear() !== year
+        || dateOfBirth.getUTCMonth() !== month - 1
+        || dateOfBirth.getUTCDate() !== day
+      ) {
+        throw new RouteResponseError({ status: 400, message: 'Invalid date of birth.' });
+      }
+
+      const now = new Date();
+      const ageYears = now.getUTCFullYear() - dateOfBirth.getUTCFullYear()
+        - (
+          now.getUTCMonth() < dateOfBirth.getUTCMonth()
+          || (
+            now.getUTCMonth() === dateOfBirth.getUTCMonth()
+            && now.getUTCDate() < dateOfBirth.getUTCDate()
+          )
+            ? 1
+            : 0
+        );
+
+      if (ageYears < 18) {
+        throw new RouteResponseError({
+          status: 400,
+          message: 'You must be at least 18 years old.',
+        });
+      }
+
+      if (ageYears > 120) {
+        throw new RouteResponseError({ status: 400, message: 'Invalid date of birth.' });
+      }
+
+      const result = await updatePersonalInformation({
+        userID: user.userID,
+        personalInformation: {
+          firstName: body.firstName,
+          lastName: body.lastName,
+          dateOfBirth,
+          gender: body.gender,
+          country: body.country,
+          city: body.city,
+          zipCode: body.zipCode,
+        },
+      });
+
+      if (!result.ok) {
+        throw new RouteResponseError({
+          status: 500,
+          message: 'Failed to update personal information.',
+        });
+      }
+
+      return sendResponse({
+        c,
+        status: 200,
+        success: true,
+        message: 'Profiler saved.',
         data: sanitizeUser(result.data),
       });
     },

@@ -54,6 +54,60 @@
     "title": "Sparkvey | Profileinstellungen",
     "description": "Verwalte deine Kontoeinstellungen."
   },
+  "ProfileProfiler": {
+    "metadataTitle": "Sparkvey | Profiler",
+    "metadataDescription": "Vervollständige deinen Profiler für bessere Umfrage-Matches.",
+    "title": "Profiler",
+    "subtitle": "Beantworte ein paar Fragen, damit wir dich besser matchen können.",
+    "subtitleCompleted": "Dein Profiler ist vollständig. Du kannst deine Angaben jederzeit aktualisieren.",
+    "sections": {
+      "details": "Persönliche Angaben"
+    },
+    "sectionDescriptions": {
+      "details": "Diese Informationen bleiben bei Sparkvey und helfen beim Umfrage-Matching."
+    },
+    "fields": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "dateOfBirth": "Geburtsdatum",
+      "gender": "Geschlecht",
+      "country": "Land",
+      "city": "Stadt",
+      "zipCode": "PLZ",
+      "month": "Monat",
+      "day": "Tag",
+      "year": "Jahr"
+    },
+    "placeholders": {
+      "gender": "Geschlecht wählen",
+      "country": "Land wählen",
+      "month": "Monat",
+      "day": "Tag",
+      "year": "Jahr",
+      "dateOfBirth": "Datum auswählen"
+    },
+    "gender": {
+      "male": "Männlich",
+      "female": "Weiblich",
+      "other": "Divers"
+    },
+    "hints": {
+      "age": "Du musst mindestens 18 Jahre alt sein."
+    },
+    "actions": {
+      "save": "Profiler speichern",
+      "update": "Profiler aktualisieren",
+      "saving": "Speichern...",
+      "close": "Schließen"
+    },
+    "success": {
+      "saved": "Profiler gespeichert."
+    },
+    "errors": {
+      "required": "Bitte fülle alle Pflichtfelder aus.",
+      "save": "Profiler konnte nicht gespeichert werden. Bitte versuche es erneut."
+    }
+  },
   "ProfileActivityMetadata": {
     "title": "Sparkvey | Profilaktivitaet",
     "description": "Sieh dir all deine bisherigen Aktivitaeten an."
@@ -462,7 +516,13 @@
     "title": "Umfragen",
     "description": "Wähle eine Umfrage, die zu deiner Zeit passt, und verdiene Sparks.",
     "empty": "Derzeit sind keine Umfragen verfügbar. Schau bald wieder vorbei.",
-    "error": "Umfragen konnten nicht geladen werden. Bitte versuche es gleich erneut."
+    "error": "Umfragen konnten nicht geladen werden. Bitte versuche es gleich erneut.",
+    "profiler": {
+      "eyebrow": "Mehr Umfragen freischalten",
+      "title": "Profiler ausfüllen",
+      "description": "Teile ein paar Angaben, damit wir dich mit besser bezahlten Umfragen matchen können.",
+      "cta": "Profiler starten"
+    }
   },
   "WallItem": {
     "errors": {

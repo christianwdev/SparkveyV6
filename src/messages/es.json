@@ -54,6 +54,60 @@
     "title": "Sparkvey | Configuracion del perfil",
     "description": "Administra la configuracion de tu cuenta."
   },
+  "ProfileProfiler": {
+    "metadataTitle": "Sparkvey | Perfilador",
+    "metadataDescription": "Completa tu perfilador personal para mejores encuestas.",
+    "title": "Perfilador",
+    "subtitle": "Responde unas preguntas para encontrar más encuestas.",
+    "subtitleCompleted": "Tu perfilador está completo. Puedes actualizar tus datos cuando quieras.",
+    "sections": {
+      "details": "Datos personales"
+    },
+    "sectionDescriptions": {
+      "details": "Esta información se guarda en Sparkvey y ayuda a emparejarte con encuestas."
+    },
+    "fields": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "dateOfBirth": "Fecha de nacimiento",
+      "gender": "Género",
+      "country": "País",
+      "city": "Ciudad",
+      "zipCode": "Código postal",
+      "month": "Mes",
+      "day": "Día",
+      "year": "Año"
+    },
+    "placeholders": {
+      "gender": "Selecciona género",
+      "country": "Selecciona país",
+      "month": "Mes",
+      "day": "Día",
+      "year": "Año",
+      "dateOfBirth": "Seleccionar fecha"
+    },
+    "gender": {
+      "male": "Masculino",
+      "female": "Femenino",
+      "other": "Otro"
+    },
+    "hints": {
+      "age": "Debes tener al menos 18 años."
+    },
+    "actions": {
+      "save": "Guardar perfilador",
+      "update": "Actualizar perfilador",
+      "saving": "Guardando...",
+      "close": "Cerrar"
+    },
+    "success": {
+      "saved": "Perfilador guardado."
+    },
+    "errors": {
+      "required": "Completa todos los campos obligatorios.",
+      "save": "No se pudo guardar el perfilador. Inténtalo de nuevo."
+    }
+  },
   "ProfileActivityMetadata": {
     "title": "Sparkvey | Actividad del perfil",
     "description": "Consulta toda tu actividad anterior."
@@ -462,7 +516,13 @@
     "title": "Encuestas",
     "description": "Elige una encuesta que se adapte a tu tiempo y empieza a ganar Sparks.",
     "empty": "No hay encuestas disponibles ahora. Vuelve pronto.",
-    "error": "No pudimos cargar las encuestas. Inténtalo de nuevo en un momento."
+    "error": "No pudimos cargar las encuestas. Inténtalo de nuevo en un momento.",
+    "profiler": {
+      "eyebrow": "Desbloquea más encuestas",
+      "title": "Completa tu perfilador",
+      "description": "Comparte algunos datos para que podamos ofrecerte encuestas mejor pagadas.",
+      "cta": "Empezar perfilador"
+    }
   },
   "WallItem": {
     "errors": {

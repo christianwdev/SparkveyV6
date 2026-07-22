@@ -80,10 +80,6 @@ export async function fetchCpxSurveys({
 }): Promise<FunctionResponse<SanitizedCPXSurvey[], 'notConfigured' | 'missingIp' | 'upstreamError' | 'invalidResponse'>> {
   const { appId, secureHash, endpoint, defaultLimit } = SiteConfig.surveys.cpxresearch;
 
-  if (!user.personalInformation.completedAt) {
-    return { ok: true, data: [] };
-  }
-
   if (!appId || !secureHash) {
     return { ok: false, error: 'notConfigured' };
   }

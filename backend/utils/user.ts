@@ -625,6 +625,49 @@ export async function updateUserPreferences(
   }
 }
 
+export async function updatePersonalInformation(
+  {
+    userID,
+    personalInformation,
+  }: {
+    userID: string,
+    personalInformation: {
+      firstName: string,
+      lastName: string,
+      dateOfBirth: Date,
+      gender: 'male' | 'female' | 'other',
+      country: string,
+      city: string,
+      zipCode: string,
+    },
+  },
+): Promise<FunctionResponse<InternalUser>> {
+  try {
+    const { db } = getGlobalObject();
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      { userID, deletedAt: { $exists: false } },
+      {
+        $set: {
+          personalInformation: {
+            ...personalInformation,
+            completedAt: new Date(),
+          },
+        },
+      },
+      { returnDocument: 'after' },
+    );
+
+    if (!user) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: user };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
 /** Scrub PII while retaining userID + ledger history for fraud correlation. */
 export async function anonymizeDeletedUser(
   userID: string,

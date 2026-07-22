@@ -1,7 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import OfferCarouselSection from '../OfferCarouselSection/OfferCarouselSection';
+import ProfilerModal from '@components/ProfilerModal/ProfilerModal';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
+import { useUser } from '@contexts/UserProvider';
 import { useHomepageOffers } from '@hooks/useHomepageOffers';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
 
@@ -31,11 +34,14 @@ export default function OffersView({
   maxRows,
   offersPerView,
 }: OffersViewProps) {
+  const { user } = useUser();
+  const [ profilerOpen, setProfilerOpen ] = useState(false);
   const { data: homepage, isPending } = useHomepageOffers({
     initialData: initialHomepage,
   });
 
   const loading = isPending && !homepage;
+  const showProfilerCard = !user?.personalInformation?.completedAt;
 
   return (
     <>
@@ -57,7 +63,10 @@ export default function OffersView({
         viewAllHref={surveysViewAllHref}
         maxRows={maxRows}
         offersPerView={surveysPerView(offersPerView)}
+        showProfilerCard={showProfilerCard}
+        onProfilerClick={() => setProfilerOpen(true)}
       />
+      <ProfilerModal open={profilerOpen} onClose={() => setProfilerOpen(false)} />
     </>
   );
 }

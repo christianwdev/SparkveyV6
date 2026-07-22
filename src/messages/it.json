@@ -54,6 +54,60 @@
     "title": "Sparkvey | Impostazioni profilo",
     "description": "Gestisci le impostazioni del tuo account."
   },
+  "ProfileProfiler": {
+    "metadataTitle": "Sparkvey | Profiler",
+    "metadataDescription": "Completa il profiler personale per migliori sondaggi.",
+    "title": "Profiler",
+    "subtitle": "Rispondi ad alcune domande per trovare più sondaggi.",
+    "subtitleCompleted": "Il tuo profiler è completo. Puoi aggiornare i dati in qualsiasi momento.",
+    "sections": {
+      "details": "Dati personali"
+    },
+    "sectionDescriptions": {
+      "details": "Queste informazioni restano su Sparkvey e aiutano a trovarti i sondaggi giusti."
+    },
+    "fields": {
+      "firstName": "Nome",
+      "lastName": "Cognome",
+      "dateOfBirth": "Data di nascita",
+      "gender": "Genere",
+      "country": "Paese",
+      "city": "Città",
+      "zipCode": "CAP",
+      "month": "Mese",
+      "day": "Giorno",
+      "year": "Anno"
+    },
+    "placeholders": {
+      "gender": "Seleziona genere",
+      "country": "Seleziona paese",
+      "month": "Mese",
+      "day": "Giorno",
+      "year": "Anno",
+      "dateOfBirth": "Seleziona data"
+    },
+    "gender": {
+      "male": "Maschio",
+      "female": "Femmina",
+      "other": "Altro"
+    },
+    "hints": {
+      "age": "Devi avere almeno 18 anni."
+    },
+    "actions": {
+      "save": "Salva profiler",
+      "update": "Aggiorna profiler",
+      "saving": "Salvataggio...",
+      "close": "Chiudi"
+    },
+    "success": {
+      "saved": "Profiler salvato."
+    },
+    "errors": {
+      "required": "Compila tutti i campi obbligatori.",
+      "save": "Impossibile salvare il profiler. Riprova."
+    }
+  },
   "ProfileActivityMetadata": {
     "title": "Sparkvey | Attivita profilo",
     "description": "Visualizza tutta la tua attivita precedente."
@@ -462,7 +516,13 @@
     "title": "Sondaggi",
     "description": "Scegli un sondaggio adatto al tuo tempo e inizia a guadagnare Sparks.",
     "empty": "Nessun sondaggio disponibile al momento. Torna presto.",
-    "error": "Impossibile caricare i sondaggi. Riprova tra un momento."
+    "error": "Impossibile caricare i sondaggi. Riprova tra un momento.",
+    "profiler": {
+      "eyebrow": "Sblocca più sondaggi",
+      "title": "Completa il profiler",
+      "description": "Condividi alcuni dettagli per ricevere sondaggi meglio retribuiti.",
+      "cta": "Inizia il profiler"
+    }
   },
   "WallItem": {
     "errors": {

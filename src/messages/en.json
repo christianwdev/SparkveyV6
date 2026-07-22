@@ -54,6 +54,60 @@
     "title": "Sparkvey | Profile Settings",
     "description": "Manage your account settings."
   },
+  "ProfileProfiler": {
+    "metadataTitle": "Sparkvey | Profiler",
+    "metadataDescription": "Complete your personal profiler to unlock better survey matches.",
+    "title": "Profiler",
+    "subtitle": "Answer a few questions so we can match you with more surveys.",
+    "subtitleCompleted": "Your profiler is complete. You can update your details anytime.",
+    "sections": {
+      "details": "Personal details"
+    },
+    "sectionDescriptions": {
+      "details": "This information stays on Sparkvey and helps match you with surveys."
+    },
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "dateOfBirth": "Date of birth",
+      "month": "Month",
+      "day": "Day",
+      "year": "Year",
+      "gender": "Gender",
+      "country": "Country",
+      "city": "City",
+      "zipCode": "ZIP / Postal code"
+    },
+    "placeholders": {
+      "dateOfBirth": "Select date",
+      "month": "Month",
+      "day": "Day",
+      "year": "Year",
+      "gender": "Select gender",
+      "country": "Select country"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    },
+    "hints": {
+      "age": "You must be at least 18 years old."
+    },
+    "actions": {
+      "save": "Save profiler",
+      "update": "Update profiler",
+      "saving": "Saving...",
+      "close": "Close"
+    },
+    "success": {
+      "saved": "Profiler saved."
+    },
+    "errors": {
+      "required": "Please fill in all required fields.",
+      "save": "Couldn't save your profiler. Please try again."
+    }
+  },
   "ProfileActivityMetadata": {
     "title": "Sparkvey | Profile Activity",
     "description": "View all your previous activity."
@@ -462,7 +516,13 @@
     "title": "Surveys",
     "description": "Pick a survey that fits your time and start earning Sparks.",
     "empty": "No surveys are available right now. Check back soon.",
-    "error": "We couldn't load surveys. Please try again in a moment."
+    "error": "We couldn't load surveys. Please try again in a moment.",
+    "profiler": {
+      "eyebrow": "Unlock more surveys",
+      "title": "Complete your profiler",
+      "description": "Share a few details about yourself so we can match you with better-paying surveys.",
+      "cta": "Start profiler"
+    }
   },
   "WallItem": {
     "errors": {

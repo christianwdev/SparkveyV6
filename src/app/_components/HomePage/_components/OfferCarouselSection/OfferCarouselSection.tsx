@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@i18n/navigation';
 import OfferItem from '@components/OfferItem/OfferItem';
 import SurveyItem from '@components/SurveyItem/SurveyItem';
+import SurveyProfilerCard from '@components/SurveyProfilerCard/SurveyProfilerCard';
 import type InternalOffer from 'types/Offer/InternalOffer';
 import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
@@ -28,11 +29,15 @@ type OfferCarouselSectionProps = BaseCarouselProps & (
     titleKey: OfferSectionKey;
     offers?: InternalOffer[];
     surveys?: never;
+    showProfilerCard?: never;
+    onProfilerClick?: never;
   }
   | {
     titleKey: 'surveys';
     surveys?: SanitizedCPXSurvey[];
     offers?: never;
+    showProfilerCard?: boolean;
+    onProfilerClick?: () => void;
   }
 );
 
@@ -64,10 +69,15 @@ export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const isSurveys = titleKey === 'surveys';
+  const showProfilerCard = isSurveys && Boolean(props.showProfilerCard);
   const items = (isSurveys ? props.surveys : props.offers) ?? [];
   const skeletonCount = Math.max(1, maxRows) * offersPerView;
-  const itemCount = loading ? skeletonCount : items.length;
-  const rowCount = resolveRowCount(itemCount, offersPerView, maxRows);
+  const contentCount = items.length + (showProfilerCard ? 1 : 0);
+  const itemCount = loading ? skeletonCount + (showProfilerCard ? 1 : 0) : contentCount;
+  // Profiler spans 2 rows, so force 2 rows when present and maxRows allows it.
+  const rowCount = showProfilerCard && maxRows >= 2
+    ? Math.max(2, resolveRowCount(itemCount, offersPerView, maxRows))
+    : resolveRowCount(itemCount, offersPerView, maxRows);
 
   useEffect(() => {
     const carousel = carouselRef.current;
@@ -95,9 +105,9 @@ export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
       resizeObserver.disconnect();
       carousel.removeEventListener('scroll', updateScrollState);
     };
-  }, [ props.offers, props.surveys, rowCount, offersPerView, loading ]);
+  }, [ items.length, rowCount, offersPerView, loading, showProfilerCard ]);
 
-  if (!loading && items.length === 0) return null;
+  if (!loading && items.length === 0 && !showProfilerCard) return null;
 
   const scrollByPage = (direction: 1 | -1) => {
     const carousel = carouselRef.current;
@@ -157,6 +167,12 @@ export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
           '--rows': rowCount,
         } as CSSProperties}
       >
+        {showProfilerCard && props.onProfilerClick && (
+          <SurveyProfilerCard
+            variant="carousel"
+            onClick={props.onProfilerClick}
+          />
+        )}
         {loading
           ? Array.from({ length: skeletonCount }, (_, index) => (
             isSurveys

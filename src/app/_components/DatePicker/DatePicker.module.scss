@@ -1,0 +1,176 @@
+@use '../../_styles/variables.scss' as *;
+
+.datePicker {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+
+  &.open {
+    z-index: 60;
+  }
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border: 1px solid $border-light;
+  border-radius: 8px;
+  background: $light-gray;
+  color: $text-bold;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+
+  > .label {
+    margin: 0;
+    color: $text-light;
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  > .value {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    min-width: 0;
+    color: $text-bold;
+    font-size: 14px;
+    font-weight: 400;
+
+    > span {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > .calendarIcon,
+    > .chevron {
+      flex-shrink: 0;
+      width: 16px;
+      height: 16px;
+      color: $text-light;
+    }
+
+    > .chevron {
+      transform: rotate(90deg);
+    }
+
+    &.placeholder {
+      color: $text-light;
+    }
+  }
+}
+
+.popover {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 4px);
+  left: 0;
+  width: max-content;
+  max-width: min(100vw - 48px, 360px);
+  padding: 12px;
+  border: 1px solid $border-light;
+  border-radius: 12px;
+  background: $off-white;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.calendar {
+  --rdp-accent-color: #{$primary};
+  --rdp-accent-background-color: rgba(158, 56, 208, 0.12);
+  --rdp-today-color: #{$primary};
+  --rdp-selected-border: 2px solid #{$primary};
+  --rdp-day-height: 36px;
+  --rdp-day-width: 36px;
+  --rdp-day_button-height: 34px;
+  --rdp-day_button-width: 34px;
+  --rdp-day_button-border-radius: 8px;
+  --rdp-nav_button-height: 32px;
+  --rdp-nav_button-width: 32px;
+  --rdp-nav-height: 36px;
+
+  color: $text-bold;
+  font-family: inherit;
+  font-size: 13px;
+
+  :global(.rdp-months_dropdown),
+  :global(.rdp-years_dropdown),
+  :global(.rdp-dropdowns) {
+    gap: 8px;
+  }
+
+  :global(.rdp-dropdown_root) {
+    position: relative;
+  }
+
+  :global(.rdp-months_dropdown),
+  :global(.rdp-years_dropdown),
+  :global(select.rdp-dropdown) {
+    height: 32px;
+    padding: 0 28px 0 10px;
+    border: 1px solid $border-light;
+    border-radius: 8px;
+    background: $light-gray;
+    color: $text-bold;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  :global(.rdp-caption_label) {
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-bold;
+  }
+
+  :global(.rdp-button_previous),
+  :global(.rdp-button_next) {
+    border: 1px solid $border-light;
+    border-radius: 8px;
+    background: $light-gray;
+    color: $text-bold;
+  }
+
+  :global(.rdp-button_previous:hover),
+  :global(.rdp-button_next:hover) {
+    background: $light-blue;
+  }
+
+  :global(.rdp-weekday) {
+    color: $text-light;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  :global(.rdp-day_button) {
+    font-weight: 500;
+  }
+
+  :global(.rdp-selected .rdp-day_button) {
+    background: $primary;
+    color: white;
+    border-color: $primary;
+  }
+
+  :global(.rdp-today:not(.rdp-selected) .rdp-day_button) {
+    color: $primary;
+    font-weight: 600;
+  }
+
+  :global(.rdp-day_button:hover:not([disabled])) {
+    background: $light-blue;
+  }
+}
