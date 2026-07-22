@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  useCallback,
   useEffect,
+  useEffectEvent,
   useId,
   useState,
   type CSSProperties,
@@ -34,12 +34,12 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
   const [ portalRoot, setPortalRoot ] = useState<Element | null>(null);
   const [ coords, setCoords ] = useState<TooltipCoords | null>(null);
 
-  const setAnchorRef = useCallback((node: HTMLElement | null) => {
+  function setAnchorRef(node: HTMLElement | null) {
     setAnchor(node);
     setPortalRoot(node?.closest(`.${styles.profilePage}`) ?? null);
-  }, []);
+  }
 
-  const updatePosition = useCallback(() => {
+  function show() {
     if (!anchor) return;
 
     const rect = anchor.getBoundingClientRect();
@@ -47,20 +47,26 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
       left: rect.left + (rect.width / 2),
       top: rect.top - 8,
     });
-  }, [ anchor ]);
+  }
 
-  const show = useCallback(() => {
-    updatePosition();
-  }, [ updatePosition ]);
-
-  const hide = useCallback(() => {
+  function hide() {
     setCoords(null);
-  }, []);
+  }
+
+  const onReposition = useEffectEvent(() => {
+    if (!anchor) return;
+
+    const rect = anchor.getBoundingClientRect();
+    setCoords({
+      left: rect.left + (rect.width / 2),
+      top: rect.top - 8,
+    });
+  });
 
   useEffect(() => {
     if (!coords) return;
 
-    const handleReposition = () => updatePosition();
+    const handleReposition = () => onReposition();
     window.addEventListener('scroll', handleReposition, true);
     window.addEventListener('resize', handleReposition);
 
@@ -68,7 +74,7 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
       window.removeEventListener('scroll', handleReposition, true);
       window.removeEventListener('resize', handleReposition);
     };
-  }, [ coords, updatePosition ]);
+  }, [ coords ]);
 
   const tooltipStyle: CSSProperties | undefined = coords
     ? {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Dropdown.module.scss';
 
 // Icons
@@ -30,20 +30,19 @@ export default function Dropdown<T extends string | number = string>(props: Drop
     return props.selected === value;
   }
 
-  const selectedText = useMemo(() => {
-    if (Array.isArray(props.selected)) {
-      if (props.selected.length < 1) return props.defaultValue ?? '';
-
-      return props.selected
+  let selectedText = '';
+  if (Array.isArray(props.selected)) {
+    selectedText = props.selected.length < 1
+      ? props.defaultValue ?? ''
+      : props.selected
         .map(key => props.values.find(value => value.value === key)?.label ?? '')
         .filter(Boolean)
         .join(', ');
-    }
-
-    return props.values.find(value => value.value === props.selected)?.label
+  } else {
+    selectedText = props.values.find(value => value.value === props.selected)?.label
       ?? props.defaultValue
       ?? '';
-  }, [ props.selected, props.defaultValue, props.values ]);
+  }
 
   useEffect(() => {
     if (!active) return;
