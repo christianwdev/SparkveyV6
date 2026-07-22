@@ -196,12 +196,59 @@ export async function getPostbackLog(requestID: string) {
   return postbackLogs().findOne({ requestID });
 }
 
+const SENSITIVE_QUERY_KEYS = new Set([
+  'secret',
+  'hash',
+  'signature',
+  'sig',
+  'token',
+  'key',
+  'api_key',
+  'apikey',
+  'secure_hash',
+  'password',
+]);
+
+function redactPostbackQuery(
+  query: Record<string, string | undefined>,
+): Record<string, string | undefined> {
+  const redacted: Record<string, string | undefined> = {};
+
+  for (const [ key, value ] of Object.entries(query)) {
+    if (SENSITIVE_QUERY_KEYS.has(key.toLowerCase())) {
+      redacted[key] = value ? '[REDACTED]' : value;
+      continue;
+    }
+
+    redacted[key] = value;
+  }
+
+  return redacted;
+}
+
+function redactPostbackUrl(url: string): string {
+  try {
+    const parsed = new URL(url);
+
+    for (const key of [ ...parsed.searchParams.keys() ]) {
+      if (SENSITIVE_QUERY_KEYS.has(key.toLowerCase())) {
+        parsed.searchParams.set(key, '[REDACTED]');
+      }
+    }
+
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
 export async function logPendingPostback(c: Context) {
+  const query = redactPostbackQuery(normalizeQuery(c.req.query()));
   const logObject: InternalPostbackRequest = {
     date: new Date(),
-    originalURL: c.req.url,
+    originalURL: redactPostbackUrl(c.req.url),
     provider: c.req.param('provider') ?? '',
-    query: normalizeQuery(c.req.query()),
+    query,
     remoteIP: getIPFromRequest(c) ?? null,
     status: 'pending',
     requestID: c.get('requestID'),

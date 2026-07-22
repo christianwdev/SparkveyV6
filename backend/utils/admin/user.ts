@@ -5,6 +5,8 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 
 // Utils
 import { getAffiliateCodesByUserID } from 'backend/utils/affiliateCode';
+import { maskIPAddress } from 'backend/utils/ip';
+import { parseDeviceInfo } from 'backend/utils/device';
 
 // Types
 import type { Filter } from 'mongodb';
@@ -17,12 +19,52 @@ import type AffiliateCode from 'types/AffiliateCode';
 
 type AdminUser = Omit<InternalUser, 'password'>;
 
-function sanitizeAdminUser(user: InternalUser): AdminUser {
-  const adminUser = { ...user };
+type AdminUserSession = {
+  device: string,
+  devicePlatform: ReturnType<typeof parseDeviceInfo>['platform'],
+  ipAddress: string,
+  country?: string,
+  city?: string,
+  issueDate: Date,
+  accessedDate: Date,
+  expiryDate: Date,
+};
 
-  delete adminUser.password;
+type AdminEmailActionable = Omit<EmailActionable, 'actionableID'> & {
+  actionableID: string,
+};
+
+function sanitizeAdminUser(user: InternalUser): AdminUser {
+  const { password: _password, ...adminUser } = user;
 
   return adminUser;
+}
+
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function sanitizeAdminSession(session: UserSession): AdminUserSession {
+  const device = parseDeviceInfo(session.userAgent);
+
+  return {
+    device: device.label,
+    devicePlatform: device.platform,
+    ipAddress: maskIPAddress(session.currentIPAddress || session.initialIPAddress),
+    country: session.country,
+    city: session.city,
+    issueDate: session.issueDate,
+    accessedDate: session.accessedDate,
+    expiryDate: session.expiryDate,
+  };
+}
+
+function sanitizeAdminEmailActionable(actionable: EmailActionable): AdminEmailActionable {
+  return {
+    ...actionable,
+    // Never return the raw secret that can confirm email/password/deletion actions.
+    actionableID: `${actionable.actionableID.slice(0, 8)}…`,
+  };
 }
 
 export async function getUsers(
@@ -40,26 +82,30 @@ export async function getUsers(
     filterBy?: 'username' | 'email' | 'userID';
     sort?: string;
     order?: string;
-  }
-): Promise<FunctionResponse<InternalUser[]>> {
+  },
+): Promise<FunctionResponse<AdminUser[]>> {
   try {
     const { db } = getGlobalObject();
+    const escapedSearch = escapeRegex(search);
 
     const filterMap: Record<string, object> = {
-      username: { username: { $regex: search, $options: 'i' } },
-      email: { 'emailInformation.emailAddress': { $regex: search, $options: 'i' } },
+      username: { username: { $regex: escapedSearch, $options: 'i' } },
+      email: { 'emailInformation.emailAddress': { $regex: escapedSearch, $options: 'i' } },
       userID: { userID: search },
     };
+
+    const sortField = sort === 'balance.sparks' ? 'balance.sparks' : 'creationDate';
 
     const users = await db.collection<InternalUser>(DatabaseCollections.users).find(
       filterMap[filterBy] ?? filterMap.username,
     )
-    .sort({ [sort]: order === 'asc' ? 1 : -1 })
-    .skip(offset)
-    .limit(limit)
-    .toArray() ?? [];
+      .sort({ [sortField]: order === 'asc' ? 1 : -1 })
+      .skip(offset)
+      .limit(limit)
+      .project({ password: 0 })
+      .toArray() ?? [];
 
-    return { ok: true, data: users };
+    return { ok: true, data: users as AdminUser[] };
   } catch (error) {
     console.error(error);
 
@@ -97,7 +143,7 @@ export async function getUserSessions(
     offset?: number;
     activeOnly?: boolean;
   },
-): Promise<FunctionResponse<UserSession[]>> {
+): Promise<FunctionResponse<AdminUserSession[]>> {
   try {
     const { db } = getGlobalObject();
 
@@ -113,7 +159,7 @@ export async function getUserSessions(
       .limit(limit)
       .toArray() ?? [];
 
-    return { ok: true, data: sessions };
+    return { ok: true, data: sessions.map(sanitizeAdminSession) };
   } catch (error) {
     console.error(error);
 
@@ -161,7 +207,7 @@ export async function getUserEmailActionables(
     offset?: number;
     type?: EmailActionable['type'];
   },
-): Promise<FunctionResponse<EmailActionable[]>> {
+): Promise<FunctionResponse<AdminEmailActionable[]>> {
   try {
     const { db } = getGlobalObject();
 
@@ -174,7 +220,7 @@ export async function getUserEmailActionables(
       .limit(limit)
       .toArray() ?? [];
 
-    return { ok: true, data: actionables };
+    return { ok: true, data: actionables.map(sanitizeAdminEmailActionable) };
   } catch (error) {
     console.error(error);
 
@@ -208,7 +254,7 @@ export async function getUserAffiliateData(
 
     const referredUsers = await db.collection<InternalUser>(DatabaseCollections.users).find(
       {
-        'referralInformation.referredByID': userID
+        'referralInformation.referredByID': userID,
       },
       {
         projection: {

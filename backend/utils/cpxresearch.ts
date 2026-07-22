@@ -104,21 +104,28 @@ export async function fetchCpxSurveys({
   if (subid2) params.set('subid_2', subid2);
   if (userAgent) params.set('user_agent', userAgent);
 
-  const email = user.emailInformation.emailAddress;
-  if (email) params.set('email', email);
+  // Email is optional for matching; only forward when profiler demographics are absent.
+  if (!user.personalInformation.completedAt) {
+    const email = user.emailInformation.emailAddress;
+    if (email) params.set('email', email);
+  }
 
   if (user.personalInformation.completedAt) {
     const { dateOfBirth, gender, country, zipCode } = user.personalInformation;
 
+    // Only forward fields CPX supports. Never invent gender for "other".
     params.set('main_info', 'true');
     params.set('birthday_day', String(dateOfBirth.getUTCDate()));
     params.set('birthday_month', String(dateOfBirth.getUTCMonth() + 1));
     params.set('birthday_year', String(dateOfBirth.getUTCFullYear()));
-    params.set('gender', gender === 'male' ? 'm' : 'f');
+    if (gender === 'male' || gender === 'female') {
+      params.set('gender', gender === 'male' ? 'm' : 'f');
+    }
     params.set('user_country_code', country.toUpperCase());
     params.set('zip_code', zipCode);
   }
 
+  // CPX's surveys endpoint is GET-only; keep query params minimal above.
   try {
     const response = await fetch(`${endpoint}?${params.toString()}`, {
       method: 'GET',

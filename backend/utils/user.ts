@@ -195,12 +195,12 @@ export function sanitizeUser(user: InternalUser | WithId<InternalUser>): Sanitiz
       referredBy: user.referralInformation?.referredBy,
     },
     userConfiguration: user.userConfiguration,
+    // Owner-session only: full profiler PII for edit/prefill. Never attach this DTO to other users.
     personalInformation: user.personalInformation ?? {},
     usernameChangedAt: user.usernameChangedAt,
     deletedAt: user.deletedAt,
     bannedUntil: user.bannedUntil,
     creationDate: user.creationDate,
-    staffPermissions: user.staffPermissions,
   };
 }
 

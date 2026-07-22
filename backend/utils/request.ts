@@ -1,3 +1,4 @@
+import { timingSafeEqual } from 'crypto';
 import { createMiddleware } from 'hono/factory';
 import { sendResponse } from './response';
 import RouteResponseError from 'types/RouteResponseError';
@@ -39,23 +40,47 @@ export function normalizeQuery(
   return normalized;
 }
 
+function secretsMatch(provided: string, expected: string): boolean {
+  const providedBytes = new TextEncoder().encode(provided);
+  const expectedBytes = new TextEncoder().encode(expected);
+
+  if (providedBytes.length !== expectedBytes.length) return false;
+
+  return timingSafeEqual(providedBytes, expectedBytes);
+}
+
+function hasValidPassthroughToken(token: string | undefined): boolean {
+  const expected = process.env.NEXTJS_PASSTHROUGH_TOKEN;
+  if (!expected || !token) return false;
+
+  return secretsMatch(token, expected);
+}
+
 export function getIPFromRequest(c: Context): string | undefined {
-  let forwarded = c.req.header('cf-connecting-ip') as string;
-  const passthrough = c.req.header('nextjs-passthrough-ip') as string;
-
-  if (passthrough) forwarded = passthrough;
-
-  const forwardedFor = c.req.header('x-forwarded-for')?.split(',')[0]?.trim();
-  const realIP = c.req.header('x-real-ip');
-
   if (process.env.NODE_ENV !== 'production') return '140.174.21.171';
 
-  return forwarded ?? forwardedFor ?? realIP;
+  const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
+  const passthroughIp = c.req.header('nextjs-passthrough-ip')?.trim();
+
+  // Only trust Next SSR-forwarded client IP when the shared secret matches.
+  if (passthroughIp && hasValidPassthroughToken(passthroughToken)) {
+    return passthroughIp;
+  }
+
+  const cfIp = c.req.header('cf-connecting-ip')?.trim();
+  if (cfIp) return cfIp;
+
+  // Ignore spoofable X-Forwarded-For / X-Real-IP from untrusted clients.
+  return undefined;
 }
 
 export function getUserAgentFromRequest(c: Context): string | undefined {
+  const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
   const passthrough = c.req.header('nextjs-passthrough-user-agent');
-  if (passthrough) return passthrough;
+
+  if (passthrough && hasValidPassthroughToken(passthroughToken)) {
+    return passthrough;
+  }
 
   return c.req.header('user-agent') || undefined;
 }
@@ -63,10 +88,14 @@ export function getUserAgentFromRequest(c: Context): string | undefined {
 export function getCountryFromRequest(c: Context): string | undefined {
   if (process.env.NODE_ENV !== 'production') return 'US';
 
-  const passthrough = c.req.header('nextjs-passthrough-ip-country') as string;
+  const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
+  const passthrough = c.req.header('nextjs-passthrough-ip-country')?.trim();
   const cfIPCountry = c.req.header('cf-ipcountry') as string;
 
-  if (passthrough) return passthrough || undefined;
+  if (passthrough && hasValidPassthroughToken(passthroughToken)) {
+    return passthrough || undefined;
+  }
+
   if (cfIPCountry && cfIPCountry !== 'XX' && cfIPCountry !== 'T1') return cfIPCountry;
 
   return undefined;
@@ -75,9 +104,14 @@ export function getCountryFromRequest(c: Context): string | undefined {
 export function getCityFromRequest(c: Context): string | undefined {
   if (process.env.NODE_ENV !== 'production') return 'Dallas';
 
-  const passthrough = c.req.header('nextjs-passthrough-ip-city') as string;
+  const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
+  const passthrough = c.req.header('nextjs-passthrough-ip-city');
   const cfIPCity = c.req.header('cf-ipcity') as string;
-  const city = passthrough || cfIPCity;
+  const city = (
+    passthrough && hasValidPassthroughToken(passthroughToken)
+      ? passthrough
+      : cfIPCity
+  );
 
   if (!city) return undefined;
 
@@ -89,16 +123,9 @@ export function getCityFromRequest(c: Context): string | undefined {
 }
 
 export function getIPFromSocket(socket: TypedSocket): string | undefined {
-  let forwarded = socket.handshake.headers['cf-connecting-ip'];
-  const passthrough = socket.handshake.headers['nextjs-passthrough-ip'];
-  const forwardedFor = socket.handshake.headers['x-forwarded-for'];
-  const realIP = socket.handshake.headers['x-real-ip'];
-  if (typeof passthrough === 'string') forwarded = passthrough;
-  if (typeof forwarded === 'string' && forwarded.length > 0) return forwarded;
-  if (typeof forwardedFor === 'string' && forwardedFor.length > 0) {
-    return forwardedFor.split(',')[0]?.trim() || undefined;
-  }
-  if (typeof realIP === 'string' && realIP.length > 0) return realIP;
+  const cfIp = socket.handshake.headers['cf-connecting-ip'];
+  if (typeof cfIp === 'string' && cfIp.trim()) return cfIp.trim();
 
+  // Socket handshakes should not honor client-spoofable forwarded headers.
   return undefined;
 }

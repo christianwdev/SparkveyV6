@@ -1,5 +1,6 @@
 import type { clientRequest } from '@utils/clientRequest';
 import type { serverRequest } from '@utils/serverRequest';
+import { CSRF_HEADER_NAME, ensureCsrfToken } from '@utils/csrf';
 import { getScope } from '@utils/scope';
 import type APIResponse from 'types/APIResponse';
 import type InternalEarning from 'types/Earnings/InternalEarning';
@@ -132,10 +133,16 @@ async function postSettings<T>(
   data?: object,
 ): Promise<APIResponse<T> | null> {
   try {
+    const csrfToken = await ensureCsrfToken();
+    if (!csrfToken) return null;
+
     const response = await fetch(`${getScope()}/profile/settings${path}`, {
       method: 'POST',
       credentials: 'include',
-      headers: data ? { 'Content-Type': 'application/json' } : undefined,
+      headers: {
+        ...(data ? { 'Content-Type': 'application/json' } : {}),
+        [CSRF_HEADER_NAME]: csrfToken,
+      },
       body: data ? JSON.stringify(data) : undefined,
     });
 
@@ -156,6 +163,7 @@ export async function updatePassword(body: {
 
 export async function requestEmailChange(body: {
   email: string,
+  currentPassword?: string,
 }): Promise<APIResponse<null> | null> {
   return postSettings<null>('/email', body);
 }

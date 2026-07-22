@@ -29,6 +29,7 @@ function SettingsPageContent() {
 
   const [ username, setUsername ] = useState(user?.username ?? '');
   const [ email, setEmail ] = useState('');
+  const [ emailPassword, setEmailPassword ] = useState('');
   const [ currentPassword, setCurrentPassword ] = useState('');
   const [ newPassword, setNewPassword ] = useState('');
   const [ confirmPassword, setConfirmPassword ] = useState('');
@@ -153,8 +154,14 @@ function SettingsPageContent() {
               void run(
                 'email',
                 async () => {
-                  const response = await requestEmailChange({ email: email.trim() });
-                  if (response?.success) setEmail('');
+                  const response = await requestEmailChange({
+                    email: email.trim(),
+                    ...(user.hasPassword ? { currentPassword: emailPassword } : {}),
+                  });
+                  if (response?.success) {
+                    setEmail('');
+                    setEmailPassword('');
+                  }
 
                   return response;
                 },
@@ -184,8 +191,31 @@ function SettingsPageContent() {
               />
               <p className={styles.hint}>{t('hints.emailChange')}</p>
             </div>
+            {user.hasPassword ? (
+              <div className={styles.field}>
+                <label htmlFor="settings-email-password">{t('labels.currentPassword')}</label>
+                <input
+                  id="settings-email-password"
+                  type="password"
+                  value={emailPassword}
+                  onChange={(event) => setEmailPassword(event.target.value)}
+                  disabled={pending === 'email'}
+                  required
+                  autoComplete="current-password"
+                />
+                <p className={styles.hint}>{t('hints.emailPasswordConfirm')}</p>
+              </div>
+            ) : null}
             <div className={styles.actions}>
-              <button type="submit" className={styles.button} disabled={pending === 'email' || !email.trim()}>
+              <button
+                type="submit"
+                className={styles.button}
+                disabled={
+                  pending === 'email'
+                  || !email.trim()
+                  || (user.hasPassword && !emailPassword)
+                }
+              >
                 {t('actions.changeEmail')}
               </button>
             </div>

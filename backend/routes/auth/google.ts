@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import { Hono } from 'hono';
 import { OAuth2Client } from 'google-auth-library';
 
@@ -12,10 +13,18 @@ import { startSession } from 'backend/utils/session';
 import { createUser, getRawUser, sanitizeEmail } from 'backend/utils/user';
 import { buildFrontendURL } from 'backend/utils/frontendUrl';
 import { isDeletedEmail } from 'backend/utils/deletedAccountFingerprint';
+import { getGlobalObject } from 'backend/utils/globalObject';
 
 const app = new Hono();
 
 const OAUTH_SCOPE = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile openid';
+const OAUTH_STATE_TTL_SECONDS = 600;
+const OAUTH_STATE_PREFIX = 'oauth:google:state:';
+
+type GoogleOAuthState = {
+  affiliateCode?: string,
+  redirect?: string,
+};
 
 function getOAuthClient() {
   return new OAuth2Client(
@@ -31,26 +40,59 @@ function getSafeRedirectPath(redirectPath?: string): string {
   return redirectPath;
 }
 
+function isGoogleEmailVerified(value: GoogleAPIUser['email_verified']): boolean {
+  return value === true || value === 'true';
+}
+
+async function storeOAuthState(payload: GoogleOAuthState): Promise<string> {
+  const { redisClient } = getGlobalObject();
+  const state = randomBytes(32).toString('hex');
+
+  await redisClient.set(
+    `${OAUTH_STATE_PREFIX}${state}`,
+    JSON.stringify(payload),
+    'EX',
+    OAUTH_STATE_TTL_SECONDS,
+  );
+
+  return state;
+}
+
+async function consumeOAuthState(state: string): Promise<GoogleOAuthState | null> {
+  const { redisClient } = getGlobalObject();
+  const key = `${OAUTH_STATE_PREFIX}${state}`;
+  const raw = await redisClient.get(key);
+
+  if (!raw) return null;
+
+  await redisClient.del(key);
+
+  try {
+    return JSON.parse(raw) as GoogleOAuthState;
+  } catch {
+    return null;
+  }
+}
+
 export default function routeInvoker() {
   const OAuthClient = getOAuthClient();
 
-  app.get('/login', (c) => {
-    const statePayload: Record<string, string> = {};
+  app.get('/login', async (c) => {
+    const statePayload: GoogleOAuthState = {};
     const ref = c.req.query('ref');
     const redirect = c.req.query('redirect');
 
     if (typeof ref === 'string') statePayload.affiliateCode = ref;
     if (typeof redirect === 'string') statePayload.redirect = getSafeRedirectPath(redirect);
 
-    const state = Object.keys(statePayload).length > 0
-      ? encodeURIComponent(JSON.stringify(statePayload))
-      : undefined;
+    const state = await storeOAuthState(statePayload);
 
     const authURL = OAuthClient.generateAuthUrl({
       access_type: 'offline',
       scope: OAUTH_SCOPE,
       include_granted_scopes: true,
       state,
+      prompt: 'select_account',
     });
 
     return c.redirect(authURL);
@@ -61,38 +103,35 @@ export default function routeInvoker() {
     const code = c.req.query('code');
     const state = c.req.query('state');
 
-    if (callbackError || !code) return c.redirect(buildFrontendURL('/', { error: 'google_callback' }));
+    if (callbackError || !code || !state) {
+      return c.redirect(buildFrontendURL('/', { error: 'google_callback' }));
+    }
+
+    const stateData = await consumeOAuthState(state);
+    if (!stateData) {
+      return c.redirect(buildFrontendURL('/', { error: 'google_state' }));
+    }
 
     try {
       const { tokens } = await OAuthClient.getToken(code);
       if (!tokens?.id_token) return c.redirect(buildFrontendURL('/', { error: 'google_token' }));
 
-      const response = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${tokens.id_token}`);
-      if (!response.ok) return c.redirect(buildFrontendURL('/', { error: 'google_profile' }));
+      const ticket = await OAuthClient.verifyIdToken({
+        idToken: tokens.id_token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      });
+      const data = ticket.getPayload() as GoogleAPIUser | undefined;
 
-      const data = await response.json() as GoogleAPIUser;
-
-      if (data.aud !== process.env.GOOGLE_CLIENT_ID) return c.redirect(buildFrontendURL('/', { error: 'google_audience' }));
-      if (!data.email || !data.picture || !data.sub) {
+      if (!data?.sub || !data.email || !data.picture) {
         return c.redirect(buildFrontendURL('/', { error: 'google_user' }));
       }
 
-      let affiliateCode: string | undefined;
-      let redirectPath = '/';
-
-      if (state) {
-        try {
-          const stateData = JSON.parse(decodeURIComponent(state)) as {
-            affiliateCode?: string,
-            redirect?: string,
-          };
-
-          affiliateCode = stateData.affiliateCode;
-          redirectPath = getSafeRedirectPath(stateData.redirect);
-        } catch {
-          // Ignore invalid state data and continue with safe defaults.
-        }
+      if (!isGoogleEmailVerified(data.email_verified)) {
+        return c.redirect(buildFrontendURL('/', { error: 'google_unverified' }));
       }
+
+      const affiliateCode = stateData.affiliateCode;
+      const redirectPath = getSafeRedirectPath(stateData.redirect);
 
       const existingUserResult = await getRawUser({
         $or: [

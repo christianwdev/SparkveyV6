@@ -6,7 +6,7 @@ type SanitizedSocialLink = {
 
 type SanitizedUser = Omit<
   InternalUser,
-  'password' | 'socialInformation' | 'referralInformation'
+  'password' | 'socialInformation' | 'referralInformation' | 'staffPermissions'
 > & {
   hasPassword: boolean,
 

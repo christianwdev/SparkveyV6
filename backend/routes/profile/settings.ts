@@ -24,6 +24,7 @@ import {
 import { expireUserSessions, startSession } from 'backend/utils/session';
 import { isDeletedEmail } from 'backend/utils/deletedAccountFingerprint';
 import { rateLimit } from 'backend/utils/rateLimit';
+import { requireCsrf } from 'backend/middleware/csrf';
 import RouteResponseError from 'types/RouteResponseError';
 
 import {
@@ -51,6 +52,7 @@ const app = new Hono<{ Variables: { user: InternalUser, session: UserSession } }
 
 export default function routesInvoker() {
   app.use(settingsMutationRateLimit);
+  app.use(requireCsrf);
 
   app.post(
     '/password',
@@ -122,7 +124,8 @@ export default function routesInvoker() {
     zValidator('json', changeEmailBodySchema),
     async (c) => {
       const user = c.get('user');
-      const email = sanitizeEmail(c.req.valid('json').email);
+      const { email: rawEmail, currentPassword } = c.req.valid('json');
+      const email = sanitizeEmail(rawEmail);
 
       if (!email) {
         throw new RouteResponseError({ status: 400, message: 'Invalid email address.' });
@@ -133,6 +136,23 @@ export default function routesInvoker() {
           status: 400,
           message: 'That is already your email address.',
         });
+      }
+
+      if (user.password) {
+        if (!currentPassword) {
+          throw new RouteResponseError({
+            status: 400,
+            message: 'Current password is required to change your email.',
+          });
+        }
+
+        const valid = await Bun.password.verify(currentPassword, user.password);
+        if (!valid) {
+          throw new RouteResponseError({
+            status: 401,
+            message: 'Current password is incorrect.',
+          });
+        }
       }
 
       const deleted = await isDeletedEmail(email);

@@ -52,6 +52,11 @@ export class LootablyPostbackProvider extends PostbackProvider<LootablyQuery> {
   }
 
   normalize(data: LootablyQuery): NormalizedPostbackFields {
+    // Lootably: 1 = completed, 0 = chargeback/reversed.
+    const status = data.status === '0' || data.status.toLowerCase() === 'chargeback'
+      ? 'reversed'
+      : 'completed';
+
     return {
       user: data.user,
       value: parseRevenue(data.value),
@@ -59,7 +64,7 @@ export class LootablyPostbackProvider extends PostbackProvider<LootablyQuery> {
       offerID: data.offerID,
       offerName: data.offerName,
       conversionID: data.conversionID,
-      status: 'completed',
+      status,
       offerDisplayName: data.offerDisplayName,
       userIP: data.userIP,
       eventName: data.eventName,
