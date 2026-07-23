@@ -138,21 +138,26 @@ export default function routesInvoker() {
         });
       }
 
-      if (user.password) {
-        if (!currentPassword) {
-          throw new RouteResponseError({
-            status: 400,
-            message: 'Current password is required to change your email.',
-          });
-        }
+      if (!user.password) {
+        throw new RouteResponseError({
+          status: 400,
+          message: 'Email changes are not available for accounts that sign in with Google.',
+        });
+      }
 
-        const valid = await Bun.password.verify(currentPassword, user.password);
-        if (!valid) {
-          throw new RouteResponseError({
-            status: 401,
-            message: 'Current password is incorrect.',
-          });
-        }
+      if (!currentPassword) {
+        throw new RouteResponseError({
+          status: 400,
+          message: 'Current password is required to change your email.',
+        });
+      }
+
+      const valid = await Bun.password.verify(currentPassword, user.password);
+      if (!valid) {
+        throw new RouteResponseError({
+          status: 401,
+          message: 'Current password is incorrect.',
+        });
       }
 
       const deleted = await isDeletedEmail(email);

@@ -63,22 +63,19 @@ function OfferItemLoaded(props: OfferItemLoadedProps) {
       <div className={styles.imageContainer}>
         {props.offerImageUrl ? (
           <>
-            <Image
+            {/* Provider CDNs vary; avoid opening next/image to arbitrary hosts. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={props.offerImageUrl}
-              fill
-              sizes="100%"
               alt=""
               aria-hidden
               className={styles.blurredImage}
-              style={{ objectFit: 'cover' }}
             />
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={props.offerImageUrl}
-              fill
-              sizes="100%"
               alt={props.offerName}
               className={styles.offerImage}
-              style={{ objectFit: 'cover' }}
             />
           </>
         ) : null}

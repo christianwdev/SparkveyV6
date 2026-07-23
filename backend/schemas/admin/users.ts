@@ -19,6 +19,7 @@ const internalEarningTypes = [
 const internalRedemptionStatuses = [
   'pending',
   'approved',
+  'processing',
   'completed',
   'failed',
   'rejected',

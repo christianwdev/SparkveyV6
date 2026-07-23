@@ -156,7 +156,14 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.userEarnings).createIndexes([
+  const userEarnings = db.collection(DatabaseCollections.userEarnings);
+
+  await userEarnings.createIndexes([
+    {
+      key: { provider: 1, conversionID: 1 },
+      name: 'provider_conversionID_unique',
+      unique: true,
+    },
     {
       key: { type: 1, status: 1, createdAt: -1, offerID: 1 },
       name: 'type_status_createdAt_offerID',

@@ -15,15 +15,16 @@ const nextConfig: NextConfig = {
 
   images: {
     dangerouslyAllowLocalIP: process.env.NODE_ENV !== 'production',
+
+    // Offer-wall creatives use arbitrary CDNs — those render via <img>, not next/image.
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-      },
+      { protocol: 'https', hostname: 'api.dicebear.com' },
+      { protocol: 'https', hostname: 'worldflags.io' },
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+      { protocol: 'https', hostname: '*.googleusercontent.com' },
+      { protocol: 'https', hostname: 'sparkvey.com' },
+      { protocol: 'https', hostname: 'www.sparkvey.com' },
+      { protocol: 'http', hostname: 'localhost' },
     ],
   },
 

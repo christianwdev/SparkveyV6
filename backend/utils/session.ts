@@ -45,11 +45,13 @@ export async function startSession(
     const city = getCityFromRequest(c);
 
     const sessionID = crypto.randomBytes(32).toString('hex');
+    const revokeID = crypto.randomBytes(16).toString('hex');
     const issueDate = new Date();
     const expiryDate = new Date(issueDate.getTime() + 604800000); // 1 Week
 
     const userSession: UserSession = {
       sessionID,
+      revokeID,
       userID,
       accessedDate: issueDate,
       expiryDate,
@@ -303,9 +305,10 @@ export async function deleteUserSession(
   try {
     const { db } = getGlobalObject();
 
+    // Clients send revokeID (returned as sessionID in sanitized payloads).
     const result = await db.collection<UserSession>(DatabaseCollections.userSessions).updateOne({
-      sessionID,
       userID,
+      revokeID: sessionID,
       expiryDate: {
         $gt: new Date(),
       },
@@ -334,7 +337,7 @@ export function sanitizeUserSession(
   const device = parseDeviceInfo(session.userAgent);
 
   return {
-    sessionID: session.sessionID,
+    sessionID: session.revokeID,
     device: device.label,
     devicePlatform: device.platform,
     ipAddress: maskIPAddress(session.currentIPAddress || session.initialIPAddress),

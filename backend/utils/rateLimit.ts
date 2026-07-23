@@ -71,7 +71,17 @@ export function rateLimit(options: RateLimitOptions = {}) {
   const keyGenerator = options.keyGenerator ?? getIPFromRequest;
 
   return createMiddleware(async (c, next) => {
-    const identifier = keyGenerator(c) ?? 'unknown';
+    const identifier = keyGenerator(c);
+    if (!identifier) {
+      // Fail closed — a shared "unknown" bucket is a DoS amplifier.
+      return sendResponse({
+        c,
+        status: 403,
+        success: false,
+        message: 'Unable to verify request origin.',
+      });
+    }
+
     const result = await attemptRateLimit(`${keyPrefix}:${identifier}`, config);
 
     c.header('X-RateLimit-Limit', String(result.limit));

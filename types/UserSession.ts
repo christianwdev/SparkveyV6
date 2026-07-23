@@ -1,6 +1,9 @@
 type Session = {
   sessionID: string,
 
+  /** Opaque ID returned to clients for revoke; not the cookie secret. */
+  revokeID: string,
+
   issueDate: Date,
   expiryDate: Date,
   accessedDate: Date,

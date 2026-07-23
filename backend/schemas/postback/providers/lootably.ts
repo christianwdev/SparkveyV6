@@ -35,7 +35,7 @@ export class LootablyPostbackProvider extends PostbackProvider<LootablyQuery> {
     return c.text(ok ? '1' : '0', 200);
   }
 
-  validateSecurity(ctx: PostbackValidationContext): boolean {
+  validateSecurity(ctx: PostbackValidationContext, _data: LootablyQuery, _c: Context): boolean {
     const secret = config.walls.lootably.security.secret;
     if (!secret || !ctx.query.hash) return false;
 

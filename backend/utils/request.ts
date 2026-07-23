@@ -1,6 +1,6 @@
-import { timingSafeEqual } from 'crypto';
 import { createMiddleware } from 'hono/factory';
 import { sendResponse } from './response';
+import { secretsEqual } from './secrets';
 import RouteResponseError from 'types/RouteResponseError';
 
 // Types
@@ -40,20 +40,11 @@ export function normalizeQuery(
   return normalized;
 }
 
-function secretsMatch(provided: string, expected: string): boolean {
-  const providedBytes = new TextEncoder().encode(provided);
-  const expectedBytes = new TextEncoder().encode(expected);
-
-  if (providedBytes.length !== expectedBytes.length) return false;
-
-  return timingSafeEqual(providedBytes, expectedBytes);
-}
-
 function hasValidPassthroughToken(token: string | undefined): boolean {
   const expected = process.env.NEXTJS_PASSTHROUGH_TOKEN;
   if (!expected || !token) return false;
 
-  return secretsMatch(token, expected);
+  return secretsEqual(token, expected);
 }
 
 export function getIPFromRequest(c: Context): string | undefined {

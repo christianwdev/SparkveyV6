@@ -8,7 +8,7 @@ import { sendResponse } from 'backend/utils/response';
 import {
   claimEmailActionable,
   deactivateUserEmailActionables,
-  findValidEmailActionable,
+  releaseEmailActionable,
   scrubUserEmailActionables,
 } from 'backend/utils/emailActionable';
 import { sendEmailChangedNotice } from 'backend/utils/email';
@@ -64,7 +64,7 @@ export default function routeInvoker() {
     async (c) => {
       const { code } = c.req.valid('json');
 
-      const actionableResult = await findValidEmailActionable({
+      const actionableResult = await claimEmailActionable({
         actionableID: code,
         type: 'emailChange',
       });
@@ -76,23 +76,32 @@ export default function routeInvoker() {
         });
       }
 
+      const release = () => releaseEmailActionable({
+        actionableID: code,
+        type: 'emailChange',
+      });
+
       const email = sanitizeEmail(actionableResult.data.email);
       if (!email) {
+        await release();
         throw new RouteResponseError({ status: 400, message: EMAIL_UNAVAILABLE_MESSAGE });
       }
 
       const deleted = await isDeletedEmail(email);
       if (!deleted.ok || deleted.data) {
+        await release();
         throw new RouteResponseError({ status: 400, message: EMAIL_UNAVAILABLE_MESSAGE });
       }
 
       const inUse = await isEmailInUse(email, actionableResult.data.userID);
       if (!inUse.ok || inUse.data) {
+        await release();
         throw new RouteResponseError({ status: 400, message: EMAIL_UNAVAILABLE_MESSAGE });
       }
 
       const currentUserResult = await getRawUser({ userID: actionableResult.data.userID });
       if (!currentUserResult.ok || currentUserResult.data.deletedAt) {
+        await release();
         throw new RouteResponseError({
           status: 400,
           message: 'Invalid or expired email confirmation link.',
@@ -107,13 +116,9 @@ export default function routeInvoker() {
       });
 
       if (!updateResult.ok) {
+        await release();
         throw new RouteResponseError({ status: 500, message: 'Failed to update email address.' });
       }
-
-      await claimEmailActionable({
-        actionableID: code,
-        type: 'emailChange',
-      });
 
       await deactivateUserEmailActionables({
         userID: actionableResult.data.userID,
@@ -147,7 +152,7 @@ export default function routeInvoker() {
     async (c) => {
       const { code } = c.req.valid('json');
 
-      const actionableResult = await findValidEmailActionable({
+      const actionableResult = await claimEmailActionable({
         actionableID: code,
         type: 'accountDeletion',
       });
@@ -158,6 +163,11 @@ export default function routeInvoker() {
           message: 'Invalid or expired account deletion link.',
         });
       }
+
+      const release = () => releaseEmailActionable({
+        actionableID: code,
+        type: 'accountDeletion',
+      });
 
       const userResult = await getRawUser({ userID: actionableResult.data.userID });
       const user = userResult.ok ? userResult.data : undefined;
@@ -170,6 +180,7 @@ export default function routeInvoker() {
       });
 
       if (!fingerprintResult.ok) {
+        await release();
         throw new RouteResponseError({
           status: 500,
           message: 'Failed to complete account deletion. Please try again.',
@@ -178,16 +189,12 @@ export default function routeInvoker() {
 
       const anonymizeResult = await anonymizeDeletedUser(actionableResult.data.userID);
       if (!anonymizeResult.ok) {
+        await release();
         throw new RouteResponseError({
           status: 500,
           message: 'Failed to complete account deletion. Please try again.',
         });
       }
-
-      await claimEmailActionable({
-        actionableID: code,
-        type: 'accountDeletion',
-      });
 
       await scrubUserEmailActionables(actionableResult.data.userID);
       await expireUserSessions(actionableResult.data.userID);

@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import config from 'backend/config/config';
 import { parseRevenue } from 'backend/utils/number';
+import { secretsEqual } from 'backend/utils/secrets';
 
 import type { Context } from 'hono';
 
@@ -41,10 +42,8 @@ export class AdtogamePostbackProvider extends PostbackProvider<AdtogameQuery> {
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext): boolean {
-    const expected = config.walls.adtowall.security.secret;
-
-    return Boolean(ctx.query.secret && expected && ctx.query.secret === expected);
+  validateSecurity(ctx: PostbackValidationContext, _data: AdtogameQuery, _c: Context): boolean {
+    return secretsEqual(ctx.query.secret, config.walls.adtowall.security.secret);
   }
 
   normalize(data: AdtogameQuery): NormalizedPostbackFields {

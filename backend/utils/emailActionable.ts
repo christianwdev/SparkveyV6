@@ -133,6 +133,45 @@ export async function claimEmailActionable(
   }
 }
 
+/** Undo a claim so the link can be retried after a failed side effect. */
+export async function releaseEmailActionable(
+  {
+    actionableID,
+    type,
+  }: {
+    actionableID: string;
+    type: EmailActionable['type'];
+  },
+): Promise<FunctionResponse<void>> {
+  try {
+    const { db } = getGlobalObject();
+
+    const result = await db.collection<EmailActionable>(DatabaseCollections.emailActionables).updateOne(
+      {
+        actionableID,
+        type,
+        expiryDate: { $gt: new Date() },
+        deactivatedAt: { $exists: false },
+        accessedDate: { $exists: true },
+      },
+      {
+        $unset: {
+          accessedDate: '',
+        },
+      },
+    );
+
+    if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
+    if (result.matchedCount === 0) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: undefined };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
 export async function markEmailActionableAccessed(
   actionableID: string,
 ): Promise<FunctionResponse<void>> {

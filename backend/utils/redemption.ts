@@ -222,6 +222,38 @@ export async function handlePurchase({
   }
 }
 
+async function releaseTremendousClaim(
+  redemptionID: string,
+  previousStatus: 'pending' | 'approved',
+) {
+  const { db } = getGlobalObject();
+
+  await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).updateOne(
+    { redemptionID, providerName: 'tremendous', status: 'processing' },
+    { $set: { status: previousStatus, updatedAt: new Date() } },
+  );
+}
+
+async function failTremendousProcessing(
+  redemptionID: string,
+  meta: RequestedTremendousInternalRedemption['meta'],
+) {
+  const { db } = getGlobalObject();
+
+  // Never roll back to pending/approved after a provider order may exist —
+  // keep provider IDs on a failed row for reconciliation.
+  await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).updateOne(
+    { redemptionID, providerName: 'tremendous', status: 'processing' },
+    {
+      $set: {
+        status: 'failed',
+        updatedAt: new Date(),
+        meta,
+      },
+    },
+  );
+}
+
 export async function handleTremendousRedemptionApproval({
   redemption,
   approvedBy,
@@ -234,10 +266,36 @@ export async function handleTremendousRedemptionApproval({
   }
 
   const { db } = getGlobalObject();
+  const now = new Date();
+  const previousStatus = redemption.status;
+
+  // Claim first so concurrent approvals cannot create multiple Tremendous orders.
+  const claimed = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).findOneAndUpdate(
+    {
+      redemptionID: redemption.redemptionID,
+      providerName: 'tremendous',
+      status: { $in: [ 'pending', 'approved' ] },
+    },
+    {
+      $set: {
+        status: 'processing',
+        updatedAt: now,
+        approvedBy: approvedBy ?? redemption.approvedBy,
+        approvedAt: redemption.approvedAt ?? now,
+      },
+    },
+    { returnDocument: 'after' },
+  );
+
+  if (!claimed) {
+    return { ok: false, error: 'redemptionNotFound' };
+  }
 
   const userResult = await getRawUser({ userID: redemption.userID });
 
   if (!userResult.ok) {
+    await releaseTremendousClaim(redemption.redemptionID, previousStatus);
+
     return userResult.error === 'notFound'
       ? { ok: false, error: 'userNotFound' }
       : { ok: false, error: 'internalServerError' };
@@ -253,29 +311,50 @@ export async function handleTremendousRedemptionApproval({
   });
 
   if (!orderResult.ok) {
+    await releaseTremendousClaim(redemption.redemptionID, previousStatus);
+
     return { ok: false, error: 'internalServerError' };
   }
 
   const tremendousOrder = orderResult.data.order;
   const tremendousReward = tremendousOrder.rewards?.[0];
+  const providerMetaBase = {
+    ...redemption.meta,
+    requestCurrencyCode: redemption.meta.requestCurrencyCode,
+    requestRewardAmount: redemption.meta.requestRewardAmount,
+    tremendousRedemptionID: tremendousOrder.id,
+  };
 
   if (!tremendousReward?.id) {
+    await failTremendousProcessing(redemption.redemptionID, {
+      ...providerMetaBase,
+      failureReason: 'missingTremendousReward',
+    });
+
     return { ok: false, error: 'missingTremendousReward' };
   }
 
   const link = tremendousReward.delivery?.link;
 
   if (!link) {
+    await failTremendousProcessing(redemption.redemptionID, {
+      ...providerMetaBase,
+      tremendousRewardID: tremendousReward.id,
+      tremendousCurrency: tremendousReward.value?.currency_code ?? redemption.meta.requestCurrencyCode,
+      tremendousRewardAmount: tremendousReward.value?.denomination ?? redemption.meta.requestRewardAmount,
+      tremendousRewardName: redemption.itemName,
+      failureReason: 'missingTremendousLink',
+    });
+
     return { ok: false, error: 'missingTremendousLink' };
   }
 
-  const now = new Date();
   const acceptedRedemption: AcceptedTremendousInternalRedemption = {
     ...redemption,
     status: 'completed',
-    updatedAt: now,
-    approvedBy: approvedBy ?? redemption.approvedBy,
-    approvedAt: redemption.approvedAt ?? now,
+    updatedAt: new Date(),
+    approvedBy: approvedBy ?? redemption.approvedBy ?? claimed.approvedBy,
+    approvedAt: redemption.approvedAt ?? claimed.approvedAt ?? now,
     meta: {
       ...redemption.meta,
       requestCurrencyCode: redemption.meta.requestCurrencyCode,
@@ -294,7 +373,7 @@ export async function handleTremendousRedemptionApproval({
       {
         redemptionID: redemption.redemptionID,
         providerName: 'tremendous',
-        status: { $in: [ 'pending', 'approved' ] },
+        status: 'processing',
       },
       {
         $set: acceptedRedemption,
@@ -305,12 +384,23 @@ export async function handleTremendousRedemptionApproval({
     );
 
     if (!redemptionUpdateResult) {
+      // Provider order exists — persist completed payload fields on failed row for ops.
+      await failTremendousProcessing(redemption.redemptionID, {
+        ...acceptedRedemption.meta,
+        failureReason: 'completionWriteMissed',
+      });
+
       return { ok: false, error: 'redemptionNotFound' };
     }
 
     return { ok: true, data: redemptionUpdateResult as AcceptedTremendousInternalRedemption };
   } catch (error) {
     console.error(error);
+
+    await failTremendousProcessing(redemption.redemptionID, {
+      ...acceptedRedemption.meta,
+      failureReason: 'completionWriteError',
+    });
 
     return { ok: false, error: 'internalServerError' };
   }

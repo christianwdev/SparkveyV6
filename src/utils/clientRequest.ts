@@ -1,3 +1,5 @@
+import { CSRF_HEADER_NAME, ensureCsrfToken } from '@utils/csrf';
+
 type RequestConfig = Omit<RequestInit, 'headers'> & {
   url: string,
   data?: object,
@@ -13,20 +15,40 @@ type ClientSideResponse<T> = {
   data: T,
 };
 
+function isMutatingMethod(method: string): boolean {
+  return method !== 'GET' && method !== 'HEAD' && method !== 'OPTIONS';
+}
+
 async function clientRequest<ReturnType>(config: RequestConfig): Promise<ClientSideResponse<ReturnType>> {
   const { url, credentials, data, headers, ...fetchConfig } = config;
   const method = (fetchConfig.method ?? 'GET').toUpperCase();
   const hasBody = data !== undefined && method !== 'GET' && method !== 'HEAD';
+  const credentialsMode = credentials ?? 'omit';
+
+  const resolvedHeaders: Record<string, string> = {};
+  for (const [ key, value ] of Object.entries(headers || {})) {
+    if (value !== undefined) resolvedHeaders[key] = value;
+  }
+
+  if (hasBody) {
+    resolvedHeaders['Content-Type'] = 'application/json';
+  }
+
+  if (isMutatingMethod(method) && credentialsMode === 'include') {
+    const csrfToken = await ensureCsrfToken();
+    if (!csrfToken) {
+      throw new Error('Unable to obtain CSRF token. Refresh the page and try again.');
+    }
+
+    resolvedHeaders[CSRF_HEADER_NAME] = csrfToken;
+  }
 
   const response = await fetch(url, {
     ...fetchConfig,
     method,
     ...(hasBody ? { body: JSON.stringify(data) } : {}),
-    credentials: credentials ?? 'omit',
-    headers: {
-      ...(headers || {}),
-      ...(hasBody ? { 'Content-Type': 'application/json' } : {}),
-    } as Record<string, string>,
+    credentials: credentialsMode,
+    headers: resolvedHeaders,
   });
 
   if (!response.ok) {

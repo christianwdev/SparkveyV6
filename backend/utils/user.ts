@@ -161,13 +161,17 @@ export async function getRawUser(partialUser: Filter<InternalUser>): Promise<Fun
   }
 }
 
+export function userHasPassword(user: Pick<InternalUser, 'password'>): boolean {
+  return typeof user.password === 'string' && user.password.length > 0;
+}
+
 export function sanitizeUser(user: InternalUser | WithId<InternalUser>): SanitizedUser {
   return {
     userID: user.userID,
     username: user.username,
     avatar: user.avatar,
     balance: user.balance,
-    hasPassword: typeof user.password === 'string' && user.password.length > 0,
+    hasPassword: userHasPassword(user),
     emailInformation: user.emailInformation,
     phoneInformation: user.phoneInformation,
     paymentInformation: user.paymentInformation,
@@ -495,6 +499,66 @@ export async function updateUsername(
           usernameChangedAt: now,
         },
       },
+      { returnDocument: 'after' },
+    );
+
+    if (!user) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: user };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function linkGoogleAccount(
+  {
+    userID,
+    googleID,
+    email,
+    avatar,
+    clearPassword = false,
+  }: {
+    userID: string,
+    googleID: string,
+    email: string,
+    avatar?: string,
+
+    /** When reclaiming an unverified squatted password account. */
+    clearPassword?: boolean,
+  },
+): Promise<FunctionResponse<InternalUser>> {
+  try {
+    const { db } = getGlobalObject();
+    const sanitized = sanitizeEmail(email);
+    if (!sanitized) return { ok: false, error: 'internalServerError' };
+
+    const $set: Record<string, unknown> = {
+      'socialInformation.google.id': googleID,
+      'socialInformation.google.emailAddress': sanitized,
+      'socialInformation.google.verifiedAt': new Date(),
+      'emailInformation.emailAddress': sanitized,
+      'emailInformation.verifiedAt': new Date(),
+    };
+
+    if (avatar) $set.avatar = avatar;
+
+    const update: Record<string, unknown> = { $set };
+    if (clearPassword) {
+      update.$unset = { password: '' };
+    }
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      {
+        userID,
+        deletedAt: { $exists: false },
+        $or: [
+          { 'socialInformation.google.id': { $exists: false } },
+          { 'socialInformation.google.id': googleID },
+        ],
+      },
+      update,
       { returnDocument: 'after' },
     );
 

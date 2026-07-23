@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 
 // Middleware
 import { requireAuth } from 'backend/middleware/auth';
+import { requireCsrf } from 'backend/middleware/csrf';
 
 // Utils
 import { withRouteErrorHandling } from 'backend/utils/request';
@@ -18,6 +19,7 @@ const app = new Hono<{ Variables: { user: InternalUser } }>();
 
 export default function routesInvoker() {
   app.use(requireAuth);
+  app.use(requireCsrf);
 
   const codeBodySchema = z.object({
     code: z.string().min(1).max(36).regex(/^[a-zA-Z0-9]+$/),

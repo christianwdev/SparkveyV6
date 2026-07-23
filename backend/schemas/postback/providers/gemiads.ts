@@ -34,7 +34,7 @@ export class GemiadsPostbackProvider extends PostbackProvider<GemiadsQuery> {
     return c.text(ok ? '1' : '0', 200);
   }
 
-  validateSecurity(ctx: PostbackValidationContext): boolean {
+  validateSecurity(ctx: PostbackValidationContext, _data: GemiadsQuery, _c: Context): boolean {
     return isIPWhitelisted(ctx.remoteIP, config.walls.gemiads.security.whitelistedIPs);
   }
 

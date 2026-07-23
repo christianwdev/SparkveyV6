@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 // Middleware
 import { optionalAuth, requireAuth } from 'backend/middleware/auth';
+import { requireCsrf } from 'backend/middleware/csrf';
 import {
   withRouteErrorHandling,
   getCountryFromRequest,
@@ -81,6 +82,7 @@ export default function routesInvoker() {
   app.post(
     '/browse',
     requireAuth,
+    requireCsrf,
     withRouteErrorHandling,
     zValidator('json', browseBodySchema),
     async (c) => {

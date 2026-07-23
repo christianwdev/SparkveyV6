@@ -905,6 +905,7 @@
       "hideStats": "Hide your stats from other users.",
       "darkMode": "Use the dark color theme.",
       "deleteAccount": "We will email you a link to confirm. Your personal data will be removed; fraud-prevention records may be retained in hashed form.",
+      "oauthEmailLocked": "Email changes aren't available for accounts that sign in with Google.",
       "oauthPassword": "This account uses social sign-in and does not have a password."
     },
     "banners": {

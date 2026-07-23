@@ -19,7 +19,7 @@ import { expireUserSessions, startSession } from 'backend/utils/session';
 import {
   claimEmailActionable,
   createEmailActionable,
-  findValidEmailActionable,
+  releaseEmailActionable,
 } from 'backend/utils/emailActionable';
 import { sendForgottenPassword, sendVerificationEmail } from 'backend/utils/email';
 import { isDeletedEmail } from 'backend/utils/deletedAccountFingerprint';
@@ -196,40 +196,29 @@ export default function routeInvoker() {
       const email = sanitizeEmail(c.req.valid('json').email);
       const { password } = c.req.valid('json');
 
-      if (!email) {
-        throw new RouteResponseError({
-          status: 401,
-          message: INVALID_CREDENTIALS_MESSAGE,
-        });
+      const userResult = email
+        ? await getRawUser({
+          'emailInformation.emailAddress': email,
+          password: { $type: 'string' },
+        })
+        : { ok: false as const, error: 'notFound' as const };
+
+      if (userResult.ok === false && userResult.error !== 'notFound') {
+        throw new RouteResponseError({ status: 500, message: userResult.error });
       }
 
-      const userResult = await getRawUser({
-        'emailInformation.emailAddress': email,
-        password: { $type: 'string' },
-      });
-
-      if (!userResult.ok) {
-        if (userResult.error !== 'notFound') {
-          throw new RouteResponseError({ status: 500, message: userResult.error });
-        }
-
-        throw new RouteResponseError({
-          status: 401,
-          message: INVALID_CREDENTIALS_MESSAGE,
-        });
-      }
-
-      const user = userResult.data;
-
-      const passwordHash = typeof user.password === 'string' && user.password.length > 0
+      const user = userResult.ok ? userResult.data : undefined;
+      const passwordHash = typeof user?.password === 'string' && user.password.length > 0
         ? user.password
         : DUMMY_PASSWORD_HASH;
-      const hasPassword = passwordHash !== DUMMY_PASSWORD_HASH;
-      const passwordValid = await Bun.password.verify(password, passwordHash);
-      const isBanned = user.bannedUntil && user.bannedUntil > new Date();
-      const isDeleted = !!user.deletedAt;
+      const hasPassword = !!user && passwordHash !== DUMMY_PASSWORD_HASH;
 
-      if (!passwordValid || !hasPassword || isBanned || isDeleted) {
+      // Always verify (including invalid/missing email) so timing does not enumerate accounts.
+      const passwordValid = await Bun.password.verify(password, passwordHash);
+      const isBanned = !!(user?.bannedUntil && user.bannedUntil > new Date());
+      const isDeleted = !!user?.deletedAt;
+
+      if (!user || !passwordValid || !hasPassword || isBanned || isDeleted) {
         throw new RouteResponseError({
           status: 401,
           message: INVALID_CREDENTIALS_MESSAGE,
@@ -302,7 +291,7 @@ export default function routeInvoker() {
     async (c) => {
       const { code, password } = c.req.valid('json');
 
-      const actionableResult = await findValidEmailActionable({
+      const actionableResult = await claimEmailActionable({
         actionableID: code,
         type: 'forgotPassword',
       });
@@ -322,13 +311,12 @@ export default function routeInvoker() {
       const updateResult = await updateUserPassword(actionableResult.data.userID, hashedPassword);
 
       if (!updateResult.ok) {
+        await releaseEmailActionable({
+          actionableID: code,
+          type: 'forgotPassword',
+        });
         throw new RouteResponseError({ status: 500, message: updateResult.error });
       }
-
-      await claimEmailActionable({
-        actionableID: code,
-        type: 'forgotPassword',
-      });
 
       await expireUserSessions(actionableResult.data.userID);
 
@@ -347,7 +335,7 @@ export default function routeInvoker() {
     async (c) => {
       const { code } = c.req.param();
 
-      const actionableResult = await findValidEmailActionable({
+      const actionableResult = await claimEmailActionable({
         actionableID: code,
         type: 'verification',
       });
@@ -359,13 +347,22 @@ export default function routeInvoker() {
       const verifyResult = await verifyUserEmail(actionableResult.data.userID);
 
       if (!verifyResult.ok) {
+        await releaseEmailActionable({
+          actionableID: code,
+          type: 'verification',
+        });
+
         return c.redirect(buildFrontendURL('/email-verified', { error: 'internal' }));
       }
 
-      await claimEmailActionable({
-        actionableID: code,
-        type: 'verification',
+      const sessionResult = await startSession({
+        c,
+        userID: actionableResult.data.userID,
       });
+
+      if (!sessionResult.ok) {
+        return c.redirect(buildFrontendURL('/email-verified', { error: 'session' }));
+      }
 
       return c.redirect(buildFrontendURL('/email-verified', { success: true }));
     },

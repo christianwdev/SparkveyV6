@@ -8,6 +8,7 @@
     "worker": "bun run ./backend/workers/index.ts",
     "start": "cross-env NEXT_PUBLIC_ENV=development NODE_ENV=development concurrently -p \"[{name}]\" -n \"Frontend,Backend\" -c \"bgBlue.bold,bgMagenta.bold\" \"next dev src/ --webpack\" \"bun --watch --env-file=.env app.ts\"",
     "build": "npm run build-frontend && npm run build-backend",
+    "test": "bun test tests",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "start-frontend": "NEXT_PUBLIC_ENV=production next start src/ -p 4000",

@@ -147,51 +147,51 @@ function SettingsPageContent() {
             </div>
           </form>
 
-          <form
-            className={styles.form}
-            onSubmit={(event) => {
-              event.preventDefault();
-              void run(
-                'email',
-                async () => {
-                  const response = await requestEmailChange({
-                    email: email.trim(),
-                    ...(user.hasPassword ? { currentPassword: emailPassword } : {}),
-                  });
-                  if (response?.success) {
-                    setEmail('');
-                    setEmailPassword('');
-                  }
+          {user.hasPassword ? (
+            <form
+              className={styles.form}
+              onSubmit={(event) => {
+                event.preventDefault();
+                void run(
+                  'email',
+                  async () => {
+                    const response = await requestEmailChange({
+                      email: email.trim(),
+                      currentPassword: emailPassword,
+                    });
+                    if (response?.success) {
+                      setEmail('');
+                      setEmailPassword('');
+                    }
 
-                  return response;
-                },
-                t('errors.updateEmail'),
-              );
-            }}
-          >
-            <div className={styles.field}>
-              <label htmlFor="settings-current-email">{t('labels.currentEmail')}</label>
-              <input
-                id="settings-current-email"
-                value={user.emailInformation.emailAddress ?? ''}
-                disabled
-                readOnly
-              />
-            </div>
-            <div className={styles.field}>
-              <label htmlFor="settings-new-email">{t('labels.newEmail')}</label>
-              <input
-                id="settings-new-email"
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                placeholder={t('placeholders.newEmail')}
-                disabled={pending === 'email'}
-                required
-              />
-              <p className={styles.hint}>{t('hints.emailChange')}</p>
-            </div>
-            {user.hasPassword ? (
+                    return response;
+                  },
+                  t('errors.updateEmail'),
+                );
+              }}
+            >
+              <div className={styles.field}>
+                <label htmlFor="settings-current-email">{t('labels.currentEmail')}</label>
+                <input
+                  id="settings-current-email"
+                  value={user.emailInformation.emailAddress ?? ''}
+                  disabled
+                  readOnly
+                />
+              </div>
+              <div className={styles.field}>
+                <label htmlFor="settings-new-email">{t('labels.newEmail')}</label>
+                <input
+                  id="settings-new-email"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder={t('placeholders.newEmail')}
+                  disabled={pending === 'email'}
+                  required
+                />
+                <p className={styles.hint}>{t('hints.emailChange')}</p>
+              </div>
               <div className={styles.field}>
                 <label htmlFor="settings-email-password">{t('labels.currentPassword')}</label>
                 <input
@@ -205,21 +205,30 @@ function SettingsPageContent() {
                 />
                 <p className={styles.hint}>{t('hints.emailPasswordConfirm')}</p>
               </div>
-            ) : null}
-            <div className={styles.actions}>
-              <button
-                type="submit"
-                className={styles.button}
-                disabled={
-                  pending === 'email'
-                  || !email.trim()
-                  || (user.hasPassword && !emailPassword)
-                }
-              >
-                {t('actions.changeEmail')}
-              </button>
+              <div className={styles.actions}>
+                <button
+                  type="submit"
+                  className={styles.button}
+                  disabled={pending === 'email' || !email.trim() || !emailPassword}
+                >
+                  {t('actions.changeEmail')}
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className={styles.form}>
+              <div className={styles.field}>
+                <label htmlFor="settings-current-email">{t('labels.currentEmail')}</label>
+                <input
+                  id="settings-current-email"
+                  value={user.emailInformation.emailAddress ?? ''}
+                  disabled
+                  readOnly
+                />
+                <p className={styles.hint}>{t('hints.oauthEmailLocked')}</p>
+              </div>
             </div>
-          </form>
+          )}
 
           {user.hasPassword ? (
             <form

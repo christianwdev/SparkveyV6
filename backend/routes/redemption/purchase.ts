@@ -8,6 +8,7 @@ import { handlePurchase } from 'backend/utils/redemption';
 import { getRewardByID, validateRewardValue } from 'backend/utils/rewards';
 import RouteResponseError from 'types/RouteResponseError';
 import { requireAuth } from 'backend/middleware/auth';
+import { requireCsrf } from 'backend/middleware/csrf';
 import { rateLimit } from 'backend/utils/rateLimit';
 import { purchaseBodySchema } from 'backend/schemas/redemption/purchase';
 
@@ -39,6 +40,7 @@ export default function routeInvoker() {
   app.post(
     '/',
     requireAuth,
+    requireCsrf,
     purchaseRateLimit,
     withRouteErrorHandling,
     zValidator('json', purchaseBodySchema),

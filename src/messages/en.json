@@ -896,6 +896,7 @@
       "usernameLimit": "You can change your username once every 24 hours.",
       "emailChange": "We will email a confirmation link to the new address. You will need to sign in again after confirming.",
       "emailPasswordConfirm": "Enter your current password to confirm this email change.",
+      "oauthEmailLocked": "Email changes aren't available for accounts that sign in with Google.",
       "passwordRules": "At least 8 characters, one number, and one special character.",
       "oauthPassword": "This account uses social sign-in and does not have a password.",
       "securityAlertsHint": "Important account and security notices.",

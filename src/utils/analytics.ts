@@ -1,6 +1,7 @@
-export const GA4_MEASUREMENT_ID = 'G-LC7WKZ7FBD';
+export const GA4_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ?? '';
 
 export function setGa4AppLocale(locale: string) {
+  if (!GA4_MEASUREMENT_ID) return;
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') {
     return;
   }

@@ -2,6 +2,7 @@ import { createId } from '@paralleldrive/cuid2';
 import { z } from 'zod';
 
 import config from 'backend/config/config';
+import { secretsEqual } from 'backend/utils/secrets';
 
 import type { Context } from 'hono';
 
@@ -28,10 +29,8 @@ export class PlayidPostbackProvider extends PostbackProvider<PlayidQuery> {
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext): boolean {
-    const expected = config.walls.playid.security.secret;
-
-    return Boolean(ctx.query.secret && expected && ctx.query.secret === expected);
+  validateSecurity(ctx: PostbackValidationContext, _data: PlayidQuery, _c: Context): boolean {
+    return secretsEqual(ctx.query.secret, config.walls.playid.security.secret);
   }
 
   normalize(data: PlayidQuery): NormalizedPostbackFields {

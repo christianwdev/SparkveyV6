@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 
+import { requireCsrf } from 'backend/middleware/csrf';
 import { withRouteErrorHandling } from 'backend/utils/request';
 import { sendResponse } from 'backend/utils/response';
 import {
@@ -47,13 +48,22 @@ export default function routesInvoker() {
 
   app.delete(
     '/:sessionID',
+    requireCsrf,
     withRouteErrorHandling,
     async (c) => {
       const user = c.get('user');
       const currentSession = c.get('session');
       const sessionID = c.req.param('sessionID');
+      if (!sessionID) {
+        return sendResponse({
+          c,
+          status: 400,
+          success: false,
+          message: 'Session not found.',
+        });
+      }
 
-      if (sessionID === currentSession.sessionID) {
+      if (sessionID === currentSession.revokeID) {
         return sendResponse({
           c,
           status: 400,

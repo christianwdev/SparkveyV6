@@ -34,7 +34,7 @@ export class TimewallPostbackProvider extends PostbackProvider<TimewallQuery> {
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext): boolean {
+  validateSecurity(ctx: PostbackValidationContext, _data: TimewallQuery, _c: Context): boolean {
     return isIPWhitelisted(ctx.remoteIP, config.walls.timewall.security.whitelistedIPs);
   }
 

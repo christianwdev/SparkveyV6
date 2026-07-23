@@ -79,25 +79,31 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   return (
     <html lang={locale} data-theme={theme} className={`${inter.variable} ${roboto.variable} ${sedgwickAve.variable} ${parkinsans.variable}`}>
       <head>
-        {/* <Script
-          strategy="afterInteractive"
-          src={`https://v.sparkvey.com/${process.env.NODE_ENV === 'production' ? 'prod' : 'sandbox'}/bundle.js`}
-          verisoul-project-id={process.env.VERISOUL_PROJECT_ID ?? '392db427-4164-4c05-a888-ed25c85d62d5'}
-        /> */}
-        <Script
-          strategy="afterInteractive"
-          src='https://static.cloudflareinsights.com/beacon.min.js'
-          data-cf-beacon='{"token": "8ccf0f2b1d7f407192de55f01c71eddc"}'
-        />
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
-        />
-        <Script
-          id="gtag-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+        {process.env.VERISOUL_PROJECT_ID ? (
+          <Script
+            strategy="afterInteractive"
+            src={`https://v.sparkvey.com/${process.env.NODE_ENV === 'production' ? 'prod' : 'sandbox'}/bundle.js`}
+            verisoul-project-id={process.env.VERISOUL_PROJECT_ID}
+          />
+        ) : null}
+        {process.env.NEXT_PUBLIC_CF_BEACON_TOKEN ? (
+          <Script
+            strategy="afterInteractive"
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            data-cf-beacon={JSON.stringify({ token: process.env.NEXT_PUBLIC_CF_BEACON_TOKEN })}
+          />
+        ) : null}
+        {GA4_MEASUREMENT_ID ? (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`}
+            />
+            <Script
+              id="gtag-script"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
@@ -106,9 +112,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                     app_locale: ${JSON.stringify(locale)}
                   }
                 });
-              `
-          }}
-        />
+              `,
+              }}
+            />
+          </>
+        ) : null}
       </head>
       <body>
         <NuqsAdapter>

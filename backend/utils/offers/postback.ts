@@ -57,6 +57,13 @@ async function creditOfferConversion(
   });
 }
 
+function isDuplicateKeyError(error: unknown): boolean {
+  return typeof error === 'object'
+    && error !== null
+    && 'code' in error
+    && (error as { code: unknown }).code === 11000;
+}
+
 /** Provider sent a chargeback for a conversion we already credited. */
 async function reverseOfferConversion(
   conversion: InternalOfferEarning,
@@ -64,8 +71,10 @@ async function reverseOfferConversion(
 ): Promise<FunctionResponse<InternalOfferEarning>> {
   const { db } = getGlobalObject();
 
-  const updatedConversion = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOneAndUpdate(
+  // returnDocument: 'before' so only the caller that wins the status transition can debit.
+  const previous = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOneAndUpdate(
     {
+      provider: conversion.provider,
       conversionID: conversion.conversionID,
       status: { $ne: 'reversed' },
     },
@@ -80,40 +89,48 @@ async function reverseOfferConversion(
       },
     },
     {
-      returnDocument: 'after'
+      returnDocument: 'before'
     },
   );
 
+  if (!previous) return { ok: false, error: 'alreadyHandled' };
+
+  const reversedConversion: InternalOfferEarning = {
+    ...previous,
+    status: 'reversed',
+    reversedAt: new Date(),
+    updatedAt: new Date(),
+    heldUntil: undefined,
+  };
+
   void createUserNotification({
-    userID: conversion.userID,
+    userID: previous.userID,
     meta: {
       type: 'offerReversal',
-      offerValue: conversion.value,
+      offerValue: previous.value,
       provider: postback.provider,
       offerName: postback.offerName,
     },
   });
 
-  if (conversion.status === 'completed') {
+  if (previous.status === 'completed') {
     await updateUserBalance({
-      userID: conversion.userID,
-      balanceChange: -conversion.value,
+      userID: previous.userID,
+      balanceChange: -previous.value,
       inc: {
-        'statistics.earned.offers': -conversion.value,
-        'statistics.earned.total': -conversion.value,
+        'statistics.earned.offers': -previous.value,
+        'statistics.earned.total': -previous.value,
       },
     });
   }
 
-  if (!updatedConversion) return { ok: false, error: 'internalError' };
-
   try {
-    await adjustTotalEarnedUsd(-conversion.usdValue);
+    await adjustTotalEarnedUsd(-previous.usdValue);
   } catch (error) {
     console.error('Failed to adjust site totalEarnedUsd on reversal', error);
   }
 
-  return { ok: true, data: updatedConversion };
+  return { ok: true, data: reversedConversion };
 }
 
 /** Advertiser approved a provider-pending conversion; credit immediately or move onto our hold queue. */
@@ -134,6 +151,7 @@ async function confirmAdvertiserOffer(
 
   const updatedConversion = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOneAndUpdate(
     {
+      provider: conversion.provider,
       conversionID: conversion.conversionID,
       status: 'providerPending',
     },
@@ -210,9 +228,15 @@ async function handleNewOfferPostback(
     ...(heldUntil && { heldUntil }),
   };
 
-  const insertResult = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).insertOne(conversion);
+  try {
+    const insertResult = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).insertOne(conversion);
 
-  if (!insertResult.acknowledged) return { ok: false, error: 'internalError' };
+    if (!insertResult.acknowledged) return { ok: false, error: 'internalError' };
+  } catch (error) {
+    if (isDuplicateKeyError(error)) return { ok: false, error: 'alreadyHandled' };
+
+    throw error;
+  }
 
   try {
     await adjustTotalEarnedUsd(conversion.usdValue);
@@ -262,6 +286,7 @@ export async function handleOfferPostback({
     const { db } = getGlobalObject();
 
     const existing = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOne({
+      provider: postbackInformation.provider,
       conversionID: postbackInformation.conversionID,
     });
 
@@ -269,14 +294,16 @@ export async function handleOfferPostback({
       // We don't need to update the offer if it's already reversed.
       if (existing.status === 'reversed') return { ok: false, error: 'alreadyHandled' };
 
-      switch (postbackInformation.status) {
-        case 'reversed':
-          return reverseOfferConversion(existing, postbackInformation);
-        case 'completed':
-          return confirmAdvertiserOffer(existing, postbackInformation);
-        default:
-          return { ok: false, error: 'alreadyHandled' };
+      if (postbackInformation.status === 'reversed') {
+        return reverseOfferConversion(existing, postbackInformation);
       }
+
+      // Advertiser approval only applies to provider-pending rows.
+      if (existing.status === 'providerPending' && postbackInformation.status === 'completed') {
+        return confirmAdvertiserOffer(existing, postbackInformation);
+      }
+
+      return { ok: false, error: 'alreadyHandled' };
     }
 
     return handleNewOfferPostback(postbackInformation, requestID);

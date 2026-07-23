@@ -21,6 +21,12 @@ import { createDistributedLock } from './backend/utils/distributedLock';
 import type GlobalObject from 'types/GlobalObject';
 
 const BACKEND_PORT = process.env.PORT ? +process.env.PORT : 6060;
+const isProduction = process.env.NODE_ENV === 'production';
+const corsOrigins = config.server.domains?.filter(Boolean) ?? [];
+
+if (isProduction && corsOrigins.length === 0) {
+  throw new Error('DOMAINS must be configured in production (comma-separated allowed origins).');
+}
 
 const app = new Hono<{ Variables: { requestID: string } }>();
 
@@ -39,7 +45,7 @@ const io: TypedServer = new Server({
   pingTimeout: 5000,
   adapter: createAdapter(redisPubClient, redisSubClient),
   cors: {
-    origin: config.server.domains || true,
+    origin: corsOrigins.length > 0 ? corsOrigins : false,
     credentials: true,
   },
 });
@@ -63,7 +69,7 @@ global.globalObject = {
 startSocketServer();
 
 app.use(cors({
-  origin: config.server.domains || '*',
+  origin: corsOrigins.length > 0 ? corsOrigins : [],
   credentials: true,
 }));
 

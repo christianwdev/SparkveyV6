@@ -3,6 +3,7 @@ import { deleteCookie, getCookie } from 'hono/cookie';
 
 // Middleware
 import { requireAuth } from 'backend/middleware/auth';
+import { requireCsrf } from 'backend/middleware/csrf';
 import { withRouteErrorHandling } from 'backend/utils/request';
 
 // Utils
@@ -18,7 +19,7 @@ import type UserSession from 'types/UserSession';
 const app = new Hono<{ Variables: { user: InternalUser, session: UserSession } }>();
 
 export default function routesInvoker() {
-  app.post('/', requireAuth, withRouteErrorHandling, async (c) => {
+  app.post('/', requireAuth, requireCsrf, withRouteErrorHandling, async (c) => {
     const session = c.get('session');
     const sessionID = session.sessionID || getCookie(c, SESSION_COOKIE_NAME);
 
