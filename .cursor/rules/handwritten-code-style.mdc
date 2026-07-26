@@ -1,0 +1,284 @@
+---
+description: Enforce hand-written Sparkvey style from session/affiliate/admin/offers/Landing/tasks + self-review every change
+alwaysApply: true
+---
+
+# Hand-Written Code Style + Mandatory Self-Review
+
+Match human-authored reference code. When AI-era code conflicts with these references, **follow the references**.
+
+## Canonical references (read before inventing structure)
+
+| Area | Paths |
+|------|--------|
+| Sessions | `backend/utils/session.ts` |
+| Affiliates | `backend/utils/affiliateCode.ts`, `types/AffiliateCode.ts` |
+| Admin | `backend/utils/admin/user.ts`, `backend/routes/admin/users.ts` |
+| Offers | `backend/utils/offers/fetch.ts`, `backend/utils/offers/ingest.ts`, `backend/routes/offers/index.ts`, `types/Offer/InternalOffer.ts`, `src/app/_components/OfferItem/**` |
+| Landing | `src/app/_components/LandingPage/**` |
+| Tasks | `src/app/[locale]/(NavigationBarPages)/tasks/page.tsx`, `page.client.tsx`, `page.module.scss`, `src/app/_hooks/useBrowseOffers.ts` |
+
+Also obey: Bun, SCSS nesting, `~icons/...jsx`, i18n guidelines.
+
+---
+
+## 1. Formatting voice (everywhere)
+
+- Spaces inside array literals and destructuring: `[ activities, setActivities ]`, `[ 'asc', 'desc' ]`, `[ ...list, value ]`, deps `[ socket, t ]`.
+- Prefer single-arg arrows without parens when simple: `page => page`, `item => item !== value`.
+- Blank line before `return` after non-trivial logic (see `session.ts`, `affiliateCode.ts`).
+- Early returns over deep nesting: `if (!session) return { ok: false, error: 'notFound' };`.
+- Magic numbers become named constants with a short comment when non-obvious:
+
+```ts
+const CACHE_TTL_SECONDS = 900; // 15 minutes
+const expiryDate = new Date(issueDate.getTime() + 604800000); // 1 Week
+```
+
+- Do **not** add `useMemo` / `useCallback` by default.
+
+---
+
+## 2. Imports
+
+Group with section comments when a file has multiple concerns (backend and larger frontend files):
+
+```ts
+// Constants
+import DatabaseCollections from 'backend/constants/DatabaseCollections';
+
+// Utils
+import { getGlobalObject } from 'backend/utils/globalObject';
+
+// Types
+import type FunctionResponse from 'types/FunctionResponse';
+import type AffiliateCode from 'types/AffiliateCode';
+```
+
+Frontend sections used in references: `// Components`, `// Hooks`, `// Types`, `// Icons`, `// Utils`, `// Middleware`, `// Schemas`.
+
+- Frontend aliases: `@components/`, `@utils/`, `@contexts/`, `@constants/`, `@i18n/`, `@hooks/`.
+- Backend: absolute `backend/...` or relative within the same tree — match the file you are editing.
+- Domain types from `types/...` as **default imports** when the type file default-exports (`InternalOffer`, `AffiliateCode`, `FunctionResponse`).
+- CSS modules: always `import styles from './X.module.scss'` — never `style`.
+- Icons: `~icons/<set>/<name>.jsx` only.
+- Prefer `import type` for type-only imports.
+
+---
+
+## 3. Types
+
+- Prefer `type` aliases; entity types default-export (`types/AffiliateCode.ts`, `types/Offer/InternalOffer.ts`).
+- Object type fields use **trailing commas** (not semicolons), matching `InternalOffer` / session param types:
+
+```ts
+type AffiliateCode = {
+  userID: string,
+  code: string,
+  totalEarnings: number,
+  createdAt: Date,
+};
+```
+
+- Multi-arg functions take **one object parameter** with inline or named type; destructure at the signature:
+
+```ts
+export async function createAffiliateCode(
+  {
+    userID,
+    code,
+  }: {
+    userID: string;
+    code: string;
+  },
+): Promise<FunctionResponse<AffiliateCode, CreateAffiliateCodeError>>
+```
+
+- Export string-literal error unions next to the function: `CreateAffiliateCodeError`, `UseAffiliateCodeError`.
+- Use discriminated unions for UI loading states (`OfferItemLoadedProps | OfferItemLoadingProps`), not optional soup.
+- Narrow with `Omit` / `Pick` for sanitized/admin views (`AdminUser`, `IngestedOffer`).
+
+---
+
+## 4. Backend utils — `FunctionResponse` pattern
+
+All fallible DB/util work follows `types/FunctionResponse.ts`:
+
+```ts
+// ✅ GOOD
+try {
+  const { db } = getGlobalObject();
+  // ...
+  if (!doc) return { ok: false, error: 'notFound' };
+  return { ok: true, data: doc };
+} catch (error) {
+  console.error(error);
+  return { ok: false, error: 'internalServerError' };
+}
+```
+
+Specific rules from `session.ts` / `affiliateCode.ts` / `admin/user.ts`:
+
+- Map known failures to stable error strings (`notFound`, `alreadyExists`, `alreadyClaimed`, `ownCode`, `noPendingEarnings`) — never throw those to HTTP handlers raw when a `FunctionResponse` fits.
+- Detect Mongo duplicate key (`code === 11000`) and return a typed error.
+- Sanitize before returning to clients/admin (`sanitizeUserSession`, `sanitizeAdminUser`, mask IPs, strip passwords, truncate secrets).
+- Transactions: `startSession` → `startTransaction` → commit/abort in `catch` → `endSession` in `finally` (`claimReferralEarnings`).
+- Keep small private helpers at the bottom of the file (`sanitizeCode`, `escapeRegex`).
+- Comment only non-obvious intent (security, cookie units, index/query choices) — not narration.
+
+### Offers-specific
+
+- Named constants for batch/cache/limits at top of file (`SECTION_LIMIT`, `BATCH_SIZE`, `POPULARITY_PRELOAD`).
+- JSDoc for non-obvious aggregation / index strategy (`buildAggGeoMatch`, `recentGeoFill` in `fetch.ts`).
+- Heavy files may use section banners: `// ─── ID / Hash helpers ───` (`ingest.ts`).
+- Workers produce `IngestedOffer`; server owns fields like `geoUnrestricted` / timestamps.
+
+### Admin-specific
+
+- Never leak secrets in admin payloads (password omitted; actionable IDs truncated).
+- Escape user search input before `$regex`.
+- Permission checks via `requireAdmin(StaffPermissions.*)` on routes.
+
+---
+
+## 5. Backend routes
+
+Match `backend/routes/offers/index.ts` and `backend/routes/admin/users.ts`:
+
+- `const app = new Hono<{ Variables: { user: InternalUser } }>();`
+- `export default function routesInvoker() { ... }`
+- Middleware order explicit: auth / CSRF / `withRouteErrorHandling` / `zValidator` / handler.
+- Validate with Zod (`z.object`, `z.enum([ 'a', 'b' ])`, `z.coerce.number()` for query).
+- Use `as const` / `satisfies` for allow-lists (`BROWSE_PROVIDERS`).
+- On util failure: `if (!result.ok) return c.json({ success: false, error: result.error });` or `sendResponse(...)`.
+- Success via `sendResponse({ c, status: 200, success: true, data })` or deliberate `c.json` shapes (homepage aggregate).
+- Validate path/body enums against sets (`OfferTypeSet.has`) before casting.
+
+---
+
+## 6. Frontend components & pages
+
+### Structure
+
+- Component folder: `Name/Name.tsx` + `Name.module.scss`; children under `_components/Child/`.
+- Default export: `export default function Name`.
+- Props type: `NameProps` (or loaded/loading split like `OfferItem`).
+- Landing sections: server component when possible; `'use client'` only for hooks/sockets/motion.
+- App routes: thin **server** `page.tsx` (auth, metadata, shell) + **`page.client.tsx`** for interactive UI (tasks pattern).
+
+### Landing patterns
+
+- Compose the page from section components; pass `initialHomepagePromise` into client islands; wrap promise consumers in `<Suspense fallback={<NamedFallback />}>`.
+- Section title block: eyebrow `h3` + `t.rich('title', { highlight: (chunks) => <span>{chunks}</span> })` + description `p`.
+- Module-level `as const` key lists (`FAQ_IDS`, `EARN_METHODS`) instead of inline magic strings.
+- Pure helpers and fallbacks as sibling `function` declarations in the same file.
+
+### Tasks / offers UI patterns
+
+- Filter option configs at module scope with **i18n label keys**, map to `t(...)` at render time (`SORT_OPTIONS`, `CATEGORY_OPTIONS`).
+- URL/query state via dedicated params helpers (`tasksSearchParams` + `nuqs`); debounce/search: query against committed URL value when that is the established pattern.
+- Infinite query in a hook (`useBrowseOffers`); page owns UI + intersection observer.
+- Mark intentional floating promises: `void setFilters(...)`, `void fetchNextPage()`.
+- Loading: skeleton `OfferItem loading`; empty state block; explicit load-more when capped.
+- Default export wraps content in Suspense with a named fallback component.
+
+### Class names
+
+```tsx
+className={[ styles.circle, styles.light ].join(' ')}
+className={[ styles.root, cond ? styles.on : '', props.className ].filter(Boolean).join(' ')}
+```
+
+---
+
+## 7. SCSS modules
+
+- `@use '@styles/variables.scss' as *;`
+- **One root class**; nest all locals under it with `>` (see SCSS nesting rule). Nest must mirror JSX.
+- Tokens: `$text-bold`, `$text-light`, `$border-light`, `$primary`, `$background`, `$content-max-width`, `$off-white`, breakpoint vars.
+- Reset heading/paragraph margin in place (`margin: 0`) when setting type styles (tasks header).
+- Local SCSS vars at top of file above the root class.
+- Landing sections commonly: `padding: 96px 0`, `max-width: $content-max-width`, title `gap: 12px`, section `gap: 40px`.
+
+---
+
+## 8. i18n
+
+- No new user-facing hardcoded strings in UI (option labels are keys, not English copy).
+- Landing highlight spans via `t.rich`; tasks/control copy under page namespaces (`TasksPage`, `TasksMetadata`).
+- Update `en.json` first, then every locale (i18n rule).
+
+---
+
+## 9. Mandatory self-review (every change)
+
+Before finishing **any** edit, re-read the full diff and fix issues yourself. Style alone is not enough — you must hunt bugs and vulnerabilities.
+
+### 9a. Style checklist
+
+1. **Reference match** — Would this sit naturally beside `session.ts`, `affiliateCode.ts`, Landing sections, or tasks `page.client.tsx`? Rewrite generic AI scaffold.
+2. **FunctionResponse / routes** — ok/data vs ok/error; Zod + middleware order; sanitize outbound admin/user data.
+3. **Types** — object params; trailing commas in type fields; default-exported domain types; error unions named.
+4. **Imports** — section comments; `styles` name; aliases; `import type`; icon `.jsx`.
+5. **Formatting** — spaced `[ brackets ]`; early returns; named constants; no needless memo.
+6. **UI structure** — server/client split; Suspense + named fallbacks; `_components` folders; option key maps for i18n.
+7. **SCSS** — one nested root; tokens; nest matches DOM.
+8. **i18n** — locales updated for new copy.
+9. **Scope** — only files required for the task.
+
+### 9b. Bug & vulnerability self-review (always)
+
+Walk the diff as an attacker and as a broken client. Fix anything you introduced before finishing.
+
+**Correctness / bugs**
+
+- Null/undefined, empty arrays, and error paths actually handled (`FunctionResponse`, Suspense fallbacks, empty UI).
+- Race conditions: double-submit, concurrent claim/credit, stale React state vs URL, socket + initial fetch dupes.
+- Off-by-one / pagination: `skip`/`limit`, infinite-query `getNextPageParam`, caps vs load-more.
+- Async: missing `await`, unhandled rejections, floating promises that should be `void` or awaited.
+- Transactions: commit/abort/`finally endSession` correct; partial writes impossible on failure paths.
+- i18n/ICU placeholders still valid; no broken `t.rich` / key paths.
+
+**Security (Sparkvey-specific)**
+
+- AuthZ: every user/admin route checks the right principal; no IDOR via `userID` / `sessionID` / `offerID` / affiliate `code` from the client.
+- AuthN / sessions: cookie flags, revoke vs session IDs, expiry updates, CSRF on state-changing routes (`requireCsrf` where existing peers use it).
+- Admin: `requireAdmin` + correct `StaffPermissions`; never return password hashes, raw actionable secrets, or full unmasked sensitive fields.
+- Injection: Zod/validate inputs; escape regex for search; no raw string concatenation into queries or HTML.
+- Postbacks / earnings / balances: verify signatures/secrets, idempotency, amount tampering, replay; never trust client-stated payout.
+- XSS: no `dangerouslySetInnerHTML` with untrusted data; sanitize any rich content; careful with `img`/`href` from providers.
+- Secrets: no keys/tokens in logs, client bundles, or commits; env-only.
+- SSRF / open redirects: user-controlled URLs not fetched server-side or redirected without allow-listing.
+- Rate limits / lockouts preserved on auth and sensitive actions.
+
+If unsure whether a path is safe, treat it as unsafe and fix or flag it explicitly in the final message.
+
+### 9c. Subagent review (standing authorization)
+
+This rule **is** standing permission to launch review subagents without waiting for a per-chat `/review-*` ask.
+
+**When required — launch before you finish:**
+
+| Trigger | Subagent |
+|---------|----------|
+| Touches auth, sessions, CSRF, cookies, admin, permissions, postbacks, payouts/balances, affiliate claim, or crypto of secrets | `security-review` (**required**) |
+| Non-trivial logic (new/changed backend util, route, worker, hook, or multi-file feature) — not pure copy/CSS | `bugbot` (**required**) |
+| Both rows apply | Launch **both** (can be parallel) |
+
+**When optional:** typo-only, comments-only, or pure SCSS token tweaks with no behavior change — self-review 9a/9b is enough; skip subagents unless you still want them.
+
+**How to launch**
+
+- Read and follow `review-security` / `review-bugbot` skills for prompt shape.
+- `Full Repository Path`: this workspace root.
+- Prefer `Diff: uncommitted changes` for the work just done; use `branch changes` only when reviewing the whole branch is clearly better.
+- `run_in_background: false` unless the user asked for background.
+- Exact prompt form from the skill (`Full Repository Path` + `Diff` lines).
+
+**After subagents return**
+
+- Fix clear true positives you introduced (bugs and vulns) before finishing — do not leave known issues in the diff.
+- Summarize residual / uncertain findings for the user (severity + `file:line`).
+- Do not infinite-loop reviews; one review pass + fixes is enough unless the user asks to re-run.
+
+If an AI-written neighbor file fights these style rules, write **new** code to this standard; only restyle the neighbor when the task already requires editing it.
