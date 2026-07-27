@@ -15,6 +15,7 @@ import { getUser } from '@utils/user';
 import { serverRequest } from '@utils/serverRequest';
 import { resolveColorTheme, THEME_COOKIE_NAME } from '@utils/theme';
 import { UserProvider } from '@contexts/UserProvider';
+import { OfferwallProvider } from '@contexts/OfferwallProvider';
 import { SocketProvider } from '@contexts/SocketContext';
 import MotionProvider from '@contexts/MotionProvider';
 import QueryProvider from '@contexts/QueryProvider';
@@ -124,10 +125,12 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <QueryProvider>
             <SocketProvider>
               <UserProvider initialUser={user}>
-                <MotionProvider>
-                  <AppToastContainer />
-                  {children}
-                </MotionProvider>
+                <OfferwallProvider>
+                  <MotionProvider>
+                    <AppToastContainer />
+                    {children}
+                  </MotionProvider>
+                </OfferwallProvider>
               </UserProvider>
             </SocketProvider>
           </QueryProvider>

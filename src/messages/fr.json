@@ -21,6 +21,10 @@
         "title": "Sondages",
         "description": "Courts questionnaires"
       },
+      "offerwalls": {
+        "title": "Offerwalls",
+        "description": "Gagnez des Sparks en complétant des offres"
+      },
       "viewAll": "Voir tout",
       "previous": "Offres précédentes",
       "next": "Offres suivantes"
@@ -440,8 +444,18 @@
     "earnMenu": {
       "explore": "Explorer",
       "tasks": "Tâches",
-      "surveys": "Sondages"
+      "surveys": "Sondages",
+      "offerwalls": "Offerwalls"
     },
+    "mobile": {
+      "navLabel": "Navigation principale",
+      "home": "Accueil",
+      "earn": "Gagner",
+      "shop": "Boutique",
+      "leaders": "Leaders",
+      "refer": "Parrainer"
+    },
+
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -455,7 +469,28 @@
     "signOut": "Se déconnecter"
   },
   "Notifications": {
-    "title": "Notifications"
+    "title": "Notifications",
+    "none": "Aucune notification à afficher...",
+    "markAllRead": "Tout marquer comme lu",
+    "markRead": "Marquer comme lu",
+    "types": {
+      "offerCredited": "Offre créditée",
+      "offerHeld": "Offre en attente",
+      "offerPending": "Offre en cours",
+      "offerReleased": "Offre libérée",
+      "offerReversal": "Offre annulée",
+      "offerAdvConfirmed": "Offre confirmée",
+      "redemptionSubmitted": "Échange soumis"
+    },
+    "messages": {
+      "offerCredited": "Votre offre {offerName} d'une valeur de {offerValue} sparks a été créditée.",
+      "offerHeld": "Votre offre {offerName} d'une valeur de {offerValue} sparks est en attente jusqu'au {releaseDate}.",
+      "offerPending": "Votre offre {offerName} d'une valeur de {offerValue} sparks est retenue par notre fournisseur jusqu'au {releaseDate}.",
+      "offerReleased": "Votre offre {offerName} d'une valeur de {offerValue} a été libérée.",
+      "offerReversal": "Votre offre {offerName} d'une valeur de {offerValue} a été annulée.",
+      "offerAdvConfirmed": "Votre offre {offerName} d'une valeur de {offerValue} sparks a été confirmée et retenue jusqu'au {releaseDate}.",
+      "redemptionSubmitted": "Votre échange pour {rewardName} ({value} Sparks) a été soumis."
+    }
   },
   "NotFound": {
     "imageAlt": "Page introuvable",
@@ -643,6 +678,8 @@
   "OfferPageClient": {
     "backToTasks": "Retour aux tâches",
     "sparksAlt": "Sparks",
+    "close": "Fermer",
+    "loadError": "Impossible de charger cette offre. Veuillez réessayer dans un instant.",
     "sections": {
       "offerDetails": "Détails de l'offre",
       "goalsProgress": "Progression des objectifs",
@@ -1061,7 +1098,13 @@
     "actions": {
       "useCode": "Utiliser le code",
       "claimed": "Réclamé",
-      "createCode": "Créer un code"
+      "createCode": "Créer un code",
+      "claimEarnings": "Réclamer les gains",
+      "claiming": "Réclamation...",
+      "copyCode": "Copier le lien de parrainage"
+    },
+    "claim": {
+      "banner": "Vous avez {amount} Sparks en attente à réclamer."
     },
     "table": {
       "code": "Code",
@@ -1070,12 +1113,13 @@
       "createdAt": "Créé le"
     },
     "empty": {
-      "noCodes": "Vous n'avez pas encore créé de codes de parrainage, <action>commençons</action>."
+      "noCodes": "Aucun code de parrainage a afficher."
     },
     "graph": {
       "statistics": "Statistiques",
       "earnings": "Gains",
       "sparksEarned": "Sparks gagnés",
+      "periodLabel": "Periode",
       "periods": {
         "day": "Jour",
         "week": "Semaine",
@@ -1093,7 +1137,10 @@
       "createCodeSuccess": "Code affilié créé avec succès",
       "createCodeFailed": "Échec de la création du code affilié",
       "fetchGraphFailed": "Échec de récupération des données du graphique",
-      "copyCodeSuccess": "Code copié dans le presse-papiers"
+      "copyCodeSuccess": "Code copié dans le presse-papiers",
+      "copyCodeFailed": "Échec de la copie du code dans le presse-papiers",
+      "claimSuccess": "Gains de parrainage réclamés avec succès",
+      "claimFailed": "Échec de la réclamation des gains de parrainage"
     }
   },
   "ErrorPage": {

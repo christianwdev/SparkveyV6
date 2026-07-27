@@ -10,7 +10,8 @@ import { getGlobalObject } from './globalObject';
 import { createUserNotification } from './notifications';
 import { getRedemptionUsdValue, getRewardFeeAmount, getRewardFeeRate } from './rewards';
 import { createTremendousOrder } from './tremendous';
-import { getRawUser, updateUserBalance } from './user';
+import { getRawUser } from './user';
+import { updateUserBalance } from './userBalance';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';

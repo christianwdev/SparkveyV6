@@ -21,6 +21,10 @@
         "title": "설문조사",
         "description": "짧은 질문"
       },
+      "offerwalls": {
+        "title": "오퍼월",
+        "description": "제안을 완료하고 스파크를 획득하세요"
+      },
       "viewAll": "모두 보기",
       "previous": "이전 오퍼",
       "next": "다음 오퍼"
@@ -440,8 +444,18 @@
     "earnMenu": {
       "explore": "탐색",
       "tasks": "작업",
-      "surveys": "설문조사"
+      "surveys": "설문조사",
+      "offerwalls": "오퍼월"
     },
+    "mobile": {
+      "navLabel": "기본 탐색",
+      "home": "홈",
+      "earn": "적립",
+      "shop": "상점",
+      "leaders": "리더",
+      "refer": "추천"
+    },
+
     "a11y": {
       "avatarAlt": "아바타"
     }
@@ -455,7 +469,28 @@
     "signOut": "로그아웃"
   },
   "Notifications": {
-    "title": "알림"
+    "title": "알림",
+    "none": "표시할 알림이 없습니다...",
+    "markAllRead": "모두 읽음으로 표시",
+    "markRead": "읽음으로 표시",
+    "types": {
+      "offerCredited": "오퍼 적립 완료",
+      "offerHeld": "오퍼 보류",
+      "offerPending": "오퍼 대기 중",
+      "offerReleased": "오퍼 지급 완료",
+      "offerReversal": "오퍼 취소",
+      "offerAdvConfirmed": "오퍼 확인됨",
+      "redemptionSubmitted": "교환 제출됨"
+    },
+    "messages": {
+      "offerCredited": "오퍼 {offerName} ({offerValue} 스파크)가 적립되었습니다.",
+      "offerHeld": "오퍼 {offerName} ({offerValue} 스파크)는 {releaseDate}까지 보류됩니다.",
+      "offerPending": "오퍼 {offerName} ({offerValue} 스파크)는 제공업체에 의해 {releaseDate}까지 보류됩니다.",
+      "offerReleased": "오퍼 {offerName} ({offerValue} 스파크)가 지급되었습니다.",
+      "offerReversal": "오퍼 {offerName} ({offerValue} 스파크)가 취소되었습니다.",
+      "offerAdvConfirmed": "오퍼 {offerName} ({offerValue} 스파크)가 확인되어 {releaseDate}까지 보류됩니다.",
+      "redemptionSubmitted": "{rewardName} ({value} 스파크) 교환이 제출되었습니다."
+    }
   },
   "NotFound": {
     "imageAlt": "페이지를 찾을 수 없습니다",
@@ -643,6 +678,8 @@
   "OfferPageClient": {
     "backToTasks": "작업으로 돌아가기",
     "sparksAlt": "스파크",
+    "close": "닫기",
+    "loadError": "이 오퍼를 불러올 수 없습니다. 잠시 후 다시 시도해 주세요.",
     "sections": {
       "offerDetails": "혜택 세부정보",
       "goalsProgress": "목표 진행상황",
@@ -1061,7 +1098,13 @@
     "actions": {
       "useCode": "코드 사용",
       "claimed": "청구됨",
-      "createCode": "코드 생성"
+      "createCode": "코드 생성",
+      "claimEarnings": "수익 청구",
+      "claiming": "청구 중...",
+      "copyCode": "추천 링크 복사"
+    },
+    "claim": {
+      "banner": "청구 가능한 대기 중 Sparks가 {amount}개 있습니다."
     },
     "table": {
       "code": "코드",
@@ -1070,12 +1113,13 @@
       "createdAt": "생성 날짜"
     },
     "empty": {
-      "noCodes": "아직 추천 코드를 만들지 않으셨습니다. <action>시작</action>해 보세요."
+      "noCodes": "표시할 추천 코드가 없습니다."
     },
     "graph": {
       "statistics": "통계",
       "earnings": "수입",
       "sparksEarned": "획득한 스파크",
+      "periodLabel": "기간",
       "periods": {
         "day": "일",
         "week": "주",
@@ -1093,7 +1137,10 @@
       "createCodeSuccess": "제휴 코드가 성공적으로 생성되었습니다",
       "createCodeFailed": "제휴코드 생성 실패",
       "fetchGraphFailed": "그래프 데이터를 가져오지 못했습니다.",
-      "copyCodeSuccess": "코드가 클립보드에 복사되었습니다."
+      "copyCodeSuccess": "코드가 클립보드에 복사되었습니다.",
+      "copyCodeFailed": "코드를 클립보드에 복사하지 못했습니다.",
+      "claimSuccess": "추천 수익을 성공적으로 청구했습니다",
+      "claimFailed": "추천 수익 청구에 실패했습니다"
     }
   },
   "ErrorPage": {

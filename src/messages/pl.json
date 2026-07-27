@@ -21,6 +21,10 @@
         "title": "Ankiety",
         "description": "Krótkie kwestionariusze"
       },
+      "offerwalls": {
+        "title": "Offerwalle",
+        "description": "Zdobywaj Sparks za wykonywanie ofert"
+      },
       "viewAll": "Zobacz wszystko",
       "previous": "Poprzednie oferty",
       "next": "Następne oferty"
@@ -440,8 +444,18 @@
     "earnMenu": {
       "explore": "Odkrywaj",
       "tasks": "Zadania",
-      "surveys": "Ankiety"
+      "surveys": "Ankiety",
+      "offerwalls": "Offerwalle"
     },
+    "mobile": {
+      "navLabel": "Nawigacja glowna",
+      "home": "Glowna",
+      "earn": "Zarabiaj",
+      "shop": "Sklep",
+      "leaders": "Liderzy",
+      "refer": "Polecaj"
+    },
+
     "a11y": {
       "avatarAlt": "Awatar"
     }
@@ -455,7 +469,28 @@
     "signOut": "Wyloguj sie"
   },
   "Notifications": {
-    "title": "Powiadomienia"
+    "title": "Powiadomienia",
+    "none": "Brak powiadomien do wyswietlenia...",
+    "markAllRead": "Oznacz wszystkie jako przeczytane",
+    "markRead": "Oznacz jako przeczytane",
+    "types": {
+      "offerCredited": "Oferta naliczona",
+      "offerHeld": "Oferta wstrzymana",
+      "offerPending": "Oferta oczekujaca",
+      "offerReleased": "Oferta zwolniona",
+      "offerReversal": "Oferta cofnieta",
+      "offerAdvConfirmed": "Oferta potwierdzona",
+      "redemptionSubmitted": "Wymiana zlozona"
+    },
+    "messages": {
+      "offerCredited": "Twoja oferta {offerName} o wartosci {offerValue} sparks zostala naliczona.",
+      "offerHeld": "Twoja oferta {offerName} o wartosci {offerValue} sparks jest wstrzymana do {releaseDate}.",
+      "offerPending": "Twoja oferta {offerName} o wartosci {offerValue} sparks jest wstrzymana przez dostawce do {releaseDate}.",
+      "offerReleased": "Twoja oferta {offerName} o wartosci {offerValue} zostala zwolniona.",
+      "offerReversal": "Twoja oferta {offerName} o wartosci {offerValue} zostala cofnieta.",
+      "offerAdvConfirmed": "Twoja oferta {offerName} o wartosci {offerValue} sparks zostala potwierdzona i wstrzymana do {releaseDate}.",
+      "redemptionSubmitted": "Twoja wymiana {rewardName} ({value} Sparks) zostala zlozona."
+    }
   },
   "NotFound": {
     "imageAlt": "Nie znaleziono strony",
@@ -643,6 +678,8 @@
   "OfferPageClient": {
     "backToTasks": "Wroc do zadan",
     "sparksAlt": "Sparks",
+    "close": "Zamknij",
+    "loadError": "Nie udało się wczytać tej oferty. Spróbuj ponownie za chwilę.",
     "sections": {
       "offerDetails": "Szczegoly oferty",
       "goalsProgress": "Postep celow",
@@ -1061,7 +1098,13 @@
     "actions": {
       "useCode": "Uzyj kodu",
       "claimed": "Aktywny",
-      "createCode": "Utworz kod"
+      "createCode": "Utworz kod",
+      "claimEarnings": "Odbierz zarobki",
+      "claiming": "Odbieranie...",
+      "copyCode": "Kopiuj link polecajacy"
+    },
+    "claim": {
+      "banner": "Masz {amount} oczekujacych Sparks do odebrania."
     },
     "table": {
       "code": "Kod",
@@ -1070,12 +1113,13 @@
       "createdAt": "Data utworzenia"
     },
     "empty": {
-      "noCodes": "Nie utworzyles jeszcze zadnych kodow polecajacych - <action>zaczynajmy</action>."
+      "noCodes": "Brak kodow polecajacych do wyswietlenia."
     },
     "graph": {
       "statistics": "Statystyki",
       "earnings": "Zarobki",
       "sparksEarned": "Zdobyte Sparks",
+      "periodLabel": "Okres",
       "periods": {
         "day": "Dzien",
         "week": "Tydzien",
@@ -1093,7 +1137,10 @@
       "createCodeSuccess": "Kod partnerski zostal utworzony pomyslnie",
       "createCodeFailed": "Nie udalo sie utworzyc kodu partnerskiego",
       "fetchGraphFailed": "Nie udalo sie pobrac danych wykresu",
-      "copyCodeSuccess": "Kod skopiowano do schowka"
+      "copyCodeSuccess": "Kod skopiowano do schowka",
+      "copyCodeFailed": "Nie udalo sie skopiowac kodu do schowka",
+      "claimSuccess": "Pomyslnie odebrano zarobki z polecen",
+      "claimFailed": "Nie udalo sie odebrac zarobkow z polecen"
     }
   },
   "ErrorPage": {

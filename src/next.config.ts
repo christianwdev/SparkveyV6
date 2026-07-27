@@ -44,6 +44,20 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   productionBrowserSourceMaps: false,
 
+  async headers() {
+    return [
+      {
+        source: '/walls/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: 'frame-ancestors *',
+          },
+        ],
+      },
+    ];
+  },
+
   webpack(config) {
     config.cache = false;
     config.plugins.push(

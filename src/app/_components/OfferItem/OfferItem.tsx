@@ -5,6 +5,7 @@ import Skeleton from '@components/Skeleton/Skeleton';
 
 // Hooks
 import { Link } from '@i18n/navigation';
+import { useOfferDetailsOptional } from '@contexts/OfferDetailsProvider';
 
 // Types
 import Image from 'next/image';
@@ -17,17 +18,18 @@ import AndroidIcon from '~icons/mdi/android.jsx';
 import WindowsIcon from '~icons/mdi/microsoft-windows.jsx';
 
 type OfferItemLoadedProps = {
-  loading?: false;
-  offerName: string;
-  offerDescription: string;
-  offerImageUrl: string;
-  offerLink: string;
-  totalReward: number;
-  operatingSystem?: OperatingSystem[];
+  loading?: false,
+  offerName: string,
+  offerDescription: string,
+  offerImageUrl: string,
+  totalReward: number,
+  operatingSystem?: OperatingSystem[],
+  offerID?: string,
+  href?: string,
 };
 
 type OfferItemLoadingProps = {
-  loading: true;
+  loading: true,
 };
 
 type OfferItemProps = OfferItemLoadedProps | OfferItemLoadingProps;
@@ -55,11 +57,13 @@ export default function OfferItem(props: OfferItemProps) {
 
 function OfferItemLoaded(props: OfferItemLoadedProps) {
   const t = useTranslations('OfferItem');
+  const offerDetails = useOfferDetailsOptional();
   const operatingSystem = props.operatingSystem ?? [];
   const showAll = operatingSystem.length === 0;
+  const canOpenModal = Boolean(props.offerID && offerDetails);
 
-  return (
-    <Link href={props.offerLink} className={styles.offerItemContainer}>
+  const content = (
+    <>
       <div className={styles.imageContainer}>
         {props.offerImageUrl ? (
           <>
@@ -116,6 +120,32 @@ function OfferItemLoaded(props: OfferItemLoadedProps) {
           </span>
         </p>
       </div>
-    </Link>
+    </>
+  );
+
+  if (props.href) {
+    return (
+      <Link href={props.href} className={styles.offerItemContainer}>
+        {content}
+      </Link>
+    );
+  }
+
+  if (canOpenModal && props.offerID) {
+    return (
+      <button
+        type="button"
+        className={[ styles.offerItemContainer, styles.offerItemButton ].join(' ')}
+        onClick={() => offerDetails?.openOfferDetailsModal(props.offerID!)}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <div className={styles.offerItemContainer}>
+      {content}
+    </div>
   );
 }

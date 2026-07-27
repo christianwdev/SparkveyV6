@@ -5,6 +5,7 @@ const SocketEmits = {
   balanceDecrease: 'balanceDecrease',
   liveActivity: 'liveActivity',
   siteStatistics: 'siteStatistics',
+  userNotification: 'userNotification',
 };
 
 export default SocketEmits;

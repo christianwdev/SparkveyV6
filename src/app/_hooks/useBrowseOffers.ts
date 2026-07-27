@@ -3,7 +3,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { browseOffers } from '@utils/offers';
 import { clientRequest } from '@utils/clientRequest';
-import type InternalOffer from 'types/Offer/InternalOffer';
+import type SanitizedOffer from 'types/Offer/SanitizedOffer';
 import type { BrowseOffersSort } from 'types/Offer/BrowseOffersSort';
 import { queryKeys } from './queryKeys';
 
@@ -17,7 +17,7 @@ export type BrowseOffersFilters = {
 };
 
 type UseBrowseOffersParams = BrowseOffersFilters & {
-  initialOffers?: InternalOffer[];
+  initialOffers?: SanitizedOffer[];
 
   /** Filters used when `initialOffers` was fetched on the server. */
   initialFilters?: BrowseOffersFilters;

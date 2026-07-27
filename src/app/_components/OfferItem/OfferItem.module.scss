@@ -15,6 +15,16 @@
   text-decoration: none;
   color: inherit;
   transition: border-color 150ms ease, box-shadow 150ms ease;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  font: inherit;
+
+  &.offerItemButton {
+    cursor: pointer;
+    width: 100%;
+  }
 
   &:hover {
     border-color: rgba(158, 56, 208, 0.35);

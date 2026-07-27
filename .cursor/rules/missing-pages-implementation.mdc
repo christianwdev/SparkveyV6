@@ -1,0 +1,61 @@
+---
+description: Ownership, sequencing, and locked defaults for the Missing Pages (Streams A–E) implementation
+alwaysApply: true
+---
+
+# Missing Pages Implementation
+
+Agents building signup, legal, affiliates, leaderboard, or walls must follow this rule plus handwritten-code-style, Bun, SCSS nesting, i18n, and unplugin-icons rules.
+
+**V5 root:** `c:\Users\Chris\Desktop\Development\Personal\sparkveyv5`
+
+## Locked product defaults
+
+- Referral commission: `config.referral.rate = 0.05` (signed sparks × rate → referrer pending)
+- `createUser` → `maxAffiliateCodes: 2`
+- Leaderboard: **monthly only** (no weekly cutover)
+- AffiliateGraph: Phase 2 — do not build
+- Walls: no Verisoul VPN check; catalog in `backend/utils/walls/catalog.ts`; homepage section + `OfferwallModal` iframe of `/walls/[wallID]`; no standalone `/walls` index; Torox proxy `GET /walls/torox`; catalog API `GET /offerwalls`
+- Login form rebuild: out of scope
+
+## Stream ownership
+
+| Stream | Owns (edit freely) | Must not touch |
+|---|---|---|
+| A Signup | `signup/**`, `src/utils/auth.ts` register helper, referral wire in `backend/routes/auth/email.ts`, `FrontendRedirectPaths.signup` | `affiliateCode.ts`, EarnDropdown, leaderboard, legal, walls |
+| B Legal | `terms-of-service/**`, `privacy-policy/**` | any shared files |
+| C Affiliates | affiliates page, GET `/affiliates`, `creditReferrerPendingEarnings`, `affiliateCode.ts`, first `updateUserBalance` hook line, `maxAffiliateCodes` default, `config.referral` | EarnDropdown, leaderboard files (leave room for D’s hook) |
+| D Leaderboard | leaderboard types/utils/routes/worker/config/UI, second `updateUserBalance` hook line | overwriting C’s hook line |
+| E Walls | `src/app/walls/[wallID]/**`, HomeOfferwalls, OfferwallModal/Provider, WallItem, EarnDropdown, `backend/utils/walls/**`, `backend/routes/offerwalls/**`, `backend/routes/walls/**`, additive FrontendRedirectPaths | Navbar/Footer/proxy |
+
+## Shared files
+
+| File | Rule |
+|---|---|
+| `FrontendRedirectPaths.ts` | A lands `signup` first; do not re-add a walls catalog path |
+| `EarnDropdown.tsx` | **E only** |
+| Navbar / Footer / `src/proxy.ts` | **nobody** — already correct |
+| `updateUserBalance` in `user.ts` | C lands first; D appends next to C’s line |
+| `affiliateCode.ts` | **C owns edits**; A only imports/`useAffiliateCode` |
+
+### Sparks earnings side effects
+
+`updateUserBalance` (`backend/utils/userBalance.ts`) accepts an optional `afterCommit` callback (runs only when it owns/commits the session). Offer postbacks pass it to run referral + leaderboard via `applySparksEarningsSideEffects`. Redemptions and leaderboard payouts omit the callback. Do not hardcode those imports inside `updateUserBalance`.
+
+Signup referral is resolved inside `createUser({ referralCode })` in one shot (sets `referredBy` + `referredByID`); do not call `useAffiliateCode` after create.
+
+## Style
+
+- V6 `FunctionResponse` — never port V5 `[err, data]` tuples
+- Distributed lock via `createDistributedLock` / SyncGuard — not redlock
+- Single-step signup matching `forgot-password` (not V5 two-step)
+- i18n keys already exist; only add keys if a real gap appears (en first, then all locales)
+
+## Explicit non-goals
+
+- Login form rebuild
+- AffiliateGraph / transaction `source` field
+- Verisoul / `sessionID` on register
+- Changing proxy walls exclusion
+- Inventing new legal copy
+- Weekly leaderboard cutover from V5

@@ -3,6 +3,7 @@ import { MongoServerError } from 'mongodb';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import SocketEmits from 'backend/constants/SocketEmits';
+import SiteConfig from 'backend/config/config';
 
 // Utils
 import { getRawUser } from 'backend/utils/user';
@@ -19,6 +20,8 @@ export type CreateAffiliateCodeError = 'alreadyExists' | 'internalServerError';
 export type UseAffiliateCodeError = 'notFound' | 'alreadyClaimed' | 'ownCode' | 'internalServerError';
 
 export type ClaimReferralEarningsError = 'noPendingEarnings' | 'internalServerError';
+
+export type CreditReferrerPendingEarningsError = 'internalServerError';
 
 export async function getNumberOfUsersAffiliateCodes(
   {
@@ -56,10 +59,21 @@ export async function createAffiliateCode(
 ): Promise<FunctionResponse<AffiliateCode, CreateAffiliateCodeError>> {
   try {
     const { db } = getGlobalObject();
+    const sanitized = sanitizeCode(code);
+
+    // Prevent squatting on another user's default (userID) referral code.
+    if (sanitized !== sanitizeCode(userID)) {
+      const reservedUser = await db.collection<InternalUser>(DatabaseCollections.users).findOne(
+        { userID: sanitized },
+        { projection: { userID: 1 } },
+      );
+
+      if (reservedUser) return { ok: false, error: 'alreadyExists' };
+    }
 
     const affiliateCode: AffiliateCode = {
       userID,
-      code: sanitizeCode(code),
+      code: sanitized,
       totalEarnings: 0,
       tasksCompleted: 0,
       createdAt: new Date(),
@@ -75,6 +89,37 @@ export async function createAffiliateCode(
       return { ok: false, error: 'alreadyExists' };
     }
 
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function ensureDefaultAffiliateCode(
+  {
+    userID,
+  }: {
+    userID: string,
+  },
+): Promise<FunctionResponse<AffiliateCode, CreateAffiliateCodeError>> {
+  try {
+    const { db } = getGlobalObject();
+    const code = sanitizeCode(userID);
+
+    const existing = await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).findOne({
+      code,
+      disabledAt: { $exists: false },
+    });
+
+    if (existing) {
+      if (existing.userID !== userID) return { ok: false, error: 'alreadyExists' };
+
+      return { ok: true, data: existing };
+    }
+
+    // Default code is mandatory and may exceed maxAffiliateCodes for legacy accounts.
+    return await createAffiliateCode({ userID, code: userID });
+  } catch (error) {
     console.error(error);
 
     return { ok: false, error: 'internalServerError' };
@@ -304,4 +349,103 @@ export async function claimReferralEarnings(
 
 function sanitizeCode(code: string): string {
   return code.trim().toLowerCase();
+}
+
+export async function getReferralCountByUserID(
+  {
+    userID,
+  }: {
+    userID: string,
+  },
+): Promise<FunctionResponse<number>> {
+  try {
+    const { db } = getGlobalObject();
+
+    const totalReferrals = await db.collection<InternalUser>(DatabaseCollections.users).countDocuments({
+      'referralInformation.referredByID': userID,
+      deletedAt: {
+        $exists: false,
+      },
+    });
+
+    return { ok: true, data: totalReferrals };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function creditReferrerPendingEarnings(
+  {
+    referredUserID,
+    amount,
+  }: {
+    referredUserID: string,
+    amount: number,
+  },
+): Promise<FunctionResponse<null, CreditReferrerPendingEarningsError>> {
+  try {
+    if (!Number.isFinite(amount) || amount === 0) return { ok: true, data: null };
+
+    const { db } = getGlobalObject();
+    const rate = SiteConfig.referral.rate;
+
+    if (!Number.isFinite(rate) || rate === 0) return { ok: true, data: null };
+
+    const commission = Math.round(amount * rate);
+
+    if (commission === 0) return { ok: true, data: null };
+
+    const referredUserResult = await getRawUser({ userID: referredUserID });
+
+    if (!referredUserResult.ok) return { ok: true, data: null };
+
+    const {
+      referredByID,
+      referredBy,
+    } = referredUserResult.data.referralInformation;
+
+    if (!referredByID || !referredBy) return { ok: true, data: null };
+
+    await db.collection<InternalUser>(DatabaseCollections.users).updateOne(
+      {
+        userID: referredByID,
+      },
+      {
+        $inc: {
+          'referralInformation.pendingEarnings': commission,
+          'referralInformation.totalEarnings': commission,
+        },
+      },
+    );
+
+    const tasksCompletedDelta = amount > 0
+      ? 1
+      : amount < 0
+        ? -1
+        : 0;
+
+    await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).updateOne(
+      {
+        userID: referredByID,
+        code: sanitizeCode(referredBy),
+        disabledAt: {
+          $exists: false,
+        },
+      },
+      {
+        $inc: {
+          totalEarnings: commission,
+          tasksCompleted: tasksCompletedDelta,
+        },
+      },
+    );
+
+    return { ok: true, data: null };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
 }

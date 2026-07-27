@@ -21,6 +21,10 @@
         "title": "Pesquisas",
         "description": "Questionários curtos"
       },
+      "offerwalls": {
+        "title": "Offerwalls",
+        "description": "Ganhe Sparks ao completar ofertas"
+      },
       "viewAll": "Ver tudo",
       "previous": "Ofertas anteriores",
       "next": "Próximas ofertas"
@@ -440,8 +444,18 @@
     "earnMenu": {
       "explore": "Explorar",
       "tasks": "Tarefas",
-      "surveys": "Pesquisas"
+      "surveys": "Pesquisas",
+      "offerwalls": "Offerwalls"
     },
+    "mobile": {
+      "navLabel": "Navegacao principal",
+      "home": "Início",
+      "earn": "Ganhar",
+      "shop": "Loja",
+      "leaders": "Líderes",
+      "refer": "Indicar"
+    },
+
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -455,7 +469,28 @@
     "signOut": "Sair"
   },
   "Notifications": {
-    "title": "Notificações"
+    "title": "Notificações",
+    "none": "Nenhuma notificação para exibir...",
+    "markAllRead": "Marcar tudo como lido",
+    "markRead": "Marcar como lido",
+    "types": {
+      "offerCredited": "Oferta creditada",
+      "offerHeld": "Oferta em retenção",
+      "offerPending": "Oferta pendente",
+      "offerReleased": "Oferta liberada",
+      "offerReversal": "Oferta estornada",
+      "offerAdvConfirmed": "Oferta confirmada",
+      "redemptionSubmitted": "Resgate enviado"
+    },
+    "messages": {
+      "offerCredited": "Sua oferta {offerName} no valor de {offerValue} sparks foi creditada.",
+      "offerHeld": "Sua oferta {offerName} no valor de {offerValue} sparks está em retenção até {releaseDate}.",
+      "offerPending": "Sua oferta {offerName} no valor de {offerValue} sparks está em retenção pelo nosso provedor até {releaseDate}.",
+      "offerReleased": "Sua oferta {offerName} no valor de {offerValue} foi liberada.",
+      "offerReversal": "Sua oferta {offerName} no valor de {offerValue} foi estornada.",
+      "offerAdvConfirmed": "Sua oferta {offerName} no valor de {offerValue} sparks foi confirmada e retida até {releaseDate}.",
+      "redemptionSubmitted": "Seu resgate de {rewardName} ({value} Sparks) foi enviado."
+    }
   },
   "NotFound": {
     "imageAlt": "Página não encontrada",
@@ -643,6 +678,8 @@
   "OfferPageClient": {
     "backToTasks": "Voltar para Tarefas",
     "sparksAlt": "Sparks",
+    "close": "Fechar",
+    "loadError": "Não foi possível carregar esta oferta. Tente novamente em um momento.",
     "sections": {
       "offerDetails": "Detalhes da Oferta",
       "goalsProgress": "Progresso das Metas",
@@ -1061,7 +1098,13 @@
     "actions": {
       "useCode": "Usar código",
       "claimed": "Resgatado",
-      "createCode": "Criar código"
+      "createCode": "Criar código",
+      "claimEarnings": "Resgatar ganhos",
+      "claiming": "Resgatando...",
+      "copyCode": "Copiar link de indicação"
+    },
+    "claim": {
+      "banner": "Você tem {amount} Sparks pendentes prontos para resgatar."
     },
     "table": {
       "code": "Código",
@@ -1070,12 +1113,13 @@
       "createdAt": "Criado em"
     },
     "empty": {
-      "noCodes": "Você ainda não criou nenhum código de indicação, vamos <action>começar</action>."
+      "noCodes": "Nenhum codigo de indicacao para exibir."
     },
     "graph": {
       "statistics": "Estatísticas",
       "earnings": "Ganhos",
       "sparksEarned": "Sparks ganhos",
+      "periodLabel": "Periodo",
       "periods": {
         "day": "Dia",
         "week": "Semana",
@@ -1093,7 +1137,10 @@
       "createCodeSuccess": "Código de afiliado criado com sucesso",
       "createCodeFailed": "Falha ao criar código de afiliado",
       "fetchGraphFailed": "Falha ao buscar dados do gráfico",
-      "copyCodeSuccess": "Código copiado para a área de transferência"
+      "copyCodeSuccess": "Código copiado para a área de transferência",
+      "copyCodeFailed": "Falha ao copiar código para a área de transferência",
+      "claimSuccess": "Ganhos de indicação resgatados com sucesso",
+      "claimFailed": "Falha ao resgatar ganhos de indicação"
     }
   },
   "ErrorPage": {

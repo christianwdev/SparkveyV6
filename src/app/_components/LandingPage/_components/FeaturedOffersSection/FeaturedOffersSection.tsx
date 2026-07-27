@@ -32,10 +32,10 @@ function FeaturedOffersList({ initialHomepagePromise }: FeaturedOffersSectionPro
       {popularOffers.map((offer) => (
         <OfferItem
           key={offer.offerID}
-          offerName={offer.displayName || offer.name}
+          offerName={offer.name}
           offerDescription={offer.description}
           offerImageUrl={offer.image}
-          offerLink="/signup"
+          href="/signup"
           totalReward={offer.totalReward}
           operatingSystem={offer.operatingSystem}
         />

@@ -5,12 +5,14 @@ import { OfferTypeSet } from 'types/Offer/OfferType';
 // Utils
 import { getGlobalObject } from '../globalObject';
 import { withCache } from '../cache';
+import { sanitizeOffers } from 'backend/utils/offers/sanitize';
 
 // Types
 import type InternalOffer from 'types/Offer/InternalOffer';
 import type { InternalOfferEarning } from 'types/Earnings/InternalEarning';
 import type OfferType from 'types/Offer/OfferType';
 import type OfferWallType from 'types/Offer/OfferWallType';
+import type SanitizedOffer from 'types/Offer/SanitizedOffer';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
 import {
   DEFAULT_BROWSE_OFFERS_SORT,
@@ -206,11 +208,11 @@ export function getPopularOffers({
 }: {
   country: string;
   limit: number;
-}): Promise<InternalOffer[]> {
-  return withCache(`offers:popular:${country}:${limit}`, CACHE_TTL_SECONDS, async () => {
+}): Promise<SanitizedOffer[]> {
+  return withCache(`offers:sanitized:popular:${country}:${limit}`, CACHE_TTL_SECONDS, async () => {
     const weekly = await getWeeklyPopularOffers(country);
 
-    if (weekly.length >= limit) return weekly.slice(0, limit);
+    if (weekly.length >= limit) return sanitizeOffers(weekly.slice(0, limit));
 
     const fill = await recentGeoFill(
       country,
@@ -218,7 +220,7 @@ export function getPopularOffers({
       limit - weekly.length,
     );
 
-    return [ ...weekly, ...fill ].slice(0, limit);
+    return sanitizeOffers([ ...weekly, ...fill ].slice(0, limit));
   });
 }
 
@@ -228,8 +230,8 @@ export function getOffersByCategory({
 }: {
   slug: OfferType;
   country: string;
-}): Promise<InternalOffer[]> {
-  return withCache(`offers:category:${slug}:${country}`, CACHE_TTL_SECONDS, async () => {
+}): Promise<SanitizedOffer[]> {
+  return withCache(`offers:sanitized:category:${slug}:${country}`, CACHE_TTL_SECONDS, async () => {
     const { db } = getGlobalObject();
     const weekAgo = new Date(Date.now() - WEEKLY_WINDOW_DAYS * 24 * 60 * 60 * 1000);
     const geoMatch = buildAggGeoMatch(country, 'offer');
@@ -262,7 +264,7 @@ export function getOffersByCategory({
       ])
       .toArray();
 
-    if (popular.length >= SECTION_LIMIT) return popular;
+    if (popular.length >= SECTION_LIMIT) return sanitizeOffers(popular);
 
     const fill = await recentGeoFill(
       country,
@@ -271,7 +273,7 @@ export function getOffersByCategory({
       slug,
     );
 
-    return [ ...popular, ...fill ];
+    return sanitizeOffers([ ...popular, ...fill ]);
   });
 }
 
@@ -310,10 +312,10 @@ export async function getHomepageOffers({
   const financeFromWeekly = weeklyPopular.filter(o => (o.offerType as string[]).includes('finance'));
 
   return {
-    featured: fillFromBag(featuredRaw, popularFill, SECTION_LIMIT),
-    popular: fillFromBag(popularFromWeekly, popularFill, SECTION_LIMIT),
-    game: fillFromBag(gameFromWeekly, gameFill, SECTION_LIMIT),
-    finance: fillFromBag(financeFromWeekly, financeFill, SECTION_LIMIT),
+    featured: sanitizeOffers(fillFromBag(featuredRaw, popularFill, SECTION_LIMIT)),
+    popular: sanitizeOffers(fillFromBag(popularFromWeekly, popularFill, SECTION_LIMIT)),
+    game: sanitizeOffers(fillFromBag(gameFromWeekly, gameFill, SECTION_LIMIT)),
+    finance: sanitizeOffers(fillFromBag(financeFromWeekly, financeFill, SECTION_LIMIT)),
     surveys: [],
   };
 }
@@ -327,7 +329,7 @@ export async function browseOffers({
   sort = DEFAULT_BROWSE_OFFERS_SORT,
   skip = 0,
   limit = 28,
-}: BrowseOffersParams): Promise<InternalOffer[]> {
+}: BrowseOffersParams): Promise<SanitizedOffer[]> {
   const { db } = getGlobalObject();
   const safeSkip = Math.max(0, skip);
   const safeLimit = Math.min(Math.max(1, limit), 50);
@@ -441,9 +443,9 @@ export async function browseOffers({
     ])
     .toArray();
 
-  return offers.map((offer) => (
+  return sanitizeOffers(offers.map((offer) => (
     offer.reward?.some(reward => reward.value === 'variable')
       ? { ...offer, totalReward: Infinity }
       : offer
-  ));
+  )));
 }

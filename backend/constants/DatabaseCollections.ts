@@ -13,6 +13,7 @@ const DatabaseCollections = {
   offers: 'offers',
   offerHistory: 'offerHistory',
   siteStatistics: 'siteStatistics',
+  leaderboards: 'leaderboards',
 };
 
 export default DatabaseCollections;

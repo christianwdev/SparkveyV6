@@ -82,6 +82,10 @@ body {
   flex-direction: column;
 }
 
+html[data-mobile-nav='true'] {
+  --mobile-nav-offset: #{$mobile-nav-height};
+}
+
 main {
   min-height: 1080px;
 }
