@@ -377,7 +377,8 @@
       "showLess": "Mostrar menos",
       "showMore": "Mostrar mas",
       "amountInSparks": "Cantidad en Sparks",
-      "claimFor": "Canjear por"
+      "claimFor": "Canjear por",
+      "close": "Cerrar"
     },
     "crypto": {
       "recipientAddressPlaceholder": "Direccion del destinatario",
@@ -667,8 +668,6 @@
     }
   },
   "RewardMetadata": {
-    "shopTitle": "Sparkvey | Canjea tus Sparks por tu juego favorito en la tienda",
-    "shopDescription": "Canjea tus Sparks por tu juego favorito en la tienda.",
     "sectionTitle": "Sparkvey | Canjea tus Sparks en nuestra seccion de {sectionName}",
     "rewardTitle": "Sparkvey | Canjea tus Sparks por {rewardName}",
     "rewardDescription": "Canjea {rewardName} en Sparkvey, tu plataforma de recompensas de confianza. Gana recompensas y dinero completando encuestas, viendo videos, comprando en linea y mucho mas.",
@@ -686,10 +685,6 @@
       "crypto": {
         "title": "Cripto",
         "description": "Canjea tus Sparks por tu criptomoneda favorita."
-      },
-      "shop": {
-        "title": "Tienda",
-        "description": "Canjea tus Sparks por tu juego favorito en la tienda."
       }
     }
   },
@@ -702,7 +697,27 @@
     },
     "backToAllRewards": "Volver a todas las recompensas",
     "searchPlaceholder": "Buscar formas de canjear...",
-    "empty": "Vaya, no hemos encontrado recompensas que coincidan con esa busqueda."
+    "empty": "No hay recompensas disponibles en esta categoría ahora.",
+    "viewAll": "Ver todo",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "loadMore": "Cargar más",
+    "closeModal": "Cerrar",
+    "sections": {
+      "giftcards": {
+        "title": "Tarjetas de regalo",
+        "description": "Canjea tus Sparks por tu tarjeta de regalo favorita."
+      },
+      "cash": {
+        "title": "Efectivo",
+        "description": "Canjea tus Sparks por pagos en efectivo."
+      },
+      "crypto": {
+        "title": "Cripto",
+        "description": "Canjea tus Sparks por criptomoneda."
+      }
+    },
+    "loadError": "No pudimos cargar las recompensas. Inténtalo de nuevo en un momento."
   },
   "RewardPage": {
     "rewardNotFound": "Recompensa no encontrada.",
@@ -1174,5 +1189,8 @@
       "missingCode": "This confirmation link is missing a code.",
       "failed": "We could not update your email. The link may be invalid or expired."
     }
+  },
+  "RewardItem": {
+    "sparksAlt": "Sparks"
   }
 }

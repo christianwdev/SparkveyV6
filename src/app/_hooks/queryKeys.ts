@@ -35,4 +35,9 @@ export const queryKeys = {
     }) => [ ...queryKeys.profile.all, 'redemptionsHistory', filters ] as const,
     sessions: () => [ ...queryKeys.profile.all, 'sessions' ] as const,
   },
+  rewards: {
+    all: [ 'rewards' ] as const,
+    featured: () => [ ...queryKeys.rewards.all, 'featured' ] as const,
+    category: (categoryID: string) => [ ...queryKeys.rewards.all, 'category', categoryID ] as const,
+  },
 };

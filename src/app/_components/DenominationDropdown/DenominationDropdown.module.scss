@@ -1,0 +1,156 @@
+@use '@styles/variables.scss' as *;
+
+.wrapper {
+  width: 100%;
+  box-sizing: border-box;
+
+  &:focus-within {
+    > .inputWrapper {
+      border-color: $primary;
+    }
+  }
+
+  > .inputWrapper {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid $border-light;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: border-color .2s;
+
+    &.allowCustomAmount {
+      > input {
+        cursor: text;
+      }
+    }
+
+    > input {
+      width: 100%;
+      height: 50px;
+      border: none;
+      outline: none;
+      background: none;
+      color: $text-bold;
+      font-size: 16px;
+      font-weight: 500;
+      box-sizing: border-box;
+      cursor: pointer;
+
+      &::placeholder {
+        color: $text-light;
+      }
+    }
+
+    > .prefix {
+      margin: 0 6px 0 0;
+      display: flex;
+      align-items: center;
+    }
+
+    > .chevron {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+      color: $text-light;
+
+      > svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      &.chevronOpen {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  > .denominationsWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 4px;
+    z-index: 1000;
+    background: $background;
+    border-radius: 4px;
+    border: 1px solid $border-light;
+    padding: 8px;
+    box-sizing: border-box;
+    max-height: 220px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: $border-light transparent;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $border-light;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    > .denominationButton {
+      width: 100%;
+      font-size: 14px;
+      font-weight: 400;
+      color: $text-light;
+      cursor: pointer;
+      background: none;
+      border: none;
+      outline: none;
+      min-height: 40px;
+      height: auto;
+      padding: 6px 12px;
+      border-radius: 6px;
+      box-sizing: border-box;
+      transition: background 0.1s, color 0.1s;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      > .buttonPrefix {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        flex-shrink: 0;
+      }
+
+      > .optionWithFiat {
+        font-weight: 500;
+        text-align: left;
+        line-height: 1.25;
+
+        > .optionFiatSuffix {
+          font-size: 12px;
+          font-weight: 400;
+          color: $text-light;
+        }
+      }
+
+      &:hover,
+      &.selectedButton {
+        background: $light-blue;
+        color: $text-bold;
+
+        > .optionWithFiat > .optionFiatSuffix {
+          color: inherit;
+          opacity: 0.85;
+        }
+      }
+    }
+  }
+}

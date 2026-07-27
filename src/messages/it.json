@@ -377,7 +377,8 @@
       "showLess": "Mostra meno",
       "showMore": "Mostra di piu",
       "amountInSparks": "Importo in Sparks",
-      "claimFor": "Riscatta per"
+      "claimFor": "Riscatta per",
+      "close": "Chiudi"
     },
     "crypto": {
       "recipientAddressPlaceholder": "Indirizzo del destinatario",
@@ -667,8 +668,6 @@
     }
   },
   "RewardMetadata": {
-    "shopTitle": "Sparkvey | Riscatta i tuoi sparks per il tuo gioco preferito nello shop",
-    "shopDescription": "Riscatta i tuoi sparks per il tuo gioco preferito nello shop.",
     "sectionTitle": "Sparkvey | Riscatta i tuoi sparks nella nostra sezione {sectionName}",
     "rewardTitle": "Sparkvey | Riscatta i tuoi sparks per {rewardName}",
     "rewardDescription": "Riscatta {rewardName} su Sparkvey, la tua piattaforma di riferimento per le ricompense. Guadagna premi e denaro completando sondaggi, guardando video, facendo acquisti online e molto altro!",
@@ -686,10 +685,6 @@
       "crypto": {
         "title": "Cripto",
         "description": "Riscatta i tuoi sparks per la cripto che preferisci."
-      },
-      "shop": {
-        "title": "Shop",
-        "description": "Riscatta i tuoi sparks per il tuo gioco preferito nello shop."
       }
     }
   },
@@ -702,7 +697,27 @@
     },
     "backToAllRewards": "Torna a tutti i premi",
     "searchPlaceholder": "Cerca modi per riscattare...",
-    "empty": "Ops! Non abbiamo trovato premi corrispondenti a questa ricerca."
+    "empty": "Nessuna ricompensa disponibile in questa categoria al momento.",
+    "viewAll": "Vedi tutto",
+    "previous": "Precedente",
+    "next": "Successivo",
+    "loadMore": "Carica altro",
+    "closeModal": "Chiudi",
+    "sections": {
+      "giftcards": {
+        "title": "Carte regalo",
+        "description": "Riscatta i tuoi Sparks per la tua carta regalo preferita."
+      },
+      "cash": {
+        "title": "Contanti",
+        "description": "Riscatta i tuoi Sparks per pagamenti in contanti."
+      },
+      "crypto": {
+        "title": "Crypto",
+        "description": "Riscatta i tuoi Sparks per criptovaluta."
+      }
+    },
+    "loadError": "Impossibile caricare le ricompense. Riprova tra un momento."
   },
   "RewardPage": {
     "rewardNotFound": "Premio non trovato.",
@@ -1174,5 +1189,8 @@
       "missingCode": "This confirmation link is missing a code.",
       "failed": "We could not update your email. The link may be invalid or expired."
     }
+  },
+  "RewardItem": {
+    "sparksAlt": "Sparks"
   }
 }

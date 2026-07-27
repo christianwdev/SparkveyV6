@@ -377,7 +377,8 @@
       "showLess": "Weniger anzeigen",
       "showMore": "Mehr anzeigen",
       "amountInSparks": "Betrag in Sparks",
-      "claimFor": "Einloesen fuer"
+      "claimFor": "Einloesen fuer",
+      "close": "Schließen"
     },
     "crypto": {
       "recipientAddressPlaceholder": "Empfaengeradresse",
@@ -667,8 +668,6 @@
     }
   },
   "RewardMetadata": {
-    "shopTitle": "Sparkvey | Loese deine Sparks im Shop fuer dein Lieblingsspiel ein",
-    "shopDescription": "Loese deine Sparks im Shop fuer dein Lieblingsspiel ein.",
     "sectionTitle": "Sparkvey | Loese deine Sparks in unserem Bereich {sectionName} ein",
     "rewardTitle": "Sparkvey | Loese deine Sparks fuer {rewardName} ein",
     "rewardDescription": "Loese {rewardName} bei Sparkvey ein, deiner Plattform fuer Belohnungen. Verdiene Belohnungen und Bargeld durch Umfragen, Videos ansehen, Online-Shopping und mehr!",
@@ -686,10 +685,6 @@
       "crypto": {
         "title": "Krypto",
         "description": "Loese deine Sparks fuer deine Lieblings-Kryptowaehrung ein."
-      },
-      "shop": {
-        "title": "Shop",
-        "description": "Loese deine Sparks im Shop fuer dein Lieblingsspiel ein."
       }
     }
   },
@@ -702,7 +697,27 @@
     },
     "backToAllRewards": "Zurueck zu allen Belohnungen",
     "searchPlaceholder": "Nach Einloesemoeglichkeiten suchen...",
-    "empty": "Oh oh! Wir haben keine Belohnungen gefunden, die zu dieser Suche passen."
+    "empty": "In dieser Kategorie sind derzeit keine Belohnungen verfügbar.",
+    "viewAll": "Alle anzeigen",
+    "previous": "Zurück",
+    "next": "Weiter",
+    "loadMore": "Mehr laden",
+    "closeModal": "Schließen",
+    "sections": {
+      "giftcards": {
+        "title": "Geschenkkarten",
+        "description": "Löse deine Sparks gegen deine Lieblings-Geschenkkarte ein."
+      },
+      "cash": {
+        "title": "Bargeld",
+        "description": "Löse deine Sparks gegen Auszahlungen ein."
+      },
+      "crypto": {
+        "title": "Krypto",
+        "description": "Löse deine Sparks gegen Kryptowährung ein."
+      }
+    },
+    "loadError": "Belohnungen konnten nicht geladen werden. Bitte versuche es in einem Moment erneut."
   },
   "RewardPage": {
     "rewardNotFound": "Belohnung nicht gefunden.",
@@ -1174,5 +1189,8 @@
       "missingCode": "This confirmation link is missing a code.",
       "failed": "We could not update your email. The link may be invalid or expired."
     }
+  },
+  "RewardItem": {
+    "sparksAlt": "Sparks"
   }
 }
