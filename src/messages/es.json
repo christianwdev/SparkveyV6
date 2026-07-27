@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "Explorar",
       "tasks": "Tareas",
-      "surveys": "Encuestas"
+      "surveys": "Encuestas",
+      "offerwalls": "Muros de ofertas"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1061,7 +1062,13 @@
     "actions": {
       "useCode": "Usar codigo",
       "claimed": "Reclamado",
-      "createCode": "Crear codigo"
+      "createCode": "Crear codigo",
+      "claimEarnings": "Reclamar ganancias",
+      "claiming": "Reclamando...",
+      "copyCode": "Copiar enlace de referido"
+    },
+    "claim": {
+      "banner": "Tienes {amount} Sparks pendientes listos para reclamar."
     },
     "table": {
       "code": "Codigo",
@@ -1093,7 +1100,10 @@
       "createCodeSuccess": "Codigo de afiliado creado correctamente",
       "createCodeFailed": "No se pudo crear el codigo de afiliado",
       "fetchGraphFailed": "No se pudieron obtener los datos del grafico",
-      "copyCodeSuccess": "Codigo copiado al portapapeles"
+      "copyCodeSuccess": "Codigo copiado al portapapeles",
+      "copyCodeFailed": "No se pudo copiar el codigo al portapapeles",
+      "claimSuccess": "Ganancias por referidos reclamadas correctamente",
+      "claimFailed": "No se pudieron reclamar las ganancias por referidos"
     }
   },
   "ErrorPage": {

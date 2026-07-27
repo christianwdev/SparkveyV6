@@ -157,6 +157,8 @@ const eslintConfig = [
       sparkvey: sparkveyPlugin,
     },
     rules: {
+      // React Compiler memoizes automatically; exhaustive-deps pushes useCallback/useMemo
+      "react-hooks/exhaustive-deps": "off",
       "@stylistic/semi": [ "error", "always" ],
       "@stylistic/brace-style": [ "error", "1tbs", { allowSingleLine: true } ],
       "@stylistic/comma-spacing": [ "error", { before: false, after: true } ],

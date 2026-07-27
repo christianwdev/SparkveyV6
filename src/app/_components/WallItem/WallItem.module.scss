@@ -1,0 +1,83 @@
+@use '@styles/variables.scss' as *;
+
+.wallItem {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 18px;
+  background: $off-white;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+
+  &:hover {
+    opacity: 0.92;
+  }
+
+  > .imageContainer {
+    width: 100%;
+    min-height: 120px;
+    height: 120px;
+    overflow: hidden;
+    position: relative;
+    background: #1D2736;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > .blurredImage {
+      position: absolute;
+      filter: blur(30px);
+      max-width: 60%;
+      max-height: 60%;
+      opacity: 0.5;
+    }
+
+    > .wallImage {
+      position: relative;
+      max-width: 60%;
+      max-height: 60%;
+      object-fit: contain;
+    }
+  }
+
+  > .wallInformation {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100%;
+    width: 100%;
+    padding: 12px 18px 16px 18px;
+    box-sizing: border-box;
+
+    @media screen and (max-width: $small-phone) {
+      padding: 12px 12px 16px 12px;
+    }
+
+    > .title {
+      font-weight: 700;
+      font-size: 13px;
+      color: $text-bold;
+      margin: 0;
+      display: -webkit-box;
+      overflow: hidden;
+      line-clamp: 1;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    > .description {
+      font-weight: 500;
+      color: $text-light;
+      font-size: 11px;
+      margin: 0;
+      display: -webkit-box;
+      overflow: hidden;
+      line-clamp: 1;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+}

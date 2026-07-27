@@ -1,7 +1,8 @@
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { createUserNotification } from 'backend/utils/notifications';
-import { updateUserBalance } from 'backend/utils/user';
+import { updateUserBalance } from 'backend/utils/userBalance';
+import { applySparksEarningsSideEffects } from 'backend/utils/sparksEarningsSideEffects';
 import { createOfferID } from 'backend/utils/offers/ingest';
 import { adjustTotalEarnedUsd } from 'backend/utils/siteStatistics';
 import { emitLiveActivity } from 'backend/utils/liveActivity';
@@ -43,6 +44,9 @@ async function creditOfferConversion(
     inc: {
       'statistics.earned.offers': conversion.value,
       'statistics.earned.total': conversion.value,
+    },
+    afterCommit: ({ userID, balanceChange }) => {
+      applySparksEarningsSideEffects({ userID, amount: balanceChange });
     },
   });
 
@@ -120,6 +124,9 @@ async function reverseOfferConversion(
       inc: {
         'statistics.earned.offers': -previous.value,
         'statistics.earned.total': -previous.value,
+      },
+      afterCommit: ({ userID, balanceChange }) => {
+        applySparksEarningsSideEffects({ userID, amount: balanceChange });
       },
     });
   }

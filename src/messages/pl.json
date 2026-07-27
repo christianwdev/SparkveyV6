@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "Odkrywaj",
       "tasks": "Zadania",
-      "surveys": "Ankiety"
+      "surveys": "Ankiety",
+      "offerwalls": "Offerwalle"
     },
     "a11y": {
       "avatarAlt": "Awatar"
@@ -1061,7 +1062,13 @@
     "actions": {
       "useCode": "Uzyj kodu",
       "claimed": "Aktywny",
-      "createCode": "Utworz kod"
+      "createCode": "Utworz kod",
+      "claimEarnings": "Odbierz zarobki",
+      "claiming": "Odbieranie...",
+      "copyCode": "Kopiuj link polecajacy"
+    },
+    "claim": {
+      "banner": "Masz {amount} oczekujacych Sparks do odebrania."
     },
     "table": {
       "code": "Kod",
@@ -1093,7 +1100,10 @@
       "createCodeSuccess": "Kod partnerski zostal utworzony pomyslnie",
       "createCodeFailed": "Nie udalo sie utworzyc kodu partnerskiego",
       "fetchGraphFailed": "Nie udalo sie pobrac danych wykresu",
-      "copyCodeSuccess": "Kod skopiowano do schowka"
+      "copyCodeSuccess": "Kod skopiowano do schowka",
+      "copyCodeFailed": "Nie udalo sie skopiowac kodu do schowka",
+      "claimSuccess": "Pomyslnie odebrano zarobki z polecen",
+      "claimFailed": "Nie udalo sie odebrac zarobkow z polecen"
     }
   },
   "ErrorPage": {

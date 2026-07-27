@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "Esplora",
       "tasks": "Task",
-      "surveys": "Sondaggi"
+      "surveys": "Sondaggi",
+      "offerwalls": "Offerwall"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1061,7 +1062,13 @@
     "actions": {
       "useCode": "Usa codice",
       "claimed": "Riscattato",
-      "createCode": "Crea codice"
+      "createCode": "Crea codice",
+      "claimEarnings": "Riscatta guadagni",
+      "claiming": "Riscatto...",
+      "copyCode": "Copia link referral"
+    },
+    "claim": {
+      "banner": "Hai {amount} Sparks in sospeso pronti da riscattare."
     },
     "table": {
       "code": "Codice",
@@ -1093,7 +1100,10 @@
       "createCodeSuccess": "Codice affiliato creato con successo",
       "createCodeFailed": "Impossibile creare il codice affiliato",
       "fetchGraphFailed": "Impossibile recuperare i dati del grafico",
-      "copyCodeSuccess": "Codice copiato negli appunti"
+      "copyCodeSuccess": "Codice copiato negli appunti",
+      "copyCodeFailed": "Impossibile copiare il codice negli appunti",
+      "claimSuccess": "Guadagni referral riscattati con successo",
+      "claimFailed": "Impossibile riscattare i guadagni referral"
     }
   },
   "ErrorPage": {

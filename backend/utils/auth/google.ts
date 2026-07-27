@@ -179,10 +179,10 @@ async function resolveGoogleUser(
   const createUserResult = await createUser({
     email,
     googleID: data.sub,
-    referredBy: affiliateCode,
     avatar: data.picture,
     username: email.split('@')[0],
     emailVerifiedAt: new Date(),
+    referralCode: affiliateCode,
   });
 
   if (!createUserResult.ok) {

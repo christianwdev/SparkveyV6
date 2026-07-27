@@ -12,6 +12,7 @@ import EarnIcon from '~icons/solar/wallet-money-linear.jsx';
 import CompassIcon from '~icons/solar/compass-linear.jsx';
 import ChecklistIcon from '~icons/solar/checklist-linear.jsx';
 import ClipboardCheckIcon from '~icons/solar/clipboard-check-linear.jsx';
+import WidgetIcon from '~icons/solar/widget-2-linear.jsx';
 import ChevronDownIcon from '~icons/solar/alt-arrow-down-linear.jsx';
 
 import styles from './EarnDropdown.module.scss';
@@ -21,6 +22,12 @@ const MENU_LINKS = [
   { href: FrontendRedirectPaths.tasks, labelKey: 'tasks', Icon: ChecklistIcon },
   { href: FrontendRedirectPaths.surveys, labelKey: 'surveys', Icon: ClipboardCheckIcon },
 ] as const;
+
+const WALLS_MENU_LINK = {
+  href: FrontendRedirectPaths.walls,
+  labelKey: 'offerwalls',
+  Icon: WidgetIcon,
+} as const;
 
 export default function EarnDropdown() {
   const t = useTranslations('Navbar');
@@ -33,7 +40,7 @@ export default function EarnDropdown() {
 
   const isEarnActive = MENU_LINKS.some(({ href }) => (
     pathname === href || pathname.startsWith(`${href}/`)
-  ));
+  )) || pathname === WALLS_MENU_LINK.href || pathname.startsWith(`${WALLS_MENU_LINK.href}/`);
 
   const { styles: popperStyles, attributes, update } = usePopper(referenceElement, popperElement, {
     placement: 'bottom-start',
@@ -144,6 +151,25 @@ export default function EarnDropdown() {
                   </Link>
                 );
               })}
+              <a
+                href={WALLS_MENU_LINK.href}
+                role="menuitem"
+                className={[
+                  styles.menuItem,
+                  pathname === WALLS_MENU_LINK.href || pathname.startsWith(`${WALLS_MENU_LINK.href}/`)
+                    ? styles.menuItemActive
+                    : '',
+                ].filter(Boolean).join(' ')}
+                onClick={() => setActive(false)}
+                aria-current={
+                  pathname === WALLS_MENU_LINK.href || pathname.startsWith(`${WALLS_MENU_LINK.href}/`)
+                    ? 'page'
+                    : undefined
+                }
+              >
+                <WALLS_MENU_LINK.Icon className={styles.itemIcon} aria-hidden />
+                <span>{t(`earnMenu.${WALLS_MENU_LINK.labelKey}`)}</span>
+              </a>
             </motion.div>
           </div>
         )}

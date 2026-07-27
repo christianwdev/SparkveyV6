@@ -12,6 +12,7 @@ import { createDistributedLock } from '../utils/distributedLock';
 import startCurrencyWorker from './currency';
 import startRewardsWorkers from './rewards';
 import startOffersWorkers from './offers';
+import startLeaderboardWorker from './leaderboard';
 
 // Types
 import type { TypedServer } from 'types/SocketEvents';
@@ -46,5 +47,6 @@ global.globalObject = {
 await startCurrencyWorker();
 startRewardsWorkers();
 startOffersWorkers();
+startLeaderboardWorker();
 
 console.log('Worker is running');

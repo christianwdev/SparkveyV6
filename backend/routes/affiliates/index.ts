@@ -6,7 +6,15 @@ import { requireCsrf } from 'backend/middleware/csrf';
 
 // Utils
 import { withRouteErrorHandling } from 'backend/utils/request';
-import { claimReferralEarnings, createAffiliateCode, disableAffiliateCode, getNumberOfUsersAffiliateCodes, useAffiliateCode } from 'backend/utils/affiliateCode';
+import {
+  claimReferralEarnings,
+  createAffiliateCode,
+  disableAffiliateCode,
+  getAffiliateCodesByUserID,
+  getNumberOfUsersAffiliateCodes,
+  getReferralCountByUserID,
+  useAffiliateCode,
+} from 'backend/utils/affiliateCode';
 import RouteResponseError from 'types/RouteResponseError';
 
 // Types
@@ -19,6 +27,37 @@ const app = new Hono<{ Variables: { user: InternalUser } }>();
 
 export default function routesInvoker() {
   app.use(requireAuth);
+
+  app.get('/', withRouteErrorHandling, async (c) => {
+    const user = c.get('user');
+
+    const [
+      codesResult,
+      referralsResult,
+    ] = await Promise.all([
+      getAffiliateCodesByUserID(user.userID),
+      getReferralCountByUserID({ userID: user.userID }),
+    ]);
+
+    if (!codesResult.ok) throw new RouteResponseError({ status: 500, message: codesResult.error });
+    if (!referralsResult.ok) throw new RouteResponseError({ status: 500, message: referralsResult.error });
+
+    return sendResponse({
+      c,
+      status: 200,
+      success: true,
+      data: {
+        codes: codesResult.data,
+        stats: {
+          totalReferrals: referralsResult.data,
+          totalEarnings: user.referralInformation.totalEarnings,
+          pendingEarnings: user.referralInformation.pendingEarnings,
+          maxAffiliateCodes: user.userConfiguration.maxAffiliateCodes,
+        },
+      },
+    });
+  });
+
   app.use(requireCsrf);
 
   const codeBodySchema = z.object({
@@ -41,9 +80,15 @@ export default function routesInvoker() {
       code,
     });
 
-    if (!createCodeResult.ok) throw new RouteResponseError({ status: 500, message: createCodeResult.error });
+    if (!createCodeResult.ok) {
+      if (createCodeResult.error === 'alreadyExists') {
+        throw new RouteResponseError({ status: 400, message: 'Affiliate code already exists' });
+      }
 
-    return sendResponse({ c, status: 200, success: true, data: { code: createCodeResult.data.code } });
+      throw new RouteResponseError({ status: 500, message: createCodeResult.error });
+    }
+
+    return sendResponse({ c, status: 200, success: true, data: createCodeResult.data });
   });
 
   app.post('/disable', withRouteErrorHandling, zValidator('json', codeBodySchema), async (c) => {
@@ -83,7 +128,15 @@ export default function routesInvoker() {
 
     if (!claimReferralEarningsResult.ok) throw new RouteResponseError({ status: 500, message: claimReferralEarningsResult.error });
 
-    return sendResponse({ c, status: 200, success: true, message: 'Referral earnings claimed successfully' });
+    return sendResponse({
+      c,
+      status: 200,
+      success: true,
+      message: 'Referral earnings claimed successfully',
+      data: {
+        sparks: claimReferralEarningsResult.data.transaction.balanceAfter,
+      },
+    });
   });
 
   return app;

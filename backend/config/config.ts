@@ -112,6 +112,23 @@ const SiteConfig = {
       defaultLimit: 12,
     },
   },
+  referral: {
+    /** Fraction of referred user's sparks credit paid to the referrer as pending earnings. */
+    rate: 0.05,
+  },
+  leaderboard: {
+    prizes: [
+      25_000,
+      12_500,
+      7_500,
+      2_500,
+      1_250,
+      500,
+      300,
+      250,
+      200,
+    ],
+  },
 };
 
 export default SiteConfig;

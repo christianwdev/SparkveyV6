@@ -22,6 +22,15 @@ async function postAuth<T>(
   }
 }
 
+export async function register(body: {
+  email: string,
+  username: string,
+  password: string,
+  referralCode?: string,
+}): Promise<APIResponse<SanitizedUser> | null> {
+  return postAuth<SanitizedUser>('/email/register', body);
+}
+
 export async function requestPasswordReset(body: {
   email: string,
 }): Promise<APIResponse<null> | null> {

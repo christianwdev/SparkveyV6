@@ -1,0 +1,360 @@
+@use '@styles/variables.scss' as *;
+
+.affiliatesPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $content-max-width;
+  min-height: calc(100vh - $navbar-height);
+  margin: 0 auto;
+  padding: 0 0 64px;
+  box-sizing: border-box;
+  gap: 24px;
+
+  @include standardPadding;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    > h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+      color: $text-bold;
+      line-height: 1.25;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 400;
+      color: $text-light;
+      line-height: 1.45;
+      max-width: 520px;
+    }
+  }
+
+  > .content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    > .statsContainer {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+
+      @media (max-width: $tablet) {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media (max-width: $large-phone) {
+        grid-template-columns: 1fr;
+      }
+
+      > .statsCard {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        background-color: $off-white;
+        border-radius: 8px;
+        padding: 24px 32px;
+        box-shadow: 0 3px 7.5px 0 #0000000d;
+
+        > .statIcon {
+          width: 40px;
+          height: 40px;
+          color: $primary;
+          flex-shrink: 0;
+        }
+
+        > .statInformation {
+          display: flex;
+          flex-direction: column;
+
+          > p {
+            margin: 0;
+
+            &:first-child {
+              font-size: 14px;
+              font-weight: 500;
+              color: $text-light;
+            }
+
+            &:last-child {
+              font-size: 20px;
+              font-weight: 400;
+              color: $text-bold;
+            }
+          }
+        }
+      }
+    }
+
+    > .claimBanner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 24px;
+      border-radius: 8px;
+      background-color: $off-white;
+      box-shadow: 0 3px 7.5px 0 #0000000d;
+
+      @media (max-width: $large-phone) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      > p {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 500;
+        color: $text-bold;
+      }
+
+      > .claimButton {
+        min-width: 150px;
+        height: 45px;
+        padding: 0 20px;
+        border: none;
+        border-radius: 4px;
+        background-color: $primary;
+        color: $text-white;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    > .codeContainersWrapper {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+
+      @media (max-width: $tablet) {
+        flex-direction: column;
+      }
+
+      > .codeContainer {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex: 1;
+        padding: 24px 32px;
+        border-radius: 8px;
+        background-color: $off-white;
+        box-shadow: 0 3px 7.5px 0 #0000000d;
+
+        @media (max-width: $large-phone) {
+          flex-direction: column;
+
+          > .inputWrapper {
+            width: 100%;
+          }
+
+          > .actionButton {
+            width: 100%;
+          }
+        }
+
+        > .inputWrapper {
+          display: flex;
+          align-items: center;
+          flex: 1;
+          gap: 2px;
+          position: relative;
+          height: 45px;
+          min-height: 45px;
+          padding: 0 12px;
+          border: 1px solid $border-light;
+          border-radius: 4px;
+          transition: border-color 0.2s;
+
+          &:focus-within {
+            border-color: $primary;
+          }
+
+          &:has(input:not(:placeholder-shown)) {
+            > .placeholderText {
+              font-size: 10px;
+              transform: translateY(-18px);
+            }
+          }
+
+          > .placeholderText {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            font-size: 14px;
+            font-weight: 500;
+            color: $text-light;
+            pointer-events: none;
+            transform: translateY(-50%);
+            transition: all 0.2s ease;
+          }
+
+          > input {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: transparent;
+            outline: none;
+            font-size: 14px;
+            color: $text-bold;
+          }
+        }
+
+        > .actionButton {
+          width: 150px;
+          height: 45px;
+          border: none;
+          border-radius: 4px;
+          background-color: $primary;
+          color: $text-white;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: opacity 0.2s ease;
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+
+    > .affiliateCodesTable {
+      width: 100%;
+      overflow-x: auto;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      > table {
+        width: 100%;
+        border-spacing: 0 12px;
+
+        > thead {
+          > tr {
+            > th {
+              padding: 20px 24px;
+              box-sizing: border-box;
+              font-size: 16px;
+              font-weight: 400;
+              color: $text-light;
+              text-align: center;
+
+              &:first-child {
+                padding-left: 50px;
+                text-align: left;
+              }
+
+              &:last-child {
+                padding-right: 50px;
+                text-align: right;
+              }
+            }
+          }
+        }
+
+        > tbody {
+          > tr {
+            cursor: pointer;
+
+            > td {
+              padding: 20px 0;
+              box-sizing: border-box;
+              font-size: 16px;
+              font-weight: 500;
+              color: $text-bold;
+              text-align: center;
+              background: $off-white;
+
+              &:first-child {
+                padding-left: 50px;
+                text-align: left;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+
+                > .horizontalWrapper {
+                  justify-content: flex-start;
+                }
+              }
+
+              &:last-child {
+                padding-right: 50px;
+                text-align: right;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
+
+                > .horizontalWrapper {
+                  justify-content: flex-end;
+                }
+              }
+
+              > .horizontalWrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+
+                > .copyButton {
+                  border: none;
+                  background: none;
+                  cursor: pointer;
+                  padding: 8px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  color: $primary;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    > .noCodesContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+      color: $text-light;
+      font-size: 16px;
+      font-weight: 400;
+      text-align: center;
+
+      > p {
+        margin: 0;
+
+        > span {
+          color: $primary;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    padding-bottom: 48px;
+
+    > .header > h1 {
+      font-size: 24px;
+    }
+  }
+}

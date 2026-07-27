@@ -21,7 +21,7 @@ mock.module('backend/utils/globalObject', () => ({
   }),
 }));
 
-mock.module('backend/utils/user', () => ({
+mock.module('backend/utils/userBalance', () => ({
   updateUserBalance: async ({ userID, balanceChange }: BalanceCall) => {
     balanceCalls.push({ userID, balanceChange });
 

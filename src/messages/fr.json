@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "Explorer",
       "tasks": "Tâches",
-      "surveys": "Sondages"
+      "surveys": "Sondages",
+      "offerwalls": "Offerwalls"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1061,7 +1062,13 @@
     "actions": {
       "useCode": "Utiliser le code",
       "claimed": "Réclamé",
-      "createCode": "Créer un code"
+      "createCode": "Créer un code",
+      "claimEarnings": "Réclamer les gains",
+      "claiming": "Réclamation...",
+      "copyCode": "Copier le lien de parrainage"
+    },
+    "claim": {
+      "banner": "Vous avez {amount} Sparks en attente à réclamer."
     },
     "table": {
       "code": "Code",
@@ -1093,7 +1100,10 @@
       "createCodeSuccess": "Code affilié créé avec succès",
       "createCodeFailed": "Échec de la création du code affilié",
       "fetchGraphFailed": "Échec de récupération des données du graphique",
-      "copyCodeSuccess": "Code copié dans le presse-papiers"
+      "copyCodeSuccess": "Code copié dans le presse-papiers",
+      "copyCodeFailed": "Échec de la copie du code dans le presse-papiers",
+      "claimSuccess": "Gains de parrainage réclamés avec succès",
+      "claimFailed": "Échec de la réclamation des gains de parrainage"
     }
   },
   "ErrorPage": {

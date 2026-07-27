@@ -1,23 +1,26 @@
 import { createId } from '@paralleldrive/cuid2';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
-import SocketEmits from 'backend/constants/SocketEmits';
 
 // Types
-import type { ClientSession, Filter, WithId } from 'mongodb';
+import type { Filter, WithId } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
 import type InternalUser from 'types/User/InternalUser';
-import type InternalTransaction from 'types/Transactions/InternalTransaction';
 import type SanitizedUser from 'types/User/SanitizedUser';
 import type InternalRedemption from 'types/Redemption/InternalRedemption';
 import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
 import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
+import type AffiliateCode from 'types/AffiliateCode';
 
 function sanitizeSocialLink(link?: { id?: string, verifiedAt?: Date }): SanitizedUser['socialInformation'][keyof SanitizedUser['socialInformation']] {
   if (!link?.id) return undefined;
 
   return { verifiedAt: link.verifiedAt };
+}
+
+function sanitizeReferralCode(code: string): string {
+  return code.trim().toLowerCase();
 }
 
 export async function createUser(
@@ -28,7 +31,7 @@ export async function createUser(
     avatar,
     passwordHash,
     emailVerifiedAt,
-    referredBy,
+    referralCode,
   }: {
     email?: string;
     googleID?: string;
@@ -36,7 +39,7 @@ export async function createUser(
     avatar?: string;
     passwordHash?: string;
     emailVerifiedAt?: Date;
-    referredBy?: string;
+    referralCode?: string;
   },
 ): Promise<FunctionResponse<InternalUser>> {
   try {
@@ -51,6 +54,23 @@ export async function createUser(
       emailAddress: sanitizedEmail,
       verifiedAt: new Date(),
     } : undefined;
+
+    let referredBy: string | undefined;
+    let referredByID: string | undefined;
+
+    if (referralCode?.trim()) {
+      const affiliateCode = await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).findOne({
+        code: sanitizeReferralCode(referralCode),
+        disabledAt: {
+          $exists: false,
+        },
+      });
+
+      if (affiliateCode && affiliateCode.userID !== userID) {
+        referredBy = affiliateCode.code;
+        referredByID = affiliateCode.userID;
+      }
+    }
 
     const user: InternalUser = {
       userID,
@@ -114,7 +134,7 @@ export async function createUser(
 
       referralInformation: {
         referredBy,
-        referredByID: undefined,
+        referredByID,
 
         totalEarnings: 0,
         tasksCompleted: 0,
@@ -124,7 +144,7 @@ export async function createUser(
       userConfiguration: {
         instantEarnOfferLimit: 0,
         dailyInstantWithdrawalLimit: 0,
-        maxAffiliateCodes: 0,
+        maxAffiliateCodes: 2,
       },
 
       personalInformation: {},
@@ -257,105 +277,6 @@ export async function updateUserPassword(
     console.error(error);
 
     return { ok: false, error: 'internalServerError' };
-  }
-}
-
-export type UserDocumentIncrement = {
-  [K in keyof InternalUser['statistics']['earned'] as `statistics.earned.${K}`]?: number;
-} & {
-  'statistics.withdrawn'?: number;
-};
-
-export type UpdateUserBalanceError = 'notFound' | 'insufficientBalance' | 'internalServerError';
-
-export async function updateUserBalance({
-  userID,
-  balanceType = 'sparks',
-  balanceChange,
-  inc,
-  minBalance,
-  session: externalSession,
-}: {
-  userID: string;
-  balanceType?: keyof InternalUser['balance'];
-  balanceChange: number;
-  inc?: UserDocumentIncrement;
-  minBalance?: number;
-  session?: ClientSession;
-}): Promise<FunctionResponse<{ user: InternalUser; transaction: InternalTransaction }, UpdateUserBalanceError>> {
-  const { db, mongoClient, io } = getGlobalObject();
-  const ownsSession = externalSession === undefined;
-  const session = externalSession ?? mongoClient.startSession();
-
-  try {
-    if (ownsSession) {
-      session.startTransaction();
-    }
-
-    const filter: Filter<InternalUser> = { userID };
-
-    if (minBalance !== undefined) {
-      filter[`balance.${balanceType}`] = { $gte: minBalance };
-    }
-
-    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
-      filter,
-      {
-        $inc: {
-          [`balance.${balanceType}`]: balanceChange,
-          ...inc,
-        },
-      },
-      {
-        returnDocument: 'after',
-        session,
-      },
-    );
-
-    if (!!minBalance && !user) throw new Error('insufficientBalance');
-    if (!user) throw new Error('notFound');
-
-    const now = new Date();
-    const transaction: InternalTransaction = {
-      transactionID: createId(),
-      userID,
-      balanceType,
-      balanceChange,
-      balanceAfter: user.balance[balanceType],
-      createdAt: now,
-      updatedAt: now,
-    };
-
-    const insertResult = await db.collection<InternalTransaction>(DatabaseCollections.userTransactions).insertOne(
-      transaction,
-      { session },
-    );
-
-    if (!insertResult.acknowledged) throw new Error('internalServerError');
-
-    if (ownsSession) {
-      await session.commitTransaction();
-      io.to(userID).emit(SocketEmits.userBalanceChange, user.balance[balanceType]);
-    }
-
-    return { ok: true, data: { user, transaction } };
-  } catch (error) {
-    if (ownsSession && session.inTransaction()) {
-      await session.abortTransaction();
-    }
-
-    if (error instanceof Error) {
-      if (error.message === 'notFound') return { ok: false, error: 'notFound' };
-      if (error.message === 'insufficientBalance') return { ok: false, error: 'insufficientBalance' };
-    }
-
-    console.error(error);
-
-    return { ok: false, error: 'internalServerError' };
-  } finally {
-    if (ownsSession) {
-      await session.endSession();
-    }
   }
 }
 

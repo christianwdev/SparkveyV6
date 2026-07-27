@@ -1,7 +1,8 @@
 const FrontendRedirectPaths = {
   home: '/',
   login: '/login',
-  register: '/register',
+  signup: '/signup',
+  register: '/signup',
   forgotPassword: '/forgot-password',
   explore: '/explore',
   tasks: '/tasks',
@@ -12,6 +13,7 @@ const FrontendRedirectPaths = {
   profileSettings: '/profile/settings',
   profileSessions: '/profile/sessions',
   affiliates: '/affiliates',
+  walls: '/walls',
 } as const;
 
 export default FrontendRedirectPaths;

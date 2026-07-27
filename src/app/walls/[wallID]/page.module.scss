@@ -1,0 +1,88 @@
+@use '@styles/variables.scss' as *;
+
+.wallPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  > .errorContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    background: $background;
+    padding: 24px;
+    font-family: 'Roboto', sans-serif;
+
+    > .wallName {
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-light;
+      margin: 0 0 -16px 0;
+      text-transform: capitalize;
+    }
+
+    > h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: $text-bold;
+      margin: 0;
+      text-align: center;
+    }
+
+    > p {
+      font-size: 16px;
+      font-weight: 500;
+      color: $text-light;
+      margin: 0;
+      text-align: center;
+      max-width: 400px;
+    }
+
+    > .homeLink {
+      padding: 12px 24px;
+      border-radius: 8px;
+      color: white;
+      background: $primary;
+      font-size: 16px;
+      font-weight: 500;
+      text-decoration: none;
+      margin-top: 8px;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  > .interactiveContent {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+
+    > .wallContainer {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+
+      > .wallIframe {
+        flex: 1;
+        min-height: 0;
+        width: 100%;
+        border: none;
+        display: block;
+      }
+    }
+  }
+}

@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "Entdecken",
       "tasks": "Aufgaben",
-      "surveys": "Umfragen"
+      "surveys": "Umfragen",
+      "offerwalls": "Offerwalls"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1061,7 +1062,13 @@
     "actions": {
       "useCode": "Code verwenden",
       "claimed": "Beansprucht",
-      "createCode": "Code erstellen"
+      "createCode": "Code erstellen",
+      "claimEarnings": "Einnahmen beanspruchen",
+      "claiming": "Wird beansprucht...",
+      "copyCode": "Empfehlungslink kopieren"
+    },
+    "claim": {
+      "banner": "Du hast {amount} ausstehende Sparks zum Beanspruchen."
     },
     "table": {
       "code": "Code",
@@ -1093,7 +1100,10 @@
       "createCodeSuccess": "Affiliate-Code erfolgreich erstellt",
       "createCodeFailed": "Affiliate-Code konnte nicht erstellt werden",
       "fetchGraphFailed": "Diagrammdaten konnten nicht geladen werden",
-      "copyCodeSuccess": "Code in die Zwischenablage kopiert"
+      "copyCodeSuccess": "Code in die Zwischenablage kopiert",
+      "copyCodeFailed": "Code konnte nicht in die Zwischenablage kopiert werden",
+      "claimSuccess": "Empfehlungseinnahmen erfolgreich beansprucht",
+      "claimFailed": "Empfehlungseinnahmen konnten nicht beansprucht werden"
     }
   },
   "ErrorPage": {

@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "탐색",
       "tasks": "작업",
-      "surveys": "설문조사"
+      "surveys": "설문조사",
+      "offerwalls": "오퍼월"
     },
     "a11y": {
       "avatarAlt": "아바타"
@@ -1061,7 +1062,13 @@
     "actions": {
       "useCode": "코드 사용",
       "claimed": "청구됨",
-      "createCode": "코드 생성"
+      "createCode": "코드 생성",
+      "claimEarnings": "수익 청구",
+      "claiming": "청구 중...",
+      "copyCode": "추천 링크 복사"
+    },
+    "claim": {
+      "banner": "청구 가능한 대기 중 Sparks가 {amount}개 있습니다."
     },
     "table": {
       "code": "코드",
@@ -1093,7 +1100,10 @@
       "createCodeSuccess": "제휴 코드가 성공적으로 생성되었습니다",
       "createCodeFailed": "제휴코드 생성 실패",
       "fetchGraphFailed": "그래프 데이터를 가져오지 못했습니다.",
-      "copyCodeSuccess": "코드가 클립보드에 복사되었습니다."
+      "copyCodeSuccess": "코드가 클립보드에 복사되었습니다.",
+      "copyCodeFailed": "코드를 클립보드에 복사하지 못했습니다.",
+      "claimSuccess": "추천 수익을 성공적으로 청구했습니다",
+      "claimFailed": "추천 수익 청구에 실패했습니다"
     }
   },
   "ErrorPage": {

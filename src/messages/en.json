@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "Explore",
       "tasks": "Tasks",
-      "surveys": "Surveys"
+      "surveys": "Surveys",
+      "offerwalls": "Offerwalls"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1103,7 +1104,13 @@
     "actions": {
       "useCode": "Use Code",
       "claimed": "Claimed",
-      "createCode": "Create Code"
+      "createCode": "Create Code",
+      "claimEarnings": "Claim Earnings",
+      "claiming": "Claiming...",
+      "copyCode": "Copy referral link"
+    },
+    "claim": {
+      "banner": "You have {amount} pending Sparks ready to claim."
     },
     "table": {
       "code": "Code",
@@ -1135,7 +1142,10 @@
       "createCodeSuccess": "Affiliate code created successfully",
       "createCodeFailed": "Failed to create affiliate code",
       "fetchGraphFailed": "Failed to fetch graph data",
-      "copyCodeSuccess": "Code copied to clipboard"
+      "copyCodeSuccess": "Code copied to clipboard",
+      "copyCodeFailed": "Failed to copy code to clipboard",
+      "claimSuccess": "Referral earnings claimed successfully",
+      "claimFailed": "Failed to claim referral earnings"
     }
   },
   "ErrorPage": {

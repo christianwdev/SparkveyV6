@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "Explorar",
       "tasks": "Tarefas",
-      "surveys": "Pesquisas"
+      "surveys": "Pesquisas",
+      "offerwalls": "Offerwalls"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1061,7 +1062,13 @@
     "actions": {
       "useCode": "Usar código",
       "claimed": "Resgatado",
-      "createCode": "Criar código"
+      "createCode": "Criar código",
+      "claimEarnings": "Resgatar ganhos",
+      "claiming": "Resgatando...",
+      "copyCode": "Copiar link de indicação"
+    },
+    "claim": {
+      "banner": "Você tem {amount} Sparks pendentes prontos para resgatar."
     },
     "table": {
       "code": "Código",
@@ -1093,7 +1100,10 @@
       "createCodeSuccess": "Código de afiliado criado com sucesso",
       "createCodeFailed": "Falha ao criar código de afiliado",
       "fetchGraphFailed": "Falha ao buscar dados do gráfico",
-      "copyCodeSuccess": "Código copiado para a área de transferência"
+      "copyCodeSuccess": "Código copiado para a área de transferência",
+      "copyCodeFailed": "Falha ao copiar código para a área de transferência",
+      "claimSuccess": "Ganhos de indicação resgatados com sucesso",
+      "claimFailed": "Falha ao resgatar ganhos de indicação"
     }
   },
   "ErrorPage": {

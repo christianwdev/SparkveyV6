@@ -440,7 +440,8 @@
     "earnMenu": {
       "explore": "探索",
       "tasks": "タスク",
-      "surveys": "アンケート"
+      "surveys": "アンケート",
+      "offerwalls": "オファーウォール"
     },
     "a11y": {
       "avatarAlt": "アバター"
@@ -1061,7 +1062,13 @@
     "actions": {
       "useCode": "コードを使用",
       "claimed": "取得済み",
-      "createCode": "コードを作成"
+      "createCode": "コードを作成",
+      "claimEarnings": "収益を受け取る",
+      "claiming": "受け取り中...",
+      "copyCode": "紹介リンクをコピー"
+    },
+    "claim": {
+      "banner": "受け取り可能な保留中Sparksが{amount}あります。"
     },
     "table": {
       "code": "コード",
@@ -1093,7 +1100,10 @@
       "createCodeSuccess": "アフィリエイトコードを作成しました",
       "createCodeFailed": "アフィリエイトコードの作成に失敗しました",
       "fetchGraphFailed": "グラフデータの取得に失敗しました",
-      "copyCodeSuccess": "コードをクリップボードにコピーしました"
+      "copyCodeSuccess": "コードをクリップボードにコピーしました",
+      "copyCodeFailed": "コードをクリップボードにコピーできませんでした",
+      "claimSuccess": "紹介収益を正常に受け取りました",
+      "claimFailed": "紹介収益の受け取りに失敗しました"
     }
   },
   "ErrorPage": {
