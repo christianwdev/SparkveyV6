@@ -12,6 +12,7 @@ import LockScrollMount from '@hooks/LockScrollMount';
 // Utils
 import { getFaceSparksCost, getFeeAmount, getPurchaseSparksCost } from '@utils/rewardFees';
 import { getPurchaseErrorMessageKey, purchaseReward } from '@utils/rewards';
+import isLineClampTruncated from '@utils/isLineClampTruncated';
 
 // Types
 import type CatalogReward from 'types/Reward/CatalogReward';
@@ -77,15 +78,13 @@ export default function GiftcardPurchaseModal(
   useEffect(() => {
     if (descriptionRef.current) {
       setShowMoreDescription(
-        descriptionRef.current.offsetHeight < descriptionRef.current.scrollHeight ? false : 'disabled',
+        isLineClampTruncated(descriptionRef.current) ? false : 'disabled',
       );
     }
 
     if (activationDetailsRef.current) {
       setShowMoreActivationDetails(
-        activationDetailsRef.current.offsetHeight < activationDetailsRef.current.scrollHeight
-          ? false
-          : 'disabled',
+        isLineClampTruncated(activationDetailsRef.current) ? false : 'disabled',
       );
     }
 
