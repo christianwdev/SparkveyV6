@@ -1,8 +1,11 @@
 import type { clientRequest } from '@utils/clientRequest';
 import type { serverRequest } from '@utils/serverRequest';
 import { getScope } from '@utils/scope';
+
+// Types
 import type APIResponse from 'types/APIResponse';
-import type InternalOffer from 'types/Offer/InternalOffer';
+import type SanitizedOffer from 'types/Offer/SanitizedOffer';
+import type OfferCompletionStep from 'types/Offer/OfferCompletionStep';
 import {
   DEFAULT_BROWSE_OFFERS_SORT,
   type BrowseOffersSort,
@@ -21,6 +24,11 @@ export type BrowseOffersParams = {
   providers?: string[];
 };
 
+export type OfferDetailsPayload = {
+  offer: SanitizedOffer,
+  completion: OfferCompletionStep[],
+};
+
 export async function browseOffers(
   {
     request,
@@ -28,9 +36,9 @@ export async function browseOffers(
   }: BrowseOffersParams & {
     request: RequestFn;
   },
-): Promise<InternalOffer[] | null> {
+): Promise<SanitizedOffer[] | null> {
   try {
-    const response = await request<APIResponse<InternalOffer[]>>({
+    const response = await request<APIResponse<SanitizedOffer[]>>({
       url: `${getScope()}/offers/browse`,
       method: 'POST',
       credentials: 'include',
@@ -50,4 +58,31 @@ export async function browseOffers(
   } catch {
     return null;
   }
+}
+
+export async function getOfferDetails(
+  {
+    request,
+    offerID,
+  }: {
+    request: RequestFn,
+    offerID: string,
+  },
+): Promise<OfferDetailsPayload | null> {
+  try {
+    const response = await request<APIResponse<OfferDetailsPayload>>({
+      url: `${getScope()}/offers/${encodeURIComponent(offerID)}`,
+      credentials: 'include',
+    });
+
+    if (!response.data?.success || !response.data.data) return null;
+
+    return response.data.data;
+  } catch {
+    return null;
+  }
+}
+
+export function getOfferRedirectURL(offerID: string) {
+  return `${getScope()}/offers/redirect/${encodeURIComponent(offerID)}`;
 }

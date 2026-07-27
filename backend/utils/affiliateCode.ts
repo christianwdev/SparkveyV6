@@ -59,10 +59,21 @@ export async function createAffiliateCode(
 ): Promise<FunctionResponse<AffiliateCode, CreateAffiliateCodeError>> {
   try {
     const { db } = getGlobalObject();
+    const sanitized = sanitizeCode(code);
+
+    // Prevent squatting on another user's default (userID) referral code.
+    if (sanitized !== sanitizeCode(userID)) {
+      const reservedUser = await db.collection<InternalUser>(DatabaseCollections.users).findOne(
+        { userID: sanitized },
+        { projection: { userID: 1 } },
+      );
+
+      if (reservedUser) return { ok: false, error: 'alreadyExists' };
+    }
 
     const affiliateCode: AffiliateCode = {
       userID,
-      code: sanitizeCode(code),
+      code: sanitized,
       totalEarnings: 0,
       tasksCompleted: 0,
       createdAt: new Date(),
@@ -78,6 +89,37 @@ export async function createAffiliateCode(
       return { ok: false, error: 'alreadyExists' };
     }
 
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function ensureDefaultAffiliateCode(
+  {
+    userID,
+  }: {
+    userID: string,
+  },
+): Promise<FunctionResponse<AffiliateCode, CreateAffiliateCodeError>> {
+  try {
+    const { db } = getGlobalObject();
+    const code = sanitizeCode(userID);
+
+    const existing = await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).findOne({
+      code,
+      disabledAt: { $exists: false },
+    });
+
+    if (existing) {
+      if (existing.userID !== userID) return { ok: false, error: 'alreadyExists' };
+
+      return { ok: true, data: existing };
+    }
+
+    // Default code is mandatory and may exceed maxAffiliateCodes for legacy accounts.
+    return await createAffiliateCode({ userID, code: userID });
+  } catch (error) {
     console.error(error);
 
     return { ok: false, error: 'internalServerError' };

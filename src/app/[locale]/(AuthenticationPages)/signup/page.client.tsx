@@ -15,7 +15,7 @@ import { useUser } from '@contexts/UserProvider';
 import styles from './page.module.scss';
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,20}$/;
-const REFERRAL_REGEX = /^[A-Za-z0-9-]{3,16}$/;
+const REFERRAL_REGEX = /^[A-Za-z0-9]{1,36}$/;
 
 function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -235,7 +235,7 @@ function SignupPageContent() {
             onChange={(event) => setReferralCode(event.target.value)}
             disabled={pending}
             minLength={3}
-            maxLength={16}
+            maxLength={36}
             autoComplete="off"
           />
         </div>

@@ -21,6 +21,10 @@
         "title": "アンケート",
         "description": "短い質問への回答"
       },
+      "offerwalls": {
+        "title": "オファーウォール",
+        "description": "オファーを完了してSparksを獲得"
+      },
       "viewAll": "すべて表示",
       "previous": "前のオファー",
       "next": "次のオファー"
@@ -443,6 +447,15 @@
       "surveys": "アンケート",
       "offerwalls": "オファーウォール"
     },
+    "mobile": {
+      "navLabel": "メインナビゲーション",
+      "home": "ホーム",
+      "earn": "稼ぐ",
+      "shop": "ショップ",
+      "leaders": "リーダー",
+      "refer": "紹介"
+    },
+
     "a11y": {
       "avatarAlt": "アバター"
     }
@@ -456,7 +469,28 @@
     "signOut": "ログアウト"
   },
   "Notifications": {
-    "title": "通知"
+    "title": "通知",
+    "none": "表示する通知はありません...",
+    "markAllRead": "すべて既読にする",
+    "markRead": "既読にする",
+    "types": {
+      "offerCredited": "オファー付与済み",
+      "offerHeld": "オファー保留中",
+      "offerPending": "オファー処理中",
+      "offerReleased": "オファー解除済み",
+      "offerReversal": "オファー取消済み",
+      "offerAdvConfirmed": "オファー確認済み",
+      "redemptionSubmitted": "交換申請済み"
+    },
+    "messages": {
+      "offerCredited": "あなたのオファー {offerName}（{offerValue} Sparks）が付与されました。",
+      "offerHeld": "あなたのオファー {offerName}（{offerValue} Sparks）は {releaseDate} まで保留されています。",
+      "offerPending": "あなたのオファー {offerName}（{offerValue} Sparks）は、提供元により {releaseDate} まで保留されています。",
+      "offerReleased": "あなたのオファー {offerName}（{offerValue} Sparks）が解除されました。",
+      "offerReversal": "あなたのオファー {offerName}（{offerValue} Sparks）は取り消されました。",
+      "offerAdvConfirmed": "あなたのオファー {offerName}（{offerValue} Sparks）が確認され、{releaseDate} まで保留されています。",
+      "redemptionSubmitted": "{rewardName}（{value} Sparks）の交換申請が送信されました。"
+    }
   },
   "NotFound": {
     "imageAlt": "ページが見つかりません",
@@ -644,6 +678,8 @@
   "OfferPageClient": {
     "backToTasks": "タスクに戻る",
     "sparksAlt": "Sparks",
+    "close": "閉じる",
+    "loadError": "このオファーを読み込めませんでした。しばらくしてからもう一度お試しください。",
     "sections": {
       "offerDetails": "オファー詳細",
       "goalsProgress": "目標の進捗",
@@ -1077,12 +1113,13 @@
       "createdAt": "作成日"
     },
     "empty": {
-      "noCodes": "まだ紹介コードを作成していません。<action>始めましょう</action>。"
+      "noCodes": "表示する紹介コードはありません。"
     },
     "graph": {
       "statistics": "統計",
       "earnings": "収益",
       "sparksEarned": "獲得Sparks",
+      "periodLabel": "期間",
       "periods": {
         "day": "日",
         "week": "週",

@@ -21,6 +21,10 @@
         "title": "Surveys",
         "description": "Short questionnaires"
       },
+      "offerwalls": {
+        "title": "Offerwalls",
+        "description": "Earn Sparks by completing offers"
+      },
       "viewAll": "View all",
       "previous": "Previous offers",
       "next": "Next offers"
@@ -443,6 +447,14 @@
       "surveys": "Surveys",
       "offerwalls": "Offerwalls"
     },
+    "mobile": {
+      "navLabel": "Primary",
+      "home": "Home",
+      "earn": "Earn",
+      "shop": "Shop",
+      "leaders": "Leaders",
+      "refer": "Refer"
+    },
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -456,7 +468,28 @@
     "signOut": "Sign out"
   },
   "Notifications": {
-    "title": "Notifications"
+    "title": "Notifications",
+    "none": "No notifications to display...",
+    "markAllRead": "Mark all as read",
+    "markRead": "Mark as read",
+    "types": {
+      "offerCredited": "Offer Credited",
+      "offerHeld": "Offer Held",
+      "offerPending": "Offer Pending",
+      "offerReleased": "Offer Released",
+      "offerReversal": "Offer Reversed",
+      "offerAdvConfirmed": "Offer Confirmed",
+      "redemptionSubmitted": "Redemption Submitted"
+    },
+    "messages": {
+      "offerCredited": "Your offer {offerName} worth {offerValue} sparks has been credited.",
+      "offerHeld": "Your offer {offerName} worth {offerValue} sparks is being held until {releaseDate}.",
+      "offerPending": "Your offer {offerName} worth {offerValue} sparks is being held by our provider until {releaseDate}.",
+      "offerReleased": "Your offer {offerName} worth {offerValue} was released.",
+      "offerReversal": "Your offer {offerName} worth {offerValue} was reversed.",
+      "offerAdvConfirmed": "Your offer {offerName} worth {offerValue} sparks was confirmed and is held until {releaseDate}.",
+      "redemptionSubmitted": "Your redemption for {rewardName} ({value} Sparks) was submitted."
+    }
   },
   "NotFound": {
     "imageAlt": "Page not found",
@@ -647,6 +680,8 @@
   "OfferPageClient": {
     "backToTasks": "Back to Tasks",
     "sparksAlt": "Sparks",
+    "close": "Close",
+    "loadError": "We couldn't load this offer. Please try again in a moment.",
     "sections": {
       "offerDetails": "Offer Details",
       "goalsProgress": "Goals Progress",
@@ -1119,12 +1154,13 @@
       "createdAt": "Created At"
     },
     "empty": {
-      "noCodes": "You haven't created any referral codes yet, let's get <action>started</action>."
+      "noCodes": "No referral codes to display."
     },
     "graph": {
       "statistics": "Statistics",
       "earnings": "Earnings",
       "sparksEarned": "Sparks Earned",
+      "periodLabel": "Period",
       "periods": {
         "day": "Day",
         "week": "Week",

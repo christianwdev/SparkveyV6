@@ -45,9 +45,9 @@ async function creditOfferConversion(
       'statistics.earned.offers': conversion.value,
       'statistics.earned.total': conversion.value,
     },
-    afterCommit: ({ userID, balanceChange }) => {
-      applySparksEarningsSideEffects({ userID, amount: balanceChange });
-    },
+    afterCommit: ({ userID, balanceChange }) => (
+      applySparksEarningsSideEffects({ userID, amount: balanceChange })
+    ),
   });
 
   void createUserNotification({
@@ -125,9 +125,9 @@ async function reverseOfferConversion(
         'statistics.earned.offers': -previous.value,
         'statistics.earned.total': -previous.value,
       },
-      afterCommit: ({ userID, balanceChange }) => {
-        applySparksEarningsSideEffects({ userID, amount: balanceChange });
-      },
+      afterCommit: ({ userID, balanceChange }) => (
+        applySparksEarningsSideEffects({ userID, amount: balanceChange })
+      ),
     });
   }
 
@@ -232,8 +232,16 @@ async function handleNewOfferPostback(
     externalID: postback.offerID,
     offerName: postback.offerName,
     offerDisplayName: postback.offerDisplayName ?? postback.offerName,
-    ...(heldUntil && { heldUntil }),
   };
+
+  if (heldUntil) conversion.heldUntil = heldUntil;
+  if (postback.clickID) conversion.clickID = postback.clickID;
+  if (postback.eventID || postback.eventName) {
+    conversion.event = {
+      eventID: postback.eventID ?? '',
+      eventName: postback.eventName ?? '',
+    };
+  }
 
   try {
     const insertResult = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).insertOne(conversion);

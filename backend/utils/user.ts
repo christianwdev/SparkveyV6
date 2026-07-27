@@ -157,6 +157,14 @@ export async function createUser(
 
     if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
 
+    // Default referral code is the userID (counts toward maxAffiliateCodes).
+    const { ensureDefaultAffiliateCode } = await import('backend/utils/affiliateCode');
+    const defaultCodeResult = await ensureDefaultAffiliateCode({ userID });
+
+    if (!defaultCodeResult.ok && defaultCodeResult.error !== 'alreadyExists') {
+      console.error('Failed to create default affiliate code', defaultCodeResult.error);
+    }
+
     return { ok: true, data: user };
   } catch (error) {
     console.error(error);

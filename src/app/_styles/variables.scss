@@ -4,6 +4,7 @@ $border-radius: 12px;
 $navbar-height: 75px;
 $navbar-margin: 30px;
 $navbar-offset: $navbar-height + $navbar-margin;
+$mobile-nav-height: 75px;
 $padding: min(160px, 10%);
 
 $topnav-z-index: 3;
@@ -61,6 +62,10 @@ $textColorDarkAlways: var(--textColorDarkAlways);
 @mixin pageBelowNavbar {
   margin: $navbar-offset auto 0;
   min-height: calc(100vh - #{$navbar-offset});
+
+  @media screen and (max-width: $large-phone) {
+    padding-bottom: calc(var(--mobile-nav-offset, 0px) + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 @mixin clamp-lines($lines) {

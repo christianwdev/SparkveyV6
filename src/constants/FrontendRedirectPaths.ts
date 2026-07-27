@@ -13,7 +13,8 @@ const FrontendRedirectPaths = {
   profileSettings: '/profile/settings',
   profileSessions: '/profile/sessions',
   affiliates: '/affiliates',
-  walls: '/walls',
+  redeem: '/redeem',
+  leaderboard: '/leaderboard',
 } as const;
 
 export default FrontendRedirectPaths;

@@ -5,6 +5,10 @@ import { getScope } from '@utils/scope';
 // Types
 import type APIResponse from 'types/APIResponse';
 import type AffiliateCode from 'types/AffiliateCode';
+import type {
+  AffiliatePeriod,
+  AffiliateTimeseriesPoint,
+} from 'types/AffiliateTimeseries';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
@@ -18,6 +22,7 @@ export type AffiliateStats = {
 export type AffiliatePageData = {
   codes: AffiliateCode[],
   stats: AffiliateStats,
+  timeseries: AffiliateTimeseriesPoint[],
 };
 
 export async function fetchAffiliateData(
@@ -30,6 +35,29 @@ export async function fetchAffiliateData(
   try {
     const response = await request<APIResponse<AffiliatePageData>>({
       url: `${getScope()}/affiliates`,
+      credentials: 'include',
+    });
+
+    if (!response.data?.success || !response.data.data) return null;
+
+    return response.data.data;
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchAffiliateTimeseries(
+  {
+    request,
+    period,
+  }: {
+    request: RequestFn,
+    period: AffiliatePeriod,
+  },
+): Promise<AffiliateTimeseriesPoint[] | null> {
+  try {
+    const response = await request<APIResponse<AffiliateTimeseriesPoint[]>>({
+      url: `${getScope()}/affiliates/timeseries/${period}`,
       credentials: 'include',
     });
 

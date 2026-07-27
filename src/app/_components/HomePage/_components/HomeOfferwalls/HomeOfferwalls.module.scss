@@ -1,0 +1,72 @@
+@use '@styles/variables.scss' as *;
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 0;
+  border-bottom: 1px solid $border-light;
+  scroll-margin-top: 96px;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  > .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+
+    > .titleGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+
+      > h2 {
+        margin: 0;
+        color: $text-bold;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 1.25;
+      }
+
+      > p {
+        margin: 0;
+        color: $text-light;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+    }
+  }
+
+  > .grid {
+    --items-per-view: 6;
+    --gap: 16px;
+    width: 100%;
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(var(--items-per-view), minmax(0, 1fr));
+
+    @media screen and (max-width: $large-tablet) {
+      --items-per-view: 5;
+    }
+
+    @media screen and (max-width: $tablet) {
+      --items-per-view: 4;
+    }
+
+    @media screen and (max-width: $small-tablet) {
+      --items-per-view: 3;
+    }
+
+    @media screen and (max-width: $large-phone) {
+      --items-per-view: 2;
+    }
+
+    @media screen and (max-width: 300px) {
+      --items-per-view: 1;
+    }
+  }
+}

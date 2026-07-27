@@ -3,7 +3,7 @@ import { creditReferrerPendingEarnings } from 'backend/utils/affiliateCode';
 import { addLeaderboardEarnings } from 'backend/utils/leaderboard';
 
 /** Side effects for sparks earned/reversed via offer (and similar) credits. */
-export function applySparksEarningsSideEffects(
+export async function applySparksEarningsSideEffects(
   {
     userID,
     amount,
@@ -11,9 +11,19 @@ export function applySparksEarningsSideEffects(
     userID: string,
     amount: number,
   },
-): void {
+): Promise<void> {
   if (!Number.isFinite(amount) || amount === 0) return;
 
-  void creditReferrerPendingEarnings({ referredUserID: userID, amount });
-  void addLeaderboardEarnings({ userID, amount, type: 'monthly' });
+  const [ referralResult, leaderboardResult ] = await Promise.all([
+    creditReferrerPendingEarnings({ referredUserID: userID, amount }),
+    addLeaderboardEarnings({ userID, amount, type: 'monthly' }),
+  ]);
+
+  if (!referralResult.ok) {
+    console.error('creditReferrerPendingEarnings failed', referralResult.error);
+  }
+
+  if (!leaderboardResult.ok) {
+    console.error('addLeaderboardEarnings failed', leaderboardResult.error);
+  }
 }

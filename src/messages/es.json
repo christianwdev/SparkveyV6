@@ -21,6 +21,10 @@
         "title": "Encuestas",
         "description": "Cuestionarios cortos"
       },
+      "offerwalls": {
+        "title": "Muros de ofertas",
+        "description": "Gana Sparks al completar ofertas"
+      },
       "viewAll": "Ver todo",
       "previous": "Ofertas anteriores",
       "next": "Ofertas siguientes"
@@ -443,6 +447,15 @@
       "surveys": "Encuestas",
       "offerwalls": "Muros de ofertas"
     },
+    "mobile": {
+      "navLabel": "Navegacion principal",
+      "home": "Inicio",
+      "earn": "Ganar",
+      "shop": "Tienda",
+      "leaders": "Lideres",
+      "refer": "Referir"
+    },
+
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -456,7 +469,28 @@
     "signOut": "Cerrar sesion"
   },
   "Notifications": {
-    "title": "Notificaciones"
+    "title": "Notificaciones",
+    "none": "No hay notificaciones para mostrar...",
+    "markAllRead": "Marcar todo como leído",
+    "markRead": "Marcar como leído",
+    "types": {
+      "offerCredited": "Oferta acreditada",
+      "offerHeld": "Oferta retenida",
+      "offerPending": "Oferta pendiente",
+      "offerReleased": "Oferta liberada",
+      "offerReversal": "Oferta revertida",
+      "offerAdvConfirmed": "Oferta confirmada",
+      "redemptionSubmitted": "Canje enviado"
+    },
+    "messages": {
+      "offerCredited": "Tu oferta {offerName} con valor de {offerValue} Sparks ha sido acreditada.",
+      "offerHeld": "Tu oferta {offerName} con valor de {offerValue} Sparks se mantendra retenida hasta {releaseDate}.",
+      "offerPending": "Tu oferta {offerName} con valor de {offerValue} Sparks esta retenida por nuestro proveedor hasta {releaseDate}.",
+      "offerReleased": "Tu oferta {offerName} con valor de {offerValue} Sparks ha sido liberada.",
+      "offerReversal": "Tu oferta {offerName} con valor de {offerValue} Sparks ha sido revertida.",
+      "offerAdvConfirmed": "Tu oferta {offerName} con valor de {offerValue} Sparks fue confirmada y retenida hasta {releaseDate}.",
+      "redemptionSubmitted": "Tu canje de {rewardName} ({value} Sparks) fue enviado."
+    }
   },
   "NotFound": {
     "imageAlt": "Pagina no encontrada",
@@ -644,6 +678,8 @@
   "OfferPageClient": {
     "backToTasks": "Volver a tareas",
     "sparksAlt": "Sparks",
+    "close": "Cerrar",
+    "loadError": "No pudimos cargar esta oferta. Inténtalo de nuevo en un momento.",
     "sections": {
       "offerDetails": "Detalles de la oferta",
       "goalsProgress": "Progreso de objetivos",
@@ -1077,12 +1113,13 @@
       "createdAt": "Fecha de creacion"
     },
     "empty": {
-      "noCodes": "Todavia no has creado ningun codigo de referido. Vamos a <action>empezar</action>."
+      "noCodes": "No hay codigos de referido para mostrar."
     },
     "graph": {
       "statistics": "Estadisticas",
       "earnings": "Ganancias",
       "sparksEarned": "Sparks ganados",
+      "periodLabel": "Periodo",
       "periods": {
         "day": "Dia",
         "week": "Semana",

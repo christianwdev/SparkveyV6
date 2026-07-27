@@ -6,7 +6,7 @@ import { Link } from '@i18n/navigation';
 import OfferItem from '@components/OfferItem/OfferItem';
 import SurveyItem from '@components/SurveyItem/SurveyItem';
 import SurveyProfilerCard from '@components/SurveyProfilerCard/SurveyProfilerCard';
-import type InternalOffer from 'types/Offer/InternalOffer';
+import type SanitizedOffer from 'types/Offer/SanitizedOffer';
 import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
 import styles from './OfferCarouselSection.module.scss';
@@ -27,7 +27,7 @@ type BaseCarouselProps = {
 type OfferCarouselSectionProps = BaseCarouselProps & (
   | {
     titleKey: OfferSectionKey;
-    offers?: InternalOffer[];
+    offers?: SanitizedOffer[];
     surveys?: never;
     showProfilerCard?: never;
   }
@@ -192,10 +192,10 @@ export default function OfferCarouselSection(props: OfferCarouselSectionProps) {
               <OfferItem
                 key={offer.offerID}
                 loading={false}
-                offerName={offer.displayName || offer.name}
+                offerID={offer.offerID}
+                offerName={offer.name}
                 offerDescription={offer.description}
                 offerImageUrl={offer.image}
-                offerLink={offer.trackingURL}
                 totalReward={offer.totalReward}
                 operatingSystem={offer.operatingSystem}
               />

@@ -40,4 +40,17 @@ export const queryKeys = {
     featured: () => [ ...queryKeys.rewards.all, 'featured' ] as const,
     category: (categoryID: string) => [ ...queryKeys.rewards.all, 'category', categoryID ] as const,
   },
+  affiliates: {
+    all: [ 'affiliates' ] as const,
+    page: () => [ ...queryKeys.affiliates.all, 'page' ] as const,
+  },
+  leaderboard: {
+    all: [ 'leaderboard' ] as const,
+    monthly: () => [ ...queryKeys.leaderboard.all, 'monthly' ] as const,
+  },
+  walls: {
+    all: [ 'walls' ] as const,
+    list: () => [ ...queryKeys.walls.all, 'list' ] as const,
+    embed: (wallID: string) => [ ...queryKeys.walls.all, 'embed', wallID ] as const,
+  },
 };

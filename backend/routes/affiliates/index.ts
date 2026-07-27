@@ -10,18 +10,23 @@ import {
   claimReferralEarnings,
   createAffiliateCode,
   disableAffiliateCode,
+  ensureDefaultAffiliateCode,
   getAffiliateCodesByUserID,
   getNumberOfUsersAffiliateCodes,
   getReferralCountByUserID,
   useAffiliateCode,
 } from 'backend/utils/affiliateCode';
+import { getAffiliateTimeseries } from 'backend/utils/affiliateTimeseries';
 import RouteResponseError from 'types/RouteResponseError';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
+import type { AffiliatePeriod } from 'types/AffiliateTimeseries';
 import { sendResponse } from 'backend/utils/response';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
+
+const AFFILIATE_PERIODS = [ 'day', 'week', 'month', 'year' ] as const satisfies readonly AffiliatePeriod[];
 
 const app = new Hono<{ Variables: { user: InternalUser } }>();
 
@@ -31,16 +36,21 @@ export default function routesInvoker() {
   app.get('/', withRouteErrorHandling, async (c) => {
     const user = c.get('user');
 
+    await ensureDefaultAffiliateCode({ userID: user.userID });
+
     const [
       codesResult,
       referralsResult,
+      timeseriesResult,
     ] = await Promise.all([
       getAffiliateCodesByUserID(user.userID),
       getReferralCountByUserID({ userID: user.userID }),
+      getAffiliateTimeseries({ userID: user.userID, period: 'day' }),
     ]);
 
     if (!codesResult.ok) throw new RouteResponseError({ status: 500, message: codesResult.error });
     if (!referralsResult.ok) throw new RouteResponseError({ status: 500, message: referralsResult.error });
+    if (!timeseriesResult.ok) throw new RouteResponseError({ status: 500, message: timeseriesResult.error });
 
     return sendResponse({
       c,
@@ -54,7 +64,38 @@ export default function routesInvoker() {
           pendingEarnings: user.referralInformation.pendingEarnings,
           maxAffiliateCodes: user.userConfiguration.maxAffiliateCodes,
         },
+        timeseries: timeseriesResult.data,
       },
+    });
+  });
+
+  app.get('/timeseries/:period', withRouteErrorHandling, async (c) => {
+    const user = c.get('user');
+    const period = c.req.param('period');
+
+    if (!(AFFILIATE_PERIODS as readonly string[]).includes(period)) {
+      return sendResponse({
+        c,
+        status: 400,
+        success: false,
+        message: 'Invalid period',
+      });
+    }
+
+    const timeseriesResult = await getAffiliateTimeseries({
+      userID: user.userID,
+      period: period as AffiliatePeriod,
+    });
+
+    if (!timeseriesResult.ok) {
+      throw new RouteResponseError({ status: 500, message: timeseriesResult.error });
+    }
+
+    return sendResponse({
+      c,
+      status: 200,
+      success: true,
+      data: timeseriesResult.data,
     });
   });
 
@@ -126,7 +167,13 @@ export default function routesInvoker() {
       userID: user.userID,
     });
 
-    if (!claimReferralEarningsResult.ok) throw new RouteResponseError({ status: 500, message: claimReferralEarningsResult.error });
+    if (!claimReferralEarningsResult.ok) {
+      if (claimReferralEarningsResult.error === 'noPendingEarnings') {
+        throw new RouteResponseError({ status: 400, message: 'noPendingEarnings' });
+      }
+
+      throw new RouteResponseError({ status: 500, message: claimReferralEarningsResult.error });
+    }
 
     return sendResponse({
       c,

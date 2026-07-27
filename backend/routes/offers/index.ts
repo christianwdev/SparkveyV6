@@ -17,8 +17,16 @@ import {
   getHomepageOffers,
   getOffersByCategory,
 } from 'backend/utils/offers/fetch';
+import {
+  buildOfferTrackingURL,
+  getInternalOfferByID,
+  getOfferCompletionSteps,
+  getSanitizedOfferByID,
+} from 'backend/utils/offers/detail';
 import { fetchCpxSurveys } from 'backend/utils/cpxresearch';
 import { sendResponse } from 'backend/utils/response';
+import SiteConfig from 'backend/config/config';
+import { createId } from '@paralleldrive/cuid2';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
@@ -120,6 +128,111 @@ export default function routesInvoker() {
       });
 
       return sendResponse({ c, status: 200, success: true, data: offers });
+    },
+  );
+
+  app.get(
+    '/redirect/:offerID',
+    requireAuth,
+    withRouteErrorHandling,
+    async (c) => {
+      const offerID = c.req.param('offerID');
+      const user = c.get('user');
+      const frontendURL = SiteConfig.server.frontendURL || '/';
+      const country = getCountryFromRequest(c) ?? '';
+
+      if (!offerID) {
+        return c.redirect(frontendURL);
+      }
+
+      if (user.bannedUntil && user.bannedUntil > new Date()) {
+        return c.redirect(frontendURL);
+      }
+
+      if (!user.emailInformation.verifiedAt) {
+        return c.redirect(frontendURL);
+      }
+
+      const offerResult = await getInternalOfferByID({ offerID, country });
+
+      if (!offerResult.ok) {
+        return c.redirect(frontendURL);
+      }
+
+      if (!offerResult.data.trackingURL) {
+        return c.redirect(frontendURL);
+      }
+
+      const trackingURL = buildOfferTrackingURL({
+        trackingURL: offerResult.data.trackingURL,
+        userID: user.userID,
+        clickID: createId(),
+      });
+
+      // Only allow absolute http(s) redirects to provider tracking URLs.
+      if (!/^https?:\/\//i.test(trackingURL)) {
+        return c.redirect(frontendURL);
+      }
+
+      return c.redirect(trackingURL);
+    },
+  );
+
+  app.get(
+    '/:offerID',
+    optionalAuth,
+    withRouteErrorHandling,
+    async (c) => {
+      const offerID = c.req.param('offerID');
+      const user = c.get('user');
+      const country = getCountryFromRequest(c) ?? '';
+
+      if (!offerID) {
+        return sendResponse({
+          c,
+          status: 400,
+          success: false,
+          message: 'notFound',
+        });
+      }
+
+      if (user?.bannedUntil && user.bannedUntil > new Date()) {
+        return sendResponse({
+          c,
+          status: 403,
+          success: false,
+          code: 'banned',
+          message: 'banned',
+        });
+      }
+
+      const offerResult = await getSanitizedOfferByID({ offerID, country });
+
+      if (!offerResult.ok) {
+        return sendResponse({
+          c,
+          status: offerResult.error === 'notFound' || offerResult.error === 'unavailable' ? 404 : 500,
+          success: false,
+          message: offerResult.error,
+        });
+      }
+
+      const completionResult = user
+        ? await getOfferCompletionSteps({
+          userID: user.userID,
+          offerID,
+        })
+        : { ok: true as const, data: [] as const };
+
+      return sendResponse({
+        c,
+        status: 200,
+        success: true,
+        data: {
+          offer: offerResult.data,
+          completion: completionResult.ok ? completionResult.data : [],
+        },
+      });
     },
   );
 

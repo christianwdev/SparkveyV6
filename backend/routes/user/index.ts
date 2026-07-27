@@ -7,6 +7,7 @@ import { requireAuth } from 'backend/middleware/auth';
 // Utils
 import { sendResponse } from 'backend/utils/response';
 import { sanitizeUser } from 'backend/utils/user';
+import notificationsRouteInvoker from './notifications';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
@@ -22,6 +23,8 @@ export default function routesInvoker() {
       data: sanitizeUser(c.get('user')),
     });
   });
+
+  app.route('/notifications', notificationsRouteInvoker());
 
   return app;
 }

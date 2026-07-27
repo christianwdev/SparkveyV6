@@ -1,18 +1,23 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import { useFormatter, useLocale, useTranslations } from 'next-intl';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import { useUser } from '@contexts/UserProvider';
-import { clientRequest } from '@utils/clientRequest';
 import {
   claimReferralEarnings,
   createAffiliateCode,
-  fetchAffiliateData,
+  fetchAffiliateTimeseries,
   useAffiliateCode as applyAffiliateCode,
 } from '@utils/affiliates';
 import type { AffiliatePageData } from '@utils/affiliates';
-import type AffiliateCode from 'types/AffiliateCode';
+import { clientRequest } from '@utils/clientRequest';
+import { useAffiliatesQuery } from '@hooks/useAffiliatesQuery';
+import { queryKeys } from '@hooks/queryKeys';
+import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
+import AffiliateGraph from './_components/AffiliateGraph/AffiliateGraph';
 import styles from './page.module.scss';
 
 // Icons
@@ -21,6 +26,10 @@ import ClockOutlineIcon from '~icons/mdi/clock-outline.jsx';
 import TicketOutlineIcon from '~icons/mdi/ticket-outline.jsx';
 import SparkOutlineIcon from '~icons/mdi/sparkles.jsx';
 import CopyIcon from '~icons/mdi/content-copy.jsx';
+
+// Types
+import type AffiliateCode from 'types/AffiliateCode';
+import type { AffiliatePeriod, AffiliateTimeseriesPoint } from 'types/AffiliateTimeseries';
 
 const CODE_PATTERN = /^[a-zA-Z0-9]+$/;
 const MIN_CODE_LENGTH = 1;
@@ -46,15 +55,30 @@ function copyReferralLink(code: string) {
 export default function AffiliatesPageClient({ initialData }: AffiliatesPageClientProps) {
   const t = useTranslations('AffiliatesPage');
   const locale = useLocale();
+  const formatter = useFormatter();
+  const queryClient = useQueryClient();
   const { user, setUser } = useUser();
 
-  const [ affiliateData, setAffiliateData ] = useState<AffiliatePageData | null>(initialData);
-  const [ isLoading, setIsLoading ] = useState(!initialData);
+  const { data: affiliateData, isPending: isLoading } = useAffiliatesQuery({ initialData });
+
   const [ createCodeValue, setCreateCodeValue ] = useState('');
   const [ useCodeDraft, setUseCodeDraft ] = useState('');
   const [ createCodeLoading, setCreateCodeLoading ] = useState(false);
   const [ useCodeLoading, setUseCodeLoading ] = useState(false);
   const [ claimLoading, setClaimLoading ] = useState(false);
+  const [ duration, setDuration ] = useState<AffiliatePeriod>('day');
+  const [ graphLoading, setGraphLoading ] = useState(false);
+  const [ graphData, setGraphData ] = useState<AffiliateTimeseriesPoint[] | null>(
+    initialData?.timeseries ?? null,
+  );
+  const graphRequestIDRef = useRef(0);
+
+  useEffect(() => {
+    if (duration !== 'day') return;
+    if (!affiliateData?.timeseries) return;
+
+    setGraphData(affiliateData.timeseries);
+  }, [ affiliateData?.timeseries, duration ]);
 
   const referredBy = user?.referralInformation.referredBy;
   const useCodeValue = referredBy ?? useCodeDraft;
@@ -62,32 +86,22 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
   const codes = affiliateData?.codes ?? [];
   const pendingEarnings = stats?.pendingEarnings ?? 0;
   const canClaim = pendingEarnings >= 1;
+  const displayGraphData = graphData ?? affiliateData?.timeseries ?? [];
 
-  useEffect(() => {
-    if (initialData) return;
+  const invalidateAffiliates = () => (
+    queryClient.invalidateQueries({ queryKey: queryKeys.affiliates.page() })
+  );
 
-    void fetchAffiliateData({ request: clientRequest }).then((data) => {
-      if (data) setAffiliateData(data);
-    }).finally(() => {
-      setIsLoading(false);
-    });
-  }, [ initialData ]);
-
-  const refreshAffiliateData = async () => {
-    const data = await fetchAffiliateData({ request: clientRequest });
-    if (data) setAffiliateData(data);
-  };
-
-  const handleCopyCode = async (code: string) => {
+  async function handleCopyCode(code: string) {
     try {
       await copyReferralLink(code);
       toast.success(t('toasts.copyCodeSuccess'));
     } catch {
       toast.error(t('toasts.copyCodeFailed'));
     }
-  };
+  }
 
-  const handleUseCode = async () => {
+  async function handleUseCode() {
     if (useCodeLoading || referredBy || !isValidCode(useCodeValue)) return;
 
     setUseCodeLoading(true);
@@ -118,9 +132,9 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
     } finally {
       setUseCodeLoading(false);
     }
-  };
+  }
 
-  const handleCreateCode = async () => {
+  async function handleCreateCode() {
     if (createCodeLoading || !isValidCode(createCodeValue)) return;
 
     setCreateCodeLoading(true);
@@ -134,27 +148,17 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
         return;
       }
 
-      setAffiliateData((current) => {
-        if (!current) return current;
-
-        return {
-          ...current,
-          codes: [ ...current.codes, response.data as AffiliateCode ],
-        };
-      });
-      if (!affiliateData) {
-        await refreshAffiliateData();
-      }
       setCreateCodeValue('');
       toast.success(t('toasts.createCodeSuccess'));
+      await invalidateAffiliates();
     } catch {
       toast.error(t('toasts.createCodeFailed'));
     } finally {
       setCreateCodeLoading(false);
     }
-  };
+  }
 
-  const handleClaimEarnings = async () => {
+  async function handleClaimEarnings() {
     if (claimLoading || !canClaim) return;
 
     setClaimLoading(true);
@@ -182,23 +186,105 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
           };
         });
       }
-      await refreshAffiliateData();
+      await invalidateAffiliates();
     } catch {
       toast.error(t('toasts.claimFailed'));
     } finally {
       setClaimLoading(false);
     }
-  };
+  }
 
-  const handleScrollToCreate = () => {
-    const createElement = document.getElementById('affiliate-create-code');
-    if (!createElement) return;
+  async function handleDurationChange(nextDuration: AffiliatePeriod) {
+    if (nextDuration === duration && graphData) return;
 
-    window.scrollTo({
-      behavior: 'smooth',
-      top: createElement.offsetTop - createElement.clientHeight,
-    });
-  };
+    const requestID = graphRequestIDRef.current + 1;
+    graphRequestIDRef.current = requestID;
+    setGraphLoading(true);
+
+    try {
+      const timeseries = await fetchAffiliateTimeseries({
+        request: clientRequest,
+        period: nextDuration,
+      });
+
+      if (graphRequestIDRef.current !== requestID) return;
+
+      if (!timeseries) {
+        toast.error(t('toasts.fetchGraphFailed'));
+
+        return;
+      }
+
+      setDuration(nextDuration);
+      setGraphData(timeseries);
+    } catch {
+      if (graphRequestIDRef.current !== requestID) return;
+
+      toast.error(t('toasts.fetchGraphFailed'));
+    } finally {
+      if (graphRequestIDRef.current === requestID) {
+        setGraphLoading(false);
+      }
+    }
+  }
+
+  const codeColumns: DataTableColumn<AffiliateCode>[] = [
+    {
+      id: 'code',
+      header: t('table.code'),
+      cell: row => (
+        <div className={styles.codeCell}>
+          <button
+            type="button"
+            className={styles.codeButton}
+            onClick={() => {
+              handleCopyCode(row.code).catch(error => {
+                console.error(error);
+              });
+            }}
+            aria-label={t('actions.copyCode')}
+          >
+            {row.code}
+          </button>
+          <button
+            type="button"
+            className={styles.copyButton}
+            aria-label={t('actions.copyCode')}
+            onClick={() => {
+              handleCopyCode(row.code).catch(error => {
+                console.error(error);
+              });
+            }}
+          >
+            <CopyIcon aria-hidden />
+          </button>
+        </div>
+      ),
+    },
+    {
+      id: 'totalEarnings',
+      header: t('table.totalEarnings'),
+      cell: row => (
+        <span className={styles.sparkValue}>
+          <Image src="/img/logo.svg" alt="" width={12} height={12} aria-hidden />
+          {formatter.number(row.totalEarnings)}
+        </span>
+      ),
+    },
+    {
+      id: 'tasksCompleted',
+      header: t('table.tasksCompleted'),
+      cell: row => formatter.number(row.tasksCompleted),
+    },
+    {
+      id: 'createdAt',
+      header: t('table.createdAt'),
+      cell: row => formatter.dateTime(new Date(row.createdAt), {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      }),
+    },
+  ];
 
   return (
     <div className={styles.content}>
@@ -242,7 +328,11 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
           <button
             type="button"
             className={styles.claimButton}
-            onClick={() => void handleClaimEarnings()}
+            onClick={() => {
+              handleClaimEarnings().catch(error => {
+                console.error(error);
+              });
+            }}
             disabled={claimLoading}
           >
             {claimLoading ? t('actions.claiming') : t('actions.claimEarnings')}
@@ -259,13 +349,17 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
               value={useCodeValue}
               placeholder=""
               disabled={!!referredBy}
-              onChange={(event) => setUseCodeDraft(event.target.value)}
+              onChange={event => setUseCodeDraft(event.target.value)}
             />
           </div>
           <button
             type="button"
             className={styles.actionButton}
-            onClick={() => void handleUseCode()}
+            onClick={() => {
+              handleUseCode().catch(error => {
+                console.error(error);
+              });
+            }}
             disabled={!!referredBy || useCodeLoading || !isValidCode(useCodeValue)}
           >
             {referredBy ? t('actions.claimed') : t('actions.useCode')}
@@ -279,13 +373,17 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
               type="text"
               value={createCodeValue}
               placeholder=""
-              onChange={(event) => setCreateCodeValue(event.target.value)}
+              onChange={event => setCreateCodeValue(event.target.value)}
             />
           </div>
           <button
             type="button"
             className={styles.actionButton}
-            onClick={() => void handleCreateCode()}
+            onClick={() => {
+              handleCreateCode().catch(error => {
+                console.error(error);
+              });
+            }}
             disabled={createCodeLoading || !isValidCode(createCodeValue)}
           >
             {t('actions.createCode')}
@@ -293,84 +391,24 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
         </div>
       </div>
 
-      {codes.length > 0 && (
-        <div className={styles.affiliateCodesTable}>
-          <table>
-            <thead>
-              <tr>
-                <th>{t('table.code')}</th>
-                <th>{t('table.totalEarnings')}</th>
-                <th>{t('table.tasksCompleted')}</th>
-                <th>{t('table.createdAt')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {codes.map((code) => (
-                <tr
-                  key={code.code}
-                  onClick={() => void handleCopyCode(code.code)}
-                >
-                  <td>
-                    <div className={styles.horizontalWrapper}>
-                      <p>{code.code}</p>
-                      <button
-                        type="button"
-                        className={styles.copyButton}
-                        aria-label={t('actions.copyCode')}
-                        onClick={(event) => {
-                          event.stopPropagation();
-                          void handleCopyCode(code.code);
-                        }}
-                      >
-                        <CopyIcon aria-hidden />
-                      </button>
-                    </div>
-                  </td>
-                  <td>
-                    <p className={styles.horizontalWrapper}>
-                      <Image src="/img/logo.svg" alt={t('a11y.sparksAlt')} width={16} height={16} />
-                      {code.totalEarnings.toLocaleString(locale)}
-                    </p>
-                  </td>
-                  <td>
-                    <p className={styles.horizontalWrapper}>
-                      <Image src="/img/logo.svg" alt={t('a11y.sparksAlt')} width={16} height={16} />
-                      {code.tasksCompleted.toLocaleString(locale)}
-                    </p>
-                  </td>
-                  <td>
-                    <p>{new Date(code.createdAt).toLocaleString(locale)}</p>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <AffiliateGraph
+        duration={duration}
+        onDurationChange={nextDuration => {
+          handleDurationChange(nextDuration).catch(error => {
+            console.error(error);
+          });
+        }}
+        graphData={displayGraphData}
+        loading={graphLoading || (isLoading && !displayGraphData.length)}
+      />
 
-      {codes.length === 0 && !isLoading && (
-        <div className={styles.noCodesContainer}>
-          <p>
-            {t.rich('empty.noCodes', {
-              action: (chunks) => (
-                <span
-                  role="button"
-                  tabIndex={0}
-                  onClick={handleScrollToCreate}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      handleScrollToCreate();
-                    }
-                  }}
-                >
-                  {chunks}
-                </span>
-              ),
-            })}
-          </p>
-        </div>
-      )}
+      <DataTable
+        columns={codeColumns}
+        rows={codes}
+        getRowKey={row => row.code}
+        loading={isLoading && codes.length === 0}
+        emptyMessage={t('empty.noCodes')}
+      />
     </div>
   );
 }

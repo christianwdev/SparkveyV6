@@ -51,6 +51,8 @@ const SiteConfig = {
       security: {
         whitelistedIPs: [] as string[],
       },
+      placementID: process.env.TOROX_PLACEMENT_ID,
+      appToken: process.env.TOROX_APP_TOKEN,
     },
     timewall: {
       security: {

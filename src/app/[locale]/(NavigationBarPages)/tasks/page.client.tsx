@@ -162,10 +162,10 @@ function TasksPageContent() {
         {offers.map(offer => (
           <OfferItem
             key={offer.offerID}
-            offerName={offer.displayName || offer.name}
+            offerID={offer.offerID}
+            offerName={offer.name}
             offerDescription={offer.description}
             offerImageUrl={offer.image}
-            offerLink={offer.trackingURL}
             totalReward={offer.totalReward}
             operatingSystem={offer.operatingSystem}
           />

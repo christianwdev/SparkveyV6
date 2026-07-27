@@ -9,9 +9,7 @@
   margin: 0 auto;
   padding: 0 0 64px;
   box-sizing: border-box;
-  gap: 24px;
-
-  @include standardPadding;
+  gap: 28px;
 
   > .header {
     display: flex;
@@ -39,7 +37,7 @@
   > .content {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 24px;
 
     > .statsContainer {
       display: grid;
@@ -234,124 +232,69 @@
       }
     }
 
-    > .affiliateCodesTable {
-      width: 100%;
-      overflow-x: auto;
+  }
 
-      &::-webkit-scrollbar {
-        display: none;
-      }
+  .codeCell {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 
-      > table {
-        width: 100%;
-        border-spacing: 0 12px;
+    > .codeButton {
+      display: inline-flex;
+      align-items: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+      letter-spacing: 0.02em;
+      cursor: pointer;
 
-        > thead {
-          > tr {
-            > th {
-              padding: 20px 24px;
-              box-sizing: border-box;
-              font-size: 16px;
-              font-weight: 400;
-              color: $text-light;
-              text-align: center;
-
-              &:first-child {
-                padding-left: 50px;
-                text-align: left;
-              }
-
-              &:last-child {
-                padding-right: 50px;
-                text-align: right;
-              }
-            }
-          }
-        }
-
-        > tbody {
-          > tr {
-            cursor: pointer;
-
-            > td {
-              padding: 20px 0;
-              box-sizing: border-box;
-              font-size: 16px;
-              font-weight: 500;
-              color: $text-bold;
-              text-align: center;
-              background: $off-white;
-
-              &:first-child {
-                padding-left: 50px;
-                text-align: left;
-                border-top-left-radius: 10px;
-                border-bottom-left-radius: 10px;
-
-                > .horizontalWrapper {
-                  justify-content: flex-start;
-                }
-              }
-
-              &:last-child {
-                padding-right: 50px;
-                text-align: right;
-                border-top-right-radius: 10px;
-                border-bottom-right-radius: 10px;
-
-                > .horizontalWrapper {
-                  justify-content: flex-end;
-                }
-              }
-
-              > .horizontalWrapper {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 4px;
-
-                > .copyButton {
-                  border: none;
-                  background: none;
-                  cursor: pointer;
-                  padding: 8px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  color: $primary;
-                }
-              }
-            }
-          }
-        }
+      &:hover,
+      &:focus-visible {
+        color: $primary;
       }
     }
 
-    > .noCodesContainer {
-      display: flex;
-      flex-direction: column;
+    > .copyButton {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-top: 8px;
+      padding: 4px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
       color: $text-light;
-      font-size: 16px;
-      font-weight: 400;
-      text-align: center;
+      cursor: pointer;
 
-      > p {
-        margin: 0;
+      > svg {
+        width: 14px;
+        height: 14px;
+      }
 
-        > span {
-          color: $primary;
-          cursor: pointer;
-        }
+      &:hover,
+      &:focus-visible {
+        color: $primary;
+        background: rgba(158, 56, 208, 0.08);
       }
     }
   }
 
+  .sparkValue {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    > img {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
   @media screen and (max-width: $large-phone) {
-    padding-bottom: 48px;
+    padding: 24px 16px 48px;
 
     > .header > h1 {
       font-size: 24px;

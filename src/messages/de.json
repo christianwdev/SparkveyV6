@@ -21,6 +21,10 @@
         "title": "Umfragen",
         "description": "Kurze Fragebögen"
       },
+      "offerwalls": {
+        "title": "Offerwalls",
+        "description": "Verdiene Sparks durch das Abschliessen von Angeboten"
+      },
       "viewAll": "Alle anzeigen",
       "previous": "Vorherige Angebote",
       "next": "Nächste Angebote"
@@ -443,6 +447,15 @@
       "surveys": "Umfragen",
       "offerwalls": "Offerwalls"
     },
+    "mobile": {
+      "navLabel": "Hauptnavigation",
+      "home": "Startseite",
+      "earn": "Verdienen",
+      "shop": "Shop",
+      "leaders": "Top-Nutzer",
+      "refer": "Empfehlen"
+    },
+
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -456,7 +469,28 @@
     "signOut": "Abmelden"
   },
   "Notifications": {
-    "title": "Benachrichtigungen"
+    "title": "Benachrichtigungen",
+    "none": "Keine Benachrichtigungen vorhanden...",
+    "markAllRead": "Alle als gelesen markieren",
+    "markRead": "Als gelesen markieren",
+    "types": {
+      "offerCredited": "Angebot gutgeschrieben",
+      "offerHeld": "Angebot gehalten",
+      "offerPending": "Angebot ausstehend",
+      "offerReleased": "Angebot freigegeben",
+      "offerReversal": "Angebot storniert",
+      "offerAdvConfirmed": "Angebot bestätigt",
+      "redemptionSubmitted": "Einlösung eingereicht"
+    },
+    "messages": {
+      "offerCredited": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wurde gutgeschrieben.",
+      "offerHeld": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wird bis {releaseDate} gehalten.",
+      "offerPending": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wird von unserem Anbieter bis {releaseDate} gehalten.",
+      "offerReleased": "Dein Angebot {offerName} im Wert von {offerValue} wurde freigegeben.",
+      "offerReversal": "Dein Angebot {offerName} im Wert von {offerValue} wurde storniert.",
+      "offerAdvConfirmed": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wurde bestätigt und bis {releaseDate} gehalten.",
+      "redemptionSubmitted": "Deine Einlösung für {rewardName} ({value} Sparks) wurde eingereicht."
+    }
   },
   "NotFound": {
     "imageAlt": "Seite nicht gefunden",
@@ -644,6 +678,8 @@
   "OfferPageClient": {
     "backToTasks": "Zurueck zu Aufgaben",
     "sparksAlt": "Sparks",
+    "close": "Schließen",
+    "loadError": "Dieses Angebot konnte nicht geladen werden. Bitte versuche es in einem Moment erneut.",
     "sections": {
       "offerDetails": "Angebotsdetails",
       "goalsProgress": "Fortschritt der Ziele",
@@ -1077,12 +1113,13 @@
       "createdAt": "Erstellt am"
     },
     "empty": {
-      "noCodes": "Du hast noch keine Empfehlungscodes erstellt, lass uns <action>loslegen</action>."
+      "noCodes": "Keine Empfehlungscodes vorhanden."
     },
     "graph": {
       "statistics": "Statistiken",
       "earnings": "Einnahmen",
       "sparksEarned": "Verdiente Sparks",
+      "periodLabel": "Zeitraum",
       "periods": {
         "day": "Tag",
         "week": "Woche",

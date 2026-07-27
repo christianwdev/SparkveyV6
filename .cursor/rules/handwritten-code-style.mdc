@@ -36,6 +36,28 @@ const expiryDate = new Date(issueDate.getTime() + 604800000); // 1 Week
 ```
 
 - Do **not** add `useMemo` / `useCallback` by default.
+- Do **not** build objects with conditional spreads (`...(cond && { key })`, `...(cond && { nested })`). Assign optional fields after the base object with plain `if` statements instead:
+
+```ts
+// ❌ BAD — hard to skim
+const doc = {
+  id,
+  ...(heldUntil && { heldUntil }),
+  ...(clickID && { clickID }),
+  ...((eventID || eventName) && { event: { eventID: eventID ?? '', eventName: eventName ?? '' } }),
+};
+
+// ✅ GOOD
+const doc = { id };
+if (heldUntil) doc.heldUntil = heldUntil;
+if (clickID) doc.clickID = clickID;
+if (eventID || eventName) {
+  doc.event = {
+    eventID: eventID ?? '',
+    eventName: eventName ?? '',
+  };
+}
+```
 
 ---
 
@@ -220,7 +242,7 @@ Before finishing **any** edit, re-read the full diff and fix issues yourself. St
 2. **FunctionResponse / routes** — ok/data vs ok/error; Zod + middleware order; sanitize outbound admin/user data.
 3. **Types** — object params; trailing commas in type fields; default-exported domain types; error unions named.
 4. **Imports** — section comments; `styles` name; aliases; `import type`; icon `.jsx`.
-5. **Formatting** — spaced `[ brackets ]`; early returns; named constants; no needless memo.
+5. **Formatting** — spaced `[ brackets ]`; early returns; named constants; no needless memo; no conditional object spreads (`...(cond && { key })`).
 6. **UI structure** — server/client split; Suspense + named fallbacks; `_components` folders; option key maps for i18n.
 7. **SCSS** — one nested root; tokens; nest matches DOM.
 8. **i18n** — locales updated for new copy.

@@ -96,16 +96,20 @@ export async function updateUserBalance({
       await session.commitTransaction();
       io.to(userID).emit(SocketEmits.userBalanceChange, user.balance[balanceType]);
 
+      // Balance is already committed — await so callers finish after side effects,
+      // but never fail the credit if afterCommit throws (would double-pay on retry).
       if (afterCommit) {
-        void Promise.resolve(afterCommit({
-          userID,
-          balanceType,
-          balanceChange,
-          user,
-          transaction,
-        })).catch((error) => {
+        try {
+          await afterCommit({
+            userID,
+            balanceType,
+            balanceChange,
+            user,
+            transaction,
+          });
+        } catch (error) {
           console.error('updateUserBalance afterCommit failed', error);
-        });
+        }
       }
     }
 

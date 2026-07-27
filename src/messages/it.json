@@ -21,6 +21,10 @@
         "title": "Sondaggi",
         "description": "Brevi questionari"
       },
+      "offerwalls": {
+        "title": "Offerwall",
+        "description": "Guadagna Sparks completando offerte"
+      },
       "viewAll": "Vedi tutto",
       "previous": "Offerte precedenti",
       "next": "Offerte successive"
@@ -443,6 +447,15 @@
       "surveys": "Sondaggi",
       "offerwalls": "Offerwall"
     },
+    "mobile": {
+      "navLabel": "Navigazione principale",
+      "home": "Home",
+      "earn": "Guadagna",
+      "shop": "Shop",
+      "leaders": "Leader",
+      "refer": "Invita"
+    },
+
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -456,7 +469,28 @@
     "signOut": "Esci"
   },
   "Notifications": {
-    "title": "Notifiche"
+    "title": "Notifiche",
+    "none": "Nessuna notifica da mostrare...",
+    "markAllRead": "Segna tutto come letto",
+    "markRead": "Segna come letto",
+    "types": {
+      "offerCredited": "Offerta accreditata",
+      "offerHeld": "Offerta in sospeso",
+      "offerPending": "Offerta in attesa",
+      "offerReleased": "Offerta rilasciata",
+      "offerReversal": "Offerta annullata",
+      "offerAdvConfirmed": "Offerta confermata",
+      "redemptionSubmitted": "Riscatto inviato"
+    },
+    "messages": {
+      "offerCredited": "La tua offerta {offerName} del valore di {offerValue} sparks e stata accreditata.",
+      "offerHeld": "La tua offerta {offerName} del valore di {offerValue} sparks restera in sospeso fino al {releaseDate}.",
+      "offerPending": "La tua offerta {offerName} del valore di {offerValue} sparks e in sospeso presso il nostro provider fino al {releaseDate}.",
+      "offerReleased": "La tua offerta {offerName} del valore di {offerValue} e stata rilasciata.",
+      "offerReversal": "La tua offerta {offerName} del valore di {offerValue} e stata annullata.",
+      "offerAdvConfirmed": "La tua offerta {offerName} del valore di {offerValue} sparks e stata confermata e trattenuta fino al {releaseDate}.",
+      "redemptionSubmitted": "Il tuo riscatto per {rewardName} ({value} Sparks) e stato inviato."
+    }
   },
   "NotFound": {
     "imageAlt": "Pagina non trovata",
@@ -644,6 +678,8 @@
   "OfferPageClient": {
     "backToTasks": "Torna ai task",
     "sparksAlt": "Sparks",
+    "close": "Chiudi",
+    "loadError": "Impossibile caricare questa offerta. Riprova tra un momento.",
     "sections": {
       "offerDetails": "Dettagli offerta",
       "goalsProgress": "Progresso obiettivi",
@@ -1077,12 +1113,13 @@
       "createdAt": "Creato il"
     },
     "empty": {
-      "noCodes": "Non hai ancora creato codici referral, <action>iniziamo</action>."
+      "noCodes": "Nessun codice referral da mostrare."
     },
     "graph": {
       "statistics": "Statistiche",
       "earnings": "Guadagni",
       "sparksEarned": "Sparks guadagnati",
+      "periodLabel": "Periodo",
       "periods": {
         "day": "Giorno",
         "week": "Settimana",

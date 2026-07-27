@@ -7,6 +7,9 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
+// Hooks
+import { useMonthlyLeaderboardQuery } from '@hooks/useMonthlyLeaderboardQuery';
+
 // Components
 import PodiumPlacement from './_components/PodiumPlacement/PodiumPlacement';
 
@@ -22,35 +25,64 @@ type LeaderboardPageClientProps = {
   initialLeaderboard: SanitizedLeaderboard | null,
 };
 
-export default function LeaderboardPageClient(props: LeaderboardPageClientProps) {
+function formatRemainingTime(
+  {
+    endDate,
+    emptyTimer,
+    timerTemplate,
+  }: {
+    endDate?: Date | string,
+    emptyTimer: string,
+    timerTemplate: (values: {
+      days: string,
+      hours: string,
+      minutes: string,
+      seconds: string,
+    }) => string,
+  },
+) {
+  if (!endDate) return emptyTimer;
+
+  const secondsRemaining = Math.max(0, dayjs.utc(endDate).diff(dayjs.utc(), 'seconds'));
+  const days = Math.floor(secondsRemaining / 86400);
+  const hours = Math.floor((secondsRemaining % 86400) / 3600);
+  const minutes = Math.floor((secondsRemaining % 3600) / 60);
+  const seconds = secondsRemaining % 60;
+
+  return timerTemplate({
+    days: days.toString().padStart(2, '0'),
+    hours: hours.toString().padStart(2, '0'),
+    minutes: minutes.toString().padStart(2, '0'),
+    seconds: seconds.toString().padStart(2, '0'),
+  });
+}
+
+export default function LeaderboardPageClient({ initialLeaderboard }: LeaderboardPageClientProps) {
   const t = useTranslations('LeaderboardPage');
-  const leaderboard = props.initialLeaderboard;
-  const [ remainingTime, setRemainingTime ] = useState<string>(formatRemainingTime(leaderboard));
+  const { data: leaderboard } = useMonthlyLeaderboardQuery({
+    initialData: initialLeaderboard,
+  });
 
-  function formatRemainingTime(leaderboardData: SanitizedLeaderboard | null) {
-    if (!leaderboardData) return t('emptyTimer');
-
-    const secondsRemaining = Math.max(0, dayjs.utc(leaderboardData.endDate).diff(dayjs.utc(), 'seconds'));
-    const days = Math.floor(secondsRemaining / 86400);
-    const hours = Math.floor((secondsRemaining % 86400) / 3600);
-    const minutes = Math.floor((secondsRemaining % 3600) / 60);
-    const seconds = secondsRemaining % 60;
-
-    return t('timerTemplate', {
-      days: days.toString().padStart(2, '0'),
-      hours: hours.toString().padStart(2, '0'),
-      minutes: minutes.toString().padStart(2, '0'),
-      seconds: seconds.toString().padStart(2, '0'),
-    });
-  }
+  const [ remainingTime, setRemainingTime ] = useState(() => formatRemainingTime({
+    endDate: leaderboard?.endDate,
+    emptyTimer: t('emptyTimer'),
+    timerTemplate: (values) => t('timerTemplate', values),
+  }));
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setRemainingTime(formatRemainingTime(leaderboard));
-    }, 1000);
+    const tick = () => {
+      setRemainingTime(formatRemainingTime({
+        endDate: leaderboard?.endDate,
+        emptyTimer: t('emptyTimer'),
+        timerTemplate: (values) => t('timerTemplate', values),
+      }));
+    };
+
+    tick();
+    const interval = setInterval(tick, 1000);
 
     return () => clearInterval(interval);
-  }, [ leaderboard, formatRemainingTime ]);
+  }, [ leaderboard?.endDate, t ]);
 
   const firstPlaceUser = leaderboard?.users[0];
   const secondPlaceUser = leaderboard?.users[1];
@@ -170,7 +202,7 @@ export default function LeaderboardPageClient(props: LeaderboardPageClientProps)
                 <td>
                   <div className={styles.horizontalWrapper}>
                     <Image
-                      src='/img/logo.svg'
+                      src="/img/logo.svg"
                       alt={t('sparksAlt')}
                       height={20}
                       width={20}
@@ -182,7 +214,7 @@ export default function LeaderboardPageClient(props: LeaderboardPageClientProps)
                 <td>
                   <div className={styles.horizontalWrapper}>
                     <Image
-                      src='/img/logo.svg'
+                      src="/img/logo.svg"
                       alt={t('sparksAlt')}
                       height={20}
                       width={20}
