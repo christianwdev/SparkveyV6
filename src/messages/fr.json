@@ -377,7 +377,10 @@
       "showLess": "Afficher moins",
       "showMore": "Afficher plus",
       "amountInSparks": "Montant en Sparks",
-      "claimFor": "Échanger pour"
+      "claimFor": "Échanger pour",
+      "fee": "Frais ({percent}%)",
+      "feeIncluded": "Inclus dans le total",
+      "close": "Fermer"
     },
     "crypto": {
       "recipientAddressPlaceholder": "Adresse du destinataire",
@@ -395,6 +398,7 @@
       "sessionVerificationFailed": "Nous ne pouvons pas vérifier votre session. Si un bloqueur de publicités est activé, veuillez le désactiver pour continuer.",
       "sessionTryAgain": "Impossible de vérifier votre session. Veuillez réessayer.",
       "failedToRedeemItem": "Échec de l'échange de l'article.",
+      "insufficientBalance": "Vous n'avez pas assez de Sparks pour échanger cet article.",
       "networkError": "Erreur réseau lors du traitement de l'échange"
     },
     "success": {
@@ -667,8 +671,6 @@
     }
   },
   "RewardMetadata": {
-    "shopTitle": "Sparkvey | Échangez vos sparks contre votre jeu préféré dans la boutique",
-    "shopDescription": "Échangez vos sparks contre votre jeu préféré dans la boutique.",
     "sectionTitle": "Sparkvey | Échangez vos sparks dans notre section {sectionName}",
     "rewardTitle": "Sparkvey | Échangez vos sparks contre {rewardName}",
     "rewardDescription": "Échangez {rewardName} sur Sparkvey, votre plateforme de récompenses de référence. Gagnez des récompenses et de l'argent en répondant à des sondages, en regardant des vidéos, en faisant vos achats en ligne, et plus encore !",
@@ -686,10 +688,6 @@
       "crypto": {
         "title": "Crypto",
         "description": "Échangez vos sparks contre votre crypto préférée."
-      },
-      "shop": {
-        "title": "Boutique",
-        "description": "Échangez vos sparks contre votre jeu préféré dans la boutique."
       }
     }
   },
@@ -702,7 +700,27 @@
     },
     "backToAllRewards": "Retour à toutes les récompenses",
     "searchPlaceholder": "Rechercher des façons d'échanger...",
-    "empty": "Oups ! Nous n'avons trouvé aucune récompense correspondant à cette recherche."
+    "empty": "Aucune récompense n'est disponible dans cette catégorie pour le moment.",
+    "viewAll": "Tout voir",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "loadMore": "Charger plus",
+    "closeModal": "Fermer",
+    "sections": {
+      "giftcards": {
+        "title": "Cartes cadeaux",
+        "description": "Échangez vos Sparks contre votre carte cadeau préférée."
+      },
+      "cash": {
+        "title": "Espèces",
+        "description": "Échangez vos Sparks contre des paiements en espèces."
+      },
+      "crypto": {
+        "title": "Crypto",
+        "description": "Échangez vos Sparks contre de la cryptomonnaie."
+      }
+    },
+    "loadError": "Impossible de charger les récompenses. Veuillez réessayer dans un instant."
   },
   "RewardPage": {
     "rewardNotFound": "Récompense introuvable.",
@@ -1174,5 +1192,8 @@
       "missingCode": "This confirmation link is missing a code.",
       "failed": "We could not update your email. The link may be invalid or expired."
     }
+  },
+  "RewardItem": {
+    "sparksAlt": "Sparks"
   }
 }

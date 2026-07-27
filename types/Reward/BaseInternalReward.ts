@@ -6,6 +6,8 @@ type BaseInternalReward = {
   disclosure: string,
   countries: string[],
   categories?: string[],
+  /** 0–1 fraction of payout charged as fee; omit → resolve via getRewardFeeRate. */
+  feeRate?: number,
   featuredSpot?: number;
 
   image?: Array<{

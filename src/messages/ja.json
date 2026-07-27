@@ -377,7 +377,10 @@
       "showLess": "表示を減らす",
       "showMore": "もっと見る",
       "amountInSparks": "Sparks数",
-      "claimFor": "以下で交換"
+      "claimFor": "以下で交換",
+      "fee": "手数料（{percent}%）",
+      "feeIncluded": "合計に含まれます",
+      "close": "閉じる"
     },
     "crypto": {
       "recipientAddressPlaceholder": "受取先アドレス",
@@ -395,6 +398,7 @@
       "sessionVerificationFailed": "セッションを確認できません。広告ブロッカーが有効な場合は無効にしてから続行してください。",
       "sessionTryAgain": "セッションを確認できませんでした。もう一度お試しください。",
       "failedToRedeemItem": "アイテムの交換に失敗しました。",
+      "insufficientBalance": "このアイテムと交換するのに十分なSparksがありません。",
       "networkError": "交換処理中にネットワークエラーが発生しました"
     },
     "success": {
@@ -667,8 +671,6 @@
     }
   },
   "RewardMetadata": {
-    "shopTitle": "Sparkvey | ショップでお気に入りのゲームにSparksを交換",
-    "shopDescription": "ショップでお気に入りのゲームにSparksを交換しましょう。",
     "sectionTitle": "Sparkvey | {sectionName} セクションでSparksを交換",
     "rewardTitle": "Sparkvey | {rewardName} にSparksを交換",
     "rewardDescription": "Sparkveyで {rewardName} に交換しましょう。アンケート回答、動画視聴、オンラインショッピングなどで報酬と現金を獲得できます。",
@@ -686,10 +688,6 @@
       "crypto": {
         "title": "仮想通貨",
         "description": "Sparksをお気に入りの仮想通貨に交換しましょう。"
-      },
-      "shop": {
-        "title": "ショップ",
-        "description": "ショップでお気に入りのゲームにSparksを交換しましょう。"
       }
     }
   },
@@ -702,7 +700,27 @@
     },
     "backToAllRewards": "すべての報酬に戻る",
     "searchPlaceholder": "交換方法を検索...",
-    "empty": "該当する報酬が見つかりませんでした。"
+    "empty": "このカテゴリには現在利用できる報酬がありません。",
+    "viewAll": "すべて見る",
+    "previous": "前へ",
+    "next": "次へ",
+    "loadMore": "さらに読み込む",
+    "closeModal": "閉じる",
+    "sections": {
+      "giftcards": {
+        "title": "ギフトカード",
+        "description": "Sparksをお気に入りのギフトカードに交換しましょう。"
+      },
+      "cash": {
+        "title": "現金",
+        "description": "Sparksを現金で受け取りましょう。"
+      },
+      "crypto": {
+        "title": "暗号資産",
+        "description": "Sparksを暗号資産に交換しましょう。"
+      }
+    },
+    "loadError": "報酬を読み込めませんでした。しばらくしてからもう一度お試しください。"
   },
   "RewardPage": {
     "rewardNotFound": "報酬が見つかりません。",
@@ -1174,5 +1192,8 @@
       "missingCode": "This confirmation link is missing a code.",
       "failed": "We could not update your email. The link may be invalid or expired."
     }
+  },
+  "RewardItem": {
+    "sparksAlt": "Sparks"
   }
 }

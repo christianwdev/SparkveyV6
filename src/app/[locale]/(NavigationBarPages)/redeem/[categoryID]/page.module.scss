@@ -1,0 +1,119 @@
+@use '@styles/variables.scss' as *;
+
+.redeemCategoryPage {
+  width: 100%;
+  max-width: $content-max-width;
+  margin: 0 auto;
+  padding: 0 0 64px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    > h1 {
+      margin: 0;
+      color: $text-bold;
+      font-size: 28px;
+      font-weight: 400;
+      line-height: 1.25;
+    }
+
+    > p {
+      margin: 0;
+      color: $text-light;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.45;
+      max-width: 640px;
+    }
+  }
+
+  > .categoryContent {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    > .backLink {
+      color: $primary;
+      font-weight: 600;
+      text-decoration: none;
+      width: fit-content;
+    }
+
+    > .rewardsGrid {
+      --items-per-view: 6;
+      --gap: 16px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(var(--items-per-view), minmax(0, 1fr));
+      gap: var(--gap);
+
+      @media screen and (max-width: $tablet) {
+        --items-per-view: 4;
+      }
+
+      @media screen and (max-width: $small-tablet) {
+        --items-per-view: 3;
+      }
+
+      @media screen and (max-width: $phone) {
+        --items-per-view: 2;
+      }
+    }
+
+    > .empty {
+      display: flex;
+      justify-content: center;
+      padding: 40px 0;
+
+      > p {
+        margin: 0;
+        color: $text-bold;
+        font-size: 16px;
+      }
+    }
+
+    > .loadMoreWrapper {
+      display: flex;
+      justify-content: center;
+      padding: 8px 0 0;
+
+      > .loadMore {
+        outline: unset;
+        border: unset;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 6px;
+        max-width: 200px;
+        width: 100%;
+        height: 40px;
+        background: $primary;
+        cursor: pointer;
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    > .scrollSentinel {
+      width: 100%;
+      height: 1px;
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    padding: 24px 16px 48px;
+
+    > .header > h1 {
+      font-size: 24px;
+    }
+  }
+}

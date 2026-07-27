@@ -2,10 +2,14 @@ import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 
 // Utils
-import { withRouteErrorHandling } from 'backend/utils/request';
+import { getCountryFromRequest, withRouteErrorHandling } from 'backend/utils/request';
 import { sendResponse } from 'backend/utils/response';
 import { handlePurchase } from 'backend/utils/redemption';
-import { getRewardByID, validateRewardValue } from 'backend/utils/rewards';
+import {
+  getRewardByID,
+  isRewardAvailableInCountry,
+  validateRewardValue,
+} from 'backend/utils/rewards';
 import RouteResponseError from 'types/RouteResponseError';
 import { requireAuth } from 'backend/middleware/auth';
 import { requireCsrf } from 'backend/middleware/csrf';
@@ -57,6 +61,12 @@ export default function routeInvoker() {
       const rewardResult = await getRewardByID(rewardID);
 
       if (!rewardResult.ok) throwRouteError(rewardResult.error);
+
+      const country = getCountryFromRequest(c);
+
+      if (!isRewardAvailableInCountry(rewardResult.data, country)) {
+        throwRouteError('rewardUnavailable');
+      }
 
       const valueResult = validateRewardValue({
         reward: rewardResult.data,

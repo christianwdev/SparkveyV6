@@ -377,7 +377,10 @@
       "showLess": "Mostrar menos",
       "showMore": "Mostrar mais",
       "amountInSparks": "Quantidade em Sparks",
-      "claimFor": "Resgatar por"
+      "claimFor": "Resgatar por",
+      "fee": "Taxa ({percent}%)",
+      "feeIncluded": "Incluida no total",
+      "close": "Fechar"
     },
     "crypto": {
       "recipientAddressPlaceholder": "Endereço do destinatário",
@@ -395,6 +398,7 @@
       "sessionVerificationFailed": "Não conseguimos verificar sua sessão. Se você estiver com um bloqueador de anúncios ativado, desative-o para continuar.",
       "sessionTryAgain": "Não foi possível verificar sua sessão. Tente novamente.",
       "failedToRedeemItem": "Falha ao resgatar item.",
+      "insufficientBalance": "Você não tem Sparks suficientes para resgatar este item.",
       "networkError": "Erro de rede ao processar o resgate"
     },
     "success": {
@@ -667,8 +671,6 @@
     }
   },
   "RewardMetadata": {
-    "shopTitle": "Sparkvey | Resgate seus sparks pelo seu jogo favorito na loja",
-    "shopDescription": "Resgate seus sparks pelo seu jogo favorito na loja.",
     "sectionTitle": "Sparkvey | Resgate seus sparks na seção de {sectionName}",
     "rewardTitle": "Sparkvey | Resgate seus sparks por {rewardName}",
     "rewardDescription": "Resgate {rewardName} na Sparkvey, sua plataforma de recompensas de confiança. Ganhe recompensas e dinheiro completando pesquisas, assistindo a vídeos, fazendo compras online e muito mais!",
@@ -686,10 +688,6 @@
       "crypto": {
         "title": "Crypto",
         "description": "Resgate seus sparks pela sua criptomoeda favorita."
-      },
-      "shop": {
-        "title": "Loja",
-        "description": "Resgate seus sparks pelo seu jogo favorito na loja."
       }
     }
   },
@@ -702,7 +700,27 @@
     },
     "backToAllRewards": "Voltar para Todas as Recompensas",
     "searchPlaceholder": "Buscar formas de resgatar...",
-    "empty": "Ops! Não encontramos recompensas que correspondam a essa busca."
+    "empty": "Não há recompensas disponíveis nesta categoria no momento.",
+    "viewAll": "Ver tudo",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "loadMore": "Carregar mais",
+    "closeModal": "Fechar",
+    "sections": {
+      "giftcards": {
+        "title": "Cartões-presente",
+        "description": "Troque seus Sparks pelo seu cartão-presente favorito."
+      },
+      "cash": {
+        "title": "Dinheiro",
+        "description": "Troque seus Sparks por pagamentos em dinheiro."
+      },
+      "crypto": {
+        "title": "Cripto",
+        "description": "Troque seus Sparks por criptomoeda."
+      }
+    },
+    "loadError": "Não foi possível carregar as recompensas. Tente novamente em um momento."
   },
   "RewardPage": {
     "rewardNotFound": "Recompensa não encontrada.",
@@ -1174,5 +1192,8 @@
       "missingCode": "This confirmation link is missing a code.",
       "failed": "We could not update your email. The link may be invalid or expired."
     }
+  },
+  "RewardItem": {
+    "sparksAlt": "Sparks"
   }
 }

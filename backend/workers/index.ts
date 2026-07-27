@@ -9,6 +9,7 @@ import startRedis from '../database/redis';
 import { createDistributedLock } from '../utils/distributedLock';
 
 // Workers
+import startCurrencyWorker from './currency';
 import startRewardsWorkers from './rewards';
 import startOffersWorkers from './offers';
 
@@ -42,6 +43,7 @@ global.globalObject = {
   distributedLock: createDistributedLock(redisClient),
 } satisfies GlobalObject;
 
+await startCurrencyWorker();
 startRewardsWorkers();
 startOffersWorkers();
 

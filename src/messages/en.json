@@ -377,7 +377,10 @@
       "showLess": "Show less",
       "showMore": "Show more",
       "amountInSparks": "Amount in Sparks",
-      "claimFor": "Claim for"
+      "claimFor": "Claim for",
+      "fee": "Fee ({percent}%)",
+      "feeIncluded": "Included in total",
+      "close": "Close"
     },
     "crypto": {
       "recipientAddressPlaceholder": "Recipient address",
@@ -395,6 +398,7 @@
       "sessionVerificationFailed": "We are unable to verify your session, if you have an ad blocker enabled, please disable it to continue.",
       "sessionTryAgain": "Unable to verify your session. Please try again.",
       "failedToRedeemItem": "Failed to redeem item.",
+      "insufficientBalance": "You don't have enough Sparks to redeem this item.",
       "networkError": "Network error while processing redemption"
     },
     "success": {
@@ -499,6 +503,9 @@
   "OfferItem": {
     "earn": "Earn",
     "upTo": "up to",
+    "sparksAlt": "Sparks"
+  },
+  "RewardItem": {
     "sparksAlt": "Sparks"
   },
   "SurveyItem": {
@@ -667,8 +674,6 @@
     }
   },
   "RewardMetadata": {
-    "shopTitle": "Sparkvey | Redeem your sparks for your favorite game in the shop",
-    "shopDescription": "Redeem your sparks for your favorite game in the shop.",
     "sectionTitle": "Sparkvey | Redeem your sparks on our {sectionName} section",
     "rewardTitle": "Sparkvey | Redeem your sparks for {rewardName}",
     "rewardDescription": "Redeem {rewardName} on Sparkvey, your go-to rewards platform. Earn rewards and cash by completing surveys, watching videos, shopping online, and more!",
@@ -686,10 +691,6 @@
       "crypto": {
         "title": "Crypto",
         "description": "Redeem your sparks for your favorite crypto."
-      },
-      "shop": {
-        "title": "Shop",
-        "description": "Redeem your sparks for your favorite game in the shop."
       }
     }
   },
@@ -702,7 +703,27 @@
     },
     "backToAllRewards": "Back to All Rewards",
     "searchPlaceholder": "Search for ways to redeem...",
-    "empty": "Uh oh! We didn't find any rewards matching that search."
+    "empty": "No rewards are available in this category right now.",
+    "loadError": "We couldn't load rewards. Please try again in a moment.",
+    "viewAll": "View all",
+    "previous": "Previous",
+    "next": "Next",
+    "loadMore": "Load more",
+    "closeModal": "Close",
+    "sections": {
+      "giftcards": {
+        "title": "Gift Cards",
+        "description": "Redeem your sparks for your favorite gift card."
+      },
+      "cash": {
+        "title": "Cash",
+        "description": "Redeem your sparks for cash payouts."
+      },
+      "crypto": {
+        "title": "Crypto",
+        "description": "Redeem your sparks for cryptocurrency."
+      }
+    }
   },
   "RewardPage": {
     "rewardNotFound": "Reward not found.",

@@ -3,7 +3,10 @@ import type { InternalRedemptionStatus } from './BaseInternalRedemption';
 
 type TremendousRequestMeta = {
   requestCurrencyCode: string,
+  /** Raw payout amount sent to Tremendous. */
   requestRewardAmount: number,
+  /** Platform fee in the same fiat unit as requestRewardAmount. */
+  requestFeeAmount: number,
   requestUsdValue: number,
 
   /** Present when a provider order was created but completion failed. */

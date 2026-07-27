@@ -377,7 +377,10 @@
       "showLess": "Pokaz mniej",
       "showMore": "Pokaz wiecej",
       "amountInSparks": "Kwota w Sparks",
-      "claimFor": "Wymien za"
+      "claimFor": "Wymien za",
+      "fee": "Oplata ({percent}%)",
+      "feeIncluded": "Wliczone w sume",
+      "close": "Zamknij"
     },
     "crypto": {
       "recipientAddressPlaceholder": "Adres odbiorcy",
@@ -395,6 +398,7 @@
       "sessionVerificationFailed": "Nie mozemy zweryfikowac Twojej sesji. Jesli masz wlaczony adblock, wylacz go, aby kontynuowac.",
       "sessionTryAgain": "Nie udalo sie zweryfikowac sesji. Sprobuj ponownie.",
       "failedToRedeemItem": "Nie udalo sie zrealizowac nagrody.",
+      "insufficientBalance": "Nie masz wystarczajaco duzo Sparkow, aby zrealizowac ten przedmiot.",
       "networkError": "Blad sieci podczas przetwarzania realizacji"
     },
     "success": {
@@ -667,8 +671,6 @@
     }
   },
   "RewardMetadata": {
-    "shopTitle": "Sparkvey | Wymien sparks na ulubiona gre w sklepie",
-    "shopDescription": "Wymien sparks na ulubiona gre w sklepie.",
     "sectionTitle": "Sparkvey | Wymien sparks w sekcji {sectionName}",
     "rewardTitle": "Sparkvey | Wymien sparks na {rewardName}",
     "rewardDescription": "Wymien {rewardName} w Sparkvey, Twojej ulubionej platformie nagrod. Zdobywaj nagrody i gotowke za ankiety, ogladanie wideo, zakupy online i nie tylko!",
@@ -686,10 +688,6 @@
       "crypto": {
         "title": "Krypto",
         "description": "Wymien sparks na ulubione krypto."
-      },
-      "shop": {
-        "title": "Sklep",
-        "description": "Wymien sparks na ulubiona gre w sklepie."
       }
     }
   },
@@ -702,7 +700,27 @@
     },
     "backToAllRewards": "Wroc do wszystkich nagrod",
     "searchPlaceholder": "Szukaj sposobow realizacji...",
-    "empty": "Ups! Nie znalezlismy nagrod pasujacych do tego wyszukiwania."
+    "empty": "W tej kategorii nie ma obecnie dostępnych nagród.",
+    "viewAll": "Zobacz wszystkie",
+    "previous": "Poprzednie",
+    "next": "Następne",
+    "loadMore": "Załaduj więcej",
+    "closeModal": "Zamknij",
+    "sections": {
+      "giftcards": {
+        "title": "Karty podarunkowe",
+        "description": "Wymień Sparks na ulubioną kartę podarunkową."
+      },
+      "cash": {
+        "title": "Gotówka",
+        "description": "Wymień Sparks na wypłaty gotówkowe."
+      },
+      "crypto": {
+        "title": "Krypto",
+        "description": "Wymień Sparks na kryptowalutę."
+      }
+    },
+    "loadError": "Nie udało się wczytać nagród. Spróbuj ponownie za chwilę."
   },
   "RewardPage": {
     "rewardNotFound": "Nie znaleziono nagrody.",
@@ -1174,5 +1192,8 @@
       "missingCode": "This confirmation link is missing a code.",
       "failed": "We could not update your email. The link may be invalid or expired."
     }
+  },
+  "RewardItem": {
+    "sparksAlt": "Sparks"
   }
 }
