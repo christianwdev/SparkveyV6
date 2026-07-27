@@ -1,0 +1,16 @@
+const TremendousCashProductIDs = [
+  'KV934TZ93NQM',
+  'ET0ZVETV5ILN',
+  '2GOQS4QZKY6H',
+  'ERC0OH38I14Z',
+  'TKIHHHAJU20C',
+  'MAIG9VSEAWD2',
+  'Z4E8MUT0U2GY',
+  'XKQIQ6QJP2M9',
+  'HZM1ID5XFEFC',
+  '413FVVL7ZY95',
+  '9O7KFU3Q0SZA',
+  'O7VZ5WQOCUQM',
+] as const;
+
+export default TremendousCashProductIDs;

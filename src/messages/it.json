@@ -378,6 +378,8 @@
       "showMore": "Mostra di piu",
       "amountInSparks": "Importo in Sparks",
       "claimFor": "Riscatta per",
+      "fee": "Commissione ({percent}%)",
+      "feeIncluded": "Inclusa nel totale",
       "close": "Chiudi"
     },
     "crypto": {

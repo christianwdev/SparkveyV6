@@ -150,14 +150,14 @@
       min-height: 0;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: $border-light #E9EEF9;
+      scrollbar-color: $border-light $light-blue;
 
       &::-webkit-scrollbar {
         width: 3px;
       }
 
       &::-webkit-scrollbar-track {
-        background: #E9EEF9;
+        background: $light-blue;
         border-radius: 2525px;
       }
 
@@ -244,6 +244,32 @@
 
         &:focus {
           border-color: $primary;
+        }
+      }
+    }
+
+    > .feeRow {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      color: $text-light;
+      margin: 0;
+
+      > .feeAmount {
+        color: $text-bold;
+        font-weight: 500;
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+
+        > .feeFiatSuffix {
+          font-size: 12px;
+          font-weight: 400;
+          color: $text-light;
         }
       }
     }

@@ -8,6 +8,7 @@ import type {
   PurchaseRedemptionRequest,
   PurchaseRedemptionResponse,
 } from 'types/API/Redemption/Purchase';
+import type CatalogReward from 'types/Reward/CatalogReward';
 import type RedeemCategoryID from 'types/Reward/RedeemCategoryID';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
@@ -17,6 +18,11 @@ export const REDEEM_CATEGORY_IDS: RedeemCategoryID[] = [ 'cash', 'giftcards', 'c
 
 export function isRedeemCategoryID(value: string): value is RedeemCategoryID {
   return (REDEEM_CATEGORY_IDS as string[]).includes(value);
+}
+
+/** rewardID is only unique per provider — key/dedupe on both to avoid cross-provider collisions. */
+export function getCatalogRewardKey(reward: CatalogReward): string {
+  return `${reward.providerName}:${reward.rewardID}`;
 }
 
 export type {

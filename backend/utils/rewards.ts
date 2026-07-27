@@ -1,4 +1,4 @@
-// Constants
+import TremendousCashProductIDs from '../constants/TremendousCashProductIDs';
 import DatabaseCollections from '../constants/DatabaseCollections';
 
 // Utils
@@ -13,6 +13,7 @@ import type RedeemCategoryID from 'types/Reward/RedeemCategoryID';
 
 const BATCH_SIZE = 100;
 const FEATURED_REWARDS_LIMIT = 10;
+const TREMENDOUS_CASH_PRODUCT_IDS = new Set<string>(TremendousCashProductIDs);
 
 export const CATEGORY_REWARDS_PAGE_SIZE = 20;
 export const SPARKS_PER_USD = 1000;
@@ -46,20 +47,131 @@ export type ValidateRewardValueError =
   | 'rewardUnavailable'
   | 'valueTooLow'
   | 'valueTooHigh'
-  | 'valueNotAllowed';
+  | 'valueNotAllowed'
+  | 'currencyRateUnavailable';
 
 export type ValidateUserBalanceError = 'insufficientBalance';
+
+const CASH_DEFAULT_FEE_RATE = 0.05;
+
+export function getRewardFeeRate(reward: InternalReward): number {
+  if (typeof reward.feeRate === 'number') return reward.feeRate;
+  if (reward.categories?.includes('cash')) return CASH_DEFAULT_FEE_RATE;
+  if (
+    reward.providerName === 'tremendous'
+    && TREMENDOUS_CASH_PRODUCT_IDS.has(reward.rewardID)
+  ) {
+    return CASH_DEFAULT_FEE_RATE;
+  }
+
+  return 0;
+}
+
+export function getRewardFeeAmount(
+  {
+    value,
+    feeRate,
+  }: {
+    value: number,
+    feeRate: number,
+  },
+): number {
+  if (feeRate <= 0) return 0;
+
+  return Math.round(value * feeRate * 100) / 100;
+}
+
+/** Base Sparks for a Tremendous face value (FX already baked in at ingest). */
+export function getTremendousFaceSparks(
+  reward: Extract<InternalReward, { providerName: 'tremendous' }>,
+  value: number,
+): number | null {
+  if (reward.meta.type === 'denomination') {
+    const index = reward.meta.denominations.indexOf(value);
+
+    if (index < 0) return null;
+
+    const mapped = reward.meta.denominationSparksValues?.[index];
+
+    if (typeof mapped !== 'number' || !Number.isFinite(mapped) || mapped <= 0) {
+      return null;
+    }
+
+    return mapped;
+  }
+
+  const referenceValue = reward.meta.minimumValue > 0
+    ? reward.meta.minimumValue
+    : reward.meta.maximumValue;
+  const referenceSparks = reward.meta.minimumSparksValue > 0
+    ? reward.meta.minimumSparksValue
+    : reward.meta.maximumSparksValue;
+
+  if (
+    referenceValue <= 0
+    || typeof referenceSparks !== 'number'
+    || !Number.isFinite(referenceSparks)
+    || referenceSparks <= 0
+  ) {
+    return null;
+  }
+
+  const usdPerUnit = (referenceSparks / SPARKS_PER_USD) / referenceValue;
+
+  return Math.round(value * usdPerUnit * SPARKS_PER_USD);
+}
 
 export function getRedemptionSparksCost(
   reward: InternalReward,
   value: number,
-): number {
+): number | null {
+  const feeRate = getRewardFeeRate(reward);
+
   switch (reward.providerName) {
     case 'ccpayment':
-      return value;
+      {
+      const feeAmount = getRewardFeeAmount({ value, feeRate });
+
+      return Math.round(value + feeAmount);
+    }
     case 'tremendous':
-      return value * SPARKS_PER_USD;
+      {
+      const faceSparks = getTremendousFaceSparks(reward, value);
+
+      if (faceSparks === null) return null;
+
+      return Math.round(faceSparks * (1 + feeRate));
+    }
   }
+}
+
+export function getRedemptionUsdValue(
+  reward: InternalReward,
+  value: number,
+): number | null {
+  switch (reward.providerName) {
+    case 'ccpayment':
+      return value / SPARKS_PER_USD;
+    case 'tremendous':
+      {
+      const faceSparks = getTremendousFaceSparks(reward, value);
+
+      if (faceSparks === null) return null;
+
+      return faceSparks / SPARKS_PER_USD;
+    }
+  }
+}
+
+export function isRewardAvailableInCountry(
+  reward: InternalReward,
+  country: string | undefined,
+): boolean {
+  if (!reward.countries || reward.countries.length === 0) return true;
+  if (reward.countries.includes('*')) return true;
+  if (!country) return false;
+
+  return reward.countries.includes(country);
 }
 
 export function validateRewardValue({
@@ -109,17 +221,23 @@ export function validateRewardValue({
     }
   }
 
+  const sparksCost = getRedemptionSparksCost(reward, value);
+
+  if (sparksCost === null) {
+    return { ok: false, error: 'currencyRateUnavailable' };
+  }
+
   return {
     ok: true,
     data: {
-      sparksCost: getRedemptionSparksCost(reward, value),
+      sparksCost,
     },
   };
 }
 
 function getGiftcardDenominations(reward: Extract<InternalReward, { providerName: 'tremendous' }>) {
   if (reward.meta.type === 'denomination') {
-    return [ ...reward.meta.denominations ].sort((a, b) => a - b);
+    return [ ...reward.meta.denominations ];
   }
 
   const { minimumValue, maximumValue } = reward.meta;
@@ -127,6 +245,27 @@ function getGiftcardDenominations(reward: Extract<InternalReward, { providerName
   return GIFTCARD_PRESET_FIAT.filter(
     amount => amount >= minimumValue && amount <= maximumValue,
   );
+}
+
+function getTremendousSparksPerUnit(
+  reward: Extract<InternalReward, { providerName: 'tremendous' }>,
+): number {
+  if (reward.meta.type === 'variable') {
+    if (reward.meta.minimumValue > 0 && reward.meta.minimumSparksValue > 0) {
+      return reward.meta.minimumSparksValue / reward.meta.minimumValue;
+    }
+
+    return SPARKS_PER_USD;
+  }
+
+  const denomination = reward.meta.denominations[0];
+  const sparks = reward.meta.denominationSparksValues[0];
+
+  if (typeof denomination === 'number' && denomination > 0 && typeof sparks === 'number') {
+    return sparks / denomination;
+  }
+
+  return SPARKS_PER_USD;
 }
 
 function getCryptoDenominations(reward: Extract<InternalReward, { providerName: 'ccpayment' }>) {
@@ -151,48 +290,78 @@ function getRewardImage(
   return undefined;
 }
 
-function getRewardDisplayRange(reward: InternalReward): CatalogReward['displayRange'] {
+function hasTremendousFxPricing(
+  reward: Extract<InternalReward, { providerName: 'tremendous' }>,
+): boolean {
+  if (reward.meta.type === 'denomination') {
+    return Array.isArray(reward.meta.denominationSparksValues)
+      && reward.meta.denominationSparksValues.length === reward.meta.denominations.length
+      && reward.meta.denominationSparksValues.every(
+        sparks => typeof sparks === 'number' && Number.isFinite(sparks) && sparks > 0,
+      );
+  }
+
+  return typeof reward.meta.minimumSparksValue === 'number'
+    && typeof reward.meta.maximumSparksValue === 'number'
+    && Number.isFinite(reward.meta.minimumSparksValue)
+    && Number.isFinite(reward.meta.maximumSparksValue)
+    && reward.meta.minimumSparksValue > 0
+    && reward.meta.maximumSparksValue > 0;
+}
+
+function getRewardDisplayRange(reward: InternalReward): CatalogReward['displayRange'] | null {
+  const feeRate = getRewardFeeRate(reward);
+  const costMultiplier = 1 + feeRate;
+
   if (reward.providerName === 'ccpayment') {
+    const minimumSparks = Math.round(reward.meta.minimumAmount * costMultiplier);
+    const maximumSparks = Math.round(reward.meta.maximumAmount * costMultiplier);
+
     return {
-      minimumFiat: reward.meta.minimumAmount / SPARKS_PER_USD,
-      maximumFiat: reward.meta.maximumAmount / SPARKS_PER_USD,
-      minimumSparks: reward.meta.minimumAmount,
-      maximumSparks: reward.meta.maximumAmount,
+      minimumFiat: minimumSparks / SPARKS_PER_USD,
+      maximumFiat: maximumSparks / SPARKS_PER_USD,
+      minimumSparks,
+      maximumSparks,
       currencyCode: 'USD',
     };
   }
 
-  const currencyCode = reward.meta.currencyCodes[0] ?? 'USD';
+  if (!hasTremendousFxPricing(reward)) return null;
+
+  const currencyCode = reward.meta.currencyCode ?? reward.meta.currencyCodes[0] ?? 'USD';
 
   if (reward.meta.type === 'denomination') {
-    const denoms = [ ...reward.meta.denominations ].sort((a, b) => a - b);
+    const denoms = reward.meta.denominations;
+    const sparksValues = reward.meta.denominationSparksValues;
     const minimumFiat = denoms[0] ?? 0;
     const maximumFiat = denoms[denoms.length - 1] ?? 0;
+    const minimumFaceSparks = sparksValues[0];
+    const maximumFaceSparks = sparksValues[sparksValues.length - 1];
 
     return {
       minimumFiat,
       maximumFiat,
-      minimumSparks: minimumFiat * SPARKS_PER_USD,
-      maximumSparks: maximumFiat * SPARKS_PER_USD,
+      minimumSparks: Math.round(minimumFaceSparks * costMultiplier),
+      maximumSparks: Math.round(maximumFaceSparks * costMultiplier),
       currencyCode,
     };
   }
 
-  const minimumFiat = reward.meta.minimumValue;
-  const maximumFiat = reward.meta.maximumValue;
-
   return {
-    minimumFiat,
-    maximumFiat,
-    minimumSparks: minimumFiat * SPARKS_PER_USD,
-    maximumSparks: maximumFiat * SPARKS_PER_USD,
+    minimumFiat: reward.meta.minimumValue,
+    maximumFiat: reward.meta.maximumValue,
+    minimumSparks: Math.round(reward.meta.minimumSparksValue * costMultiplier),
+    maximumSparks: Math.round(reward.meta.maximumSparksValue * costMultiplier),
     currencyCode,
   };
 }
 
-export function toCatalogReward(reward: InternalReward): CatalogReward {
+export function toCatalogReward(reward: InternalReward): CatalogReward | null {
   const image = getRewardImage(reward);
   const displayRange = getRewardDisplayRange(reward);
+  const feeRate = getRewardFeeRate(reward);
+
+  if (!displayRange) return null;
 
   if (reward.providerName === 'ccpayment') {
     return {
@@ -201,6 +370,7 @@ export function toCatalogReward(reward: InternalReward): CatalogReward {
       description: reward.description,
       disclosure: reward.disclosure,
       providerName: 'ccpayment',
+      feeRate,
       ...(image ? { image } : {}),
       displayRange,
       purchase: {
@@ -215,7 +385,37 @@ export function toCatalogReward(reward: InternalReward): CatalogReward {
     };
   }
 
-  const allowCustomAmount = reward.meta.type === 'variable';
+  const sparksPerUnit = getTremendousSparksPerUnit(reward);
+  const currencyCode = reward.meta.currencyCode ?? reward.meta.currencyCodes[0] ?? 'USD';
+
+  if (reward.meta.type === 'variable') {
+    const denominations = getGiftcardDenominations(reward);
+    const sparksValues = denominations.map(denom => getTremendousFaceSparks(reward, denom));
+
+    if (sparksValues.some(sparks => sparks === null)) return null;
+
+    return {
+      rewardID: reward.rewardID,
+      rewardName: reward.rewardName,
+      description: reward.description,
+      disclosure: reward.disclosure,
+      providerName: 'tremendous',
+      feeRate,
+      ...(image ? { image } : {}),
+      displayRange,
+      purchase: {
+        valueUnit: 'fiat',
+        denominations,
+        allowCustomAmount: true,
+        minimumValue: reward.meta.minimumValue,
+        maximumValue: reward.meta.maximumValue,
+        sparksPerUnit,
+        sparksValues: sparksValues as number[],
+        currencyCode,
+        requiresWalletAddress: false,
+      },
+    };
+  }
 
   return {
     rewardID: reward.rewardID,
@@ -223,27 +423,25 @@ export function toCatalogReward(reward: InternalReward): CatalogReward {
     description: reward.description,
     disclosure: reward.disclosure,
     providerName: 'tremendous',
+    feeRate,
     ...(image ? { image } : {}),
     displayRange,
     purchase: {
       valueUnit: 'fiat',
       denominations: getGiftcardDenominations(reward),
-      allowCustomAmount,
-      ...(allowCustomAmount
-        ? {
-          minimumValue: reward.meta.minimumValue,
-          maximumValue: reward.meta.maximumValue,
-        }
-        : {}),
-      sparksPerUnit: SPARKS_PER_USD,
-      currencyCode: reward.meta.currencyCodes[0] ?? 'USD',
+      allowCustomAmount: false,
+      sparksPerUnit,
+      sparksValues: [ ...reward.meta.denominationSparksValues ],
+      currencyCode,
       requiresWalletAddress: false,
     },
   };
 }
 
 export function toCatalogRewards(rewards: InternalReward[]): CatalogReward[] {
-  return rewards.map(toCatalogReward);
+  return rewards
+    .map(toCatalogReward)
+    .filter((reward): reward is CatalogReward => reward !== null);
 }
 
 type ProcessConvertedWorkersRewardsResult = {
@@ -253,6 +451,7 @@ type ProcessConvertedWorkersRewardsResult = {
 };
 
 type FetchRewardsByCategoryOptions = {
+  country?: string,
   skip?: number,
   limit?: number,
 };
@@ -275,9 +474,31 @@ export async function getRewardByID(rewardID: string): Promise<FunctionResponse<
   }
 }
 
+function buildCountryMatch(country: string | undefined): Document {
+  if (!country) {
+    return {
+      $or: [
+        { countries: { $exists: false } },
+        { countries: { $size: 0 } },
+        { countries: '*' },
+      ],
+    };
+  }
+
+  return {
+    $or: [
+      { countries: { $exists: false } },
+      { countries: { $size: 0 } },
+      { countries: '*' },
+      { countries: country },
+    ],
+  };
+}
+
 export async function fetchRewardsByCategory(
   categoryID: string,
   {
+    country,
     skip = 0,
     limit,
   }: FetchRewardsByCategoryOptions = {},
@@ -289,6 +510,7 @@ export async function fetchRewardsByCategory(
         status: 'active',
         categories: categoryID,
         disabledAt: { $exists: false },
+        ...buildCountryMatch(country),
       },
     },
     {
@@ -297,9 +519,13 @@ export async function fetchRewardsByCategory(
       },
     },
     {
+      // `_id` breaks ties on sortPriority/rewardName so skip/limit pagination
+      // returns a stable order across requests — without it, Mongo can reorder
+      // tied documents between pages and cause duplicate or skipped rewards.
       $sort: {
         sortPriority: 1,
         rewardName: 1,
+        _id: 1,
       },
     },
   ];
@@ -326,12 +552,14 @@ export async function fetchRewardsByCategory(
 export async function fetchFeaturedRewardsByCategory(
   categoryID: string,
   {
+    country,
     limit = FEATURED_REWARDS_LIMIT,
   }: {
+    country?: string,
     limit?: number,
   } = {},
 ): Promise<InternalReward[]> {
-  return fetchRewardsByCategory(categoryID, { skip: 0, limit });
+  return fetchRewardsByCategory(categoryID, { country, skip: 0, limit });
 }
 
 export async function processConvertedWorkersRewards(
@@ -358,16 +586,20 @@ export async function processConvertedWorkersRewards(
       $set['image'] = reward.image;
     }
 
+    if (reward.categories !== undefined) {
+      $set['categories'] = reward.categories;
+    }
+
+    if (reward.feeRate !== undefined) {
+      $set['feeRate'] = reward.feeRate;
+    }
+
     const $setOnInsert = {
       rewardID: reward.rewardID,
       providerName: reward.providerName,
       status: reward.status,
       createdAt: now,
     };
-
-    if (reward.categories !== undefined) {
-      $setOnInsert['categories'] = reward.categories;
-    }
 
     return {
       updateOne: {

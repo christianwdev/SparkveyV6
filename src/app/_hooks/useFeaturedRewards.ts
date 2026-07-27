@@ -24,5 +24,8 @@ export function useFeaturedRewards(
       return featured;
     },
     initialData: initialData ?? undefined,
+
+    // Keep the redeem page mounted — render empty / load-error UI instead of error.tsx.
+    throwOnError: false,
   });
 }

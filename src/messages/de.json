@@ -378,6 +378,8 @@
       "showMore": "Mehr anzeigen",
       "amountInSparks": "Betrag in Sparks",
       "claimFor": "Einloesen fuer",
+      "fee": "Gebuehr ({percent}%)",
+      "feeIncluded": "Im Gesamtbetrag enthalten",
       "close": "Schließen"
     },
     "crypto": {

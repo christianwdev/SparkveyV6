@@ -18,8 +18,10 @@ type CatalogRewardPurchase = {
   allowCustomAmount: boolean,
   minimumValue?: number,
   maximumValue?: number,
-  /** Multiply selected value by this to get Sparks for display. */
+  /** Multiply selected face value by this to get base Sparks (before fee). */
   sparksPerUnit: number,
+  /** Parallel to denominations — base Sparks per face denom (before fee). */
+  sparksValues?: number[],
   currencyCode?: string,
   requiresWalletAddress: boolean,
 };
@@ -30,6 +32,8 @@ type CatalogReward = {
   description: string,
   disclosure: string,
   providerName: 'tremendous' | 'ccpayment',
+  /** 0–1 fraction of payout charged as fee (already resolved for display). */
+  feeRate: number,
   image?: CatalogRewardImage,
   displayRange: CatalogRewardDisplayRange,
   purchase: CatalogRewardPurchase,

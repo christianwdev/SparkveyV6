@@ -5,10 +5,12 @@ import { useLocale, useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 
 // Components
+import CurrencyAmount from '@components/CurrencyAmount/CurrencyAmount';
 import DenominationDropdown from '@components/DenominationDropdown/DenominationDropdown';
 import LockScrollMount from '@hooks/LockScrollMount';
 
 // Utils
+import { getFaceSparksCost, getFeeAmount, getPurchaseSparksCost } from '@utils/rewardFees';
 import { purchaseReward } from '@utils/rewards';
 
 // Types
@@ -43,7 +45,17 @@ export default function GiftcardPurchaseModal(
   const [ showMoreActivationDetails, setShowMoreActivationDetails ] = useState<boolean | 'disabled'>('disabled');
   const [ hasInformationOverflow, setHasInformationOverflow ] = useState(false);
   const [ isInformationAtBottom, setIsInformationAtBottom ] = useState(true);
-  const { image, purchase } = reward;
+  const { image, purchase, feeRate } = reward;
+  const displaySparksPerUnit = purchase.sparksPerUnit * (1 + feeRate);
+  const denominationSparksValues = purchase.denominations.map(denom => (
+    getPurchaseSparksCost({
+      value: denom,
+      feeRate,
+      sparksPerUnit: purchase.sparksPerUnit,
+      sparksValues: purchase.sparksValues,
+      denominations: purchase.denominations,
+    })
+  ));
 
   const updateInformationOverflowState = useCallback(() => {
     const wrapper = informationWrapperRef.current;
@@ -99,14 +111,39 @@ export default function GiftcardPurchaseModal(
     };
   }, [ updateInformationOverflowState ]);
 
+  const feeAmount = selected === undefined || feeRate <= 0
+    ? 0
+    : getFeeAmount({ value: selected, feeRate });
+
   const sparksForSelected = selected === undefined
     ? 0
-    : Math.round(selected * purchase.sparksPerUnit);
+    : getPurchaseSparksCost({
+      value: selected,
+      feeRate,
+      sparksPerUnit: purchase.sparksPerUnit,
+      sparksValues: purchase.sparksValues,
+      denominations: purchase.denominations,
+    });
+
+  const faceSparksForSelected = selected === undefined
+    ? 0
+    : getFaceSparksCost({
+      value: selected,
+      sparksPerUnit: purchase.sparksPerUnit,
+      sparksValues: purchase.sparksValues,
+      denominations: purchase.denominations,
+    });
+
+  const feeSparks = sparksForSelected - faceSparksForSelected;
 
   const formattedPrice = sparksForSelected.toLocaleString(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
+
+  const feePercentLabel = Number.isInteger(feeRate * 100)
+    ? String(feeRate * 100)
+    : (feeRate * 100).toFixed(2).replace(/\.?0+$/, '');
 
   async function handleRedeem() {
     if (redeeming) return;
@@ -238,10 +275,32 @@ export default function GiftcardPurchaseModal(
             // eslint-disable-next-line @next/next/no-img-element
             <img src="/img/logo.svg" alt="" width={10} height={14} aria-hidden />
           )}
-          sparksPerUnit={purchase.sparksPerUnit}
+          sparksPerUnit={displaySparksPerUnit}
+          sparksValues={denominationSparksValues}
           currencyCode={purchase.currencyCode}
           onChange={setSelected}
         />
+
+        {feeRate > 0 && selected !== undefined && (
+          <div className={styles.feeRow}>
+            <span>
+              {t('common.fee', { percent: feePercentLabel })}
+              {' · '}
+              {t('common.feeIncluded')}
+            </span>
+            <span className={styles.feeAmount}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/img/logo.svg" alt="" width={10} height={14} aria-hidden />
+              {feeSparks.toLocaleString(locale, {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
+              <span className={styles.feeFiatSuffix}>
+                {' '}(<CurrencyAmount amount={feeAmount} currencyCode={purchase.currencyCode ?? 'USD'} />)
+              </span>
+            </span>
+          </div>
+        )}
 
         <button
           type="button"

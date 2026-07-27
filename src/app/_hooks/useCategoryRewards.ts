@@ -11,6 +11,7 @@ import { queryKeys } from './queryKeys';
 
 type UseCategoryRewardsParams = {
   categoryID: RedeemCategoryID,
+
   /** Omit when SSR fetch failed so the client can refetch without seeding an empty page. */
   initialPage?: CategoryRewardsResponse,
 };
@@ -39,11 +40,12 @@ export function useCategoryRewards(
       return page;
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      if (!lastPage.hasMore) return undefined;
 
-      return allPages.reduce((total, page) => total + page.rewards.length, 0);
-    },
+    // `nextSkip` reflects raw documents consumed server-side — do not derive it
+    // from `rewards.length`, since toCatalogRewards can drop entries and that
+    // would under-count skip and re-serve already-seen rewards.
+    getNextPageParam: lastPage => (lastPage.hasMore ? lastPage.nextSkip : undefined),
     initialData,
+    throwOnError: false,
   });
 }

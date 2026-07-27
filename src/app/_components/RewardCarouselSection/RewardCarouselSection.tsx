@@ -7,6 +7,9 @@ import { Link } from '@i18n/navigation';
 // Components
 import RewardItem from '@components/RewardItem/RewardItem';
 
+// Utils
+import { getCatalogRewardKey } from '@utils/rewards';
+
 // Types
 import type CatalogReward from 'types/Reward/CatalogReward';
 import type RedeemCategoryID from 'types/Reward/RedeemCategoryID';
@@ -138,7 +141,7 @@ export default function RewardCarouselSection(
             <RewardItem key={index} loading />
           ))
           : rewards.map(reward => (
-            <RewardItem key={reward.rewardID} loading={false} reward={reward} />
+            <RewardItem key={getCatalogRewardKey(reward)} loading={false} reward={reward} />
           ))}
       </div>
     </section>

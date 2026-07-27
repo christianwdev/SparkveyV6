@@ -13,6 +13,12 @@ type CategoryRewardsResponse = {
   rewards: CatalogReward[],
   /** True when another page is available after this response's rewards. */
   hasMore: boolean,
+  /**
+   * Raw-document skip for the next page. Not simply `rewards.length` —
+   * `toCatalogRewards` can drop entries (e.g. missing FX pricing), so the
+   * client must not derive skip from the filtered catalog array length.
+   */
+  nextSkip?: number,
 };
 
 export type {

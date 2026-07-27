@@ -20,17 +20,20 @@ export default function RedeemPageClient(
   }: RedeemPageClientProps,
 ) {
   const t = useTranslations('RedeemPage');
-  const { data, isLoading, isError } = useFeaturedRewards({
+  const { data, isLoading, isError, isFetching } = useFeaturedRewards({
     initialData: initialFeatured,
   });
 
-  const loading = isLoading && !data;
+  const loading = (isLoading || isFetching) && !data;
+  const hasAnyRewards = REDEEM_CATEGORY_IDS.some(
+    categoryID => (data?.[categoryID]?.rewards?.length ?? 0) > 0,
+  );
 
-  if (isError && !data) {
+  if (!loading && (isError || !data || !hasAnyRewards)) {
     return (
       <div className={styles.sections}>
-        <div className={styles.loadError}>
-          <p>{t('loadError')}</p>
+        <div className={styles.emptyState}>
+          <p>{isError || !data ? t('loadError') : t('empty')}</p>
         </div>
       </div>
     );

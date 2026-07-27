@@ -18,6 +18,7 @@ const PREDEFINED_CRYPTOS: PredefinedCrypto[] = [
     disclosure: '',
     countries: [],
     categories: [ 'crypto' ],
+    feeRate: 0,
     providerName: 'ccpayment',
     meta: {
       currencyCode: 'SOL',
@@ -40,6 +41,7 @@ const PREDEFINED_CRYPTOS: PredefinedCrypto[] = [
     disclosure: '',
     countries: [],
     categories: [ 'crypto' ],
+    feeRate: 0,
     providerName: 'ccpayment',
     meta: {
       currencyCode: 'LTC',

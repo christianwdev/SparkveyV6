@@ -378,6 +378,8 @@
       "showMore": "더 보기",
       "amountInSparks": "스파크 금액",
       "claimFor": "에 대한 청구",
+      "fee": "수수료 ({percent}%)",
+      "feeIncluded": "총액에 포함됨",
       "close": "닫기"
     },
     "crypto": {

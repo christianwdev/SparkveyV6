@@ -378,6 +378,8 @@
       "showMore": "もっと見る",
       "amountInSparks": "Sparks数",
       "claimFor": "以下で交換",
+      "fee": "手数料（{percent}%）",
+      "feeIncluded": "合計に含まれます",
       "close": "閉じる"
     },
     "crypto": {

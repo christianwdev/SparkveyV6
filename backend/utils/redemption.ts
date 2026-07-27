@@ -8,7 +8,7 @@ import SocketEmits from '../constants/SocketEmits';
 import { checkCCPAddressValidity } from './ccpayment';
 import { getGlobalObject } from './globalObject';
 import { createUserNotification } from './notifications';
-import { SPARKS_PER_USD } from './rewards';
+import { getRedemptionUsdValue, getRewardFeeAmount, getRewardFeeRate } from './rewards';
 import { createTremendousOrder } from './tremendous';
 import { getRawUser, updateUserBalance } from './user';
 
@@ -89,16 +89,26 @@ async function buildRedemption({
         return { ok: false, error: 'invalidWalletAddress' };
       }
 
+      const feeRate = getRewardFeeRate(reward);
+      const requestFeeAmount = getRewardFeeAmount({ value, feeRate });
+      const usdValue = getRedemptionUsdValue(reward, value);
+
+      if (usdValue === null) {
+        return { ok: false, error: 'internalServerError' };
+      }
+
       const redemption: RequestedCCPaymentInternalRedemption = {
         ...base,
         providerName: 'ccpayment',
         value,
-        usdValue: value / SPARKS_PER_USD,
+        usdValue,
         meta: {
           walletAddress: trimmedAddress,
           currencySymbol: reward.meta.currencySymbol,
           currencyNetwork: reward.meta.currencyNetwork,
           currencyRate: 1,
+          requestRewardAmount: value,
+          requestFeeAmount,
         },
       };
 
@@ -106,23 +116,37 @@ async function buildRedemption({
     }
     case 'tremendous':
       {
-      const resolvedCurrencyCode = typeof currencyCode === 'string' && currencyCode.length > 0
-        ? currencyCode
-        : 'USD';
+      const primaryCurrencyCode = reward.meta.currencyCode
+        ?? reward.meta.currencyCodes[0]
+        ?? 'USD';
 
-      if (!reward.meta.currencyCodes.includes(resolvedCurrencyCode)) {
+      // Pricing is baked for the primary currency only — ignore client overrides.
+      if (
+        typeof currencyCode === 'string'
+        && currencyCode.length > 0
+        && currencyCode.toUpperCase() !== primaryCurrencyCode.toUpperCase()
+      ) {
         return { ok: false, error: 'invalidCurrencyCode' };
+      }
+
+      const feeRate = getRewardFeeRate(reward);
+      const requestFeeAmount = getRewardFeeAmount({ value, feeRate });
+      const usdValue = getRedemptionUsdValue(reward, value);
+
+      if (usdValue === null) {
+        return { ok: false, error: 'internalServerError' };
       }
 
       const redemption: RequestedTremendousInternalRedemption = {
         ...base,
         providerName: 'tremendous',
         value,
-        usdValue: value,
+        usdValue,
         meta: {
-          requestCurrencyCode: resolvedCurrencyCode,
+          requestCurrencyCode: primaryCurrencyCode,
           requestRewardAmount: value,
-          requestUsdValue: value,
+          requestFeeAmount,
+          requestUsdValue: usdValue,
         },
       };
 

@@ -10,7 +10,7 @@ import {
   REDEEM_CATEGORY_META,
   toCatalogRewards,
 } from 'backend/utils/rewards';
-import { normalizeQuery, withRouteErrorHandling } from 'backend/utils/request';
+import { getCountryFromRequest, normalizeQuery, withRouteErrorHandling } from 'backend/utils/request';
 import { sendResponse } from 'backend/utils/response';
 
 // Types
@@ -22,9 +22,11 @@ const app = new Hono();
 
 export default function routeInvoker() {
   app.get('/featured', withRouteErrorHandling, async (c) => {
+    const country = getCountryFromRequest(c);
+
     const categoriesWithTopRewards = await Promise.all(
       REDEEM_CATEGORY_IDS.map(async (categoryID) => {
-        const topRewards = await fetchFeaturedRewardsByCategory(categoryID);
+        const topRewards = await fetchFeaturedRewardsByCategory(categoryID, { country });
 
         return {
           ...REDEEM_CATEGORY_META[categoryID],
@@ -48,6 +50,7 @@ export default function routeInvoker() {
     }
 
     const category = REDEEM_CATEGORY_META[categoryID];
+    const country = getCountryFromRequest(c);
     const { skip: skipQuery } = normalizeQuery(c.req.query());
     const skip = Number(skipQuery ?? '0');
 
@@ -57,16 +60,21 @@ export default function routeInvoker() {
 
     // Fetch one extra to determine hasMore without exposing page size to clients.
     const page = await fetchRewardsByCategory(categoryID, {
+      country,
       skip,
       limit: CATEGORY_REWARDS_PAGE_SIZE + 1,
     });
     const hasMore = page.length > CATEGORY_REWARDS_PAGE_SIZE;
-    const rewards = hasMore ? page.slice(0, CATEGORY_REWARDS_PAGE_SIZE) : page;
+    const consumedRewards = hasMore ? page.slice(0, CATEGORY_REWARDS_PAGE_SIZE) : page;
 
+    // Advance by the raw documents consumed, not `rewards.length` below —
+    // toCatalogRewards can drop entries, which would otherwise under-count
+    // skip and cause the next page to re-serve already-seen rewards.
     const data: CategoryRewardsResponse = {
       ...category,
-      rewards: toCatalogRewards(rewards),
+      rewards: toCatalogRewards(consumedRewards),
       hasMore,
+      ...(hasMore ? { nextSkip: skip + consumedRewards.length } : {}),
     };
 
     return sendResponse({
