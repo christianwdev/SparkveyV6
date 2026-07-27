@@ -238,6 +238,10 @@ export async function handlePurchase({
       await session.abortTransaction();
     }
 
+    if (error instanceof Error && error.message === 'insufficientBalance') {
+      return { ok: false, error: 'insufficientBalance' };
+    }
+
     console.error(error);
 
     return { ok: false, error: 'internalServerError' };

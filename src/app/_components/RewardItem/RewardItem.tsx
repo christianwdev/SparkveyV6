@@ -78,7 +78,6 @@ function RewardItemLoaded(
     >
       <div className={styles.imageContainer}>
         {image && (
-          // Provider CDNs vary; avoid opening next/image to arbitrary hosts.
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={image.src}

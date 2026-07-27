@@ -398,6 +398,7 @@
       "sessionVerificationFailed": "Deine Sitzung konnte nicht verifiziert werden. Falls du einen Ad-Blocker aktiviert hast, deaktiviere ihn bitte, um fortzufahren.",
       "sessionTryAgain": "Deine Sitzung konnte nicht verifiziert werden. Bitte versuche es erneut.",
       "failedToRedeemItem": "Artikel konnte nicht eingeloest werden.",
+      "insufficientBalance": "Du hast nicht genuegend Sparks, um diesen Artikel einzuloesen.",
       "networkError": "Netzwerkfehler bei der Verarbeitung der Einloesung"
     },
     "success": {

@@ -398,6 +398,7 @@
       "sessionVerificationFailed": "Non riusciamo a verificare la tua sessione; se hai un ad blocker attivo, disattivalo per continuare.",
       "sessionTryAgain": "Impossibile verificare la tua sessione. Riprova.",
       "failedToRedeemItem": "Impossibile riscattare l'articolo.",
+      "insufficientBalance": "Non hai abbastanza Sparks per riscattare questo articolo.",
       "networkError": "Errore di rete durante l'elaborazione del riscatto"
     },
     "success": {

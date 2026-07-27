@@ -398,6 +398,7 @@
       "sessionVerificationFailed": "No podemos verificar tu sesion. Si tienes un bloqueador de anuncios activado, desactivalo para continuar.",
       "sessionTryAgain": "No se ha podido verificar tu sesion. Intentalo de nuevo.",
       "failedToRedeemItem": "No se ha podido canjear el articulo.",
+      "insufficientBalance": "No tienes suficientes Sparks para canjear este articulo.",
       "networkError": "Error de red al procesar el canje"
     },
     "success": {

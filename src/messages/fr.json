@@ -398,6 +398,7 @@
       "sessionVerificationFailed": "Nous ne pouvons pas vérifier votre session. Si un bloqueur de publicités est activé, veuillez le désactiver pour continuer.",
       "sessionTryAgain": "Impossible de vérifier votre session. Veuillez réessayer.",
       "failedToRedeemItem": "Échec de l'échange de l'article.",
+      "insufficientBalance": "Vous n'avez pas assez de Sparks pour échanger cet article.",
       "networkError": "Erreur réseau lors du traitement de l'échange"
     },
     "success": {

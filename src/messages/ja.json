@@ -398,6 +398,7 @@
       "sessionVerificationFailed": "セッションを確認できません。広告ブロッカーが有効な場合は無効にしてから続行してください。",
       "sessionTryAgain": "セッションを確認できませんでした。もう一度お試しください。",
       "failedToRedeemItem": "アイテムの交換に失敗しました。",
+      "insufficientBalance": "このアイテムと交換するのに十分なSparksがありません。",
       "networkError": "交換処理中にネットワークエラーが発生しました"
     },
     "success": {

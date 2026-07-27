@@ -398,6 +398,7 @@
       "sessionVerificationFailed": "Não conseguimos verificar sua sessão. Se você estiver com um bloqueador de anúncios ativado, desative-o para continuar.",
       "sessionTryAgain": "Não foi possível verificar sua sessão. Tente novamente.",
       "failedToRedeemItem": "Falha ao resgatar item.",
+      "insufficientBalance": "Você não tem Sparks suficientes para resgatar este item.",
       "networkError": "Erro de rede ao processar o resgate"
     },
     "success": {

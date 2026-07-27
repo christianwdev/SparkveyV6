@@ -398,6 +398,7 @@
       "sessionVerificationFailed": "We are unable to verify your session, if you have an ad blocker enabled, please disable it to continue.",
       "sessionTryAgain": "Unable to verify your session. Please try again.",
       "failedToRedeemItem": "Failed to redeem item.",
+      "insufficientBalance": "You don't have enough Sparks to redeem this item.",
       "networkError": "Network error while processing redemption"
     },
     "success": {

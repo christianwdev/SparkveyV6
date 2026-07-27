@@ -87,6 +87,14 @@ export async function getCategoryRewards(
   }
 }
 
+/** Maps a purchaseReward error string to its `PurchaseModals.errors.*` i18n key. */
+export function getPurchaseErrorMessageKey(error: string): string {
+  if (error === 'networkError') return 'errors.networkError';
+  if (error === 'insufficientBalance') return 'errors.insufficientBalance';
+
+  return 'errors.failedToRedeemItem';
+}
+
 export type PurchaseRewardResult =
   | { ok: true, data: PurchaseRedemptionResponse }
   | { ok: false, error: string };

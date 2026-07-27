@@ -11,7 +11,7 @@ import LockScrollMount from '@hooks/LockScrollMount';
 
 // Utils
 import { getFaceSparksCost, getFeeAmount, getPurchaseSparksCost } from '@utils/rewardFees';
-import { purchaseReward } from '@utils/rewards';
+import { getPurchaseErrorMessageKey, purchaseReward } from '@utils/rewards';
 
 // Types
 import type CatalogReward from 'types/Reward/CatalogReward';
@@ -164,11 +164,7 @@ export default function GiftcardPurchaseModal(
       });
 
       if (!result.ok) {
-        toast.error(
-          result.error === 'networkError'
-            ? t('errors.networkError')
-            : t('errors.failedToRedeemItem'),
-        );
+        toast.error(t(getPurchaseErrorMessageKey(result.error)));
 
         return;
       }

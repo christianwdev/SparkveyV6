@@ -398,6 +398,7 @@
       "sessionVerificationFailed": "Nie mozemy zweryfikowac Twojej sesji. Jesli masz wlaczony adblock, wylacz go, aby kontynuowac.",
       "sessionTryAgain": "Nie udalo sie zweryfikowac sesji. Sprobuj ponownie.",
       "failedToRedeemItem": "Nie udalo sie zrealizowac nagrody.",
+      "insufficientBalance": "Nie masz wystarczajaco duzo Sparkow, aby zrealizowac ten przedmiot.",
       "networkError": "Blad sieci podczas przetwarzania realizacji"
     },
     "success": {
