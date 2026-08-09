@@ -461,7 +461,6 @@
     }
   },
   "UserDropdown": {
-    "profile": "Profil",
     "earnings": "Zarobki",
     "redemptions": "Wypłaty",
     "settings": "Ustawienia",
@@ -538,6 +537,9 @@
   "OfferItem": {
     "earn": "Zarabiaj",
     "upTo": "do",
+    "sparksAlt": "Sparks"
+  },
+  "SparksAmount": {
     "sparksAlt": "Sparks"
   },
   "SurveyItem": {

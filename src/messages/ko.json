@@ -461,7 +461,6 @@
     }
   },
   "UserDropdown": {
-    "profile": "프로필",
     "earnings": "수익",
     "redemptions": "환전",
     "settings": "설정",
@@ -538,6 +537,9 @@
   "OfferItem": {
     "earn": "적립",
     "upTo": "최대",
+    "sparksAlt": "스파크"
+  },
+  "SparksAmount": {
     "sparksAlt": "스파크"
   },
   "SurveyItem": {

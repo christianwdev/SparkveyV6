@@ -1,0 +1,30 @@
+@use '@styles/variables.scss' as *;
+
+.sparksAmount {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+
+  > .label {
+    color: $text-light;
+    font-weight: 500;
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  > .amount {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: $primary;
+    font-weight: 600;
+    flex-shrink: 0;
+
+    > .sparkIcon {
+      flex-shrink: 0;
+    }
+  }
+}

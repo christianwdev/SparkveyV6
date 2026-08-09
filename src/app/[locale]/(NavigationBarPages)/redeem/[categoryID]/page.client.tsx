@@ -16,26 +16,11 @@ import { getCatalogRewardKey } from '@utils/rewards';
 
 // Types
 import type CategoryRewardsResponse from 'types/API/Redemption/CategoryRewards';
-import type CatalogReward from 'types/Reward/CatalogReward';
 import type RedeemCategoryID from 'types/Reward/RedeemCategoryID';
 
 import styles from './page.module.scss';
 
 const INFINITE_SCROLL_CAP = 100;
-
-/** Safety net for overlapping infinite-scroll pages — real fix is stable server-side sort. */
-function dedupeRewards(rewards: CatalogReward[]): CatalogReward[] {
-  const seen = new Set<string>();
-
-  return rewards.filter(reward => {
-    const key = getCatalogRewardKey(reward);
-    if (seen.has(key)) return false;
-
-    seen.add(key);
-
-    return true;
-  });
-}
 
 type RedeemCategoryPageClientProps = {
   categoryID: RedeemCategoryID,
@@ -63,7 +48,7 @@ function RedeemCategoryContent(
     initialPage,
   });
 
-  const rewards = dedupeRewards(data?.pages.flatMap(page => page.rewards) ?? initialPage?.rewards ?? []);
+  const rewards = data?.pages.flatMap(page => page.rewards) ?? initialPage?.rewards ?? [];
   const capped = rewards.length >= INFINITE_SCROLL_CAP;
   const canAutoFetch = hasNextPage && !capped && !isFetchingNextPage;
 
@@ -90,7 +75,7 @@ function RedeemCategoryContent(
 
       {isLoading && rewards.length === 0 ? (
         <div className={styles.rewardsGrid} aria-hidden>
-          {Array.from({ length: 12 }, (_, index) => (
+          {Array.from({ length: 20 }, (_, index) => (
             <RewardItem key={index} loading />
           ))}
         </div>
@@ -134,7 +119,7 @@ function RedeemCategoryFallback() {
   return (
     <div className={styles.categoryContent}>
       <div className={styles.rewardsGrid} aria-hidden>
-        {Array.from({ length: 12 }, (_, index) => (
+        {Array.from({ length: 20 }, (_, index) => (
           <RewardItem key={index} loading />
         ))}
       </div>

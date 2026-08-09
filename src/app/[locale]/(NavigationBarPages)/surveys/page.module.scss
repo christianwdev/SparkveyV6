@@ -49,15 +49,6 @@
     }
   }
 
-  > .statusMessage {
-    margin: 0;
-    padding: 32px 0;
-    color: $text-light;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
   @media screen and (max-width: $large-phone) {
     padding: 24px 16px 48px;
 

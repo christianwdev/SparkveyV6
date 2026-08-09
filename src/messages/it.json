@@ -461,7 +461,6 @@
     }
   },
   "UserDropdown": {
-    "profile": "Profilo",
     "earnings": "Guadagni",
     "redemptions": "Riscatti",
     "settings": "Impostazioni",
@@ -538,6 +537,9 @@
   "OfferItem": {
     "earn": "Guadagna",
     "upTo": "fino a",
+    "sparksAlt": "Sparks"
+  },
+  "SparksAmount": {
     "sparksAlt": "Sparks"
   },
   "SurveyItem": {

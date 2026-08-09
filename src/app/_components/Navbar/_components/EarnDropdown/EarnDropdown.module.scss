@@ -1,108 +1,87 @@
 @use '@styles/variables.scss' as *;
 
-.earnDropdown {
-  position: relative;
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: $text-light;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  transition: color 0.15s ease;
 
-  > .trigger {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: $text-light;
-    font-size: inherit;
-    font-weight: inherit;
-    cursor: pointer;
+  > .triggerIcon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
     transition: color 0.15s ease;
+  }
+
+  > .chevron {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  > .chevronOpen {
+    transform: rotate(180deg);
+  }
+
+  &:hover,
+  &.triggerActive {
+    color: $text-bold;
 
     > .triggerIcon {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-      transition: color 0.15s ease;
-    }
-
-    > .chevron {
-      width: 16px;
-      height: 16px;
-      transition: transform 0.15s ease, color 0.15s ease;
-    }
-
-    > .chevronOpen {
-      transform: rotate(180deg);
-    }
-
-    &:hover,
-    &.triggerActive {
-      color: $text-bold;
-
-      > .triggerIcon {
-        color: $primary;
-      }
-    }
-
-    &:focus-visible {
-      outline: 2px solid $primary;
-      outline-offset: 4px;
-      border-radius: 4px;
+      color: $primary;
     }
   }
 
-  > .menuPosition {
-    z-index: 110;
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+}
 
-    > .menu {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 180px;
-      padding: 6px;
-      border: 1px solid $border-light;
-      border-radius: 12px;
-      background: $off-white;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: $text-bold;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
 
-      > .menuItem {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
-        padding: 10px 12px;
-        border: none;
-        border-radius: 8px;
-        background: transparent;
-        color: $text-bold;
-        font-size: 14px;
-        font-weight: 500;
-        text-align: left;
-        text-decoration: none;
-        cursor: pointer;
-        transition: background-color 0.15s ease, color 0.15s ease;
+  > .itemIcon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: $primary;
+    transition: color 0.15s ease;
+  }
 
-        > .itemIcon {
-          display: block;
-          width: 18px;
-          height: 18px;
-          flex-shrink: 0;
-          transition: color 0.15s ease;
-        }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: $text-bold;
+  }
 
-        &:hover,
-        &.menuItemActive {
-          background-color: rgba(0, 0, 0, 0.04);
+  &.menuItemActive {
+    background-color: rgba(158, 56, 208, 0.08);
+    color: $primary;
+  }
 
-          > .itemIcon {
-            color: $primary;
-          }
-        }
-
-        &:focus-visible {
-          outline: 2px solid $primary;
-          outline-offset: 1px;
-        }
-      }
-    }
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 1px;
   }
 }

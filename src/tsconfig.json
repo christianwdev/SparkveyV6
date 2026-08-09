@@ -19,6 +19,7 @@
     "types": [ "bun", "node" ],
     "paths": {
       "*": [ "./*" ],
+      "~icons/*": [ "./icons/*" ],
       "@utils/*": [ "./utils/*" ],
       "@hooks/*": [ "./app/_hooks/*" ],
       "@contexts/*": [ "./app/_contexts/*" ],
@@ -47,7 +48,8 @@
   "include": [
     "jsx.declarations.d.ts",
     "svg.d.ts",
-    "unplugin-icons.d.ts",
+    "icons.d.ts",
+    "icons/**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",

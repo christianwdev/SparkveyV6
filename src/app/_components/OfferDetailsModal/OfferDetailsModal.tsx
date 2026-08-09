@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 // Components
 import Skeleton from '@components/Skeleton/Skeleton';
-import LockScrollMount from '@hooks/LockScrollMount';
+import ModalShell from '@components/ModalShell/ModalShell';
 
 // Contexts
 import { useUser } from '@contexts/UserProvider';
@@ -27,7 +27,6 @@ import type SanitizedOffer from 'types/Offer/SanitizedOffer';
 import type OfferCompletionStep from 'types/Offer/OfferCompletionStep';
 
 // Icons
-import CloseIcon from '~icons/mdi/close.jsx';
 import AppleIcon from '~icons/mdi/apple.jsx';
 import AndroidIcon from '~icons/mdi/android.jsx';
 import WindowsIcon from '~icons/mdi/microsoft-windows.jsx';
@@ -55,8 +54,6 @@ export default function OfferDetailsModal(
   const [ showStickyStart, setShowStickyStart ] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const startButtonRef = useRef<HTMLAnchorElement>(null);
-
-  LockScrollMount();
 
   useEffect(() => {
     let cancelled = false;
@@ -208,236 +205,225 @@ export default function OfferDetailsModal(
   }
 
   return (
-    <div className={styles.modal} onClick={onClose}>
-      <div
-        className={styles.contentWrapper}
-        onClick={e => e.stopPropagation()}
-      >
-        <button
-          type="button"
-          onClick={onClose}
-          className={styles.closeButton}
-          aria-label={t('close')}
-        >
-          <CloseIcon aria-hidden />
-        </button>
-
-        {loading && (
-          <div className={styles.loadingState} aria-busy="true" aria-live="polite">
-            <div className={styles.loadingHeader}>
-              <Skeleton width={100} height={100} borderRadius={8} />
-              <div className={styles.loadingCopy}>
-                <Skeleton width="85%" height={22} />
-                <Skeleton width="55%" height={16} />
-                <div className={styles.loadingTags}>
-                  <Skeleton width={72} height={26} borderRadius={2525} />
-                  <Skeleton width={64} height={26} borderRadius={2525} />
-                </div>
+    <ModalShell
+      onClose={onClose}
+      closeLabel={t('close')}
+    >
+      {loading && (
+        <div className={styles.loadingState} aria-busy="true" aria-live="polite">
+          <div className={styles.loadingHeader}>
+            <Skeleton width={100} height={100} borderRadius={8} />
+            <div className={styles.loadingCopy}>
+              <Skeleton width="85%" height={22} />
+              <Skeleton width="55%" height={16} />
+              <div className={styles.loadingTags}>
+                <Skeleton width={72} height={26} borderRadius={2525} />
+                <Skeleton width={64} height={26} borderRadius={2525} />
               </div>
             </div>
-
-            <Skeleton width="100%" height={45} borderRadius={3} />
-
-            <div className={styles.loadingDivider} />
-
-            <div className={styles.loadingSections}>
-              <Skeleton width="40%" height={18} />
-              <Skeleton width="100%" height={72} borderRadius={8} />
-              <Skeleton width="45%" height={18} />
-              <Skeleton width="100%" height={96} borderRadius={8} />
-            </div>
           </div>
-        )}
 
-        {!loading && loadFailed && (
-          <div className={styles.errorState}>
-            <h2>{t('sections.offerDetails')}</h2>
-            <p>{t('loadError')}</p>
+          <Skeleton width="100%" height={45} borderRadius={3} />
+
+          <div className={styles.loadingDivider} />
+
+          <div className={styles.loadingSections}>
+            <Skeleton width="40%" height={18} />
+            <Skeleton width="100%" height={72} borderRadius={8} />
+            <Skeleton width="45%" height={18} />
+            <Skeleton width="100%" height={96} borderRadius={8} />
           </div>
-        )}
+        </div>
+      )}
 
-        {!loading && offer && (
-          <>
-            <div className={styles.offerHeader}>
-              <div className={styles.imageWrapper}>
-                {offer.image ? (
-                  <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={offer.image}
-                      alt=""
-                      aria-hidden
-                      className={styles.backgroundImage}
-                    />
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={offer.image}
-                      alt={offer.name}
-                      className={styles.offerImage}
-                    />
-                  </>
-                ) : null}
+      {!loading && loadFailed && (
+        <div className={styles.errorState}>
+          <h2>{t('sections.offerDetails')}</h2>
+          <p>{t('loadError')}</p>
+        </div>
+      )}
 
-                <div className={styles.icons}>
-                  {(showAllOs || operatingSystem.includes('ios') || operatingSystem.includes('macos')) && (
-                    <AppleIcon aria-hidden />
-                  )}
-                  {(showAllOs || operatingSystem.includes('windows')) && (
-                    <WindowsIcon aria-hidden />
-                  )}
-                  {(showAllOs || operatingSystem.includes('android')) && (
-                    <AndroidIcon aria-hidden />
-                  )}
-                </div>
-              </div>
+      {!loading && offer && (
+        <>
+          <div className={styles.offerHeader}>
+            <div className={styles.imageWrapper}>
+              {offer.image ? (
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={offer.image}
+                    alt=""
+                    aria-hidden
+                    className={styles.backgroundImage}
+                  />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={offer.image}
+                    alt={offer.name}
+                    className={styles.offerImage}
+                  />
+                </>
+              ) : null}
 
-              <div className={styles.titleWrapper}>
-                <h2>{offer.name}</h2>
-                {offer.offerType.length > 0 && (
-                  <div className={styles.tags}>
-                    {offer.offerType.map(type => (
-                      <p key={type}>{type.replaceAll('_', ' ')}</p>
-                    ))}
-                  </div>
+              <div className={styles.icons}>
+                {(showAllOs || operatingSystem.includes('ios') || operatingSystem.includes('macos')) && (
+                  <AppleIcon aria-hidden />
+                )}
+                {(showAllOs || operatingSystem.includes('windows')) && (
+                  <WindowsIcon aria-hidden />
+                )}
+                {(showAllOs || operatingSystem.includes('android')) && (
+                  <AndroidIcon aria-hidden />
                 )}
               </div>
             </div>
 
-            <div className={styles.divider} />
+            <div className={styles.titleWrapper}>
+              <h2>{offer.name}</h2>
+              {offer.offerType.length > 0 && (
+                <div className={styles.tags}>
+                  {offer.offerType.map(type => (
+                    <p key={type}>{type.replaceAll('_', ' ')}</p>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
 
-            <div
-              ref={scrollRef}
-              className={styles.detailsScroll}
-            >
-              {renderStartButton({ ref: startButtonRef })}
+          <div className={styles.divider} />
 
+          <div
+            ref={scrollRef}
+            className={styles.detailsScroll}
+          >
+            {renderStartButton({ ref: startButtonRef })}
+
+            <section className={styles.section}>
+              <h3>{t('sections.offerDetails')}</h3>
+              <p className={styles.bodyText}>{stripHtml(offer.description)}</p>
+            </section>
+
+            {multiGoal && (
               <section className={styles.section}>
-                <h3>{t('sections.offerDetails')}</h3>
-                <p className={styles.bodyText}>{stripHtml(offer.description)}</p>
-              </section>
-
-              {multiGoal && (
-                <section className={styles.section}>
-                  <div className={styles.goalsHeader}>
-                    <h3>{t('sections.goalsProgress')}</h3>
-                    <p>
-                      {completedReward.toLocaleString(locale)}
-                      {' / '}
-                      {(totalPayout ?? 0).toLocaleString(locale)}
-                      <Image
-                        src="/img/logo.svg"
-                        alt={t('sparksAlt')}
-                        height={12}
-                        width={12}
-                      />
-                    </p>
-                  </div>
-
-                  <div className={styles.progressBar}>
-                    <div
-                      style={{
-                        width: `${Math.min(100, Math.max(0, percentageCompleted))}%`,
-                      }}
+                <div className={styles.goalsHeader}>
+                  <h3>{t('sections.goalsProgress')}</h3>
+                  <p>
+                    {completedReward.toLocaleString(locale)}
+                    {' / '}
+                    {(totalPayout ?? 0).toLocaleString(locale)}
+                    <Image
+                      src="/img/logo.svg"
+                      alt={t('sparksAlt')}
+                      height={12}
+                      width={12}
                     />
-                  </div>
-
-                  <div className={styles.goals}>
-                    {sortedRewards.map(reward => {
-                      const isCompleted = completion.some(step => step.rewardID === reward.rewardID);
-
-                      return (
-                        <div
-                          key={reward.rewardID}
-                          className={[
-                            styles.goal,
-                            isCompleted ? styles.active : '',
-                          ].filter(Boolean).join(' ')}
-                        >
-                          <div className={styles.status} />
-                          <p>{stripHtml(reward.description)}</p>
-                          <p className={styles.reward}>
-                            +{typeof reward.value === 'number'
-                              ? reward.value.toLocaleString(locale)
-                              : reward.value}
-                            <Image
-                              src="/img/logo.svg"
-                              alt={t('sparksAlt')}
-                              height={11}
-                              width={11}
-                            />
-                          </p>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-              )}
-
-              {offer.additionalInformation && offer.additionalInformation.length > 0 && (
-                <section className={styles.section}>
-                  <h3>{t('sections.additionalInformation')}</h3>
-                  <p className={styles.bodyText}>
-                    {stripHtml(offer.additionalInformation.join('\n'))}
                   </p>
-                </section>
-              )}
+                </div>
 
-              {offer.terms && (
-                <section className={styles.section}>
-                  <h3>{t('sections.termsAndConditions')}</h3>
-                  <p className={styles.bodyText}>{stripHtml(offer.terms)}</p>
-                </section>
-              )}
+                <div className={styles.progressBar}>
+                  <div
+                    style={{
+                      width: `${Math.min(100, Math.max(0, percentageCompleted))}%`,
+                    }}
+                  />
+                </div>
 
+                <div className={styles.goals}>
+                  {sortedRewards.map(reward => {
+                    const isCompleted = completion.some(step => step.rewardID === reward.rewardID);
+
+                    return (
+                      <div
+                        key={reward.rewardID}
+                        className={[
+                          styles.goal,
+                          isCompleted ? styles.active : '',
+                        ].filter(Boolean).join(' ')}
+                      >
+                        <div className={styles.status} />
+                        <p>{stripHtml(reward.description)}</p>
+                        <p className={styles.reward}>
+                          +{typeof reward.value === 'number'
+                            ? reward.value.toLocaleString(locale)
+                            : reward.value}
+                          <Image
+                            src="/img/logo.svg"
+                            alt={t('sparksAlt')}
+                            height={11}
+                            width={11}
+                          />
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
+
+            {offer.additionalInformation && offer.additionalInformation.length > 0 && (
               <section className={styles.section}>
-                <h3>{t('sections.disclaimer')}</h3>
-                <ul>
-                  <li>{t('disclaimer.pending')}</li>
-                  <li>{t('disclaimer.kyc')}</li>
+                <h3>{t('sections.additionalInformation')}</h3>
+                <p className={styles.bodyText}>
+                  {stripHtml(offer.additionalInformation.join('\n'))}
+                </p>
+              </section>
+            )}
+
+            {offer.terms && (
+              <section className={styles.section}>
+                <h3>{t('sections.termsAndConditions')}</h3>
+                <p className={styles.bodyText}>{stripHtml(offer.terms)}</p>
+              </section>
+            )}
+
+            <section className={styles.section}>
+              <h3>{t('sections.disclaimer')}</h3>
+              <ul>
+                <li>{t('disclaimer.pending')}</li>
+                <li>{t('disclaimer.kyc')}</li>
+                <li>
+                  {t.rich('disclaimer.termsAgreement', {
+                    terms: chunks => (
+                      <Link href="/terms-of-service">{chunks}</Link>
+                    ),
+                    privacy: chunks => (
+                      <Link href="/privacy-policy">{chunks}</Link>
+                    ),
+                  })}
+                </li>
+                {offer.provider === 'custom' ? (
+                  <li>{t('disclaimer.providedBySparkvey')}</li>
+                ) : (
                   <li>
-                    {t.rich('disclaimer.termsAgreement', {
-                      terms: chunks => (
-                        <Link href="/terms-of-service">{chunks}</Link>
-                      ),
-                      privacy: chunks => (
-                        <Link href="/privacy-policy">{chunks}</Link>
+                    {t.rich('disclaimer.providedByProvider', {
+                      name: offer.provider,
+                      provider: chunks => (
+                        providerLink ? (
+                          <a href={providerLink} target="_blank" rel="noopener noreferrer">
+                            {chunks}
+                          </a>
+                        ) : (
+                          <span>{chunks}</span>
+                        )
                       ),
                     })}
                   </li>
-                  {offer.provider === 'custom' ? (
-                    <li>{t('disclaimer.providedBySparkvey')}</li>
-                  ) : (
-                    <li>
-                      {t.rich('disclaimer.providedByProvider', {
-                        name: offer.provider,
-                        provider: chunks => (
-                          providerLink ? (
-                            <a href={providerLink} target="_blank" rel="noopener noreferrer">
-                              {chunks}
-                            </a>
-                          ) : (
-                            <span>{chunks}</span>
-                          )
-                        ),
-                      })}
-                    </li>
-                  )}
-                </ul>
-              </section>
-            </div>
+                )}
+              </ul>
+            </section>
+          </div>
 
-            <div
-              className={[
-                styles.stickyStart,
-                showStickyStart ? styles.visible : '',
-              ].filter(Boolean).join(' ')}
-              aria-hidden={!showStickyStart}
-            >
-              {renderStartButton({ tabIndex: showStickyStart ? undefined : -1 })}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+          <div
+            className={[
+              styles.stickyStart,
+              showStickyStart ? styles.visible : '',
+            ].filter(Boolean).join(' ')}
+            aria-hidden={!showStickyStart}
+          >
+            {renderStartButton({ tabIndex: showStickyStart ? undefined : -1 })}
+          </div>
+        </>
+      )}
+    </ModalShell>
   );
 }

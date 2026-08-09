@@ -21,459 +21,389 @@
   flex-shrink: 0;
 }
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+// Children render inside ModalShell's contentWrapper
+.loadingState {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 420px;
+  padding-top: 8px;
 
-  > .contentWrapper {
-    background-color: $off-white;
-    padding: 36px;
-    border-radius: 8px;
-    position: relative;
-    width: 100%;
-    max-width: 640px;
-    max-height: min(85vh, 720px);
+  > .loadingHeader {
+    display: flex;
+    align-items: center;
     gap: 18px;
-    height: fit-content;
+    padding-right: 40px;
+
+    > .loadingCopy {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+
+      > .loadingTags {
+        display: flex;
+        gap: 8px;
+        margin-top: 2px;
+      }
+    }
+  }
+
+  > .loadingDivider {
+    width: 100%;
+    height: 1px;
+    background: $border-light;
+    flex-shrink: 0;
+  }
+
+  > .loadingSections {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
-    box-sizing: border-box;
+    gap: 14px;
+  }
+}
 
-    > .closeButton {
-      outline: none;
-      border: none;
+.errorState {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 40px;
+
+  > h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    color: $text-bold;
+  }
+
+  > p {
+    margin: 0;
+    font-size: 14px;
+    color: $text-light;
+  }
+}
+
+.offerHeader {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 40px;
+
+  > .imageWrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid $border-light;
+    flex-shrink: 0;
+
+    > .backgroundImage {
       position: absolute;
-      top: 36px;
-      right: 36px;
-      cursor: pointer;
-      height: 26px;
-      width: 26px;
-      background: $light-blue;
-      border-radius: 50%;
-      padding: 0;
-      margin: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(6px);
+      transform: scale(1.2);
+    }
+
+    > .offerImage {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    > .icons {
+      position: absolute;
+      z-index: 2;
+      right: 6px;
+      bottom: 6px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      transition: background 0.1s ease-in-out, color 0.1s ease-in-out;
-      color: $text-light;
-      z-index: 2;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 4px 6px;
+      border-radius: 2525px;
+      color: white;
 
       > svg {
-        width: 9px;
-        height: 9px;
-      }
-
-      &:hover {
-        background: $primary;
-        color: white;
+        width: 12px;
+        height: 12px;
       }
     }
+  }
 
-    > .loadingState {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      min-height: 420px;
-      padding-top: 8px;
+  > .titleWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
 
-      > .loadingHeader {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        padding-right: 40px;
-
-        > .loadingCopy {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          flex: 1;
-          min-width: 0;
-
-          > .loadingTags {
-            display: flex;
-            gap: 8px;
-            margin-top: 2px;
-          }
-        }
-      }
-
-      > .loadingDivider {
-        width: 100%;
-        height: 1px;
-        background: $border-light;
-        flex-shrink: 0;
-      }
-
-      > .loadingSections {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
+    > h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 500;
+      color: $text-bold;
+      line-height: 1.25;
     }
 
-    > .errorState {
+    > .tags {
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding-right: 40px;
+      flex-wrap: wrap;
+      gap: 8px;
 
-      > h2 {
+      > p {
         margin: 0;
-        font-size: 20px;
-        font-weight: 400;
+        border: 1px solid $border-light;
+        padding: 4px 10px;
+        border-radius: 2525px;
+        color: $text-light;
+        font-size: 12px;
+        text-transform: capitalize;
+      }
+    }
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: $border-light;
+  flex-shrink: 0;
+}
+
+.detailsScroll {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $border-light $light-blue;
+  padding-right: 4px;
+  // Keeps the last section clear of the absolute sticky start button
+  padding-bottom: 72px;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $light-blue;
+    border-radius: 2525px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-light;
+    border-radius: 2px;
+  }
+
+  > .startButton {
+    @include offer-start-button;
+  }
+
+  > .section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    > h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > .bodyText {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 400;
+      color: $text-light;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+
+    > .goalsHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+
+      > h3 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
         color: $text-bold;
       }
 
       > p {
         margin: 0;
         font-size: 14px;
-        color: $text-light;
+        font-weight: 500;
+        color: $text-bold;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
       }
     }
 
-    > .offerHeader {
+    > .progressBar {
+      width: 100%;
+      height: 12px;
+      border-radius: 2525px;
+      background: $light-blue;
+      overflow: hidden;
+
+      > div {
+        height: 100%;
+        background: $primary;
+        border-radius: 2525px;
+      }
+    }
+
+    > .goals {
       display: flex;
-      align-items: center;
-      gap: 18px;
-      padding-right: 40px;
+      flex-direction: column;
+      gap: 8px;
 
-      > .imageWrapper {
-        position: relative;
-        width: 100px;
-        height: 100px;
-        min-width: 100px;
+      > .goal {
+        display: flex;
+        align-items: center;
         border-radius: 8px;
-        overflow: hidden;
-        background: white;
-        border: 1px solid $border-light;
-        flex-shrink: 0;
+        background: $light-blue;
+        min-height: 56px;
+        padding: 12px 16px;
+        gap: 16px;
+        box-sizing: border-box;
+        color: $text-bold;
+        font-weight: 500;
+        font-size: 14px;
 
-        > .backgroundImage {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          filter: blur(6px);
-          transform: scale(1.2);
+        &.active {
+          > .status {
+            background: $primary;
+            border-color: $primary;
+          }
         }
 
-        > .offerImage {
-          position: relative;
-          z-index: 1;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+        > .status {
+          width: 18px;
+          height: 18px;
+          min-width: 18px;
+          background: unset;
+          border: 1px solid $border-light;
+          border-radius: 4px;
         }
 
-        > .icons {
-          position: absolute;
-          z-index: 2;
-          right: 6px;
-          bottom: 6px;
+        > p {
+          margin: 0;
+          line-height: 1.35;
+        }
+
+        > .reward {
           display: flex;
           align-items: center;
           gap: 4px;
-          background: rgba(0, 0, 0, 0.35);
-          padding: 4px 6px;
-          border-radius: 2525px;
-          color: white;
-
-          > svg {
-            width: 12px;
-            height: 12px;
-          }
-        }
-      }
-
-      > .titleWrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        min-width: 0;
-
-        > h2 {
-          margin: 0;
-          font-size: 20px;
           font-weight: 500;
-          color: $text-bold;
-          line-height: 1.25;
-        }
-
-        > .tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-
-          > p {
-            margin: 0;
-            border: 1px solid $border-light;
-            padding: 4px 10px;
-            border-radius: 2525px;
-            color: $text-light;
-            font-size: 12px;
-            text-transform: capitalize;
-          }
+          color: $primary;
+          margin-left: auto;
+          flex-shrink: 0;
         }
       }
     }
 
-    > .divider {
-      width: 100%;
-      height: 1px;
-      background: $border-light;
-      flex-shrink: 0;
-    }
+    > ul {
+      margin: 0;
+      padding: 0 0 0 20px;
 
-    > .detailsScroll {
-      width: 100%;
-      display: flex;
+      > li {
+        color: $text-light;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.5;
+
+        > a {
+          color: $primary;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+.stickyStart {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 24px 36px 36px;
+  box-sizing: border-box;
+  background: linear-gradient(to top, $off-white 55%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 3;
+
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  > .startButton {
+    @include offer-start-button;
+  }
+}
+
+@media screen and (max-width: $large-phone) {
+  .loadingState {
+    min-height: 360px;
+
+    > .loadingHeader {
       flex-direction: column;
-      gap: 24px;
-      min-height: 0;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: $border-light $light-blue;
-      padding-right: 4px;
-      // Keeps the last section clear of the absolute sticky start button
-      padding-bottom: 72px;
-
-      &::-webkit-scrollbar {
-        width: 3px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: $light-blue;
-        border-radius: 2525px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: $border-light;
-        border-radius: 2px;
-      }
-
-      > .startButton {
-        @include offer-start-button;
-      }
-
-      > .section {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-
-        > h3 {
-          margin: 0;
-          font-size: 16px;
-          font-weight: 600;
-          color: $text-bold;
-        }
-
-        > .bodyText {
-          margin: 0;
-          font-size: 14px;
-          font-weight: 400;
-          color: $text-light;
-          white-space: pre-wrap;
-          line-height: 1.5;
-        }
-
-        > .goalsHeader {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 12px;
-
-          > h3 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-            color: $text-bold;
-          }
-
-          > p {
-            margin: 0;
-            font-size: 14px;
-            font-weight: 500;
-            color: $text-bold;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            flex-shrink: 0;
-          }
-        }
-
-        > .progressBar {
-          width: 100%;
-          height: 12px;
-          border-radius: 2525px;
-          background: $light-blue;
-          overflow: hidden;
-
-          > div {
-            height: 100%;
-            background: $primary;
-            border-radius: 2525px;
-          }
-        }
-
-        > .goals {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-
-          > .goal {
-            display: flex;
-            align-items: center;
-            border-radius: 8px;
-            background: $light-blue;
-            min-height: 56px;
-            padding: 12px 16px;
-            gap: 16px;
-            box-sizing: border-box;
-            color: $text-bold;
-            font-weight: 500;
-            font-size: 14px;
-
-            &.active {
-              > .status {
-                background: $primary;
-                border-color: $primary;
-              }
-            }
-
-            > .status {
-              width: 18px;
-              height: 18px;
-              min-width: 18px;
-              background: unset;
-              border: 1px solid $border-light;
-              border-radius: 4px;
-            }
-
-            > p {
-              margin: 0;
-              line-height: 1.35;
-            }
-
-            > .reward {
-              display: flex;
-              align-items: center;
-              gap: 4px;
-              font-weight: 500;
-              color: $primary;
-              margin-left: auto;
-              flex-shrink: 0;
-            }
-          }
-        }
-
-        > ul {
-          margin: 0;
-          padding: 0 0 0 20px;
-
-          > li {
-            color: $text-light;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.5;
-
-            > a {
-              color: $primary;
-
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-          }
-        }
-      }
+      align-items: flex-start;
+      padding-right: 32px;
     }
+  }
 
-    > .stickyStart {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 24px 36px 36px;
-      box-sizing: border-box;
-      background: linear-gradient(to top, $off-white 55%, transparent);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(8px);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      z-index: 3;
+  .offerHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 32px;
 
-      &.visible {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0);
-      }
+    > .imageWrapper {
+      width: 100%;
+      height: 160px;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      > .startButton {
-        @include offer-start-button;
+      > .offerImage {
+        position: relative;
+        z-index: 1;
+        width: auto;
+        max-width: 120px;
+        height: auto;
+        max-height: 120px;
+        object-fit: contain;
       }
     }
   }
 
-  @media screen and (max-width: $large-phone) {
-    > .contentWrapper {
-      margin: 16px;
-      padding: 24px;
-      max-height: calc(100vh - 32px);
-
-      > .closeButton {
-        top: 24px;
-        right: 24px;
-      }
-
-      > .loadingState {
-        min-height: 360px;
-
-        > .loadingHeader {
-          flex-direction: column;
-          align-items: flex-start;
-          padding-right: 32px;
-        }
-      }
-
-      > .offerHeader {
-        flex-direction: column;
-        align-items: flex-start;
-        padding-right: 32px;
-
-        > .imageWrapper {
-          width: 100%;
-          height: 160px;
-          min-width: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          > .offerImage {
-            position: relative;
-            z-index: 1;
-            width: auto;
-            max-width: 120px;
-            height: auto;
-            max-height: 120px;
-            object-fit: contain;
-          }
-        }
-      }
-
-      > .stickyStart {
-        padding: 20px 24px 24px;
-      }
-    }
+  .stickyStart {
+    padding: 20px 24px 24px;
   }
 }

@@ -3,6 +3,7 @@
 import { Suspense, use } from 'react';
 import { useTranslations } from 'next-intl';
 import OfferItem from '@components/OfferItem/OfferItem';
+import LandingSectionHeader from '@components/LandingSectionHeader/LandingSectionHeader';
 import styles from './FeaturedOffersSection.module.scss';
 import type { LandingHomepageResponse } from 'types/LandingHomepageResponse';
 
@@ -49,15 +50,14 @@ export default function FeaturedOffersSection({ initialHomepagePromise }: Featur
 
   return (
     <div className={styles.featuredOffersSection}>
-      <div className={styles.titleContainer}>
-        <h3>{t('eyebrow')}</h3>
-        <h2>
-          {t.rich('title', {
-            highlight: (chunks) => <span>{chunks}</span>,
-          })}
-        </h2>
-        <p>{t('description')}</p>
-      </div>
+      <LandingSectionHeader
+        eyebrow={t('eyebrow')}
+        title={t.rich('title', {
+          highlight: (chunks) => <span>{chunks}</span>,
+        })}
+        description={t('description')}
+        align="start"
+      />
 
       <Suspense fallback={<FeaturedOffersFallback />}>
         <FeaturedOffersList initialHomepagePromise={initialHomepagePromise} />

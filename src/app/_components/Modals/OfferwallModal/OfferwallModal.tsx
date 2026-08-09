@@ -1,6 +1,7 @@
 'use client';
 
-import LockScrollMount from '@hooks/LockScrollMount';
+// Components
+import ModalShell from '@components/ModalShell/ModalShell';
 
 // Icons
 import OpenInNewIcon from '~icons/mdi/open-in-new.jsx';
@@ -15,8 +16,6 @@ type OfferwallModalProps = {
 };
 
 export default function OfferwallModal({ wallID, wallName, onClose }: OfferwallModalProps) {
-  LockScrollMount();
-
   const iframeSrc = typeof window !== 'undefined'
     ? `${window.location.origin}/walls/${wallID}`
     : `/walls/${wallID}`;
@@ -27,15 +26,13 @@ export default function OfferwallModal({ wallID, wallName, onClose }: OfferwallM
   }
 
   return (
-    <div
-      className={styles.offerwallModal}
-      onClick={onClose}
-    >
-      <div
-        className={styles.contentWrapper}
-        onClick={e => e.stopPropagation()}
-      >
-        <div className={styles.header}>
+    <ModalShell
+      onClose={onClose}
+      closeLabel="Close"
+      showCloseButton={false}
+      contentClassName={styles.offerwallContent}
+      header={(
+        <div className={styles.offerwallHeader}>
           <h2>{wallName}</h2>
           <div className={styles.headerButtons}>
             <button
@@ -58,17 +55,17 @@ export default function OfferwallModal({ wallID, wallName, onClose }: OfferwallM
             </button>
           </div>
         </div>
-
-        <div className={styles.iframeWrapper}>
-          <iframe
-            src={iframeSrc}
-            className={styles.wallIframe}
-            title={`${wallName} offerwall`}
-            allow="payment"
-            allowFullScreen
-          />
-        </div>
+      )}
+    >
+      <div className={styles.iframeWrapper}>
+        <iframe
+          src={iframeSrc}
+          className={styles.wallIframe}
+          title={`${wallName} offerwall`}
+          allow="payment"
+          allowFullScreen
+        />
       </div>
-    </div>
+    </ModalShell>
   );
 }

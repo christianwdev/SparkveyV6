@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
+import LandingSectionHeader from '@components/LandingSectionHeader/LandingSectionHeader';
 import styles from './WaysToEarn.module.scss';
 
 const EARN_METHODS = [ 'surveys', 'cashback', 'games' ] as const;
@@ -9,15 +10,13 @@ export default async function WaysToEarn() {
 
   return (
     <div className={styles.waysToEarnContainer} id="ways-to-earn">
-      <div className={styles.titleContainer}>
-        <h3>{t('eyebrow')}</h3>
-        <h2>
-          {t.rich('title', {
-            highlight: (chunks) => <span>{chunks}</span>,
-          })}
-        </h2>
-        <p>{t('description')}</p>
-      </div>
+      <LandingSectionHeader
+        eyebrow={t('eyebrow')}
+        title={t.rich('title', {
+          highlight: (chunks) => <span>{chunks}</span>,
+        })}
+        description={t('description')}
+      />
 
       <div className={styles.cardsContainer}>
         {EARN_METHODS.map((method) => (
