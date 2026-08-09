@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
+import LandingSectionHeader from '@components/LandingSectionHeader/LandingSectionHeader';
 import styles from './HowItWorks.module.scss';
 
 import AccountIcon from '~icons/octicon/person-24.jsx';
@@ -11,15 +12,13 @@ export default async function HowItWorks() {
 
   return (
     <div className={styles.howItWorks} id="how-it-works">
-      <div className={styles.titleContainer}>
-        <h3>{t('eyebrow')}</h3>
-        <h2>
-          {t.rich('title', {
-            highlight: (chunks) => <span>{chunks}</span>,
-          })}
-        </h2>
-        <p>{t('description')}</p>
-      </div>
+      <LandingSectionHeader
+        eyebrow={t('eyebrow')}
+        title={t.rich('title', {
+          highlight: (chunks) => <span>{chunks}</span>,
+        })}
+        description={t('description')}
+      />
 
       <div className={styles.previewCards}>
         <div className={styles.card}>

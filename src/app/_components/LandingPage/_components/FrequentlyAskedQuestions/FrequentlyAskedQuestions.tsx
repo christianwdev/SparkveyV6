@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import LandingSectionHeader from '@components/LandingSectionHeader/LandingSectionHeader';
 import styles from './FrequentlyAskedQuestions.module.scss';
 
 const FAQ_IDS = [
@@ -19,15 +20,13 @@ export default async function FrequentlyAskedQuestions() {
 
   return (
     <div className={styles.frequentlyAskedQuestionsContainer} id="frequently-asked-questions">
-      <div className={styles.titleContainer}>
-        <h3>{t('eyebrow')}</h3>
-        <h2>
-          {t.rich('title', {
-            highlight: (chunks) => <span>{chunks}</span>,
-          })}
-        </h2>
-        <p>{t('description')}</p>
-      </div>
+      <LandingSectionHeader
+        eyebrow={t('eyebrow')}
+        title={t.rich('title', {
+          highlight: (chunks) => <span>{chunks}</span>,
+        })}
+        description={t('description')}
+      />
 
       <div className={styles.questionsContainer}>
         {FAQ_IDS.map((id) => (

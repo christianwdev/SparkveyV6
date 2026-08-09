@@ -1,0 +1,53 @@
+@use '@styles/variables.scss' as *;
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+
+  &.alignStart {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  > h3 {
+    margin: 0;
+    font-family: var(--font-parkinsans), sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: $primary;
+  }
+
+  > h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 48px;
+    color: $text-bold;
+
+    > span {
+      font-family: var(--font-sedgwick-ave), sans-serif;
+      color: $primary;
+      font-weight: 400;
+    }
+  }
+
+  > p {
+    margin: 0;
+    font-size: 16px;
+    color: $text-light;
+    font-weight: 400;
+    max-width: 700px;
+  }
+
+  &.alignStart > p {
+    max-width: 430px;
+  }
+
+  &.alignStart > h2 {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 500px;
+  }
+}

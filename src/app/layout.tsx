@@ -1,39 +1,47 @@
-export const dynamic = 'force-dynamic';
-
 import './_styles/globals.scss';
-
-import type { ReactNode } from 'react';
-import type { Viewport } from 'next';
-import Script from 'next/script';
-import { cookies } from 'next/headers';
-import { Inter, Roboto, Sedgwick_Ave, Parkinsans } from 'next/font/google';
-import { getLocale } from 'next-intl/server';
 import 'react-toastify/dist/ReactToastify.css';
 import './_styles/toast.scss';
-import { GA4_MEASUREMENT_ID } from '@utils/analytics';
-import { getUser } from '@utils/user';
-import { serverRequest } from '@utils/serverRequest';
-import { resolveColorTheme, THEME_COOKIE_NAME } from '@utils/theme';
+
+import { Inter, Roboto, Sedgwick_Ave, Parkinsans } from 'next/font/google';
+import { getLocale } from 'next-intl/server';
+
+// Components
+import Script from 'next/script';
+import AppToastContainer from '@components/AppToastContainer/AppToastContainer';
+
+// Providers
 import { UserProvider } from '@contexts/UserProvider';
 import { OfferwallProvider } from '@contexts/OfferwallProvider';
 import { SocketProvider } from '@contexts/SocketContext';
+import PreserveNextHistoryState from '@contexts/PreserveNextHistoryState';
 import MotionProvider from '@contexts/MotionProvider';
 import QueryProvider from '@contexts/QueryProvider';
-import PreserveNextHistoryState from '@contexts/PreserveNextHistoryState';
-import AppToastContainer from '@components/AppToastContainer/AppToastContainer';
+
+// Utils
+import { serverRequest } from '@utils/serverRequest';
+import { getUser } from '@utils/user';
+import { cookies } from 'next/headers';
+import { resolveColorTheme, THEME_COOKIE_NAME } from '@utils/theme';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import { GA4_MEASUREMENT_ID } from '@utils/analytics';
+
+// Types
+import type { ReactNode } from 'react';
+import type { Viewport } from 'next';
 
 const inter = Inter({
   subsets: [ 'latin' ],
   weight: [ '300', '400', '500', '600', '700', '800' ],
   variable: '--font-inter',
   display: 'swap',
+  fallback: [ 'sans-serif' ],
 });
 
 const roboto = Roboto({
   subsets: [ 'latin' ],
   weight: [ '300', '400', '500', '700' ],
   variable: '--font-roboto',
+  fallback: [ 'sans-serif' ],
   display: 'swap',
 });
 
@@ -41,6 +49,7 @@ const sedgwickAve = Sedgwick_Ave({
   subsets: [ 'latin' ],
   weight: [ '400' ],
   variable: '--font-sedgwick-ave',
+  fallback: [ 'sans-serif' ],
   display: 'swap',
 });
 
@@ -48,6 +57,7 @@ const parkinsans = Parkinsans({
   subsets: [ 'latin' ],
   weight: [ '400', '600' ],
   variable: '--font-parkinsans',
+  fallback: [ 'sans-serif' ],
   display: 'swap',
   adjustFontFallback: false,
 });

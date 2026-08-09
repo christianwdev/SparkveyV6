@@ -1,322 +1,256 @@
 @use '@styles/variables.scss' as *;
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+// Children render inside ModalShell's contentWrapper
+.purchaseContent {
+  max-width: 630px;
+  max-height: min(80vh, 600px);
+}
+
+.purchaseTitle {
+  font-size: 20px;
+  font-weight: 400;
+  color: $text-bold;
+  margin: 0;
+}
+
+.purchaseLead {
+  font-size: 14px;
+  color: $text-light;
+  margin: 0;
+  max-width: 420px;
+}
+
+.itemDisplayWrapper {
+  width: 100%;
+  padding: 18px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  background: $light-blue;
+  border: 1px solid $border-light;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 24px;
 
-  > .contentWrapper {
-    background-color: $off-white;
-    padding: 36px;
+  > .itemImageWrapper {
+    min-width: 100px;
+    min-height: 100px;
+    width: 100px;
+    height: 100px;
     border-radius: 8px;
     position: relative;
-    width: 100%;
-    max-width: 630px;
-    max-height: min(80vh, 600px);
-    gap: 18px;
-    height: fit-content;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
-    box-sizing: border-box;
+    background: white;
+    flex-shrink: 0;
 
-    > .closeButton {
-      outline: none;
-      border: none;
+    > .itemImage,
+    > .itemImageBlur {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
       position: absolute;
-      top: 36px;
-      right: 36px;
-      cursor: pointer;
-      height: 26px;
-      width: 26px;
-      background: $light-blue;
-      border-radius: 50%;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.1s ease-in-out, color 0.1s ease-in-out;
-      color: $text-light;
-
-      > svg {
-        width: 9px;
-        height: 9px;
-      }
-
-      &:hover {
-        background: $primary;
-        color: white;
-      }
+      top: 0;
+      left: 0;
     }
 
-    > h2 {
-      font-size: 20px;
+    > .itemImage {
+      z-index: 1;
+    }
+
+    > .itemImageBlur {
+      filter: blur(5px);
+    }
+  }
+
+  > .nameWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+
+    > .name {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > .description {
+      margin: 0;
+      font-size: 14px;
       font-weight: 400;
+      color: $text-light;
+    }
+  }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: $border-light;
+}
+
+.informationWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $border-light $light-blue;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $light-blue;
+    border-radius: 2525px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-light;
+    border-radius: 2px;
+  }
+
+  &.fadeOutBottom {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0,
+      #000 calc(100% - 32px),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0,
+      #000 calc(100% - 32px),
+      transparent 100%
+    );
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+
+  > .informationItem {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > .title {
+      font-size: 16px;
+      font-weight: 600;
       color: $text-bold;
       margin: 0;
     }
 
-    > p {
-      font-size: 14px;
-      color: $text-light;
-      margin: 0;
-      max-width: 420px;
-    }
-
-    > .itemDisplayWrapper {
-      width: 100%;
-      padding: 18px;
-      box-sizing: border-box;
-      border-radius: 8px;
-      background: $light-blue;
-      border: 1px solid $border-light;
-      display: flex;
-      align-items: center;
-      gap: 24px;
-
-      > .itemImageWrapper {
-        min-width: 100px;
-        min-height: 100px;
-        width: 100px;
-        height: 100px;
-        border-radius: 8px;
-        position: relative;
-        overflow: hidden;
-        background: white;
-        flex-shrink: 0;
-
-        > .itemImage,
-        > .itemImageBlur {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 8px;
-          position: absolute;
-          top: 0;
-          left: 0;
-        }
-
-        > .itemImage {
-          z-index: 1;
-        }
-
-        > .itemImageBlur {
-          filter: blur(5px);
-        }
-      }
-
-      > .nameWrapper {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        min-width: 0;
-
-        > .name {
-          margin: 0;
-          font-size: 16px;
-          font-weight: 600;
-          color: $text-bold;
-        }
-
-        > .description {
-          margin: 0;
-          font-size: 14px;
-          font-weight: 400;
-          color: $text-light;
-        }
-      }
-    }
-
-    > .divider {
-      width: 100%;
-      height: 1px;
-      background: $border-light;
-    }
-
-    > .informationWrapper {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      position: relative;
-      min-height: 0;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: $border-light $light-blue;
-
-      &::-webkit-scrollbar {
-        width: 3px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: $light-blue;
-        border-radius: 2525px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: $border-light;
-        border-radius: 2px;
-      }
-
-      &.fadeOutBottom {
-        -webkit-mask-image: linear-gradient(
-          to bottom,
-          #000 0,
-          #000 calc(100% - 32px),
-          transparent 100%
-        );
-        mask-image: linear-gradient(
-          to bottom,
-          #000 0,
-          #000 calc(100% - 32px),
-          transparent 100%
-        );
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-      }
-
-      > .informationItem {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        > .title {
-          font-size: 16px;
-          font-weight: 600;
-          color: $text-bold;
-          margin: 0;
-        }
-
-        > .text {
-          font-size: 16px;
-          font-weight: 400;
-          color: $text-light;
-          margin: 0;
-
-          &:not(.active) {
-            @include clamp-lines(2);
-          }
-        }
-
-        > .showMoreButton {
-          font-size: 14px;
-          font-weight: 400;
-          color: $text-light;
-          cursor: pointer;
-          background: none;
-          border: none;
-          outline: none;
-          padding: 0;
-          margin: 0;
-          text-align: left;
-          width: fit-content;
-        }
-      }
-    }
-
-    > .addressWrapper {
-      width: 100%;
-
-      > .addressInput {
-        width: 100%;
-        height: 40px;
-        padding: 0 12px;
-        box-sizing: border-box;
-        border-radius: 4px;
-        border: 1px solid $border-light;
-        background: transparent;
-        color: $text-bold;
-        font-size: 15px;
-        outline: none;
-
-        &::placeholder {
-          color: $text-light;
-        }
-
-        &:focus {
-          border-color: $primary;
-        }
-      }
-    }
-
-    > .feeRow {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      font-size: 14px;
-      color: $text-light;
-      margin: 0;
-
-      > .feeAmount {
-        color: $text-bold;
-        font-weight: 500;
-        flex-shrink: 0;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-
-        > .feeFiatSuffix {
-          font-size: 12px;
-          font-weight: 400;
-          color: $text-light;
-        }
-      }
-    }
-
-    > .purchaseButton {
-      width: 100%;
-      height: 45px;
-      min-height: 45px;
-      border-radius: 3px;
+    > .text {
       font-size: 16px;
-      font-weight: 500;
-      background: $primary;
-      color: white;
+      font-weight: 400;
+      color: $text-light;
+      margin: 0;
+
+      &:not(.active) {
+        @include clamp-lines(2);
+      }
+    }
+
+    > .showMoreButton {
+      font-size: 14px;
+      font-weight: 400;
+      color: $text-light;
+      cursor: pointer;
+      background: none;
       border: none;
       outline: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-
-      &:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-      }
-
-      > img {
-        width: 14px;
-        height: 14px;
-      }
-
-      > .purchaseButtonAmount {
-        font-weight: 600;
-      }
+      padding: 0;
+      margin: 0;
+      text-align: left;
+      width: fit-content;
     }
   }
+}
 
-  @media screen and (max-width: $large-phone) {
-    > .contentWrapper {
-      margin: 16px;
-      padding: 24px;
-      max-height: calc(100vh - 32px);
+.addressWrapper {
+  width: 100%;
 
-      > .closeButton {
-        top: 24px;
-        right: 24px;
-      }
+  > .addressInput {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid $border-light;
+    background: transparent;
+    color: $text-bold;
+    font-size: 15px;
+    outline: none;
+
+    &::placeholder {
+      color: $text-light;
     }
+
+    &:focus {
+      border-color: $primary;
+    }
+  }
+}
+
+.feeRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: $text-light;
+  margin: 0;
+
+  > .feeAmount {
+    color: $text-bold;
+    font-weight: 500;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+
+    > .feeFiatSuffix {
+      font-size: 12px;
+      font-weight: 400;
+      color: $text-light;
+    }
+  }
+}
+
+.purchaseButton {
+  width: 100%;
+  height: 45px;
+  min-height: 45px;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 500;
+  background: $primary;
+  color: white;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  > img {
+    width: 14px;
+    height: 14px;
+  }
+
+  > .purchaseButtonAmount {
+    font-weight: 600;
   }
 }

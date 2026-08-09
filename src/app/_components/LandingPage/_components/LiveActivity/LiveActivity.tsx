@@ -8,6 +8,7 @@ import styles from './LiveActivity.module.scss';
 
 // Components
 import Skeleton from '@components/Skeleton/Skeleton';
+import LandingSectionHeader from '@components/LandingSectionHeader/LandingSectionHeader';
 
 // Types
 import type { LandingHomepageResponse, LandingLiveActivityItem } from 'types/LandingHomepageResponse';
@@ -152,15 +153,14 @@ export default function LiveActivity({ initialHomepagePromise }: LiveActivityPro
 
   return (
     <div className={styles.liveActivityContainer} id="live-activity">
-      <div className={styles.titleContainer}>
-        <h3>{t('eyebrow')}</h3>
-        <h2>
-          {t.rich('title', {
-            highlight: (chunks) => <span>{chunks}</span>,
-          })}
-        </h2>
-        <p>{t('description')}</p>
-      </div>
+      <LandingSectionHeader
+        eyebrow={t('eyebrow')}
+        title={t.rich('title', {
+          highlight: (chunks) => <span>{chunks}</span>,
+        })}
+        description={t('description')}
+        align="start"
+      />
 
       <div className={styles.liveActivityContent}>
         <div className={styles.activityTitle}>

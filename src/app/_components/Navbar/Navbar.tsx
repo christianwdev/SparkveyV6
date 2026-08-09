@@ -6,7 +6,7 @@ import styles from './Navbar.module.scss';
 // Components
 import { Link, usePathname } from '@i18n/navigation';
 import LogoType from '@components/LogoType/LogoType';
-import Image from 'next/image';
+import SparksAmount from '@components/SparksAmount/SparksAmount';
 import UserDropdown from './_components/UserDropdown/UserDropdown';
 import EarnDropdown from './_components/EarnDropdown/EarnDropdown';
 import NotificationsDropdown from './_components/NotificationsDropdown/NotificationsDropdown';
@@ -17,7 +17,6 @@ import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 // Hooks
 import { useTranslations } from 'next-intl';
 import { useUser } from '@contexts/UserProvider';
-import { useFormatter } from 'next-intl';
 
 // Icons
 import GiftIcon from '~icons/solar/gift-linear.jsx';
@@ -85,11 +84,9 @@ const MOBILE_TABS = [
 export default function Navbar({ showLinks }: NavbarProps) {
   const t = useTranslations('Landing');
   const tNav = useTranslations('Navbar');
-  const formatter = useFormatter();
   const pathname = usePathname();
 
   const { user } = useUser();
-  const sparks = formatter.number(user?.balance.sparks ?? 0);
   const shouldShowLinks = showLinks ?? !!user;
 
   useEffect(() => {
@@ -131,14 +128,7 @@ export default function Navbar({ showLinks }: NavbarProps) {
           {user ? (
             <div className={styles.userProfile}>
               <div className={styles.sparkBalance}>
-                <Image
-                  className={styles.sparkIcon}
-                  src="/img/logo.svg"
-                  alt={t('sparksAlt')}
-                  height={11}
-                  width={11}
-                />
-                {sparks}
+                <SparksAmount amount={user.balance.sparks} />
               </div>
 
               <NotificationsDropdown />

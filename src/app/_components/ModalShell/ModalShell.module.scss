@@ -1,0 +1,74 @@
+@use '@styles/variables.scss' as *;
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > .contentWrapper {
+    background-color: $off-white;
+    padding: 36px;
+    border-radius: 8px;
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    max-height: min(85vh, 720px);
+    gap: 18px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+
+    > .closeButton {
+      outline: none;
+      border: none;
+      position: absolute;
+      top: 36px;
+      right: 36px;
+      cursor: pointer;
+      height: 26px;
+      width: 26px;
+      background: $light-blue;
+      border-radius: 50%;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.1s ease-in-out, color 0.1s ease-in-out;
+      color: $text-light;
+      z-index: 2;
+
+      > svg {
+        width: 9px;
+        height: 9px;
+      }
+
+      &:hover {
+        background: $primary;
+        color: white;
+      }
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    > .contentWrapper {
+      margin: 16px;
+      padding: 24px;
+      max-height: calc(100vh - 32px);
+
+      > .closeButton {
+        top: 24px;
+        right: 24px;
+      }
+    }
+  }
+}

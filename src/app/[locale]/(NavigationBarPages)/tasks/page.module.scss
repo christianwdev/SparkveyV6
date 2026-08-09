@@ -117,18 +117,6 @@
       }
     }
 
-    > .noMatch {
-      display: flex;
-      justify-content: center;
-      padding: 40px 0;
-
-      > p {
-        margin: 0;
-        color: $text-bold;
-        font-size: 16px;
-      }
-    }
-
     > .loadMoreWrapper {
       display: flex;
       justify-content: center;

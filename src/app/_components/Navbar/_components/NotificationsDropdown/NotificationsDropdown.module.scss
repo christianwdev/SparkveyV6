@@ -1,230 +1,218 @@
 @use '@styles/variables.scss' as *;
 
-.notificationsDropdown {
+.trigger {
   position: relative;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: $text-light;
+  cursor: pointer;
+  transition: color 0.15s ease;
 
-  > .trigger {
-    position: relative;
-    display: grid;
-    width: 32px;
-    height: 32px;
-    place-items: center;
-    padding: 0;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
+  > svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  > .badge {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: $primary;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+  }
+
+  &:hover {
+    color: $text-bold;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+}
+
+// Applied to PopperMenu's .menu
+.notificationsMenu {
+  width: 320px;
+  max-height: min(70vh, 420px);
+  gap: 0;
+  padding: 0;
+
+  > .header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px;
+    border-bottom: 1px solid $border-light;
     color: $text-light;
-    cursor: pointer;
-    transition: color 0.15s ease;
+    font-size: 14px;
+    text-align: left;
 
-    > svg {
-      width: 22px;
-      height: 22px;
-    }
-
-    > .badge {
-      position: absolute;
-      top: -2px;
-      right: -4px;
-      min-width: 16px;
-      height: 16px;
-      padding: 0 4px;
-      border-radius: 999px;
-      background: $primary;
-      color: white;
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 16px;
-      text-align: center;
-    }
-
-    &:hover {
+    > p {
+      margin: 0;
       color: $text-bold;
+      font-weight: 500;
     }
 
-    &:focus-visible {
-      outline: 2px solid $primary;
-      outline-offset: 2px;
+    > .markAllButton {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0;
+      border: none;
+      background: none;
+      color: $primary;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+
+      > svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      &:hover:not(:disabled) {
+        text-decoration: underline;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
     }
   }
 
-  > .menuPosition {
-    z-index: 110;
+  > .list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 10px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: $border-light transparent;
 
-    > .menu {
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $border-light;
+      border-radius: 2px;
+    }
+
+    > .emptyState {
       display: flex;
       flex-direction: column;
-      width: 320px;
-      max-height: min(70vh, 420px);
-      border: 1px solid $border-light;
-      border-radius: 12px;
-      background: $off-white;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
+      align-items: center;
+      gap: 10px;
+      padding: 24px 0;
+      color: $text-light;
+      font-size: 14px;
+      text-align: center;
 
-      > .header {
-        flex-shrink: 0;
+      > svg {
+        width: 48px;
+        height: 48px;
+      }
+
+      > p {
+        margin: 0;
+      }
+    }
+
+    > .notification {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      background: $light-blue;
+      color: $text-bold;
+      text-align: left;
+      box-sizing: border-box;
+
+      &.seen {
+        opacity: 0.55;
+      }
+
+      > .notificationHeader {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
-        gap: 12px;
-        padding: 14px;
-        border-bottom: 1px solid $border-light;
-        color: $text-light;
-        font-size: 14px;
-        text-align: left;
+        gap: 8px;
+        width: 100%;
 
-        > p {
+        > .title {
           margin: 0;
-          color: $text-bold;
+          font-size: 14px;
           font-weight: 500;
+          color: $text-bold;
         }
 
-        > .markAllButton {
-          display: inline-flex;
+        > .headerActions {
+          display: flex;
           align-items: center;
-          gap: 4px;
-          padding: 0;
-          border: none;
-          background: none;
-          color: $primary;
-          font-size: 12px;
-          font-weight: 500;
-          cursor: pointer;
-          white-space: nowrap;
+          gap: 6px;
+          flex-shrink: 0;
 
-          > svg {
-            width: 14px;
-            height: 14px;
+          > .time {
+            margin: 0;
+            font-size: 12px;
+            color: $text-light;
           }
 
-          &:hover:not(:disabled) {
-            text-decoration: underline;
-          }
+          > .markReadButton {
+            display: grid;
+            place-items: center;
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: $text-light;
+            cursor: pointer;
 
-          &:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
+            > svg {
+              width: 14px;
+              height: 14px;
+            }
+
+            &:hover:not(:disabled) {
+              color: $primary;
+              background: rgba(158, 56, 208, 0.08);
+            }
+
+            &:disabled {
+              opacity: 0.5;
+              cursor: not-allowed;
+            }
           }
         }
       }
 
-      > .list {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        padding: 8px 10px;
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: $border-light transparent;
-
-        &::-webkit-scrollbar {
-          width: 3px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background: $border-light;
-          border-radius: 2px;
-        }
-
-        > .emptyState {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-          padding: 24px 0;
-          color: $text-light;
-          font-size: 14px;
-          text-align: center;
-
-          > svg {
-            width: 48px;
-            height: 48px;
-          }
-
-          > p {
-            margin: 0;
-          }
-        }
-
-        > .notification {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          width: 100%;
-          padding: 8px;
-          border-radius: 6px;
-          background: $light-blue;
-          color: $text-bold;
-          text-align: left;
-          box-sizing: border-box;
-
-          &.seen {
-            opacity: 0.55;
-          }
-
-          > .notificationHeader {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 8px;
-            width: 100%;
-
-            > .title {
-              margin: 0;
-              font-size: 14px;
-              font-weight: 500;
-              color: $text-bold;
-            }
-
-            > .headerActions {
-              display: flex;
-              align-items: center;
-              gap: 6px;
-              flex-shrink: 0;
-
-              > .time {
-                margin: 0;
-                font-size: 12px;
-                color: $text-light;
-              }
-
-              > .markReadButton {
-                display: grid;
-                place-items: center;
-                width: 22px;
-                height: 22px;
-                padding: 0;
-                border: none;
-                border-radius: 6px;
-                background: transparent;
-                color: $text-light;
-                cursor: pointer;
-
-                > svg {
-                  width: 14px;
-                  height: 14px;
-                }
-
-                &:hover:not(:disabled) {
-                  color: $primary;
-                  background: rgba(158, 56, 208, 0.08);
-                }
-
-                &:disabled {
-                  opacity: 0.5;
-                  cursor: not-allowed;
-                }
-              }
-            }
-          }
-
-          > .body {
-            margin: 0;
-            font-size: 14px;
-            color: $text-light;
-          }
-        }
+      > .body {
+        margin: 0;
+        font-size: 14px;
+        color: $text-light;
       }
     }
   }

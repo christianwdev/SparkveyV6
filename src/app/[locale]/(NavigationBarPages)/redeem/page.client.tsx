@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { PurchaseModalProvider } from '@contexts/PurchaseModalContext';
 import RewardCarouselSection from '@components/RewardCarouselSection/RewardCarouselSection';
+import EmptyState from '@components/EmptyState/EmptyState';
 import { useFeaturedRewards } from '@hooks/useFeaturedRewards';
 import {
   REDEEM_CATEGORY_IDS,
@@ -32,9 +33,7 @@ export default function RedeemPageClient(
   if (!loading && (isError || !data || !hasAnyRewards)) {
     return (
       <div className={styles.sections}>
-        <div className={styles.emptyState}>
-          <p>{isError || !data ? t('loadError') : t('empty')}</p>
-        </div>
+        <EmptyState message={isError || !data ? t('loadError') : t('empty')} />
       </div>
     );
   }

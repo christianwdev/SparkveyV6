@@ -1,16 +1,19 @@
 import type { NextConfig } from 'next';
 import createNextIntlPlugin from 'next-intl/plugin';
 import path from 'path';
-import Icons from 'unplugin-icons/webpack';
 
 const STYLES_DIR = path.resolve(__dirname, './app/_styles');
-const withNextIntl = createNextIntlPlugin();
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 const NEXT_BUILD_CPUS = Number(process.env.NEXT_BUILD_CPUS ?? 2);
 
 const nextConfig: NextConfig = {
+  reactCompiler: true,
+  reactStrictMode: true,
+  productionBrowserSourceMaps: false,
+
   experimental: {
     workerThreads: false,
-    cpus: Number.isFinite(NEXT_BUILD_CPUS) ? NEXT_BUILD_CPUS : 2,
+    cpus: Number.isFinite(NEXT_BUILD_CPUS) ? NEXT_BUILD_CPUS : 4,
   },
 
   images: {
@@ -40,10 +43,6 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV || 'production',
   },
 
-  reactStrictMode: true,
-  reactCompiler: true,
-  productionBrowserSourceMaps: false,
-
   async headers() {
     return [
       {
@@ -57,18 +56,12 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-
-  webpack(config) {
-    config.cache = false;
-    config.plugins.push(
-      Icons({
-        compiler: 'jsx',
-        jsx: 'react',
-      }),
-    );
-
-    return config;
-  },
 };
 
-export default withNextIntl(nextConfig);
+const config = withNextIntl(nextConfig);
+
+if (config.turbopack?.resolveAlias) {
+  config.turbopack.resolveAlias['next-intl/config'] = './i18n/request.ts';
+}
+
+export default config;

@@ -461,7 +461,6 @@
     }
   },
   "UserDropdown": {
-    "profile": "プロフィール",
     "earnings": "収益",
     "redemptions": "換金",
     "settings": "設定",
@@ -538,6 +537,9 @@
   "OfferItem": {
     "earn": "獲得",
     "upTo": "最大",
+    "sparksAlt": "Sparks"
+  },
+  "SparksAmount": {
     "sparksAlt": "Sparks"
   },
   "SurveyItem": {
@@ -1093,6 +1095,7 @@
     },
     "inputs": {
       "enterReferralCode": "紹介コードを入力",
+      "createReferralCode": "紹介コードを作成",
       "referralPrefix": "https://sparkvey.com?ref="
     },
     "actions": {

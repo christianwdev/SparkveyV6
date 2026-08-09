@@ -1,0 +1,62 @@
+@use '@styles/variables.scss' as *;
+
+.prefixedTextField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+
+  > label {
+    font-size: 13px;
+    font-weight: 500;
+    color: $text-light;
+  }
+
+  > .control {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border: 1px solid $border-light;
+    border-radius: 8px;
+    background: $background;
+    overflow: hidden;
+
+    &:focus-within {
+      outline: 1px solid $primary;
+    }
+
+    > .prefix {
+      flex-shrink: 0;
+      padding: 0 0 0 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+      white-space: nowrap;
+    }
+
+    > input {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      padding: 0 12px 0 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+      color: $text-bold;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  > .hint {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: $text-light;
+  }
+}

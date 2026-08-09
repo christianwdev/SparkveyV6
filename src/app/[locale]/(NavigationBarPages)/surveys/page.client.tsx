@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import SurveyItem from '@components/SurveyItem/SurveyItem';
 import SurveyProfilerCard from '@components/SurveyProfilerCard/SurveyProfilerCard';
+import EmptyState from '@components/EmptyState/EmptyState';
 import { useUser } from '@contexts/UserProvider';
 import { useSurveysQuery } from '@hooks/useSurveysQuery';
 import styles from './page.module.scss';
@@ -30,7 +31,7 @@ export default function SurveysPageClient() {
   }
 
   if (surveys.length === 0 && !showProfiler) {
-    return <p className={styles.statusMessage}>{t('empty')}</p>;
+    return <EmptyState message={t('empty')} />;
   }
 
   return (
@@ -51,7 +52,7 @@ export default function SurveysPageClient() {
         ))}
       </div>
       {surveys.length === 0 && (
-        <p className={styles.statusMessage}>{t('empty')}</p>
+        <EmptyState message={t('empty')} />
       )}
     </>
   );

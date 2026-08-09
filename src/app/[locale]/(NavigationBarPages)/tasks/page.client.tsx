@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import OfferItem from '@components/OfferItem/OfferItem';
 import Dropdown from '@components/Dropdown/Dropdown';
+import EmptyState from '@components/EmptyState/EmptyState';
 import { useBrowseOffers } from '@hooks/useBrowseOffers';
 import type { BrowseOffersSort } from 'types/Offer/BrowseOffersSort';
 import { tasksSearchParams } from '@utils/tasksSearchParams';
@@ -177,9 +178,7 @@ function TasksPageContent() {
       </div>
 
       {!loading && offers.length === 0 && (
-        <div className={styles.noMatch}>
-          <p>{t('empty')}</p>
-        </div>
+        <EmptyState message={t('empty')} />
       )}
 
       {!isFetchingNextPage && hasNextPage && offers.length >= INFINITE_SCROLL_CAP && (

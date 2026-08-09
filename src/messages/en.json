@@ -460,7 +460,6 @@
     }
   },
   "UserDropdown": {
-    "profile": "Profile",
     "earnings": "Earnings",
     "redemptions": "Redemptions",
     "settings": "Settings",
@@ -537,6 +536,9 @@
   "OfferItem": {
     "earn": "Earn",
     "upTo": "up to",
+    "sparksAlt": "Sparks"
+  },
+  "SparksAmount": {
     "sparksAlt": "Sparks"
   },
   "RewardItem": {
@@ -1134,6 +1136,7 @@
     },
     "inputs": {
       "enterReferralCode": "Enter a referral code",
+      "createReferralCode": "Create a referral code",
       "referralPrefix": "https://sparkvey.com?ref="
     },
     "actions": {

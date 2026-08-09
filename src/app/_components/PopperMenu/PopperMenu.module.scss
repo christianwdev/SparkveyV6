@@ -1,0 +1,22 @@
+@use '@styles/variables.scss' as *;
+
+.popperMenu {
+  position: relative;
+
+  > .menuPosition {
+    z-index: 110;
+
+    > .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 180px;
+      padding: 6px;
+      border: 1px solid $border-light;
+      border-radius: 12px;
+      background: $off-white;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+  }
+}

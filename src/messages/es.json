@@ -461,7 +461,6 @@
     }
   },
   "UserDropdown": {
-    "profile": "Perfil",
     "earnings": "Ganancias",
     "redemptions": "Canjes",
     "settings": "Configuracion",
@@ -538,6 +537,9 @@
   "OfferItem": {
     "earn": "Gana",
     "upTo": "hasta",
+    "sparksAlt": "Sparks"
+  },
+  "SparksAmount": {
     "sparksAlt": "Sparks"
   },
   "SurveyItem": {
@@ -1093,6 +1095,7 @@
     },
     "inputs": {
       "enterReferralCode": "Introduce un codigo de referido",
+      "createReferralCode": "Crear un codigo de referido",
       "referralPrefix": "https://sparkvey.com?ref="
     },
     "actions": {

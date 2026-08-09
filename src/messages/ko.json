@@ -461,7 +461,6 @@
     }
   },
   "UserDropdown": {
-    "profile": "프로필",
     "earnings": "수익",
     "redemptions": "환전",
     "settings": "설정",
@@ -538,6 +537,9 @@
   "OfferItem": {
     "earn": "적립",
     "upTo": "최대",
+    "sparksAlt": "스파크"
+  },
+  "SparksAmount": {
     "sparksAlt": "스파크"
   },
   "SurveyItem": {
@@ -1093,6 +1095,7 @@
     },
     "inputs": {
       "enterReferralCode": "추천 코드를 입력하세요",
+      "createReferralCode": "추천 코드 만들기",
       "referralPrefix": "https://sparkvey.com?ref="
     },
     "actions": {

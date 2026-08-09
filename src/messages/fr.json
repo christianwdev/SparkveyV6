@@ -461,7 +461,6 @@
     }
   },
   "UserDropdown": {
-    "profile": "Profil",
     "earnings": "Gains",
     "redemptions": "Retraits",
     "settings": "Paramètres",
@@ -538,6 +537,9 @@
   "OfferItem": {
     "earn": "Gagnez",
     "upTo": "jusqu'à",
+    "sparksAlt": "Sparks"
+  },
+  "SparksAmount": {
     "sparksAlt": "Sparks"
   },
   "SurveyItem": {
@@ -1093,6 +1095,7 @@
     },
     "inputs": {
       "enterReferralCode": "Saisissez un code de parrainage",
+      "createReferralCode": "Creer un code de parrainage",
       "referralPrefix": "https://sparkvey.com?ref="
     },
     "actions": {

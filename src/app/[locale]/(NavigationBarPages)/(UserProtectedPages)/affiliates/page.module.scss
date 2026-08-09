@@ -1,0 +1,214 @@
+@use '@styles/variables.scss' as *;
+
+.affiliatesPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $content-max-width;
+  min-height: calc(100vh - $navbar-height);
+  margin: 0 auto;
+  padding: 0 0 64px;
+  box-sizing: border-box;
+  gap: 28px;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    > h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+      color: $text-bold;
+      line-height: 1.25;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 400;
+      color: $text-light;
+      line-height: 1.45;
+      max-width: 520px;
+    }
+  }
+
+  > .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    > .statsContainer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+
+      @media (max-width: $tablet) {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media (max-width: $large-phone) {
+        grid-template-columns: 1fr;
+      }
+
+      > .statsCard {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        min-width: 0;
+        padding: 20px;
+        border: 1px solid $border-light;
+        border-radius: 12px;
+
+        > .statIcon {
+          width: 36px;
+          height: 36px;
+          color: $primary;
+          flex-shrink: 0;
+        }
+
+        > .statInformation {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          min-width: 0;
+
+          > p {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: $text-light;
+          }
+
+          > .statValue {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: $text-bold;
+            font-variant-numeric: tabular-nums;
+          }
+
+          > .sparkStat {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+
+    > .claimBanner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      border: 1px solid $border-light;
+      border-radius: 12px;
+
+      @media (max-width: $large-phone) {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      > p {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-bold;
+      }
+    }
+
+    > .codeContainersWrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+
+      @media (max-width: $tablet) {
+        grid-template-columns: 1fr;
+      }
+
+      > .codeContainer {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        padding: 20px;
+        border: 1px solid $border-light;
+        border-radius: 12px;
+
+        @media (max-width: $large-phone) {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        > .codeField {
+          flex: 1;
+        }
+
+        > .codeAction {
+          width: 140px;
+          flex-shrink: 0;
+
+          @media (max-width: $large-phone) {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+
+  .codeCell {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    > .codeButton {
+      display: inline-flex;
+      align-items: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+
+      &:hover,
+      &:focus-visible {
+        color: $primary;
+      }
+    }
+
+    > .copyButton {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: $text-light;
+      cursor: pointer;
+
+      > svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      &:hover,
+      &:focus-visible {
+        color: $primary;
+        background: rgba($primary, 0.08);
+      }
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    padding: 24px 16px 48px;
+
+    > .header > h1 {
+      font-size: 24px;
+    }
+  }
+}

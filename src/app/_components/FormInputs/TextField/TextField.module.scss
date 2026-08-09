@@ -1,0 +1,42 @@
+@use '@styles/variables.scss' as *;
+
+.textField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+
+  > label {
+    font-size: 13px;
+    font-weight: 500;
+    color: $text-light;
+  }
+
+  > input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    box-sizing: border-box;
+    border: 1px solid $border-light;
+    border-radius: 8px;
+    background: $background;
+    color: $text-bold;
+    font-size: 14px;
+
+    &:focus {
+      outline: 1px solid $primary;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  > .hint {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: $text-light;
+  }
+}
