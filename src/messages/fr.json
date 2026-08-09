@@ -1095,6 +1095,7 @@
     },
     "inputs": {
       "enterReferralCode": "Saisissez un code de parrainage",
+      "createReferralCode": "Creer un code de parrainage",
       "referralPrefix": "https://sparkvey.com?ref="
     },
     "actions": {

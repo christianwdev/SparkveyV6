@@ -37,11 +37,11 @@
   > .content {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
 
     > .statsContainer {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 16px;
 
       @media (max-width: $tablet) {
@@ -55,15 +55,15 @@
       > .statsCard {
         display: flex;
         align-items: center;
-        gap: 24px;
-        background-color: $off-white;
-        border-radius: 8px;
-        padding: 24px 32px;
-        box-shadow: 0 3px 7.5px 0 #0000000d;
+        gap: 16px;
+        min-width: 0;
+        padding: 20px;
+        border: 1px solid $border-light;
+        border-radius: 12px;
 
         > .statIcon {
-          width: 40px;
-          height: 40px;
+          width: 36px;
+          height: 36px;
           color: $primary;
           flex-shrink: 0;
         }
@@ -71,21 +71,26 @@
         > .statInformation {
           display: flex;
           flex-direction: column;
+          gap: 4px;
+          min-width: 0;
 
           > p {
             margin: 0;
+            font-size: 13px;
+            font-weight: 500;
+            color: $text-light;
+          }
 
-            &:first-child {
-              font-size: 14px;
-              font-weight: 500;
-              color: $text-light;
-            }
+          > .statValue {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: $text-bold;
+            font-variant-numeric: tabular-nums;
+          }
 
-            &:last-child {
-              font-size: 20px;
-              font-weight: 400;
-              color: $text-bold;
-            }
+          > .sparkStat {
+            font-size: 20px;
           }
         }
       }
@@ -96,10 +101,9 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 20px 24px;
-      border-radius: 8px;
-      background-color: $off-white;
-      box-shadow: 0 3px 7.5px 0 #0000000d;
+      padding: 16px 20px;
+      border: 1px solid $border-light;
+      border-radius: 12px;
 
       @media (max-width: $large-phone) {
         flex-direction: column;
@@ -108,130 +112,48 @@
 
       > p {
         margin: 0;
-        font-size: 15px;
-        font-weight: 500;
-        color: $text-bold;
-      }
-
-      > .claimButton {
-        min-width: 150px;
-        height: 45px;
-        padding: 0 20px;
-        border: none;
-        border-radius: 4px;
-        background-color: $primary;
-        color: $text-white;
         font-size: 14px;
         font-weight: 500;
-        cursor: pointer;
-        transition: opacity 0.2s ease;
-
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
+        color: $text-bold;
       }
     }
 
     > .codeContainersWrapper {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 16px;
-      width: 100%;
 
       @media (max-width: $tablet) {
-        flex-direction: column;
+        grid-template-columns: 1fr;
       }
 
       > .codeContainer {
         display: flex;
-        align-items: center;
-        gap: 16px;
-        flex: 1;
-        padding: 24px 32px;
-        border-radius: 8px;
-        background-color: $off-white;
-        box-shadow: 0 3px 7.5px 0 #0000000d;
+        align-items: flex-end;
+        gap: 12px;
+        padding: 20px;
+        border: 1px solid $border-light;
+        border-radius: 12px;
 
         @media (max-width: $large-phone) {
           flex-direction: column;
-
-          > .inputWrapper {
-            width: 100%;
-          }
-
-          > .actionButton {
-            width: 100%;
-          }
+          align-items: stretch;
         }
 
-        > .inputWrapper {
-          display: flex;
-          align-items: center;
+        > .codeField {
           flex: 1;
-          gap: 2px;
-          position: relative;
-          height: 45px;
-          min-height: 45px;
-          padding: 0 12px;
-          border: 1px solid $border-light;
-          border-radius: 4px;
-          transition: border-color 0.2s;
-
-          &:focus-within {
-            border-color: $primary;
-          }
-
-          &:has(input:not(:placeholder-shown)) {
-            > .placeholderText {
-              font-size: 10px;
-              transform: translateY(-18px);
-            }
-          }
-
-          > .placeholderText {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            font-size: 14px;
-            font-weight: 500;
-            color: $text-light;
-            pointer-events: none;
-            transform: translateY(-50%);
-            transition: all 0.2s ease;
-          }
-
-          > input {
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            border: none;
-            background-color: transparent;
-            outline: none;
-            font-size: 14px;
-            color: $text-bold;
-          }
         }
 
-        > .actionButton {
-          width: 150px;
-          height: 45px;
-          border: none;
-          border-radius: 4px;
-          background-color: $primary;
-          color: $text-white;
-          font-size: 14px;
-          font-weight: 500;
-          cursor: pointer;
-          transition: opacity 0.2s ease;
+        > .codeAction {
+          width: 140px;
+          flex-shrink: 0;
 
-          &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+          @media (max-width: $large-phone) {
+            width: 100%;
           }
         }
       }
     }
-
   }
 
   .codeCell {
@@ -277,19 +199,8 @@
       &:hover,
       &:focus-visible {
         color: $primary;
-        background: rgba(158, 56, 208, 0.08);
+        background: rgba($primary, 0.08);
       }
-    }
-  }
-
-  .sparkValue {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    > img {
-      width: 12px;
-      height: 12px;
     }
   }
 

@@ -1,5 +1,4 @@
 @use '@styles/variables.scss' as *;
-@use '@styles/form.scss' as form;
 
 $switch-width: 44px;
 $switch-height: 26px;
@@ -106,11 +105,6 @@ $switch-pad: 3px;
       gap: 12px;
       width: 100%;
 
-      > .field,
-      > .passwordFields > .field {
-        @include form.form-field;
-      }
-
       > .actions {
         display: flex;
         align-items: center;
@@ -216,19 +210,6 @@ $switch-pad: 3px;
       > .sectionHeader > h2 {
         color: $red;
       }
-    }
-  }
-
-  .button {
-    @include form.form-primary-button;
-
-    &.secondary {
-      background: $light-gray;
-      color: $text-bold;
-    }
-
-    &.danger {
-      background: $red;
     }
   }
 

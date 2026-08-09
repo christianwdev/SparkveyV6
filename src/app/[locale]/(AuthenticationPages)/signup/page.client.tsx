@@ -12,6 +12,10 @@ import { register } from '@utils/auth';
 // Contexts
 import { useUser } from '@contexts/UserProvider';
 
+// Components
+import TextField from '@components/FormInputs/TextField/TextField';
+import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
+
 import styles from './page.module.scss';
 
 const USERNAME_REGEX = /^[a-zA-Z0-9_]{3,20}$/;
@@ -169,80 +173,70 @@ function SignupPageContent() {
           });
         }}
       >
-        <div className={styles.field}>
-          <label htmlFor="signup-email">{t('emailAddress')}</label>
-          <input
-            id="signup-email"
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            disabled={pending}
-            required
-            autoComplete="email"
-          />
-        </div>
+        <TextField
+          id="signup-email"
+          label={t('emailAddress')}
+          type="email"
+          value={email}
+          onChange={event => setEmail(event.target.value)}
+          disabled={pending}
+          required
+          autoComplete="email"
+        />
 
-        <div className={styles.field}>
-          <label htmlFor="signup-password">{t('password')}</label>
-          <input
-            id="signup-password"
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            disabled={pending}
-            required
-            minLength={8}
-            autoComplete="new-password"
-          />
-          <p className={styles.hint}>{t('errors.passwordInvalid')}</p>
-        </div>
+        <TextField
+          id="signup-password"
+          label={t('password')}
+          type="password"
+          value={password}
+          onChange={event => setPassword(event.target.value)}
+          disabled={pending}
+          required
+          minLength={8}
+          autoComplete="new-password"
+          hint={t('errors.passwordInvalid')}
+        />
 
-        <div className={styles.field}>
-          <label htmlFor="signup-confirm-password">{t('confirmPassword')}</label>
-          <input
-            id="signup-confirm-password"
-            type="password"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            disabled={pending}
-            required
-            minLength={8}
-            autoComplete="new-password"
-          />
-        </div>
+        <TextField
+          id="signup-confirm-password"
+          label={t('confirmPassword')}
+          type="password"
+          value={confirmPassword}
+          onChange={event => setConfirmPassword(event.target.value)}
+          disabled={pending}
+          required
+          minLength={8}
+          autoComplete="new-password"
+        />
 
-        <div className={styles.field}>
-          <label htmlFor="signup-username">{t('username')}</label>
-          <input
-            id="signup-username"
-            type="text"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            disabled={pending}
-            required
-            minLength={3}
-            maxLength={20}
-            autoComplete="username"
-          />
-        </div>
+        <TextField
+          id="signup-username"
+          label={t('username')}
+          type="text"
+          value={username}
+          onChange={event => setUsername(event.target.value)}
+          disabled={pending}
+          required
+          minLength={3}
+          maxLength={20}
+          autoComplete="username"
+        />
 
-        <div className={styles.field}>
-          <label htmlFor="signup-referral">{t('referralCodeOptional')}</label>
-          <input
-            id="signup-referral"
-            type="text"
-            value={referralCode}
-            onChange={(event) => setReferralCode(event.target.value)}
-            disabled={pending}
-            minLength={3}
-            maxLength={36}
-            autoComplete="off"
-          />
-        </div>
+        <TextField
+          id="signup-referral"
+          label={t('referralCodeOptional')}
+          type="text"
+          value={referralCode}
+          onChange={event => setReferralCode(event.target.value)}
+          disabled={pending}
+          minLength={3}
+          maxLength={36}
+          autoComplete="off"
+        />
 
-        <button type="submit" className={styles.button} disabled={pending}>
+        <PrimaryButton type="submit" disabled={pending}>
           {pending ? t('creatingAccount') : t('signUp')}
-        </button>
+        </PrimaryButton>
       </form>
 
       <div className={styles.orDivider}>

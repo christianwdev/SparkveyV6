@@ -14,6 +14,11 @@ import {
   updateUsernameSetting,
 } from '@utils/profile';
 import { applyColorTheme, isColorTheme } from '@utils/theme';
+
+// Components
+import TextField from '@components/FormInputs/TextField/TextField';
+import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
+
 import styles from './page.module.scss';
 
 function isValidNewPassword(password: string) {
@@ -122,28 +127,25 @@ function SettingsPageContent() {
               );
             }}
           >
-            <div className={styles.field}>
-              <label htmlFor="settings-username">{t('labels.username')}</label>
-              <input
-                id="settings-username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-                placeholder={t('placeholders.username')}
-                disabled={pending === 'username'}
-                minLength={3}
-                maxLength={32}
-                required
-              />
-              <p className={styles.hint}>{t('hints.usernameLimit')}</p>
-            </div>
+            <TextField
+              id="settings-username"
+              label={t('labels.username')}
+              value={username}
+              onChange={event => setUsername(event.target.value)}
+              placeholder={t('placeholders.username')}
+              disabled={pending === 'username'}
+              minLength={3}
+              maxLength={32}
+              required
+              hint={t('hints.usernameLimit')}
+            />
             <div className={styles.actions}>
-              <button
+              <PrimaryButton
                 type="submit"
-                className={styles.button}
                 disabled={pending === 'username' || username.trim() === user.username}
               >
                 {t('actions.saveUsername')}
-              </button>
+              </PrimaryButton>
             </div>
           </form>
 
@@ -170,63 +172,54 @@ function SettingsPageContent() {
                 );
               }}
             >
-              <div className={styles.field}>
-                <label htmlFor="settings-current-email">{t('labels.currentEmail')}</label>
-                <input
-                  id="settings-current-email"
-                  value={user.emailInformation.emailAddress ?? ''}
-                  disabled
-                  readOnly
-                />
-              </div>
-              <div className={styles.field}>
-                <label htmlFor="settings-new-email">{t('labels.newEmail')}</label>
-                <input
-                  id="settings-new-email"
-                  type="email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder={t('placeholders.newEmail')}
-                  disabled={pending === 'email'}
-                  required
-                />
-                <p className={styles.hint}>{t('hints.emailChange')}</p>
-              </div>
-              <div className={styles.field}>
-                <label htmlFor="settings-email-password">{t('labels.currentPassword')}</label>
-                <input
-                  id="settings-email-password"
-                  type="password"
-                  value={emailPassword}
-                  onChange={(event) => setEmailPassword(event.target.value)}
-                  disabled={pending === 'email'}
-                  required
-                  autoComplete="current-password"
-                />
-                <p className={styles.hint}>{t('hints.emailPasswordConfirm')}</p>
-              </div>
+              <TextField
+                id="settings-current-email"
+                label={t('labels.currentEmail')}
+                value={user.emailInformation.emailAddress ?? ''}
+                disabled
+                readOnly
+              />
+              <TextField
+                id="settings-new-email"
+                label={t('labels.newEmail')}
+                type="email"
+                value={email}
+                onChange={event => setEmail(event.target.value)}
+                placeholder={t('placeholders.newEmail')}
+                disabled={pending === 'email'}
+                required
+                hint={t('hints.emailChange')}
+              />
+              <TextField
+                id="settings-email-password"
+                label={t('labels.currentPassword')}
+                type="password"
+                value={emailPassword}
+                onChange={event => setEmailPassword(event.target.value)}
+                disabled={pending === 'email'}
+                required
+                autoComplete="current-password"
+                hint={t('hints.emailPasswordConfirm')}
+              />
               <div className={styles.actions}>
-                <button
+                <PrimaryButton
                   type="submit"
-                  className={styles.button}
                   disabled={pending === 'email' || !email.trim() || !emailPassword}
                 >
                   {t('actions.changeEmail')}
-                </button>
+                </PrimaryButton>
               </div>
             </form>
           ) : (
             <div className={styles.form}>
-              <div className={styles.field}>
-                <label htmlFor="settings-current-email">{t('labels.currentEmail')}</label>
-                <input
-                  id="settings-current-email"
-                  value={user.emailInformation.emailAddress ?? ''}
-                  disabled
-                  readOnly
-                />
-                <p className={styles.hint}>{t('hints.oauthEmailLocked')}</p>
-              </div>
+              <TextField
+                id="settings-current-email"
+                label={t('labels.currentEmail')}
+                value={user.emailInformation.emailAddress ?? ''}
+                disabled
+                readOnly
+                hint={t('hints.oauthEmailLocked')}
+              />
             </div>
           )}
 
@@ -267,47 +260,41 @@ function SettingsPageContent() {
               }}
             >
               <div className={styles.passwordFields}>
-                <div className={styles.field}>
-                  <label htmlFor="settings-current-password">{t('labels.currentPassword')}</label>
-                  <input
-                    id="settings-current-password"
-                    type="password"
-                    value={currentPassword}
-                    onChange={(event) => setCurrentPassword(event.target.value)}
-                    disabled={pending === 'password'}
-                    required
-                  />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="settings-new-password">{t('labels.newPassword')}</label>
-                  <input
-                    id="settings-new-password"
-                    type="password"
-                    value={newPassword}
-                    onChange={(event) => setNewPassword(event.target.value)}
-                    disabled={pending === 'password'}
-                    required
-                    minLength={8}
-                  />
-                  <p className={styles.hint}>{t('hints.passwordRules')}</p>
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="settings-confirm-password">{t('labels.confirmPassword')}</label>
-                  <input
-                    id="settings-confirm-password"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(event) => setConfirmPassword(event.target.value)}
-                    disabled={pending === 'password'}
-                    required
-                    minLength={8}
-                  />
-                </div>
+                <TextField
+                  id="settings-current-password"
+                  label={t('labels.currentPassword')}
+                  type="password"
+                  value={currentPassword}
+                  onChange={event => setCurrentPassword(event.target.value)}
+                  disabled={pending === 'password'}
+                  required
+                />
+                <TextField
+                  id="settings-new-password"
+                  label={t('labels.newPassword')}
+                  type="password"
+                  value={newPassword}
+                  onChange={event => setNewPassword(event.target.value)}
+                  disabled={pending === 'password'}
+                  required
+                  minLength={8}
+                  hint={t('hints.passwordRules')}
+                />
+                <TextField
+                  id="settings-confirm-password"
+                  label={t('labels.confirmPassword')}
+                  type="password"
+                  value={confirmPassword}
+                  onChange={event => setConfirmPassword(event.target.value)}
+                  disabled={pending === 'password'}
+                  required
+                  minLength={8}
+                />
               </div>
               <div className={styles.actions}>
-                <button type="submit" className={styles.button} disabled={pending === 'password'}>
+                <PrimaryButton type="submit" disabled={pending === 'password'}>
                   {t('actions.updatePassword')}
-                </button>
+                </PrimaryButton>
               </div>
             </form>
           ) : (
@@ -464,18 +451,16 @@ function SettingsPageContent() {
           <p className={styles.statusMessage}>{t('hints.deleteAccount')}</p>
           <div className={styles.actions}>
             {!deleteArmed ? (
-              <button
-                type="button"
-                className={`${styles.button} ${styles.danger}`}
+              <PrimaryButton
+                variant="danger"
                 onClick={() => setDeleteArmed(true)}
               >
                 {t('actions.deleteAccount')}
-              </button>
+              </PrimaryButton>
             ) : (
               <>
-                <button
-                  type="button"
-                  className={`${styles.button} ${styles.danger}`}
+                <PrimaryButton
+                  variant="danger"
                   disabled={pending === 'delete'}
                   onClick={() => {
                     void run(
@@ -491,14 +476,13 @@ function SettingsPageContent() {
                   }}
                 >
                   {t('actions.confirmDelete')}
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.button} ${styles.secondary}`}
+                </PrimaryButton>
+                <PrimaryButton
+                  variant="secondary"
                   onClick={() => setDeleteArmed(false)}
                 >
                   {t('actions.cancel')}
-                </button>
+                </PrimaryButton>
               </>
             )}
           </div>

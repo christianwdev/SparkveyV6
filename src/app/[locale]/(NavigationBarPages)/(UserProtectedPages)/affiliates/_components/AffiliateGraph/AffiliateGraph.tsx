@@ -154,16 +154,16 @@ export default function AffiliateGraph(
                   data: points.map(point => point.totalEarnings),
                   fill: true,
                   cubicInterpolationMode: 'monotone',
-                  borderColor: '#4A3FD0',
-                  backgroundColor: '#4A3FD01A',
-                  pointRadius: 8,
+                  borderColor: '#9E38D0',
+                  backgroundColor: '#9E38D01A',
+                  pointRadius: 6,
                   tension: 0.4,
                   pointHoverRadius: 6,
                   pointHoverBorderWidth: 2,
                 },
               ],
             }}
-            height={450}
+            height={360}
             options={graphOptions}
           />
         )}

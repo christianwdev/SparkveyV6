@@ -5,6 +5,11 @@ import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Link, useRouter } from '@i18n/navigation';
 import { requestPasswordReset, resetPassword } from '@utils/auth';
+
+// Components
+import TextField from '@components/FormInputs/TextField/TextField';
+import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
+
 import styles from './page.module.scss';
 
 function isValidEmail(email: string) {
@@ -92,38 +97,34 @@ function ForgotPasswordPageContent() {
             });
           }}
         >
-          <div className={styles.field}>
-            <label htmlFor="forgot-new-password">{t('newPassword')}</label>
-            <input
-              id="forgot-new-password"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              disabled={pending}
-              required
-              minLength={8}
-              autoComplete="new-password"
-            />
-            <p className={styles.hint}>{t('errors.passwordInvalid')}</p>
-          </div>
+          <TextField
+            id="forgot-new-password"
+            label={t('newPassword')}
+            type="password"
+            value={password}
+            onChange={event => setPassword(event.target.value)}
+            disabled={pending}
+            required
+            minLength={8}
+            autoComplete="new-password"
+            hint={t('errors.passwordInvalid')}
+          />
 
-          <div className={styles.field}>
-            <label htmlFor="forgot-confirm-password">{t('confirmPassword')}</label>
-            <input
-              id="forgot-confirm-password"
-              type="password"
-              value={confirmPassword}
-              onChange={(event) => setConfirmPassword(event.target.value)}
-              disabled={pending}
-              required
-              minLength={8}
-              autoComplete="new-password"
-            />
-          </div>
+          <TextField
+            id="forgot-confirm-password"
+            label={t('confirmPassword')}
+            type="password"
+            value={confirmPassword}
+            onChange={event => setConfirmPassword(event.target.value)}
+            disabled={pending}
+            required
+            minLength={8}
+            autoComplete="new-password"
+          />
 
-          <button type="submit" className={styles.button} disabled={pending}>
+          <PrimaryButton type="submit" disabled={pending}>
             {pending ? t('resetting') : t('resetPassword')}
-          </button>
+          </PrimaryButton>
         </form>
       ) : (
         <form
@@ -170,22 +171,20 @@ function ForgotPasswordPageContent() {
             });
           }}
         >
-          <div className={styles.field}>
-            <label htmlFor="forgot-email">{t('emailAddress')}</label>
-            <input
-              id="forgot-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              disabled={pending}
-              required
-              autoComplete="email"
-            />
-          </div>
+          <TextField
+            id="forgot-email"
+            label={t('emailAddress')}
+            type="email"
+            value={email}
+            onChange={event => setEmail(event.target.value)}
+            disabled={pending}
+            required
+            autoComplete="email"
+          />
 
-          <button type="submit" className={styles.button} disabled={pending || !email.trim()}>
+          <PrimaryButton type="submit" disabled={pending || !email.trim()}>
             {pending ? t('sending') : t('sendResetEmail')}
-          </button>
+          </PrimaryButton>
         </form>
       )}
 

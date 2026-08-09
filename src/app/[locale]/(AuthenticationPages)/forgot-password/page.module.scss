@@ -1,5 +1,4 @@
 @use '@styles/variables.scss' as *;
-@use '@styles/form.scss' as form;
 
 .forgotPasswordPage {
   display: flex;
@@ -45,14 +44,6 @@
     flex-direction: column;
     gap: 12px;
     margin-top: 4px;
-
-    > .field {
-      @include form.form-field;
-    }
-
-    > .button {
-      @include form.form-primary-button;
-    }
   }
 
   > .footerLinks {

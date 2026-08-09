@@ -1,12 +1,10 @@
 @use '@styles/variables.scss' as *;
 
-// Shared form primitives for auth + settings pages.
-// Usage: @include form-field; on the field wrapper, @include form-primary-button; on the submit button.
-
-@mixin form-field {
+.textField {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 
   > label {
     font-size: 13px;
@@ -28,6 +26,11 @@
     &:focus {
       outline: 1px solid $primary;
     }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   }
 
   > .hint {
@@ -35,25 +38,5 @@
     font-size: 12px;
     font-weight: 500;
     color: $text-light;
-  }
-}
-
-@mixin form-primary-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  padding: 0 16px;
-  border: none;
-  border-radius: 8px;
-  background: $primary;
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
   }
 }

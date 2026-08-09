@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { useFormatter, useLocale, useTranslations } from 'next-intl';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
@@ -17,15 +16,19 @@ import { clientRequest } from '@utils/clientRequest';
 import { useAffiliatesQuery } from '@hooks/useAffiliatesQuery';
 import { queryKeys } from '@hooks/queryKeys';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
+import SparksAmount from '@components/SparksAmount/SparksAmount';
+import TextField from '@components/FormInputs/TextField/TextField';
+import PrefixedTextField from '@components/FormInputs/PrefixedTextField/PrefixedTextField';
+import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
 import AffiliateGraph from './_components/AffiliateGraph/AffiliateGraph';
 import styles from './page.module.scss';
 
 // Icons
-import AccountGroupIcon from '~icons/mdi/account-group-outline.jsx';
-import ClockOutlineIcon from '~icons/mdi/clock-outline.jsx';
+import UsersGroupIcon from '~icons/solar/users-group-rounded-linear.jsx';
+import WalletMoneyIcon from '~icons/solar/wallet-money-linear.jsx';
+import GraphUpIcon from '~icons/solar/graph-up-linear.jsx';
 import TicketOutlineIcon from '~icons/mdi/ticket-outline.jsx';
-import SparkOutlineIcon from '~icons/mdi/sparkles.jsx';
-import CopyIcon from '~icons/mdi/content-copy.jsx';
+import CopyIcon from '~icons/solar/copy-linear.jsx';
 
 // Types
 import type AffiliateCode from 'types/AffiliateCode';
@@ -77,7 +80,11 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
     if (duration !== 'day') return;
     if (!affiliateData?.timeseries) return;
 
-    setGraphData(affiliateData.timeseries);
+    function updateGraphData() {
+      setGraphData(affiliateData?.timeseries ?? null);
+    }
+
+    updateGraphData();
   }, [ affiliateData?.timeseries, duration ]);
 
   const referredBy = user?.referralInformation.referredBy;
@@ -238,9 +245,7 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
             type="button"
             className={styles.codeButton}
             onClick={() => {
-              handleCopyCode(row.code).catch(error => {
-                console.error(error);
-              });
+              void handleCopyCode(row.code);
             }}
             aria-label={t('actions.copyCode')}
           >
@@ -251,9 +256,7 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
             className={styles.copyButton}
             aria-label={t('actions.copyCode')}
             onClick={() => {
-              handleCopyCode(row.code).catch(error => {
-                console.error(error);
-              });
+              void handleCopyCode(row.code);
             }}
           >
             <CopyIcon aria-hidden />
@@ -265,10 +268,7 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
       id: 'totalEarnings',
       header: t('table.totalEarnings'),
       cell: row => (
-        <span className={styles.sparkValue}>
-          <Image src="/img/logo.svg" alt="" width={12} height={12} aria-hidden />
-          {formatter.number(row.totalEarnings)}
-        </span>
+        <SparksAmount amount={row.totalEarnings} />
       ),
     },
     {
@@ -290,26 +290,34 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
     <div className={styles.content}>
       <div className={styles.statsContainer}>
         <div className={styles.statsCard}>
-          <AccountGroupIcon className={styles.statIcon} aria-hidden />
+          <UsersGroupIcon className={styles.statIcon} aria-hidden />
           <div className={styles.statInformation}>
             <p>{t('stats.referrals')}</p>
-            <p>{(stats?.totalReferrals ?? 0).toLocaleString(locale)}</p>
+            <p className={styles.statValue}>
+              {(stats?.totalReferrals ?? 0).toLocaleString(locale)}
+            </p>
           </div>
         </div>
 
         <div className={styles.statsCard}>
-          <SparkOutlineIcon className={styles.statIcon} aria-hidden />
+          <WalletMoneyIcon className={styles.statIcon} aria-hidden />
           <div className={styles.statInformation}>
             <p>{t('stats.totalEarnings')}</p>
-            <p>{(stats?.totalEarnings ?? 0).toLocaleString(locale)}</p>
+            <SparksAmount
+              className={styles.sparkStat}
+              amount={stats?.totalEarnings ?? 0}
+            />
           </div>
         </div>
 
         <div className={styles.statsCard}>
-          <ClockOutlineIcon className={styles.statIcon} aria-hidden />
+          <GraphUpIcon className={styles.statIcon} aria-hidden />
           <div className={styles.statInformation}>
             <p>{t('stats.pendingEarnings')}</p>
-            <p>{pendingEarnings.toLocaleString(locale)}</p>
+            <SparksAmount
+              className={styles.sparkStat}
+              amount={pendingEarnings}
+            />
           </div>
         </div>
 
@@ -317,7 +325,9 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
           <TicketOutlineIcon className={styles.statIcon} aria-hidden />
           <div className={styles.statInformation}>
             <p>{t('stats.maxReferralCodes')}</p>
-            <p>{(stats?.maxAffiliateCodes ?? 0).toLocaleString(locale)}</p>
+            <p className={styles.statValue}>
+              {(stats?.maxAffiliateCodes ?? 0).toLocaleString(locale)}
+            </p>
           </div>
         </div>
       </div>
@@ -325,78 +335,67 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
       {canClaim && (
         <div className={styles.claimBanner}>
           <p>{t('claim.banner', { amount: pendingEarnings.toLocaleString(locale) })}</p>
-          <button
-            type="button"
-            className={styles.claimButton}
+          <PrimaryButton
             onClick={() => {
-              handleClaimEarnings().catch(error => {
-                console.error(error);
-              });
+              void handleClaimEarnings();
             }}
             disabled={claimLoading}
           >
             {claimLoading ? t('actions.claiming') : t('actions.claimEarnings')}
-          </button>
+          </PrimaryButton>
         </div>
       )}
 
       <div className={styles.codeContainersWrapper}>
         <div className={styles.codeContainer} id="affiliate-use-code">
-          <div className={styles.inputWrapper}>
-            <p className={styles.placeholderText}>{t('inputs.enterReferralCode')}</p>
-            <input
-              type="text"
-              value={useCodeValue}
-              placeholder=""
-              disabled={!!referredBy}
-              onChange={event => setUseCodeDraft(event.target.value)}
-            />
-          </div>
-          <button
-            type="button"
-            className={styles.actionButton}
+          <TextField
+            className={styles.codeField}
+            id="affiliate-use-code-input"
+            label={t('inputs.enterReferralCode')}
+            type="text"
+            value={useCodeValue}
+            disabled={!!referredBy}
+            onChange={event => setUseCodeDraft(event.target.value)}
+            autoComplete="off"
+          />
+          <PrimaryButton
+            className={styles.codeAction}
             onClick={() => {
-              handleUseCode().catch(error => {
-                console.error(error);
-              });
+              void handleUseCode();
             }}
             disabled={!!referredBy || useCodeLoading || !isValidCode(useCodeValue)}
           >
             {referredBy ? t('actions.claimed') : t('actions.useCode')}
-          </button>
+          </PrimaryButton>
         </div>
 
         <div className={styles.codeContainer} id="affiliate-create-code">
-          <div className={styles.inputWrapper}>
-            <p className={styles.placeholderText}>{t('inputs.referralPrefix')}</p>
-            <input
-              type="text"
-              value={createCodeValue}
-              placeholder=""
-              onChange={event => setCreateCodeValue(event.target.value)}
-            />
-          </div>
-          <button
-            type="button"
-            className={styles.actionButton}
+          <PrefixedTextField
+            className={styles.codeField}
+            id="affiliate-create-code-input"
+            label={t('inputs.createReferralCode')}
+            prefix={t('inputs.referralPrefix')}
+            type="text"
+            value={createCodeValue}
+            onChange={event => setCreateCodeValue(event.target.value)}
+            autoComplete="off"
+          />
+          <PrimaryButton
+            className={styles.codeAction}
             onClick={() => {
-              handleCreateCode().catch(error => {
-                console.error(error);
-              });
+              void handleCreateCode();
             }}
             disabled={createCodeLoading || !isValidCode(createCodeValue)}
           >
             {t('actions.createCode')}
-          </button>
+          </PrimaryButton>
         </div>
       </div>
 
       <AffiliateGraph
         duration={duration}
         onDurationChange={nextDuration => {
-          handleDurationChange(nextDuration).catch(error => {
-            console.error(error);
-          });
+          void handleDurationChange(nextDuration);
         }}
         graphData={displayGraphData}
         loading={graphLoading || (isLoading && !displayGraphData.length)}

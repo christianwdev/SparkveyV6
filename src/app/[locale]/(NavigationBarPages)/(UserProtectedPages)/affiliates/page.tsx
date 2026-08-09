@@ -1,10 +1,6 @@
 import { getTranslations } from 'next-intl/server';
-import { redirect } from '@i18n/navigation';
-import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
-import { getUser } from '@utils/user';
-import { serverRequest } from '@utils/serverRequest';
 import { fetchAffiliateData } from '@utils/affiliates';
-import type { AppLocale } from '@i18n/routing';
+import { serverRequest } from '@utils/serverRequest';
 import AffiliatesPageClient from './page.client';
 import styles from './page.module.scss';
 
@@ -13,8 +9,10 @@ type PageProps = {
 };
 
 export async function generateMetadata({ params }: PageProps) {
+  'use cache';
+
   const { locale } = await params;
-  const t = await getTranslations('AffiliatesMetadata');
+  const t = await getTranslations({ locale, namespace: 'AffiliatesMetadata' });
 
   return {
     title: t('title'),
@@ -25,15 +23,8 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function Page({ params }: PageProps) {
-  const { locale } = await params;
+export default async function Page() {
   const t = await getTranslations('AffiliatesPage');
-  const user = await getUser({ request: serverRequest });
-
-  if (!user) {
-    redirect({ href: FrontendRedirectPaths.login, locale: locale as AppLocale });
-  }
-
   const initialData = await fetchAffiliateData({ request: serverRequest });
 
   return (

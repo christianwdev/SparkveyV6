@@ -1,0 +1,30 @@
+@use '@styles/variables.scss' as *;
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  background: $primary;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  &.secondary {
+    background: $light-gray;
+    color: $text-bold;
+  }
+
+  &.danger {
+    background: $red;
+  }
+}

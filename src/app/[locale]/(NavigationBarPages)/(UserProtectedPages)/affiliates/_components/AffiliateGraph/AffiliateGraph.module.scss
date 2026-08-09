@@ -3,16 +3,15 @@
 .graphContainer {
   display: flex;
   flex-direction: column;
-  background-color: $off-white;
-  border-radius: 8px;
-  padding: 24px 32px;
-  box-shadow: 0 3px 7.5px 0 #0000000d;
-  gap: 50px;
+  gap: 24px;
+  padding: 20px;
+  border: 1px solid $border-light;
+  border-radius: 12px;
 
   > .loading {
-    height: 450px;
+    height: 360px;
     width: 100%;
-    background-color: $background;
+    background-color: $off-white;
     border-radius: 8px;
 
     @include pulse;
@@ -21,7 +20,7 @@
   > .line {
     width: 100%;
     height: 1px;
-    background-color: #6F748740;
+    background-color: $border-light;
   }
 
   > .graphControls {
@@ -37,15 +36,15 @@
 
       > p {
         margin: 0;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 500;
         color: $text-light;
       }
 
       > h3 {
         margin: 0;
-        font-size: 22px;
-        font-weight: 700;
+        font-size: 18px;
+        font-weight: 600;
         color: $text-bold;
       }
     }
@@ -57,12 +56,10 @@
 
   > .graphWrapper {
     width: 100%;
-    height: 450px;
+    height: 360px;
   }
 
   @media (max-width: $large-phone) {
-    padding: 24px 16px;
-
     > .graphControls {
       flex-direction: column;
       align-items: stretch;
@@ -72,6 +69,11 @@
         width: 100%;
         min-width: 0;
       }
+    }
+
+    > .graphWrapper,
+    > .loading {
+      height: 280px;
     }
   }
 }

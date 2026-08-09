@@ -1095,6 +1095,7 @@
     },
     "inputs": {
       "enterReferralCode": "Empfehlungscode eingeben",
+      "createReferralCode": "Empfehlungscode erstellen",
       "referralPrefix": "https://sparkvey.com?ref="
     },
     "actions": {

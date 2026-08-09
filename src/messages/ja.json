@@ -1095,6 +1095,7 @@
     },
     "inputs": {
       "enterReferralCode": "紹介コードを入力",
+      "createReferralCode": "紹介コードを作成",
       "referralPrefix": "https://sparkvey.com?ref="
     },
     "actions": {
