@@ -10,8 +10,8 @@
   z-index: 100;
 
   background: $navbar-background;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(111, 116, 135, 0);
 
   @supports (animation-timeline: scroll()) {

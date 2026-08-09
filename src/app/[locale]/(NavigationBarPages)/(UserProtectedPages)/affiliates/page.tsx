@@ -9,8 +9,6 @@ type PageProps = {
 };
 
 export async function generateMetadata({ params }: PageProps) {
-  'use cache';
-
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'AffiliatesMetadata' });
 
