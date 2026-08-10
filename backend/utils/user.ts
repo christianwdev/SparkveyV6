@@ -392,46 +392,26 @@ export async function updateUsername(
     userID: string,
     username: string,
   },
-): Promise<FunctionResponse<InternalUser, 'notFound' | 'usernameTaken' | 'cooldown' | 'internalServerError'>> {
+): Promise<FunctionResponse<InternalUser, 'cooldown' | 'internalServerError'>> {
   try {
     const { db } = getGlobalObject();
     const now = new Date();
-
-    const current = await db.collection<InternalUser>(DatabaseCollections.users).findOne({ userID });
-    if (!current) return { ok: false, error: 'notFound' };
-    if (current.deletedAt) return { ok: false, error: 'notFound' };
-
-    if (
-      current.usernameChangedAt
-      && now.getTime() - current.usernameChangedAt.getTime() < USERNAME_CHANGE_COOLDOWN_MS
-    ) {
-      return { ok: false, error: 'cooldown' };
-    }
-
-    if (current.username === username) {
-      return { ok: true, data: current };
-    }
-
-    const taken = await db.collection<InternalUser>(DatabaseCollections.users).findOne({
-      username,
-      userID: { $ne: userID },
-      deletedAt: { $exists: false },
-    });
-
-    if (taken) return { ok: false, error: 'usernameTaken' };
+    const cooldownCutoff = new Date(now.getTime() - USERNAME_CHANGE_COOLDOWN_MS);
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
-      { userID, deletedAt: { $exists: false } },
       {
-        $set: {
-          username,
-          usernameChangedAt: now,
-        },
+        userID,
+        deletedAt: { $exists: false },
+        $or: [
+          { usernameChangedAt: { $exists: false } },
+          { usernameChangedAt: { $lte: cooldownCutoff } },
+        ],
       },
+      { $set: { username, usernameChangedAt: now } },
       { returnDocument: 'after' },
     );
 
-    if (!user) return { ok: false, error: 'notFound' };
+    if (!user) return { ok: false, error: 'cooldown' };
 
     return { ok: true, data: user };
   } catch (error) {

@@ -230,12 +230,6 @@ export default function routesInvoker() {
             message: 'You can only change your username once every 24 hours.',
           });
         }
-        if (result.error === 'usernameTaken') {
-          throw new RouteResponseError({
-            status: 400,
-            message: 'That username is already taken.',
-          });
-        }
         throw new RouteResponseError({ status: 500, message: 'Failed to update username.' });
       }
 
