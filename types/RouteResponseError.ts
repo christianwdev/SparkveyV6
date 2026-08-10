@@ -17,6 +17,7 @@ class RouteResponseError extends Error {
     message: string,
   }) {
     super(message);
+    this.name = 'RouteResponseError';
     this.status = status;
     this.response = {
       success: false,

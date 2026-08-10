@@ -7,21 +7,29 @@ import RouteResponseError from 'types/RouteResponseError';
 import type { Context } from 'hono';
 import type { TypedSocket } from 'types/SocketEvents';
 
+// Hono's compose catches Error subclasses and routes them to app.onError
+// before middleware try/catch around await next() can see them. Prefer
+// handleRouteError from app.onError; this middleware only covers non-Error throws.
+export async function handleRouteError(err: unknown, c: Context) {
+  if (err instanceof RouteResponseError) {
+    return sendResponse({
+      c,
+      status: err.status,
+      success: err.response.success,
+      message: err.response.message,
+    });
+  }
+
+  console.error(err);
+
+  return sendResponse({ c, status: 500, success: false, message: 'Internal server error.' });
+}
+
 export const withRouteErrorHandling = createMiddleware(async (c, next) => {
   try {
     await next();
   } catch (err) {
-    if (err instanceof RouteResponseError) {
-      return sendResponse({
-        c,
-        status: err.status,
-        success: err.response.success,
-        message: err.response.message,
-      });
-    }
-    console.error(err);
-
-    return sendResponse({ c, status: 500, success: false, message: 'Internal server error.' });
+    return handleRouteError(err, c);
   }
 });
 

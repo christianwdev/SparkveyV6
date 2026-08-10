@@ -16,6 +16,8 @@ import initializeRoutes from './backend/routes';
 import startRedis from './backend/database/redis';
 import startSocketServer from './backend/socket';
 import { createDistributedLock } from './backend/utils/distributedLock';
+import { handleRouteError } from './backend/utils/request';
+import RouteResponseError from 'types/RouteResponseError';
 
 // Types
 import type GlobalObject from 'types/GlobalObject';
@@ -92,9 +94,15 @@ app.notFound(c => {
 });
 
 app.onError(async (err, c) => {
+  if (err instanceof RouteResponseError) {
+    return handleRouteError(err, c);
+  }
+
   if (err.message && (err.message === 'Unexpected end of JSON input' || err.message === 'Failed to parse JSON')) {
     return c.json({ status: 400, success: false, message: 'Invalid request body, JSON is malformed' });
   }
+
+  console.error(err);
 
   return c.json({ status: 500, success: false, message: 'Internal server error' });
 });
