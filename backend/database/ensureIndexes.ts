@@ -31,9 +31,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  // MongoDB partial indexes do not support `$exists: false` (rewrites to unsupported `$not`).
-  // Username uniqueness for live accounts is enforced in application code until we store
-  // an explicit `deletedAt: null` on active users and can index on that.
+  // Usernames are intentionally non-unique; drop any legacy unique index.
   await db.collection(DatabaseCollections.users).dropIndex('username_unique_active').catch(() => {});
 
   await db.collection(DatabaseCollections.deletedAccountFingerprints).createIndexes([
