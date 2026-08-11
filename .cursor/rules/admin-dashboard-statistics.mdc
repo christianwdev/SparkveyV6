@@ -1,0 +1,74 @@
+---
+description: Growth-first admin dashboard KPI catalog and aggregation conventions
+globs:
+  - backend/routes/admin/dashboard.ts
+  - backend/utils/admin/**/*
+  - backend/utils/siteStatistics.ts
+  - src/**/admin/**/*
+alwaysApply: false
+---
+
+# Admin Dashboard Statistics (Growth & Analytics)
+
+`VIEW_STATISTICS` dashboard answers growth questions: what to feature, where users come from, whether referral compounds, whether GMV is rising. It is **not** an ops triage board (holds, postback failures, payout approvals).
+
+## Units & comparisons
+
+- Currency: **1 USD = 1000 Sparks**. Expose both where money moves.
+- Prefer trends and prior-period deltas over lifetime-only counters.
+- GMV / earned USD for non-reversed earnings: statuses `completed` | `held` | `providerPending` (same as `siteStatistics` / `NON_REVERSED_STATUSES`). Sparks credited = `completed` only.
+
+## Time windows
+
+Align with `backend/utils/affiliateTimeseries.ts`: `day` / `week` / `month` (+ `lifetime` for north-star). UTC bucketing. Include prior-period comparison for growth %.
+
+## Must (v1)
+
+| Area | Metric | Source | Growth question |
+|---|---|---|---|
+| North-star | Period + lifetime earned USD | `siteStatistics.totalEarnedUsd`; period `$sum` `userEarnings.usdValue` (non-reversed) | Is GMV growing? |
+| North-star | Period sparks credited | `userEarnings` `status: completed`, `$sum` `value` | Are users getting paid out in sparks? |
+| North-star | Δ% earned USD + signups vs prior period | same + `users.creationDate` | Acceleration or stall? |
+| Acquisition | Signups timeseries | `users.creationDate` | Are we acquiring? |
+| Acquisition | % signups with referral | `referralInformation.referredByID` set | Organic vs referred mix? |
+| Acquisition | Signup geo mix | `userSessions` country (first/latest when available) | Where to focus? |
+| Activation | Activated users (≥1 non-reversed earning) | distinct `userEarnings.userID` | Who starts earning? |
+| Activation | Activation rate | activated / signups (same cohort window — document definition in API) | Do signups convert? |
+| Activation | % activated in 24h / 7d (or p50 time-to-first-earn if cheap) | `creationDate` → first earning `createdAt` | How fast to value? |
+| Engagement | Active earners (period) | distinct `userID` on earnings | Who is active? |
+| Engagement | Top providers / offers (count + USD) | `userEarnings.provider`, `offerID` | What to promote? |
+| Engagement | Offer-type mix | earnings/offers `offerType` when populated | Supply mix? |
+| Engagement | Repeat-earner rate | ≥2 conversions / active earners | Sticky engagement? |
+| Virality | Referred vs organic signups | `referredByID` | Is referral compounding? |
+| Virality | Referred vs organic earned USD | join referred users → earnings | Channel quality? |
+| Virality | Top affiliate codes | `affiliateCodes.totalEarnings`, `tasksCompleted`; timeseries via referred completed earnings × referral rate | Which codes to push? |
+| Monetization | Successful cashouts (count + USD) | `userRedemptions` `status: completed` | Do earners get paid? |
+| Monetization | Cashout rate (activated with completed redemption / activated) | redemptions ∩ activated | Trust / retention signal? |
+| Monetization | Reversal drag | `reversed` USD / gross period USD | Fraud/quality tax on GMV? |
+| Monetization | Leaderboard bonus sparks (if cheap) | `statistics.earned.bonus` / leaderboard payouts | Engagement spikes? |
+
+Referral **pending vs claimed** commission is secondary (liability); emphasize growth contribution of the channel.
+
+## Later (not v1)
+
+**Deeper analytics:** cohort retention (signup week → % earning weeks 1–4); session DAU/WAU vs earn activity; geo × provider matrices; promocodes / experiments when writers exist; surveys/cashback/videos earned buckets when writers exist.
+
+**Ops / reliability (separate surface — do not crowd growth v1):** hold queue / overdue `heldUntil`; provider-pending backlog; postback success/fail + reasons + latency; redemption pending-approval queues + fees; `sum balance.sparks` liability; unclaimed affiliate `pendingEarnings`.
+
+## API conventions
+
+- `GET /admin/dashboard` in `backend/routes/admin/dashboard.ts`, gated with `requireAdmin(StaffPermissions.VIEW_STATISTICS)`.
+- Return typed aggregates via `sendResponse` / `FunctionResponse` patterns used elsewhere in admin.
+- Top lists may include offer IDs, affiliate codes, coarse geo — do not dump full user PII.
+- Aggregations live in admin/stats utils; keep the route thin.
+
+## Do not
+
+- Fill v1 with hold / postback / approval queues.
+- Treat promocodes or unused earned buckets (`surveys`, `cashback`, `videos`, shopping) as first-class until writers exist.
+- Invent client-side rates from incomplete payloads — compute server-side with documented definitions.
+- Trust client-stated payouts or GMV.
+
+## Canonical sources
+
+`users`, `userEarnings`, `affiliateCodes`, `userRedemptions`, `siteStatistics`, `offers`, `userSessions` — see `backend/constants/DatabaseCollections.ts`. Reuse site total rules in `backend/utils/siteStatistics.ts` and period bucketing in `backend/utils/affiliateTimeseries.ts`.
