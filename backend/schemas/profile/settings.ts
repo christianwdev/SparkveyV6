@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { newPasswordSchema } from 'backend/schemas/password';
+import { emailSchema, newPasswordSchema, usernameSchema } from 'schemas/auth';
 import { isIso3166Alpha2CountryCode } from 'backend/utils/country';
 
 export const changePasswordBodySchema = z.object({
@@ -8,14 +8,14 @@ export const changePasswordBodySchema = z.object({
 });
 
 export const changeEmailBodySchema = z.object({
-  email: z.string().email().max(254),
+  email: emailSchema,
 
   // Required server-side when the account has a password (step-up auth).
   currentPassword: z.string().min(1).optional(),
 });
 
 export const changeUsernameBodySchema = z.object({
-  username: z.string().min(3).max(32).regex(/^[a-zA-Z0-9_]+$/),
+  username: usernameSchema,
 });
 
 export const notificationPreferencesBodySchema = z.object({

@@ -1,0 +1,49 @@
+---
+description: Do not use the void operator (especially for floating promises)
+alwaysApply: true
+---
+
+# No `void` Operator
+
+Do not use the JavaScript `void` operator. That includes silencing floating promises with `void someAsync()`.
+
+Return-type annotations like `: void` on functions that return nothing are fine.
+
+## Prefer
+
+```ts
+// ✅ GOOD — async handler, await the work
+async function onSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  const response = await login({ email, password });
+  // ...
+}
+
+// ✅ GOOD — sync callback that must return void: attach handlers
+onClick={() => {
+  fetchNextPage().catch(error => {
+    console.error(error);
+  });
+}}
+
+// ✅ GOOD — type annotation
+function reset(): void {
+  setValue('');
+}
+```
+
+## Avoid
+
+```ts
+// ❌ BAD
+void login({ email, password }).then(...);
+void fetchNextPage();
+void setFilters({ sort: value });
+onClick={() => void handleRedeem()};
+```
+
+## Rules
+
+- New and edited code must not introduce `void expr`.
+- Do not “mark” floating promises with `void`; await them in an `async` function, or handle rejection with `.catch` / `try/catch`.
+- Do not mass-rewrite unrelated existing `void` call sites unless the task already touches those lines.

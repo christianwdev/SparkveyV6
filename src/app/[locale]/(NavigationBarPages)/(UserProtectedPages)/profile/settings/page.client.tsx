@@ -14,18 +14,13 @@ import {
   updateUsernameSetting,
 } from '@utils/profile';
 import { applyColorTheme, isColorTheme } from '@utils/theme';
+import { isValidNewPassword } from 'schemas/auth';
 
 // Components
 import TextField from '@components/FormInputs/TextField/TextField';
 import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
 
 import styles from './page.module.scss';
-
-function isValidNewPassword(password: string) {
-  return password.length >= 8
-    && /\d/.test(password)
-    && /[^A-Za-z0-9]/.test(password);
-}
 
 function SettingsPageContent() {
   const t = useTranslations('ProfileSettings');
@@ -226,7 +221,7 @@ function SettingsPageContent() {
           {user.hasPassword ? (
             <form
               className={`${styles.form} ${styles.accountWide}`}
-              onSubmit={(event) => {
+              onSubmit={async (event) => {
                 event.preventDefault();
                 if (newPassword !== confirmPassword) {
                   toast.error(t('errors.passwordMismatch'));
@@ -240,7 +235,7 @@ function SettingsPageContent() {
                   return;
                 }
 
-                void run(
+                await run(
                   'password',
                   async () => {
                     const response = await updatePassword({

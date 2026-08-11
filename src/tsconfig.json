@@ -40,6 +40,9 @@
         "../types/*",
         "../_discord/types/*"
       ],
+      "schemas/*": [
+        "../schemas/*"
+      ],
       "@i18n/*": [
         "./i18n/*"
       ]

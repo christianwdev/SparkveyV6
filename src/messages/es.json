@@ -302,6 +302,13 @@
       "genericTryAgain": "Algo salio mal. Intentalo de nuevo.",
       "adBlocker": "Si tienes un bloqueador de anuncios activado, desactivalo para continuar. Si crees que se trata de un error, contacta con soporte.",
       "googleSignInFailed": "Hemos tenido un problema al iniciar sesion con Google."
+    },
+    "banners": {
+      "accountDeletedSuccess": "Tu cuenta ha sido eliminada.",
+      "accountDeletedInvalid": "Ese enlace de eliminación de cuenta no es válido o ha caducado.",
+      "accountDeletedError": "No pudimos completar la eliminación de la cuenta. Inténtalo de nuevo.",
+      "emailChangeSuccess": "Tu correo se actualizó. Inicia sesión con tu nuevo correo.",
+      "passwordResetSuccess": "Tu contraseña se restableció. Ya puedes iniciar sesión con la nueva."
     }
   },
   "SignupPage": {
@@ -329,8 +336,8 @@
       "confirmPasswordRequired": "Confirma tu contrasena.",
       "confirmPasswordMismatch": "Las contrasenas todavia no coinciden.",
       "usernameRequired": "Elige un nombre de usuario para terminar de configurar tu cuenta.",
-      "usernameInvalid": "Los nombres de usuario deben tener entre 3 y 20 letras, numeros o guiones bajos.",
-      "referralInvalid": "Los codigos de referido solo pueden contener letras, numeros o guiones.",
+      "usernameInvalid": "Los nombres de usuario deben tener entre 3 y 32 letras, numeros o guiones bajos.",
+      "referralInvalid": "Los códigos de referido usan hasta 36 letras, números, guiones o guiones bajos.",
       "missingDetails": "Parece que falta algo. Revisa tus datos.",
       "fixHighlighted": "Corrige los campos marcados antes de continuar.",
       "adBlocker": "Si tienes un bloqueador de anuncios activado, desactivalo para continuar. Si crees que se trata de un error, contacta con soporte.",
@@ -455,7 +462,6 @@
       "leaders": "Lideres",
       "refer": "Referir"
     },
-
     "a11y": {
       "avatarAlt": "Avatar"
     }
@@ -1203,19 +1209,6 @@
     "next": "Página siguiente",
     "page": "Página {page}",
     "range": "{start}–{end}"
-  },
-  "Login": {
-    "title": "Sign in",
-    "subtitle": "Access your Sparkvey account.",
-    "hint": "Need to get back to browsing?",
-    "backHome": "Return home",
-    "banners": {
-      "accountDeletedSuccess": "Your account has been deleted.",
-      "accountDeletedInvalid": "That account deletion link is invalid or expired.",
-      "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
-      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
-    }
   },
   "ConfirmAccountDeletion": {
     "title": "Confirm account deletion",

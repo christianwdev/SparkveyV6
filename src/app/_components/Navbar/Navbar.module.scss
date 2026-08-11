@@ -8,11 +8,11 @@
   left: 0;
   right: 0;
   z-index: 100;
-
-  background: $navbar-background;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(111, 116, 135, 0);
+
+  background-color: $navbar-background;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
 
   @supports (animation-timeline: scroll()) {
     animation: navbar-border linear both;

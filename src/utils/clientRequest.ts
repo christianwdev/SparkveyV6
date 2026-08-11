@@ -51,10 +51,6 @@ async function clientRequest<ReturnType>(config: RequestConfig): Promise<ClientS
     headers: resolvedHeaders,
   });
 
-  if (!response.ok) {
-    throw new Error(`Request failed (${response.status}) for ${url}`);
-  }
-
   const responseData = await response.json() as ReturnType;
 
   return {

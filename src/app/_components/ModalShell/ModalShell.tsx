@@ -32,7 +32,10 @@ export default function ModalShell({
       <LockScrollMount />
 
       <div
-        className={[ styles.contentWrapper, contentClassName ].filter(Boolean).join(' ')}
+        className={[
+          styles.contentWrapper,
+          contentClassName || styles.defaultPanel,
+        ].filter(Boolean).join(' ')}
         onClick={e => e.stopPropagation()}
       >
         {header}

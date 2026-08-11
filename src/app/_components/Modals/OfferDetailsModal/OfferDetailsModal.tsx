@@ -84,7 +84,9 @@ export default function OfferDetailsModal(
       setLoading(false);
     }
 
-    void load();
+    load().catch(error => {
+      console.error(error);
+    });
 
     return () => {
       cancelled = true;

@@ -1,9 +1,18 @@
 @use '@styles/variables.scss' as *;
 
-// Children render inside ModalShell's contentWrapper
+// Replaces ModalShell defaultPanel when passed as contentClassName
 .purchaseContent {
+  padding: 36px;
   max-width: 630px;
   max-height: min(80vh, 600px);
+  height: fit-content;
+  gap: 18px;
+
+  @media screen and (max-width: $large-phone) {
+    margin: 16px;
+    padding: 24px;
+    max-height: calc(100vh - 32px);
+  }
 }
 
 .purchaseTitle {

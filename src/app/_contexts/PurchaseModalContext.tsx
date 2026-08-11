@@ -10,8 +10,8 @@ import {
 } from 'react';
 
 // Components
-import GiftcardPurchaseModal from '@components/PurchaseModals/GiftcardPurchaseModal';
-import CryptoPurchaseModal from '@components/PurchaseModals/CryptoPurchaseModal';
+import GiftcardPurchaseModal from 'app/_components/Modals/PurchaseModals/GiftcardPurchaseModal';
+import CryptoPurchaseModal from 'app/_components/Modals/PurchaseModals/CryptoPurchaseModal';
 
 // Types
 import type CatalogReward from 'types/Reward/CatalogReward';

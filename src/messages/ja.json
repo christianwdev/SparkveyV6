@@ -302,6 +302,13 @@
       "genericTryAgain": "問題が発生しました。もう一度お試しください。",
       "adBlocker": "広告ブロッカーが有効な場合は、続行するために無効にしてください。エラーだと思われる場合はサポートまでご連絡ください。",
       "googleSignInFailed": "Googleでのログイン中に問題が発生しました。"
+    },
+    "banners": {
+      "accountDeletedSuccess": "アカウントが削除されました。",
+      "accountDeletedInvalid": "そのアカウント削除リンクは無効か期限切れです。",
+      "accountDeletedError": "アカウントの削除を完了できませんでした。もう一度お試しください。",
+      "emailChangeSuccess": "メールアドレスが更新されました。新しいメールでサインインしてください。",
+      "passwordResetSuccess": "パスワードがリセットされました。新しいパスワードでサインインできます。"
     }
   },
   "SignupPage": {
@@ -329,8 +336,8 @@
       "confirmPasswordRequired": "パスワード（確認）を入力してください。",
       "confirmPasswordMismatch": "パスワードが一致していません。",
       "usernameRequired": "設定を完了するためにユーザー名を選択してください。",
-      "usernameInvalid": "ユーザー名は3〜20文字の英字、数字、アンダースコアが使用できます。",
-      "referralInvalid": "紹介コードには英字、数字、ハイフンを使用できます。",
+      "usernameInvalid": "ユーザー名は3〜32文字の英字、数字、アンダースコアが使用できます。",
+      "referralInvalid": "紹介コードは最大36文字の英数字、ハイフン、アンダースコアを使用します。",
       "missingDetails": "入力漏れがあるようです。内容を再確認してください。",
       "fixHighlighted": "続行する前に、ハイライトされた項目を修正してください。",
       "adBlocker": "広告ブロッカーが有効な場合は、続行するために無効にしてください。エラーだと思われる場合はサポートまでご連絡ください。",
@@ -455,7 +462,6 @@
       "leaders": "リーダー",
       "refer": "紹介"
     },
-
     "a11y": {
       "avatarAlt": "アバター"
     }
@@ -1203,19 +1209,6 @@
     "next": "次のページ",
     "page": "{page}ページ",
     "range": "{start}–{end}"
-  },
-  "Login": {
-    "title": "Sign in",
-    "subtitle": "Access your Sparkvey account.",
-    "hint": "Need to get back to browsing?",
-    "backHome": "Return home",
-    "banners": {
-      "accountDeletedSuccess": "Your account has been deleted.",
-      "accountDeletedInvalid": "That account deletion link is invalid or expired.",
-      "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
-      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
-    }
   },
   "ConfirmAccountDeletion": {
     "title": "Confirm account deletion",

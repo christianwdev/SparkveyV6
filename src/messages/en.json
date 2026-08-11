@@ -294,6 +294,13 @@
     "signInWithGoogle": "Sign in with Google",
     "notAMember": "Not a member?",
     "joinToday": "Join today!",
+    "banners": {
+      "accountDeletedSuccess": "Your account has been deleted.",
+      "accountDeletedInvalid": "That account deletion link is invalid or expired.",
+      "accountDeletedError": "We could not complete account deletion. Please try again.",
+      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
+      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
+    },
     "errors": {
       "emailRequired": "Please enter your email address.",
       "emailInvalid": "That doesn't look like a valid email address.",
@@ -329,8 +336,8 @@
       "confirmPasswordRequired": "Please confirm your password.",
       "confirmPasswordMismatch": "Passwords don't match yet.",
       "usernameRequired": "Pick a username to finish setting up.",
-      "usernameInvalid": "Usernames use 3-20 letters, numbers, or underscores.",
-      "referralInvalid": "Referral codes use letters, numbers, or dashes.",
+      "usernameInvalid": "Usernames use 3-32 letters, numbers, or underscores.",
+      "referralInvalid": "Referral codes use up to 36 letters, numbers, dashes, or underscores.",
       "missingDetails": "Looks like something is missing-double-check your details.",
       "fixHighlighted": "Please fix the highlighted fields before continuing.",
       "adBlocker": "If you have an ad blocker enabled, please disable it to continue. If you think this is an error, please contact support.",
@@ -974,19 +981,6 @@
     },
     "success": {
       "saved": "Saved successfully."
-    }
-  },
-  "Login": {
-    "title": "Sign in",
-    "subtitle": "Access your Sparkvey account.",
-    "hint": "Need to get back to browsing?",
-    "backHome": "Return home",
-    "banners": {
-      "accountDeletedSuccess": "Your account has been deleted.",
-      "accountDeletedInvalid": "That account deletion link is invalid or expired.",
-      "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
-      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
     }
   },
   "ConfirmAccountDeletion": {

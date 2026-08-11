@@ -23,7 +23,13 @@ import {
 } from 'backend/utils/emailActionable';
 import { sendForgottenPassword, sendVerificationEmail } from 'backend/utils/email';
 import { isDeletedEmail } from 'backend/utils/deletedAccountFingerprint';
-import { newPasswordSchema } from 'backend/schemas/password';
+import {
+  emailSchema,
+  loginPasswordSchema,
+  newPasswordSchema,
+  referralCodeSchema,
+  usernameSchema,
+} from 'schemas/auth';
 import RouteResponseError from 'types/RouteResponseError';
 
 const loginRateLimit = rateLimit({
@@ -57,20 +63,20 @@ const verifyRateLimit = rateLimit({
 });
 
 const registerBodySchema = z.object({
-  email: z.email(),
-  username: z.string().min(3).max(32),
+  email: emailSchema,
+  username: usernameSchema,
   password: newPasswordSchema,
   sessionID: z.string().optional(),
-  referralCode: z.string().optional(),
+  referralCode: referralCodeSchema.optional(),
 });
 
 const loginBodySchema = z.object({
-  email: z.email(),
-  password: z.string().min(8),
+  email: emailSchema,
+  password: loginPasswordSchema,
 });
 
 const forgotPasswordBodySchema = z.object({
-  email: z.email(),
+  email: emailSchema,
 });
 
 const resetPasswordBodySchema = z.object({

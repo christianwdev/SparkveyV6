@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 
 // Components
-import OfferDetailsModal from '@components/OfferDetailsModal/OfferDetailsModal';
+import OfferDetailsModal from 'app/_components/Modals/OfferDetailsModal/OfferDetailsModal';
 
 type OfferDetailsContextType = {
   openOfferDetailsModal: (offerID: string) => void,

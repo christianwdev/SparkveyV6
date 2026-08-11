@@ -16,7 +16,7 @@
     > .links {
       display: grid;
       grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr));
-      gap: 48px 48px;
+      gap: 48px;
       padding-bottom: 64px;
 
       > .brand {
@@ -39,6 +39,7 @@
         }
 
         > p {
+          margin: 0;
           color: $text-light;
           font-size: 14px;
           line-height: 1.6;
@@ -52,6 +53,7 @@
         min-width: 0;
 
         > p {
+          margin: 0;
           color: $text-bold;
           font-size: 16px;
           font-weight: 700;
@@ -103,6 +105,7 @@
           max-width: 220px;
 
           > p {
+            margin: 0;
             color: $text-bold;
             font-size: 16px;
             font-weight: 700;
@@ -115,6 +118,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 16px 24px;
       padding-top: 28px;
       border-top: 1px solid rgba(111, 116, 135, 0.18);
@@ -144,10 +148,64 @@
       }
 
       > p {
+        margin: 0;
         color: $text-light;
         font-size: 13px;
         text-align: right;
         min-width: 0;
+      }
+    }
+
+    @media screen and (max-width: $small-tablet) {
+      padding: 56px 0 32px;
+
+      > .links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 36px 32px;
+        padding-bottom: 48px;
+
+        > .brand {
+          grid-column: 1 / -1;
+          max-width: 420px;
+        }
+      }
+    }
+
+    @media screen and (max-width: $large-phone) {
+      padding: 48px 0 28px;
+
+      > .links {
+        gap: 32px 24px;
+        padding-bottom: 40px;
+
+        > .category > .languageSection {
+          max-width: none;
+        }
+      }
+
+      > .bottomBar {
+        > p {
+          text-align: left;
+        }
+      }
+    }
+
+    @media screen and (max-width: $phone) {
+      padding: 40px 0 24px;
+
+      > .links {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding-bottom: 32px;
+
+        > .brand {
+          max-width: none;
+        }
+      }
+
+      > .bottomBar {
+        flex-direction: column;
+        align-items: flex-start;
       }
     }
   }

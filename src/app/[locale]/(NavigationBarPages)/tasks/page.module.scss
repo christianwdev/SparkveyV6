@@ -45,7 +45,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
+      gap: 16px 24px;
       flex-wrap: wrap;
 
       > .dropdownsWrapper {
@@ -55,6 +55,8 @@
         align-items: center;
         gap: 12px;
         flex-wrap: wrap;
+        min-width: 0;
+        flex: 1 1 auto;
       }
 
       > .searchWrapper {
@@ -62,6 +64,7 @@
         align-items: center;
         gap: 10px;
         flex: 1 1 220px;
+        min-width: 0;
         max-width: 300px;
         height: 40px;
         padding: 0 16px;
@@ -71,6 +74,8 @@
         box-sizing: border-box;
 
         > input {
+          flex: 1;
+          min-width: 0;
           width: 100%;
           height: 100%;
           border: unset;
@@ -79,6 +84,12 @@
           color: $text-bold;
           font-size: 15px;
           font-weight: 400;
+          appearance: none;
+
+          &::-webkit-search-decoration,
+          &::-webkit-search-cancel-button {
+            appearance: none;
+          }
 
           &::placeholder {
             color: $text-light;
@@ -143,23 +154,51 @@
     }
   }
 
-  @media screen and (max-width: $large-phone) {
-    padding: 24px 16px 48px;
-
-    > .header > h1 {
-      font-size: 24px;
-    }
-
+  @media screen and (max-width: $small-tablet) {
     > .tasksContent > .controlsWrapper {
       flex-direction: column-reverse;
       align-items: stretch;
 
       > .searchWrapper {
-        max-width: unset;
+        flex: none;
+        width: 100%;
+        max-width: none;
       }
 
       > .dropdownsWrapper {
         width: 100%;
+
+        > .filterDropdown {
+          flex: 1 1 calc(33.333% - 8px);
+          width: 100%;
+          min-width: min(160px, 100%);
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    padding: 24px 0 48px;
+
+    > .header > h1 {
+      font-size: 24px;
+    }
+
+    > .tasksContent > .controlsWrapper > .dropdownsWrapper > .filterDropdown {
+      flex: 1 1 calc(50% - 6px);
+    }
+  }
+
+  @media screen and (max-width: $phone) {
+    > .tasksContent > .controlsWrapper > .dropdownsWrapper {
+      flex-direction: column;
+      align-items: stretch;
+
+      > .filterDropdown {
+        flex: none;
+        width: 100%;
+        min-width: 0;
       }
     }
   }

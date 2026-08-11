@@ -302,6 +302,13 @@
       "genericTryAgain": "Cos poszlo nie tak. Sprobuj ponownie.",
       "adBlocker": "Jesli masz wlaczony adblock, wylacz go, aby kontynuowac. Jesli to blad, skontaktuj sie z supportem.",
       "googleSignInFailed": "Wystapil problem podczas logowania przez Google."
+    },
+    "banners": {
+      "accountDeletedSuccess": "Twoje konto zostalo usuniete.",
+      "accountDeletedInvalid": "Ten link do usuniecia konta jest nieprawidlowy lub wygasl.",
+      "accountDeletedError": "Nie udalo sie usunac konta. Sprobuj ponownie.",
+      "emailChangeSuccess": "Twoj e-mail zostal zaktualizowany. Zaloguj sie nowym adresem e-mail.",
+      "passwordResetSuccess": "Haslo zostalo zresetowane. Mozesz zalogowac sie nowym haslem."
     }
   },
   "SignupPage": {
@@ -329,8 +336,8 @@
       "confirmPasswordRequired": "Potwierdz haslo.",
       "confirmPasswordMismatch": "Hasla nie sa zgodne.",
       "usernameRequired": "Wybierz nazwe uzytkownika, aby zakonczyc konfiguracje.",
-      "usernameInvalid": "Nazwa uzytkownika moze miec 3-20 znakow: litery, cyfry lub podkreslenia.",
-      "referralInvalid": "Kod polecajacy moze zawierac litery, cyfry i myslniki.",
+      "usernameInvalid": "Nazwa uzytkownika moze miec 3-32 znaki: litery, cyfry lub podkreslenia.",
+      "referralInvalid": "Kod polecajacy moze zawierac do 36 liter, cyfr, myslnikow lub podkreslen.",
       "missingDetails": "Wyglada na to, ze brakuje kilku danych - sprawdz formularz.",
       "fixHighlighted": "Popraw podswietlone pola, aby kontynuowac.",
       "adBlocker": "Jesli masz wlaczony adblock, wylacz go, aby kontynuowac. Jesli to blad, skontaktuj sie z supportem.",
@@ -455,7 +462,6 @@
       "leaders": "Liderzy",
       "refer": "Polecaj"
     },
-
     "a11y": {
       "avatarAlt": "Awatar"
     }
@@ -1203,19 +1209,6 @@
     "next": "Następna strona",
     "page": "Strona {page}",
     "range": "{start}–{end}"
-  },
-  "Login": {
-    "title": "Sign in",
-    "subtitle": "Access your Sparkvey account.",
-    "hint": "Need to get back to browsing?",
-    "backHome": "Return home",
-    "banners": {
-      "accountDeletedSuccess": "Your account has been deleted.",
-      "accountDeletedInvalid": "That account deletion link is invalid or expired.",
-      "accountDeletedError": "We could not complete account deletion. Please try again.",
-      "emailChangeSuccess": "Your email was updated. Please sign in with your new email.",
-      "passwordResetSuccess": "Your password was reset. You can sign in with your new password."
-    }
   },
   "ConfirmAccountDeletion": {
     "title": "Confirm account deletion",

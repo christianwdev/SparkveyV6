@@ -14,11 +14,17 @@
     color: $text-bold;
   }
 
-  > p {
+  > .disclaimer {
     margin: 0;
     font-size: 14px;
     font-weight: 500;
     color: $text-light;
+    line-height: 1.5;
+
+    a {
+      color: $primary;
+      font-weight: 600;
+    }
   }
 
   > .banner {
@@ -38,7 +44,75 @@
     }
   }
 
-  > .hint {
+  > .form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 4px;
+
+    > .forgotPassword {
+      align-self: flex-end;
+      margin: -4px 0 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: $primary;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  > .orDivider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 4px 0;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: $border-light;
+    }
+
+    > span {
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+      text-transform: lowercase;
+    }
+  }
+
+  > .googleButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 40px;
+    padding: 0 16px;
+    border: 1px solid $border-light;
+    border-radius: 8px;
+    background: $background;
+    color: $text-bold;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+
+  > .footerLinks {
+    margin: 8px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-light;
+
     a {
       color: $primary;
       font-weight: 600;

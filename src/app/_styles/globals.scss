@@ -60,7 +60,6 @@
 }
 
 html {
-  overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-gutter: stable;
 }
@@ -71,8 +70,6 @@ body {
 }
 
 body {
-  overflow-x: hidden;
-
   height: auto;
   min-height: 100vh;
   max-width: 100%;

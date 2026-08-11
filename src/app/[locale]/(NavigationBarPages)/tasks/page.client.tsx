@@ -108,10 +108,13 @@ function TasksPageContent() {
       <div className={styles.controlsWrapper}>
         <div className={styles.dropdownsWrapper}>
           <Dropdown
+            className={styles.filterDropdown}
             label={t('controls.sortBy')}
             selected={filters.sort}
             setValue={value => {
-              void setFilters({ sort: value });
+              setFilters({ sort: value }).catch(error => {
+                console.error(error);
+              });
             }}
             values={SORT_OPTIONS.map(option => ({
               value: option.value,
@@ -120,11 +123,14 @@ function TasksPageContent() {
           />
 
           <Dropdown
+            className={styles.filterDropdown}
             label={t('controls.categories')}
             selected={filters.categories}
             defaultValue={t('controls.all')}
             setValue={value => {
-              void setFilters({ categories: toggleValue(filters.categories, value) });
+              setFilters({ categories: toggleValue(filters.categories, value) }).catch(error => {
+                console.error(error);
+              });
             }}
             values={CATEGORY_OPTIONS.map(option => ({
               value: option.value,
@@ -133,11 +139,14 @@ function TasksPageContent() {
           />
 
           <Dropdown
+            className={styles.filterDropdown}
             label={t('controls.providers')}
             selected={filters.providers}
             defaultValue={t('controls.all')}
             setValue={value => {
-              void setFilters({ providers: toggleValue(filters.providers, value) });
+              setFilters({ providers: toggleValue(filters.providers, value) }).catch(error => {
+                console.error(error);
+              });
             }}
             values={PROVIDER_OPTIONS.map(option => ({
               value: option.value,
@@ -152,7 +161,9 @@ function TasksPageContent() {
             type="search"
             value={filters.search}
             onChange={event => {
-              void setFilters({ search: event.target.value });
+              setFilters({ search: event.target.value }).catch(error => {
+                console.error(error);
+              });
             }}
           />
           <SearchIcon aria-hidden />

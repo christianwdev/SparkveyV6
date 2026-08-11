@@ -21,7 +21,6 @@
   flex-shrink: 0;
 }
 
-// Children render inside ModalShell's contentWrapper
 .loadingState {
   display: flex;
   flex-direction: column;
@@ -33,7 +32,6 @@
     display: flex;
     align-items: center;
     gap: 18px;
-    padding-right: 40px;
 
     > .loadingCopy {
       display: flex;
@@ -68,7 +66,6 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-right: 40px;
 
   > h2 {
     margin: 0;
@@ -88,7 +85,6 @@
   display: flex;
   align-items: center;
   gap: 18px;
-  padding-right: 40px;
 
   > .imageWrapper {
     position: relative;
@@ -185,24 +181,10 @@
   gap: 24px;
   min-height: 0;
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: $border-light $light-blue;
-  padding-right: 4px;
-  // Keeps the last section clear of the absolute sticky start button
   padding-bottom: 72px;
 
   &::-webkit-scrollbar {
-    width: 3px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: $light-blue;
-    border-radius: 2525px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: $border-light;
-    border-radius: 2px;
+    display: none;
   }
 
   > .startButton {
@@ -374,14 +356,12 @@
     > .loadingHeader {
       flex-direction: column;
       align-items: flex-start;
-      padding-right: 32px;
     }
   }
 
   .offerHeader {
     flex-direction: column;
     align-items: flex-start;
-    padding-right: 32px;
 
     > .imageWrapper {
       width: 100%;

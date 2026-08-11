@@ -150,6 +150,7 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
       const response = await createAffiliateCode({ code: createCodeValue.trim() });
 
       if (!response?.success || !response.data) {
+        console.log(response);
         toast.error(response?.message ?? t('toasts.createCodeFailed'));
 
         return;

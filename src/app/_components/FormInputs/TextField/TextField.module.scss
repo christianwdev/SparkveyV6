@@ -23,8 +23,11 @@
     color: $text-bold;
     font-size: 14px;
 
+    // Keep focus inside the box — outer outlines get clipped by overflow parents
+    // (e.g. signup step scroller).
     &:focus {
-      outline: 1px solid $primary;
+      outline: none;
+      border-color: $primary;
     }
 
     &:disabled {
@@ -38,5 +41,19 @@
     font-size: 12px;
     font-weight: 500;
     color: $text-light;
+
+    &.error {
+      color: $red;
+    }
+  }
+
+  &.invalid {
+    > input {
+      border-color: $red;
+
+      &:focus {
+        border-color: $red;
+      }
+    }
   }
 }

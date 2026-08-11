@@ -7,6 +7,13 @@
   height: 85vh;
   max-height: 800px;
   gap: 0;
+
+  @media screen and (max-width: $large-phone) {
+    margin: 16px;
+    width: calc(100vw - 32px);
+    max-height: calc(100vh - 32px);
+    height: calc(100vh - 32px);
+  }
 }
 
 .offerwallHeader {
@@ -19,16 +26,21 @@
   border-bottom: 1px solid $border-light;
 
   > h2 {
+    margin: 0;
     font-size: 20px;
     font-weight: 400;
     color: $text-bold;
-    margin: 0;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   > .headerButtons {
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-shrink: 0;
 
     > .popoutButton,
     > .closeButton {
@@ -72,12 +84,5 @@
     height: 100%;
     border: none;
     display: block;
-  }
-}
-
-@media screen and (max-width: $large-phone) {
-  .offerwallContent {
-    margin: 16px;
-    max-height: calc(100vh - 32px);
   }
 }

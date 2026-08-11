@@ -200,7 +200,7 @@ Match `backend/routes/offers/index.ts` and `backend/routes/admin/users.ts`:
 - Filter option configs at module scope with **i18n label keys**, map to `t(...)` at render time (`SORT_OPTIONS`, `CATEGORY_OPTIONS`).
 - URL/query state via dedicated params helpers (`tasksSearchParams` + `nuqs`); debounce/search: query against committed URL value when that is the established pattern.
 - Infinite query in a hook (`useBrowseOffers`); page owns UI + intersection observer.
-- Mark intentional floating promises: `void setFilters(...)`, `void fetchNextPage()`.
+- Do not silence floating promises with `void` (see `no-void-operator` rule); await in async handlers or attach `.catch`.
 - Loading: skeleton `OfferItem loading`; empty state block; explicit load-more when capped.
 - Default export wraps content in Suspense with a named fallback component.
 
@@ -257,7 +257,7 @@ Walk the diff as an attacker and as a broken client. Fix anything you introduced
 - Null/undefined, empty arrays, and error paths actually handled (`FunctionResponse`, Suspense fallbacks, empty UI).
 - Race conditions: double-submit, concurrent claim/credit, stale React state vs URL, socket + initial fetch dupes.
 - Off-by-one / pagination: `skip`/`limit`, infinite-query `getNextPageParam`, caps vs load-more.
-- Async: missing `await`, unhandled rejections, floating promises that should be `void` or awaited.
+- Async: missing `await`, unhandled rejections, floating promises that should be awaited or given an explicit `.catch` (never `void`).
 - Transactions: commit/abort/`finally endSession` correct; partial writes impossible on failure paths.
 - i18n/ICU placeholders still valid; no broken `t.rich` / key paths.
 

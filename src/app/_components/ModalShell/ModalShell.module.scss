@@ -14,18 +14,27 @@
 
   > .contentWrapper {
     background-color: $off-white;
-    padding: 36px;
     border-radius: 8px;
     position: relative;
     width: 100%;
-    max-width: 640px;
-    max-height: min(85vh, 720px);
-    gap: 18px;
-    height: fit-content;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     box-sizing: border-box;
+
+    &.defaultPanel {
+      padding: 36px;
+      max-width: 640px;
+      max-height: min(85vh, 720px);
+      height: fit-content;
+      gap: 18px;
+
+      @media screen and (max-width: $large-phone) {
+        margin: 16px;
+        padding: 24px;
+        max-height: calc(100vh - 32px);
+      }
+    }
 
     > .closeButton {
       outline: none;
@@ -60,15 +69,9 @@
   }
 
   @media screen and (max-width: $large-phone) {
-    > .contentWrapper {
-      margin: 16px;
-      padding: 24px;
-      max-height: calc(100vh - 32px);
-
-      > .closeButton {
-        top: 24px;
-        right: 24px;
-      }
+    > .contentWrapper > .closeButton {
+      top: 24px;
+      right: 24px;
     }
   }
 }

@@ -31,6 +31,13 @@ export async function register(body: {
   return postAuth<SanitizedUser>('/email/register', body);
 }
 
+export async function login(body: {
+  email: string,
+  password: string,
+}): Promise<APIResponse<SanitizedUser> | null> {
+  return postAuth<SanitizedUser>('/email/login', body);
+}
+
 export async function requestPasswordReset(body: {
   email: string,
 }): Promise<APIResponse<null> | null> {

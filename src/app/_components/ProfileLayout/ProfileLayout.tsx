@@ -21,6 +21,7 @@ import GiftIcon from '~icons/solar/gift-linear.jsx';
 import EarningsIcon from '~icons/solar/chart-linear.jsx';
 import SettingsIcon from '~icons/solar/settings-linear.jsx';
 import SessionsIcon from '~icons/solar/devices-linear.jsx';
+import ProfileIcon from '~icons/solar/user-rounded-linear.jsx';
 
 const PROFILE_NAV = [
   { href: FrontendRedirectPaths.profileEarnings, labelKey: 'earnings', Icon: EarningsIcon },
@@ -61,7 +62,19 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
   return (
     <div className={style.profileLayoutContainer}>
       <div className={style.profileLayoutHeader}>
-        <Image src={user.avatar ?? ''} alt={user.username ?? ''} width={100} height={100} />
+        {user.avatar ? (
+          <Image
+            className={style.avatar}
+            src={user.avatar}
+            alt={user.username}
+            width={100}
+            height={100}
+          />
+        ) : (
+          <div className={style.avatarFallback} aria-hidden>
+            <ProfileIcon />
+          </div>
+        )}
 
         <div className={style.userInformation}>
           <p className={style.username}>{user.username}</p>
