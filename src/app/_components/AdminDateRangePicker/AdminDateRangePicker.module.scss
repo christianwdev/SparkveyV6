@@ -1,0 +1,168 @@
+@use '@styles/variables.scss' as *;
+
+$admin-border: #e8e8ec;
+$admin-muted: #8b92a1;
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  border: none;
+  background: color-mix(in srgb, $off-black 35%, transparent);
+  cursor: pointer;
+}
+
+.picker {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  padding: 12px;
+  border: 1px solid $admin-border;
+  border-radius: 12px;
+  background: $background;
+  box-shadow: 0 12px 32px color-mix(in srgb, $off-black 10%, transparent);
+
+  :global(.rdp-root) {
+    --rdp-accent-color: #{$primary};
+    --rdp-accent-background-color: #{color-mix(in srgb, $primary 14%, white)};
+    --rdp-range_middle-background-color: #{color-mix(in srgb, $primary 10%, white)};
+    --rdp-today-color: #{$primary};
+    --rdp-day-height: 34px;
+    --rdp-day-width: 34px;
+    --rdp-day_button-height: 32px;
+    --rdp-day_button-width: 32px;
+    --rdp-nav-height: 32px;
+    --rdp-weekday-padding: 0;
+    color: $text-bold;
+    font-size: 13px;
+  }
+
+  :global(.rdp-months) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+
+  :global(.rdp-month) {
+    width: auto;
+  }
+
+  :global(.rdp-month_caption) {
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  :global(.rdp-weekday) {
+    color: $admin-muted;
+    font-size: 11px;
+    font-weight: 650;
+  }
+
+  :global(.rdp-day_button) {
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  :global(.rdp-selected .rdp-day_button) {
+    border: none;
+    font-weight: 650;
+    font-size: 13px;
+  }
+
+  :global(.rdp-range_start .rdp-day_button),
+  :global(.rdp-range_end .rdp-day_button) {
+    background: $primary;
+    color: white;
+  }
+
+  > .footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 4px;
+    border-top: 1px solid $admin-border;
+
+    > .secondaryButton,
+    > .primaryButton {
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    > .secondaryButton {
+      border: 1px solid $admin-border;
+      background: transparent;
+      color: $text-bold;
+    }
+
+    > .primaryButton {
+      border: none;
+      background: $text-bold;
+      color: $background;
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  &.pickerCompact {
+    position: fixed;
+    top: auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 31;
+    width: 100%;
+    max-width: none;
+    border-radius: 16px 16px 0 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -8px 28px color-mix(in srgb, $off-black 14%, transparent);
+
+    :global(.rdp-root) {
+      --rdp-day-height: 40px;
+      --rdp-day-width: calc(100% / 7);
+      --rdp-day_button-height: 38px;
+      --rdp-day_button-width: 38px;
+      width: 100%;
+    }
+
+    :global(.rdp-month) {
+      width: 100%;
+    }
+
+    :global(.rdp-weekdays),
+    :global(.rdp-week) {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      width: 100%;
+    }
+
+    :global(.rdp-day) {
+      display: flex;
+      justify-content: center;
+    }
+
+    > .footer {
+      > .secondaryButton,
+      > .primaryButton {
+        flex: 1;
+        padding: 12px 14px;
+      }
+    }
+  }
+}

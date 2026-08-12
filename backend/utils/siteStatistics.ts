@@ -13,7 +13,8 @@ import type InternalEarning from 'types/Earnings/InternalEarning';
 
 export const SITE_STATISTICS_ID = 'site' as const;
 
-const NON_REVERSED_STATUSES = [ 'completed', 'held', 'providerPending' ] as const;
+/** Statuses that count toward GMV / non-reversed earned USD (excludes `reversed`). */
+export const NON_REVERSED_STATUSES = [ 'completed', 'held', 'providerPending' ] as const;
 
 async function aggregateTotalEarnedUsd(db: Db): Promise<number> {
   const [ result ] = await db

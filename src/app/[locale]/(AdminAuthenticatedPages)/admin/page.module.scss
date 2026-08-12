@@ -1,0 +1,329 @@
+@use '@styles/variables.scss' as *;
+
+$admin-border: #e8e8ec;
+$admin-muted: #8b92a1;
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > .periodBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    > .periodHint {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: $admin-muted;
+    }
+
+    > .periodControls {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      > .periodToggle {
+        display: inline-flex;
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid $admin-border;
+        border-radius: 999px;
+        background: $background;
+
+        > .periodButton {
+          border: none;
+          background: transparent;
+          color: $admin-muted;
+          font-size: 12px;
+          font-weight: 650;
+          padding: 7px 12px;
+          border-radius: 999px;
+          cursor: pointer;
+          max-width: 220px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:hover {
+            color: $text-bold;
+          }
+
+          &.periodButtonActive {
+            background: $text-bold;
+            color: $background;
+          }
+
+          &:disabled {
+            opacity: 0.6;
+            cursor: wait;
+          }
+        }
+      }
+    }
+  }
+
+  > .emptyState {
+    padding: 48px 24px;
+    border: 1px solid $admin-border;
+    border-radius: 8px;
+    text-align: center;
+    color: $admin-muted;
+  }
+
+  > .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    > .statsWrapper {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+
+      > .statCard {
+        display: flex;
+        flex-direction: column;
+        padding: 18px;
+        border: 1px solid $admin-border;
+        border-radius: 8px;
+        background: transparent;
+
+        > .statHeader {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+
+          > .statTitle {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: $text-bold;
+          }
+
+          > .statRegion {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 600;
+            color: $admin-muted;
+          }
+        }
+
+        > .statValueRow {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 12px;
+          margin-top: 14px;
+
+          > .statValue,
+          > .statValueCompact {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 650;
+            letter-spacing: -0.02em;
+            color: $text-bold;
+            line-height: 1.15;
+          }
+
+          > .statValueCompact {
+            font-size: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          > .statChange {
+            margin: 0 0 2px;
+            font-size: 12px;
+            font-weight: 600;
+            color: $admin-muted;
+
+            &.delta_up {
+              color: $green;
+            }
+
+            &.delta_down {
+              color: $red;
+            }
+
+            &.delta_flat {
+              color: $admin-muted;
+            }
+          }
+        }
+      }
+    }
+
+    > .performanceWrapper,
+    > .tablesWrapper > .tablePanel {
+      border: 1px solid $admin-border;
+      border-radius: 8px;
+      padding: 20px;
+      background: transparent;
+    }
+
+    > .performanceWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+
+      > .panelHeader {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+
+        > div > h2 {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: $text-bold;
+        }
+
+        > div > p {
+          margin: 4px 0 0;
+          font-size: 12px;
+          font-weight: 600;
+          color: $admin-muted;
+        }
+
+        > .inlineMetrics {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 14px;
+          font-size: 12px;
+          font-weight: 600;
+          color: $admin-muted;
+        }
+
+        > .skeletonStack {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+
+      > .chartSkeleton {
+        width: 100%;
+        height: 240px;
+      }
+    }
+
+    > .tablesWrapper {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+
+      > .tablePanel {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+
+        > .tableHeader {
+          > h2 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: $text-bold;
+          }
+        }
+
+        > .table {
+          display: flex;
+          flex-direction: column;
+
+          > .tableHead,
+          > .tableRow {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) 0.7fr 0.9fr;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 4px;
+            border-bottom: 1px solid $admin-border;
+            font-size: 13px;
+          }
+
+          > .tableHead {
+            color: $admin-muted;
+            font-weight: 650;
+            font-size: 12px;
+            border-bottom-color: $admin-border;
+          }
+
+          > .tableRow {
+            color: $admin-muted;
+
+            > .primaryCell {
+              color: $text-bold;
+              font-weight: 600;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+
+          > .muted {
+            margin: 12px 0 0;
+            font-size: 13px;
+            color: $admin-muted;
+          }
+        }
+
+        > .metricList,
+        > .geoList {
+          display: flex;
+          flex-direction: column;
+
+          > .metricRow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 4px;
+            border-bottom: 1px solid $admin-border;
+            font-size: 13px;
+
+            > span {
+              color: $admin-muted;
+            }
+
+            > strong {
+              color: $text-bold;
+              font-weight: 650;
+            }
+          }
+
+          > .muted {
+            margin: 12px 0 0;
+            font-size: 13px;
+            color: $admin-muted;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $tablet) {
+    > .content > .statsWrapper {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    > .content {
+      > .statsWrapper {
+        grid-template-columns: 1fr;
+      }
+
+      > .tablesWrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}

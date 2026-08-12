@@ -29,6 +29,15 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       sparse: true,
       name: 'googleId_unique',
     },
+    {
+      key: { creationDate: -1 },
+      name: 'creationDate',
+    },
+    {
+      key: { 'referralInformation.referredByID': 1, creationDate: -1 },
+      partialFilterExpression: { 'referralInformation.referredByID': { $exists: true } },
+      name: 'referredByID_creationDate',
+    },
   ]);
 
   // Usernames are intentionally non-unique; drop any legacy unique index.
@@ -91,6 +100,28 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     {
       key: { userID: 1, createdAt: -1 },
       name: 'userID_createdAt',
+    },
+    {
+      key: { totalEarnings: -1 },
+      name: 'totalEarnings',
+    },
+  ]);
+
+  await db.collection(DatabaseCollections.userRedemptions).createIndexes([
+    {
+      key: { status: 1, createdAt: -1 },
+      name: 'status_createdAt',
+    },
+    {
+      key: { userID: 1, status: 1 },
+      name: 'userID_status',
+    },
+  ]);
+
+  await db.collection(DatabaseCollections.userSessions).createIndexes([
+    {
+      key: { userID: 1, issueDate: 1 },
+      name: 'userID_issueDate',
     },
   ]);
 

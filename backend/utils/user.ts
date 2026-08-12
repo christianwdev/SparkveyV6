@@ -12,6 +12,7 @@ import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
 import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
 import type AffiliateCode from 'types/AffiliateCode';
+import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 function sanitizeSocialLink(link?: { id?: string, verifiedAt?: Date }): SanitizedUser['socialInformation'][keyof SanitizedUser['socialInformation']] {
   if (!link?.id) return undefined;
@@ -194,7 +195,7 @@ export function userHasPassword(user: Pick<InternalUser, 'password'>): boolean {
 }
 
 export function sanitizeUser(user: InternalUser | WithId<InternalUser>): SanitizedUser {
-  return {
+  const sanitized: SanitizedUser = {
     userID: user.userID,
     username: user.username,
     avatar: user.avatar,
@@ -235,6 +236,12 @@ export function sanitizeUser(user: InternalUser | WithId<InternalUser>): Sanitiz
     bannedUntil: user.bannedUntil,
     creationDate: user.creationDate,
   };
+
+  if (user.staffPermissions && user.staffPermissions !== StaffPermissions.NONE) {
+    sanitized.staffPermissions = user.staffPermissions;
+  }
+
+  return sanitized;
 }
 
 export async function verifyUserEmail(userID: string): Promise<FunctionResponse<InternalUser>> {

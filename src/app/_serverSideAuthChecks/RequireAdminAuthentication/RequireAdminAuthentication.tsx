@@ -4,12 +4,17 @@ import { redirect } from 'next/navigation';
 import { getUser } from '@utils/user';
 import { serverRequest } from '@utils/serverRequest';
 
+// Types
+import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
+
 async function checkAdminAuthentication() {
   const user = await getUser({ request: serverRequest });
 
   if (!user) return false;
 
-  return false;
+  const permissions = user.staffPermissions ?? StaffPermissions.NONE;
+
+  return permissions !== StaffPermissions.NONE;
 }
 
 export default async function RequireAdminAuthentication({

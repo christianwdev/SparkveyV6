@@ -11,6 +11,7 @@ import surveysRouteInvoker from './surveys';
 import leaderboardRouteInvoker from './leaderboard';
 import offerwallsRouteInvoker from './offerwalls';
 import wallsRouteInvoker from './walls';
+import adminRouteInvoker from './admin';
 
 const app = new Hono();
 
@@ -27,6 +28,7 @@ export default function routesInvoker() {
   app.route('/leaderboard', leaderboardRouteInvoker());
   app.route('/offerwalls', offerwallsRouteInvoker());
   app.route('/walls', wallsRouteInvoker());
+  app.route('/admin', adminRouteInvoker());
 
   return app;
 }

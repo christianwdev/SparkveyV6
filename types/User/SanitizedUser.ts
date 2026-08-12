@@ -21,6 +21,9 @@ type SanitizedUser = Omit<
   referralInformation: {
     referredBy?: string,
   },
+
+  /** Present only when the user has non-zero staff permissions. */
+  staffPermissions?: number,
 };
 
 export default SanitizedUser;

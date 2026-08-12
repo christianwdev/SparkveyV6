@@ -6,6 +6,7 @@ import SocketRooms from '../constants/SocketRooms';
 // Utils
 import { getGlobalObject } from './globalObject';
 import { withCache } from './cache';
+import { NON_REVERSED_STATUSES } from './siteStatistics';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
@@ -14,8 +15,6 @@ import type { LandingLiveActivityItem } from 'types/LandingHomepageResponse';
 
 const LIVE_ACTIVITY_CACHE_TTL_SECONDS = 30;
 const LIVE_ACTIVITY_LIMIT = 5;
-
-const NON_REVERSED_STATUSES = [ 'completed', 'held', 'providerPending' ] as const;
 
 type LiveActivityUser = Pick<InternalUser, 'username' | 'avatar' | 'userPreferences'>;
 

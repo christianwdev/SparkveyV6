@@ -1238,5 +1238,96 @@
   },
   "RewardItem": {
     "sparksAlt": "스파크"
+  },
+  "AdminMetadata": {
+    "dashboardTitle": "Sparkvey | Admin",
+    "dashboardDescription": "Growth statistics and platform analytics.",
+    "usersTitle": "Sparkvey | Admin Users",
+    "usersDescription": "Browse and manage Sparkvey users."
+  },
+  "AdminLayout": {
+    "brand": "Sparkvey",
+    "brandHint": "Admin",
+    "navLabel": "Admin navigation",
+    "navSectionOverview": "Overview",
+    "backToSite": "Back to site",
+    "nav": {
+      "dashboard": "Overview",
+      "users": "Users"
+    }
+  },
+  "AdminDashboard": {
+    "eyebrow": "Growth",
+    "title": "Overview",
+    "subtitle": "Acquisition, activation, engagement, and monetization for the selected period.",
+    "periodLabel": "Period",
+    "periods": {
+      "day": "Day",
+      "week": "Week",
+      "month": "Month",
+      "custom": "Custom"
+    },
+    "customRangeLabel": "Custom date range",
+    "applyRange": "Apply",
+    "cancel": "Cancel",
+    "chart": {
+      "signups": "Signups",
+      "signupsTooltip": "{count} signups"
+    },
+    "vsPrior": "vs prior",
+    "loading": "Loading statistics…",
+    "error": "Could not load statistics. Try again shortly.",
+    "empty": "No statistics available yet.",
+    "noData": "No data in this period.",
+    "noGeo": "No signup geo data yet.",
+    "sections": {
+      "northStar": "North-star metrics",
+      "performance": "Performance",
+      "acquisition": "Acquisition",
+      "activation": "Activation",
+      "engagement": "Engagement",
+      "virality": "Virality",
+      "monetization": "Monetization"
+    },
+    "metrics": {
+      "lifetimeEarnedUsd": "Lifetime earned",
+      "periodEarnedUsd": "Earned",
+      "periodSparksCredited": "Sparks credited",
+      "signups": "Signups",
+      "referredSignupPct": "Referred signups",
+      "activatedUsers": "Activated users",
+      "activationRate": "Activation rate",
+      "activatedWithin24hRate": "Activated in 24h",
+      "activatedWithin7dRate": "Activated in 7d",
+      "activeEarners": "Active earners",
+      "repeatEarnerRate": "Repeat earners",
+      "topProvider": "Top provider",
+      "referredSignups": "Referred signups",
+      "organicSignups": "Organic signups",
+      "referredEarnedUsd": "Referred earned",
+      "organicEarnedUsd": "Organic earned",
+      "completedCashouts": "Cashouts",
+      "completedCashoutUsd": "Cashout USD",
+      "cashoutRate": "Cashout rate",
+      "reversalDrag": "Reversal drag",
+      "leaderboardBonusSparks": "Leaderboard bonus"
+    },
+    "lists": {
+      "topProviders": "Top providers",
+      "topOffers": "Top offers",
+      "topAffiliateCodes": "Top affiliate codes",
+      "offerTypeMix": "Offer type mix"
+    },
+    "table": {
+      "name": "Name",
+      "count": "Count",
+      "amount": "Amount",
+      "tasks": "Tasks"
+    }
+  },
+  "AdminUsers": {
+    "eyebrow": "Admin",
+    "title": "Users",
+    "subtitle": "User management tools are coming next. Use the API for list and detail lookups for now."
   }
 }
