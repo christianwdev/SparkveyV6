@@ -421,7 +421,6 @@ export async function getAdminDashboardStatistics(
       usdValue: row.usdValue,
     }));
 
-    const usdByUserID = new Map(periodUserUsd.map(row => [ row._id, row.usdValue ]));
     const referredUserMeta = new Map(
       referredEarnerDocs.map(doc => [
         doc.userID,
@@ -434,27 +433,32 @@ export async function getAdminDashboardStatistics(
     let referredEarnedUsd = 0;
     let organicEarnedUsd = 0;
     const periodCodeUsd = new Map<string, number>();
+    const periodCodeTasks = new Map<string, number>();
 
-    for (const [ userID, usdValue ] of usdByUserID) {
-      const referredMeta = referredUserMeta.get(userID);
+    for (const row of periodUserUsd) {
+      const referredMeta = referredUserMeta.get(row._id);
 
       if (referredMeta) {
-        referredEarnedUsd += usdValue;
+        referredEarnedUsd += row.usdValue;
         if (referredMeta.code) {
           periodCodeUsd.set(
             referredMeta.code,
-            (periodCodeUsd.get(referredMeta.code) ?? 0) + usdValue,
+            (periodCodeUsd.get(referredMeta.code) ?? 0) + row.usdValue,
+          );
+          periodCodeTasks.set(
+            referredMeta.code,
+            (periodCodeTasks.get(referredMeta.code) ?? 0) + row.count,
           );
         }
       } else {
-        organicEarnedUsd += usdValue;
+        organicEarnedUsd += row.usdValue;
       }
     }
 
     const topAffiliateCodes: AdminDashboardAffiliateCodeRank[] = topAffiliateDocs.map(doc => ({
       code: doc.code,
       totalEarnings: doc.totalEarnings,
-      tasksCompleted: doc.tasksCompleted,
+      tasksCompleted: periodCodeTasks.get(doc.code) ?? 0,
       periodEarnedUsd: periodCodeUsd.get(doc.code) ?? 0,
     }));
 
@@ -470,7 +474,7 @@ export async function getAdminDashboardStatistics(
       topAffiliateCodes.push({
         code,
         totalEarnings: 0,
-        tasksCompleted: 0,
+        tasksCompleted: periodCodeTasks.get(code) ?? 0,
         periodEarnedUsd: periodEarnedUsdValue,
       });
     }

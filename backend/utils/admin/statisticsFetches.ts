@@ -5,6 +5,7 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
+import { SPARKS_PER_USD } from 'backend/utils/rewards';
 import { NON_REVERSED_STATUSES, SITE_STATISTICS_ID } from 'backend/utils/siteStatistics';
 
 // Types
@@ -45,7 +46,7 @@ export type EarningsDashboardFacet = {
   topProviders: Array<{ _id: string, count: number, usdValue: number }>,
   topOffers: Array<{ _id: string, name: string, count: number, usdValue: number }>,
   offerTypeMix: Array<{ _id: string, count: number, usdValue: number }>,
-  periodUserUsd: Array<{ _id: string, usdValue: number }>,
+  periodUserUsd: Array<{ _id: string, usdValue: number, count: number }>,
   earnedTimeseries: Array<{ _id: Date, usdValue: number }>,
 };
 
@@ -319,6 +320,7 @@ export function buildPeriodUserUsdPipeline({ startDate, endDate }: WindowDates):
       $group: {
         _id: '$userID',
         usdValue: { $sum: '$usdValue' },
+        count: { $sum: 1 },
       },
     },
   ];
@@ -335,7 +337,15 @@ export function buildCompletedRedemptionsPipeline({ startDate, endDate }: Window
       $group: {
         _id: null,
         count: { $sum: 1 },
-        usdValue: { $sum: '$usdValue' },
+        usdValue: {
+          $sum: {
+            $cond: [
+              { $eq: [ '$providerName', 'ccpayment' ] },
+              { $divide: [ '$value', SPARKS_PER_USD ] },
+              { $ifNull: [ '$usdValue', 0 ] },
+            ],
+          },
+        },
       },
     },
     {
@@ -483,7 +493,7 @@ export async function fetchCompletedRedemptionTotals(
   return result ?? null;
 }
 
-export async function fetchTopAffiliateCodes(): Promise<Array<Pick<AffiliateCode, 'code' | 'totalEarnings' | 'tasksCompleted'>>> {
+export async function fetchTopAffiliateCodes(): Promise<Array<Pick<AffiliateCode, 'code' | 'totalEarnings'>>> {
   const { db } = getGlobalObject();
 
   return db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).find(
@@ -493,7 +503,6 @@ export async function fetchTopAffiliateCodes(): Promise<Array<Pick<AffiliateCode
       projection: {
         code: 1,
         totalEarnings: 1,
-        tasksCompleted: 1,
       },
       sort: { totalEarnings: -1 },
       limit: STATS_TOP_N,
