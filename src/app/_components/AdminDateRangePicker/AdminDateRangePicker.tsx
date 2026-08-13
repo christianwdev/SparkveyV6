@@ -3,8 +3,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { DayPicker, type DateRange } from 'react-day-picker';
 import { useTranslations } from 'next-intl';
-import styles from './AdminDateRangePicker.module.scss';
 import 'react-day-picker/style.css';
+
+import styles from './AdminDateRangePicker.module.scss';
+
+const LARGE_PHONE_MAX_WIDTH = 768; // matches $large-phone
 
 type AdminDateRangePickerProps = {
   open: boolean,
@@ -23,16 +26,19 @@ function toDateOnly(date: Date): string {
 }
 
 function useIsCompactViewport() {
-  const [ compact, setCompact ] = useState(false);
+  const [ compact, setCompact ] = useState(() => {
+    if (typeof window === 'undefined') return false;
+
+    return window.matchMedia(`(max-width: ${LARGE_PHONE_MAX_WIDTH}px)`).matches;
+  });
 
   useEffect(() => {
-    const media = window.matchMedia('(max-width: 768px)');
+    const media = window.matchMedia(`(max-width: ${LARGE_PHONE_MAX_WIDTH}px)`);
 
     function sync() {
       setCompact(media.matches);
     }
 
-    sync();
     media.addEventListener('change', sync);
 
     return () => media.removeEventListener('change', sync);
@@ -41,25 +47,18 @@ function useIsCompactViewport() {
   return compact;
 }
 
-export default function AdminDateRangePicker({
-  open,
+function AdminDateRangePickerOpen({
   range,
   onRangeChange,
   onApply,
   onClose,
-}: AdminDateRangePickerProps) {
+}: Omit<AdminDateRangePickerProps, 'open'>) {
   const t = useTranslations('AdminDashboard');
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [ draft, setDraft ] = useState<DateRange | undefined>(range);
   const compact = useIsCompactViewport();
 
   useEffect(() => {
-    if (open) setDraft(range);
-  }, [ open, range ]);
-
-  useEffect(() => {
-    if (!open) return;
-
     function onPointerDown(event: MouseEvent) {
       if (!rootRef.current) return;
       if (rootRef.current.contains(event.target as Node)) return;
@@ -77,14 +76,12 @@ export default function AdminDateRangePicker({
       document.removeEventListener('mousedown', onPointerDown);
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, [ open, onClose ]);
-
-  if (!open) return null;
+  }, [ onClose ]);
 
   const canApply = Boolean(draft?.from && draft?.to);
 
   return (
-    <>
+    <div className={styles.root}>
       {compact && (
         <button
           type="button"
@@ -134,7 +131,26 @@ export default function AdminDateRangePicker({
           </button>
         </div>
       </div>
-    </>
+    </div>
+  );
+}
+
+export default function AdminDateRangePicker({
+  open,
+  range,
+  onRangeChange,
+  onApply,
+  onClose,
+}: AdminDateRangePickerProps) {
+  if (!open) return null;
+
+  return (
+    <AdminDateRangePickerOpen
+      range={range}
+      onRangeChange={onRangeChange}
+      onApply={onApply}
+      onClose={onClose}
+    />
   );
 }
 

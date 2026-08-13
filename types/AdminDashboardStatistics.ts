@@ -13,6 +13,7 @@ type AdminDashboardGeoBucket = {
 
 type AdminDashboardRankedCount = {
   id: string,
+  name?: string,
   count: number,
   usdValue: number,
 };
@@ -55,6 +56,7 @@ type AdminDashboardStatistics = {
 
   acquisition: {
     signupTimeseries: AdminDashboardTimeseriesPoint[],
+    earnedTimeseries: AdminDashboardTimeseriesPoint[],
     referredSignupPct: number | null,
     signupGeo: AdminDashboardGeoBucket[],
   },
@@ -88,6 +90,8 @@ type AdminDashboardStatistics = {
     priorCompletedCashouts: number,
     priorCompletedCashoutUsd: number,
     cashoutRate: number | null,
+    reversedUsd: number,
+    reversedCount: number,
     reversalDrag: number | null,
     leaderboardBonusSparks: number,
   },

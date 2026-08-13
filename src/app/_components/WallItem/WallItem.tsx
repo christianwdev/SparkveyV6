@@ -1,6 +1,6 @@
 'use client';
 
-import type { KeyboardEvent, MouseEvent } from 'react';
+import { useState, type KeyboardEvent, type MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 
@@ -33,7 +33,8 @@ export default function WallItem({
   const t = useTranslations('WallItem');
 
   const lifetimeEarned = user?.statistics.earned.total ?? 0;
-  const isBanned = !!(user?.bannedUntil && new Date(user.bannedUntil).getTime() > Date.now());
+  const [ now ] = useState(() => Date.now());
+  const isBanned = !!(user?.bannedUntil && new Date(user.bannedUntil).getTime() > now);
   const isVerified = !!user?.emailInformation.verifiedAt;
   const belowEarnRequirement = earnRequirement != null && lifetimeEarned < earnRequirement;
   const sparksShortfall = belowEarnRequirement && earnRequirement != null

@@ -15,7 +15,6 @@ type TextFieldProps = {
   label: ReactNode,
   hint?: ReactNode,
   error?: ReactNode,
-  /** When true, show `error` even if the field has not been blurred while dirty. */
   forceShowError?: boolean,
   className?: string,
 } & Omit<ComponentPropsWithoutRef<'input'>, 'id' | 'className'>;

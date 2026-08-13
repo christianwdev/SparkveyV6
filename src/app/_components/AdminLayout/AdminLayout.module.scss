@@ -2,9 +2,6 @@
 
 $sidebar-width: 240px;
 $topbar-height: 60px;
-$admin-border: #e8e8ec;
-$admin-sidebar-bg: #f5f5f5;
-$admin-muted: #8b92a1;
 
 .adminShell {
   display: flex;
@@ -24,8 +21,8 @@ $admin-muted: #8b92a1;
     max-width: $sidebar-width;
     height: 100dvh;
     padding: 0 10px 24px;
-    border-right: 1px solid $admin-border;
-    background: $admin-sidebar-bg;
+    border-right: 1px solid $border-light;
+    background: $surface-muted;
     box-sizing: border-box;
 
     > .header {
@@ -41,7 +38,7 @@ $admin-muted: #8b92a1;
         color: $text-bold;
         text-decoration: none;
         font-size: 16px;
-        font-weight: 650;
+        font-weight: 600;
 
         > span {
           letter-spacing: -0.02em;
@@ -61,7 +58,7 @@ $admin-muted: #8b92a1;
         font-weight: 700;
         letter-spacing: 0.04em;
         text-transform: uppercase;
-        color: $admin-muted;
+        color: $text-light;
       }
 
       > .navLink {
@@ -78,17 +75,17 @@ $admin-muted: #8b92a1;
         > svg {
           width: 16px;
           height: 16px;
-          color: $admin-muted;
+          color: $text-light;
           flex-shrink: 0;
         }
 
         &:hover {
-          background: color-mix(in srgb, $background 85%, $admin-sidebar-bg);
+          background: $light-blue;
         }
 
         &.navLinkActive {
           background: $background;
-          box-shadow: 0 0 0 1px $admin-border;
+          box-shadow: 0 0 0 1px $border-light;
 
           > svg {
             color: $primary;
@@ -116,11 +113,11 @@ $admin-muted: #8b92a1;
         > svg {
           width: 15px;
           height: 15px;
-          color: $admin-muted;
+          color: $text-light;
         }
 
         &:hover {
-          background: color-mix(in srgb, $background 85%, $admin-sidebar-bg);
+          background: $light-blue;
         }
       }
     }
@@ -139,7 +136,7 @@ $admin-muted: #8b92a1;
       height: $topbar-height;
       min-height: $topbar-height;
       padding: 0 40px;
-      border-bottom: 1px solid $admin-border;
+      border-bottom: 1px solid $border-light;
       background: $background;
       box-sizing: border-box;
 
@@ -178,7 +175,7 @@ $admin-muted: #8b92a1;
       max-width: none;
       height: auto;
       border-right: none;
-      border-bottom: 1px solid $admin-border;
+      border-bottom: 1px solid $border-light;
 
       > .nav {
         flex-direction: row;

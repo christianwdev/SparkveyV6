@@ -106,18 +106,21 @@ export default function DenominationDropdown(
   const [ focused, setFocused ] = useState(false);
   const [ open, setOpen ] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const onChangeRef = useRef(onChange);
-  onChangeRef.current = onChange;
+  const resetKey = `${!!allowCustomAmount}:${denominations.join(',')}`;
+  const [ seenResetKey, setSeenResetKey ] = useState(resetKey);
+
+  if (resetKey !== seenResetKey) {
+    setSeenResetKey(resetKey);
+    setValue(denominations[0]);
+    setDraft('');
+  }
 
   const [ inputWrapperEl, setInputWrapperEl ] = useState<HTMLElement | null>(null);
   const [ popperEl, setPopperEl ] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const defaultVal = denominations[0];
-    setValue(defaultVal);
-    setDraft('');
-    onChangeRef.current(defaultVal);
-  }, [ denominations, allowCustomAmount ]);
+    onChange(denominations[0]);
+  }, [ resetKey ]);
 
   const { styles: popperStyles, attributes } = usePopper(inputWrapperEl, popperEl, {
     strategy: 'fixed',

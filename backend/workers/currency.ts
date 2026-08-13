@@ -20,7 +20,7 @@ async function cacheCurrencyRates(): Promise<[ err: true ] | [ err: false ]> {
 
     type CurrencyResponseType = {
       [currencyCode: string]: number | Record<string, number> | string,
-      usd?: Record<string, number>,
+      usd: Record<string, number>,
     };
 
     const currenciesResponse = await currencyReq.json() as CurrencyResponseType;

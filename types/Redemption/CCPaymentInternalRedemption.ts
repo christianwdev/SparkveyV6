@@ -6,9 +6,7 @@ type CCPaymentRequestMeta = {
   currencySymbol: string,
   currencyNetwork: string,
   currencyRate: number,
-  /** Raw payout amount in Sparks. */
   requestRewardAmount: number,
-  /** Platform fee in Sparks. */
   requestFeeAmount: number,
 };
 

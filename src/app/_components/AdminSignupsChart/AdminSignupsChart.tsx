@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useFormatter, useTranslations } from 'next-intl';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +10,9 @@ import {
   type ChartOptions,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+
+// Hooks
+import { useChartTheme } from '@hooks/useChartTheme';
 
 // Types
 import type { AdminDashboardTimeseriesPoint } from 'types/AdminDashboardStatistics';
@@ -25,28 +27,32 @@ type AdminSignupsChartProps = {
 
 export default function AdminSignupsChart({ points }: AdminSignupsChartProps) {
   const t = useTranslations('AdminDashboard');
-  const [ tooltipBackground, setTooltipBackground ] = useState('');
-  const [ tickColor, setTickColor ] = useState('#6F7487');
-  const [ gridColor, setGridColor ] = useState('rgba(111, 116, 135, 0.2)');
+  const formatter = useFormatter();
+  const {
+    tooltipBackground,
+    tooltipText,
+    tickColor,
+    gridColor,
+    accentColor,
+    accentMuted,
+  } = useChartTheme();
 
-  useEffect(() => {
-    const styles = window.getComputedStyle(document.documentElement);
-
-    setTooltipBackground(styles.getPropertyValue('--text-bold').trim() || '#011F1D');
-    setTickColor(styles.getPropertyValue('--text-light').trim() || '#6F7487');
-    setGridColor('rgba(111, 116, 135, 0.18)');
-  }, []);
-
-  const options = useMemo<ChartOptions<'bar'>>(() => ({
+  const options: ChartOptions<'bar'> = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
     plugins: {
       legend: {
         display: false,
       },
       tooltip: {
         enabled: true,
-        backgroundColor: tooltipBackground || '#011F1D',
+        backgroundColor: tooltipBackground,
+        titleColor: tooltipText,
+        bodyColor: tooltipText,
         displayColors: false,
         padding: 12,
         callbacks: {
@@ -56,7 +62,9 @@ export default function AdminSignupsChart({ points }: AdminSignupsChartProps) {
           label(context) {
             const value = context.parsed.y ?? 0;
 
-            return t('chart.signupsTooltip', { count: value });
+            return t('chart.earnedTooltip', {
+              amount: formatChartUsd(formatter, value),
+            });
           },
         },
       },
@@ -84,10 +92,14 @@ export default function AdminSignupsChart({ points }: AdminSignupsChartProps) {
         beginAtZero: true,
         ticks: {
           color: tickColor,
-          precision: 0,
           font: {
             size: 11,
             weight: 600 as const,
+          },
+          callback(value) {
+            const numeric = typeof value === 'number' ? value : Number(value);
+
+            return formatChartUsd(formatter, numeric, 0);
           },
         },
         grid: {
@@ -98,26 +110,39 @@ export default function AdminSignupsChart({ points }: AdminSignupsChartProps) {
         },
       },
     },
-  }), [ gridColor, t, tickColor, tooltipBackground ]);
-
-  const data = useMemo(() => ({
-    labels: points.map(point => point.label),
-    datasets: [
-      {
-        label: t('chart.signups'),
-        data: points.map(point => point.count),
-        backgroundColor: '#9E38D0',
-        hoverBackgroundColor: '#8A2FBA',
-        borderRadius: 6,
-        borderSkipped: false,
-        maxBarThickness: 36,
-      },
-    ],
-  }), [ points, t ]);
+  };
 
   return (
     <div className={styles.chart}>
-      <Bar data={data} options={options} />
+      <Bar
+        data={{
+          labels: points.map(point => point.label),
+          datasets: [
+            {
+              label: t('chart.earned'),
+              data: points.map(point => point.count),
+              backgroundColor: accentMuted,
+              hoverBackgroundColor: accentColor,
+              borderRadius: 6,
+              borderSkipped: false,
+              maxBarThickness: 36,
+            },
+          ],
+        }}
+        options={options}
+      />
     </div>
   );
+}
+
+function formatChartUsd(
+  formatter: ReturnType<typeof useFormatter>,
+  value: number,
+  maximumFractionDigits = 2,
+): string {
+  return formatter.number(value, {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits,
+  });
 }

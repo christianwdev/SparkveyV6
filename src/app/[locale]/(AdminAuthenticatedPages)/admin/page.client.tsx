@@ -2,18 +2,27 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
-import { fetchAdminDashboardStatistics } from '@utils/admin';
-import { clientRequest } from '@utils/clientRequest';
+
+// Components
 import Skeleton from '@components/Skeleton/Skeleton';
 import AdminDateRangePicker, {
   type DateRange,
 } from '@components/AdminDateRangePicker/AdminDateRangePicker';
 import AdminSignupsChart from '@components/AdminSignupsChart/AdminSignupsChart';
-import styles from './page.module.scss';
+
+// Icons
+import CopyIcon from '~icons/solar/copy-linear.jsx';
+import CheckIcon from '~icons/solar/check-read-linear.jsx';
+
+// Utils
+import { fetchAdminDashboardStatistics } from '@utils/admin';
+import { clientRequest } from '@utils/clientRequest';
 
 // Types
 import type AdminDashboardStatistics from 'types/AdminDashboardStatistics';
 import type { AdminDashboardPeriod } from 'types/AdminDashboardStatistics';
+
+import styles from './page.module.scss';
 
 const PRESET_PERIODS = [ 'day', 'week', 'month' ] as const;
 
@@ -59,7 +68,7 @@ function DashboardSkeleton() {
         </div>
 
         <div className={styles.chartSkeleton}>
-          <Skeleton width="100%" height={240} borderRadius={8} />
+          <Skeleton width="100%" height={240} borderRadius={12} />
         </div>
       </section>
 
@@ -141,6 +150,12 @@ function parseDateInput(value: Date | string): Date {
   return new Date(value);
 }
 
+function shortId(id: string): string {
+  if (id.length <= 10) return id;
+
+  return `${id.slice(0, 8)}…`;
+}
+
 function formatWindowRange(
   formatter: ReturnType<typeof useFormatter>,
   start: Date | string,
@@ -149,7 +164,7 @@ function formatWindowRange(
   const startDate = parseDateInput(start);
   const endDate = parseDateInput(end);
 
-  return `${formatter.dateTime(startDate, { month: 'short', day: 'numeric', year: 'numeric' })} – ${formatter.dateTime(endDate, { month: 'short', day: 'numeric', year: 'numeric' })}`;
+  return `${formatter.dateTime(startDate, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })} – ${formatter.dateTime(endDate, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })}`;
 }
 
 export default function AdminDashboardClient({
@@ -167,6 +182,8 @@ export default function AdminDashboardClient({
   const [ loading, setLoading ] = useState(false);
   const [ error, setError ] = useState(initialLoadFailed);
   const skipInitialFetchRef = useRef(true);
+  const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [ copiedOfferId, setCopiedOfferId ] = useState<string | null>(null);
   const queryKey = period === 'custom'
     ? `custom:${customRange?.start ?? ''}:${customRange?.end ?? ''}`
     : period;
@@ -218,11 +235,28 @@ export default function AdminDashboardClient({
     };
   }, [ queryKey ]);
 
+  useEffect(() => {
+    return () => {
+      if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+    };
+  }, []);
+
+  async function copyOfferId(id: string) {
+    try {
+      await navigator.clipboard.writeText(id);
+      setCopiedOfferId(id);
+
+      if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
+      copiedTimeoutRef.current = setTimeout(() => setCopiedOfferId(null), 2000);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const windowLabel = statistics
     ? formatWindowRange(formatter, statistics.window.start, statistics.window.end)
     : '';
 
-  const topBrand = statistics?.engagement.topProviders[0]?.id ?? '—';
   const customLabel = customRange
     ? formatWindowRange(formatter, customRange.start, customRange.end)
     : t('periods.custom');
@@ -329,13 +363,13 @@ export default function AdminDashboardClient({
 
             <article className={styles.statCard}>
               <div className={styles.statHeader}>
-                <p className={styles.statTitle}>{t('metrics.topProvider')}</p>
+                <p className={styles.statTitle}>{t('metrics.chargebacks')}</p>
                 <p className={styles.statRegion}>{windowLabel}</p>
               </div>
               <div className={styles.statValueRow}>
-                <p className={styles.statValueCompact}>{topBrand}</p>
+                <p className={styles.statValue}>{formatUsd(formatter, statistics.monetization.reversedUsd)}</p>
                 <p className={[ styles.statChange, styles.delta_flat ].join(' ')}>
-                  {formatUsd(formatter, statistics.engagement.topProviders[0]?.usdValue ?? 0)}
+                  {formatter.number(statistics.monetization.reversedCount)}
                 </p>
               </div>
             </article>
@@ -343,17 +377,18 @@ export default function AdminDashboardClient({
 
           <section className={styles.performanceWrapper}>
             <div className={styles.panelHeader}>
-              <div>
+              <div className={styles.titleBlock}>
                 <h2>{t('sections.performance')}</h2>
                 <p>{windowLabel}</p>
               </div>
               <div className={styles.inlineMetrics}>
                 <span>{t('metrics.lifetimeEarnedUsd')}: {formatUsd(formatter, statistics.northStar.lifetimeEarnedUsd)}</span>
                 <span>{t('metrics.periodSparksCredited')}: {formatter.number(statistics.northStar.periodSparksCredited)}</span>
+                <span>{t('metrics.chargebacks')}: {formatUsd(formatter, statistics.monetization.reversedUsd)}</span>
               </div>
             </div>
 
-            <AdminSignupsChart points={statistics.acquisition.signupTimeseries} />
+            <AdminSignupsChart points={statistics.acquisition.earnedTimeseries} />
           </section>
 
           <section className={styles.tablesWrapper}>
@@ -394,13 +429,35 @@ export default function AdminDashboardClient({
                 {statistics.engagement.topOffers.length === 0 ? (
                   <p className={styles.muted}>{t('noData')}</p>
                 ) : (
-                  statistics.engagement.topOffers.map(row => (
-                    <div key={row.id} className={styles.tableRow}>
-                      <span className={styles.primaryCell}>{row.id}</span>
-                      <span>{formatter.number(row.count)}</span>
-                      <span>{formatUsd(formatter, row.usdValue)}</span>
-                    </div>
-                  ))
+                  statistics.engagement.topOffers.map(row => {
+                    const copied = copiedOfferId === row.id;
+                    const displayName = row.name?.trim() || row.id;
+
+                    return (
+                      <div key={row.id} className={styles.tableRow}>
+                        <div className={styles.offerCell}>
+                          <div className={styles.offerMeta}>
+                            <span className={styles.offerName}>{displayName}</span>
+                            <span className={styles.offerId}>{shortId(row.id)}</span>
+                          </div>
+                          <button
+                            type="button"
+                            className={styles.copyButton}
+                            onClick={() => {
+                              copyOfferId(row.id).catch(error => {
+                                console.error(error);
+                              });
+                            }}
+                            aria-label={copied ? t('table.copied') : t('table.copyId')}
+                          >
+                            {copied ? <CheckIcon aria-hidden /> : <CopyIcon aria-hidden />}
+                          </button>
+                        </div>
+                        <span>{formatter.number(row.count)}</span>
+                        <span>{formatUsd(formatter, row.usdValue)}</span>
+                      </div>
+                    );
+                  })
                 )}
               </div>
             </div>
@@ -451,6 +508,14 @@ export default function AdminDashboardClient({
                 <div className={styles.metricRow}>
                   <span>{t('metrics.cashoutRate')}</span>
                   <strong>{formatRate(formatter, statistics.monetization.cashoutRate)}</strong>
+                </div>
+                <div className={styles.metricRow}>
+                  <span>{t('metrics.chargebacks')}</span>
+                  <strong>{formatUsd(formatter, statistics.monetization.reversedUsd)}</strong>
+                </div>
+                <div className={styles.metricRow}>
+                  <span>{t('metrics.chargebackCount')}</span>
+                  <strong>{formatter.number(statistics.monetization.reversedCount)}</strong>
                 </div>
                 <div className={styles.metricRow}>
                   <span>{t('metrics.reversalDrag')}</span>

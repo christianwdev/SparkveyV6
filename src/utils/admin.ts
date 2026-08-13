@@ -1,4 +1,4 @@
-import { clientRequest } from '@utils/clientRequest';
+import type { clientRequest } from '@utils/clientRequest';
 import type { serverRequest } from '@utils/serverRequest';
 import { getScope } from '@utils/scope';
 

@@ -38,14 +38,15 @@ export type PeriodSignup = {
 };
 
 export type EarningsDashboardFacet = {
-  periodTotals: Array<{ earnedUsd: number, sparksCredited: number, reversedUsd: number }>,
+  periodTotals: Array<{ earnedUsd: number, sparksCredited: number, reversedUsd: number, reversedCount: number }>,
   priorTotals: Array<{ earnedUsd: number, sparksCredited: number }>,
   activeEarners: Array<{ _id: string }>,
   repeatEarners: Array<{ count: number }>,
   topProviders: Array<{ _id: string, count: number, usdValue: number }>,
-  topOffers: Array<{ _id: string, count: number, usdValue: number }>,
+  topOffers: Array<{ _id: string, name: string, count: number, usdValue: number }>,
   offerTypeMix: Array<{ _id: string, count: number, usdValue: number }>,
   periodUserUsd: Array<{ _id: string, usdValue: number }>,
+  earnedTimeseries: Array<{ _id: Date, usdValue: number }>,
 };
 
 export type RedemptionTotalsFacet = {
@@ -106,6 +107,15 @@ export function buildEarningsTotalsPipeline(
         ],
       },
     };
+    group.reversedCount = {
+      $sum: {
+        $cond: [
+          { $eq: [ '$status', 'reversed' ] },
+          1,
+          0,
+        ],
+      },
+    };
   }
 
   const project: Document = {
@@ -113,7 +123,10 @@ export function buildEarningsTotalsPipeline(
     earnedUsd: 1,
     sparksCredited: 1,
   };
-  if (includeReversed) project.reversedUsd = 1;
+  if (includeReversed) {
+    project.reversedUsd = 1;
+    project.reversedCount = 1;
+  }
 
   return [
     {
@@ -123,6 +136,37 @@ export function buildEarningsTotalsPipeline(
     },
     { $group: group },
     { $project: project },
+  ];
+}
+
+export function buildEarnedTimeseriesPipeline(
+  {
+    startDate,
+    endDate,
+    unit,
+  }: WindowDates & {
+    unit: 'hour' | 'day',
+  },
+): Document[] {
+  return [
+    {
+      $match: {
+        createdAt: { $gte: startDate, $lte: endDate },
+        status: { $in: nonReversedStatuses() },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          $dateTrunc: {
+            date: '$createdAt',
+            unit,
+            timezone: 'UTC',
+          },
+        },
+        usdValue: { $sum: '$usdValue' },
+      },
+    },
   ];
 }
 
@@ -190,6 +234,23 @@ export function buildTopOffersPipeline({ startDate, endDate }: WindowDates): Doc
     {
       $group: {
         _id: '$offerID',
+        name: {
+          $first: {
+            $let: {
+              vars: {
+                display: { $ifNull: [ '$offerDisplayName', '' ] },
+                fallback: { $ifNull: [ '$offerName', '' ] },
+              },
+              in: {
+                $cond: [
+                  { $gt: [ { $strLenCP: '$$display' }, 0 ] },
+                  '$$display',
+                  '$$fallback',
+                ],
+              },
+            },
+          },
+        },
         count: { $sum: 1 },
         usdValue: { $sum: '$usdValue' },
       },
@@ -287,8 +348,6 @@ export function buildCompletedRedemptionsPipeline({ startDate, endDate }: Window
   ];
 }
 
-// ─── Fetch helpers ───
-
 export async function fetchLifetimeEarnedUsd(): Promise<number> {
   const { db } = getGlobalObject();
   const siteDoc = await db.collection<SiteStatistics>(DatabaseCollections.siteStatistics).findOne(
@@ -352,7 +411,10 @@ export async function fetchEarningsDashboardFacet(
     endDate,
     priorStartDate,
     priorEndDate,
-  }: StatsWindow,
+    timeseriesUnit,
+  }: StatsWindow & {
+    timeseriesUnit: 'hour' | 'day',
+  },
 ): Promise<EarningsDashboardFacet | null> {
   const { db } = getGlobalObject();
   const [ result ] = await db.collection<InternalEarning>(DatabaseCollections.userEarnings).aggregate<EarningsDashboardFacet>([
@@ -379,6 +441,11 @@ export async function fetchEarningsDashboardFacet(
         topOffers: buildTopOffersPipeline({ startDate, endDate }),
         offerTypeMix: buildOfferTypeMixPipeline({ startDate, endDate }),
         periodUserUsd: buildPeriodUserUsdPipeline({ startDate, endDate }),
+        earnedTimeseries: buildEarnedTimeseriesPipeline({
+          startDate,
+          endDate,
+          unit: timeseriesUnit,
+        }),
       },
     },
   ], STATS_READ).toArray();

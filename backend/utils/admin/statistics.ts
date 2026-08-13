@@ -21,6 +21,7 @@ import {
 import {
   countEventsByBucket,
   fillTimeSeries,
+  sumValuesByBucket,
   type TimeSeriesBucketConfig,
 } from 'backend/utils/timeSeries';
 
@@ -147,13 +148,10 @@ function getPeriodBounds(
   }
 
   const now = dayjs.utc();
-  const isoWeekday = now.day();
-  const mondayOffset = (isoWeekday + 6) % 7;
-  const isoWeekStart = now.clone().subtract(mondayOffset, 'day').startOf('day');
 
   if (period === 'day') {
-    const start = now.clone().startOf('day');
     const end = now;
+    const start = now.clone().subtract(1, 'day');
 
     return {
       start,
@@ -166,14 +164,14 @@ function getPeriodBounds(
         stepUnit: 'hour',
         stepAmount: 1,
         bucketKey: date => date.clone().startOf('hour').format('YYYY-MM-DDTHH:00:00[Z]'),
-        label: date => date.format('HH:00'),
+        label: date => date.format('MMM D, HH:00'),
       },
     };
   }
 
   if (period === 'week') {
-    const start = isoWeekStart;
     const end = now;
+    const start = now.clone().subtract(7, 'day');
 
     return {
       start,
@@ -186,13 +184,13 @@ function getPeriodBounds(
         stepUnit: 'day',
         stepAmount: 1,
         bucketKey: date => date.clone().startOf('day').format('YYYY-MM-DDT00:00:00[Z]'),
-        label: date => date.format('ddd'),
+        label: date => date.format('MMM D'),
       },
     };
   }
 
-  const start = now.clone().startOf('month');
   const end = now;
+  const start = now.clone().subtract(30, 'day');
 
   return {
     start,
@@ -235,6 +233,28 @@ function buildSignupTimeseries(
   return fillTimeSeries({
     config,
     valuesByBucket: counts,
+    emptyValue: 0,
+  }).map(point => ({
+    date: point.date,
+    label: point.label,
+    count: point.value,
+  }));
+}
+
+function buildEarnedTimeseries(
+  rows: Array<{ _id: Date, usdValue: number }>,
+  config: TimeSeriesBucketConfig,
+): AdminDashboardTimeseriesPoint[] {
+  const sums = sumValuesByBucket({
+    config,
+    events: rows,
+    getDate: row => row._id,
+    getValue: row => row.usdValue,
+  });
+
+  return fillTimeSeries({
+    config,
+    valuesByBucket: sums,
     emptyValue: 0,
   }).map(point => ({
     date: point.date,
@@ -301,7 +321,10 @@ export async function getAdminDashboardStatistics(
       fetchLifetimeEarnedUsd(),
       fetchPeriodSignups({ startDate, endDate }),
       fetchSignupCount({ startDate: priorStartDate, endDate: priorEndDate }),
-      fetchEarningsDashboardFacet(window),
+      fetchEarningsDashboardFacet({
+        ...window,
+        timeseriesUnit: bounds.timeseries.truncateUnit === 'hour' ? 'hour' : 'day',
+      }),
       fetchCompletedRedemptionTotals(window),
       fetchTopAffiliateCodes(),
       fetchPaidLeaderboardsInWindow({ startDate, endDate }),
@@ -370,6 +393,7 @@ export async function getAdminDashboardStatistics(
     const periodSparksCredited = periodTotals?.sparksCredited ?? 0;
     const priorSparksCredited = priorTotals?.sparksCredited ?? 0;
     const reversedUsd = periodTotals?.reversedUsd ?? 0;
+    const reversedCount = periodTotals?.reversedCount ?? 0;
 
     const activeEarners = activeEarnerIds.length;
     const repeatEarnerCount = earningsFacet?.repeatEarners[0]?.count ?? 0;
@@ -380,11 +404,16 @@ export async function getAdminDashboardStatistics(
       usdValue: row.usdValue,
     }));
 
-    const topOffers: AdminDashboardRankedCount[] = (earningsFacet?.topOffers ?? []).map(row => ({
-      id: row._id,
-      count: row.count,
-      usdValue: row.usdValue,
-    }));
+    const topOffers: AdminDashboardRankedCount[] = (earningsFacet?.topOffers ?? []).map(row => {
+      const offer: AdminDashboardRankedCount = {
+        id: row._id,
+        count: row.count,
+        usdValue: row.usdValue,
+      };
+      if (row.name) offer.name = row.name;
+
+      return offer;
+    });
 
     const offerTypeMix: AdminDashboardOfferTypeBucket[] = (earningsFacet?.offerTypeMix ?? []).map(row => ({
       offerType: row._id || 'unknown',
@@ -470,6 +499,7 @@ export async function getAdminDashboardStatistics(
       },
       acquisition: {
         signupTimeseries: buildSignupTimeseries(periodSignups, bounds.timeseries),
+        earnedTimeseries: buildEarnedTimeseries(earningsFacet?.earnedTimeseries ?? [], bounds.timeseries),
         referredSignupPct: ratio(referredSignups, signups),
         signupGeo,
       },
@@ -499,6 +529,8 @@ export async function getAdminDashboardStatistics(
         priorCompletedCashouts: priorRedemptions?.count ?? 0,
         priorCompletedCashoutUsd: priorRedemptions?.usdValue ?? 0,
         cashoutRate: ratio(cashoutEarnerIds.length, activeEarners),
+        reversedUsd,
+        reversedCount,
         reversalDrag: ratio(reversedUsd, periodEarnedUsd),
         leaderboardBonusSparks: sumLeaderboardBonusSparks(paidLeaderboards),
       },

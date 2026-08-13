@@ -1262,9 +1262,9 @@
     "subtitle": "Acquisition, activation, engagement, and monetization for the selected period.",
     "periodLabel": "Period",
     "periods": {
-      "day": "Day",
-      "week": "Week",
-      "month": "Month",
+      "day": "1d",
+      "week": "7d",
+      "month": "30d",
       "custom": "Custom"
     },
     "customRangeLabel": "Custom date range",
@@ -1272,7 +1272,9 @@
     "cancel": "Cancel",
     "chart": {
       "signups": "Signups",
-      "signupsTooltip": "{count} signups"
+      "signupsTooltip": "{count} signups",
+      "earned": "Zarobiono",
+      "earnedTooltip": "{amount} zarobiono"
     },
     "vsPrior": "vs prior",
     "loading": "Loading statistics…",
@@ -1302,6 +1304,8 @@
       "activeEarners": "Active earners",
       "repeatEarnerRate": "Repeat earners",
       "topProvider": "Top provider",
+      "chargebacks": "Obciążenia zwrotne",
+      "chargebackCount": "Liczba obciążeń zwrotnych",
       "referredSignups": "Referred signups",
       "organicSignups": "Organic signups",
       "referredEarnedUsd": "Referred earned",
@@ -1322,7 +1326,9 @@
       "name": "Name",
       "count": "Count",
       "amount": "Amount",
-      "tasks": "Tasks"
+      "tasks": "Tasks",
+      "copyId": "Kopiuj ID oferty",
+      "copied": "Skopiowano"
     }
   },
   "AdminUsers": {

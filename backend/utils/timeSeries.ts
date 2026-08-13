@@ -22,7 +22,6 @@ export type TimeSeriesPoint<TValue> = TimeSeriesBucket & {
   value: TValue,
 };
 
-/** Walk a UTC window and emit every bucket key + display label (zeros not filled). */
 export function buildTimeSeriesBuckets(config: TimeSeriesBucketConfig): TimeSeriesBucket[] {
   const buckets: TimeSeriesBucket[] = [];
   const iterationStart = config.start.clone().startOf(config.truncateUnit);
@@ -42,10 +41,6 @@ export function buildTimeSeriesBuckets(config: TimeSeriesBucketConfig): TimeSeri
   return buckets;
 }
 
-/**
- * Fill a full bucket range from a sparse map of values.
- * Missing buckets use `emptyValue` so charts always render a continuous series.
- */
 export function fillTimeSeries<TValue>(
   {
     config,
@@ -66,7 +61,6 @@ export function fillTimeSeries<TValue>(
   }));
 }
 
-/** Group dated events into bucket counts using the same keying as `fillTimeSeries`. */
 export function countEventsByBucket<TEvent>(
   {
     config,
@@ -86,4 +80,27 @@ export function countEventsByBucket<TEvent>(
   }
 
   return counts;
+}
+
+export function sumValuesByBucket<TEvent>(
+  {
+    config,
+    events,
+    getDate,
+    getValue,
+  }: {
+    config: TimeSeriesBucketConfig,
+    events: TEvent[],
+    getDate: (event: TEvent) => Date,
+    getValue: (event: TEvent) => number,
+  },
+): Map<string, number> {
+  const sums = new Map<string, number>();
+
+  for (const event of events) {
+    const key = config.bucketKey(dayjs.utc(getDate(event)));
+    sums.set(key, (sums.get(key) ?? 0) + getValue(event));
+  }
+
+  return sums;
 }

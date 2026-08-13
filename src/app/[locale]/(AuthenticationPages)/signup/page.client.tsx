@@ -59,33 +59,38 @@ function validateField(
   t: (key: string) => string,
 ): string | undefined {
   switch (field) {
-    case 'email': {
+    case 'email':
+    {
       const trimmed = values.email.trim();
       if (!trimmed) return t('errors.emailRequired');
       if (!isValidEmail(trimmed)) return t('errors.emailInvalid');
 
       return undefined;
     }
-    case 'password': {
+    case 'password':
+    {
       if (!values.password) return t('errors.passwordRequired');
       if (!isValidNewPassword(values.password)) return t('errors.passwordInvalid');
 
       return undefined;
     }
-    case 'confirmPassword': {
+    case 'confirmPassword':
+    {
       if (!values.confirmPassword) return t('errors.confirmPasswordRequired');
       if (values.confirmPassword !== values.password) return t('errors.confirmPasswordMismatch');
 
       return undefined;
     }
-    case 'username': {
+    case 'username':
+    {
       const trimmed = values.username.trim();
       if (!trimmed) return t('errors.usernameRequired');
       if (!isValidUsername(trimmed)) return t('errors.usernameInvalid');
 
       return undefined;
     }
-    case 'referralCode': {
+    case 'referralCode':
+    {
       const trimmed = values.referralCode.trim();
       if (!trimmed) return undefined;
       if (!isValidReferralCode(trimmed)) return t('errors.referralInvalid');

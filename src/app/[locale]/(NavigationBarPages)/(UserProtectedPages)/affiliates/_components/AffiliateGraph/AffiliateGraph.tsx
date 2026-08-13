@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   Chart as ChartJS,
@@ -16,6 +15,9 @@ import { Line } from 'react-chartjs-2';
 
 // Components
 import Dropdown from '@components/Dropdown/Dropdown';
+
+// Hooks
+import { useChartTheme } from '@hooks/useChartTheme';
 
 // Types
 import type { AffiliatePeriod, AffiliateTimeseriesPoint } from 'types/AffiliateTimeseries';
@@ -42,13 +44,7 @@ export default function AffiliateGraph(
   }: AffiliateGraphProps,
 ) {
   const t = useTranslations('AffiliatesPage');
-  const [ tooltipBackground, setTooltipBackground ] = useState('');
-
-  useEffect(() => {
-    setTooltipBackground(
-      window.getComputedStyle(document.documentElement).getPropertyValue('--text-bold').trim(),
-    );
-  }, []);
+  const { tooltipBackground, tooltipText, tickColor, gridColor, accentColor, accentFill } = useChartTheme();
 
   const graphOptions: ChartOptions<'line'> = {
     responsive: true,
@@ -57,7 +53,9 @@ export default function AffiliateGraph(
     plugins: {
       tooltip: {
         enabled: true,
-        backgroundColor: tooltipBackground || '#1a1a1a',
+        backgroundColor: tooltipBackground,
+        titleColor: tooltipText,
+        bodyColor: tooltipText,
         xAlign: 'center',
         yAlign: 'bottom',
         caretPadding: 10,
@@ -67,7 +65,9 @@ export default function AffiliateGraph(
         displayColors: false,
         callbacks: {
           label(context) {
-            return `${context.parsed.y.toFixed(0)} ${t('a11y.sparksAlt')}`;
+            const value = context.parsed.y ?? 0;
+
+            return `${value.toFixed(0)} ${t('a11y.sparksAlt')}`;
           },
           title() {
             return '';
@@ -80,12 +80,13 @@ export default function AffiliateGraph(
         min: 0,
         suggestedMax: 1000,
         grid: {
-          color: '#6F748740',
+          color: gridColor,
         },
         border: {
           display: false,
         },
         ticks: {
+          color: tickColor,
           padding: 20,
           font: {
             size: 12,
@@ -108,6 +109,7 @@ export default function AffiliateGraph(
           display: false,
         },
         ticks: {
+          color: tickColor,
           padding: 35,
           font: {
             size: 14,
@@ -154,8 +156,8 @@ export default function AffiliateGraph(
                   data: points.map(point => point.totalEarnings),
                   fill: true,
                   cubicInterpolationMode: 'monotone',
-                  borderColor: '#9E38D0',
-                  backgroundColor: '#9E38D01A',
+                  borderColor: accentColor,
+                  backgroundColor: accentFill,
                   pointRadius: 6,
                   tension: 0.4,
                   pointHoverRadius: 6,
