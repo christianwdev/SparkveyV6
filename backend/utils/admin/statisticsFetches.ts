@@ -5,7 +5,6 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
-import { SPARKS_PER_USD } from 'backend/utils/rewards';
 import { NON_REVERSED_STATUSES, SITE_STATISTICS_ID } from 'backend/utils/siteStatistics';
 
 // Types
@@ -337,15 +336,7 @@ export function buildCompletedRedemptionsPipeline({ startDate, endDate }: Window
       $group: {
         _id: null,
         count: { $sum: 1 },
-        usdValue: {
-          $sum: {
-            $cond: [
-              { $eq: [ '$providerName', 'ccpayment' ] },
-              { $divide: [ '$value', SPARKS_PER_USD ] },
-              { $ifNull: [ '$usdValue', 0 ] },
-            ],
-          },
-        },
+        usdValue: { $sum: '$usdValue' },
       },
     },
     {

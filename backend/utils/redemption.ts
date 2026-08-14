@@ -8,7 +8,7 @@ import SocketEmits from '../constants/SocketEmits';
 import { checkCCPAddressValidity } from './ccpayment';
 import { getGlobalObject } from './globalObject';
 import { createUserNotification } from './notifications';
-import { getRedemptionUsdValue, getRewardFeeAmount, getRewardFeeRate } from './rewards';
+import { getRedemptionSparksValue, getRedemptionUsdValue, getRewardFeeAmount, getRewardFeeRate } from './rewards';
 import { createTremendousOrder } from './tremendous';
 import { getRawUser } from './user';
 import { updateUserBalance } from './userBalance';
@@ -59,11 +59,21 @@ async function buildRedemption({
   currencyCode?: unknown;
 }): Promise<BuildRedemptionResult> {
   const now = new Date();
+  const sparksValue = getRedemptionSparksValue(reward, value);
+  const usdValue = getRedemptionUsdValue(reward, value);
+
+  if (sparksValue === null || usdValue === null) {
+    return { ok: false, error: 'internalServerError' };
+  }
+  const feeRate = getRewardFeeRate(reward);
+  const requestFeeAmount = getRewardFeeAmount({ value, feeRate });
   const base = {
     redemptionID: createId(),
     userID: user.userID,
     rewardID: reward.rewardID,
     itemName: reward.rewardName,
+    value: sparksValue,
+    usdValue,
     status: 'pending' as const,
     createdAt: now,
     updatedAt: now,
@@ -90,19 +100,9 @@ async function buildRedemption({
         return { ok: false, error: 'invalidWalletAddress' };
       }
 
-      const feeRate = getRewardFeeRate(reward);
-      const requestFeeAmount = getRewardFeeAmount({ value, feeRate });
-      const usdValue = getRedemptionUsdValue(reward, value);
-
-      if (usdValue === null) {
-        return { ok: false, error: 'internalServerError' };
-      }
-
       const redemption: RequestedCCPaymentInternalRedemption = {
         ...base,
         providerName: 'ccpayment',
-        value,
-        usdValue,
         meta: {
           walletAddress: trimmedAddress,
           currencySymbol: reward.meta.currencySymbol,
@@ -130,19 +130,9 @@ async function buildRedemption({
         return { ok: false, error: 'invalidCurrencyCode' };
       }
 
-      const feeRate = getRewardFeeRate(reward);
-      const requestFeeAmount = getRewardFeeAmount({ value, feeRate });
-      const usdValue = getRedemptionUsdValue(reward, value);
-
-      if (usdValue === null) {
-        return { ok: false, error: 'internalServerError' };
-      }
-
       const redemption: RequestedTremendousInternalRedemption = {
         ...base,
         providerName: 'tremendous',
-        value,
-        usdValue,
         meta: {
           requestCurrencyCode: primaryCurrencyCode,
           requestRewardAmount: value,
@@ -224,13 +214,15 @@ export async function handlePurchase({
 
     io.to(user.userID).emit(SocketEmits.userBalanceChange, balanceResult.data.user.balance.sparks);
 
-    void createUserNotification({
+    createUserNotification({
       userID: user.userID,
       meta: {
         type: 'redemptionSubmitted',
         rewardName: reward.rewardName,
-        value,
+        value: redemption.value,
       },
+    }).catch(error => {
+      console.error(error);
     });
 
     return { ok: true, data: redemption };

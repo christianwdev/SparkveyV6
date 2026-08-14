@@ -121,27 +121,36 @@ export function getTremendousFaceSparks(
   return Math.round(value * usdPerUnit * SPARKS_PER_USD);
 }
 
+export function getRedemptionSparksValue(
+  reward: InternalReward,
+  value: number,
+): number | null {
+  switch (reward.providerName) {
+    case 'ccpayment':
+      return value;
+    case 'tremendous':
+      return getTremendousFaceSparks(reward, value);
+  }
+}
+
 export function getRedemptionSparksCost(
   reward: InternalReward,
   value: number,
 ): number | null {
   const feeRate = getRewardFeeRate(reward);
+  const faceSparks = getRedemptionSparksValue(reward, value);
+
+  if (faceSparks === null) return null;
 
   switch (reward.providerName) {
     case 'ccpayment':
       {
-      const feeAmount = getRewardFeeAmount({ value, feeRate });
+      const feeAmount = getRewardFeeAmount({ value: faceSparks, feeRate });
 
-      return Math.round(value + feeAmount);
+      return Math.round(faceSparks + feeAmount);
     }
     case 'tremendous':
-      {
-      const faceSparks = getTremendousFaceSparks(reward, value);
-
-      if (faceSparks === null) return null;
-
       return Math.round(faceSparks * (1 + feeRate));
-    }
   }
 }
 
@@ -149,18 +158,11 @@ export function getRedemptionUsdValue(
   reward: InternalReward,
   value: number,
 ): number | null {
-  switch (reward.providerName) {
-    case 'ccpayment':
-      return value / SPARKS_PER_USD;
-    case 'tremendous':
-      {
-      const faceSparks = getTremendousFaceSparks(reward, value);
+  const sparksValue = getRedemptionSparksValue(reward, value);
 
-      if (faceSparks === null) return null;
+  if (sparksValue === null) return null;
 
-      return faceSparks / SPARKS_PER_USD;
-    }
-  }
+  return sparksValue / SPARKS_PER_USD;
 }
 
 export function isRewardAvailableInCountry(
