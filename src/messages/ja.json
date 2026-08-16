@@ -1243,7 +1243,9 @@
     "dashboardTitle": "Sparkvey | Admin",
     "dashboardDescription": "Growth statistics and platform analytics.",
     "usersTitle": "Sparkvey | Admin Users",
-    "usersDescription": "Browse and manage Sparkvey users."
+    "usersDescription": "Browse and manage Sparkvey users.",
+    "userTitle": "Sparkvey | {username}",
+    "userDescription": "このSparkveyユーザーを表示・管理します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1332,8 +1334,263 @@
     }
   },
   "AdminUsers": {
-    "eyebrow": "Admin",
-    "title": "Users",
-    "subtitle": "User management tools are coming next. Use the API for list and detail lookups for now."
+    "eyebrow": "管理",
+    "title": "ユーザー",
+    "subtitle": "ユーザー名、メール、ユーザーIDで検索します。",
+    "searchLabel": "ユーザーを検索",
+    "searchPlaceholder": {
+      "username": "ユーザー名を検索",
+      "email": "メールを検索",
+      "userID": "完全一致のユーザーID"
+    },
+    "filterBy": "検索対象",
+    "filters": {
+      "username": "ユーザー名",
+      "email": "メール",
+      "userID": "ユーザーID"
+    },
+    "sortBy": "並び替え",
+    "sorts": {
+      "createdAt": "登録日",
+      "balanceSparks": "残高"
+    },
+    "order": "順序",
+    "orders": {
+      "createdAt": {
+        "desc": "新しい順",
+        "asc": "古い順"
+      },
+      "balance": {
+        "desc": "多い順",
+        "asc": "少ない順"
+      }
+    },
+    "table": {
+      "username": "ユーザー名",
+      "email": "メール",
+      "userID": "ユーザーID",
+      "balance": "残高",
+      "created": "登録日",
+      "status": "ステータス"
+    },
+    "status": {
+      "active": "有効",
+      "banned": "BAN",
+      "deleted": "削除済み"
+    },
+    "unnamed": "無名",
+    "noEmail": "メールなし",
+    "na": "—",
+    "empty": "一致するユーザーはありません。",
+    "error": "ユーザーを読み込めませんでした。しばらくして再試行してください。",
+    "copyId": "ユーザーIDをコピー",
+    "copied": "コピーしました"
+  },
+  "AdminUser": {
+    "backToUsers": "ユーザー一覧に戻る",
+    "notFound": "このユーザーは見つかりませんでした。",
+    "unnamed": "無名",
+    "na": "—",
+    "yes": "はい",
+    "no": "いいえ",
+    "linked": "連携済み",
+    "notLinked": "未連携",
+    "copyId": "ユーザーIDをコピー",
+    "copied": "コピーしました",
+    "navLabel": "ユーザー項目",
+    "nav": {
+      "overview": "概要",
+      "settings": "設定",
+      "earnings": "収益",
+      "transactions": "取引",
+      "redemptions": "換金",
+      "sessions": "セッション",
+      "affiliates": "アフィリエイト",
+      "emails": "メール"
+    },
+    "summary": {
+      "balance": "残高",
+      "email": "メール",
+      "created": "登録日"
+    },
+    "status": {
+      "active": "有効",
+      "banned": "BAN",
+      "deleted": "削除済み",
+      "disabled": "無効",
+      "deactivated": "無効化"
+    },
+    "sections": {
+      "account": "アカウント",
+      "contact": "連絡先",
+      "personal": "個人情報",
+      "statistics": "統計",
+      "limits": "上限と設定",
+      "referral": "紹介",
+      "social": "ソーシャル",
+      "wallets": "ウォレット"
+    },
+    "fields": {
+      "userID": "ユーザーID",
+      "username": "ユーザー名",
+      "hasPassword": "パスワード設定済み",
+      "created": "登録日",
+      "deleted": "削除済み",
+      "bannedUntil": "BAN期限",
+      "email": "メール",
+      "emailVerified": "メール確認済み",
+      "phone": "電話",
+      "phoneVerified": "電話確認済み",
+      "firstName": "名",
+      "lastName": "姓",
+      "dateOfBirth": "生年月日",
+      "gender": "性別",
+      "country": "国",
+      "city": "市区町村",
+      "zipCode": "郵便番号",
+      "earnedTotal": "合計獲得",
+      "earnedOffers": "オファー獲得",
+      "earnedAffiliates": "アフィリエイト獲得",
+      "earnedBonus": "ボーナス獲得",
+      "withdrawn": "出金済み",
+      "instantEarnOfferLimit": "即時オファー上限",
+      "dailyInstantWithdrawalLimit": "即時出金の日次上限",
+      "maxAffiliateCodes": "アフィリエイトコード上限",
+      "anonymous": "匿名",
+      "hideStats": "統計を非表示",
+      "referredBy": "紹介者",
+      "referredByID": "紹介者ID",
+      "referralEarnings": "紹介収益",
+      "referralTasks": "紹介タスク",
+      "pendingReferralEarnings": "未請求の紹介収益",
+      "google": "Google",
+      "discord": "Discord",
+      "steam": "Steam",
+      "x": "X",
+      "facebook": "Facebook",
+      "wallets": "ウォレット",
+      "balanceAdjustment": "Sparks増減"
+    },
+    "settings": {
+      "readOnly": "このユーザーは閲覧できますが、変更する権限がありません。",
+      "deleted": "このアカウントは削除済みのため変更できません。",
+      "accountTitle": "アカウント",
+      "accountDescription": "ユーザー名、メール、確認状態を更新します。",
+      "balanceTitle": "残高",
+      "balanceDescription": "Sparksを加算または減算します。負の値は減算です。",
+      "balanceHint": "Sparksを減らすには負の数を入力します。",
+      "limitsTitle": "上限",
+      "limitsDescription": "オファー、出金、アフィリエイトコードの上限。",
+      "moderationTitle": "モデレーション",
+      "moderationDescription": "BAN、解除、または全セッションを切断します。",
+      "permanentBan": "無期限BAN"
+    },
+    "actions": {
+      "saveAccount": "アカウントを保存",
+      "applyBalance": "残高を適用",
+      "saveLimits": "上限を保存",
+      "ban": "ユーザーをBAN",
+      "unban": "BAN解除",
+      "revokeAllSessions": "全セッションを切断",
+      "revoke": "切断",
+      "viewReward": "報酬を見る"
+    },
+    "success": {
+      "saved": "保存しました。",
+      "sessionRevoked": "セッションを切断しました。"
+    },
+    "errors": {
+      "generic": "問題が発生しました。再試行してください。",
+      "notFound": "ユーザーが見つかりません。",
+      "emailInUse": "そのメールは既に使われています。",
+      "forbidden": "このユーザーは変更できません。",
+      "deleted": "このアカウントは削除済みです。",
+      "selfBan": "自分のアカウントはBANできません。",
+      "insufficientBalance": "この減算に必要なSparksが不足しています。",
+      "invalidAmount": "0以外の整数を入力してください。"
+    },
+    "history": {
+      "earningsTitle": "収益",
+      "earningsSubtitle": "このユーザーのオファーとショッピング成果。",
+      "earningsEmpty": "収益はまだありません。",
+      "transactionsTitle": "取引",
+      "transactionsSubtitle": "このユーザーのSparks残高の増減です。",
+      "transactionsEmpty": "取引はまだありません。",
+      "redemptionsTitle": "換金",
+      "redemptionsSubtitle": "キャッシュアウトとギフトカード注文。",
+      "redemptionsEmpty": "換金はまだありません。",
+      "sessionsTitle": "セッション",
+      "sessionsSubtitle": "ログイン中の端末。IPはマスクされます。",
+      "sessionsEmpty": "セッションはありません。",
+      "affiliatesTitle": "アフィリエイトコード",
+      "affiliatesSubtitle": "所有コードと紹介したユーザー。",
+      "codesEmpty": "アフィリエイトコードはありません。",
+      "referredTitle": "紹介ユーザー",
+      "referredEmpty": "紹介ユーザーはいません。",
+      "emailsTitle": "メールアクション",
+      "emailsSubtitle": "確認、パスワード再設定、アカウントメール。",
+      "emailsEmpty": "対象メールはありません。"
+    },
+    "table": {
+      "name": "名前",
+      "type": "種類",
+      "status": "ステータス",
+      "sparks": "Sparks",
+      "usd": "USD",
+      "date": "日時",
+      "transactionID": "取引ID",
+      "change": "増減",
+      "balanceAfter": "取引後残高",
+      "reward": "報酬",
+      "provider": "プロバイダー",
+      "actions": "操作",
+      "device": "端末",
+      "location": "場所",
+      "ipAddress": "IPアドレス",
+      "lastAccessed": "最終アクセス",
+      "expires": "有効期限",
+      "unknownLocation": "不明",
+      "code": "コード",
+      "referralEarnings": "収益",
+      "tasks": "タスク",
+      "created": "登録日",
+      "username": "ユーザー名",
+      "userID": "ユーザーID",
+      "issued": "発行",
+      "actionableID": "ID"
+    },
+    "filters": {
+      "all": "すべて",
+      "activeOnly": "有効のみ",
+      "sessionState": "セッション"
+    },
+    "earningTypes": {
+      "offer": "オファー",
+      "shopping": "ショッピング"
+    },
+    "earningStatuses": {
+      "completed": "完了",
+      "providerPending": "プロバイダー待ち",
+      "held": "保留",
+      "reversed": "取消"
+    },
+    "redemptionTypes": {
+      "ccpayment": "暗号資産",
+      "tremendous": "ギフトカード"
+    },
+    "redemptionStatuses": {
+      "pending": "保留中",
+      "approved": "承認済み",
+      "processing": "処理中",
+      "completed": "完了",
+      "failed": "失敗",
+      "rejected": "拒否"
+    },
+    "emailTypes": {
+      "verification": "確認",
+      "forgotPassword": "パスワード再設定",
+      "emailChange": "メール変更",
+      "accountDeletion": "アカウント削除"
+    }
   }
 }

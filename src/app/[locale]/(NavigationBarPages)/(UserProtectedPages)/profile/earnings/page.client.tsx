@@ -7,9 +7,9 @@ import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable
 import Pagination from '@components/Pagination/Pagination';
 import { useEarningsHistoryQuery } from '@hooks/useEarningsHistoryQuery';
 import { PROFILE_HISTORY_PAGE_SIZE } from '@utils/profile';
+import { toDate } from '@utils/date';
 import type { InternalEarningStatus, InternalOfferEarning } from 'types/Earnings/InternalEarning';
 import PortalTooltip from '../_components/PortalTooltip';
-import { toDate } from '../_utils/date';
 import styles from '../profilePage.module.scss';
 
 function statusTone(status: InternalEarningStatus) {

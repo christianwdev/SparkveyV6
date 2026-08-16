@@ -1243,7 +1243,9 @@
     "dashboardTitle": "Sparkvey | Admin",
     "dashboardDescription": "Growth statistics and platform analytics.",
     "usersTitle": "Sparkvey | Admin Users",
-    "usersDescription": "Browse and manage Sparkvey users."
+    "usersDescription": "Browse and manage Sparkvey users.",
+    "userTitle": "Sparkvey | {username}",
+    "userDescription": "Diesen Sparkvey-Nutzer ansehen und verwalten."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1333,7 +1335,262 @@
   },
   "AdminUsers": {
     "eyebrow": "Admin",
-    "title": "Users",
-    "subtitle": "User management tools are coming next. Use the API for list and detail lookups for now."
+    "title": "Nutzer",
+    "subtitle": "Suche nach Nutzername, E-Mail oder Nutzer-ID.",
+    "searchLabel": "Nutzer suchen",
+    "searchPlaceholder": {
+      "username": "Nutzername suchen",
+      "email": "E-Mail suchen",
+      "userID": "Genaue Nutzer-ID"
+    },
+    "filterBy": "Suchen nach",
+    "filters": {
+      "username": "Nutzername",
+      "email": "E-Mail",
+      "userID": "Nutzer-ID"
+    },
+    "sortBy": "Sortieren",
+    "sorts": {
+      "createdAt": "Erstellt",
+      "balanceSparks": "Guthaben"
+    },
+    "order": "Reihenfolge",
+    "orders": {
+      "createdAt": {
+        "desc": "Neueste",
+        "asc": "Älteste"
+      },
+      "balance": {
+        "desc": "Höchstes",
+        "asc": "Niedrigstes"
+      }
+    },
+    "table": {
+      "username": "Nutzername",
+      "email": "E-Mail",
+      "userID": "Nutzer-ID",
+      "balance": "Guthaben",
+      "created": "Erstellt",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Aktiv",
+      "banned": "Gesperrt",
+      "deleted": "Gelöscht"
+    },
+    "unnamed": "Unbenannt",
+    "noEmail": "Keine E-Mail",
+    "na": "—",
+    "empty": "Keine Nutzer passen zu dieser Suche.",
+    "error": "Nutzer konnten nicht geladen werden. Bitte später erneut versuchen.",
+    "copyId": "Nutzer-ID kopieren",
+    "copied": "Kopiert"
+  },
+  "AdminUser": {
+    "backToUsers": "Zurück zu Nutzern",
+    "notFound": "Dieser Nutzer wurde nicht gefunden.",
+    "unnamed": "Unbenannt",
+    "na": "—",
+    "yes": "Ja",
+    "no": "Nein",
+    "linked": "Verknüpft",
+    "notLinked": "Nicht verknüpft",
+    "copyId": "Nutzer-ID kopieren",
+    "copied": "Kopiert",
+    "navLabel": "Nutzerbereiche",
+    "nav": {
+      "overview": "Übersicht",
+      "settings": "Einstellungen",
+      "earnings": "Einnahmen",
+      "transactions": "Transaktionen",
+      "redemptions": "Auszahlungen",
+      "sessions": "Sitzungen",
+      "affiliates": "Partner",
+      "emails": "E-Mails"
+    },
+    "summary": {
+      "balance": "Guthaben",
+      "email": "E-Mail",
+      "created": "Erstellt"
+    },
+    "status": {
+      "active": "Aktiv",
+      "banned": "Gesperrt",
+      "deleted": "Gelöscht",
+      "disabled": "Deaktiviert",
+      "deactivated": "Deaktiviert"
+    },
+    "sections": {
+      "account": "Konto",
+      "contact": "Kontakt",
+      "personal": "Persönlich",
+      "statistics": "Statistik",
+      "limits": "Limits & Einstellungen",
+      "referral": "Empfehlung",
+      "social": "Social",
+      "wallets": "Wallets"
+    },
+    "fields": {
+      "userID": "Nutzer-ID",
+      "username": "Nutzername",
+      "hasPassword": "Passwort gesetzt",
+      "created": "Erstellt",
+      "deleted": "Gelöscht",
+      "bannedUntil": "Gesperrt bis",
+      "email": "E-Mail",
+      "emailVerified": "E-Mail bestätigt",
+      "phone": "Telefon",
+      "phoneVerified": "Telefon bestätigt",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "dateOfBirth": "Geburtsdatum",
+      "gender": "Geschlecht",
+      "country": "Land",
+      "city": "Stadt",
+      "zipCode": "PLZ",
+      "earnedTotal": "Gesamt verdient",
+      "earnedOffers": "Angebote verdient",
+      "earnedAffiliates": "Partner verdient",
+      "earnedBonus": "Bonus verdient",
+      "withdrawn": "Ausgezahlt",
+      "instantEarnOfferLimit": "Limit für Sofort-Angebote",
+      "dailyInstantWithdrawalLimit": "Tägliches Sofort-Auszahlungslimit",
+      "maxAffiliateCodes": "Max. Partnercodes",
+      "anonymous": "Anonym",
+      "hideStats": "Statistik ausblenden",
+      "referredBy": "Geworben von",
+      "referredByID": "Werber-ID",
+      "referralEarnings": "Empfehlungsverdienst",
+      "referralTasks": "Empfehlungsaufgaben",
+      "pendingReferralEarnings": "Offener Empfehlungsverdienst",
+      "google": "Google",
+      "discord": "Discord",
+      "steam": "Steam",
+      "x": "X",
+      "facebook": "Facebook",
+      "wallets": "Wallets",
+      "balanceAdjustment": "Sparks-Änderung"
+    },
+    "settings": {
+      "readOnly": "Du kannst diesen Nutzer sehen, aber nicht ändern.",
+      "deleted": "Dieses Konto ist gelöscht und kann nicht geändert werden.",
+      "accountTitle": "Konto",
+      "accountDescription": "Nutzername, E-Mail und Verifizierung aktualisieren.",
+      "balanceTitle": "Guthaben",
+      "balanceDescription": "Sparks gutschreiben oder abbuchen. Negative Beträge ziehen ab.",
+      "balanceHint": "Negative Zahl zum Abziehen von Sparks.",
+      "limitsTitle": "Limits",
+      "limitsDescription": "Limits für Angebote, Auszahlungen und Partnercodes.",
+      "moderationTitle": "Moderation",
+      "moderationDescription": "Sperren, entsperren oder überall abmelden.",
+      "permanentBan": "Dauerhafte Sperre"
+    },
+    "actions": {
+      "saveAccount": "Konto speichern",
+      "applyBalance": "Guthaben anwenden",
+      "saveLimits": "Limits speichern",
+      "ban": "Nutzer sperren",
+      "unban": "Entsperren",
+      "revokeAllSessions": "Alle Sitzungen beenden",
+      "revoke": "Beenden",
+      "viewReward": "Prämie ansehen"
+    },
+    "success": {
+      "saved": "Gespeichert.",
+      "sessionRevoked": "Sitzung beendet."
+    },
+    "errors": {
+      "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
+      "notFound": "Nutzer nicht gefunden.",
+      "emailInUse": "Diese E-Mail wird bereits verwendet.",
+      "forbidden": "Du kannst diesen Nutzer nicht ändern.",
+      "deleted": "Dieses Konto ist gelöscht.",
+      "selfBan": "Du kannst dein eigenes Konto nicht sperren.",
+      "insufficientBalance": "Nicht genug Sparks für diese Abbuchung.",
+      "invalidAmount": "Gib eine ganze Zahl ungleich null ein."
+    },
+    "history": {
+      "earningsTitle": "Einnahmen",
+      "earningsSubtitle": "Angebots- und Shopping-Conversions dieses Nutzers.",
+      "earningsEmpty": "Noch keine Einnahmen.",
+      "transactionsTitle": "Transaktionen",
+      "transactionsSubtitle": "Änderungen am Sparks-Guthaben dieses Nutzers.",
+      "transactionsEmpty": "Noch keine Transaktionen.",
+      "redemptionsTitle": "Auszahlungen",
+      "redemptionsSubtitle": "Auszahlungen und Geschenkkarten.",
+      "redemptionsEmpty": "Noch keine Auszahlungen.",
+      "sessionsTitle": "Sitzungen",
+      "sessionsSubtitle": "Angemeldete Geräte. IPs sind maskiert.",
+      "sessionsEmpty": "Keine Sitzungen gefunden.",
+      "affiliatesTitle": "Partnercodes",
+      "affiliatesSubtitle": "Codes dieses Nutzers und geworbene Nutzer.",
+      "codesEmpty": "Keine Partnercodes.",
+      "referredTitle": "Geworbene Nutzer",
+      "referredEmpty": "Keine geworbenen Nutzer.",
+      "emailsTitle": "E-Mail-Aktionen",
+      "emailsSubtitle": "Bestätigungs-, Passwort- und Konto-E-Mails.",
+      "emailsEmpty": "Keine E-Mail-Aktionen."
+    },
+    "table": {
+      "name": "Name",
+      "type": "Typ",
+      "status": "Status",
+      "sparks": "Sparks",
+      "usd": "USD",
+      "date": "Datum",
+      "transactionID": "Transaktions-ID",
+      "change": "Änderung",
+      "balanceAfter": "Guthaben danach",
+      "reward": "Prämie",
+      "provider": "Anbieter",
+      "actions": "Aktionen",
+      "device": "Gerät",
+      "location": "Ort",
+      "ipAddress": "IP-Adresse",
+      "lastAccessed": "Zuletzt aktiv",
+      "expires": "Läuft ab",
+      "unknownLocation": "Unbekannt",
+      "code": "Code",
+      "referralEarnings": "Einnahmen",
+      "tasks": "Aufgaben",
+      "created": "Erstellt",
+      "username": "Nutzername",
+      "userID": "Nutzer-ID",
+      "issued": "Ausgestellt",
+      "actionableID": "ID"
+    },
+    "filters": {
+      "all": "Alle",
+      "activeOnly": "Nur aktive",
+      "sessionState": "Sitzungen"
+    },
+    "earningTypes": {
+      "offer": "Angebot",
+      "shopping": "Shopping"
+    },
+    "earningStatuses": {
+      "completed": "Abgeschlossen",
+      "providerPending": "Anbieter ausstehend",
+      "held": "Gehalten",
+      "reversed": "Storniert"
+    },
+    "redemptionTypes": {
+      "ccpayment": "Krypto",
+      "tremendous": "Geschenkkarte"
+    },
+    "redemptionStatuses": {
+      "pending": "Ausstehend",
+      "approved": "Freigegeben",
+      "processing": "In Bearbeitung",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen",
+      "rejected": "Abgelehnt"
+    },
+    "emailTypes": {
+      "verification": "Bestätigung",
+      "forgotPassword": "Passwort zurücksetzen",
+      "emailChange": "E-Mail-Änderung",
+      "accountDeletion": "Kontolöschung"
+    }
   }
 }

@@ -53,4 +53,52 @@ export const queryKeys = {
     list: () => [ ...queryKeys.walls.all, 'list' ] as const,
     embed: (wallID: string) => [ ...queryKeys.walls.all, 'embed', wallID ] as const,
   },
+  admin: {
+    all: [ 'admin' ] as const,
+    users: {
+      all: () => [ ...queryKeys.admin.all, 'users' ] as const,
+      list: (filters: {
+        search: string,
+        filterBy: string,
+        sort: string,
+        order: string,
+        page: number,
+      }) => [ ...queryKeys.admin.users.all(), 'list', filters ] as const,
+      detail: (userID: string) => [ ...queryKeys.admin.users.all(), 'detail', userID ] as const,
+      sessions: (userID: string, filters: { page: number, activeOnly: boolean }) => [
+        ...queryKeys.admin.users.all(),
+        'sessions',
+        userID,
+        filters,
+      ] as const,
+      transactions: (userID: string, page: number) => [
+        ...queryKeys.admin.users.all(),
+        'transactions',
+        userID,
+        page,
+      ] as const,
+      earnings: (userID: string, filters: {
+        page: number,
+        status?: string,
+        type?: string,
+      }) => [ ...queryKeys.admin.users.all(), 'earnings', userID, filters ] as const,
+      redemptions: (userID: string, filters: {
+        page: number,
+        status?: string,
+        type?: string,
+      }) => [ ...queryKeys.admin.users.all(), 'redemptions', userID, filters ] as const,
+      affiliates: (userID: string, page: number) => [
+        ...queryKeys.admin.users.all(),
+        'affiliates',
+        userID,
+        page,
+      ] as const,
+      emails: (userID: string, filters: { page: number, type?: string }) => [
+        ...queryKeys.admin.users.all(),
+        'emails',
+        userID,
+        filters,
+      ] as const,
+    },
+  },
 };

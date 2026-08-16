@@ -6,8 +6,21 @@ import { getScope } from '@utils/scope';
 import type APIResponse from 'types/APIResponse';
 import type AdminDashboardStatistics from 'types/AdminDashboardStatistics';
 import type { AdminDashboardPeriod } from 'types/AdminDashboardStatistics';
+import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
+
+export function hasPermissions(
+  {
+    userPermissions,
+    required,
+  }: {
+    userPermissions?: number,
+    required: StaffPermissions,
+  },
+): boolean {
+  return ((userPermissions ?? StaffPermissions.NONE) & required) === required;
+}
 
 export type AdminDashboardQuery = {
   period?: AdminDashboardPeriod,

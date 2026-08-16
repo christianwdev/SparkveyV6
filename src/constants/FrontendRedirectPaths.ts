@@ -16,6 +16,7 @@ const FrontendRedirectPaths = {
   redeem: '/redeem',
   leaderboard: '/leaderboard',
   admin: '/admin',
+  adminUsers: '/admin/users',
 } as const;
 
 export default FrontendRedirectPaths;

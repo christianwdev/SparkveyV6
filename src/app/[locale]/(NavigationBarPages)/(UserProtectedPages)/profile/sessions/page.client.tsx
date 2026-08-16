@@ -3,9 +3,9 @@
 import { useLocale, useFormatter, useTranslations } from 'next-intl';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import { useRevokeSessionMutation, useSessionsQuery } from '@hooks/useSessionsQuery';
+import { toDate } from '@utils/date';
 import type DevicePlatform from 'types/DevicePlatform';
 import type SanitizedUserSession from 'types/SanitizedUserSession';
-import { toDate } from '../_utils/date';
 import styles from '../profilePage.module.scss';
 
 // Icons

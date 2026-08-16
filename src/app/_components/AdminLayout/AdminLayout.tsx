@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@i18n/navigation';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { useUser } from '@contexts/UserProvider';
+import { hasPermissions } from '@utils/admin';
 import styles from './AdminLayout.module.scss';
 
 // Icons
@@ -24,7 +25,7 @@ const ADMIN_NAV = [
     permission: StaffPermissions.VIEW_STATISTICS,
   },
   {
-    href: `${FrontendRedirectPaths.admin}/users`,
+    href: FrontendRedirectPaths.adminUsers,
     labelKey: 'users',
     Icon: UsersIcon,
     exact: false,
@@ -37,7 +38,7 @@ function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' {
     return 'dashboard';
   }
 
-  if (pathname.startsWith(`${FrontendRedirectPaths.admin}/users`)) {
+  if (pathname.startsWith(FrontendRedirectPaths.adminUsers)) {
     return 'users';
   }
 
@@ -48,10 +49,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const t = useTranslations('AdminLayout');
   const pathname = usePathname();
   const { user } = useUser();
-  const permissions = user?.staffPermissions ?? StaffPermissions.NONE;
   const pageTitleKey = resolvePageTitleKey(pathname);
 
-  const visibleNav = ADMIN_NAV.filter(item => (permissions & item.permission) === item.permission);
+  const visibleNav = ADMIN_NAV.filter(item => hasPermissions({
+    userPermissions: user?.staffPermissions,
+    required: item.permission,
+  }));
 
   return (
     <div className={styles.adminShell}>

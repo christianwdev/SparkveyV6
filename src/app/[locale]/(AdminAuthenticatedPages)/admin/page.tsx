@@ -2,14 +2,14 @@ import { getTranslations } from 'next-intl/server';
 import { redirect } from '@i18n/navigation';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { getUser } from '@utils/user';
-import { fetchAdminDashboardStatistics } from '@utils/admin';
+import { fetchAdminDashboardStatistics, hasPermissions } from '@utils/admin';
 import { serverRequest } from '@utils/serverRequest';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 import type { AppLocale } from '@i18n/routing';
 import AdminDashboardClient from './page.client';
 
 type PageProps = {
-  params: Promise<{ locale: string }>,
+  params: Promise<{ locale: AppLocale }>,
 };
 
 export async function generateMetadata({ params }: PageProps) {
@@ -28,14 +28,14 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function AdminDashboardPage({ params }: PageProps) {
   const { locale } = await params;
   const user = await getUser({ request: serverRequest });
-  const permissions = user?.staffPermissions ?? StaffPermissions.NONE;
+  const userPermissions = user?.staffPermissions;
 
-  if ((permissions & StaffPermissions.VIEW_STATISTICS) !== StaffPermissions.VIEW_STATISTICS) {
-    if ((permissions & StaffPermissions.VIEW_USERS) === StaffPermissions.VIEW_USERS) {
-      redirect({ href: `${FrontendRedirectPaths.admin}/users`, locale: locale as AppLocale });
+  if (!hasPermissions({ userPermissions, required: StaffPermissions.VIEW_STATISTICS })) {
+    if (hasPermissions({ userPermissions, required: StaffPermissions.VIEW_USERS })) {
+      redirect({ href: FrontendRedirectPaths.adminUsers, locale });
     }
 
-    redirect({ href: FrontendRedirectPaths.home, locale: locale as AppLocale });
+    redirect({ href: FrontendRedirectPaths.home, locale });
   }
 
   const initialStatistics = await fetchAdminDashboardStatistics({

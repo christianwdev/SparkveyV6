@@ -1243,7 +1243,9 @@
     "dashboardTitle": "Sparkvey | Admin",
     "dashboardDescription": "Growth statistics and platform analytics.",
     "usersTitle": "Sparkvey | Admin Users",
-    "usersDescription": "Browse and manage Sparkvey users."
+    "usersDescription": "Browse and manage Sparkvey users.",
+    "userTitle": "Sparkvey | {username}",
+    "userDescription": "이 Sparkvey 사용자를 조회하고 관리합니다."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1332,8 +1334,263 @@
     }
   },
   "AdminUsers": {
-    "eyebrow": "Admin",
-    "title": "Users",
-    "subtitle": "User management tools are coming next. Use the API for list and detail lookups for now."
+    "eyebrow": "관리",
+    "title": "사용자",
+    "subtitle": "사용자 이름, 이메일 또는 ID로 검색합니다.",
+    "searchLabel": "사용자 검색",
+    "searchPlaceholder": {
+      "username": "사용자 이름 검색",
+      "email": "이메일 검색",
+      "userID": "정확한 사용자 ID"
+    },
+    "filterBy": "검색 기준",
+    "filters": {
+      "username": "사용자 이름",
+      "email": "이메일",
+      "userID": "사용자 ID"
+    },
+    "sortBy": "정렬",
+    "sorts": {
+      "createdAt": "가입일",
+      "balanceSparks": "잔액"
+    },
+    "order": "순서",
+    "orders": {
+      "createdAt": {
+        "desc": "최신순",
+        "asc": "오래된순"
+      },
+      "balance": {
+        "desc": "높은순",
+        "asc": "낮은순"
+      }
+    },
+    "table": {
+      "username": "사용자 이름",
+      "email": "이메일",
+      "userID": "사용자 ID",
+      "balance": "잔액",
+      "created": "가입일",
+      "status": "상태"
+    },
+    "status": {
+      "active": "활성",
+      "banned": "차단",
+      "deleted": "삭제됨"
+    },
+    "unnamed": "이름 없음",
+    "noEmail": "이메일 없음",
+    "na": "—",
+    "empty": "검색과 일치하는 사용자가 없습니다.",
+    "error": "사용자를 불러오지 못했습니다. 잠시 후 다시 시도하세요.",
+    "copyId": "사용자 ID 복사",
+    "copied": "복사됨"
+  },
+  "AdminUser": {
+    "backToUsers": "사용자 목록으로",
+    "notFound": "이 사용자를 찾을 수 없습니다.",
+    "unnamed": "이름 없음",
+    "na": "—",
+    "yes": "예",
+    "no": "아니요",
+    "linked": "연결됨",
+    "notLinked": "연결 안 됨",
+    "copyId": "사용자 ID 복사",
+    "copied": "복사됨",
+    "navLabel": "사용자 섹션",
+    "nav": {
+      "overview": "개요",
+      "settings": "설정",
+      "earnings": "수익",
+      "transactions": "거래",
+      "redemptions": "환전",
+      "sessions": "세션",
+      "affiliates": "제휴",
+      "emails": "이메일"
+    },
+    "summary": {
+      "balance": "잔액",
+      "email": "이메일",
+      "created": "가입일"
+    },
+    "status": {
+      "active": "활성",
+      "banned": "차단",
+      "deleted": "삭제됨",
+      "disabled": "비활성",
+      "deactivated": "비활성화"
+    },
+    "sections": {
+      "account": "계정",
+      "contact": "연락처",
+      "personal": "개인정보",
+      "statistics": "통계",
+      "limits": "한도 및 환경설정",
+      "referral": "추천",
+      "social": "소셜",
+      "wallets": "지갑"
+    },
+    "fields": {
+      "userID": "사용자 ID",
+      "username": "사용자 이름",
+      "hasPassword": "비밀번호 설정됨",
+      "created": "가입일",
+      "deleted": "삭제됨",
+      "bannedUntil": "차단 종료",
+      "email": "이메일",
+      "emailVerified": "이메일 인증됨",
+      "phone": "전화",
+      "phoneVerified": "전화 인증됨",
+      "firstName": "이름",
+      "lastName": "성",
+      "dateOfBirth": "생년월일",
+      "gender": "성별",
+      "country": "국가",
+      "city": "도시",
+      "zipCode": "우편번호",
+      "earnedTotal": "총 수익",
+      "earnedOffers": "오퍼 수익",
+      "earnedAffiliates": "제휴 수익",
+      "earnedBonus": "보너스 수익",
+      "withdrawn": "출금",
+      "instantEarnOfferLimit": "즉시 오퍼 한도",
+      "dailyInstantWithdrawalLimit": "일일 즉시 출금 한도",
+      "maxAffiliateCodes": "제휴 코드 최대 수",
+      "anonymous": "익명",
+      "hideStats": "통계 숨기기",
+      "referredBy": "추천인",
+      "referredByID": "추천인 ID",
+      "referralEarnings": "추천 수익",
+      "referralTasks": "추천 작업",
+      "pendingReferralEarnings": "미청구 추천 수익",
+      "google": "Google",
+      "discord": "Discord",
+      "steam": "Steam",
+      "x": "X",
+      "facebook": "Facebook",
+      "wallets": "지갑",
+      "balanceAdjustment": "Sparks 변동"
+    },
+    "settings": {
+      "readOnly": "이 사용자는 볼 수 있지만 변경 권한이 없습니다.",
+      "deleted": "삭제된 계정이라 수정할 수 없습니다.",
+      "accountTitle": "계정",
+      "accountDescription": "사용자 이름, 이메일, 인증을 업데이트합니다.",
+      "balanceTitle": "잔액",
+      "balanceDescription": "Sparks를 더하거나 뺍니다. 음수는 차감입니다.",
+      "balanceHint": "Sparks를 빼려면 음수를 입력하세요.",
+      "limitsTitle": "한도",
+      "limitsDescription": "오퍼, 출금, 제휴 코드 한도.",
+      "moderationTitle": "운영",
+      "moderationDescription": "차단, 해제 또는 모든 세션을 종료합니다.",
+      "permanentBan": "영구 차단"
+    },
+    "actions": {
+      "saveAccount": "계정 저장",
+      "applyBalance": "잔액 적용",
+      "saveLimits": "한도 저장",
+      "ban": "사용자 차단",
+      "unban": "차단 해제",
+      "revokeAllSessions": "모든 세션 종료",
+      "revoke": "종료",
+      "viewReward": "보상 보기"
+    },
+    "success": {
+      "saved": "저장되었습니다.",
+      "sessionRevoked": "세션이 종료되었습니다."
+    },
+    "errors": {
+      "generic": "문제가 발생했습니다. 다시 시도하세요.",
+      "notFound": "사용자를 찾을 수 없습니다.",
+      "emailInUse": "이미 사용 중인 이메일입니다.",
+      "forbidden": "이 사용자를 수정할 수 없습니다.",
+      "deleted": "이 계정은 삭제되었습니다.",
+      "selfBan": "자신의 계정은 차단할 수 없습니다.",
+      "insufficientBalance": "이 차감에 필요한 Sparks가 부족합니다.",
+      "invalidAmount": "0이 아닌 정수를 입력하세요."
+    },
+    "history": {
+      "earningsTitle": "수익",
+      "earningsSubtitle": "이 사용자의 오퍼 및 쇼핑 전환입니다.",
+      "earningsEmpty": "아직 수익이 없습니다.",
+      "transactionsTitle": "거래",
+      "transactionsSubtitle": "이 사용자의 Sparks 잔액 변동입니다.",
+      "transactionsEmpty": "아직 거래가 없습니다.",
+      "redemptionsTitle": "환전",
+      "redemptionsSubtitle": "출금 및 기프트카드 주문.",
+      "redemptionsEmpty": "아직 환전이 없습니다.",
+      "sessionsTitle": "세션",
+      "sessionsSubtitle": "로그인된 기기. IP는 마스킹됩니다.",
+      "sessionsEmpty": "세션이 없습니다.",
+      "affiliatesTitle": "제휴 코드",
+      "affiliatesSubtitle": "보유 코드와 추천한 사용자.",
+      "codesEmpty": "제휴 코드가 없습니다.",
+      "referredTitle": "추천 사용자",
+      "referredEmpty": "추천 사용자가 없습니다.",
+      "emailsTitle": "이메일 액션",
+      "emailsSubtitle": "인증, 비밀번호 재설정, 계정 이메일.",
+      "emailsEmpty": "이메일 액션이 없습니다."
+    },
+    "table": {
+      "name": "이름",
+      "type": "유형",
+      "status": "상태",
+      "sparks": "Sparks",
+      "usd": "USD",
+      "date": "날짜",
+      "transactionID": "거래 ID",
+      "change": "변동",
+      "balanceAfter": "이후 잔액",
+      "reward": "보상",
+      "provider": "제공자",
+      "actions": "작업",
+      "device": "기기",
+      "location": "위치",
+      "ipAddress": "IP 주소",
+      "lastAccessed": "마지막 접속",
+      "expires": "만료",
+      "unknownLocation": "알 수 없음",
+      "code": "코드",
+      "referralEarnings": "수익",
+      "tasks": "작업",
+      "created": "가입일",
+      "username": "사용자 이름",
+      "userID": "사용자 ID",
+      "issued": "발급",
+      "actionableID": "ID"
+    },
+    "filters": {
+      "all": "전체",
+      "activeOnly": "활성만",
+      "sessionState": "세션"
+    },
+    "earningTypes": {
+      "offer": "오퍼",
+      "shopping": "쇼핑"
+    },
+    "earningStatuses": {
+      "completed": "완료",
+      "providerPending": "제공자 대기",
+      "held": "보류",
+      "reversed": "취소"
+    },
+    "redemptionTypes": {
+      "ccpayment": "암호화폐",
+      "tremendous": "기프트카드"
+    },
+    "redemptionStatuses": {
+      "pending": "대기",
+      "approved": "승인",
+      "processing": "처리 중",
+      "completed": "완료",
+      "failed": "실패",
+      "rejected": "거절"
+    },
+    "emailTypes": {
+      "verification": "인증",
+      "forgotPassword": "비밀번호 재설정",
+      "emailChange": "이메일 변경",
+      "accountDeletion": "계정 삭제"
+    }
   }
 }

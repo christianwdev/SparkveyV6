@@ -2,43 +2,70 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 
 // Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
+import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 // Utils
 import { getAffiliateCodesByUserID } from 'backend/utils/affiliateCode';
 import { maskIPAddress } from 'backend/utils/ip';
 import { parseDeviceInfo } from 'backend/utils/device';
+import { updateUserBalance } from 'backend/utils/userBalance';
+import { deleteUserSession, expireUserSessions } from 'backend/utils/session';
+import { isEmailInUse, sanitizeEmail } from 'backend/utils/user';
 
 // Types
-import type { Filter } from 'mongodb';
+import type { Filter, UpdateFilter } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
 import type InternalUser from 'types/User/InternalUser';
 import type UserSession from 'types/UserSession';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
 import type EmailActionable from 'types/EmailActionable';
-import type AffiliateCode from 'types/AffiliateCode';
+import type AdminUser from 'types/AdminUser';
+import type {
+  AdminUserAffiliateData,
+  AdminUserFilterBy,
+  AdminUserOrder,
+  AdminUserSession,
+  AdminUserSort,
+  AdminEmailActionable,
+  AdminReferredUser,
+} from 'types/AdminUser';
 
-type AdminUser = Omit<InternalUser, 'password'>;
+const PERMANENT_BAN_UNTIL = new Date('9999-12-31T23:59:59.999Z');
+const MAX_ADMIN_BALANCE_ADJUSTMENT = 100_000_000; // 100k USD at 1000 sparks/USD
 
-type AdminUserSession = {
-  device: string,
-  devicePlatform: ReturnType<typeof parseDeviceInfo>['platform'],
-  ipAddress: string,
-  country?: string,
-  city?: string,
-  issueDate: Date,
-  accessedDate: Date,
-  expiryDate: Date,
-};
+export type UpdateAdminUserError =
+  | 'notFound'
+  | 'deleted'
+  | 'forbidden'
+  | 'emailInUse'
+  | 'internalServerError';
 
-type AdminEmailActionable = Omit<EmailActionable, 'actionableID'> & {
-  actionableID: string,
-};
+export type AdjustAdminUserBalanceError =
+  | 'notFound'
+  | 'deleted'
+  | 'forbidden'
+  | 'insufficientBalance'
+  | 'internalServerError';
+
+export type BanAdminUserError =
+  | 'notFound'
+  | 'deleted'
+  | 'forbidden'
+  | 'selfBan'
+  | 'internalServerError';
+
+export type RevokeAdminUserSessionError =
+  | 'notFound'
+  | 'forbidden'
+  | 'internalServerError';
 
 function sanitizeAdminUser(user: InternalUser): AdminUser {
   const { password, ...adminUser } = user;
-  void password;
 
-  return adminUser;
+  return {
+    ...adminUser,
+    hasPassword: Boolean(password),
+  };
 }
 
 function escapeRegex(value: string): string {
@@ -49,6 +76,7 @@ function sanitizeAdminSession(session: UserSession): AdminUserSession {
   const device = parseDeviceInfo(session.userAgent);
 
   return {
+    sessionID: session.revokeID ?? '',
     device: device.label,
     devicePlatform: device.platform,
     ipAddress: maskIPAddress(session.currentIPAddress || session.initialIPAddress),
@@ -69,6 +97,23 @@ function sanitizeAdminEmailActionable(actionable: EmailActionable): AdminEmailAc
   };
 }
 
+export function actorCanModifyUser(
+  {
+    actor,
+    target,
+  }: {
+    actor: InternalUser,
+    target: InternalUser,
+  },
+): boolean {
+  const targetPerms = target.staffPermissions ?? StaffPermissions.NONE;
+  if (targetPerms === StaffPermissions.NONE) return true;
+
+  const actorPerms = actor.staffPermissions ?? StaffPermissions.NONE;
+
+  return (actorPerms & targetPerms) === targetPerms;
+}
+
 export async function getUsers(
   {
     limit = 10,
@@ -81,33 +126,38 @@ export async function getUsers(
     limit?: number;
     offset?: number;
     search?: string;
-    filterBy?: 'username' | 'email' | 'userID';
-    sort?: string;
-    order?: string;
+    filterBy?: AdminUserFilterBy;
+    sort?: AdminUserSort;
+    order?: AdminUserOrder;
   },
 ): Promise<FunctionResponse<AdminUser[]>> {
   try {
     const { db } = getGlobalObject();
-    const escapedSearch = escapeRegex(search);
+    const trimmedSearch = search.trim();
+    const filter: Filter<InternalUser> = {};
 
-    const filterMap: Record<string, object> = {
-      username: { username: { $regex: escapedSearch, $options: 'i' } },
-      email: { 'emailInformation.emailAddress': { $regex: escapedSearch, $options: 'i' } },
-      userID: { userID: search },
-    };
+    if (trimmedSearch) {
+      if (filterBy === 'username') {
+        filter.username = { $regex: escapeRegex(trimmedSearch), $options: 'i' };
+      } else if (filterBy === 'email') {
+        filter['emailInformation.emailAddress'] = {
+          $regex: escapeRegex(trimmedSearch),
+          $options: 'i',
+        };
+      } else {
+        filter.userID = trimmedSearch;
+      }
+    }
 
     const sortField = sort === 'balance.sparks' ? 'balance.sparks' : 'creationDate';
 
-    const users = await db.collection<InternalUser>(DatabaseCollections.users).find(
-      filterMap[filterBy] ?? filterMap.username,
-    )
+    const users = await db.collection<InternalUser>(DatabaseCollections.users).find(filter)
       .sort({ [sortField]: order === 'asc' ? 1 : -1 })
       .skip(offset)
       .limit(limit)
-      .project({ password: 0 })
       .toArray() ?? [];
 
-    return { ok: true, data: users as AdminUser[] };
+    return { ok: true, data: users.map(sanitizeAdminUser) };
   } catch (error) {
     console.error(error);
 
@@ -130,8 +180,6 @@ export async function getUser(partialUser: Filter<InternalUser>): Promise<Functi
     return { ok: false, error: 'internalServerError' };
   }
 }
-
-type ReferredUserSummary = Pick<InternalUser, 'userID' | 'username' | 'creationDate'>;
 
 export async function getUserSessions(
   {
@@ -240,11 +288,7 @@ export async function getUserAffiliateData(
     referredLimit?: number;
     referredOffset?: number;
   },
-): Promise<FunctionResponse<{
-  codes: AffiliateCode[];
-  referralInformation: InternalUser['referralInformation'];
-  referredUsers: ReferredUserSummary[];
-}>> {
+): Promise<FunctionResponse<AdminUserAffiliateData>> {
   try {
     const { db } = getGlobalObject();
 
@@ -276,7 +320,7 @@ export async function getUserAffiliateData(
       data: {
         codes: codesResult.data,
         referralInformation: userResult.data.referralInformation,
-        referredUsers: referredUsers as ReferredUserSummary[],
+        referredUsers: referredUsers as AdminReferredUser[],
       },
     };
   } catch (error) {
@@ -285,3 +329,295 @@ export async function getUserAffiliateData(
     return { ok: false, error: 'internalServerError' };
   }
 }
+
+async function loadModifiableUser(
+  {
+    actor,
+    userID,
+  }: {
+    actor: InternalUser;
+    userID: string;
+  },
+): Promise<FunctionResponse<InternalUser, 'notFound' | 'deleted' | 'forbidden' | 'internalServerError'>> {
+  try {
+    const { db } = getGlobalObject();
+    const target = await db.collection<InternalUser>(DatabaseCollections.users).findOne({ userID });
+
+    if (!target) return { ok: false, error: 'notFound' };
+    if (target.deletedAt) return { ok: false, error: 'deleted' };
+    if (!actorCanModifyUser({ actor, target })) return { ok: false, error: 'forbidden' };
+
+    return { ok: true, data: target };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function updateAdminUser(
+  {
+    actor,
+    userID,
+    username,
+    email,
+    emailVerified,
+    userConfiguration,
+  }: {
+    actor: InternalUser;
+    userID: string;
+    username?: string;
+    email?: string;
+    emailVerified?: boolean;
+    userConfiguration?: Partial<InternalUser['userConfiguration']>;
+  },
+): Promise<FunctionResponse<AdminUser, UpdateAdminUserError>> {
+  try {
+    const loaded = await loadModifiableUser({ actor, userID });
+    if (!loaded.ok) return loaded;
+
+    if (email !== undefined) {
+      const inUse = await isEmailInUse(email, userID);
+      if (!inUse.ok) return { ok: false, error: 'internalServerError' };
+      if (inUse.data) return { ok: false, error: 'emailInUse' };
+    }
+
+    const $set: Record<string, unknown> = {};
+    const $unset: Record<string, ''> = {};
+    let emailChanged = false;
+
+    if (username !== undefined) {
+      $set.username = username;
+      $set.usernameChangedAt = new Date();
+    }
+
+    if (email !== undefined) {
+      const sanitized = sanitizeEmail(email);
+      if (!sanitized) return { ok: false, error: 'internalServerError' };
+
+      $set['emailInformation.emailAddress'] = sanitized;
+      emailChanged = sanitized !== loaded.data.emailInformation?.emailAddress;
+
+      if (loaded.data.socialInformation?.google) {
+        $set['socialInformation.google.emailAddress'] = sanitized;
+      }
+
+      if (emailChanged && emailVerified !== true) {
+        $unset['emailInformation.verifiedAt'] = '';
+      }
+    }
+
+    if (emailVerified === true) {
+      $set['emailInformation.verifiedAt'] = new Date();
+    } else if (emailVerified === false) {
+      $unset['emailInformation.verifiedAt'] = '';
+    }
+
+    if (userConfiguration) {
+      if (userConfiguration.instantEarnOfferLimit !== undefined) {
+        $set['userConfiguration.instantEarnOfferLimit'] = userConfiguration.instantEarnOfferLimit;
+      }
+      if (userConfiguration.dailyInstantWithdrawalLimit !== undefined) {
+        $set['userConfiguration.dailyInstantWithdrawalLimit'] = userConfiguration.dailyInstantWithdrawalLimit;
+      }
+      if (userConfiguration.maxAffiliateCodes !== undefined) {
+        $set['userConfiguration.maxAffiliateCodes'] = userConfiguration.maxAffiliateCodes;
+      }
+    }
+
+    const update: UpdateFilter<InternalUser> = {};
+    if (Object.keys($set).length > 0) update.$set = $set;
+    if (Object.keys($unset).length > 0) update.$unset = $unset;
+
+    if (!update.$set && !update.$unset) {
+      return { ok: true, data: sanitizeAdminUser(loaded.data) };
+    }
+
+    const { db } = getGlobalObject();
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      { userID, deletedAt: { $exists: false } },
+      update,
+      { returnDocument: 'after' },
+    );
+
+    if (!user) return { ok: false, error: 'notFound' };
+
+    if (emailChanged) {
+      const expireResult = await expireUserSessions(userID);
+      if (!expireResult.ok) {
+        console.error('Failed to expire sessions after admin email change', expireResult.error);
+      }
+    }
+
+    return { ok: true, data: sanitizeAdminUser(user) };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function adjustAdminUserBalance(
+  {
+    actor,
+    userID,
+    amount,
+  }: {
+    actor: InternalUser;
+    userID: string;
+    amount: number;
+  },
+): Promise<FunctionResponse<{ user: AdminUser, transaction: InternalTransaction }, AdjustAdminUserBalanceError>> {
+  try {
+    const loaded = await loadModifiableUser({ actor, userID });
+    if (!loaded.ok) return loaded;
+
+    if (!Number.isInteger(amount) || amount === 0) {
+      return { ok: false, error: 'internalServerError' };
+    }
+
+    if (Math.abs(amount) > MAX_ADMIN_BALANCE_ADJUSTMENT) {
+      return { ok: false, error: 'internalServerError' };
+    }
+
+    const minBalance = amount < 0 ? Math.abs(amount) : undefined;
+    const result = await updateUserBalance({
+      userID,
+      balanceChange: amount,
+      minBalance,
+    });
+
+    if (!result.ok) return result;
+
+    return {
+      ok: true,
+      data: {
+        user: sanitizeAdminUser(result.data.user),
+        transaction: result.data.transaction,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function setAdminUserBan(
+  {
+    actor,
+    userID,
+    bannedUntil,
+  }: {
+    actor: InternalUser;
+    userID: string;
+    bannedUntil: Date | null;
+  },
+): Promise<FunctionResponse<AdminUser, BanAdminUserError>> {
+  try {
+    if (actor.userID === userID && bannedUntil !== null) {
+      return { ok: false, error: 'selfBan' };
+    }
+
+    const loaded = await loadModifiableUser({ actor, userID });
+    if (!loaded.ok) return loaded;
+
+    const { db } = getGlobalObject();
+    const update: UpdateFilter<InternalUser> = bannedUntil === null
+      ? { $unset: { bannedUntil: '' } }
+      : { $set: { bannedUntil } };
+
+    const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
+      { userID, deletedAt: { $exists: false } },
+      update,
+      { returnDocument: 'after' },
+    );
+
+    if (!user) return { ok: false, error: 'notFound' };
+
+    if (bannedUntil !== null) {
+      const expireResult = await expireUserSessions(userID);
+      if (!expireResult.ok) {
+        console.error('Failed to expire sessions after ban', expireResult.error);
+
+        return { ok: false, error: 'internalServerError' };
+      }
+    }
+
+    return { ok: true, data: sanitizeAdminUser(user) };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function revokeAdminUserSession(
+  {
+    actor,
+    userID,
+    sessionID,
+  }: {
+    actor: InternalUser;
+    userID: string;
+    sessionID: string;
+  },
+): Promise<FunctionResponse<void, RevokeAdminUserSessionError>> {
+  try {
+    const loaded = await loadModifiableUser({ actor, userID });
+    if (!loaded.ok) {
+      if (loaded.error === 'deleted' || loaded.error === 'forbidden') {
+        return { ok: false, error: 'forbidden' };
+      }
+      if (loaded.error === 'notFound') return { ok: false, error: 'notFound' };
+
+      return { ok: false, error: 'internalServerError' };
+    }
+
+    const result = await deleteUserSession({ sessionID, userID });
+    if (!result.ok) {
+      if (result.error === 'notFound') return { ok: false, error: 'notFound' };
+
+      return { ok: false, error: 'internalServerError' };
+    }
+
+    return { ok: true, data: undefined };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function revokeAllAdminUserSessions(
+  {
+    actor,
+    userID,
+  }: {
+    actor: InternalUser;
+    userID: string;
+  },
+): Promise<FunctionResponse<void, RevokeAdminUserSessionError>> {
+  try {
+    const loaded = await loadModifiableUser({ actor, userID });
+    if (!loaded.ok) {
+      if (loaded.error === 'deleted' || loaded.error === 'forbidden') {
+        return { ok: false, error: 'forbidden' };
+      }
+      if (loaded.error === 'notFound') return { ok: false, error: 'notFound' };
+
+      return { ok: false, error: 'internalServerError' };
+    }
+
+    const result = await expireUserSessions(userID);
+    if (!result.ok) return { ok: false, error: 'internalServerError' };
+
+    return { ok: true, data: undefined };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export { PERMANENT_BAN_UNTIL, MAX_ADMIN_BALANCE_ADJUSTMENT };

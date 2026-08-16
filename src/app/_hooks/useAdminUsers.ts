@@ -1,0 +1,185 @@
+'use client';
+
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { clientRequest } from '@utils/clientRequest';
+import {
+  adminUserAffiliatesQueryOptions,
+  adminUserEmailsQueryOptions,
+  adminUserEarningsQueryOptions,
+  adminUserQueryOptions,
+  adminUserRedemptionsQueryOptions,
+  adminUserSessionsQueryOptions,
+  adminUserTransactionsQueryOptions,
+  adminUsersListQueryOptions,
+} from './adminUserQueries';
+import { queryKeys } from './queryKeys';
+
+// Types
+import type { AdminUserFilterBy, AdminUserOrder, AdminUserSort } from 'types/AdminUser';
+import type InternalEarning from 'types/Earnings/InternalEarning';
+import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
+import type {
+  InternalRedemptionProvider,
+  InternalRedemptionStatus,
+} from 'types/Redemption/BaseInternalRedemption';
+import type EmailActionable from 'types/EmailActionable';
+
+export function useAdminUsersQuery(
+  {
+    search,
+    filterBy,
+    sort,
+    order,
+    page,
+  }: {
+    search: string,
+    filterBy: AdminUserFilterBy,
+    sort: AdminUserSort,
+    order: AdminUserOrder,
+    page: number,
+  },
+) {
+  return useQuery(adminUsersListQueryOptions({
+    request: clientRequest,
+    search,
+    filterBy,
+    sort,
+    order,
+    page,
+  }));
+}
+
+export function useAdminUserQuery(
+  {
+    userID,
+  }: {
+    userID: string,
+  },
+) {
+  return useQuery(adminUserQueryOptions({
+    request: clientRequest,
+    userID,
+  }));
+}
+
+export function useInvalidateAdminUser(userID: string) {
+  const queryClient = useQueryClient();
+
+  return () => queryClient.invalidateQueries({
+    queryKey: queryKeys.admin.users.detail(userID),
+  });
+}
+
+export function useAdminUserSessionsQuery(
+  {
+    userID,
+    page,
+    activeOnly,
+  }: {
+    userID: string,
+    page: number,
+    activeOnly: boolean,
+  },
+) {
+  return useQuery(adminUserSessionsQueryOptions({
+    request: clientRequest,
+    userID,
+    page,
+    activeOnly,
+  }));
+}
+
+export function useAdminUserTransactionsQuery(
+  {
+    userID,
+    page,
+  }: {
+    userID: string,
+    page: number,
+  },
+) {
+  return useQuery(adminUserTransactionsQueryOptions({
+    request: clientRequest,
+    userID,
+    page,
+  }));
+}
+
+export function useAdminUserEarningsQuery(
+  {
+    userID,
+    page,
+    status,
+    type,
+  }: {
+    userID: string,
+    page: number,
+    status?: InternalEarningStatus,
+    type?: InternalEarning['type'],
+  },
+) {
+  return useQuery(adminUserEarningsQueryOptions({
+    request: clientRequest,
+    userID,
+    page,
+    status,
+    type,
+  }));
+}
+
+export function useAdminUserRedemptionsQuery(
+  {
+    userID,
+    page,
+    status,
+    type,
+  }: {
+    userID: string,
+    page: number,
+    status?: InternalRedemptionStatus,
+    type?: InternalRedemptionProvider,
+  },
+) {
+  return useQuery(adminUserRedemptionsQueryOptions({
+    request: clientRequest,
+    userID,
+    page,
+    status,
+    type,
+  }));
+}
+
+export function useAdminUserAffiliatesQuery(
+  {
+    userID,
+    page,
+  }: {
+    userID: string,
+    page: number,
+  },
+) {
+  return useQuery(adminUserAffiliatesQueryOptions({
+    request: clientRequest,
+    userID,
+    page,
+  }));
+}
+
+export function useAdminUserEmailsQuery(
+  {
+    userID,
+    page,
+    type,
+  }: {
+    userID: string,
+    page: number,
+    type?: EmailActionable['type'],
+  },
+) {
+  return useQuery(adminUserEmailsQueryOptions({
+    request: clientRequest,
+    userID,
+    page,
+    type,
+  }));
+}

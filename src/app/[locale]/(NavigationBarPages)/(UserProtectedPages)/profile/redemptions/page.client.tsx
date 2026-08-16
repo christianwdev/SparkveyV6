@@ -7,9 +7,9 @@ import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable
 import Pagination from '@components/Pagination/Pagination';
 import { useRedemptionsHistoryQuery } from '@hooks/useRedemptionsHistoryQuery';
 import { PROFILE_HISTORY_PAGE_SIZE } from '@utils/profile';
+import { toDate } from '@utils/date';
 import type InternalRedemption from 'types/Redemption/InternalRedemption';
 import type { InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
-import { toDate } from '../_utils/date';
 import styles from '../profilePage.module.scss';
 
 function statusTone(status: InternalRedemptionStatus) {

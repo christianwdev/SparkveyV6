@@ -1243,7 +1243,9 @@
     "dashboardTitle": "Sparkvey | Admin",
     "dashboardDescription": "Growth statistics and platform analytics.",
     "usersTitle": "Sparkvey | Admin Users",
-    "usersDescription": "Browse and manage Sparkvey users."
+    "usersDescription": "Browse and manage Sparkvey users.",
+    "userTitle": "Sparkvey | {username}",
+    "userDescription": "View and manage this Sparkvey user."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1334,6 +1336,261 @@
   "AdminUsers": {
     "eyebrow": "Admin",
     "title": "Users",
-    "subtitle": "User management tools are coming next. Use the API for list and detail lookups for now."
+    "subtitle": "Search by username, email, or user ID.",
+    "searchLabel": "Search users",
+    "searchPlaceholder": {
+      "username": "Search username",
+      "email": "Search email",
+      "userID": "Exact user ID"
+    },
+    "filterBy": "Search by",
+    "filters": {
+      "username": "Username",
+      "email": "Email",
+      "userID": "User ID"
+    },
+    "sortBy": "Sort",
+    "sorts": {
+      "createdAt": "Created",
+      "balanceSparks": "Balance"
+    },
+    "order": "Order",
+    "orders": {
+      "createdAt": {
+        "desc": "Newest",
+        "asc": "Oldest"
+      },
+      "balance": {
+        "desc": "Highest",
+        "asc": "Lowest"
+      }
+    },
+    "table": {
+      "username": "Username",
+      "email": "Email",
+      "userID": "User ID",
+      "balance": "Balance",
+      "created": "Created",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Active",
+      "banned": "Banned",
+      "deleted": "Deleted"
+    },
+    "unnamed": "Unnamed",
+    "noEmail": "No email",
+    "na": "—",
+    "empty": "No users match this search.",
+    "error": "Could not load users. Try again shortly.",
+    "copyId": "Copy user ID",
+    "copied": "Copied"
+  },
+  "AdminUser": {
+    "backToUsers": "Back to users",
+    "notFound": "This user could not be found.",
+    "unnamed": "Unnamed",
+    "na": "—",
+    "yes": "Yes",
+    "no": "No",
+    "linked": "Linked",
+    "notLinked": "Not linked",
+    "copyId": "Copy user ID",
+    "copied": "Copied",
+    "navLabel": "User sections",
+    "nav": {
+      "overview": "Overview",
+      "settings": "Settings",
+      "earnings": "Earnings",
+      "transactions": "Transactions",
+      "redemptions": "Redemptions",
+      "sessions": "Sessions",
+      "affiliates": "Affiliates",
+      "emails": "Emails"
+    },
+    "summary": {
+      "balance": "Balance",
+      "email": "Email",
+      "created": "Created"
+    },
+    "status": {
+      "active": "Active",
+      "banned": "Banned",
+      "deleted": "Deleted",
+      "disabled": "Disabled",
+      "deactivated": "Deactivated"
+    },
+    "sections": {
+      "account": "Account",
+      "contact": "Contact",
+      "personal": "Personal",
+      "statistics": "Statistics",
+      "limits": "Limits & preferences",
+      "referral": "Referral",
+      "social": "Social",
+      "wallets": "Wallets"
+    },
+    "fields": {
+      "userID": "User ID",
+      "username": "Username",
+      "hasPassword": "Password set",
+      "created": "Created",
+      "deleted": "Deleted",
+      "bannedUntil": "Banned until",
+      "email": "Email",
+      "emailVerified": "Email verified",
+      "phone": "Phone",
+      "phoneVerified": "Phone verified",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "country": "Country",
+      "city": "City",
+      "zipCode": "ZIP code",
+      "earnedTotal": "Total earned",
+      "earnedOffers": "Offers earned",
+      "earnedAffiliates": "Affiliate earned",
+      "earnedBonus": "Bonus earned",
+      "withdrawn": "Withdrawn",
+      "instantEarnOfferLimit": "Instant earn offer limit",
+      "dailyInstantWithdrawalLimit": "Daily instant withdrawal limit",
+      "maxAffiliateCodes": "Max affiliate codes",
+      "anonymous": "Anonymous",
+      "hideStats": "Hide stats",
+      "referredBy": "Referred by",
+      "referredByID": "Referrer ID",
+      "referralEarnings": "Referral earnings",
+      "referralTasks": "Referral tasks",
+      "pendingReferralEarnings": "Pending referral earnings",
+      "google": "Google",
+      "discord": "Discord",
+      "steam": "Steam",
+      "x": "X",
+      "facebook": "Facebook",
+      "wallets": "Wallets",
+      "balanceAdjustment": "Sparks change"
+    },
+    "settings": {
+      "readOnly": "You can view this user, but you do not have permission to make changes.",
+      "deleted": "This account is deleted and cannot be modified.",
+      "accountTitle": "Account",
+      "accountDescription": "Update username, email, and verification.",
+      "balanceTitle": "Balance",
+      "balanceDescription": "Credit or debit sparks. Negative amounts subtract.",
+      "balanceHint": "Use a negative number to subtract sparks.",
+      "limitsTitle": "Limits",
+      "limitsDescription": "Offer, withdrawal, and affiliate code limits.",
+      "moderationTitle": "Moderation",
+      "moderationDescription": "Ban, unban, or sign this user out everywhere.",
+      "permanentBan": "Permanent ban"
+    },
+    "actions": {
+      "saveAccount": "Save account",
+      "applyBalance": "Apply balance",
+      "saveLimits": "Save limits",
+      "ban": "Ban user",
+      "unban": "Unban",
+      "revokeAllSessions": "Revoke all sessions",
+      "revoke": "Revoke",
+      "viewReward": "View reward"
+    },
+    "success": {
+      "saved": "Saved.",
+      "sessionRevoked": "Session revoked."
+    },
+    "errors": {
+      "generic": "Something went wrong. Try again.",
+      "notFound": "User not found.",
+      "emailInUse": "That email is already in use.",
+      "forbidden": "You cannot modify this user.",
+      "deleted": "This account is deleted.",
+      "selfBan": "You cannot ban your own account.",
+      "insufficientBalance": "Not enough sparks for this debit.",
+      "invalidAmount": "Enter a non-zero whole number."
+    },
+    "history": {
+      "earningsTitle": "Earnings",
+      "earningsSubtitle": "Offer and shopping conversions for this user.",
+      "earningsEmpty": "No earnings yet.",
+      "transactionsTitle": "Transactions",
+      "transactionsSubtitle": "Ledger changes to this user's sparks balance.",
+      "transactionsEmpty": "No transactions yet.",
+      "redemptionsTitle": "Redemptions",
+      "redemptionsSubtitle": "Cashouts and gift card orders.",
+      "redemptionsEmpty": "No redemptions yet.",
+      "sessionsTitle": "Sessions",
+      "sessionsSubtitle": "Signed-in devices. IPs are masked.",
+      "sessionsEmpty": "No sessions found.",
+      "affiliatesTitle": "Affiliate codes",
+      "affiliatesSubtitle": "Codes this user owns and the users they referred.",
+      "codesEmpty": "No affiliate codes.",
+      "referredTitle": "Referred users",
+      "referredEmpty": "No referred users.",
+      "emailsTitle": "Email actionables",
+      "emailsSubtitle": "Verification, password reset, and account emails.",
+      "emailsEmpty": "No email actionables."
+    },
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "status": "Status",
+      "sparks": "Sparks",
+      "usd": "USD",
+      "date": "Date",
+      "transactionID": "Transaction ID",
+      "change": "Change",
+      "balanceAfter": "Balance after",
+      "reward": "Reward",
+      "provider": "Provider",
+      "actions": "Actions",
+      "device": "Device",
+      "location": "Location",
+      "ipAddress": "IP address",
+      "lastAccessed": "Last accessed",
+      "expires": "Expires",
+      "unknownLocation": "Unknown",
+      "code": "Code",
+      "referralEarnings": "Earnings",
+      "tasks": "Tasks",
+      "created": "Created",
+      "username": "Username",
+      "userID": "User ID",
+      "issued": "Issued",
+      "actionableID": "ID"
+    },
+    "filters": {
+      "all": "All",
+      "activeOnly": "Active only",
+      "sessionState": "Sessions"
+    },
+    "earningTypes": {
+      "offer": "Offer",
+      "shopping": "Shopping"
+    },
+    "earningStatuses": {
+      "completed": "Completed",
+      "providerPending": "Provider pending",
+      "held": "Held",
+      "reversed": "Reversed"
+    },
+    "redemptionTypes": {
+      "ccpayment": "Crypto",
+      "tremendous": "Gift card"
+    },
+    "redemptionStatuses": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "processing": "Processing",
+      "completed": "Completed",
+      "failed": "Failed",
+      "rejected": "Rejected"
+    },
+    "emailTypes": {
+      "verification": "Verification",
+      "forgotPassword": "Password reset",
+      "emailChange": "Email change",
+      "accountDeletion": "Account deletion"
+    }
   }
 }
