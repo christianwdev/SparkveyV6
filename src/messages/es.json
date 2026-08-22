@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "No se pudieron cargar los retiros.",
       "acceptFailed": "No se pudieron aceptar los retiros seleccionados.",
-      "rejectFailed": "No se pudieron rechazar los retiros seleccionados."
+      "rejectFailed": "No se pudieron rechazar los retiros seleccionados.",
+      "partial": "No se pudieron procesar {failed} de {total} retiros."
     }
   },
   "AdminUserRiskModal": {

@@ -30,6 +30,7 @@ type BaseInternalRedemption = {
   rejectedBy?: string;
   rejectionReason?: string;
   attestationID?: string;
+  refundedAt?: Date;
 
   meta: unknown;
 };

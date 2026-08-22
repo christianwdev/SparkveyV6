@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "출금을 불러오지 못했습니다.",
       "acceptFailed": "선택한 출금을 승인하지 못했습니다.",
-      "rejectFailed": "선택한 출금을 거절하지 못했습니다."
+      "rejectFailed": "선택한 출금을 거절하지 못했습니다.",
+      "partial": "{total}건 중 {failed}건의 출금을 처리하지 못했습니다."
     }
   },
   "AdminUserRiskModal": {

@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "出金を読み込めませんでした。",
       "acceptFailed": "選択した出金を承認できませんでした。",
-      "rejectFailed": "選択した出金を拒否できませんでした。"
+      "rejectFailed": "選択した出金を拒否できませんでした。",
+      "partial": "{total} 件中 {failed} 件の出金を処理できませんでした。"
     }
   },
   "AdminUserRiskModal": {

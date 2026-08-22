@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "Auszahlungen konnten nicht geladen werden.",
       "acceptFailed": "Ausgewählte Auszahlungen konnten nicht akzeptiert werden.",
-      "rejectFailed": "Ausgewählte Auszahlungen konnten nicht abgelehnt werden."
+      "rejectFailed": "Ausgewählte Auszahlungen konnten nicht abgelehnt werden.",
+      "partial": "{failed} von {total} Auszahlungen konnten nicht verarbeitet werden."
     }
   },
   "AdminUserRiskModal": {

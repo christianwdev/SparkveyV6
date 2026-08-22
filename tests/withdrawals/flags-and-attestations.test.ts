@@ -20,7 +20,7 @@ const {
   attestationReasonIsValid,
   collectFlaggedUsersForAccept,
 } = await import('backend/utils/admin/withdrawals');
-const { getRefundAmount } = await import('backend/utils/redemption');
+const { getRefundAmount, isCCPaymentWebhookSuccess } = await import('backend/utils/redemption');
 
 function flagFixture(overrides: Partial<UserFlag> = {}): UserFlag {
   return {
@@ -118,6 +118,19 @@ describe('withdrawal flags and attestation', () => {
     };
 
     expect(getRefundAmount(transaction)).toBe(2500);
+  });
+
+  test('isCCPaymentWebhookSuccess ignores a hash when status is failed', () => {
+    expect(isCCPaymentWebhookSuccess({
+      status: 'failed',
+      transactionHash: '0xabc',
+    })).toBe(false);
+    expect(isCCPaymentWebhookSuccess({
+      transactionHash: '0xabc',
+    })).toBe(true);
+    expect(isCCPaymentWebhookSuccess({
+      status: 'Success',
+    })).toBe(true);
   });
 
   test('DuplicateKeyError is treated as an existing flag', async () => {

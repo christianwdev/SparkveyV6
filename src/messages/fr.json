@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "Impossible de charger les retraits.",
       "acceptFailed": "Impossible d’accepter les retraits sélectionnés.",
-      "rejectFailed": "Impossible de refuser les retraits sélectionnés."
+      "rejectFailed": "Impossible de refuser les retraits sélectionnés.",
+      "partial": "{failed} retraits sur {total} n’ont pas pu être traités."
     }
   },
   "AdminUserRiskModal": {

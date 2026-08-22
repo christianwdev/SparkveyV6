@@ -30,7 +30,11 @@ import {
 import { toDate } from '@utils/date';
 
 // Types
-import type { AdminWithdrawalAttestationRequired, AdminWithdrawalRow } from 'types/AdminWithdrawal';
+import type {
+  AdminWithdrawalAttestationRequired,
+  AdminWithdrawalBatchResult,
+  AdminWithdrawalRow,
+} from 'types/AdminWithdrawal';
 import type {
   InternalRedemptionProvider,
   InternalRedemptionStatus,
@@ -72,6 +76,40 @@ function destination(row: AdminWithdrawalRow): string {
   }
 
   return row.redemption.itemName;
+}
+
+function toastBatchOutcome(
+  {
+    t,
+    results,
+    successKey,
+    failKey,
+  }: {
+    t: ReturnType<typeof useTranslations<'AdminWithdrawals'>>,
+    results: AdminWithdrawalBatchResult['results'] | undefined,
+    successKey: 'success.accepted' | 'success.rejected',
+    failKey: 'errors.acceptFailed' | 'errors.rejectFailed',
+  },
+) {
+  const items = results ?? [];
+  const failedCount = items.filter(item => !item.ok).length;
+
+  if (items.length > 0 && failedCount === items.length) {
+    toast.error(t(failKey));
+
+    return;
+  }
+
+  if (failedCount > 0) {
+    toast.error(t('errors.partial', {
+      failed: failedCount,
+      total: items.length,
+    }));
+
+    return;
+  }
+
+  toast.success(t(successKey));
 }
 
 function flaggedUsersFromRows(rows: AdminWithdrawalRow[]): AttestationFlaggedUser[] {
@@ -161,7 +199,12 @@ function WithdrawalsPageContent() {
         return;
       }
 
-      toast.success(t('success.accepted'));
+      toastBatchOutcome({
+        t,
+        results: (result.data as AdminWithdrawalBatchResult | undefined)?.results,
+        successKey: 'success.accepted',
+        failKey: 'errors.acceptFailed',
+      });
       setSelectedIDs([]);
       setAttestationUsers(null);
       await invalidateQueue();
@@ -184,7 +227,12 @@ function WithdrawalsPageContent() {
         return;
       }
 
-      toast.success(t('success.rejected'));
+      toastBatchOutcome({
+        t,
+        results: result.data?.results,
+        successKey: 'success.rejected',
+        failKey: 'errors.rejectFailed',
+      });
       setSelectedIDs([]);
       await invalidateQueue();
     } finally {

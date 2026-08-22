@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "Nie udało się wczytać wypłat.",
       "acceptFailed": "Nie udało się zaakceptować wybranych wypłat.",
-      "rejectFailed": "Nie udało się odrzucić wybranych wypłat."
+      "rejectFailed": "Nie udało się odrzucić wybranych wypłat.",
+      "partial": "Nie udało się przetworzyć {failed} z {total} wypłat."
     }
   },
   "AdminUserRiskModal": {

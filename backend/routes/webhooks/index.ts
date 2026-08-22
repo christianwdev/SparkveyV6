@@ -1,11 +1,16 @@
 import { Hono } from 'hono';
 
+import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import { processCCPWebhook } from 'backend/utils/ccpayment';
+import { getGlobalObject } from 'backend/utils/globalObject';
 import { completeCCPaymentRedemptionFromWebhook } from 'backend/utils/redemption';
 import { detectProxy } from 'backend/utils/fraud';
 import { secretsEqual } from 'backend/utils/secrets';
 import { sendResponse } from 'backend/utils/response';
 import { withRouteErrorHandling } from 'backend/utils/request';
+
+// Types
+import type UserSession from 'types/UserSession';
 
 const app = new Hono();
 
@@ -118,11 +123,20 @@ export default function routesInvoker() {
       }
 
       if (isProxy) {
-        await detectProxy({
+        const { db } = getGlobalObject();
+        const session = await db.collection<UserSession>(DatabaseCollections.userSessions).findOne({
           userID,
-          ipAddress,
-          source: 'proxydetect',
+          ipAddresses: ipAddress,
         });
+
+        // Only flag IPs this user has actually used — ignore spoofed userIDs.
+        if (session) {
+          await detectProxy({
+            userID,
+            ipAddress,
+            source: 'proxydetect',
+          });
+        }
       }
 
       return sendResponse({ c, status: 200, success: true });

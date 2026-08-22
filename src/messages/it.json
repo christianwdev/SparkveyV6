@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "Impossibile caricare i prelievi.",
       "acceptFailed": "Impossibile accettare i prelievi selezionati.",
-      "rejectFailed": "Impossibile rifiutare i prelievi selezionati."
+      "rejectFailed": "Impossibile rifiutare i prelievi selezionati.",
+      "partial": "Impossibile elaborare {failed} di {total} prelievi."
     }
   },
   "AdminUserRiskModal": {

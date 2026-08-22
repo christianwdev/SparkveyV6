@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "Não foi possível carregar os levantamentos.",
       "acceptFailed": "Não foi possível aceitar os levantamentos selecionados.",
-      "rejectFailed": "Não foi possível rejeitar os levantamentos selecionados."
+      "rejectFailed": "Não foi possível rejeitar os levantamentos selecionados.",
+      "partial": "Não foi possível processar {failed} de {total} levantamentos."
     }
   },
   "AdminUserRiskModal": {

@@ -1653,7 +1653,8 @@
     "errors": {
       "loadFailed": "Withdrawals could not be loaded.",
       "acceptFailed": "Could not accept the selected withdrawals.",
-      "rejectFailed": "Could not reject the selected withdrawals."
+      "rejectFailed": "Could not reject the selected withdrawals.",
+      "partial": "{failed} of {total} withdrawals could not be processed."
     }
   },
   "AdminUserRiskModal": {

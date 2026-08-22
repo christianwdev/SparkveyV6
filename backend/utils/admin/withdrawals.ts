@@ -12,6 +12,7 @@ import {
   handleRedemptionRejection,
   handleTremendousRedemptionApproval,
 } from 'backend/utils/redemption';
+import { detectSharedEmail, detectSharedWithdrawalAddress } from 'backend/utils/fraud';
 import { getActiveFlagsByUserIDs } from 'backend/utils/userFlag';
 
 // Types
@@ -316,15 +317,35 @@ export async function acceptAdminWithdrawals(
       }));
 
     const userIDs = [ ...new Set(redemptions.map(row => row.userID)) ];
-    const [ users, flagsResult ] = await Promise.all([
-      userIDs.length === 0
-        ? Promise.resolve([])
-        : db.collection<InternalUser>(DatabaseCollections.users)
-          .find({ userID: { $in: userIDs } })
-          .project({ userID: 1, username: 1 })
-          .toArray(),
-      getActiveFlagsByUserIDs({ userIDs }),
-    ]);
+    const users = userIDs.length === 0
+      ? []
+      : await db.collection<InternalUser>(DatabaseCollections.users)
+        .find({ userID: { $in: userIDs } })
+        .project({ userID: 1, username: 1, emailInformation: 1 })
+        .toArray();
+
+    for (const redemption of redemptions) {
+      if (redemption.providerName !== 'ccpayment') continue;
+      if (!redemption.meta || typeof redemption.meta !== 'object') continue;
+      if (!('walletAddress' in redemption.meta)) continue;
+
+      await detectSharedWithdrawalAddress({
+        userID: redemption.userID,
+        walletAddress: String(redemption.meta.walletAddress),
+      });
+    }
+
+    for (const user of users) {
+      const email = user.emailInformation?.emailAddress;
+      if (!email) continue;
+
+      await detectSharedEmail({
+        userID: user.userID,
+        email,
+      });
+    }
+
+    const flagsResult = await getActiveFlagsByUserIDs({ userIDs });
 
     if (!flagsResult.ok) return { ok: false, error: 'internalServerError' };
 

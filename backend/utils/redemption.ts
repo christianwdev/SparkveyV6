@@ -649,6 +649,20 @@ function webhookField(data: Record<string, unknown>, keys: string[]): string | u
   return undefined;
 }
 
+export function isCCPaymentWebhookSuccess(
+  {
+    status,
+    transactionHash,
+  }: {
+    status?: string,
+    transactionHash?: string,
+  },
+): boolean {
+  if (isFailedWithdrawStatus(status)) return false;
+
+  return isSuccessfulWithdrawStatus(status) || Boolean(transactionHash);
+}
+
 function isSuccessfulWithdrawStatus(status: string | undefined): boolean {
   if (!status) return false;
 
@@ -710,7 +724,10 @@ export async function completeCCPaymentRedemptionFromWebhook(
     }
 
     const now = new Date();
-    const succeeded = isSuccessfulWithdrawStatus(status) || Boolean(transactionHash);
+    const succeeded = isCCPaymentWebhookSuccess({
+      status,
+      transactionHash,
+    });
 
     if (!succeeded && !isFailedWithdrawStatus(status)) {
       return { ok: true, data: existing };
@@ -738,6 +755,14 @@ export async function completeCCPaymentRedemptionFromWebhook(
       );
 
       if (!failed) return { ok: false, error: 'notFound' };
+
+      const refundResult = await refundRedemptionDebit({
+        redemptionID: failed.redemptionID,
+      });
+
+      if (!refundResult.ok && refundResult.error !== 'alreadyRefunded') {
+        console.error('Failed to refund failed CCPayment redemption', refundResult.error);
+      }
 
       return { ok: true, data: failed };
     }
@@ -776,58 +801,44 @@ export function getRefundAmount(transaction: InternalTransaction): number {
   return Math.abs(transaction.balanceChange);
 }
 
-async function releaseRejectedClaim(redemptionID: string) {
-  const { db } = getGlobalObject();
+export type RefundRedemptionDebitError =
+  | 'alreadyRefunded'
+  | 'missingLedgerTransaction'
+  | 'internalServerError';
 
-  await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).updateOne(
-    { redemptionID, status: 'rejected' },
-    {
-      $set: { status: 'pending', updatedAt: new Date() },
-      $unset: { rejectedAt: '', rejectedBy: '', rejectionReason: '' },
-    },
-  );
-}
-
-export async function handleRedemptionRejection(
+export async function refundRedemptionDebit(
   {
     redemptionID,
-    rejectedBy,
-    reason,
   }: {
     redemptionID: string,
-    rejectedBy: string,
-    reason?: string,
   },
-): Promise<FunctionResponse<InternalRedemption, HandleRedemptionRejectionError>> {
+): Promise<FunctionResponse<{ sparks: number }, RefundRedemptionDebitError>> {
   const { db, mongoClient, io } = getGlobalObject();
   const now = new Date();
-
-  const rejectedUpdate: {
-    status: 'rejected',
-    rejectedAt: Date,
-    rejectedBy: string,
-    updatedAt: Date,
-    rejectionReason?: string,
-  } = {
-    status: 'rejected',
-    rejectedAt: now,
-    rejectedBy,
-    updatedAt: now,
-  };
-  if (reason) rejectedUpdate.rejectionReason = reason;
 
   const claimed = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).findOneAndUpdate(
     {
       redemptionID,
-      status: 'pending',
+      refundedAt: { $exists: false },
     },
     {
-      $set: rejectedUpdate,
+      $set: {
+        refundedAt: now,
+        updatedAt: now,
+      },
     },
     { returnDocument: 'after' },
   );
 
-  if (!claimed) return { ok: false, error: 'redemptionNotFound' };
+  if (!claimed) {
+    const existing = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).findOne({
+      redemptionID,
+    });
+
+    return existing?.refundedAt
+      ? { ok: false, error: 'alreadyRefunded' }
+      : { ok: false, error: 'missingLedgerTransaction' };
+  }
 
   const session = mongoClient.startSession();
 
@@ -858,27 +869,18 @@ export async function handleRedemptionRejection(
     if (!balanceResult.ok) throw new Error(balanceResult.error);
 
     await session.commitTransaction();
-
     io.to(claimed.userID).emit(SocketEmits.userBalanceChange, balanceResult.data.user.balance.sparks);
 
-    createUserNotification({
-      userID: claimed.userID,
-      meta: {
-        type: 'redemptionRejected',
-        rewardName: claimed.itemName,
-        value: claimed.value,
-      },
-    }).catch(error => {
-      console.error(error);
-    });
-
-    return { ok: true, data: claimed };
+    return { ok: true, data: { sparks: refundAmount } };
   } catch (error) {
     if (session.inTransaction()) {
       await session.abortTransaction();
     }
 
-    await releaseRejectedClaim(redemptionID);
+    await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).updateOne(
+      { redemptionID, refundedAt: now },
+      { $unset: { refundedAt: '' }, $set: { updatedAt: new Date() } },
+    );
 
     if (error instanceof Error && error.message === 'missingLedgerTransaction') {
       return { ok: false, error: 'missingLedgerTransaction' };
@@ -890,4 +892,79 @@ export async function handleRedemptionRejection(
   } finally {
     await session.endSession();
   }
+}
+
+async function releaseRejectedClaim(redemptionID: string) {
+  const { db } = getGlobalObject();
+
+  await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).updateOne(
+    { redemptionID, status: 'rejected' },
+    {
+      $set: { status: 'pending', updatedAt: new Date() },
+      $unset: { rejectedAt: '', rejectedBy: '', rejectionReason: '', refundedAt: '' },
+    },
+  );
+}
+
+export async function handleRedemptionRejection(
+  {
+    redemptionID,
+    rejectedBy,
+    reason,
+  }: {
+    redemptionID: string,
+    rejectedBy: string,
+    reason?: string,
+  },
+): Promise<FunctionResponse<InternalRedemption, HandleRedemptionRejectionError>> {
+  const { db } = getGlobalObject();
+  const now = new Date();
+
+  const rejectedUpdate: {
+    status: 'rejected',
+    rejectedAt: Date,
+    rejectedBy: string,
+    updatedAt: Date,
+    rejectionReason?: string,
+  } = {
+    status: 'rejected',
+    rejectedAt: now,
+    rejectedBy,
+    updatedAt: now,
+  };
+  if (reason) rejectedUpdate.rejectionReason = reason;
+
+  const claimed = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).findOneAndUpdate(
+    {
+      redemptionID,
+      status: 'pending',
+    },
+    {
+      $set: rejectedUpdate,
+    },
+    { returnDocument: 'after' },
+  );
+
+  if (!claimed) return { ok: false, error: 'redemptionNotFound' };
+
+  const refundResult = await refundRedemptionDebit({ redemptionID });
+
+  if (!refundResult.ok && refundResult.error !== 'alreadyRefunded') {
+    await releaseRejectedClaim(redemptionID);
+
+    return { ok: false, error: refundResult.error };
+  }
+
+  createUserNotification({
+    userID: claimed.userID,
+    meta: {
+      type: 'redemptionRejected',
+      rewardName: claimed.itemName,
+      value: claimed.value,
+    },
+  }).catch(error => {
+    console.error(error);
+  });
+
+  return { ok: true, data: claimed };
 }
