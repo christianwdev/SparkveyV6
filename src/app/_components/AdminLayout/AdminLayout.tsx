@@ -77,16 +77,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Image
               src="/img/logo.svg"
               alt=""
-              width={24}
-              height={24}
+              width={28}
+              height={28}
               aria-hidden
             />
-            <span>{t('brand')}</span>
+            <span className={styles.brandCopy}>
+              <span className={styles.brandName}>{t('brand')}</span>
+              <span className={styles.adminBadge}>{t('brandHint')}</span>
+            </span>
           </Link>
         </div>
 
         <nav className={styles.nav} aria-label={t('navLabel')}>
-          <p className={styles.navSection}>{t('navSectionOverview')}</p>
           {visibleNav.map(({ href, labelKey, Icon, exact }) => {
             const isActive = exact
               ? pathname === href
@@ -99,7 +101,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 className={[ styles.navLink, isActive ? styles.navLinkActive : '' ].filter(Boolean).join(' ')}
                 aria-current={isActive ? 'page' : undefined}
               >
-                <Icon aria-hidden />
+                <span className={styles.iconWell} aria-hidden>
+                  <Icon />
+                </span>
                 <span>{t(`nav.${labelKey}`)}</span>
               </Link>
             );

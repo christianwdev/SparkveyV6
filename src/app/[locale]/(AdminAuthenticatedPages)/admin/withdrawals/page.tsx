@@ -10,7 +10,6 @@ import { createQueryClient } from '@contexts/queryClient';
 import { adminWithdrawalsListQueryOptions } from '@hooks/adminUserQueries';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 import type { AppLocale } from '@i18n/routing';
-import type { InternalRedemptionProvider } from 'types/Redemption/BaseInternalRedemption';
 import AdminWithdrawalsClient from './page.client';
 import styles from './page.module.scss';
 
@@ -34,7 +33,6 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function AdminWithdrawalsPage({ params, searchParams }: PageProps) {
   const { locale } = await params;
-  const t = await getTranslations('AdminWithdrawals');
   const user = await getUser({ request: serverRequest });
   const userPermissions = user?.staffPermissions;
 
@@ -50,18 +48,13 @@ export default async function AdminWithdrawalsPage({ params, searchParams }: Pag
   const queryClient = createQueryClient();
   await queryClient.prefetchQuery(adminWithdrawalsListQueryOptions({
     request: serverRequest,
-    status: filters.status,
-    provider: filters.provider === 'all' ? undefined : filters.provider as InternalRedemptionProvider,
+    statuses: [ ...filters.status ],
+    providers: [ ...filters.provider ],
     page: filters.page,
   }));
 
   return (
     <main className={styles.withdrawalsPage}>
-      <div className={styles.header}>
-        <p className={styles.eyebrow}>{t('eyebrow')}</p>
-        <h1>{t('title')}</h1>
-        <p>{t('subtitle')}</p>
-      </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <AdminWithdrawalsClient />
       </HydrationBoundary>

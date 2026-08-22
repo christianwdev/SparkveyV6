@@ -8,6 +8,7 @@ import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
 import { useUser } from '@contexts/UserProvider';
 import { useAdminUserQuery } from '@hooks/useAdminUsers';
+import { useAdminUserRisk } from '@contexts/AdminUserRiskContext';
 import { hasPermissions } from '@utils/admin';
 import { isCurrentlyBanned, toDate } from '@utils/date';
 
@@ -117,6 +118,7 @@ export default function AdminUserLayoutClient({
   const formatter = useFormatter();
   const pathname = usePathname();
   const { user: actor } = useUser();
+  const { openUserRisk } = useAdminUserRisk();
   const { data: user, isPending, isError } = useAdminUserQuery({
     userID,
   });
@@ -163,6 +165,7 @@ export default function AdminUserLayoutClient({
 
   const status = user ? userStatus(user) : null;
   const createdAt = user ? toDate(user.creationDate) : null;
+  const activeFlagCount = user?.flags?.activeFlagCount ?? 0;
 
   return (
     <div className={styles.userLayout}>
@@ -195,6 +198,15 @@ export default function AdminUserLayoutClient({
                     {t(`status.${status}`)}
                   </span>
                 ) : null}
+                <button
+                  type="button"
+                  className={activeFlagCount > 0 ? styles.flagBadge : styles.reviewFlags}
+                  onClick={() => openUserRisk(userID)}
+                >
+                  {activeFlagCount > 0
+                    ? t('flagCount', { count: activeFlagCount })
+                    : t('actions.reviewFlags')}
+                </button>
               </div>
               <div className={styles.idRow}>
                 <span className={styles.idValue}>{user.userID}</span>

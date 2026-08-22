@@ -1378,7 +1378,8 @@
       "userID": "Nutzer-ID",
       "balance": "Guthaben",
       "created": "Erstellt",
-      "status": "Status"
+      "status": "Status",
+      "flags": "Hinweise"
     },
     "status": {
       "active": "Aktiv",
@@ -1391,7 +1392,11 @@
     "empty": "Keine Nutzer passen zu dieser Suche.",
     "error": "Nutzer konnten nicht geladen werden. Bitte später erneut versuchen.",
     "copyId": "Nutzer-ID kopieren",
-    "copied": "Kopiert"
+    "copied": "Kopiert",
+    "flagCount": "{count, plural, one {# Hinweis} other {# Hinweise}}",
+    "actions": {
+      "review": "Prüfen"
+    }
   },
   "AdminUser": {
     "backToUsers": "Zurück zu Nutzern",
@@ -1404,6 +1409,7 @@
     "notLinked": "Nicht verknüpft",
     "copyId": "Nutzer-ID kopieren",
     "copied": "Kopiert",
+    "flagCount": "{count, plural, one {# Hinweis} other {# Hinweise}}",
     "navLabel": "Nutzerbereiche",
     "nav": {
       "overview": "Übersicht",
@@ -1625,6 +1631,7 @@
       "actions": "Aktionen"
     },
     "filters": {
+      "all": "Alle",
       "status": "Status",
       "provider": "Typ"
     },
@@ -1664,6 +1671,8 @@
     "close": "Schließen",
     "noFlags": "Keine Hinweise für dieses Konto.",
     "flagsTitle": "Hinweise und Warnungen",
+    "relatedAccounts": "Verknüpft",
+    "flaggedAt": "Markiert {date}",
     "linkedUsers": "{count, plural, one {# verknüpftes Konto} other {# verknüpfte Konten}}",
     "fields": {
       "status": "Status",
@@ -1683,7 +1692,7 @@
       "cleared": "Erledigt"
     },
     "actions": {
-      "clear": "Löschen",
+      "clear": "Hinweis entfernen",
       "viewProfile": "Profil öffnen"
     },
     "success": {
@@ -1701,6 +1710,14 @@
       "linkedAccount": "Verknüpftes Konto",
       "proxy": "Proxy oder Tor",
       "impossibleTravel": "Unmögliche Reise"
+    },
+    "flagDetails": {
+      "sharedWithdrawalAddress": "Gleiches Auszahlungswallet {wallet}",
+      "sharedEmail": "Gleiche E-Mail {email}",
+      "linkedAccount": "Gleiche IP {ip}",
+      "proxy": "Proxy- oder Tor-Traffic von {ip}",
+      "impossibleTravel": "Von {from} nach {to} in {duration}",
+      "minutes": "{count, plural, one {# Minute} other {# Minuten}}"
     }
   },
   "AdminWithdrawalAttestation": {

@@ -26,8 +26,8 @@ export type AdminWithdrawalRow = {
 };
 
 export type AdminWithdrawalListFilters = {
-  status?: InternalRedemptionStatus,
-  provider?: InternalRedemptionProvider,
+  statuses?: InternalRedemptionStatus[],
+  providers?: InternalRedemptionProvider[],
   limit: number,
   offset: number,
 };
@@ -69,5 +69,8 @@ export type AdminUserRiskProfile = {
     usdValue: number,
   },
   flags: UserFlag[],
-  linkedUserIDs: string[],
+  linkedUsers: Array<{
+    userID: string,
+    username: string,
+  }>,
 };

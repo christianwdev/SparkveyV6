@@ -39,7 +39,7 @@
     > span {
       flex: 1;
       min-width: 0;
-      max-width: 80px;
+      max-width: 160px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -89,7 +89,7 @@
       top: calc(100% + 4px);
       gap: 2px;
       width: max(100%, 160px);
-      max-height: 220px;
+      max-height: 280px;
       overflow-x: hidden;
       overflow-y: auto;
       padding: 6px;
@@ -98,7 +98,12 @@
       border-radius: 8px;
       background: $off-white;
       cursor: auto;
-      scrollbar-width: thin;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       > button {
         display: flex;

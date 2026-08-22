@@ -28,6 +28,7 @@ import { isCurrentlyBanned, toDate, toDateTimeLocal } from '@utils/date';
 
 // Types
 import type AdminUser from 'types/AdminUser';
+import type { AdminUserListItem } from 'types/AdminUser';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 import styles from './page.module.scss';
@@ -124,7 +125,20 @@ function AdminUserSettingsForm({ user }: { user: AdminUser }) {
   const readOnly = !canModify || !!user.deletedAt;
 
   function applyUser(next: AdminUser) {
-    queryClient.setQueryData(queryKeys.admin.users.detail(userID), next);
+    queryClient.setQueryData<AdminUserListItem>(
+      queryKeys.admin.users.detail(userID),
+      current => {
+        const flags = current?.flags ?? {
+          activeFlagCount: 0,
+          flagTypes: [],
+        };
+
+        return {
+          ...next,
+          flags,
+        };
+      },
+    );
     queryClient.invalidateQueries({ queryKey: queryKeys.admin.users.all() }).catch(error => {
       console.error(error);
     });

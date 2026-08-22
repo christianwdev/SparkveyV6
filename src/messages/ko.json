@@ -1378,7 +1378,8 @@
       "userID": "사용자 ID",
       "balance": "잔액",
       "created": "가입일",
-      "status": "상태"
+      "status": "상태",
+      "flags": "플래그"
     },
     "status": {
       "active": "활성",
@@ -1391,7 +1392,11 @@
     "empty": "검색과 일치하는 사용자가 없습니다.",
     "error": "사용자를 불러오지 못했습니다. 잠시 후 다시 시도하세요.",
     "copyId": "사용자 ID 복사",
-    "copied": "복사됨"
+    "copied": "복사됨",
+    "flagCount": "{count, plural, other {플래그 #개}}",
+    "actions": {
+      "review": "검토"
+    }
   },
   "AdminUser": {
     "backToUsers": "사용자 목록으로",
@@ -1404,6 +1409,7 @@
     "notLinked": "연결 안 됨",
     "copyId": "사용자 ID 복사",
     "copied": "복사됨",
+    "flagCount": "{count, plural, other {플래그 #개}}",
     "navLabel": "사용자 섹션",
     "nav": {
       "overview": "개요",
@@ -1625,6 +1631,7 @@
       "actions": "작업"
     },
     "filters": {
+      "all": "전체",
       "status": "상태",
       "provider": "유형"
     },
@@ -1664,6 +1671,8 @@
     "close": "닫기",
     "noFlags": "이 계정에 플래그가 없습니다.",
     "flagsTitle": "플래그 및 경고",
+    "relatedAccounts": "관련",
+    "flaggedAt": "{date}에 표시됨",
     "linkedUsers": "{count, plural, other {연결된 계정 #개}}",
     "fields": {
       "status": "상태",
@@ -1683,7 +1692,7 @@
       "cleared": "해제됨"
     },
     "actions": {
-      "clear": "해제",
+      "clear": "플래그 해제",
       "viewProfile": "프로필 열기"
     },
     "success": {
@@ -1701,6 +1710,14 @@
       "linkedAccount": "연결된 계정",
       "proxy": "프록시 또는 Tor",
       "impossibleTravel": "불가능한 이동"
+    },
+    "flagDetails": {
+      "sharedWithdrawalAddress": "같은 출금 지갑 {wallet}",
+      "sharedEmail": "같은 이메일 {email}",
+      "linkedAccount": "같은 IP {ip}에서 확인됨",
+      "proxy": "{ip}의 프록시 또는 Tor 트래픽",
+      "impossibleTravel": "{from}에서 {to}(으)로 {duration} 만에 이동",
+      "minutes": "{count, plural, other {#분}}"
     }
   },
   "AdminWithdrawalAttestation": {

@@ -50,8 +50,8 @@ export default function routesInvoker() {
     async (c) => {
       const { limit, offset, status, provider } = c.req.valid('query');
       const result = await listAdminWithdrawals({
-        status,
-        provider,
+        statuses: status,
+        providers: provider,
         limit,
         offset,
       });

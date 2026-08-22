@@ -1,4 +1,5 @@
 import {
+  parseAsArrayOf,
   parseAsInteger,
   parseAsStringLiteral,
   createSearchParamsCache,
@@ -14,14 +15,13 @@ export const ADMIN_WITHDRAWAL_STATUSES = [
 ] as const;
 
 export const ADMIN_WITHDRAWAL_PROVIDERS = [
-  'all',
   'ccpayment',
   'tremendous',
 ] as const;
 
 export const adminWithdrawalsSearchParams = {
-  status: parseAsStringLiteral(ADMIN_WITHDRAWAL_STATUSES).withDefault('pending'),
-  provider: parseAsStringLiteral(ADMIN_WITHDRAWAL_PROVIDERS).withDefault('all'),
+  status: parseAsArrayOf(parseAsStringLiteral(ADMIN_WITHDRAWAL_STATUSES)).withDefault([]),
+  provider: parseAsArrayOf(parseAsStringLiteral(ADMIN_WITHDRAWAL_PROVIDERS)).withDefault([]),
   page: parseAsInteger.withDefault(1),
 };
 

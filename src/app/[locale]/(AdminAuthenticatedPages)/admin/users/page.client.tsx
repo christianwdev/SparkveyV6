@@ -12,6 +12,7 @@ import Pagination from '@components/Pagination/Pagination';
 import Skeleton from '@components/Skeleton/Skeleton';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
 import { useAdminUsersQuery } from '@hooks/useAdminUsers';
+import { useAdminUserRisk } from '@contexts/AdminUserRiskContext';
 import { adminUsersSearchParams } from '@utils/adminUsersSearchParams';
 import { ADMIN_USERS_PAGE_SIZE } from '@utils/adminUsers';
 import { isCurrentlyBanned, toDate } from '@utils/date';
@@ -23,7 +24,7 @@ import CheckIcon from '~icons/solar/check-read-linear.jsx';
 
 // Types
 import type AdminUser from 'types/AdminUser';
-import type { AdminUserFilterBy, AdminUserOrder, AdminUserSort } from 'types/AdminUser';
+import type { AdminUserFilterBy, AdminUserListItem, AdminUserOrder, AdminUserSort } from 'types/AdminUser';
 
 import styles from './page.module.scss';
 
@@ -76,6 +77,7 @@ function UsersPageContent() {
   const t = useTranslations('AdminUsers');
   const formatter = useFormatter();
   const urlSearchParams = useSearchParams();
+  const { openUserRisk } = useAdminUserRisk();
   const [ filters, setFilters ] = useQueryStates(adminUsersSearchParams);
   const committedSearch = urlSearchParams.get('search') ?? '';
   const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -107,7 +109,7 @@ function UsersPageContent() {
     }
   }
 
-  const columns: DataTableColumn<AdminUser>[] = [
+  const columns: DataTableColumn<AdminUserListItem>[] = [
     {
       id: 'username',
       header: t('table.username'),
@@ -174,6 +176,29 @@ function UsersPageContent() {
           </span>
         );
       },
+    },
+    {
+      id: 'flags',
+      header: t('table.flags'),
+      cell: (row) => (
+        row.flags.activeFlagCount > 0 ? (
+          <button
+            type="button"
+            className={styles.flagBadge}
+            onClick={() => openUserRisk(row.userID)}
+          >
+            {t('flagCount', { count: row.flags.activeFlagCount })}
+          </button>
+        ) : (
+          <button
+            type="button"
+            className={styles.actionLink}
+            onClick={() => openUserRisk(row.userID)}
+          >
+            {t('actions.review')}
+          </button>
+        )
+      ),
     },
   ];
 

@@ -36,6 +36,37 @@
       }
     }
 
+    &.compactPanel {
+      padding: 28px;
+      max-width: 560px;
+      max-height: min(85vh, 680px);
+      height: fit-content;
+      gap: 18px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: $border-light transparent;
+
+      &::-webkit-scrollbar {
+        width: 3px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: $border-light;
+        border-radius: 2px;
+      }
+
+      @media screen and (max-width: $large-phone) {
+        margin: 16px;
+        padding: 20px;
+        max-height: calc(100vh - 32px);
+      }
+
+      > .closeButton {
+        top: 20px;
+        right: 20px;
+      }
+    }
+
     > .closeButton {
       outline: none;
       border: none;
@@ -69,7 +100,7 @@
   }
 
   @media screen and (max-width: $large-phone) {
-    > .contentWrapper > .closeButton {
+    > .contentWrapper:not(.compactPanel) > .closeButton {
       top: 24px;
       right: 24px;
     }

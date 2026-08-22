@@ -19,14 +19,15 @@ import type { AdminMutationResult } from '@utils/adminUsers';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
-export const ADMIN_WITHDRAWALS_PAGE_SIZE = 20;
+export const ADMIN_WITHDRAWALS_PAGE_SIZE = 10;
 
 function adminWithdrawalsUrl(path: string, params?: URLSearchParams): string {
+  const suffix = path === '/' ? '' : path;
   const query = params?.toString();
 
   return query
-    ? `${getScope()}/admin/withdrawals${path}?${query}`
-    : `${getScope()}/admin/withdrawals${path}`;
+    ? `${getScope()}/admin/withdrawals${suffix}?${query}`
+    : `${getScope()}/admin/withdrawals${suffix}`;
 }
 
 function adminUsersUrl(path: string): string {
@@ -36,14 +37,14 @@ function adminUsersUrl(path: string): string {
 export async function fetchAdminWithdrawals(
   {
     request,
-    status = 'pending',
-    provider,
+    statuses = [],
+    providers = [],
     page = 1,
     limit = ADMIN_WITHDRAWALS_PAGE_SIZE,
   }: {
     request: RequestFn,
-    status?: InternalRedemptionStatus,
-    provider?: InternalRedemptionProvider,
+    statuses?: InternalRedemptionStatus[],
+    providers?: InternalRedemptionProvider[],
     page?: number,
     limit?: number,
   },
@@ -52,13 +53,13 @@ export async function fetchAdminWithdrawals(
     const params = new URLSearchParams({
       limit: String(limit),
       offset: String((page - 1) * limit),
-      status,
     });
 
-    if (provider) params.set('provider', provider);
+    if (statuses.length > 0) params.set('status', statuses.join(','));
+    if (providers.length > 0) params.set('provider', providers.join(','));
 
     const response = await request<APIResponse<AdminWithdrawalRow[]>>({
-      url: adminWithdrawalsUrl('/', params),
+      url: adminWithdrawalsUrl('', params),
       credentials: 'include',
     });
 

@@ -3,7 +3,7 @@
 .root {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
   min-width: 0;
 
   > .header {
@@ -21,18 +21,39 @@
       color: $text-light;
     }
 
-    > h2 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 600;
-      color: $text-bold;
-    }
+    > .titleRow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
 
-    > p {
-      margin: 0;
-      font-size: 13px;
-      font-weight: 500;
-      color: $text-light;
+      > h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: $text-bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      > .profileLink {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $text-light;
+        transition: color 0.1s ease-in-out;
+
+        > svg {
+          width: 16px;
+          height: 16px;
+        }
+
+        &:hover {
+          color: $primary;
+        }
+      }
     }
   }
 
@@ -100,17 +121,17 @@
     > ul {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       margin: 0;
       padding: 0;
       list-style: none;
 
       > li {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
         gap: 12px;
-        padding: 12px;
+        padding: 14px;
         border: 1px solid $border-light;
         border-radius: 8px;
 
@@ -121,38 +142,92 @@
         > .flagCopy {
           display: flex;
           flex-direction: column;
-          gap: 2px;
+          gap: 6px;
           min-width: 0;
 
-          > strong {
-            font-size: 13px;
-            color: $text-bold;
+          > .flagHeading {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+
+            > strong {
+              font-size: 13px;
+              color: $text-bold;
+            }
+
+            > span {
+              flex-shrink: 0;
+              padding: 2px 6px;
+              border-radius: 999px;
+              font-size: 11px;
+              font-weight: 600;
+              background: $light-gray;
+              color: $text-light;
+
+              &[data-status='active'] {
+                background: rgba(255, 128, 0, 0.14);
+                color: $orange;
+              }
+            }
           }
 
-          > span,
           > p {
             margin: 0;
             font-size: 12px;
+            font-weight: 500;
+            color: $text-bold;
+            overflow-wrap: anywhere;
+          }
+
+          > .related {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px 8px;
+            font-size: 12px;
+
+            > span {
+              color: $text-light;
+            }
+
+            > a {
+              color: $primary;
+              font-weight: 600;
+              text-decoration: none;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+
+          > .flaggedAt {
+            font-size: 11px;
             color: $text-light;
+          }
+        }
+
+        > .clearButton {
+          flex-shrink: 0;
+          height: 32px;
+          padding: 0 12px;
+          border: 1px solid rgba(243, 37, 37, 0.45);
+          border-radius: 8px;
+          background: rgba(243, 37, 37, 0.12);
+          color: $red;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
+
+          &:hover {
+            background: $red;
+            border-color: $red;
+            color: white;
           }
         }
       }
     }
   }
 
-  > .footer {
-    display: flex;
-    justify-content: flex-end;
-
-    > .profileLink {
-      color: $primary;
-      font-size: 13px;
-      font-weight: 600;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
 }

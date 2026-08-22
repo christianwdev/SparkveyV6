@@ -18,6 +18,10 @@ import { getActiveFlagsByUserIDs } from 'backend/utils/userFlag';
 // Types
 import type FunctionResponse from 'types/FunctionResponse';
 import type InternalRedemption from 'types/Redemption/InternalRedemption';
+import type {
+  InternalRedemptionProvider,
+  InternalRedemptionStatus,
+} from 'types/Redemption/BaseInternalRedemption';
 import type { RequestedCCPaymentInternalRedemption } from 'types/Redemption/CCPaymentInternalRedemption';
 import type { RequestedTremendousInternalRedemption } from 'types/Redemption/TremendousInternalRedemption';
 import type InternalUser from 'types/User/InternalUser';
@@ -34,7 +38,7 @@ import type {
 } from 'types/AdminWithdrawal';
 import type InternalEarning from 'types/Earnings/InternalEarning';
 
-export const ADMIN_WITHDRAWALS_PAGE_SIZE = 20;
+export const ADMIN_WITHDRAWALS_PAGE_SIZE = 10;
 export const ADMIN_WITHDRAWALS_MAX_BATCH = 50;
 export const ATTESTATION_REASON_MIN_LENGTH = 10;
 const ACCEPT_CONCURRENCY = 3;
@@ -106,8 +110,8 @@ function groupFlagsByUserID(flags: UserFlag[]): Map<string, UserFlag[]> {
 
 export async function listAdminWithdrawals(
   {
-    status = 'pending',
-    provider,
+    statuses,
+    providers,
     limit,
     offset,
   }: AdminWithdrawalListFilters,
@@ -115,10 +119,11 @@ export async function listAdminWithdrawals(
   try {
     const { db } = getGlobalObject();
     const query: {
-      status: AdminWithdrawalListFilters['status'],
-      providerName?: AdminWithdrawalListFilters['provider'],
-    } = { status };
-    if (provider) query.providerName = provider;
+      status?: { $in: InternalRedemptionStatus[] },
+      providerName?: { $in: InternalRedemptionProvider[] },
+    } = {};
+    if (statuses && statuses.length > 0) query.status = { $in: statuses };
+    if (providers && providers.length > 0) query.providerName = { $in: providers };
 
     const redemptions = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions)
       .find(query)
@@ -482,6 +487,12 @@ export async function getAdminUserRiskProfile(
       flags.flatMap(flag => flag.meta.otherUserIDs ?? []),
     ) ];
     const chargeback = chargebacks[0];
+    const linkedUsers = linkedUserIDs.length === 0
+      ? []
+      : await db.collection<InternalUser>(DatabaseCollections.users)
+        .find({ userID: { $in: linkedUserIDs } })
+        .project({ userID: 1, username: 1 })
+        .toArray();
 
     return {
       ok: true,
@@ -503,7 +514,10 @@ export async function getAdminUserRiskProfile(
           usdValue: chargeback?.usdValue ?? 0,
         },
         flags,
-        linkedUserIDs,
+        linkedUsers: linkedUsers.map(linked => ({
+          userID: linked.userID,
+          username: linked.username,
+        })),
       },
     };
   } catch (error) {

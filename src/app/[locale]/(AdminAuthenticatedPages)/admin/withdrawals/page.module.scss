@@ -1,51 +1,38 @@
 @use '@styles/variables.scss' as *;
 
+$checkbox-size: 18px;
+
 .withdrawalsPage {
   display: flex;
   flex-direction: column;
   gap: 20px;
 
-  > .header {
+  > .controls {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-
-    > .eyebrow {
-      margin: 0;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: $text-light;
-    }
-
-    > h1 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 600;
-      color: $text-bold;
-    }
-
-    > p {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 500;
-      color: $text-light;
-    }
-  }
-
-  .controls {
-    display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     gap: 12px 16px;
     flex-wrap: wrap;
 
     > .dropdowns {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
       gap: 12px;
       flex-wrap: wrap;
+    }
+
+    > .batchActions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+
+      > p {
+        margin: 0 8px 0 0;
+        font-size: 13px;
+        font-weight: 600;
+        color: $text-bold;
+      }
     }
   }
 
@@ -137,6 +124,85 @@
     }
   }
 
+  .selectCell {
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  .checkbox {
+    position: relative;
+    display: inline-flex;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    margin: 0;
+    cursor: pointer;
+
+    > input {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      margin: 0;
+      opacity: 0;
+      cursor: inherit;
+
+      &:checked + .box,
+      &:indeterminate + .box {
+        background: $primary;
+        border-color: $primary;
+      }
+
+      &:checked + .box::after {
+        content: '';
+        width: 5px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg) translate(-1px, -1px);
+      }
+
+      &:indeterminate:not(:checked) + .box::after {
+        content: '';
+        width: 8px;
+        height: 2px;
+        border-radius: 1px;
+        background: white;
+      }
+
+      &:focus-visible + .box {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &:disabled + .box {
+        opacity: 0.4;
+      }
+    }
+
+    > .box {
+      box-sizing: border-box;
+      display: grid;
+      place-items: center;
+      width: $checkbox-size;
+      height: $checkbox-size;
+      border: 1.5px solid $border-light;
+      border-radius: 5px;
+      background: $background;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    &:hover > input:not(:disabled):not(:checked):not(:indeterminate) + .box {
+      border-color: $primary;
+    }
+
+    &:has(> input:disabled) {
+      cursor: not-allowed;
+    }
+  }
+
   .flagBadge,
   .actionLink {
     padding: 0;
@@ -150,28 +216,5 @@
 
   .flagBadge {
     color: $orange;
-  }
-
-  .batchBar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 12px 16px;
-    border: 1px solid $border-light;
-    border-radius: 8px;
-    background: $background;
-
-    > p {
-      margin: 0;
-      font-size: 13px;
-      font-weight: 600;
-      color: $text-bold;
-    }
-
-    > .batchActions {
-      display: flex;
-      gap: 8px;
-    }
   }
 }

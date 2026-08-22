@@ -293,27 +293,27 @@ export function adminUserRiskQueryOptions(
 export function adminWithdrawalsListQueryOptions(
   {
     request,
-    status,
-    provider,
+    statuses,
+    providers,
     page,
   }: {
     request: RequestFn,
-    status: InternalRedemptionStatus,
-    provider?: InternalRedemptionProvider,
+    statuses: InternalRedemptionStatus[],
+    providers: InternalRedemptionProvider[],
     page: number,
   },
 ) {
   return queryOptions({
     queryKey: queryKeys.admin.withdrawals.list({
-      status,
-      provider: provider ?? 'all',
+      status: [ ...statuses ].sort(),
+      provider: [ ...providers ].sort(),
       page,
     }),
     queryFn: async () => {
       const rows = await fetchAdminWithdrawals({
         request,
-        status,
-        provider,
+        statuses,
+        providers,
         page,
       });
 

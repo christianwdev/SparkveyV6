@@ -1378,7 +1378,8 @@
       "userID": "ユーザーID",
       "balance": "残高",
       "created": "登録日",
-      "status": "ステータス"
+      "status": "ステータス",
+      "flags": "フラグ"
     },
     "status": {
       "active": "有効",
@@ -1391,7 +1392,11 @@
     "empty": "一致するユーザーはありません。",
     "error": "ユーザーを読み込めませんでした。しばらくして再試行してください。",
     "copyId": "ユーザーIDをコピー",
-    "copied": "コピーしました"
+    "copied": "コピーしました",
+    "flagCount": "{count, plural, other {# 件のフラグ}}",
+    "actions": {
+      "review": "確認"
+    }
   },
   "AdminUser": {
     "backToUsers": "ユーザー一覧に戻る",
@@ -1404,6 +1409,7 @@
     "notLinked": "未連携",
     "copyId": "ユーザーIDをコピー",
     "copied": "コピーしました",
+    "flagCount": "{count, plural, other {# 件のフラグ}}",
     "navLabel": "ユーザー項目",
     "nav": {
       "overview": "概要",
@@ -1625,6 +1631,7 @@
       "actions": "操作"
     },
     "filters": {
+      "all": "すべて",
       "status": "ステータス",
       "provider": "種類"
     },
@@ -1664,6 +1671,8 @@
     "close": "閉じる",
     "noFlags": "このアカウントにフラグはありません。",
     "flagsTitle": "フラグと警告",
+    "relatedAccounts": "関連",
+    "flaggedAt": "{date} に検出",
     "linkedUsers": "{count, plural, other {関連アカウント # 件}}",
     "fields": {
       "status": "ステータス",
@@ -1683,7 +1692,7 @@
       "cleared": "解除済み"
     },
     "actions": {
-      "clear": "解除",
+      "clear": "フラグを解除",
       "viewProfile": "プロフィールを開く"
     },
     "success": {
@@ -1701,6 +1710,14 @@
       "linkedAccount": "関連アカウント",
       "proxy": "プロキシまたはTor",
       "impossibleTravel": "不可能な移動"
+    },
+    "flagDetails": {
+      "sharedWithdrawalAddress": "同じ出金ウォレット {wallet}",
+      "sharedEmail": "同じメール {email}",
+      "linkedAccount": "同じIP {ip} で確認",
+      "proxy": "{ip} からのプロキシまたはTor",
+      "impossibleTravel": "{from} から {to} へ {duration} で移動",
+      "minutes": "{count, plural, other {#分}}"
     }
   },
   "AdminWithdrawalAttestation": {

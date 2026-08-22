@@ -82,6 +82,24 @@
             font-weight: 600;
             color: $text-bold;
           }
+
+          > .flagBadge,
+          > .reviewFlags {
+            padding: 0;
+            border: none;
+            background: transparent;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+          }
+
+          > .flagBadge {
+            color: $orange;
+          }
+
+          > .reviewFlags {
+            color: $primary;
+          }
         }
 
         > .idRow {

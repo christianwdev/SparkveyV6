@@ -1378,7 +1378,8 @@
       "userID": "User ID",
       "balance": "Balance",
       "created": "Created",
-      "status": "Status"
+      "status": "Status",
+      "flags": "Flags"
     },
     "status": {
       "active": "Active",
@@ -1391,7 +1392,11 @@
     "empty": "No users match this search.",
     "error": "Could not load users. Try again shortly.",
     "copyId": "Copy user ID",
-    "copied": "Copied"
+    "copied": "Copied",
+    "flagCount": "{count, plural, one {# flag} other {# flags}}",
+    "actions": {
+      "review": "Review"
+    }
   },
   "AdminUser": {
     "backToUsers": "Back to users",
@@ -1404,6 +1409,7 @@
     "notLinked": "Not linked",
     "copyId": "Copy user ID",
     "copied": "Copied",
+    "flagCount": "{count, plural, one {# flag} other {# flags}}",
     "navLabel": "User sections",
     "nav": {
       "overview": "Overview",
@@ -1625,6 +1631,7 @@
       "actions": "Actions"
     },
     "filters": {
+      "all": "All",
       "status": "Status",
       "provider": "Type"
     },
@@ -1665,6 +1672,8 @@
     "na": "—",
     "noFlags": "No flags on this account.",
     "flagsTitle": "Flags and warnings",
+    "relatedAccounts": "Related",
+    "flaggedAt": "Flagged {date}",
     "linkedUsers": "{count, plural, one {# linked account} other {# linked accounts}}",
     "chargebackValue": "{count} ({usd})",
     "fields": {
@@ -1687,12 +1696,20 @@
       "proxy": "Proxy or Tor",
       "impossibleTravel": "Impossible travel"
     },
+    "flagDetails": {
+      "sharedWithdrawalAddress": "Same cashout wallet {wallet}",
+      "sharedEmail": "Same email {email}",
+      "linkedAccount": "Seen on the same IP {ip}",
+      "proxy": "Proxy or Tor traffic from {ip}",
+      "impossibleTravel": "Jumped from {from} to {to} in {duration}",
+      "minutes": "{count, plural, one {# minute} other {# minutes}}"
+    },
     "flagStatus": {
       "active": "Active",
       "cleared": "Cleared"
     },
     "actions": {
-      "clear": "Clear",
+      "clear": "Clear flag",
       "viewProfile": "Open profile"
     },
     "success": {

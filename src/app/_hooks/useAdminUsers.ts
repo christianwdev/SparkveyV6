@@ -206,19 +206,19 @@ export function useAdminUserRiskQuery(
 
 export function useAdminWithdrawalsQuery(
   {
-    status,
-    provider,
+    statuses,
+    providers,
     page,
   }: {
-    status: InternalRedemptionStatus,
-    provider?: InternalRedemptionProvider,
+    statuses: InternalRedemptionStatus[],
+    providers: InternalRedemptionProvider[],
     page: number,
   },
 ) {
   return useQuery(adminWithdrawalsListQueryOptions({
     request: clientRequest,
-    status,
-    provider,
+    statuses,
+    providers,
     page,
   }));
 }

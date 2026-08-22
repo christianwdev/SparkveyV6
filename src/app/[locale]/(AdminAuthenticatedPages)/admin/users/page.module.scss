@@ -5,35 +5,6 @@
   flex-direction: column;
   gap: 20px;
 
-  > .header {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-
-    > .eyebrow {
-      margin: 0;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: $text-light;
-    }
-
-    > h1 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 600;
-      color: $text-bold;
-    }
-
-    > p {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 500;
-      color: $text-light;
-    }
-  }
-
   > .controls {
     display: flex;
     align-items: flex-end;
@@ -173,5 +144,20 @@
     &[data-tone='negative'] {
       color: $red;
     }
+  }
+
+  .flagBadge,
+  .actionLink {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: $primary;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .flagBadge {
+    color: $orange;
   }
 }

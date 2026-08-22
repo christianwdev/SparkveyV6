@@ -21,7 +21,11 @@ import { useUser } from '@contexts/UserProvider';
 import { useAdminWithdrawalsQuery } from '@hooks/useAdminUsers';
 import { queryKeys } from '@hooks/queryKeys';
 import { hasPermissions } from '@utils/admin';
-import { adminWithdrawalsSearchParams } from '@utils/adminWithdrawalsSearchParams';
+import {
+  adminWithdrawalsSearchParams,
+  ADMIN_WITHDRAWAL_PROVIDERS,
+  ADMIN_WITHDRAWAL_STATUSES,
+} from '@utils/adminWithdrawalsSearchParams';
 import {
   acceptAdminWithdrawalsRequest,
   rejectAdminWithdrawalsRequest,
@@ -35,23 +39,19 @@ import type {
   AdminWithdrawalBatchResult,
   AdminWithdrawalRow,
 } from 'types/AdminWithdrawal';
-import type {
-  InternalRedemptionProvider,
-  InternalRedemptionStatus,
-} from 'types/Redemption/BaseInternalRedemption';
+import type { InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 import styles from './page.module.scss';
 
-const STATUS_OPTIONS: InternalRedemptionStatus[] = [
-  'pending',
-  'approved',
-  'processing',
-  'completed',
-  'failed',
-  'rejected',
-];
-const PROVIDER_OPTIONS: Array<'all' | InternalRedemptionProvider> = [ 'all', 'ccpayment', 'tremendous' ];
+const STATUS_OPTIONS = ADMIN_WITHDRAWAL_STATUSES;
+const PROVIDER_OPTIONS = ADMIN_WITHDRAWAL_PROVIDERS;
+
+function toggleFilterValue<T extends string>(list: readonly T[], value: T): T[] {
+  return list.includes(value)
+    ? list.filter(item => item !== value)
+    : [ ...list, value ];
+}
 
 function WithdrawalsTableFallback() {
   return (
@@ -131,6 +131,38 @@ function flaggedUsersFromRows(rows: AdminWithdrawalRow[]): AttestationFlaggedUse
   return [ ...byUser.values() ];
 }
 
+function WithdrawalCheckbox(
+  {
+    checked,
+    indeterminate = false,
+    disabled,
+    onChange,
+    'aria-label': ariaLabel,
+  }: {
+    checked: boolean,
+    indeterminate?: boolean,
+    disabled?: boolean,
+    onChange: (checked: boolean) => void,
+    'aria-label': string,
+  },
+) {
+  return (
+    <label className={styles.checkbox}>
+      <input
+        ref={(element) => {
+          if (element) element.indeterminate = indeterminate;
+        }}
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        onChange={event => onChange(event.target.checked)}
+        aria-label={ariaLabel}
+      />
+      <span className={styles.box} aria-hidden />
+    </label>
+  );
+}
+
 function WithdrawalsPageContent() {
   const t = useTranslations('AdminWithdrawals');
   const formatter = useFormatter();
@@ -142,10 +174,9 @@ function WithdrawalsPageContent() {
   const [ pendingAction, setPendingAction ] = useState<'accept' | 'reject' | null>(null);
   const [ attestationUsers, setAttestationUsers ] = useState<AttestationFlaggedUser[] | null>(null);
 
-  const provider = filters.provider === 'all' ? undefined : filters.provider;
   const { data: rows = [], isPending, isFetching, isError } = useAdminWithdrawalsQuery({
-    status: filters.status,
-    provider,
+    statuses: [ ...filters.status ],
+    providers: [ ...filters.provider ],
     page: filters.page,
   });
 
@@ -158,6 +189,7 @@ function WithdrawalsPageContent() {
   const pendingIDs = pendingRows.map(row => row.redemption.redemptionID);
   const selectedPending = selectedIDs.filter(id => pendingIDs.includes(id));
   const allPendingSelected = pendingIDs.length > 0 && pendingIDs.every(id => selectedIDs.includes(id));
+  const somePendingSelected = selectedPending.length > 0 && !allPendingSelected;
 
   function toggleRow(redemptionID: string, checked: boolean) {
     setSelectedIDs(current => (
@@ -259,21 +291,21 @@ function WithdrawalsPageContent() {
   const columns: DataTableColumn<AdminWithdrawalRow>[] = [
     {
       id: 'select',
+      className: styles.selectCell,
       header: (
-        <input
-          type="checkbox"
+        <WithdrawalCheckbox
           checked={allPendingSelected}
+          indeterminate={somePendingSelected}
           disabled={!canModify || pendingIDs.length === 0}
-          onChange={event => toggleAllPending(event.target.checked)}
+          onChange={toggleAllPending}
           aria-label={t('table.selectAll')}
         />
       ),
       cell: (row) => (
-        <input
-          type="checkbox"
+        <WithdrawalCheckbox
           checked={selectedIDs.includes(row.redemption.redemptionID)}
           disabled={!canModify || row.redemption.status !== 'pending'}
-          onChange={event => toggleRow(row.redemption.redemptionID, event.target.checked)}
+          onChange={checked => toggleRow(row.redemption.redemptionID, checked)}
           aria-label={t('table.selectRow')}
         />
       ),
@@ -342,7 +374,13 @@ function WithdrawalsPageContent() {
             {t('flagCount', { count: row.flags.activeFlagCount })}
           </button>
         ) : (
-          <span className={styles.muted}>{t('noFlags')}</span>
+          <button
+            type="button"
+            className={styles.actionLink}
+            onClick={() => openUserRisk(row.user.userID)}
+          >
+            {t('actions.review')}
+          </button>
         )
       ),
     },
@@ -357,19 +395,6 @@ function WithdrawalsPageContent() {
           : t('na');
       },
     },
-    {
-      id: 'actions',
-      header: t('table.actions'),
-      cell: (row) => (
-        <button
-          type="button"
-          className={styles.actionLink}
-          onClick={() => openUserRisk(row.user.userID)}
-        >
-          {t('actions.review')}
-        </button>
-      ),
-    },
   ];
 
   return (
@@ -379,8 +404,9 @@ function WithdrawalsPageContent() {
           <Dropdown
             label={t('filters.status')}
             selected={filters.status}
+            defaultValue={t('filters.all')}
             setValue={(value) => {
-              setFilters({ status: value, page: 1 }).catch(error => {
+              setFilters({ status: toggleFilterValue(filters.status, value), page: 1 }).catch(error => {
                 console.error(error);
               });
               setSelectedIDs([]);
@@ -393,8 +419,9 @@ function WithdrawalsPageContent() {
           <Dropdown
             label={t('filters.provider')}
             selected={filters.provider}
+            defaultValue={t('filters.all')}
             setValue={(value) => {
-              setFilters({ provider: value, page: 1 }).catch(error => {
+              setFilters({ provider: toggleFilterValue(filters.provider, value), page: 1 }).catch(error => {
                 console.error(error);
               });
               setSelectedIDs([]);
@@ -405,6 +432,31 @@ function WithdrawalsPageContent() {
             }))}
           />
         </div>
+
+        {canModify ? (
+          <div className={styles.batchActions}>
+            {selectedPending.length > 0 ? (
+              <p>{t('selectedCount', { count: selectedPending.length })}</p>
+            ) : null}
+            <PrimaryButton
+              variant="danger"
+              disabled={pendingAction !== null || selectedPending.length === 0}
+              onClick={() => {
+                runReject().catch(error => {
+                  console.error(error);
+                });
+              }}
+            >
+              {t('actions.reject')}
+            </PrimaryButton>
+            <PrimaryButton
+              disabled={pendingAction !== null || selectedPending.length === 0}
+              onClick={handleAcceptClick}
+            >
+              {t('actions.accept')}
+            </PrimaryButton>
+          </div>
+        ) : null}
       </div>
 
       {isError ? (
@@ -421,6 +473,8 @@ function WithdrawalsPageContent() {
 
       <Pagination
         page={filters.page}
+        pageSize={ADMIN_WITHDRAWALS_PAGE_SIZE}
+        itemCount={rows.length}
         hasNextPage={rows.length >= ADMIN_WITHDRAWALS_PAGE_SIZE}
         onPageChange={(page) => {
           setFilters({ page }).catch(error => {
@@ -428,32 +482,8 @@ function WithdrawalsPageContent() {
           });
           setSelectedIDs([]);
         }}
+        disabled={isFetching}
       />
-
-      {canModify && selectedPending.length > 0 ? (
-        <div className={styles.batchBar}>
-          <p>{t('selectedCount', { count: selectedPending.length })}</p>
-          <div className={styles.batchActions}>
-            <PrimaryButton
-              variant="danger"
-              disabled={pendingAction !== null}
-              onClick={() => {
-                runReject().catch(error => {
-                  console.error(error);
-                });
-              }}
-            >
-              {t('actions.reject')}
-            </PrimaryButton>
-            <PrimaryButton
-              disabled={pendingAction !== null}
-              onClick={handleAcceptClick}
-            >
-              {t('actions.accept')}
-            </PrimaryButton>
-          </div>
-        </div>
-      ) : null}
 
       {attestationUsers ? (
         <AdminWithdrawalAttestationModal

@@ -2,7 +2,6 @@
 
 import { useFormatter, useTranslations } from 'next-intl';
 import { useAdminUserQuery } from '@hooks/useAdminUsers';
-import { useAdminUserRisk } from '@contexts/AdminUserRiskContext';
 import { isCurrentlyBanned, toDate } from '@utils/date';
 import styles from './page.module.scss';
 
@@ -13,7 +12,6 @@ type AdminUserOverviewClientProps = {
 export default function AdminUserOverviewClient({ userID }: AdminUserOverviewClientProps) {
   const t = useTranslations('AdminUser');
   const formatter = useFormatter();
-  const { openUserRisk } = useAdminUserRisk();
   const { data: user } = useAdminUserQuery({ userID });
 
   if (!user) return null;
@@ -125,15 +123,6 @@ export default function AdminUserOverviewClient({ userID }: AdminUserOverviewCli
 
   return (
     <div className={styles.overview}>
-      <div className={styles.toolbar}>
-        <button
-          type="button"
-          className={styles.reviewFlags}
-          onClick={() => openUserRisk(userID)}
-        >
-          {t('actions.reviewFlags')}
-        </button>
-      </div>
       <div className={styles.grid}>
         {panels.map(panel => (
           <section key={panel.title} className={styles.panel}>

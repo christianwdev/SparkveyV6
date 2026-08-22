@@ -1378,7 +1378,8 @@
       "userID": "ID użytkownika",
       "balance": "Saldo",
       "created": "Utworzono",
-      "status": "Status"
+      "status": "Status",
+      "flags": "Flagi"
     },
     "status": {
       "active": "Aktywny",
@@ -1391,7 +1392,11 @@
     "empty": "Brak użytkowników dla tego wyszukiwania.",
     "error": "Nie udało się wczytać użytkowników. Spróbuj ponownie.",
     "copyId": "Kopiuj ID użytkownika",
-    "copied": "Skopiowano"
+    "copied": "Skopiowano",
+    "flagCount": "{count, plural, one {# flaga} few {# flagi} many {# flag} other {# flagi}}",
+    "actions": {
+      "review": "Przejrzyj"
+    }
   },
   "AdminUser": {
     "backToUsers": "Wróć do użytkowników",
@@ -1404,6 +1409,7 @@
     "notLinked": "Nie połączono",
     "copyId": "Kopiuj ID użytkownika",
     "copied": "Skopiowano",
+    "flagCount": "{count, plural, one {# flaga} few {# flagi} many {# flag} other {# flagi}}",
     "navLabel": "Sekcje użytkownika",
     "nav": {
       "overview": "Przegląd",
@@ -1625,6 +1631,7 @@
       "actions": "Akcje"
     },
     "filters": {
+      "all": "Wszystkie",
       "status": "Status",
       "provider": "Typ"
     },
@@ -1664,6 +1671,8 @@
     "close": "Zamknij",
     "noFlags": "Brak flag na tym koncie.",
     "flagsTitle": "Flagi i ostrzeżenia",
+    "relatedAccounts": "Powiązane",
+    "flaggedAt": "Oflagowano {date}",
     "linkedUsers": "{count, plural, one {# powiązane konto} few {# powiązane konta} many {# powiązanych kont} other {# powiązanego konta}}",
     "fields": {
       "status": "Status",
@@ -1683,7 +1692,7 @@
       "cleared": "Usunięta"
     },
     "actions": {
-      "clear": "Usuń",
+      "clear": "Usuń flagę",
       "viewProfile": "Otwórz profil"
     },
     "success": {
@@ -1701,6 +1710,14 @@
       "linkedAccount": "Powiązane konto",
       "proxy": "Proxy lub Tor",
       "impossibleTravel": "Niemożliwa podróż"
+    },
+    "flagDetails": {
+      "sharedWithdrawalAddress": "Ten sam portfel wypłaty {wallet}",
+      "sharedEmail": "Ten sam e-mail {email}",
+      "linkedAccount": "To samo IP {ip}",
+      "proxy": "Ruch proxy lub Tor z {ip}",
+      "impossibleTravel": "Z {from} do {to} w {duration}",
+      "minutes": "{count, plural, one {# minuta} few {# minuty} many {# minut} other {# minuty}}"
     }
   },
   "AdminWithdrawalAttestation": {

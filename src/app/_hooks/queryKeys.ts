@@ -104,8 +104,8 @@ export const queryKeys = {
     withdrawals: {
       all: () => [ ...queryKeys.admin.all, 'withdrawals' ] as const,
       list: (filters: {
-        status: string,
-        provider: string,
+        status: string[],
+        provider: string[],
         page: number,
       }) => [ ...queryKeys.admin.withdrawals.all(), 'list', filters ] as const,
     },

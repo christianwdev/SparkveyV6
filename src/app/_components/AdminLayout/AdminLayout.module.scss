@@ -1,7 +1,8 @@
 @use '@styles/variables.scss' as *;
 
-$sidebar-width: 240px;
+$sidebar-width: 232px;
 $topbar-height: 60px;
+$sidebar-pad-x: 12px;
 
 .adminShell {
   display: flex;
@@ -15,33 +16,58 @@ $topbar-height: 60px;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 20px;
     width: $sidebar-width;
     min-width: $sidebar-width;
     max-width: $sidebar-width;
     height: 100dvh;
-    padding: 0 10px 24px;
+    padding: 0 $sidebar-pad-x 16px;
     border-right: 1px solid $border-light;
-    background: $surface-muted;
+    background: $background;
     box-sizing: border-box;
 
     > .header {
       display: flex;
       align-items: center;
       height: $topbar-height;
-      padding: 0 8px;
+      min-height: $topbar-height;
+      margin: 0 (-$sidebar-pad-x);
+      padding: 0 16px;
+      border-bottom: 1px solid $border-light;
+      box-sizing: border-box;
 
       > .logoWrapper {
         display: inline-flex;
         align-items: center;
         gap: 10px;
+        min-width: 0;
         color: $text-bold;
         text-decoration: none;
-        font-size: 16px;
-        font-weight: 600;
 
-        > span {
-          letter-spacing: -0.02em;
+        > .brandCopy {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
+
+          > .brandName {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+          }
+
+          > .adminBadge {
+            width: fit-content;
+            padding: 1px 6px;
+            border-radius: 999px;
+            background: color-mix(in srgb, $primary 14%, transparent);
+            color: $primary;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            line-height: 1.4;
+          }
         }
       }
     }
@@ -49,75 +75,85 @@ $topbar-height: 60px;
     > .nav {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
       flex: 1;
-
-      > .navSection {
-        margin: 4px 10px 8px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        color: $text-light;
-      }
+      padding: 16px 0;
 
       > .navLink {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 10px 12px;
-        border-radius: 8px;
-        color: $text-bold;
+        padding: 6px 8px 6px 6px;
+        border-radius: 10px;
+        color: $text-light;
         text-decoration: none;
         font-size: 14px;
-        font-weight: 500;
+        font-weight: 600;
+        transition: background-color 0.15s ease, color 0.15s ease;
 
-        > svg {
-          width: 16px;
-          height: 16px;
+        > .iconWell {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 30px;
+          height: 30px;
+          border-radius: 8px;
+          background: $light-gray;
           color: $text-light;
           flex-shrink: 0;
+
+          > svg {
+            width: 15px;
+            height: 15px;
+          }
         }
 
         &:hover {
-          background: $light-blue;
+          color: $text-bold;
+          background: $light-gray;
+
+          > .iconWell {
+            color: $text-bold;
+          }
         }
 
         &.navLinkActive {
-          background: $background;
-          box-shadow: 0 0 0 1px $border-light;
+          color: $text-bold;
+          background: color-mix(in srgb, $primary 10%, transparent);
 
-          > svg {
-            color: $primary;
+          > .iconWell {
+            background: $primary;
+            color: white;
           }
         }
       }
     }
 
     > .sidebarFooter {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid $border-light;
 
       > .footerLink {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 10px 12px;
-        border-radius: 8px;
-        color: $text-bold;
+        padding: 8px 10px;
+        border-radius: 10px;
+        color: $text-light;
         text-decoration: none;
         font-size: 13px;
-        font-weight: 500;
+        font-weight: 600;
 
         > svg {
           width: 15px;
           height: 15px;
-          color: $text-light;
+          flex-shrink: 0;
         }
 
         &:hover {
-          background: $light-blue;
+          color: $text-bold;
+          background: $light-gray;
         }
       }
     }
@@ -142,7 +178,7 @@ $topbar-height: 60px;
 
       > .pageTitle {
         margin: 0;
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 600;
         letter-spacing: -0.02em;
         color: $text-bold;
@@ -151,7 +187,7 @@ $topbar-height: 60px;
 
     > .main {
       flex: 1;
-      padding: 28px 40px 48px;
+      padding: 24px 40px 48px;
     }
   }
 
@@ -174,23 +210,28 @@ $topbar-height: 60px;
       min-width: 0;
       max-width: none;
       height: auto;
+      padding-bottom: 12px;
       border-right: none;
       border-bottom: 1px solid $border-light;
+
+      > .header {
+        margin: 0 (-$sidebar-pad-x);
+      }
 
       > .nav {
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 4px;
+        flex: 0;
+        padding: 12px 0 0;
+        gap: 6px;
 
-        > .navSection {
-          width: 100%;
-          margin: 0 4px 4px;
+        > .navLink {
+          flex: 1 1 auto;
         }
       }
 
       > .sidebarFooter {
-        flex-direction: row;
-        flex-wrap: wrap;
+        margin-top: 8px;
       }
     }
 
@@ -199,7 +240,7 @@ $topbar-height: 60px;
         padding: 0 16px;
 
         > .pageTitle {
-          font-size: 20px;
+          font-size: 18px;
         }
       }
 

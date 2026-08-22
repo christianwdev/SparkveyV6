@@ -1378,7 +1378,8 @@
       "userID": "ID de usuario",
       "balance": "Saldo",
       "created": "Alta",
-      "status": "Estado"
+      "status": "Estado",
+      "flags": "Alertas"
     },
     "status": {
       "active": "Activo",
@@ -1391,7 +1392,11 @@
     "empty": "Ningún usuario coincide con esta búsqueda.",
     "error": "No se pudieron cargar los usuarios. Inténtalo de nuevo.",
     "copyId": "Copiar ID de usuario",
-    "copied": "Copiado"
+    "copied": "Copiado",
+    "flagCount": "{count, plural, one {# alerta} other {# alertas}}",
+    "actions": {
+      "review": "Revisar"
+    }
   },
   "AdminUser": {
     "backToUsers": "Volver a usuarios",
@@ -1404,6 +1409,7 @@
     "notLinked": "No vinculado",
     "copyId": "Copiar ID de usuario",
     "copied": "Copiado",
+    "flagCount": "{count, plural, one {# alerta} other {# alertas}}",
     "navLabel": "Secciones del usuario",
     "nav": {
       "overview": "Resumen",
@@ -1625,6 +1631,7 @@
       "actions": "Acciones"
     },
     "filters": {
+      "all": "Todos",
       "status": "Estado",
       "provider": "Tipo"
     },
@@ -1664,6 +1671,8 @@
     "close": "Cerrar",
     "noFlags": "No hay alertas en esta cuenta.",
     "flagsTitle": "Alertas y avisos",
+    "relatedAccounts": "Relacionadas",
+    "flaggedAt": "Marcado {date}",
     "linkedUsers": "{count, plural, one {# cuenta vinculada} other {# cuentas vinculadas}}",
     "fields": {
       "status": "Estado",
@@ -1683,7 +1692,7 @@
       "cleared": "Resuelta"
     },
     "actions": {
-      "clear": "Quitar",
+      "clear": "Quitar alerta",
       "viewProfile": "Abrir perfil"
     },
     "success": {
@@ -1701,6 +1710,14 @@
       "linkedAccount": "Cuenta vinculada",
       "proxy": "Proxy o Tor",
       "impossibleTravel": "Viaje imposible"
+    },
+    "flagDetails": {
+      "sharedWithdrawalAddress": "Misma cartera de cobro {wallet}",
+      "sharedEmail": "Mismo correo {email}",
+      "linkedAccount": "Visto en la misma IP {ip}",
+      "proxy": "Tráfico proxy o Tor desde {ip}",
+      "impossibleTravel": "Saltó de {from} a {to} en {duration}",
+      "minutes": "{count, plural, one {# minuto} other {# minutos}}"
     }
   },
   "AdminWithdrawalAttestation": {

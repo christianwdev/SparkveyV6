@@ -12,7 +12,7 @@ import { updateUserBalance } from 'backend/utils/userBalance';
 import { deleteUserSession, expireUserSessions } from 'backend/utils/session';
 import { isEmailInUse, sanitizeEmail } from 'backend/utils/user';
 import { detectSharedEmail } from 'backend/utils/fraud';
-import { scheduleFraudCheck } from 'backend/utils/userFlag';
+import { getActiveFlagsByUserIDs, scheduleFraudCheck } from 'backend/utils/userFlag';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -25,12 +25,15 @@ import type AdminUser from 'types/AdminUser';
 import type {
   AdminUserAffiliateData,
   AdminUserFilterBy,
+  AdminUserFlagSummary,
+  AdminUserListItem,
   AdminUserOrder,
   AdminUserSession,
   AdminUserSort,
   AdminEmailActionable,
   AdminReferredUser,
 } from 'types/AdminUser';
+import type UserFlag from 'types/UserFlag';
 
 const PERMANENT_BAN_UNTIL = new Date('9999-12-31T23:59:59.999Z');
 const MAX_ADMIN_BALANCE_ADJUSTMENT = 100_000_000; // 100k USD at 1000 sparks/USD
@@ -132,7 +135,7 @@ export async function getUsers(
     sort?: AdminUserSort;
     order?: AdminUserOrder;
   },
-): Promise<FunctionResponse<AdminUser[]>> {
+): Promise<FunctionResponse<AdminUserListItem[]>> {
   try {
     const { db } = getGlobalObject();
     const trimmedSearch = search.trim();
@@ -159,7 +162,21 @@ export async function getUsers(
       .limit(limit)
       .toArray() ?? [];
 
-    return { ok: true, data: users.map(sanitizeAdminUser) };
+    const flagsResult = await getActiveFlagsByUserIDs({
+      userIDs: users.map(user => user.userID),
+    });
+
+    if (!flagsResult.ok) return { ok: false, error: 'internalServerError' };
+
+    const flagsByUserID = groupFlagsByUserID(flagsResult.data);
+
+    return {
+      ok: true,
+      data: users.map(user => withFlagSummary({
+        user,
+        flags: flagsByUserID.get(user.userID) ?? [],
+      })),
+    };
   } catch (error) {
     console.error(error);
 
@@ -167,7 +184,7 @@ export async function getUsers(
   }
 }
 
-export async function getUser(partialUser: Filter<InternalUser>): Promise<FunctionResponse<AdminUser>> {
+export async function getUser(partialUser: Filter<InternalUser>): Promise<FunctionResponse<AdminUserListItem>> {
   try {
     const { db } = getGlobalObject();
 
@@ -175,7 +192,17 @@ export async function getUser(partialUser: Filter<InternalUser>): Promise<Functi
 
     if (!user) return { ok: false, error: 'notFound' };
 
-    return { ok: true, data: sanitizeAdminUser(user) };
+    const flagsResult = await getActiveFlagsByUserIDs({ userIDs: [ user.userID ] });
+
+    if (!flagsResult.ok) return { ok: false, error: 'internalServerError' };
+
+    return {
+      ok: true,
+      data: withFlagSummary({
+        user,
+        flags: flagsResult.data,
+      }),
+    };
   } catch (error) {
     console.error(error);
 
@@ -628,6 +655,40 @@ export async function revokeAllAdminUserSessions(
 
     return { ok: false, error: 'internalServerError' };
   }
+}
+
+function groupFlagsByUserID(flags: UserFlag[]): Map<string, UserFlag[]> {
+  const flagsByUserID = new Map<string, UserFlag[]>();
+
+  for (const flag of flags) {
+    const existing = flagsByUserID.get(flag.userID) ?? [];
+    existing.push(flag);
+    flagsByUserID.set(flag.userID, existing);
+  }
+
+  return flagsByUserID;
+}
+
+function flagSummary(flags: UserFlag[]): AdminUserFlagSummary {
+  return {
+    activeFlagCount: flags.length,
+    flagTypes: [ ...new Set(flags.map(flag => flag.type)) ],
+  };
+}
+
+function withFlagSummary(
+  {
+    user,
+    flags,
+  }: {
+    user: InternalUser,
+    flags: UserFlag[],
+  },
+): AdminUserListItem {
+  return {
+    ...sanitizeAdminUser(user),
+    flags: flagSummary(flags),
+  };
 }
 
 export { PERMANENT_BAN_UNTIL, MAX_ADMIN_BALANCE_ADJUSTMENT };

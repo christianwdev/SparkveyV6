@@ -8,6 +8,7 @@ import type AdminUser from 'types/AdminUser';
 import type {
   AdminUserAffiliateData,
   AdminUserFilterBy,
+  AdminUserListItem,
   AdminUserOrder,
   AdminUserSession,
   AdminUserSort,
@@ -26,7 +27,7 @@ import type InternalUser from 'types/User/InternalUser';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
-export const ADMIN_USERS_PAGE_SIZE = 20;
+export const ADMIN_USERS_PAGE_SIZE = 10;
 export const ADMIN_USER_HISTORY_PAGE_SIZE = 10;
 
 export type AdminMutationResult<T> = {
@@ -64,7 +65,7 @@ export async function fetchAdminUsers(
     page = 1,
     limit = ADMIN_USERS_PAGE_SIZE,
   }: ListAdminUsersParams,
-): Promise<AdminUser[] | null> {
+): Promise<AdminUserListItem[] | null> {
   try {
     const params = new URLSearchParams({
       limit: String(limit),
@@ -76,7 +77,7 @@ export async function fetchAdminUsers(
 
     if (search.trim()) params.set('search', search.trim());
 
-    const response = await request<APIResponse<AdminUser[]>>({
+    const response = await request<APIResponse<AdminUserListItem[]>>({
       url: adminUsersUrl('/list', params),
       credentials: 'include',
     });
@@ -97,9 +98,9 @@ export async function fetchAdminUser(
     request: RequestFn,
     userID: string,
   },
-): Promise<AdminUser | null> {
+): Promise<AdminUserListItem | null> {
   try {
-    const response = await request<APIResponse<AdminUser>>({
+    const response = await request<APIResponse<AdminUserListItem>>({
       url: adminUsersUrl(`/${encodeURIComponent(userID)}`),
       credentials: 'include',
     });

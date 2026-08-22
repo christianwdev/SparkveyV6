@@ -33,7 +33,6 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function AdminUsersPage({ params, searchParams }: PageProps) {
   const { locale } = await params;
-  const t = await getTranslations('AdminUsers');
   const user = await getUser({ request: serverRequest });
   const userPermissions = user?.staffPermissions;
 
@@ -58,11 +57,6 @@ export default async function AdminUsersPage({ params, searchParams }: PageProps
 
   return (
     <main className={styles.usersPage}>
-      <div className={styles.header}>
-        <p className={styles.eyebrow}>{t('eyebrow')}</p>
-        <h1>{t('title')}</h1>
-        <p>{t('subtitle')}</p>
-      </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <AdminUsersClient />
       </HydrationBoundary>

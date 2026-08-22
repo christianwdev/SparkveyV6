@@ -1378,7 +1378,8 @@
       "userID": "ID utente",
       "balance": "Saldo",
       "created": "Creato",
-      "status": "Stato"
+      "status": "Stato",
+      "flags": "Avvisi"
     },
     "status": {
       "active": "Attivo",
@@ -1391,7 +1392,11 @@
     "empty": "Nessun utente corrisponde alla ricerca.",
     "error": "Impossibile caricare gli utenti. Riprova.",
     "copyId": "Copia ID utente",
-    "copied": "Copiato"
+    "copied": "Copiato",
+    "flagCount": "{count, plural, one {# avviso} other {# avvisi}}",
+    "actions": {
+      "review": "Esamina"
+    }
   },
   "AdminUser": {
     "backToUsers": "Torna agli utenti",
@@ -1404,6 +1409,7 @@
     "notLinked": "Non collegato",
     "copyId": "Copia ID utente",
     "copied": "Copiato",
+    "flagCount": "{count, plural, one {# avviso} other {# avvisi}}",
     "navLabel": "Sezioni utente",
     "nav": {
       "overview": "Panoramica",
@@ -1625,6 +1631,7 @@
       "actions": "Azioni"
     },
     "filters": {
+      "all": "Tutti",
       "status": "Stato",
       "provider": "Tipo"
     },
@@ -1664,6 +1671,8 @@
     "close": "Chiudi",
     "noFlags": "Nessun avviso su questo account.",
     "flagsTitle": "Avvisi e segnalazioni",
+    "relatedAccounts": "Collegati",
+    "flaggedAt": "Segnalato {date}",
     "linkedUsers": "{count, plural, one {# account collegato} other {# account collegati}}",
     "fields": {
       "status": "Stato",
@@ -1683,7 +1692,7 @@
       "cleared": "Risolto"
     },
     "actions": {
-      "clear": "Rimuovi",
+      "clear": "Rimuovi avviso",
       "viewProfile": "Apri profilo"
     },
     "success": {
@@ -1701,6 +1710,14 @@
       "linkedAccount": "Account collegato",
       "proxy": "Proxy o Tor",
       "impossibleTravel": "Viaggio impossibile"
+    },
+    "flagDetails": {
+      "sharedWithdrawalAddress": "Stesso wallet di prelievo {wallet}",
+      "sharedEmail": "Stessa email {email}",
+      "linkedAccount": "Stesso IP {ip}",
+      "proxy": "Traffico proxy o Tor da {ip}",
+      "impossibleTravel": "Da {from} a {to} in {duration}",
+      "minutes": "{count, plural, one {# minuto} other {# minuti}}"
     }
   },
   "AdminWithdrawalAttestation": {

@@ -17,6 +17,7 @@ type ModalShellProps = {
   header?: ReactNode,
   contentClassName?: string,
   showCloseButton?: boolean,
+  compact?: boolean,
 };
 
 export default function ModalShell({
@@ -26,6 +27,7 @@ export default function ModalShell({
   header,
   contentClassName,
   showCloseButton = true,
+  compact = false,
 }: ModalShellProps) {
   return (
     <div className={styles.modal} onClick={onClose}>
@@ -34,7 +36,7 @@ export default function ModalShell({
       <div
         className={[
           styles.contentWrapper,
-          contentClassName || styles.defaultPanel,
+          contentClassName || (compact ? styles.compactPanel : styles.defaultPanel),
         ].filter(Boolean).join(' ')}
         onClick={e => e.stopPropagation()}
       >

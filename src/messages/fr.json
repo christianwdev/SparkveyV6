@@ -1378,7 +1378,8 @@
       "userID": "ID utilisateur",
       "balance": "Solde",
       "created": "Créé",
-      "status": "Statut"
+      "status": "Statut",
+      "flags": "Alertes"
     },
     "status": {
       "active": "Actif",
@@ -1391,7 +1392,11 @@
     "empty": "Aucun utilisateur ne correspond.",
     "error": "Impossible de charger les utilisateurs. Réessayez.",
     "copyId": "Copier l’ID utilisateur",
-    "copied": "Copié"
+    "copied": "Copié",
+    "flagCount": "{count, plural, one {# alerte} other {# alertes}}",
+    "actions": {
+      "review": "Examiner"
+    }
   },
   "AdminUser": {
     "backToUsers": "Retour aux utilisateurs",
@@ -1404,6 +1409,7 @@
     "notLinked": "Non lié",
     "copyId": "Copier l’ID utilisateur",
     "copied": "Copié",
+    "flagCount": "{count, plural, one {# alerte} other {# alertes}}",
     "navLabel": "Sections utilisateur",
     "nav": {
       "overview": "Aperçu",
@@ -1625,6 +1631,7 @@
       "actions": "Actions"
     },
     "filters": {
+      "all": "Tous",
       "status": "Statut",
       "provider": "Type"
     },
@@ -1664,6 +1671,8 @@
     "close": "Fermer",
     "noFlags": "Aucune alerte sur ce compte.",
     "flagsTitle": "Alertes et avertissements",
+    "relatedAccounts": "Liés",
+    "flaggedAt": "Signalé {date}",
     "linkedUsers": "{count, plural, one {# compte lié} other {# comptes liés}}",
     "fields": {
       "status": "Statut",
@@ -1683,7 +1692,7 @@
       "cleared": "Levée"
     },
     "actions": {
-      "clear": "Lever",
+      "clear": "Lever l'alerte",
       "viewProfile": "Ouvrir le profil"
     },
     "success": {
@@ -1701,6 +1710,14 @@
       "linkedAccount": "Compte lié",
       "proxy": "Proxy ou Tor",
       "impossibleTravel": "Déplacement impossible"
+    },
+    "flagDetails": {
+      "sharedWithdrawalAddress": "Même portefeuille de retrait {wallet}",
+      "sharedEmail": "Même e-mail {email}",
+      "linkedAccount": "Vu sur la même IP {ip}",
+      "proxy": "Trafic proxy ou Tor depuis {ip}",
+      "impossibleTravel": "Passage de {from} à {to} en {duration}",
+      "minutes": "{count, plural, one {# minute} other {# minutes}}"
     }
   },
   "AdminWithdrawalAttestation": {
