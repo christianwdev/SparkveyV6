@@ -485,7 +485,9 @@
       "offerReleased": "Offre libérée",
       "offerReversal": "Offre annulée",
       "offerAdvConfirmed": "Offre confirmée",
-      "redemptionSubmitted": "Échange soumis"
+      "redemptionSubmitted": "Échange soumis",
+      "redemptionApproved": "Retrait approuvé",
+      "redemptionRejected": "Retrait refusé"
     },
     "messages": {
       "offerCredited": "Votre offre {offerName} d'une valeur de {offerValue} sparks a été créditée.",
@@ -494,7 +496,9 @@
       "offerReleased": "Votre offre {offerName} d'une valeur de {offerValue} a été libérée.",
       "offerReversal": "Votre offre {offerName} d'une valeur de {offerValue} a été annulée.",
       "offerAdvConfirmed": "Votre offre {offerName} d'une valeur de {offerValue} sparks a été confirmée et retenue jusqu'au {releaseDate}.",
-      "redemptionSubmitted": "Votre échange pour {rewardName} ({value} Sparks) a été soumis."
+      "redemptionSubmitted": "Votre échange pour {rewardName} ({value} Sparks) a été soumis.",
+      "redemptionApproved": "Votre retrait pour {rewardName} ({value} Sparks) a été approuvé.",
+      "redemptionRejected": "Votre retrait pour {rewardName} ({value} Sparks) a été refusé et remboursé."
     }
   },
   "NotFound": {
@@ -1245,7 +1249,9 @@
     "usersTitle": "Sparkvey | Admin Users",
     "usersDescription": "Browse and manage Sparkvey users.",
     "userTitle": "Sparkvey | {username}",
-    "userDescription": "Consulter et gérer cet utilisateur Sparkvey."
+    "userDescription": "Consulter et gérer cet utilisateur Sparkvey.",
+    "withdrawalsTitle": "Sparkvey | Retraits",
+    "withdrawalsDescription": "Examiner et traiter les retraits en attente."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1255,7 +1261,8 @@
     "backToSite": "Back to site",
     "nav": {
       "dashboard": "Overview",
-      "users": "Users"
+      "users": "Users",
+      "withdrawals": "Retraits"
     }
   },
   "AdminDashboard": {
@@ -1493,7 +1500,8 @@
       "unban": "Débannir",
       "revokeAllSessions": "Révoquer toutes les sessions",
       "revoke": "Révoquer",
-      "viewReward": "Voir la récompense"
+      "viewReward": "Voir la récompense",
+      "reviewFlags": "Voir les alertes"
     },
     "success": {
       "saved": "Enregistré.",
@@ -1591,6 +1599,127 @@
       "forgotPassword": "Réinitialisation du mot de passe",
       "emailChange": "Changement d’e-mail",
       "accountDeletion": "Suppression du compte"
+    }
+  },
+  "AdminWithdrawals": {
+    "eyebrow": "Paiements",
+    "title": "Retraits",
+    "subtitle": "Examinez les retraits en attente, consultez les alertes, puis acceptez ou refusez en lot.",
+    "unnamed": "Sans nom",
+    "noEmail": "Aucun e-mail",
+    "na": "—",
+    "empty": "Aucun retrait ne correspond à ces filtres.",
+    "noFlags": "Aucune",
+    "flagCount": "{count, plural, one {# alerte} other {# alertes}}",
+    "selectedCount": "{count, plural, one {# sélectionné} other {# sélectionnés}}",
+    "table": {
+      "selectAll": "Sélectionner tous les en attente de cette page",
+      "selectRow": "Sélectionner le retrait",
+      "user": "Utilisateur",
+      "reward": "Récompense",
+      "destination": "Destination",
+      "amount": "Montant",
+      "status": "Statut",
+      "flags": "Alertes",
+      "created": "Créé",
+      "actions": "Actions"
+    },
+    "filters": {
+      "status": "Statut",
+      "provider": "Type"
+    },
+    "providers": {
+      "all": "Tous les types",
+      "ccpayment": "Crypto",
+      "tremendous": "Carte cadeau"
+    },
+    "statuses": {
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "processing": "En cours",
+      "completed": "Terminé",
+      "failed": "Échoué",
+      "rejected": "Refusé"
+    },
+    "actions": {
+      "accept": "Accepter",
+      "reject": "Refuser",
+      "review": "Examiner"
+    },
+    "success": {
+      "accepted": "Les retraits sélectionnés ont été acceptés.",
+      "rejected": "Les retraits sélectionnés ont été refusés et remboursés."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les retraits.",
+      "acceptFailed": "Impossible d’accepter les retraits sélectionnés.",
+      "rejectFailed": "Impossible de refuser les retraits sélectionnés.",
+      "partial": "{failed} retraits sur {total} n’ont pas pu être traités."
+    }
+  },
+  "AdminUserRiskModal": {
+    "eyebrow": "Confiance",
+    "title": "Revue utilisateur",
+    "subtitle": "Alertes, rétrofacturations et activité de paiement de ce compte.",
+    "close": "Fermer",
+    "noFlags": "Aucune alerte sur ce compte.",
+    "flagsTitle": "Alertes et avertissements",
+    "linkedUsers": "{count, plural, one {# compte lié} other {# comptes liés}}",
+    "fields": {
+      "status": "Statut",
+      "balance": "Solde",
+      "earned": "Gagné",
+      "withdrawn": "Retiré",
+      "chargebacks": "Rétrofacturations",
+      "created": "Créé"
+    },
+    "status": {
+      "active": "Actif",
+      "banned": "Banni",
+      "deleted": "Supprimé"
+    },
+    "flagStatus": {
+      "active": "Active",
+      "cleared": "Levée"
+    },
+    "actions": {
+      "clear": "Lever",
+      "viewProfile": "Ouvrir le profil"
+    },
+    "success": {
+      "flagCleared": "Alerte levée."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger le profil de risque.",
+      "clearFailed": "Impossible de lever cette alerte."
+    },
+    "na": "—",
+    "chargebackValue": "{count} ({usd})",
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Même adresse de retrait",
+      "sharedEmail": "Même e-mail",
+      "linkedAccount": "Compte lié",
+      "proxy": "Proxy ou Tor",
+      "impossibleTravel": "Déplacement impossible"
+    }
+  },
+  "AdminWithdrawalAttestation": {
+    "eyebrow": "Attestation",
+    "title": "Confirmer les paiements signalés",
+    "subtitle": "Un ou plusieurs utilisateurs sélectionnés ont des alertes actives. Expliquez pourquoi vous approuvez malgré tout.",
+    "close": "Fermer",
+    "reasonLabel": "Pourquoi approuvez-vous ces retraits ?",
+    "reasonPlaceholder": "Décrivez la vérification effectuée (au moins 10 caractères).",
+    "actions": {
+      "cancel": "Annuler",
+      "confirm": "Confirmer et accepter"
+    },
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Même adresse de retrait",
+      "sharedEmail": "Même e-mail",
+      "linkedAccount": "Compte lié",
+      "proxy": "Proxy ou Tor",
+      "impossibleTravel": "Déplacement impossible"
     }
   }
 }

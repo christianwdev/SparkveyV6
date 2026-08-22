@@ -99,6 +99,15 @@ export const queryKeys = {
         userID,
         filters,
       ] as const,
+      risk: (userID: string) => [ ...queryKeys.admin.users.all(), 'risk', userID ] as const,
+    },
+    withdrawals: {
+      all: () => [ ...queryKeys.admin.all, 'withdrawals' ] as const,
+      list: (filters: {
+        status: string,
+        provider: string,
+        page: number,
+      }) => [ ...queryKeys.admin.withdrawals.all(), 'list', filters ] as const,
     },
   },
 };

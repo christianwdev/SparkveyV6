@@ -17,6 +17,9 @@ import { SESSION_COOKIE_NAME, getSessionCookieOptions } from './cookies';
 import { setCsrfCookie } from './csrf';
 import { parseDeviceInfo } from './device';
 import { maskIPAddress } from './ip';
+import { isTorRequest } from './request';
+import { evaluateSessionFraud } from './fraud';
+import { scheduleFraudCheck } from './userFlag';
 
 // Types
 import type UserSession from 'types/UserSession';
@@ -70,6 +73,16 @@ export async function startSession(
 
     await db.collection<UserSession>(DatabaseCollections.userSessions).insertOne(userSession, { session: mongoSession });
 
+    if (ipAddress) {
+      scheduleFraudCheck(evaluateSessionFraud({
+        userID,
+        ipAddress,
+        isTor: isTorRequest(c),
+        ipChanged: true,
+        countryChanged: false,
+      }));
+    }
+
     // Hono uses seconds for maxAge
     const timeLeft = (expiryDate.getTime() - issueDate.getTime()) / 1000;
 
@@ -84,31 +97,34 @@ export async function startSession(
   }
 }
 
-export async function consumeSession(
+async function touchSession(
   {
+    filter,
     ipAddress,
-    sessionParams,
     country,
     city,
+    isTor,
   }: {
+    filter: Partial<UserSession>,
     ipAddress: string,
-    sessionParams: Partial<UserSession>,
     country?: string,
     city?: string,
+    isTor?: boolean,
   },
 ): Promise<FunctionResponse<UserSession>> {
   try {
     const { db } = getGlobalObject();
+    const now = new Date();
 
     const locationUpdate: Partial<Pick<UserSession, 'country' | 'city'>> = {};
     if (country) locationUpdate.country = country;
     if (city) locationUpdate.city = city;
 
-    const session = await db.collection<UserSession>(DatabaseCollections.userSessions).findOneAndUpdate(
+    const previous = await db.collection<UserSession>(DatabaseCollections.userSessions).findOneAndUpdate(
       {
-        ...sessionParams,
+        ...filter,
         expiryDate: {
-          $gt: new Date(),
+          $gt: now,
         },
       },
       {
@@ -117,16 +133,44 @@ export async function consumeSession(
         },
         $set: {
           currentIPAddress: ipAddress,
-          accessedDate: new Date(),
+          accessedDate: now,
           ...locationUpdate,
         },
       },
       {
-        returnDocument: 'after',
+        returnDocument: 'before',
       },
     );
 
-    if (!session) return { ok: false, error: 'notFound' };
+    if (!previous) return { ok: false, error: 'notFound' };
+
+    const ipChanged = previous.currentIPAddress !== ipAddress;
+    const countryChanged = Boolean(country && previous.country && country !== previous.country);
+    const nextIps = previous.ipAddresses.includes(ipAddress)
+      ? previous.ipAddresses
+      : [ ...previous.ipAddresses, ipAddress ];
+
+    const session: UserSession = {
+      ...previous,
+      currentIPAddress: ipAddress,
+      accessedDate: now,
+      ipAddresses: nextIps,
+    };
+    if (country) session.country = country;
+    if (city) session.city = city;
+
+    if (ipChanged || countryChanged || isTor) {
+      scheduleFraudCheck(evaluateSessionFraud({
+        userID: previous.userID,
+        ipAddress,
+        isTor: Boolean(isTor),
+        ipChanged,
+        countryChanged,
+        previousCountry: previous.country,
+        previousAccessedAt: previous.accessedDate,
+        country: country ?? previous.country,
+      }));
+    }
 
     return { ok: true, data: session };
   } catch (error) {
@@ -134,6 +178,30 @@ export async function consumeSession(
 
     return { ok: false, error: 'internalServerError' };
   }
+}
+
+export async function consumeSession(
+  {
+    ipAddress,
+    sessionParams,
+    country,
+    city,
+    isTor,
+  }: {
+    ipAddress: string,
+    sessionParams: Partial<UserSession>,
+    country?: string,
+    city?: string,
+    isTor?: boolean,
+  },
+): Promise<FunctionResponse<UserSession>> {
+  return touchSession({
+    filter: sessionParams,
+    ipAddress,
+    country,
+    city,
+    isTor,
+  });
 }
 
 export async function getActiveUserSessions(userID: string): Promise<FunctionResponse<UserSession[]>> {
@@ -183,50 +251,22 @@ export async function consumeSessionByID(
     ipAddress,
     country,
     city,
+    isTor,
   }: {
     sessionID: string,
     ipAddress: string,
     country?: string,
     city?: string,
+    isTor?: boolean,
   },
 ): Promise<FunctionResponse<UserSession>> {
-  try {
-    const { db } = getGlobalObject();
-
-    const locationUpdate: Partial<Pick<UserSession, 'country' | 'city'>> = {};
-    if (country) locationUpdate.country = country;
-    if (city) locationUpdate.city = city;
-
-    const session = await db.collection<UserSession>(DatabaseCollections.userSessions).findOneAndUpdate(
-      {
-        sessionID,
-        expiryDate: {
-          $gt: new Date(),
-        },
-      },
-      {
-        $addToSet: {
-          ipAddresses: ipAddress,
-        },
-        $set: {
-          currentIPAddress: ipAddress,
-          accessedDate: new Date(),
-          ...locationUpdate,
-        },
-      },
-      {
-        returnDocument: 'after',
-      },
-    );
-
-    if (!session) return { ok: false, error: 'notFound' };
-
-    return { ok: true, data: session };
-  } catch (error) {
-    console.error(error);
-
-    return { ok: false, error: 'internalServerError' };
-  }
+  return touchSession({
+    filter: { sessionID },
+    ipAddress,
+    country,
+    city,
+    isTor,
+  });
 }
 
 export function getSessionTwoFactorStatus(

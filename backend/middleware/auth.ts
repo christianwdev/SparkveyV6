@@ -6,6 +6,7 @@ import {
   getCityFromRequest,
   getCountryFromRequest,
   getIPFromRequest,
+  isTorRequest,
 } from '../utils/request';
 import { sendResponse } from '../utils/response';
 
@@ -20,6 +21,7 @@ function getSessionConsumeContext(c: Context) {
     ipAddress: getIPFromRequest(c) || '',
     country: getCountryFromRequest(c),
     city: getCityFromRequest(c),
+    isTor: isTorRequest(c),
   };
 }
 

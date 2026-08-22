@@ -11,6 +11,8 @@ import { parseDeviceInfo } from 'backend/utils/device';
 import { updateUserBalance } from 'backend/utils/userBalance';
 import { deleteUserSession, expireUserSessions } from 'backend/utils/session';
 import { isEmailInUse, sanitizeEmail } from 'backend/utils/user';
+import { detectSharedEmail } from 'backend/utils/fraud';
+import { scheduleFraudCheck } from 'backend/utils/userFlag';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -446,6 +448,14 @@ export async function updateAdminUser(
       const expireResult = await expireUserSessions(userID);
       if (!expireResult.ok) {
         console.error('Failed to expire sessions after admin email change', expireResult.error);
+      }
+
+      const sanitized = sanitizeEmail(email);
+      if (sanitized) {
+        scheduleFraudCheck(detectSharedEmail({
+          userID,
+          email: sanitized,
+        }));
       }
     }
 

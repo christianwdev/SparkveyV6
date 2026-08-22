@@ -1,6 +1,8 @@
 import { createId } from '@paralleldrive/cuid2';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
+import { detectSharedEmail } from 'backend/utils/fraud';
+import { scheduleFraudCheck } from 'backend/utils/userFlag';
 
 // Types
 import type { Filter, WithId } from 'mongodb';
@@ -157,6 +159,13 @@ export async function createUser(
     const result = await db.collection(DatabaseCollections.users).insertOne(user);
 
     if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
+
+    if (sanitizedEmail) {
+      scheduleFraudCheck(detectSharedEmail({
+        userID,
+        email: sanitizedEmail,
+      }));
+    }
 
     // Default referral code is the userID (counts toward maxAffiliateCodes).
     const { ensureDefaultAffiliateCode } = await import('backend/utils/affiliateCode');
@@ -480,6 +489,11 @@ export async function linkGoogleAccount(
 
     if (!user) return { ok: false, error: 'notFound' };
 
+    scheduleFraudCheck(detectSharedEmail({
+      userID,
+      email: sanitized,
+    }));
+
     return { ok: true, data: user };
   } catch (error) {
     console.error(error);
@@ -527,6 +541,11 @@ export async function updateUserEmail(
     );
 
     if (!user) return { ok: false, error: 'notFound' };
+
+    scheduleFraudCheck(detectSharedEmail({
+      userID,
+      email: sanitized,
+    }));
 
     return { ok: true, data: user };
   } catch (error) {

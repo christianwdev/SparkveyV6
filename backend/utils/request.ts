@@ -84,20 +84,36 @@ export function getUserAgentFromRequest(c: Context): string | undefined {
   return c.req.header('user-agent') || undefined;
 }
 
-export function getCountryFromRequest(c: Context): string | undefined {
+const CLOUDFLARE_UNKNOWN_COUNTRY = 'XX';
+const CLOUDFLARE_TOR_COUNTRY = 'T1';
+
+export function getRawIpCountryFromRequest(c: Context): string | undefined {
   if (process.env.NODE_ENV !== 'production') return 'US';
 
   const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
   const passthrough = c.req.header('nextjs-passthrough-ip-country')?.trim();
-  const cfIPCountry = c.req.header('cf-ipcountry') as string;
+  const cfIPCountry = c.req.header('cf-ipcountry')?.trim();
 
   if (passthrough && hasValidPassthroughToken(passthroughToken)) {
     return passthrough || undefined;
   }
 
-  if (cfIPCountry && cfIPCountry !== 'XX' && cfIPCountry !== 'T1') return cfIPCountry;
+  if (cfIPCountry) return cfIPCountry;
 
   return undefined;
+}
+
+export function isTorRequest(c: Context): boolean {
+  return getRawIpCountryFromRequest(c) === CLOUDFLARE_TOR_COUNTRY;
+}
+
+export function getCountryFromRequest(c: Context): string | undefined {
+  const country = getRawIpCountryFromRequest(c);
+  if (!country || country === CLOUDFLARE_UNKNOWN_COUNTRY || country === CLOUDFLARE_TOR_COUNTRY) {
+    return undefined;
+  }
+
+  return country;
 }
 
 export function getCityFromRequest(c: Context): string | undefined {

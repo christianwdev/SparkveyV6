@@ -485,7 +485,9 @@
       "offerReleased": "Oferta liberada",
       "offerReversal": "Oferta estornada",
       "offerAdvConfirmed": "Oferta confirmada",
-      "redemptionSubmitted": "Resgate enviado"
+      "redemptionSubmitted": "Resgate enviado",
+      "redemptionApproved": "Levantamento aprovado",
+      "redemptionRejected": "Levantamento rejeitado"
     },
     "messages": {
       "offerCredited": "Sua oferta {offerName} no valor de {offerValue} sparks foi creditada.",
@@ -494,7 +496,9 @@
       "offerReleased": "Sua oferta {offerName} no valor de {offerValue} foi liberada.",
       "offerReversal": "Sua oferta {offerName} no valor de {offerValue} foi estornada.",
       "offerAdvConfirmed": "Sua oferta {offerName} no valor de {offerValue} sparks foi confirmada e retida até {releaseDate}.",
-      "redemptionSubmitted": "Seu resgate de {rewardName} ({value} Sparks) foi enviado."
+      "redemptionSubmitted": "Seu resgate de {rewardName} ({value} Sparks) foi enviado.",
+      "redemptionApproved": "O seu levantamento de {rewardName} ({value} Sparks) foi aprovado.",
+      "redemptionRejected": "O seu levantamento de {rewardName} ({value} Sparks) foi rejeitado e reembolsado."
     }
   },
   "NotFound": {
@@ -1245,7 +1249,9 @@
     "usersTitle": "Sparkvey | Admin Users",
     "usersDescription": "Browse and manage Sparkvey users.",
     "userTitle": "Sparkvey | {username}",
-    "userDescription": "Veja e gerencie este usuário Sparkvey."
+    "userDescription": "Veja e gerencie este usuário Sparkvey.",
+    "withdrawalsTitle": "Sparkvey | Levantamentos",
+    "withdrawalsDescription": "Reveja e processe levantamentos pendentes."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1255,7 +1261,8 @@
     "backToSite": "Back to site",
     "nav": {
       "dashboard": "Overview",
-      "users": "Users"
+      "users": "Users",
+      "withdrawals": "Levantamentos"
     }
   },
   "AdminDashboard": {
@@ -1493,7 +1500,8 @@
       "unban": "Desbanir",
       "revokeAllSessions": "Revogar todas as sessões",
       "revoke": "Revogar",
-      "viewReward": "Ver prémio"
+      "viewReward": "Ver prémio",
+      "reviewFlags": "Rever alertas"
     },
     "success": {
       "saved": "Guardado.",
@@ -1591,6 +1599,127 @@
       "forgotPassword": "Redefinição de palavra-passe",
       "emailChange": "Alteração de e-mail",
       "accountDeletion": "Eliminação de conta"
+    }
+  },
+  "AdminWithdrawals": {
+    "eyebrow": "Pagamentos",
+    "title": "Levantamentos",
+    "subtitle": "Reveja levantamentos pendentes, inspecione alertas e aceite ou rejeite em lote.",
+    "unnamed": "Sem nome",
+    "noEmail": "Sem e-mail",
+    "na": "—",
+    "empty": "Nenhum levantamento corresponde a estes filtros.",
+    "noFlags": "Nenhum",
+    "flagCount": "{count, plural, one {# alerta} other {# alertas}}",
+    "selectedCount": "{count, plural, one {# selecionado} other {# selecionados}}",
+    "table": {
+      "selectAll": "Selecionar todos os pendentes nesta página",
+      "selectRow": "Selecionar levantamento",
+      "user": "Utilizador",
+      "reward": "Recompensa",
+      "destination": "Destino",
+      "amount": "Montante",
+      "status": "Estado",
+      "flags": "Alertas",
+      "created": "Criado",
+      "actions": "Ações"
+    },
+    "filters": {
+      "status": "Estado",
+      "provider": "Tipo"
+    },
+    "providers": {
+      "all": "Todos os tipos",
+      "ccpayment": "Cripto",
+      "tremendous": "Cartão oferta"
+    },
+    "statuses": {
+      "pending": "Pendente",
+      "approved": "Aprovado",
+      "processing": "A processar",
+      "completed": "Concluído",
+      "failed": "Falhou",
+      "rejected": "Rejeitado"
+    },
+    "actions": {
+      "accept": "Aceitar",
+      "reject": "Rejeitar",
+      "review": "Rever"
+    },
+    "success": {
+      "accepted": "Os levantamentos selecionados foram aceites.",
+      "rejected": "Os levantamentos selecionados foram rejeitados e reembolsados."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar os levantamentos.",
+      "acceptFailed": "Não foi possível aceitar os levantamentos selecionados.",
+      "rejectFailed": "Não foi possível rejeitar os levantamentos selecionados.",
+      "partial": "Não foi possível processar {failed} de {total} levantamentos."
+    }
+  },
+  "AdminUserRiskModal": {
+    "eyebrow": "Confiança",
+    "title": "Revisão do utilizador",
+    "subtitle": "Alertas, chargebacks e atividade de pagamentos desta conta.",
+    "close": "Fechar",
+    "noFlags": "Não há alertas nesta conta.",
+    "flagsTitle": "Alertas e avisos",
+    "linkedUsers": "{count, plural, one {# conta associada} other {# contas associadas}}",
+    "fields": {
+      "status": "Estado",
+      "balance": "Saldo",
+      "earned": "Ganho",
+      "withdrawn": "Levantado",
+      "chargebacks": "Chargebacks",
+      "created": "Criado"
+    },
+    "status": {
+      "active": "Ativo",
+      "banned": "Banido",
+      "deleted": "Eliminado"
+    },
+    "flagStatus": {
+      "active": "Ativo",
+      "cleared": "Resolvido"
+    },
+    "actions": {
+      "clear": "Limpar",
+      "viewProfile": "Abrir perfil"
+    },
+    "success": {
+      "flagCleared": "Alerta resolvido."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar o perfil de risco.",
+      "clearFailed": "Não foi possível limpar esse alerta."
+    },
+    "na": "—",
+    "chargebackValue": "{count} ({usd})",
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Mesmo endereço de levantamento",
+      "sharedEmail": "Mesmo e-mail",
+      "linkedAccount": "Conta associada",
+      "proxy": "Proxy ou Tor",
+      "impossibleTravel": "Viagem impossível"
+    }
+  },
+  "AdminWithdrawalAttestation": {
+    "eyebrow": "Atestação",
+    "title": "Confirmar pagamentos com alertas",
+    "subtitle": "Um ou mais utilizadores selecionados têm alertas ativos. Explique por que os aprova mesmo assim.",
+    "close": "Fechar",
+    "reasonLabel": "Porque está a aprovar estes levantamentos?",
+    "reasonPlaceholder": "Descreva a revisão que fez (pelo menos 10 caracteres).",
+    "actions": {
+      "cancel": "Cancelar",
+      "confirm": "Confirmar e aceitar"
+    },
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Mesmo endereço de levantamento",
+      "sharedEmail": "Mesmo e-mail",
+      "linkedAccount": "Conta associada",
+      "proxy": "Proxy ou Tor",
+      "impossibleTravel": "Viagem impossível"
     }
   }
 }

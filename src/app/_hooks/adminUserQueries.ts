@@ -11,6 +11,7 @@ import {
   fetchAdminUserTransactions,
   fetchAdminUsers,
 } from '@utils/adminUsers';
+import { fetchAdminUserRisk, fetchAdminWithdrawals } from '@utils/adminWithdrawals';
 import { queryKeys } from './queryKeys';
 
 // Types
@@ -265,5 +266,60 @@ export function adminUserEmailsQueryOptions(
       return emails;
     },
     enabled: !!userID,
+  });
+}
+
+export function adminUserRiskQueryOptions(
+  {
+    request,
+    userID,
+  }: {
+    request: RequestFn,
+    userID: string,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.users.risk(userID),
+    queryFn: async () => {
+      const risk = await fetchAdminUserRisk({ request, userID });
+      if (!risk) throw new Error('Failed to load user risk');
+
+      return risk;
+    },
+    enabled: !!userID,
+  });
+}
+
+export function adminWithdrawalsListQueryOptions(
+  {
+    request,
+    status,
+    provider,
+    page,
+  }: {
+    request: RequestFn,
+    status: InternalRedemptionStatus,
+    provider?: InternalRedemptionProvider,
+    page: number,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.withdrawals.list({
+      status,
+      provider: provider ?? 'all',
+      page,
+    }),
+    queryFn: async () => {
+      const rows = await fetchAdminWithdrawals({
+        request,
+        status,
+        provider,
+        page,
+      });
+
+      if (!rows) throw new Error('Failed to load withdrawals');
+
+      return rows;
+    },
   });
 }

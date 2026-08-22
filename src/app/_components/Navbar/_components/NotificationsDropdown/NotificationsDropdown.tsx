@@ -161,6 +161,10 @@ export default function NotificationsDropdown() {
         return t('types.offerAdvConfirmed');
       case 'redemptionSubmitted':
         return t('types.redemptionSubmitted');
+      case 'redemptionApproved':
+        return t('types.redemptionApproved');
+      case 'redemptionRejected':
+        return t('types.redemptionRejected');
       default:
         return '';
     }
@@ -214,6 +218,16 @@ export default function NotificationsDropdown() {
         });
       case 'redemptionSubmitted':
         return t('messages.redemptionSubmitted', {
+          rewardName: meta.rewardName,
+          value: formatter.number(meta.value),
+        });
+      case 'redemptionApproved':
+        return t('messages.redemptionApproved', {
+          rewardName: meta.rewardName,
+          value: formatter.number(meta.value),
+        });
+      case 'redemptionRejected':
+        return t('messages.redemptionRejected', {
           rewardName: meta.rewardName,
           value: formatter.number(meta.value),
         });
