@@ -11,6 +11,8 @@ import { parseDeviceInfo } from 'backend/utils/device';
 import { updateUserBalance } from 'backend/utils/userBalance';
 import { deleteUserSession, expireUserSessions } from 'backend/utils/session';
 import { isEmailInUse, sanitizeEmail } from 'backend/utils/user';
+import { detectSharedEmail } from 'backend/utils/fraud';
+import { scheduleFraudCheck } from 'backend/utils/userFlag';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -450,8 +452,6 @@ export async function updateAdminUser(
 
       const sanitized = sanitizeEmail(email);
       if (sanitized) {
-        const { detectSharedEmail } = await import('backend/utils/fraud');
-        const { scheduleFraudCheck } = await import('backend/utils/userFlag');
         scheduleFraudCheck(detectSharedEmail({
           userID,
           email: sanitized,

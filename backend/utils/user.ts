@@ -1,6 +1,8 @@
 import { createId } from '@paralleldrive/cuid2';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
+import { detectSharedEmail } from 'backend/utils/fraud';
+import { scheduleFraudCheck } from 'backend/utils/userFlag';
 
 // Types
 import type { Filter, WithId } from 'mongodb';
@@ -159,8 +161,6 @@ export async function createUser(
     if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
 
     if (sanitizedEmail) {
-      const { detectSharedEmail } = await import('backend/utils/fraud');
-      const { scheduleFraudCheck } = await import('backend/utils/userFlag');
       scheduleFraudCheck(detectSharedEmail({
         userID,
         email: sanitizedEmail,
@@ -489,8 +489,6 @@ export async function linkGoogleAccount(
 
     if (!user) return { ok: false, error: 'notFound' };
 
-    const { detectSharedEmail } = await import('backend/utils/fraud');
-    const { scheduleFraudCheck } = await import('backend/utils/userFlag');
     scheduleFraudCheck(detectSharedEmail({
       userID,
       email: sanitized,
@@ -544,8 +542,6 @@ export async function updateUserEmail(
 
     if (!user) return { ok: false, error: 'notFound' };
 
-    const { detectSharedEmail } = await import('backend/utils/fraud');
-    const { scheduleFraudCheck } = await import('backend/utils/userFlag');
     scheduleFraudCheck(detectSharedEmail({
       userID,
       email: sanitized,
