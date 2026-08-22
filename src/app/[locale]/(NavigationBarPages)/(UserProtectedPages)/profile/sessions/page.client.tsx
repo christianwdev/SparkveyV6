@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense, use } from 'react';
 import { useLocale, useFormatter, useTranslations } from 'next-intl';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import { useRevokeSessionMutation, useSessionsQuery } from '@hooks/useSessionsQuery';
@@ -63,11 +64,39 @@ function formatLocation(
   return unknownLabel;
 }
 
-export default function SessionsPageClient() {
+type SessionsPageClientProps = {
+  initialSessionsPromise: Promise<SanitizedUserSession[] | null>,
+};
+
+function SessionsPageFallback() {
+  const t = useTranslations('ProfileSessions');
+
+  return (
+    <div className={styles.profilePage}>
+      <div className={styles.header}>
+        <h1>{t('title')}</h1>
+        <p>{t('subtitle')}</p>
+      </div>
+
+      <DataTable
+        columns={[]}
+        rows={[]}
+        getRowKey={() => 'loading'}
+        loading
+        emptyMessage={t('empty')}
+      />
+    </div>
+  );
+}
+
+function SessionsPageContent({ initialSessionsPromise }: SessionsPageClientProps) {
   const t = useTranslations('ProfileSessions');
   const locale = useLocale();
   const formatter = useFormatter();
-  const { data: sessions = [], isPending } = useSessionsQuery();
+  const initialSessions = use(initialSessionsPromise);
+  const { data: sessions = [], isPending } = useSessionsQuery({
+    initialData: initialSessions,
+  });
   const revokeSession = useRevokeSessionMutation();
 
   const columns: DataTableColumn<SanitizedUserSession>[] = [
@@ -148,7 +177,9 @@ export default function SessionsPageClient() {
             className={styles.actionLink}
             disabled={revokeSession.isPending}
             onClick={() => {
-              void revokeSession.mutateAsync(row.sessionID);
+              revokeSession.mutateAsync(row.sessionID).catch(error => {
+                console.error(error);
+              });
             }}
           >
             {t('table.revoke')}
@@ -173,5 +204,13 @@ export default function SessionsPageClient() {
         emptyMessage={t('empty')}
       />
     </div>
+  );
+}
+
+export default function SessionsPageClient({ initialSessionsPromise }: SessionsPageClientProps) {
+  return (
+    <Suspense fallback={<SessionsPageFallback />}>
+      <SessionsPageContent initialSessionsPromise={initialSessionsPromise} />
+    </Suspense>
   );
 }

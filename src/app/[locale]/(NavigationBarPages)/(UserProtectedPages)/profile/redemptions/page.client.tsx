@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, use, useState } from 'react';
 import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
@@ -32,13 +32,40 @@ function getRewardLink(row: InternalRedemption): string | null {
   return row.meta.link;
 }
 
-export default function RedemptionsPageClient() {
+type RedemptionsPageClientProps = {
+  initialRedemptionsPromise: Promise<InternalRedemption[] | null>,
+};
+
+function RedemptionsPageFallback() {
+  const t = useTranslations('ProfileRewards');
+
+  return (
+    <div className={styles.profilePage}>
+      <div className={styles.header}>
+        <h1>{t('title')}</h1>
+        <p>{t('subtitle')}</p>
+      </div>
+
+      <DataTable
+        columns={[]}
+        rows={[]}
+        getRowKey={() => 'loading'}
+        loading
+        emptyMessage={t('empty')}
+      />
+    </div>
+  );
+}
+
+function RedemptionsPageContent({ initialRedemptionsPromise }: RedemptionsPageClientProps) {
   const t = useTranslations('ProfileRewards');
   const formatter = useFormatter();
   const [ page, setPage ] = useState(1);
+  const initialRedemptions = use(initialRedemptionsPromise);
 
   const { data: redemptions = [], isPending, isFetching } = useRedemptionsHistoryQuery({
     page,
+    initialData: page === 1 ? initialRedemptions : undefined,
   });
 
   const columns: DataTableColumn<InternalRedemption>[] = [
@@ -133,5 +160,13 @@ export default function RedemptionsPageClient() {
         disabled={isFetching}
       />
     </div>
+  );
+}
+
+export default function RedemptionsPageClient({ initialRedemptionsPromise }: RedemptionsPageClientProps) {
+  return (
+    <Suspense fallback={<RedemptionsPageFallback />}>
+      <RedemptionsPageContent initialRedemptionsPromise={initialRedemptionsPromise} />
+    </Suspense>
   );
 }

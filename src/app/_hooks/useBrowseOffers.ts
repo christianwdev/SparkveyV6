@@ -35,15 +35,19 @@ export function useBrowseOffers({
   initialFilters,
 }: UseBrowseOffersParams) {
   const filters = { search, sort, categories, providers };
-  const seeded = initialOffers
-    && initialFilters
-    && sameFilters(filters, initialFilters)
-    ? { pages: [ initialOffers ], pageParams: [ 0 ] }
-    : undefined;
 
   // Freeze SSR seed so rerenders/HMR do not keep resetting freshness with Date.now().
-  const [ seededData ] = useState(() => seeded);
-  const [ seededAt ] = useState(() => (seededData ? Date.now() : undefined));
+  const [ seededOffers ] = useState(() => initialOffers);
+  const [ seededFilters ] = useState(() => initialFilters);
+  const [ seededAt ] = useState(() => (
+    initialOffers && initialFilters ? Date.now() : undefined
+  ));
+
+  const initialData = seededOffers
+    && seededFilters
+    && sameFilters(filters, seededFilters)
+    ? { pages: [ seededOffers ], pageParams: [ 0 ] }
+    : undefined;
 
   return useInfiniteQuery({
     queryKey: queryKeys.offers.browse(filters),
@@ -70,8 +74,8 @@ export function useBrowseOffers({
 
       return allPages.reduce((total, page) => total + page.length, 0);
     },
-    initialData: seededData,
-    initialDataUpdatedAt: seededAt,
+    initialData,
+    initialDataUpdatedAt: initialData ? seededAt : undefined,
   });
 }
 

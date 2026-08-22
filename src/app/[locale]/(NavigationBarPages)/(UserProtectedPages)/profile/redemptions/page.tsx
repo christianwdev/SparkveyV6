@@ -1,4 +1,6 @@
 import { getTranslations } from 'next-intl/server';
+import { getRedemptionsHistory } from '@utils/profile';
+import { serverRequest } from '@utils/serverRequest';
 import RedemptionsPageClient from './page.client';
 
 type PageProps = {
@@ -16,5 +18,10 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default function ProfileRedemptionsPage() {
-  return <RedemptionsPageClient />;
+  const initialRedemptionsPromise = getRedemptionsHistory({
+    request: serverRequest,
+    page: 1,
+  });
+
+  return <RedemptionsPageClient initialRedemptionsPromise={initialRedemptionsPromise} />;
 }

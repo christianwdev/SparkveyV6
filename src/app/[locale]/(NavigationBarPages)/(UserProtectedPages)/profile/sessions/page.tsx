@@ -1,4 +1,6 @@
 import { getTranslations } from 'next-intl/server';
+import { getSessions } from '@utils/profile';
+import { serverRequest } from '@utils/serverRequest';
 import SessionsPageClient from './page.client';
 
 type PageProps = {
@@ -16,5 +18,7 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default function ProfileSessionsPage() {
-  return <SessionsPageClient />;
+  const initialSessionsPromise = getSessions({ request: serverRequest });
+
+  return <SessionsPageClient initialSessionsPromise={initialSessionsPromise} />;
 }
