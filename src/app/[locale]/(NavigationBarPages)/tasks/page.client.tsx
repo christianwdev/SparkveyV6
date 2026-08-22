@@ -81,7 +81,8 @@ function TasksPageContent() {
   });
 
   const offers = data?.pages.flatMap(page => page) ?? [];
-  const loading = isPending || (isFetching && !isFetchingNextPage);
+  // Avoid stacking skeletons over SSR-hydrated offers during a background refetch.
+  const showInitialLoading = (isPending || isFetching) && !isFetchingNextPage && offers.length === 0;
   const canScrollLoad = Boolean(hasNextPage) && offers.length < INFINITE_SCROLL_CAP;
 
   useEffect(() => {
@@ -183,12 +184,12 @@ function TasksPageContent() {
           />
         ))}
 
-        {(loading || isFetchingNextPage) && Array.from({ length: 8 }, (_, index) => (
+        {(showInitialLoading || isFetchingNextPage) && Array.from({ length: 8 }, (_, index) => (
           <OfferItem key={`loading-${index}`} loading />
         ))}
       </div>
 
-      {!loading && offers.length === 0 && (
+      {!showInitialLoading && !isFetchingNextPage && offers.length === 0 && (
         <EmptyState message={t('empty')} />
       )}
 

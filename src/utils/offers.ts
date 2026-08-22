@@ -13,6 +13,8 @@ import {
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
+export const BROWSE_OFFERS_PAGE_SIZE = 28;
+
 export type { BrowseOffersSort };
 
 export type BrowseOffersParams = {
@@ -43,7 +45,7 @@ export async function browseOffers(
       method: 'POST',
       credentials: 'include',
       data: {
-        limit: params.limit ?? 28,
+        limit: params.limit ?? BROWSE_OFFERS_PAGE_SIZE,
         skip: params.skip ?? 0,
         sort: params.sort ?? DEFAULT_BROWSE_OFFERS_SORT,
         search: params.search || undefined,
