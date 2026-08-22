@@ -6,10 +6,12 @@ import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
+export const SURVEYS_LIST_LIMIT = 50;
+
 export async function getSurveys(
   {
     request,
-    limit = 50,
+    limit = SURVEYS_LIST_LIMIT,
   }: {
     request: RequestFn,
     limit?: number,

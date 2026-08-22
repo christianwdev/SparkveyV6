@@ -1,4 +1,6 @@
 import { getTranslations } from 'next-intl/server';
+import { getEarningsHistory } from '@utils/profile';
+import { serverRequest } from '@utils/serverRequest';
 import EarningsPageClient from './page.client';
 
 type PageProps = {
@@ -16,5 +18,11 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default function ProfileEarningsPage() {
-  return <EarningsPageClient />;
+  const initialEarningsPromise = getEarningsHistory({
+    request: serverRequest,
+    page: 1,
+    type: 'offer',
+  });
+
+  return <EarningsPageClient initialEarningsPromise={initialEarningsPromise} />;
 }

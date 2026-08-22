@@ -16,13 +16,13 @@ type ClientSideResponse<T> = {
 };
 
 function isMutatingMethod(method: string): boolean {
-  return method !== 'GET' && method !== 'HEAD' && method !== 'OPTIONS';
+  return method !== 'GET';
 }
 
 async function clientRequest<ReturnType>(config: RequestConfig): Promise<ClientSideResponse<ReturnType>> {
   const { url, credentials, data, headers, ...fetchConfig } = config;
   const method = (fetchConfig.method ?? 'GET').toUpperCase();
-  const hasBody = data !== undefined && method !== 'GET' && method !== 'HEAD';
+  const hasBody = data !== undefined && method !== 'GET';
   const credentialsMode = credentials ?? 'omit';
 
   const resolvedHeaders: Record<string, string> = {};

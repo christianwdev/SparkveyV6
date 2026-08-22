@@ -13,6 +13,8 @@ import {
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
+export const BROWSE_OFFERS_PAGE_SIZE = 28;
+
 export type { BrowseOffersSort };
 
 export type BrowseOffersParams = {

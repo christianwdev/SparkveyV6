@@ -328,11 +328,9 @@ export async function fetchAdminUserEmails(
 
 async function mutateAdminUser<T>(
   {
-    method,
     path,
     data,
   }: {
-    method: 'PATCH' | 'POST' | 'DELETE',
     path: string,
     data?: object,
   },
@@ -340,7 +338,7 @@ async function mutateAdminUser<T>(
   try {
     const response = await clientRequest<APIResponse<T>>({
       url: adminUsersUrl(path),
-      method,
+      method: 'POST',
       credentials: 'include',
       data,
     });
@@ -384,7 +382,6 @@ export async function updateAdminUserRequest(
   if (userConfiguration !== undefined) body.userConfiguration = userConfiguration;
 
   return mutateAdminUser<AdminUser>({
-    method: 'PATCH',
     path: `/${encodeURIComponent(userID)}`,
     data: body,
   });
@@ -400,7 +397,6 @@ export async function adjustAdminUserBalanceRequest(
   },
 ): Promise<AdminMutationResult<{ user: AdminUser, transaction: InternalTransaction }>> {
   return mutateAdminUser({
-    method: 'POST',
     path: `/${encodeURIComponent(userID)}/balance`,
     data: { amount },
   });
@@ -419,7 +415,6 @@ export async function banAdminUserRequest(
   if (until) data.until = until;
 
   return mutateAdminUser<AdminUser>({
-    method: 'POST',
     path: `/${encodeURIComponent(userID)}/ban`,
     data,
   });
@@ -433,8 +428,7 @@ export async function unbanAdminUserRequest(
   },
 ): Promise<AdminMutationResult<AdminUser>> {
   return mutateAdminUser<AdminUser>({
-    method: 'DELETE',
-    path: `/${encodeURIComponent(userID)}/ban`,
+    path: `/${encodeURIComponent(userID)}/unban`,
   });
 }
 
@@ -448,8 +442,7 @@ export async function revokeAdminUserSessionRequest(
   },
 ): Promise<AdminMutationResult<void>> {
   return mutateAdminUser({
-    method: 'DELETE',
-    path: `/${encodeURIComponent(userID)}/sessions/${encodeURIComponent(sessionID)}`,
+    path: `/${encodeURIComponent(userID)}/sessions/${encodeURIComponent(sessionID)}/revoke`,
   });
 }
 
@@ -461,7 +454,6 @@ export async function revokeAllAdminUserSessionsRequest(
   },
 ): Promise<AdminMutationResult<void>> {
   return mutateAdminUser({
-    method: 'POST',
     path: `/${encodeURIComponent(userID)}/sessions/revoke-all`,
   });
 }

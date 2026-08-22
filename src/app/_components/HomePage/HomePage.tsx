@@ -7,11 +7,13 @@ import IsolateErrorBoundary from '@components/IsolateErrorBoundary/IsolateErrorB
 import Navbar from '@components/Navbar/Navbar';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import Carousel from '../Carousel/Carousel';
+import { getUsersHomepage } from '@utils/homepage';
 import { getWalls } from '@utils/walls';
 import { serverRequest } from '@utils/serverRequest';
 
-export default async function HomePage() {
-  const initialWalls = await getWalls({ request: serverRequest });
+export default function HomePage() {
+  const initialHomepagePromise = getUsersHomepage({ request: serverRequest });
+  const initialWallsPromise = getWalls({ request: serverRequest });
 
   return (
     <>
@@ -24,13 +26,13 @@ export default async function HomePage() {
             <p key="three">three</p>
           </Carousel>
           <OffersView
-            initialHomepage={null}
+            initialHomepagePromise={initialHomepagePromise}
             viewAllHref={FrontendRedirectPaths.tasks}
             surveysViewAllHref={FrontendRedirectPaths.surveys}
             maxRows={2}
             offersPerView={6}
           />
-          <HomeOfferwalls initialWalls={initialWalls} />
+          <HomeOfferwalls initialWallsPromise={initialWallsPromise} />
         </div>
       </main>
       <IsolateErrorBoundary source="homepage-footer">

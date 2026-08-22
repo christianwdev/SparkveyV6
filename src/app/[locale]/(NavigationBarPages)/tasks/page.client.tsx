@@ -1,14 +1,15 @@
 'use client';
 
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, use, useEffect, useRef } from 'react';
 import { useQueryStates } from 'nuqs';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import OfferItem from '@components/OfferItem/OfferItem';
 import Dropdown from '@components/Dropdown/Dropdown';
 import EmptyState from '@components/EmptyState/EmptyState';
-import { useBrowseOffers } from '@hooks/useBrowseOffers';
+import { useBrowseOffers, type BrowseOffersFilters } from '@hooks/useBrowseOffers';
 import type { BrowseOffersSort } from 'types/Offer/BrowseOffersSort';
+import type SanitizedOffer from 'types/Offer/SanitizedOffer';
 import { tasksSearchParams } from '@utils/tasksSearchParams';
 import SearchIcon from '~icons/mdi/magnify.jsx';
 import styles from './page.module.scss';
@@ -57,11 +58,17 @@ function TasksPageFallback() {
   );
 }
 
-function TasksPageContent() {
+type TasksPageContentProps = {
+  initialOffersPromise: Promise<SanitizedOffer[] | null>,
+  initialFilters: BrowseOffersFilters,
+};
+
+function TasksPageContent({ initialOffersPromise, initialFilters }: TasksPageContentProps) {
   const t = useTranslations('TasksPage');
   const urlSearchParams = useSearchParams();
   const [ filters, setFilters ] = useQueryStates(tasksSearchParams);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const initialOffers = use(initialOffersPromise) ?? undefined;
 
   // Debounced in the URL via nuqs — query against the committed value, not every keystroke.
   const committedSearch = urlSearchParams.get('search') ?? '';
@@ -78,6 +85,8 @@ function TasksPageContent() {
     sort: filters.sort,
     categories: filters.categories,
     providers: filters.providers,
+    initialOffers,
+    initialFilters,
   });
 
   const offers = data?.pages.flatMap(page => page) ?? [];
@@ -92,7 +101,9 @@ function TasksPageContent() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some(entry => entry.isIntersecting)) {
-          void fetchNextPage();
+          fetchNextPage().catch(error => {
+            console.error(error);
+          });
         }
       },
       { rootMargin: '200px' },
@@ -198,7 +209,9 @@ function TasksPageContent() {
             type="button"
             className={styles.loadMore}
             onClick={() => {
-              void fetchNextPage();
+              fetchNextPage().catch(error => {
+                console.error(error);
+              });
             }}
           >
             {t('loadMore')}
@@ -211,10 +224,18 @@ function TasksPageContent() {
   );
 }
 
-export default function TasksPageClient() {
+type TasksPageClientProps = {
+  initialOffersPromise: Promise<SanitizedOffer[] | null>,
+  initialFilters: BrowseOffersFilters,
+};
+
+export default function TasksPageClient({ initialOffersPromise, initialFilters }: TasksPageClientProps) {
   return (
     <Suspense fallback={<TasksPageFallback />}>
-      <TasksPageContent />
+      <TasksPageContent
+        initialOffersPromise={initialOffersPromise}
+        initialFilters={initialFilters}
+      />
     </Suspense>
   );
 }

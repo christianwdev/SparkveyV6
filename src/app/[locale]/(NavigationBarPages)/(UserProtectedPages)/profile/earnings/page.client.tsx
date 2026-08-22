@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { Suspense, use, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
@@ -8,6 +8,7 @@ import Pagination from '@components/Pagination/Pagination';
 import { useEarningsHistoryQuery } from '@hooks/useEarningsHistoryQuery';
 import { PROFILE_HISTORY_PAGE_SIZE } from '@utils/profile';
 import { toDate } from '@utils/date';
+import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus, InternalOfferEarning } from 'types/Earnings/InternalEarning';
 import PortalTooltip from '../_components/PortalTooltip';
 import styles from '../profilePage.module.scss';
@@ -37,16 +38,43 @@ function statusDate(row: InternalOfferEarning) {
   return null;
 }
 
-export default function EarningsPageClient() {
+type EarningsPageClientProps = {
+  initialEarningsPromise: Promise<InternalEarning[] | null>,
+};
+
+function EarningsPageFallback() {
+  const t = useTranslations('ProfileActivity');
+
+  return (
+    <div className={styles.profilePage}>
+      <div className={styles.header}>
+        <h1>{t('title')}</h1>
+        <p>{t('subtitle')}</p>
+      </div>
+
+      <DataTable
+        columns={[]}
+        rows={[]}
+        getRowKey={() => 'loading'}
+        loading
+        emptyMessage={t('empty')}
+      />
+    </div>
+  );
+}
+
+function EarningsPageContent({ initialEarningsPromise }: EarningsPageClientProps) {
   const t = useTranslations('ProfileActivity');
   const formatter = useFormatter();
   const [ page, setPage ] = useState(1);
   const [ copiedId, setCopiedId ] = useState<string | null>(null);
   const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const initialEarnings = use(initialEarningsPromise);
 
   const { data: earnings = [], isPending, isFetching } = useEarningsHistoryQuery({
     page,
     type: 'offer',
+    initialData: page === 1 ? initialEarnings : undefined,
   });
 
   const copyActivityId = async (conversionID: string) => {
@@ -56,7 +84,7 @@ export default function EarningsPageClient() {
 
       if (copiedTimeoutRef.current) clearTimeout(copiedTimeoutRef.current);
       copiedTimeoutRef.current = setTimeout(() => {
-        setCopiedId((current) => (current === conversionID ? null : current));
+        setCopiedId(current => (current === conversionID ? null : current));
       }, 2000);
     } catch {
       // Clipboard write can fail if permission is denied.
@@ -78,7 +106,9 @@ export default function EarningsPageClient() {
                 className={styles.activityId}
                 {...tooltipProps}
                 onClick={() => {
-                  void copyActivityId(row.conversionID);
+                  copyActivityId(row.conversionID).catch(error => {
+                    console.error(error);
+                  });
                 }}
                 aria-label={isCopied ? t('copied') : t('copyActivityId')}
               >
@@ -186,5 +216,13 @@ export default function EarningsPageClient() {
         disabled={isFetching}
       />
     </div>
+  );
+}
+
+export default function EarningsPageClient({ initialEarningsPromise }: EarningsPageClientProps) {
+  return (
+    <Suspense fallback={<EarningsPageFallback />}>
+      <EarningsPageContent initialEarningsPromise={initialEarningsPromise} />
+    </Suspense>
   );
 }

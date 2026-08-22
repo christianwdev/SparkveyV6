@@ -117,8 +117,8 @@ export async function revokeSession(
 ): Promise<boolean> {
   try {
     const response = await request<APIResponse<null>>({
-      url: `${getScope()}/profile/sessions/${encodeURIComponent(sessionID)}`,
-      method: 'DELETE',
+      url: `${getScope()}/profile/sessions/${encodeURIComponent(sessionID)}/revoke`,
+      method: 'POST',
       credentials: 'include',
     });
 

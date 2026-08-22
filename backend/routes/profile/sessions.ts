@@ -46,8 +46,8 @@ export default function routesInvoker() {
     },
   );
 
-  app.delete(
-    '/:sessionID',
+  app.post(
+    '/:sessionID/revoke',
     requireCsrf,
     withRouteErrorHandling,
     async (c) => {

@@ -127,7 +127,7 @@ export default function routesInvoker() {
     return sendResponse({ c, status: 200, success: true, data: user.data });
   });
 
-  app.patch(
+  app.post(
     '/:userID',
     adminUserMutationRateLimit,
     requireCsrf,
@@ -203,8 +203,8 @@ export default function routesInvoker() {
     },
   );
 
-  app.delete(
-    '/:userID/ban',
+  app.post(
+    '/:userID/unban',
     adminUserMutationRateLimit,
     requireCsrf,
     withRouteErrorHandling,
@@ -242,8 +242,8 @@ export default function routesInvoker() {
     },
   );
 
-  app.delete(
-    '/:userID/sessions/:sessionID',
+  app.post(
+    '/:userID/sessions/:sessionID/revoke',
     adminUserMutationRateLimit,
     requireCsrf,
     withRouteErrorHandling,

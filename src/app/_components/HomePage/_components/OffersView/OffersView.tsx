@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense, use } from 'react';
 import OfferCarouselSection from '../OfferCarouselSection/OfferCarouselSection';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { useUser } from '@contexts/UserProvider';
@@ -7,11 +8,11 @@ import { useHomepageOffers } from '@hooks/useHomepageOffers';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
 
 type OffersViewProps = {
-  initialHomepage: HomepageOffersResponse | null;
-  viewAllHref?: string;
-  surveysViewAllHref?: string;
-  maxRows?: number;
-  offersPerView?: number;
+  initialHomepagePromise: Promise<HomepageOffersResponse | null>,
+  viewAllHref?: string,
+  surveysViewAllHref?: string,
+  maxRows?: number,
+  offersPerView?: number,
 };
 
 const OFFER_SECTION_KEYS = [
@@ -25,14 +26,54 @@ function surveysPerView(offersPerView?: number) {
   return Math.min(3, Math.max(1, offersPerView ?? 3));
 }
 
-export default function OffersView({
-  initialHomepage,
+function OffersViewFallback(
+  {
+    viewAllHref,
+    surveysViewAllHref,
+    maxRows,
+    offersPerView,
+    showProfilerCard,
+  }: {
+    viewAllHref?: string,
+    surveysViewAllHref?: string,
+    maxRows?: number,
+    offersPerView?: number,
+    showProfilerCard: boolean,
+  },
+) {
+  return (
+    <>
+      {OFFER_SECTION_KEYS.map(titleKey => (
+        <OfferCarouselSection
+          key={titleKey}
+          titleKey={titleKey}
+          loading
+          viewAllHref={viewAllHref}
+          maxRows={maxRows}
+          offersPerView={offersPerView}
+        />
+      ))}
+      <OfferCarouselSection
+        titleKey="surveys"
+        loading
+        viewAllHref={surveysViewAllHref}
+        maxRows={maxRows}
+        offersPerView={surveysPerView(offersPerView)}
+        showProfilerCard={showProfilerCard}
+      />
+    </>
+  );
+}
+
+function OffersViewContent({
+  initialHomepagePromise,
   viewAllHref,
   surveysViewAllHref = FrontendRedirectPaths.surveys,
   maxRows,
   offersPerView,
 }: OffersViewProps) {
   const { user } = useUser();
+  const initialHomepage = use(initialHomepagePromise);
   const { data: homepage, isPending } = useHomepageOffers({
     initialData: initialHomepage,
   });
@@ -42,7 +83,7 @@ export default function OffersView({
 
   return (
     <>
-      {OFFER_SECTION_KEYS.map((titleKey) => (
+      {OFFER_SECTION_KEYS.map(titleKey => (
         <OfferCarouselSection
           key={titleKey}
           titleKey={titleKey}
@@ -63,5 +104,38 @@ export default function OffersView({
         showProfilerCard={showProfilerCard}
       />
     </>
+  );
+}
+
+export default function OffersView({
+  initialHomepagePromise,
+  viewAllHref,
+  surveysViewAllHref = FrontendRedirectPaths.surveys,
+  maxRows,
+  offersPerView,
+}: OffersViewProps) {
+  const { user } = useUser();
+  const showProfilerCard = !user?.personalInformation?.completedAt;
+
+  return (
+    <Suspense
+      fallback={(
+        <OffersViewFallback
+          viewAllHref={viewAllHref}
+          surveysViewAllHref={surveysViewAllHref}
+          maxRows={maxRows}
+          offersPerView={offersPerView}
+          showProfilerCard={showProfilerCard}
+        />
+      )}
+    >
+      <OffersViewContent
+        initialHomepagePromise={initialHomepagePromise}
+        viewAllHref={viewAllHref}
+        surveysViewAllHref={surveysViewAllHref}
+        maxRows={maxRows}
+        offersPerView={offersPerView}
+      />
+    </Suspense>
   );
 }
