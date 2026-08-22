@@ -485,7 +485,9 @@
       "offerReleased": "Angebot freigegeben",
       "offerReversal": "Angebot storniert",
       "offerAdvConfirmed": "Angebot bestätigt",
-      "redemptionSubmitted": "Einlösung eingereicht"
+      "redemptionSubmitted": "Einlösung eingereicht",
+      "redemptionApproved": "Auszahlung genehmigt",
+      "redemptionRejected": "Auszahlung abgelehnt"
     },
     "messages": {
       "offerCredited": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wurde gutgeschrieben.",
@@ -494,7 +496,9 @@
       "offerReleased": "Dein Angebot {offerName} im Wert von {offerValue} wurde freigegeben.",
       "offerReversal": "Dein Angebot {offerName} im Wert von {offerValue} wurde storniert.",
       "offerAdvConfirmed": "Dein Angebot {offerName} im Wert von {offerValue} Sparks wurde bestätigt und bis {releaseDate} gehalten.",
-      "redemptionSubmitted": "Deine Einlösung für {rewardName} ({value} Sparks) wurde eingereicht."
+      "redemptionSubmitted": "Deine Einlösung für {rewardName} ({value} Sparks) wurde eingereicht.",
+      "redemptionApproved": "Deine Auszahlung für {rewardName} ({value} Sparks) wurde genehmigt.",
+      "redemptionRejected": "Deine Auszahlung für {rewardName} ({value} Sparks) wurde abgelehnt und erstattet."
     }
   },
   "NotFound": {
@@ -1245,7 +1249,9 @@
     "usersTitle": "Sparkvey | Admin Users",
     "usersDescription": "Browse and manage Sparkvey users.",
     "userTitle": "Sparkvey | {username}",
-    "userDescription": "Diesen Sparkvey-Nutzer ansehen und verwalten."
+    "userDescription": "Diesen Sparkvey-Nutzer ansehen und verwalten.",
+    "withdrawalsTitle": "Sparkvey | Auszahlungen",
+    "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1255,7 +1261,8 @@
     "backToSite": "Back to site",
     "nav": {
       "dashboard": "Overview",
-      "users": "Users"
+      "users": "Users",
+      "withdrawals": "Auszahlungen"
     }
   },
   "AdminDashboard": {
@@ -1493,7 +1500,8 @@
       "unban": "Entsperren",
       "revokeAllSessions": "Alle Sitzungen beenden",
       "revoke": "Beenden",
-      "viewReward": "Prämie ansehen"
+      "viewReward": "Prämie ansehen",
+      "reviewFlags": "Hinweise prüfen"
     },
     "success": {
       "saved": "Gespeichert.",
@@ -1591,6 +1599,126 @@
       "forgotPassword": "Passwort zurücksetzen",
       "emailChange": "E-Mail-Änderung",
       "accountDeletion": "Kontolöschung"
+    }
+  },
+  "AdminWithdrawals": {
+    "eyebrow": "Auszahlungen",
+    "title": "Auszahlungen",
+    "subtitle": "Prüfe ausstehende Cashouts, sieh Hinweise ein und akzeptiere oder lehne sie stapelweise ab.",
+    "unnamed": "Unbenannt",
+    "noEmail": "Keine E-Mail",
+    "na": "—",
+    "empty": "Keine Auszahlungen entsprechen diesen Filtern.",
+    "noFlags": "Keine",
+    "flagCount": "{count, plural, one {# Hinweis} other {# Hinweise}}",
+    "selectedCount": "{count, plural, one {# ausgewählt} other {# ausgewählt}}",
+    "table": {
+      "selectAll": "Alle ausstehenden auf dieser Seite auswählen",
+      "selectRow": "Auszahlung auswählen",
+      "user": "Nutzer",
+      "reward": "Prämie",
+      "destination": "Ziel",
+      "amount": "Betrag",
+      "status": "Status",
+      "flags": "Hinweise",
+      "created": "Erstellt",
+      "actions": "Aktionen"
+    },
+    "filters": {
+      "status": "Status",
+      "provider": "Typ"
+    },
+    "providers": {
+      "all": "Alle Typen",
+      "ccpayment": "Krypto",
+      "tremendous": "Geschenkkarte"
+    },
+    "statuses": {
+      "pending": "Ausstehend",
+      "approved": "Genehmigt",
+      "processing": "In Bearbeitung",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen",
+      "rejected": "Abgelehnt"
+    },
+    "actions": {
+      "accept": "Akzeptieren",
+      "reject": "Ablehnen",
+      "review": "Prüfen"
+    },
+    "success": {
+      "accepted": "Ausgewählte Auszahlungen wurden akzeptiert.",
+      "rejected": "Ausgewählte Auszahlungen wurden abgelehnt und erstattet."
+    },
+    "errors": {
+      "loadFailed": "Auszahlungen konnten nicht geladen werden.",
+      "acceptFailed": "Ausgewählte Auszahlungen konnten nicht akzeptiert werden.",
+      "rejectFailed": "Ausgewählte Auszahlungen konnten nicht abgelehnt werden."
+    }
+  },
+  "AdminUserRiskModal": {
+    "eyebrow": "Vertrauen",
+    "title": "Nutzerprüfung",
+    "subtitle": "Hinweise, Chargebacks und Auszahlungen dieses Kontos.",
+    "close": "Schließen",
+    "noFlags": "Keine Hinweise für dieses Konto.",
+    "flagsTitle": "Hinweise und Warnungen",
+    "linkedUsers": "{count, plural, one {# verknüpftes Konto} other {# verknüpfte Konten}}",
+    "fields": {
+      "status": "Status",
+      "balance": "Guthaben",
+      "earned": "Verdient",
+      "withdrawn": "Ausgezahlt",
+      "chargebacks": "Chargebacks",
+      "created": "Erstellt"
+    },
+    "status": {
+      "active": "Aktiv",
+      "banned": "Gesperrt",
+      "deleted": "Gelöscht"
+    },
+    "flagStatus": {
+      "active": "Aktiv",
+      "cleared": "Erledigt"
+    },
+    "actions": {
+      "clear": "Löschen",
+      "viewProfile": "Profil öffnen"
+    },
+    "success": {
+      "flagCleared": "Hinweis entfernt."
+    },
+    "errors": {
+      "loadFailed": "Risikoprofil konnte nicht geladen werden.",
+      "clearFailed": "Hinweis konnte nicht entfernt werden."
+    },
+    "na": "—",
+    "chargebackValue": "{count} ({usd})",
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Geteilte Auszahlungsadresse",
+      "sharedEmail": "Geteilte E-Mail",
+      "linkedAccount": "Verknüpftes Konto",
+      "proxy": "Proxy oder Tor",
+      "impossibleTravel": "Unmögliche Reise"
+    }
+  },
+  "AdminWithdrawalAttestation": {
+    "eyebrow": "Bestätigung",
+    "title": "Markierte Auszahlungen bestätigen",
+    "subtitle": "Mindestens ein ausgewählter Nutzer hat aktive Hinweise. Erkläre, warum du trotzdem genehmigst.",
+    "close": "Schließen",
+    "reasonLabel": "Warum genehmigst du diese Auszahlungen?",
+    "reasonPlaceholder": "Beschreibe deine Prüfung (mindestens 10 Zeichen).",
+    "actions": {
+      "cancel": "Abbrechen",
+      "confirm": "Bestätigen und akzeptieren"
+    },
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Geteilte Auszahlungsadresse",
+      "sharedEmail": "Geteilte E-Mail",
+      "linkedAccount": "Verknüpftes Konto",
+      "proxy": "Proxy oder Tor",
+      "impossibleTravel": "Unmögliche Reise"
     }
   }
 }

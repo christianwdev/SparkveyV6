@@ -5,12 +5,14 @@ import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@i18n/navigation';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { useUser } from '@contexts/UserProvider';
+import { AdminUserRiskProvider } from '@contexts/AdminUserRiskContext';
 import { hasPermissions } from '@utils/admin';
 import styles from './AdminLayout.module.scss';
 
 // Icons
 import ChartIcon from '~icons/solar/chart-linear.jsx';
 import UsersIcon from '~icons/solar/users-group-rounded-linear.jsx';
+import WalletIcon from '~icons/solar/wallet-money-linear.jsx';
 import ArrowLeftIcon from '~icons/solar/arrow-left-linear.jsx';
 
 // Types
@@ -31,11 +33,22 @@ const ADMIN_NAV = [
     exact: false,
     permission: StaffPermissions.VIEW_USERS,
   },
+  {
+    href: FrontendRedirectPaths.adminWithdrawals,
+    labelKey: 'withdrawals',
+    Icon: WalletIcon,
+    exact: false,
+    permission: StaffPermissions.VIEW_WITHDRAWALS,
+  },
 ] as const;
 
-function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' {
+function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' | 'withdrawals' {
   if (pathname === FrontendRedirectPaths.admin || pathname === `${FrontendRedirectPaths.admin}/`) {
     return 'dashboard';
+  }
+
+  if (pathname.startsWith(FrontendRedirectPaths.adminWithdrawals)) {
+    return 'withdrawals';
   }
 
   if (pathname.startsWith(FrontendRedirectPaths.adminUsers)) {
@@ -107,7 +120,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
 
         <div className={styles.main}>
-          {children}
+          <AdminUserRiskProvider>
+            {children}
+          </AdminUserRiskProvider>
         </div>
       </div>
     </div>

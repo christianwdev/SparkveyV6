@@ -12,6 +12,7 @@ import leaderboardRouteInvoker from './leaderboard';
 import offerwallsRouteInvoker from './offerwalls';
 import wallsRouteInvoker from './walls';
 import adminRouteInvoker from './admin';
+import webhooksRouteInvoker from './webhooks';
 
 const app = new Hono();
 
@@ -29,6 +30,7 @@ export default function routesInvoker() {
   app.route('/offerwalls', offerwallsRouteInvoker());
   app.route('/walls', wallsRouteInvoker());
   app.route('/admin', adminRouteInvoker());
+  app.route('/webhooks', webhooksRouteInvoker());
 
   return app;
 }

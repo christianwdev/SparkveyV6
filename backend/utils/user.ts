@@ -158,6 +158,15 @@ export async function createUser(
 
     if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
 
+    if (sanitizedEmail) {
+      const { detectSharedEmail } = await import('backend/utils/fraud');
+      const { scheduleFraudCheck } = await import('backend/utils/userFlag');
+      scheduleFraudCheck(detectSharedEmail({
+        userID,
+        email: sanitizedEmail,
+      }));
+    }
+
     // Default referral code is the userID (counts toward maxAffiliateCodes).
     const { ensureDefaultAffiliateCode } = await import('backend/utils/affiliateCode');
     const defaultCodeResult = await ensureDefaultAffiliateCode({ userID });
@@ -480,6 +489,13 @@ export async function linkGoogleAccount(
 
     if (!user) return { ok: false, error: 'notFound' };
 
+    const { detectSharedEmail } = await import('backend/utils/fraud');
+    const { scheduleFraudCheck } = await import('backend/utils/userFlag');
+    scheduleFraudCheck(detectSharedEmail({
+      userID,
+      email: sanitized,
+    }));
+
     return { ok: true, data: user };
   } catch (error) {
     console.error(error);
@@ -527,6 +543,13 @@ export async function updateUserEmail(
     );
 
     if (!user) return { ok: false, error: 'notFound' };
+
+    const { detectSharedEmail } = await import('backend/utils/fraud');
+    const { scheduleFraudCheck } = await import('backend/utils/userFlag');
+    scheduleFraudCheck(detectSharedEmail({
+      userID,
+      email: sanitized,
+    }));
 
     return { ok: true, data: user };
   } catch (error) {

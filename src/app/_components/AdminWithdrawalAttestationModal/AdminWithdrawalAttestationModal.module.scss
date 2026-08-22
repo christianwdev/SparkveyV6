@@ -1,0 +1,100 @@
+@use '@styles/variables.scss' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 36px;
+
+    > .eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: $text-light;
+    }
+
+    > h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+    }
+  }
+
+  > .users {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    > li {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 10px 12px;
+      border: 1px solid $border-light;
+      border-radius: 8px;
+
+      > strong {
+        font-size: 13px;
+        color: $text-bold;
+      }
+
+      > span {
+        font-size: 12px;
+        color: $text-light;
+      }
+    }
+  }
+
+  > .reason {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    > span {
+      font-size: 13px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > textarea {
+      min-height: 110px;
+      padding: 10px 12px;
+      border: 1px solid $border-light;
+      border-radius: 8px;
+      background: $background;
+      color: $text-bold;
+      font: inherit;
+      resize: vertical;
+
+      &:focus {
+        outline: 2px solid $primary;
+        outline-offset: 1px;
+      }
+    }
+  }
+
+  > .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}

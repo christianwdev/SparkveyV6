@@ -485,7 +485,9 @@
       "offerReleased": "Offer Released",
       "offerReversal": "Offer Reversed",
       "offerAdvConfirmed": "Offer Confirmed",
-      "redemptionSubmitted": "Redemption Submitted"
+      "redemptionSubmitted": "Redemption Submitted",
+      "redemptionApproved": "Withdrawal Approved",
+      "redemptionRejected": "Withdrawal Rejected"
     },
     "messages": {
       "offerCredited": "Your offer {offerName} worth {offerValue} sparks has been credited.",
@@ -494,7 +496,9 @@
       "offerReleased": "Your offer {offerName} worth {offerValue} was released.",
       "offerReversal": "Your offer {offerName} worth {offerValue} was reversed.",
       "offerAdvConfirmed": "Your offer {offerName} worth {offerValue} sparks was confirmed and is held until {releaseDate}.",
-      "redemptionSubmitted": "Your redemption for {rewardName} ({value} Sparks) was submitted."
+      "redemptionSubmitted": "Your redemption for {rewardName} ({value} Sparks) was submitted.",
+      "redemptionApproved": "Your withdrawal for {rewardName} ({value} Sparks) was approved.",
+      "redemptionRejected": "Your withdrawal for {rewardName} ({value} Sparks) was rejected and refunded."
     }
   },
   "NotFound": {
@@ -1245,7 +1249,9 @@
     "usersTitle": "Sparkvey | Admin Users",
     "usersDescription": "Browse and manage Sparkvey users.",
     "userTitle": "Sparkvey | {username}",
-    "userDescription": "View and manage this Sparkvey user."
+    "userDescription": "View and manage this Sparkvey user.",
+    "withdrawalsTitle": "Sparkvey | Withdrawals",
+    "withdrawalsDescription": "Review and process pending withdrawals."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1255,7 +1261,8 @@
     "backToSite": "Back to site",
     "nav": {
       "dashboard": "Overview",
-      "users": "Users"
+      "users": "Users",
+      "withdrawals": "Withdrawals"
     }
   },
   "AdminDashboard": {
@@ -1493,7 +1500,8 @@
       "unban": "Unban",
       "revokeAllSessions": "Revoke all sessions",
       "revoke": "Revoke",
-      "viewReward": "View reward"
+      "viewReward": "View reward",
+      "reviewFlags": "Review flags"
     },
     "success": {
       "saved": "Saved.",
@@ -1591,6 +1599,126 @@
       "forgotPassword": "Password reset",
       "emailChange": "Email change",
       "accountDeletion": "Account deletion"
+    }
+  },
+  "AdminWithdrawals": {
+    "eyebrow": "Payouts",
+    "title": "Withdrawals",
+    "subtitle": "Review pending cashouts, inspect flags, then accept or reject in batch.",
+    "unnamed": "Unnamed",
+    "noEmail": "No email",
+    "na": "—",
+    "empty": "No withdrawals match these filters.",
+    "noFlags": "None",
+    "flagCount": "{count, plural, one {# flag} other {# flags}}",
+    "selectedCount": "{count, plural, one {# selected} other {# selected}}",
+    "table": {
+      "selectAll": "Select all pending on this page",
+      "selectRow": "Select withdrawal",
+      "user": "User",
+      "reward": "Reward",
+      "destination": "Destination",
+      "amount": "Amount",
+      "status": "Status",
+      "flags": "Flags",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "filters": {
+      "status": "Status",
+      "provider": "Type"
+    },
+    "providers": {
+      "all": "All types",
+      "ccpayment": "Crypto",
+      "tremendous": "Gift card"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "processing": "Processing",
+      "completed": "Completed",
+      "failed": "Failed",
+      "rejected": "Rejected"
+    },
+    "actions": {
+      "accept": "Accept",
+      "reject": "Reject",
+      "review": "Review"
+    },
+    "success": {
+      "accepted": "Selected withdrawals were accepted.",
+      "rejected": "Selected withdrawals were rejected and refunded."
+    },
+    "errors": {
+      "loadFailed": "Withdrawals could not be loaded.",
+      "acceptFailed": "Could not accept the selected withdrawals.",
+      "rejectFailed": "Could not reject the selected withdrawals."
+    }
+  },
+  "AdminUserRiskModal": {
+    "eyebrow": "Trust",
+    "title": "User review",
+    "subtitle": "Flags, chargebacks, and payout activity for this account.",
+    "close": "Close",
+    "na": "—",
+    "noFlags": "No flags on this account.",
+    "flagsTitle": "Flags and warnings",
+    "linkedUsers": "{count, plural, one {# linked account} other {# linked accounts}}",
+    "chargebackValue": "{count} ({usd})",
+    "fields": {
+      "status": "Status",
+      "balance": "Balance",
+      "earned": "Earned",
+      "withdrawn": "Withdrawn",
+      "chargebacks": "Chargebacks",
+      "created": "Created"
+    },
+    "status": {
+      "active": "Active",
+      "banned": "Banned",
+      "deleted": "Deleted"
+    },
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Shared withdrawal address",
+      "sharedEmail": "Shared email",
+      "linkedAccount": "Linked account",
+      "proxy": "Proxy or Tor",
+      "impossibleTravel": "Impossible travel"
+    },
+    "flagStatus": {
+      "active": "Active",
+      "cleared": "Cleared"
+    },
+    "actions": {
+      "clear": "Clear",
+      "viewProfile": "Open profile"
+    },
+    "success": {
+      "flagCleared": "Flag cleared."
+    },
+    "errors": {
+      "loadFailed": "Could not load this user's risk profile.",
+      "clearFailed": "Could not clear that flag."
+    }
+  },
+  "AdminWithdrawalAttestation": {
+    "eyebrow": "Attestation",
+    "title": "Confirm flagged payouts",
+    "subtitle": "One or more selected users have active flags. Explain why you are approving anyway.",
+    "close": "Close",
+    "reasonLabel": "Why are you approving these withdrawals?",
+    "reasonPlaceholder": "Describe the review you completed (at least 10 characters).",
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Shared withdrawal address",
+      "sharedEmail": "Shared email",
+      "linkedAccount": "Linked account",
+      "proxy": "Proxy or Tor",
+      "impossibleTravel": "Impossible travel"
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "confirm": "Confirm and accept"
     }
   }
 }

@@ -5,6 +5,21 @@
   flex-direction: column;
   gap: 12px;
 
+  > .toolbar {
+    display: flex;
+    justify-content: flex-end;
+
+    > .reviewFlags {
+      padding: 0;
+      border: none;
+      background: transparent;
+      color: $primary;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+
   > .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

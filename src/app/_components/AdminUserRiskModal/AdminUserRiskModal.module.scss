@@ -1,0 +1,158 @@
+@use '@styles/variables.scss' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-right: 36px;
+
+    > .eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: $text-light;
+    }
+
+    > h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+    }
+  }
+
+  > .loading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  > .error,
+  > .flags > .empty {
+    margin: 0;
+    color: $text-light;
+    font-size: 13px;
+  }
+
+  > .summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+
+    > .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 12px;
+      border: 1px solid $border-light;
+      border-radius: 8px;
+      min-width: 0;
+
+      > span {
+        font-size: 12px;
+        font-weight: 600;
+        color: $text-light;
+      }
+
+      > strong {
+        font-size: 13px;
+        font-weight: 600;
+        color: $text-bold;
+
+        &[data-tone='positive'] {
+          color: $green;
+        }
+
+        &[data-tone='negative'] {
+          color: $red;
+        }
+      }
+    }
+  }
+
+  > .flags {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > h3 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > ul {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      > li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px;
+        border: 1px solid $border-light;
+        border-radius: 8px;
+
+        &[data-status='cleared'] {
+          opacity: 0.7;
+        }
+
+        > .flagCopy {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          min-width: 0;
+
+          > strong {
+            font-size: 13px;
+            color: $text-bold;
+          }
+
+          > span,
+          > p {
+            margin: 0;
+            font-size: 12px;
+            color: $text-light;
+          }
+        }
+      }
+    }
+  }
+
+  > .footer {
+    display: flex;
+    justify-content: flex-end;
+
+    > .profileLink {
+      color: $primary;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

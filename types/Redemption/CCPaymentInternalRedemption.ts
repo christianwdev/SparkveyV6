@@ -8,6 +8,8 @@ type CCPaymentRequestMeta = {
   currencyRate: number,
   requestRewardAmount: number,
   requestFeeAmount: number,
+  recordId?: string,
+  failureReason?: string,
 };
 
 type RequestedCCPaymentInternalRedemption = BaseInternalRedemption & {

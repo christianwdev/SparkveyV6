@@ -6,6 +6,7 @@ type CCPaymentReward = BaseInternalReward & {
     currencyCode: string;
     currencySymbol: string;
     currencyNetwork: string;
+    coinId?: string;
 
     minimumAmount: number;
     maximumAmount: number;

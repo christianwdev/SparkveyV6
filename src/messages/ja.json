@@ -485,7 +485,9 @@
       "offerReleased": "オファー解除済み",
       "offerReversal": "オファー取消済み",
       "offerAdvConfirmed": "オファー確認済み",
-      "redemptionSubmitted": "交換申請済み"
+      "redemptionSubmitted": "交換申請済み",
+      "redemptionApproved": "出金が承認されました",
+      "redemptionRejected": "出金が拒否されました"
     },
     "messages": {
       "offerCredited": "あなたのオファー {offerName}（{offerValue} Sparks）が付与されました。",
@@ -494,7 +496,9 @@
       "offerReleased": "あなたのオファー {offerName}（{offerValue} Sparks）が解除されました。",
       "offerReversal": "あなたのオファー {offerName}（{offerValue} Sparks）は取り消されました。",
       "offerAdvConfirmed": "あなたのオファー {offerName}（{offerValue} Sparks）が確認され、{releaseDate} まで保留されています。",
-      "redemptionSubmitted": "{rewardName}（{value} Sparks）の交換申請が送信されました。"
+      "redemptionSubmitted": "{rewardName}（{value} Sparks）の交換申請が送信されました。",
+      "redemptionApproved": "{rewardName}（{value} Sparks）の出金が承認されました。",
+      "redemptionRejected": "{rewardName}（{value} Sparks）の出金が拒否され、返金されました。"
     }
   },
   "NotFound": {
@@ -1245,7 +1249,9 @@
     "usersTitle": "Sparkvey | Admin Users",
     "usersDescription": "Browse and manage Sparkvey users.",
     "userTitle": "Sparkvey | {username}",
-    "userDescription": "このSparkveyユーザーを表示・管理します。"
+    "userDescription": "このSparkveyユーザーを表示・管理します。",
+    "withdrawalsTitle": "Sparkvey | 出金",
+    "withdrawalsDescription": "保留中の出金を確認して処理します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1255,7 +1261,8 @@
     "backToSite": "Back to site",
     "nav": {
       "dashboard": "Overview",
-      "users": "Users"
+      "users": "Users",
+      "withdrawals": "出金"
     }
   },
   "AdminDashboard": {
@@ -1493,7 +1500,8 @@
       "unban": "BAN解除",
       "revokeAllSessions": "全セッションを切断",
       "revoke": "切断",
-      "viewReward": "報酬を見る"
+      "viewReward": "報酬を見る",
+      "reviewFlags": "フラグを確認"
     },
     "success": {
       "saved": "保存しました。",
@@ -1591,6 +1599,126 @@
       "forgotPassword": "パスワード再設定",
       "emailChange": "メール変更",
       "accountDeletion": "アカウント削除"
+    }
+  },
+  "AdminWithdrawals": {
+    "eyebrow": "支払い",
+    "title": "出金",
+    "subtitle": "保留中のキャッシュアウトを確認し、フラグを調べて一括で承認または拒否します。",
+    "unnamed": "無名",
+    "noEmail": "メールなし",
+    "na": "—",
+    "empty": "この条件に一致する出金はありません。",
+    "noFlags": "なし",
+    "flagCount": "{count, plural, other {# 件のフラグ}}",
+    "selectedCount": "{count, plural, other {# 件選択中}}",
+    "table": {
+      "selectAll": "このページの保留中をすべて選択",
+      "selectRow": "出金を選択",
+      "user": "ユーザー",
+      "reward": "報酬",
+      "destination": "送金先",
+      "amount": "金額",
+      "status": "ステータス",
+      "flags": "フラグ",
+      "created": "作成日",
+      "actions": "操作"
+    },
+    "filters": {
+      "status": "ステータス",
+      "provider": "種類"
+    },
+    "providers": {
+      "all": "すべての種類",
+      "ccpayment": "暗号資産",
+      "tremendous": "ギフトカード"
+    },
+    "statuses": {
+      "pending": "保留中",
+      "approved": "承認済み",
+      "processing": "処理中",
+      "completed": "完了",
+      "failed": "失敗",
+      "rejected": "拒否"
+    },
+    "actions": {
+      "accept": "承認",
+      "reject": "拒否",
+      "review": "確認"
+    },
+    "success": {
+      "accepted": "選択した出金を承認しました。",
+      "rejected": "選択した出金を拒否し、返金しました。"
+    },
+    "errors": {
+      "loadFailed": "出金を読み込めませんでした。",
+      "acceptFailed": "選択した出金を承認できませんでした。",
+      "rejectFailed": "選択した出金を拒否できませんでした。"
+    }
+  },
+  "AdminUserRiskModal": {
+    "eyebrow": "信頼",
+    "title": "ユーザー確認",
+    "subtitle": "このアカウントのフラグ、チャージバック、出金状況です。",
+    "close": "閉じる",
+    "noFlags": "このアカウントにフラグはありません。",
+    "flagsTitle": "フラグと警告",
+    "linkedUsers": "{count, plural, other {関連アカウント # 件}}",
+    "fields": {
+      "status": "ステータス",
+      "balance": "残高",
+      "earned": "獲得",
+      "withdrawn": "出金済み",
+      "chargebacks": "チャージバック",
+      "created": "作成日"
+    },
+    "status": {
+      "active": "有効",
+      "banned": "停止中",
+      "deleted": "削除済み"
+    },
+    "flagStatus": {
+      "active": "有効",
+      "cleared": "解除済み"
+    },
+    "actions": {
+      "clear": "解除",
+      "viewProfile": "プロフィールを開く"
+    },
+    "success": {
+      "flagCleared": "フラグを解除しました。"
+    },
+    "errors": {
+      "loadFailed": "リスク情報を読み込めませんでした。",
+      "clearFailed": "そのフラグを解除できませんでした。"
+    },
+    "na": "—",
+    "chargebackValue": "{count} ({usd})",
+    "flagTypes": {
+      "sharedWithdrawalAddress": "出金先アドレスの共有",
+      "sharedEmail": "メールアドレスの共有",
+      "linkedAccount": "関連アカウント",
+      "proxy": "プロキシまたはTor",
+      "impossibleTravel": "不可能な移動"
+    }
+  },
+  "AdminWithdrawalAttestation": {
+    "eyebrow": "確認",
+    "title": "フラグ付き出金の承認",
+    "subtitle": "選択したユーザーに有効なフラグがあります。それでも承認する理由を記入してください。",
+    "close": "閉じる",
+    "reasonLabel": "これらの出金を承認する理由",
+    "reasonPlaceholder": "実施した確認内容を記入してください（10文字以上）。",
+    "actions": {
+      "cancel": "キャンセル",
+      "confirm": "確認して承認"
+    },
+    "flagTypes": {
+      "sharedWithdrawalAddress": "出金先アドレスの共有",
+      "sharedEmail": "メールアドレスの共有",
+      "linkedAccount": "関連アカウント",
+      "proxy": "プロキシまたはTor",
+      "impossibleTravel": "不可能な移動"
     }
   }
 }

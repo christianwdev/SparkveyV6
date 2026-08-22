@@ -39,6 +39,8 @@ import {
   getUserEarningsHistory,
   getUserRedemptionHistory,
 } from 'backend/utils/user';
+import { getAdminUserRiskProfile } from 'backend/utils/admin/withdrawals';
+import { clearUserFlag } from 'backend/utils/userFlag';
 import { sendResponse } from 'backend/utils/response';
 
 // Types
@@ -83,6 +85,9 @@ function sendAdminUserError(
   if (error === 'insufficientBalance') {
     return sendResponse({ c, status: 400, success: false, code: error, message: 'Insufficient balance' });
   }
+  if (error === 'alreadyCleared') {
+    return sendResponse({ c, status: 409, success: false, code: error, message: 'This flag is already cleared' });
+  }
 
   return sendResponse({
     c,
@@ -114,6 +119,55 @@ export default function routesInvoker() {
       if (!users.ok) return sendAdminUserError(c, users.error);
 
       return sendResponse({ c, status: 200, success: true, data: users.data });
+    },
+  );
+
+  app.get(
+    '/:userID/risk',
+    withRouteErrorHandling,
+    requireAdmin(),
+    async (c) => {
+      const actor = c.get('user');
+      const permissions = actor.staffPermissions ?? StaffPermissions.NONE;
+      const canView = (permissions & StaffPermissions.VIEW_USERS) === StaffPermissions.VIEW_USERS
+        || (permissions & StaffPermissions.VIEW_WITHDRAWALS) === StaffPermissions.VIEW_WITHDRAWALS;
+
+      if (!canView) {
+        return sendResponse({
+          c,
+          status: 403,
+          success: false,
+          message: 'You do not have permission to access this resource',
+        });
+      }
+
+      const { userID } = c.req.param();
+      const result = await getAdminUserRiskProfile({ userID });
+
+      if (!result.ok) return sendAdminUserError(c, result.error);
+
+      return sendResponse({ c, status: 200, success: true, data: result.data });
+    },
+  );
+
+  app.post(
+    '/:userID/flags/:flagID/clear',
+    adminUserMutationRateLimit,
+    requireCsrf,
+    withRouteErrorHandling,
+    requireAdmin(VIEW_AND_MODIFY_USERS),
+    async (c) => {
+      const actor = c.get('user');
+      const { userID, flagID } = c.req.param();
+      const result = await clearUserFlag({
+        userID,
+        flagID,
+        clearedBy: actor.userID,
+      });
+
+      if (!result.ok) return sendAdminUserError(c, result.error);
+
+      return sendResponse({ c, status: 200, success: true, data: result.data });
     },
   );
 

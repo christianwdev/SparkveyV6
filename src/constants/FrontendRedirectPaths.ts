@@ -17,6 +17,7 @@ const FrontendRedirectPaths = {
   leaderboard: '/leaderboard',
   admin: '/admin',
   adminUsers: '/admin/users',
+  adminWithdrawals: '/admin/withdrawals',
 } as const;
 
 export default FrontendRedirectPaths;

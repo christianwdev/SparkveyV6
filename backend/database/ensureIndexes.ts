@@ -109,6 +109,11 @@ export default async function ensureIndexes(db: Db): Promise<void> {
 
   await db.collection(DatabaseCollections.userRedemptions).createIndexes([
     {
+      key: { redemptionID: 1 },
+      unique: true,
+      name: 'redemptionID_unique',
+    },
+    {
       key: { status: 1, createdAt: -1 },
       name: 'status_createdAt',
     },
@@ -116,12 +121,41 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       key: { userID: 1, status: 1 },
       name: 'userID_status',
     },
+    {
+      key: { 'meta.walletAddress': 1, userID: 1 },
+      sparse: true,
+      name: 'walletAddress_userID',
+    },
   ]);
 
   await db.collection(DatabaseCollections.userSessions).createIndexes([
     {
       key: { userID: 1, issueDate: 1 },
       name: 'userID_issueDate',
+    },
+    {
+      key: { ipAddresses: 1, userID: 1 },
+      name: 'ipAddresses_userID',
+    },
+  ]);
+
+  await db.collection(DatabaseCollections.userFlags).createIndexes([
+    {
+      key: { userID: 1, type: 1, instanceKey: 1 },
+      unique: true,
+      name: 'userID_type_instanceKey_unique',
+    },
+    {
+      key: { userID: 1, status: 1, createdAt: -1 },
+      name: 'userID_status_createdAt',
+    },
+  ]);
+
+  await db.collection(DatabaseCollections.withdrawalAttestations).createIndexes([
+    {
+      key: { attestationID: 1 },
+      unique: true,
+      name: 'attestationID_unique',
     },
   ]);
 

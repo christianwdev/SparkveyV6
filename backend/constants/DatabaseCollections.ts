@@ -8,6 +8,8 @@ const DatabaseCollections = {
   userNotifications: 'userNotifications',
   userTransactions: 'userTransactions',
   userRedemptions: 'userRedemptions',
+  userFlags: 'userFlags',
+  withdrawalAttestations: 'withdrawalAttestations',
   rewards: 'rewards',
   affiliateCodes: 'affiliateCodes',
   offers: 'offers',

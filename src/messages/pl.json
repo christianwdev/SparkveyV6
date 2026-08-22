@@ -485,7 +485,9 @@
       "offerReleased": "Oferta zwolniona",
       "offerReversal": "Oferta cofnieta",
       "offerAdvConfirmed": "Oferta potwierdzona",
-      "redemptionSubmitted": "Wymiana zlozona"
+      "redemptionSubmitted": "Wymiana zlozona",
+      "redemptionApproved": "Wypłata zatwierdzona",
+      "redemptionRejected": "Wypłata odrzucona"
     },
     "messages": {
       "offerCredited": "Twoja oferta {offerName} o wartosci {offerValue} sparks zostala naliczona.",
@@ -494,7 +496,9 @@
       "offerReleased": "Twoja oferta {offerName} o wartosci {offerValue} zostala zwolniona.",
       "offerReversal": "Twoja oferta {offerName} o wartosci {offerValue} zostala cofnieta.",
       "offerAdvConfirmed": "Twoja oferta {offerName} o wartosci {offerValue} sparks zostala potwierdzona i wstrzymana do {releaseDate}.",
-      "redemptionSubmitted": "Twoja wymiana {rewardName} ({value} Sparks) zostala zlozona."
+      "redemptionSubmitted": "Twoja wymiana {rewardName} ({value} Sparks) zostala zlozona.",
+      "redemptionApproved": "Twoja wypłata {rewardName} ({value} Sparks) została zatwierdzona.",
+      "redemptionRejected": "Twoja wypłata {rewardName} ({value} Sparks) została odrzucona i zwrócona."
     }
   },
   "NotFound": {
@@ -1245,7 +1249,9 @@
     "usersTitle": "Sparkvey | Admin Users",
     "usersDescription": "Browse and manage Sparkvey users.",
     "userTitle": "Sparkvey | {username}",
-    "userDescription": "Przeglądaj i zarządzaj tym użytkownikiem Sparkvey."
+    "userDescription": "Przeglądaj i zarządzaj tym użytkownikiem Sparkvey.",
+    "withdrawalsTitle": "Sparkvey | Wypłaty",
+    "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1255,7 +1261,8 @@
     "backToSite": "Back to site",
     "nav": {
       "dashboard": "Overview",
-      "users": "Users"
+      "users": "Users",
+      "withdrawals": "Wypłaty"
     }
   },
   "AdminDashboard": {
@@ -1493,7 +1500,8 @@
       "unban": "Odblokuj",
       "revokeAllSessions": "Unieważnij wszystkie sesje",
       "revoke": "Unieważnij",
-      "viewReward": "Zobacz nagrodę"
+      "viewReward": "Zobacz nagrodę",
+      "reviewFlags": "Przejrzyj flagi"
     },
     "success": {
       "saved": "Zapisano.",
@@ -1591,6 +1599,126 @@
       "forgotPassword": "Reset hasła",
       "emailChange": "Zmiana e-maila",
       "accountDeletion": "Usunięcie konta"
+    }
+  },
+  "AdminWithdrawals": {
+    "eyebrow": "Wypłaty",
+    "title": "Wypłaty",
+    "subtitle": "Przejrzyj oczekujące wypłaty, sprawdź flagi, a następnie zaakceptuj lub odrzuć zbiorczo.",
+    "unnamed": "Bez nazwy",
+    "noEmail": "Brak e-maila",
+    "na": "—",
+    "empty": "Żadne wypłaty nie pasują do tych filtrów.",
+    "noFlags": "Brak",
+    "flagCount": "{count, plural, one {# flaga} few {# flagi} many {# flag} other {# flagi}}",
+    "selectedCount": "{count, plural, one {# zaznaczona} few {# zaznaczone} many {# zaznaczonych} other {# zaznaczonej}}",
+    "table": {
+      "selectAll": "Zaznacz wszystkie oczekujące na tej stronie",
+      "selectRow": "Zaznacz wypłatę",
+      "user": "Użytkownik",
+      "reward": "Nagroda",
+      "destination": "Cel",
+      "amount": "Kwota",
+      "status": "Status",
+      "flags": "Flagi",
+      "created": "Utworzono",
+      "actions": "Akcje"
+    },
+    "filters": {
+      "status": "Status",
+      "provider": "Typ"
+    },
+    "providers": {
+      "all": "Wszystkie typy",
+      "ccpayment": "Krypto",
+      "tremendous": "Karta podarunkowa"
+    },
+    "statuses": {
+      "pending": "Oczekująca",
+      "approved": "Zatwierdzona",
+      "processing": "W toku",
+      "completed": "Zakończona",
+      "failed": "Nieudana",
+      "rejected": "Odrzucona"
+    },
+    "actions": {
+      "accept": "Zaakceptuj",
+      "reject": "Odrzuć",
+      "review": "Przejrzyj"
+    },
+    "success": {
+      "accepted": "Wybrane wypłaty zostały zaakceptowane.",
+      "rejected": "Wybrane wypłaty zostały odrzucone i zwrócone."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać wypłat.",
+      "acceptFailed": "Nie udało się zaakceptować wybranych wypłat.",
+      "rejectFailed": "Nie udało się odrzucić wybranych wypłat."
+    }
+  },
+  "AdminUserRiskModal": {
+    "eyebrow": "Zaufanie",
+    "title": "Przegląd użytkownika",
+    "subtitle": "Flagi, obciążenia zwrotne i wypłaty tego konta.",
+    "close": "Zamknij",
+    "noFlags": "Brak flag na tym koncie.",
+    "flagsTitle": "Flagi i ostrzeżenia",
+    "linkedUsers": "{count, plural, one {# powiązane konto} few {# powiązane konta} many {# powiązanych kont} other {# powiązanego konta}}",
+    "fields": {
+      "status": "Status",
+      "balance": "Saldo",
+      "earned": "Zarobione",
+      "withdrawn": "Wypłacone",
+      "chargebacks": "Obciążenia zwrotne",
+      "created": "Utworzono"
+    },
+    "status": {
+      "active": "Aktywne",
+      "banned": "Zablokowane",
+      "deleted": "Usunięte"
+    },
+    "flagStatus": {
+      "active": "Aktywna",
+      "cleared": "Usunięta"
+    },
+    "actions": {
+      "clear": "Usuń",
+      "viewProfile": "Otwórz profil"
+    },
+    "success": {
+      "flagCleared": "Flaga usunięta."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać profilu ryzyka.",
+      "clearFailed": "Nie udało się usunąć tej flagi."
+    },
+    "na": "—",
+    "chargebackValue": "{count} ({usd})",
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Wspólny adres wypłaty",
+      "sharedEmail": "Wspólny e-mail",
+      "linkedAccount": "Powiązane konto",
+      "proxy": "Proxy lub Tor",
+      "impossibleTravel": "Niemożliwa podróż"
+    }
+  },
+  "AdminWithdrawalAttestation": {
+    "eyebrow": "Potwierdzenie",
+    "title": "Potwierdź oznaczone wypłaty",
+    "subtitle": "Co najmniej jeden wybrany użytkownik ma aktywne flagi. Wyjaśnij, dlaczego i tak zatwierdzasz.",
+    "close": "Zamknij",
+    "reasonLabel": "Dlaczego zatwierdzasz te wypłaty?",
+    "reasonPlaceholder": "Opisz przeprowadzoną weryfikację (co najmniej 10 znaków).",
+    "actions": {
+      "cancel": "Anuluj",
+      "confirm": "Potwierdź i zaakceptuj"
+    },
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Wspólny adres wypłaty",
+      "sharedEmail": "Wspólny e-mail",
+      "linkedAccount": "Powiązane konto",
+      "proxy": "Proxy lub Tor",
+      "impossibleTravel": "Niemożliwa podróż"
     }
   }
 }

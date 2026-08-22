@@ -10,7 +10,9 @@ import {
   adminUserRedemptionsQueryOptions,
   adminUserSessionsQueryOptions,
   adminUserTransactionsQueryOptions,
+  adminUserRiskQueryOptions,
   adminUsersListQueryOptions,
+  adminWithdrawalsListQueryOptions,
 } from './adminUserQueries';
 import { queryKeys } from './queryKeys';
 
@@ -181,5 +183,42 @@ export function useAdminUserEmailsQuery(
     userID,
     page,
     type,
+  }));
+}
+
+export function useAdminUserRiskQuery(
+  {
+    userID,
+    enabled = true,
+  }: {
+    userID: string,
+    enabled?: boolean,
+  },
+) {
+  return useQuery({
+    ...adminUserRiskQueryOptions({
+      request: clientRequest,
+      userID,
+    }),
+    enabled: enabled && !!userID,
+  });
+}
+
+export function useAdminWithdrawalsQuery(
+  {
+    status,
+    provider,
+    page,
+  }: {
+    status: InternalRedemptionStatus,
+    provider?: InternalRedemptionProvider,
+    page: number,
+  },
+) {
+  return useQuery(adminWithdrawalsListQueryOptions({
+    request: clientRequest,
+    status,
+    provider,
+    page,
   }));
 }

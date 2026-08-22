@@ -1,0 +1,177 @@
+@use '@styles/variables.scss' as *;
+
+.withdrawalsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    > .eyebrow {
+      margin: 0;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: $text-light;
+    }
+
+    > h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: $text-light;
+    }
+  }
+
+  .controls {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px 16px;
+    flex-wrap: wrap;
+
+    > .dropdowns {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  }
+
+  .errorState {
+    padding: 48px 24px;
+    border: 1px solid $border-light;
+    border-radius: $border-radius;
+    text-align: center;
+    color: $text-light;
+  }
+
+  .userCell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .usernameCell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+
+    > .name {
+      color: $text-bold;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > .muted {
+      color: $text-light;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &:hover > .name {
+      color: $primary;
+    }
+  }
+
+  .name {
+    color: $text-bold;
+    font-weight: 600;
+  }
+
+  .muted {
+    color: $text-light;
+    font-size: 12px;
+  }
+
+  .destination {
+    display: block;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    color: $text-light;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: $light-gray;
+    color: $text-light;
+
+    &[data-tone='positive'] {
+      color: $green;
+    }
+
+    &[data-tone='warning'] {
+      color: $orange;
+    }
+
+    &[data-tone='negative'] {
+      color: $red;
+    }
+  }
+
+  .flagBadge,
+  .actionLink {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: $primary;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .flagBadge {
+    color: $orange;
+  }
+
+  .batchBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid $border-light;
+    border-radius: 8px;
+    background: $background;
+
+    > p {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > .batchActions {
+      display: flex;
+      gap: 8px;
+    }
+  }
+}

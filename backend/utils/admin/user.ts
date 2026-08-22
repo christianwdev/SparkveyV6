@@ -447,6 +447,16 @@ export async function updateAdminUser(
       if (!expireResult.ok) {
         console.error('Failed to expire sessions after admin email change', expireResult.error);
       }
+
+      const sanitized = sanitizeEmail(email);
+      if (sanitized) {
+        const { detectSharedEmail } = await import('backend/utils/fraud');
+        const { scheduleFraudCheck } = await import('backend/utils/userFlag');
+        scheduleFraudCheck(detectSharedEmail({
+          userID,
+          email: sanitized,
+        }));
+      }
     }
 
     return { ok: true, data: sanitizeAdminUser(user) };

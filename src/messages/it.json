@@ -485,7 +485,9 @@
       "offerReleased": "Offerta rilasciata",
       "offerReversal": "Offerta annullata",
       "offerAdvConfirmed": "Offerta confermata",
-      "redemptionSubmitted": "Riscatto inviato"
+      "redemptionSubmitted": "Riscatto inviato",
+      "redemptionApproved": "Prelievo approvato",
+      "redemptionRejected": "Prelievo rifiutato"
     },
     "messages": {
       "offerCredited": "La tua offerta {offerName} del valore di {offerValue} sparks e stata accreditata.",
@@ -494,7 +496,9 @@
       "offerReleased": "La tua offerta {offerName} del valore di {offerValue} e stata rilasciata.",
       "offerReversal": "La tua offerta {offerName} del valore di {offerValue} e stata annullata.",
       "offerAdvConfirmed": "La tua offerta {offerName} del valore di {offerValue} sparks e stata confermata e trattenuta fino al {releaseDate}.",
-      "redemptionSubmitted": "Il tuo riscatto per {rewardName} ({value} Sparks) e stato inviato."
+      "redemptionSubmitted": "Il tuo riscatto per {rewardName} ({value} Sparks) e stato inviato.",
+      "redemptionApproved": "Il tuo prelievo per {rewardName} ({value} Sparks) è stato approvato.",
+      "redemptionRejected": "Il tuo prelievo per {rewardName} ({value} Sparks) è stato rifiutato e rimborsato."
     }
   },
   "NotFound": {
@@ -1245,7 +1249,9 @@
     "usersTitle": "Sparkvey | Admin Users",
     "usersDescription": "Browse and manage Sparkvey users.",
     "userTitle": "Sparkvey | {username}",
-    "userDescription": "Visualizza e gestisci questo utente Sparkvey."
+    "userDescription": "Visualizza e gestisci questo utente Sparkvey.",
+    "withdrawalsTitle": "Sparkvey | Prelievi",
+    "withdrawalsDescription": "Esamina ed elabora i prelievi in sospeso."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1255,7 +1261,8 @@
     "backToSite": "Back to site",
     "nav": {
       "dashboard": "Overview",
-      "users": "Users"
+      "users": "Users",
+      "withdrawals": "Prelievi"
     }
   },
   "AdminDashboard": {
@@ -1493,7 +1500,8 @@
       "unban": "Sbanna",
       "revokeAllSessions": "Revoca tutte le sessioni",
       "revoke": "Revoca",
-      "viewReward": "Vedi premio"
+      "viewReward": "Vedi premio",
+      "reviewFlags": "Rivedi avvisi"
     },
     "success": {
       "saved": "Salvato.",
@@ -1591,6 +1599,126 @@
       "forgotPassword": "Reset password",
       "emailChange": "Cambio e-mail",
       "accountDeletion": "Eliminazione account"
+    }
+  },
+  "AdminWithdrawals": {
+    "eyebrow": "Pagamenti",
+    "title": "Prelievi",
+    "subtitle": "Esamina i prelievi in sospeso, controlla gli avvisi e accetta o rifiuta in batch.",
+    "unnamed": "Senza nome",
+    "noEmail": "Nessuna email",
+    "na": "—",
+    "empty": "Nessun prelievo corrisponde a questi filtri.",
+    "noFlags": "Nessuno",
+    "flagCount": "{count, plural, one {# avviso} other {# avvisi}}",
+    "selectedCount": "{count, plural, one {# selezionato} other {# selezionati}}",
+    "table": {
+      "selectAll": "Seleziona tutti i prelievi in sospeso in questa pagina",
+      "selectRow": "Seleziona prelievo",
+      "user": "Utente",
+      "reward": "Premio",
+      "destination": "Destinazione",
+      "amount": "Importo",
+      "status": "Stato",
+      "flags": "Avvisi",
+      "created": "Creato",
+      "actions": "Azioni"
+    },
+    "filters": {
+      "status": "Stato",
+      "provider": "Tipo"
+    },
+    "providers": {
+      "all": "Tutti i tipi",
+      "ccpayment": "Crypto",
+      "tremendous": "Carta regalo"
+    },
+    "statuses": {
+      "pending": "In sospeso",
+      "approved": "Approvato",
+      "processing": "In elaborazione",
+      "completed": "Completato",
+      "failed": "Non riuscito",
+      "rejected": "Rifiutato"
+    },
+    "actions": {
+      "accept": "Accetta",
+      "reject": "Rifiuta",
+      "review": "Esamina"
+    },
+    "success": {
+      "accepted": "I prelievi selezionati sono stati accettati.",
+      "rejected": "I prelievi selezionati sono stati rifiutati e rimborsati."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare i prelievi.",
+      "acceptFailed": "Impossibile accettare i prelievi selezionati.",
+      "rejectFailed": "Impossibile rifiutare i prelievi selezionati."
+    }
+  },
+  "AdminUserRiskModal": {
+    "eyebrow": "Fiducia",
+    "title": "Revisione utente",
+    "subtitle": "Avvisi, storni e attività di pagamento di questo account.",
+    "close": "Chiudi",
+    "noFlags": "Nessun avviso su questo account.",
+    "flagsTitle": "Avvisi e segnalazioni",
+    "linkedUsers": "{count, plural, one {# account collegato} other {# account collegati}}",
+    "fields": {
+      "status": "Stato",
+      "balance": "Saldo",
+      "earned": "Guadagnato",
+      "withdrawn": "Prelevato",
+      "chargebacks": "Storni",
+      "created": "Creato"
+    },
+    "status": {
+      "active": "Attivo",
+      "banned": "Sospeso",
+      "deleted": "Eliminato"
+    },
+    "flagStatus": {
+      "active": "Attivo",
+      "cleared": "Risolto"
+    },
+    "actions": {
+      "clear": "Rimuovi",
+      "viewProfile": "Apri profilo"
+    },
+    "success": {
+      "flagCleared": "Avviso rimosso."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare il profilo di rischio.",
+      "clearFailed": "Impossibile rimuovere questo avviso."
+    },
+    "na": "—",
+    "chargebackValue": "{count} ({usd})",
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Stesso indirizzo di prelievo",
+      "sharedEmail": "Stessa e-mail",
+      "linkedAccount": "Account collegato",
+      "proxy": "Proxy o Tor",
+      "impossibleTravel": "Viaggio impossibile"
+    }
+  },
+  "AdminWithdrawalAttestation": {
+    "eyebrow": "Attestazione",
+    "title": "Conferma i pagamenti segnalati",
+    "subtitle": "Uno o più utenti selezionati hanno avvisi attivi. Spiega perché li approvi comunque.",
+    "close": "Chiudi",
+    "reasonLabel": "Perché stai approvando questi prelievi?",
+    "reasonPlaceholder": "Descrivi il controllo effettuato (almeno 10 caratteri).",
+    "actions": {
+      "cancel": "Annulla",
+      "confirm": "Conferma e accetta"
+    },
+    "flagTypes": {
+      "sharedWithdrawalAddress": "Stesso indirizzo di prelievo",
+      "sharedEmail": "Stessa e-mail",
+      "linkedAccount": "Account collegato",
+      "proxy": "Proxy o Tor",
+      "impossibleTravel": "Viaggio impossibile"
     }
   }
 }

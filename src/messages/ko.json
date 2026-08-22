@@ -485,7 +485,9 @@
       "offerReleased": "오퍼 지급 완료",
       "offerReversal": "오퍼 취소",
       "offerAdvConfirmed": "오퍼 확인됨",
-      "redemptionSubmitted": "교환 제출됨"
+      "redemptionSubmitted": "교환 제출됨",
+      "redemptionApproved": "출금 승인됨",
+      "redemptionRejected": "출금 거절됨"
     },
     "messages": {
       "offerCredited": "오퍼 {offerName} ({offerValue} 스파크)가 적립되었습니다.",
@@ -494,7 +496,9 @@
       "offerReleased": "오퍼 {offerName} ({offerValue} 스파크)가 지급되었습니다.",
       "offerReversal": "오퍼 {offerName} ({offerValue} 스파크)가 취소되었습니다.",
       "offerAdvConfirmed": "오퍼 {offerName} ({offerValue} 스파크)가 확인되어 {releaseDate}까지 보류됩니다.",
-      "redemptionSubmitted": "{rewardName} ({value} 스파크) 교환이 제출되었습니다."
+      "redemptionSubmitted": "{rewardName} ({value} 스파크) 교환이 제출되었습니다.",
+      "redemptionApproved": "{rewardName} ({value} Sparks) 출금이 승인되었습니다.",
+      "redemptionRejected": "{rewardName} ({value} Sparks) 출금이 거절되어 환불되었습니다."
     }
   },
   "NotFound": {
@@ -1245,7 +1249,9 @@
     "usersTitle": "Sparkvey | Admin Users",
     "usersDescription": "Browse and manage Sparkvey users.",
     "userTitle": "Sparkvey | {username}",
-    "userDescription": "이 Sparkvey 사용자를 조회하고 관리합니다."
+    "userDescription": "이 Sparkvey 사용자를 조회하고 관리합니다.",
+    "withdrawalsTitle": "Sparkvey | 출금",
+    "withdrawalsDescription": "대기 중인 출금을 검토하고 처리합니다."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1255,7 +1261,8 @@
     "backToSite": "Back to site",
     "nav": {
       "dashboard": "Overview",
-      "users": "Users"
+      "users": "Users",
+      "withdrawals": "출금"
     }
   },
   "AdminDashboard": {
@@ -1493,7 +1500,8 @@
       "unban": "차단 해제",
       "revokeAllSessions": "모든 세션 종료",
       "revoke": "종료",
-      "viewReward": "보상 보기"
+      "viewReward": "보상 보기",
+      "reviewFlags": "플래그 검토"
     },
     "success": {
       "saved": "저장되었습니다.",
@@ -1591,6 +1599,126 @@
       "forgotPassword": "비밀번호 재설정",
       "emailChange": "이메일 변경",
       "accountDeletion": "계정 삭제"
+    }
+  },
+  "AdminWithdrawals": {
+    "eyebrow": "지급",
+    "title": "출금",
+    "subtitle": "대기 중인 캐시아웃을 검토하고 플래그를 확인한 뒤 일괄 승인 또는 거절하세요.",
+    "unnamed": "이름 없음",
+    "noEmail": "이메일 없음",
+    "na": "—",
+    "empty": "이 필터와 일치하는 출금이 없습니다.",
+    "noFlags": "없음",
+    "flagCount": "{count, plural, other {플래그 #개}}",
+    "selectedCount": "{count, plural, other {#개 선택됨}}",
+    "table": {
+      "selectAll": "이 페이지의 대기 항목 모두 선택",
+      "selectRow": "출금 선택",
+      "user": "사용자",
+      "reward": "보상",
+      "destination": "대상",
+      "amount": "금액",
+      "status": "상태",
+      "flags": "플래그",
+      "created": "생성일",
+      "actions": "작업"
+    },
+    "filters": {
+      "status": "상태",
+      "provider": "유형"
+    },
+    "providers": {
+      "all": "모든 유형",
+      "ccpayment": "암호화폐",
+      "tremendous": "기프트카드"
+    },
+    "statuses": {
+      "pending": "대기 중",
+      "approved": "승인됨",
+      "processing": "처리 중",
+      "completed": "완료",
+      "failed": "실패",
+      "rejected": "거절됨"
+    },
+    "actions": {
+      "accept": "승인",
+      "reject": "거절",
+      "review": "검토"
+    },
+    "success": {
+      "accepted": "선택한 출금이 승인되었습니다.",
+      "rejected": "선택한 출금이 거절되고 환불되었습니다."
+    },
+    "errors": {
+      "loadFailed": "출금을 불러오지 못했습니다.",
+      "acceptFailed": "선택한 출금을 승인하지 못했습니다.",
+      "rejectFailed": "선택한 출금을 거절하지 못했습니다."
+    }
+  },
+  "AdminUserRiskModal": {
+    "eyebrow": "신뢰",
+    "title": "사용자 검토",
+    "subtitle": "이 계정의 플래그, 차지백, 지급 활동입니다.",
+    "close": "닫기",
+    "noFlags": "이 계정에 플래그가 없습니다.",
+    "flagsTitle": "플래그 및 경고",
+    "linkedUsers": "{count, plural, other {연결된 계정 #개}}",
+    "fields": {
+      "status": "상태",
+      "balance": "잔액",
+      "earned": "적립",
+      "withdrawn": "출금",
+      "chargebacks": "차지백",
+      "created": "생성일"
+    },
+    "status": {
+      "active": "활성",
+      "banned": "차단됨",
+      "deleted": "삭제됨"
+    },
+    "flagStatus": {
+      "active": "활성",
+      "cleared": "해제됨"
+    },
+    "actions": {
+      "clear": "해제",
+      "viewProfile": "프로필 열기"
+    },
+    "success": {
+      "flagCleared": "플래그를 해제했습니다."
+    },
+    "errors": {
+      "loadFailed": "위험 프로필을 불러오지 못했습니다.",
+      "clearFailed": "해당 플래그를 해제하지 못했습니다."
+    },
+    "na": "—",
+    "chargebackValue": "{count} ({usd})",
+    "flagTypes": {
+      "sharedWithdrawalAddress": "동일한 출금 주소",
+      "sharedEmail": "동일한 이메일",
+      "linkedAccount": "연결된 계정",
+      "proxy": "프록시 또는 Tor",
+      "impossibleTravel": "불가능한 이동"
+    }
+  },
+  "AdminWithdrawalAttestation": {
+    "eyebrow": "확인서",
+    "title": "플래그된 지급 확인",
+    "subtitle": "선택한 사용자 중 활성 플래그가 있습니다. 그래도 승인하는 이유를 적어 주세요.",
+    "close": "닫기",
+    "reasonLabel": "이 출금을 승인하는 이유는 무엇인가요?",
+    "reasonPlaceholder": "검토한 내용을 적어 주세요(10자 이상).",
+    "actions": {
+      "cancel": "취소",
+      "confirm": "확인하고 승인"
+    },
+    "flagTypes": {
+      "sharedWithdrawalAddress": "동일한 출금 주소",
+      "sharedEmail": "동일한 이메일",
+      "linkedAccount": "연결된 계정",
+      "proxy": "프록시 또는 Tor",
+      "impossibleTravel": "불가능한 이동"
     }
   }
 }
