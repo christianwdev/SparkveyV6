@@ -380,7 +380,8 @@
     "open": "サポートチャットを開く",
     "close": "閉じる",
     "empty": "メッセージを送っていただければ対応します。",
-    "hereToHelp": "サポートが対応します"
+    "hereToHelp": "サポートが対応します",
+    "autoReply": "自動"
   },
   "PurchaseModals": {
     "common": {

@@ -37,7 +37,7 @@ export const CANNED_RESPONSES = [
   {
     id: 'holdInProgress',
     category: 'holds',
-    body: 'This offer is still on hold. There\'s nothing you need to do. We\'ll release the Sparks automatically on the date shown in your earnings, as long as the advertiser doesn\'t reverse the conversion.',
+    body: 'If your offer is on hold, there\'s nothing you need to do. Sparks are released automatically on the date shown in your earnings, as long as the advertiser doesn\'t reverse the conversion.',
   },
   {
     id: 'holdExplainer',
@@ -92,7 +92,7 @@ export const CANNED_RESPONSES = [
   {
     id: 'reversed',
     category: 'earnings',
-    body: 'This offer was reversed by the advertiser, so the Sparks were removed. We can\'t credit offers that the partner didn\'t pay us for.',
+    body: 'If an advertiser reverses a conversion, those Sparks are removed. We can\'t credit offers that the partner didn\'t pay us for.',
   },
   {
     id: 'providerPending',
@@ -107,7 +107,7 @@ export const CANNED_RESPONSES = [
   {
     id: 'withdrawalHeld',
     category: 'withdrawals',
-    body: 'We need to finish reviewing your account before this withdrawal can be sent. This can take a little longer if identity checks are required.',
+    body: 'Some withdrawals stay in review while we check the account. That can take a little longer if identity verification is needed.',
   },
   {
     id: 'oneAccount',

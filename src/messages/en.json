@@ -380,7 +380,8 @@
     "open": "Open support chat",
     "close": "Close",
     "empty": "Send a message and we'll get back to you.",
-    "hereToHelp": "We're here to help"
+    "hereToHelp": "We're here to help",
+    "autoReply": "Auto"
   },
   "PurchaseModals": {
     "common": {

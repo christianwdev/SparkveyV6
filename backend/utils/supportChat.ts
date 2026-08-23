@@ -15,7 +15,7 @@ import { getUserAvatarURL } from 'backend/utils/avatar';
 import { matchSupportCannedResponse } from 'backend/utils/supportCannedMatch';
 
 // Types
-import type { Filter } from 'mongodb';
+import type { Filter, UpdateFilter } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
 import type ChatConversation from 'types/ChatConversation';
 import type ChatMessage from 'types/ChatMessage';
@@ -449,6 +449,7 @@ export async function maybeSendSupportCannedReply(
       conversationID: conversation.conversationID,
       body: template.body,
       requireStale: false,
+      cannedReplyID: matchID,
     });
 
     return { ok: true, data: chatMessage };
@@ -680,15 +681,27 @@ async function insertSystemSupportMessage(
     conversationID,
     body,
     requireStale,
+    cannedReplyID,
   }: {
     conversationID: string,
     body: string,
     requireStale: boolean,
+    cannedReplyID?: string,
   },
 ): Promise<ChatMessage | null> {
   const { db, mongoClient } = getGlobalObject();
   const now = Date.now();
   const filter: Filter<ChatConversation> = { conversationID };
+  const update: UpdateFilter<ChatConversation> = {
+    $set: {
+      lastSupportReplyAt: now,
+      lastMessageTimestamp: now,
+      status: 'active',
+    },
+    $inc: {
+      unreadCountUser: 1,
+    },
+  };
 
   if (requireStale) {
     const staleBefore = now - SUPPORT_AUTO_ACK_STALE_MS;
@@ -697,6 +710,11 @@ async function insertSystemSupportMessage(
       { lastSupportReplyAt: { $exists: false } },
       { lastSupportReplyAt: { $lt: staleBefore } },
     ];
+  }
+
+  if (cannedReplyID) {
+    filter.sentCannedReplyIDs = { $ne: cannedReplyID };
+    update.$addToSet = { sentCannedReplyIDs: cannedReplyID };
   }
 
   const chatMessage: ChatMessage = {
@@ -717,16 +735,7 @@ async function insertSystemSupportMessage(
 
     const claimed = await db.collection<ChatConversation>(DatabaseCollections.chatConversations).findOneAndUpdate(
       filter,
-      {
-        $set: {
-          lastSupportReplyAt: now,
-          lastMessageTimestamp: now,
-          status: 'active',
-        },
-        $inc: {
-          unreadCountUser: 1,
-        },
-      },
+      update,
       {
         returnDocument: 'after',
         session: mongoSession,

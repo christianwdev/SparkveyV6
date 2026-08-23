@@ -380,7 +380,8 @@
     "open": "지원 채팅 열기",
     "close": "닫기",
     "empty": "메시지를 보내주시면 답변드릴게요.",
-    "hereToHelp": "도움을 드릴게요"
+    "hereToHelp": "도움을 드릴게요",
+    "autoReply": "자동"
   },
   "PurchaseModals": {
     "common": {
