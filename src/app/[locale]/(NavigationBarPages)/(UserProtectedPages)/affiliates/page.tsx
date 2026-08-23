@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function Page() {
   const t = await getTranslations('AffiliatesPage');
-  const initialData = await fetchAffiliateData({ request: serverRequest });
+  const initialDataPromise = fetchAffiliateData({ request: serverRequest });
 
   return (
     <main className={styles.affiliatesPage}>
@@ -32,7 +32,7 @@ export default async function Page() {
         <p>{t('subtitle')}</p>
       </div>
 
-      <AffiliatesPageClient initialData={initialData} />
+      <AffiliatesPageClient initialDataPromise={initialDataPromise} />
     </main>
   );
 }

@@ -18,14 +18,7 @@ import styles from './Carousel.module.scss';
 type CarouselProps = {
   children: ReactNode,
   className?: string,
-
-  /**
-   * Auto-advance after this many idle ms.
-   * Pass `false` to disable. Defaults to 15_000.
-   */
   autoPlay?: number | false,
-
-  /** Show prev/next controls on hover. Defaults to true. */
   showControls?: boolean,
   'aria-label'?: string,
 };

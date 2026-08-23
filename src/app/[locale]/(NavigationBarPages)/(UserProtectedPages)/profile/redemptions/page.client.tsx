@@ -1,11 +1,13 @@
 'use client';
 
-import { Suspense, use, useState } from 'react';
+import { Suspense, useState } from 'react';
 import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import Pagination from '@components/Pagination/Pagination';
 import { useRedemptionsHistoryQuery } from '@hooks/useRedemptionsHistoryQuery';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
+import { queryKeys } from '@hooks/queryKeys';
 import { PROFILE_HISTORY_PAGE_SIZE } from '@utils/profile';
 import { toDate } from '@utils/date';
 import type InternalRedemption from 'types/Redemption/InternalRedemption';
@@ -61,7 +63,10 @@ function RedemptionsPageContent({ initialRedemptionsPromise }: RedemptionsPageCl
   const t = useTranslations('ProfileRewards');
   const formatter = useFormatter();
   const [ page, setPage ] = useState(1);
-  const initialRedemptions = use(initialRedemptionsPromise);
+  const initialRedemptions = useCachedQuerySeed({
+    queryKey: queryKeys.profile.redemptionsHistory({ page: 1 }),
+    promise: initialRedemptionsPromise,
+  });
 
   const { data: redemptions = [], isPending, isFetching } = useRedemptionsHistoryQuery({
     page,

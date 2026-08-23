@@ -1,12 +1,14 @@
 'use client';
 
-import { Suspense, use } from 'react';
+import { Suspense } from 'react';
 import { useTranslations } from 'next-intl';
 import SurveyItem from '@components/SurveyItem/SurveyItem';
 import SurveyProfilerCard from '@components/SurveyProfilerCard/SurveyProfilerCard';
 import EmptyState from '@components/EmptyState/EmptyState';
 import { useUser } from '@contexts/UserProvider';
 import { useSurveysQuery } from '@hooks/useSurveysQuery';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
+import { queryKeys } from '@hooks/queryKeys';
 import { SURVEYS_LIST_LIMIT } from '@utils/surveys';
 import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 import styles from './page.module.scss';
@@ -31,7 +33,10 @@ function SurveysPageFallback({ showProfiler }: { showProfiler: boolean }) {
 function SurveysPageContent({ initialSurveysPromise }: SurveysPageClientProps) {
   const t = useTranslations('SurveysPage');
   const { user } = useUser();
-  const initialSurveys = use(initialSurveysPromise);
+  const initialSurveys = useCachedQuerySeed({
+    queryKey: queryKeys.surveys.list(SURVEYS_LIST_LIMIT),
+    promise: initialSurveysPromise,
+  });
   const { data: surveys, isPending } = useSurveysQuery({
     limit: SURVEYS_LIST_LIMIT,
     initialData: initialSurveys,

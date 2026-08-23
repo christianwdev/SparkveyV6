@@ -1,12 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { clientRequest } from '@utils/clientRequest';
-import {
-  getFeaturedRewards,
-  type FeaturedRewardsResponse,
-} from '@utils/rewards';
-import { queryKeys } from './queryKeys';
+import type { FeaturedRewardsResponse } from '@utils/rewards';
+import { featuredRewardsQueryOptions } from './rewardQueries';
 
 export function useFeaturedRewards(
   {
@@ -15,15 +13,14 @@ export function useFeaturedRewards(
     initialData?: FeaturedRewardsResponse | null,
   } = {},
 ) {
-  return useQuery({
-    queryKey: queryKeys.rewards.featured(),
-    queryFn: async () => {
-      const featured = await getFeaturedRewards({ request: clientRequest });
-      if (!featured) throw new Error('Failed to load featured rewards');
+  // Freeze SSR seed so rerenders/HMR do not keep resetting freshness with Date.now().
+  const [ seededData ] = useState(() => initialData ?? undefined);
+  const [ seededAt ] = useState(() => (seededData ? Date.now() : undefined));
 
-      return featured;
-    },
-    initialData: initialData ?? undefined,
+  return useQuery({
+    ...featuredRewardsQueryOptions({ request: clientRequest }),
+    initialData: seededData,
+    initialDataUpdatedAt: seededAt,
 
     // Keep the redeem page mounted — render empty / load-error UI instead of error.tsx.
     throwOnError: false,

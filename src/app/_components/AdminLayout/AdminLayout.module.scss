@@ -187,6 +187,7 @@ $sidebar-pad-x: 12px;
 
     > .main {
       flex: 1;
+      min-width: 0;
       padding: 24px 40px 48px;
 
       &.mainFlush {
@@ -195,6 +196,7 @@ $sidebar-pad-x: 12px;
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        @include thin-scrollbar;
       }
     }
   }

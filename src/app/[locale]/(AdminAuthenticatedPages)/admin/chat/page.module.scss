@@ -83,7 +83,9 @@
     > .inboxList {
       flex: 1;
       min-height: 0;
+      overflow-x: hidden;
       overflow-y: auto;
+      @include thin-scrollbar;
 
       > .empty {
         margin: 0;
@@ -199,7 +201,9 @@
       min-height: 0;
       gap: 10px;
       padding: 16px 20px;
+      overflow-x: hidden;
       overflow-y: auto;
+      @include thin-scrollbar;
 
       > .empty {
         margin: auto 0;

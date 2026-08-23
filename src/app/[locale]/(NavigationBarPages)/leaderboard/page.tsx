@@ -21,9 +21,9 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function LeaderboardPage() {
-  const initialLeaderboard = await getMonthlyLeaderboard({ request: serverRequest });
+  const initialLeaderboardPromise = getMonthlyLeaderboard({ request: serverRequest });
 
   return (
-    <LeaderboardPageClient initialLeaderboard={initialLeaderboard} />
+    <LeaderboardPageClient initialLeaderboardPromise={initialLeaderboardPromise} />
   );
 }

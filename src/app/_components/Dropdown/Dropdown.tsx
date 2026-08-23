@@ -32,7 +32,7 @@ export default function Dropdown<T extends string | number = string>(props: Drop
 
   let selectedText = '';
   if (Array.isArray(props.selected)) {
-    selectedText = props.selected.length < 1
+    selectedText = props.selected.length < 1 || props.selected.length === props.values.length
       ? props.defaultValue ?? ''
       : props.selected
         .map(key => props.values.find(value => value.value === key)?.label ?? '')

@@ -1,6 +1,7 @@
 'use client';
 
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, use, useEffect, useRef } from 'react';
+import { useQueryClient, type InfiniteData } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { Link } from '@i18n/navigation';
 
@@ -10,12 +11,12 @@ import { PurchaseModalProvider } from '@contexts/PurchaseModalContext';
 
 // Hooks
 import { useCategoryRewards } from '@hooks/useCategoryRewards';
+import { queryKeys } from '@hooks/queryKeys';
 
 // Utils
-import { getCatalogRewardKey } from '@utils/rewards';
+import { getCatalogRewardKey, type CategoryRewardsResponse } from '@utils/rewards';
 
 // Types
-import type CategoryRewardsResponse from 'types/API/Redemption/CategoryRewards';
 import type RedeemCategoryID from 'types/Reward/RedeemCategoryID';
 
 import styles from './page.module.scss';
@@ -24,17 +25,33 @@ const INFINITE_SCROLL_CAP = 100;
 
 type RedeemCategoryPageClientProps = {
   categoryID: RedeemCategoryID,
-  initialPage?: CategoryRewardsResponse,
+  categoryPromise: Promise<CategoryRewardsResponse | null>,
 };
+
+function RedeemCategoryFallback() {
+  return (
+    <div className={styles.rewardsGrid} aria-hidden>
+      {Array.from({ length: 20 }, (_, index) => (
+        <RewardItem key={index} loading />
+      ))}
+    </div>
+  );
+}
 
 function RedeemCategoryContent(
   {
     categoryID,
-    initialPage,
+    categoryPromise,
   }: RedeemCategoryPageClientProps,
 ) {
   const t = useTranslations('RedeemPage');
   const sentinelRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient();
+
+  const cached = queryClient.getQueryData<InfiniteData<CategoryRewardsResponse, number>>(
+    queryKeys.rewards.category(categoryID),
+  );
+  const initialPage = cached ? undefined : use(categoryPromise);
 
   const {
     data,
@@ -48,7 +65,7 @@ function RedeemCategoryContent(
     initialPage,
   });
 
-  const rewards = data?.pages.flatMap(page => page.rewards) ?? initialPage?.rewards ?? [];
+  const rewards = data?.pages.flatMap(page => page.rewards) ?? [];
   const capped = rewards.length >= INFINITE_SCROLL_CAP;
   const canAutoFetch = hasNextPage && !capped && !isFetchingNextPage;
 
@@ -58,7 +75,9 @@ function RedeemCategoryContent(
 
     const observer = new IntersectionObserver(entries => {
       if (entries[0]?.isIntersecting) {
-        void fetchNextPage();
+        fetchNextPage().catch(error => {
+          console.error(error);
+        });
       }
     }, { rootMargin: '200px' });
 
@@ -67,72 +86,78 @@ function RedeemCategoryContent(
     return () => observer.disconnect();
   }, [ canAutoFetch, fetchNextPage ]);
 
+  if (isLoading && rewards.length === 0) {
+    return <RedeemCategoryFallback />;
+  }
+
+  if (isError && rewards.length === 0) {
+    return (
+      <div className={styles.empty}>
+        <p>{t('loadError')}</p>
+      </div>
+    );
+  }
+
+  if (rewards.length === 0) {
+    return (
+      <div className={styles.empty}>
+        <p>{t('empty')}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className={styles.categoryContent}>
-      <Link href="/redeem" className={styles.backLink}>
-        {t('backToAllRewards')}
-      </Link>
-
-      {isLoading && rewards.length === 0 ? (
-        <div className={styles.rewardsGrid} aria-hidden>
-          {Array.from({ length: 20 }, (_, index) => (
-            <RewardItem key={index} loading />
-          ))}
-        </div>
-      ) : isError && rewards.length === 0 ? (
-        <div className={styles.empty}>
-          <p>{t('loadError')}</p>
-        </div>
-      ) : rewards.length === 0 ? (
-        <div className={styles.empty}>
-          <p>{t('empty')}</p>
-        </div>
-      ) : (
-        <>
-          <div className={styles.rewardsGrid}>
-            {rewards.map(reward => (
-              <RewardItem key={getCatalogRewardKey(reward)} loading={false} reward={reward} />
-            ))}
-          </div>
-
-          {capped && hasNextPage && (
-            <div className={styles.loadMoreWrapper}>
-              <button
-                type="button"
-                className={styles.loadMore}
-                onClick={() => void fetchNextPage()}
-                disabled={isFetchingNextPage}
-              >
-                {t('loadMore')}
-              </button>
-            </div>
-          )}
-
-          <div ref={sentinelRef} className={styles.scrollSentinel} />
-        </>
-      )}
-    </div>
-  );
-}
-
-function RedeemCategoryFallback() {
-  return (
-    <div className={styles.categoryContent}>
-      <div className={styles.rewardsGrid} aria-hidden>
-        {Array.from({ length: 20 }, (_, index) => (
-          <RewardItem key={index} loading />
+    <>
+      <div className={styles.rewardsGrid}>
+        {rewards.map(reward => (
+          <RewardItem key={getCatalogRewardKey(reward)} loading={false} reward={reward} />
         ))}
       </div>
-    </div>
+
+      {capped && hasNextPage && (
+        <div className={styles.loadMoreWrapper}>
+          <button
+            type="button"
+            className={styles.loadMore}
+            onClick={() => {
+              fetchNextPage().catch(error => {
+                console.error(error);
+              });
+            }}
+            disabled={isFetchingNextPage}
+          >
+            {t('loadMore')}
+          </button>
+        </div>
+      )}
+
+      <div ref={sentinelRef} className={styles.scrollSentinel} />
+    </>
   );
 }
 
-export default function RedeemCategoryPageClient(props: RedeemCategoryPageClientProps) {
+export default function RedeemCategoryPageClient(
+  {
+    categoryID,
+    categoryPromise,
+  }: RedeemCategoryPageClientProps,
+) {
+  const t = useTranslations('RedeemPage');
+
   return (
     <PurchaseModalProvider>
-      <Suspense fallback={<RedeemCategoryFallback />}>
-        <RedeemCategoryContent {...props} />
-      </Suspense>
+      <div className={styles.categoryContent}>
+        <Link href="/redeem" className={styles.backLink}>
+          {t('backToAllRewards')}
+        </Link>
+
+        <Suspense fallback={<RedeemCategoryFallback />}>
+          <RedeemCategoryContent
+            categoryID={categoryID}
+            categoryPromise={categoryPromise}
+          />
+        </Suspense>
+      </div>
     </PurchaseModalProvider>
   );
 }

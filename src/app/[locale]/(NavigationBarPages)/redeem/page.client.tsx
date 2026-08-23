@@ -1,26 +1,48 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useTranslations } from 'next-intl';
+
+// Components
 import { PurchaseModalProvider } from '@contexts/PurchaseModalContext';
 import RewardCarouselSection from '@components/RewardCarouselSection/RewardCarouselSection';
 import EmptyState from '@components/EmptyState/EmptyState';
+
+// Hooks
 import { useFeaturedRewards } from '@hooks/useFeaturedRewards';
-import {
-  REDEEM_CATEGORY_IDS,
-  type FeaturedRewardsResponse,
-} from '@utils/rewards';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
+import { queryKeys } from '@hooks/queryKeys';
+
+// Utils
+import { REDEEM_CATEGORY_IDS, type FeaturedRewardsResponse } from '@utils/rewards';
+
 import styles from './page.module.scss';
 
 type RedeemPageClientProps = {
-  initialFeatured: FeaturedRewardsResponse | null,
+  featuredPromise: Promise<FeaturedRewardsResponse | null>,
 };
 
-export default function RedeemPageClient(
-  {
-    initialFeatured,
-  }: RedeemPageClientProps,
-) {
+function RedeemPageFallback() {
+  return (
+    <div className={styles.sections} aria-hidden>
+      {REDEEM_CATEGORY_IDS.map(categoryID => (
+        <RewardCarouselSection
+          key={categoryID}
+          categoryID={categoryID}
+          loading
+        />
+      ))}
+    </div>
+  );
+}
+
+function RedeemPageContent({ featuredPromise }: RedeemPageClientProps) {
   const t = useTranslations('RedeemPage');
+  const initialFeatured = useCachedQuerySeed({
+    queryKey: queryKeys.rewards.featured(),
+    promise: featuredPromise,
+  });
+
   const { data, isLoading, isError, isFetching } = useFeaturedRewards({
     initialData: initialFeatured,
   });
@@ -52,5 +74,13 @@ export default function RedeemPageClient(
         ))}
       </div>
     </PurchaseModalProvider>
+  );
+}
+
+export default function RedeemPageClient({ featuredPromise }: RedeemPageClientProps) {
+  return (
+    <Suspense fallback={<RedeemPageFallback />}>
+      <RedeemPageContent featuredPromise={featuredPromise} />
+    </Suspense>
   );
 }

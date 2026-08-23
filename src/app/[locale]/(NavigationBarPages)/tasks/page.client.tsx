@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, use, useEffect, useRef } from 'react';
+import { useQueryClient, type InfiniteData } from '@tanstack/react-query';
 import { useQueryStates } from 'nuqs';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -8,6 +9,7 @@ import OfferItem from '@components/OfferItem/OfferItem';
 import Dropdown from '@components/Dropdown/Dropdown';
 import EmptyState from '@components/EmptyState/EmptyState';
 import { useBrowseOffers, type BrowseOffersFilters } from '@hooks/useBrowseOffers';
+import { queryKeys } from '@hooks/queryKeys';
 import type { BrowseOffersSort } from 'types/Offer/BrowseOffersSort';
 import type SanitizedOffer from 'types/Offer/SanitizedOffer';
 import { tasksSearchParams } from '@utils/tasksSearchParams';
@@ -68,10 +70,19 @@ function TasksPageContent({ initialOffersPromise, initialFilters }: TasksPageCon
   const urlSearchParams = useSearchParams();
   const [ filters, setFilters ] = useQueryStates(tasksSearchParams);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
-  const initialOffers = use(initialOffersPromise) ?? undefined;
+  const queryClient = useQueryClient();
 
   // Debounced in the URL via nuqs — query against the committed value, not every keystroke.
   const committedSearch = urlSearchParams.get('search') ?? '';
+  const cached = queryClient.getQueryData<InfiniteData<SanitizedOffer[], number>>(
+    queryKeys.offers.browse({
+      search: committedSearch,
+      sort: filters.sort,
+      categories: filters.categories,
+      providers: filters.providers,
+    }),
+  );
+  const initialOffers = cached ? undefined : (use(initialOffersPromise) ?? undefined);
 
   const {
     data,

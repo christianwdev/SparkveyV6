@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { useFormatter, useLocale, useTranslations } from 'next-intl';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
@@ -14,6 +14,7 @@ import {
 import type { AffiliatePageData } from '@utils/affiliates';
 import { clientRequest } from '@utils/clientRequest';
 import { useAffiliatesQuery } from '@hooks/useAffiliatesQuery';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
 import { queryKeys } from '@hooks/queryKeys';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
@@ -40,8 +41,21 @@ const MAX_CODE_LENGTH = 36;
 const REFERRAL_LINK_ORIGIN = 'https://sparkvey.com?ref=';
 
 type AffiliatesPageClientProps = {
-  initialData: AffiliatePageData | null,
+  initialDataPromise: Promise<AffiliatePageData | null>,
 };
+
+function AffiliatesFallback() {
+  return (
+    <div className={styles.content} aria-hidden>
+      <DataTable
+        columns={[]}
+        rows={[]}
+        getRowKey={() => 'loading'}
+        loading
+      />
+    </div>
+  );
+}
 
 function isValidCode(value: string) {
   const trimmed = value.trim();
@@ -55,12 +69,24 @@ function copyReferralLink(code: string) {
   return navigator.clipboard.writeText(`${REFERRAL_LINK_ORIGIN}${code}`);
 }
 
-export default function AffiliatesPageClient({ initialData }: AffiliatesPageClientProps) {
+export default function AffiliatesPageClient({ initialDataPromise }: AffiliatesPageClientProps) {
+  return (
+    <Suspense fallback={<AffiliatesFallback />}>
+      <AffiliatesPageContent initialDataPromise={initialDataPromise} />
+    </Suspense>
+  );
+}
+
+function AffiliatesPageContent({ initialDataPromise }: AffiliatesPageClientProps) {
   const t = useTranslations('AffiliatesPage');
   const locale = useLocale();
   const formatter = useFormatter();
   const queryClient = useQueryClient();
   const { user, setUser } = useUser();
+  const initialData = useCachedQuerySeed({
+    queryKey: queryKeys.affiliates.page(),
+    promise: initialDataPromise,
+  });
 
   const { data: affiliateData, isPending: isLoading } = useAffiliatesQuery({ initialData });
 

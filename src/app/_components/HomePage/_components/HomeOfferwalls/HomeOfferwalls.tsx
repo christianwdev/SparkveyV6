@@ -1,10 +1,12 @@
 'use client';
 
-import { Suspense, use } from 'react';
+import { Suspense } from 'react';
 import { useTranslations } from 'next-intl';
 import WallItem from '@components/WallItem/WallItem';
 import Skeleton from '@components/Skeleton/Skeleton';
 import { useWallsQuery } from '@hooks/useWallsQuery';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
+import { queryKeys } from '@hooks/queryKeys';
 import type CatalogOfferwall from 'types/Offer/CatalogOfferwall';
 import styles from './HomeOfferwalls.module.scss';
 
@@ -37,7 +39,10 @@ function HomeOfferwallsFallback() {
 
 function HomeOfferwallsContent({ initialWallsPromise }: HomeOfferwallsProps) {
   const t = useTranslations('HomePage.sections.offerwalls');
-  const initialWalls = use(initialWallsPromise);
+  const initialWalls = useCachedQuerySeed({
+    queryKey: queryKeys.walls.list(),
+    promise: initialWallsPromise,
+  });
   const { data: walls, isPending, isError } = useWallsQuery({
     initialData: initialWalls,
   });

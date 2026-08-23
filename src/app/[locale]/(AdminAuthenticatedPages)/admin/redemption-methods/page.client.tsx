@@ -9,7 +9,6 @@ import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
-import Skeleton from '@components/Skeleton/Skeleton';
 import { useAdminRedemptionMethodsQuery } from '@hooks/useAdminUsers';
 import {
   adminRedemptionMethodsSearchParams,
@@ -30,10 +29,12 @@ import styles from './page.module.scss';
 
 function MethodsTableFallback() {
   return (
-    <div aria-busy="true">
-      <Skeleton width="40%" height={18} borderRadius={6} />
-      <Skeleton width="100%" height={320} borderRadius={12} />
-    </div>
+    <DataTable
+      columns={[]}
+      rows={[]}
+      getRowKey={() => 'loading'}
+      loading
+    />
   );
 }
 

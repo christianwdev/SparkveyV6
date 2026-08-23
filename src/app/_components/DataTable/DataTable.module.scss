@@ -2,6 +2,8 @@
 
 .dataTable {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   border-radius: 12px;
   border: 1px solid $border-light;
   overflow: hidden;
@@ -9,7 +11,9 @@
 
   > .tableScroll {
     width: 100%;
+    max-width: 100%;
     overflow-x: auto;
+    @include thin-scrollbar;
 
     > table {
       width: 100%;
@@ -34,6 +38,8 @@
         > tr {
           > td {
             padding: 14px 16px;
+            min-width: 0;
+            overflow: hidden;
             font-size: 14px;
             font-weight: 500;
             color: $text-bold;

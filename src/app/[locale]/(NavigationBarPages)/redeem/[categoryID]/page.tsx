@@ -52,10 +52,9 @@ export default async function Page({ params }: PageProps) {
   }
 
   const typedCategoryID = categoryID as RedeemCategoryID;
-  const initialPage = await getCategoryRewards({
+  const categoryPromise = getCategoryRewards({
     request: serverRequest,
     categoryID: typedCategoryID,
-    skip: 0,
   });
 
   return (
@@ -66,8 +65,9 @@ export default async function Page({ params }: PageProps) {
       </div>
 
       <RedeemCategoryPageClient
+        key={typedCategoryID}
         categoryID={typedCategoryID}
-        initialPage={initialPage === null ? undefined : initialPage}
+        categoryPromise={categoryPromise}
       />
     </main>
   );

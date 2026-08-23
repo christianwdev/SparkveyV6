@@ -4,11 +4,13 @@ import styles from './page.module.scss';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 // Hooks
 import { useMonthlyLeaderboardQuery } from '@hooks/useMonthlyLeaderboardQuery';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
+import { queryKeys } from '@hooks/queryKeys';
 
 // Components
 import PodiumPlacement from './_components/PodiumPlacement/PodiumPlacement';
@@ -22,8 +24,18 @@ import type SanitizedLeaderboard from 'types/SanitizedLeaderboard';
 dayjs.extend(utc);
 
 type LeaderboardPageClientProps = {
-  initialLeaderboard: SanitizedLeaderboard | null,
+  initialLeaderboardPromise: Promise<SanitizedLeaderboard | null>,
 };
+
+function LeaderboardFallback() {
+  return (
+    <div className={styles.leaderboardPage} aria-hidden>
+      <div className={styles.titleWrapper}>
+        <h1>&nbsp;</h1>
+      </div>
+    </div>
+  );
+}
 
 function formatRemainingTime(
   {
@@ -57,8 +69,20 @@ function formatRemainingTime(
   });
 }
 
-export default function LeaderboardPageClient({ initialLeaderboard }: LeaderboardPageClientProps) {
+export default function LeaderboardPageClient({ initialLeaderboardPromise }: LeaderboardPageClientProps) {
+  return (
+    <Suspense fallback={<LeaderboardFallback />}>
+      <LeaderboardPageContent initialLeaderboardPromise={initialLeaderboardPromise} />
+    </Suspense>
+  );
+}
+
+function LeaderboardPageContent({ initialLeaderboardPromise }: LeaderboardPageClientProps) {
   const t = useTranslations('LeaderboardPage');
+  const initialLeaderboard = useCachedQuerySeed({
+    queryKey: queryKeys.leaderboard.monthly(),
+    promise: initialLeaderboardPromise,
+  });
   const { data: leaderboard } = useMonthlyLeaderboardQuery({
     initialData: initialLeaderboard,
   });

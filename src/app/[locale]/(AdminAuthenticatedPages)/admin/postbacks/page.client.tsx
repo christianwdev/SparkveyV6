@@ -9,7 +9,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
-import Skeleton from '@components/Skeleton/Skeleton';
 import { useUser } from '@contexts/UserProvider';
 import { useAdminPostbacksQuery } from '@hooks/useAdminUsers';
 import { queryKeys } from '@hooks/queryKeys';
@@ -36,10 +35,12 @@ import styles from './page.module.scss';
 
 function PostbacksTableFallback() {
   return (
-    <div aria-busy="true">
-      <Skeleton width="40%" height={18} borderRadius={6} />
-      <Skeleton width="100%" height={320} borderRadius={12} />
-    </div>
+    <DataTable
+      columns={[]}
+      rows={[]}
+      getRowKey={() => 'loading'}
+      loading
+    />
   );
 }
 
@@ -101,7 +102,7 @@ function PostbacksPageContent() {
         const date = toDate(row.date);
 
         return date
-          ? formatter.dateTime(date, { dateStyle: 'medium', timeStyle: 'short' })
+          ? <span className={styles.date}>{formatter.dateTime(date, { dateStyle: 'medium', timeStyle: 'short' })}</span>
           : t('na');
       },
     },
@@ -126,7 +127,9 @@ function PostbacksPageContent() {
               {t(`statuses.${row.status}`)}
             </span>
             {row.failureDetail ? (
-              <span className={styles.muted}>{row.failureDetail}</span>
+              <span className={styles.muted} title={row.failureDetail}>
+                {row.failureDetail}
+              </span>
             ) : null}
           </div>
         );
@@ -135,13 +138,17 @@ function PostbacksPageContent() {
     {
       id: 'remoteIP',
       header: t('table.remoteIP'),
-      cell: (row) => row.remoteIP || t('na'),
+      cell: (row) => (
+        <span className={styles.mono} title={row.remoteIP || undefined}>
+          {row.remoteIP || t('na')}
+        </span>
+      ),
     },
     {
       id: 'requestID',
       header: t('table.requestID'),
       cell: (row) => (
-        <span className={styles.mono}>{row.requestID}</span>
+        <span className={styles.mono} title={row.requestID}>{row.requestID}</span>
       ),
     },
   ];
@@ -150,6 +157,7 @@ function PostbacksPageContent() {
     columns.push({
       id: 'actions',
       header: t('table.actions'),
+      className: styles.actionsColumn,
       cell: (row) => {
         if (row.status !== 'failed') return t('na');
 

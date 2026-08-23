@@ -34,7 +34,7 @@ export default async function Page({ params }: PageProps) {
     redirect({ href: FrontendRedirectPaths.login, locale: locale as AppLocale });
   }
 
-  const featured = await getFeaturedRewards({ request: serverRequest });
+  const featuredPromise = getFeaturedRewards({ request: serverRequest });
 
   return (
     <main className={styles.redeemPage}>
@@ -43,7 +43,7 @@ export default async function Page({ params }: PageProps) {
         <p>{t('description')}</p>
       </div>
 
-      <RedeemPageClient initialFeatured={featured} />
+      <RedeemPageClient featuredPromise={featuredPromise} />
 
       <div className={styles.disclaimer}>
         <p>{t('disclaimer.companies')}</p>

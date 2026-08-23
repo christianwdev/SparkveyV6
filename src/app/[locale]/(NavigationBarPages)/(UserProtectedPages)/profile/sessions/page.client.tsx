@@ -1,9 +1,11 @@
 'use client';
 
-import { Suspense, use } from 'react';
+import { Suspense } from 'react';
 import { useLocale, useFormatter, useTranslations } from 'next-intl';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import { useRevokeSessionMutation, useSessionsQuery } from '@hooks/useSessionsQuery';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
+import { queryKeys } from '@hooks/queryKeys';
 import { toDate } from '@utils/date';
 import type DevicePlatform from 'types/DevicePlatform';
 import type SanitizedUserSession from 'types/SanitizedUserSession';
@@ -93,7 +95,10 @@ function SessionsPageContent({ initialSessionsPromise }: SessionsPageClientProps
   const t = useTranslations('ProfileSessions');
   const locale = useLocale();
   const formatter = useFormatter();
-  const initialSessions = use(initialSessionsPromise);
+  const initialSessions = useCachedQuerySeed({
+    queryKey: queryKeys.profile.sessions(),
+    promise: initialSessionsPromise,
+  });
   const { data: sessions = [], isPending } = useSessionsQuery({
     initialData: initialSessions,
   });

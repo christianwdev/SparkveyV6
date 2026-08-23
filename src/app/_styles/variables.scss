@@ -68,6 +68,25 @@ $textColorDarkAlways: var(--textColorDarkAlways);
   }
 }
 
+@mixin thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: $border-light transparent;
+
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $border-light;
+    border-radius: 2px;
+  }
+}
+
 @mixin clamp-lines($lines) {
   // https://stackoverflow.com/questions/3922739/limit-text-length-to-n-lines-using-css
   overflow: hidden;

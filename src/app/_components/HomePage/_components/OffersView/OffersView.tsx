@@ -1,10 +1,12 @@
 'use client';
 
-import { Suspense, use } from 'react';
+import { Suspense } from 'react';
 import OfferCarouselSection from '../OfferCarouselSection/OfferCarouselSection';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { useUser } from '@contexts/UserProvider';
 import { useHomepageOffers } from '@hooks/useHomepageOffers';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
+import { queryKeys } from '@hooks/queryKeys';
 import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
 
 type OffersViewProps = {
@@ -73,7 +75,10 @@ function OffersViewContent({
   offersPerView,
 }: OffersViewProps) {
   const { user } = useUser();
-  const initialHomepage = use(initialHomepagePromise);
+  const initialHomepage = useCachedQuerySeed({
+    queryKey: queryKeys.offers.homepage(),
+    promise: initialHomepagePromise,
+  });
   const { data: homepage, isPending } = useHomepageOffers({
     initialData: initialHomepage,
   });

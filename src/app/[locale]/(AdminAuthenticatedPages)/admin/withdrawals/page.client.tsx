@@ -10,7 +10,6 @@ import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
 import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
-import Skeleton from '@components/Skeleton/Skeleton';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
 import AdminUserCell from '@components/AdminUserCell/AdminUserCell';
 import AdminWithdrawalAttestationModal, {
@@ -55,10 +54,12 @@ function toggleFilterValue<T extends string>(list: readonly T[], value: T): T[] 
 
 function WithdrawalsTableFallback() {
   return (
-    <div aria-busy="true">
-      <Skeleton width="40%" height={18} borderRadius={6} />
-      <Skeleton width="100%" height={320} borderRadius={12} />
-    </div>
+    <DataTable
+      columns={[]}
+      rows={[]}
+      getRowKey={() => 'loading'}
+      loading
+    />
   );
 }
 

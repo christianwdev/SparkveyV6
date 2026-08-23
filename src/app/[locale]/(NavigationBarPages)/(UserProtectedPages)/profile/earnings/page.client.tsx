@@ -1,11 +1,13 @@
 'use client';
 
-import { Suspense, use, useRef, useState } from 'react';
+import { Suspense, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import Pagination from '@components/Pagination/Pagination';
 import { useEarningsHistoryQuery } from '@hooks/useEarningsHistoryQuery';
+import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
+import { queryKeys } from '@hooks/queryKeys';
 import { PROFILE_HISTORY_PAGE_SIZE } from '@utils/profile';
 import { toDate } from '@utils/date';
 import type InternalEarning from 'types/Earnings/InternalEarning';
@@ -69,7 +71,10 @@ function EarningsPageContent({ initialEarningsPromise }: EarningsPageClientProps
   const [ page, setPage ] = useState(1);
   const [ copiedId, setCopiedId ] = useState<string | null>(null);
   const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const initialEarnings = use(initialEarningsPromise);
+  const initialEarnings = useCachedQuerySeed({
+    queryKey: queryKeys.profile.earningsHistory({ page: 1, type: 'offer' }),
+    promise: initialEarningsPromise,
+  });
 
   const { data: earnings = [], isPending, isFetching } = useEarningsHistoryQuery({
     page,

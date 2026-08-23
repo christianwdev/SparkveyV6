@@ -9,7 +9,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import ModalShell from '@components/ModalShell/ModalShell';
 import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
-import Skeleton from '@components/Skeleton/Skeleton';
 
 // Hooks
 import { useUser } from '@contexts/UserProvider';
@@ -33,10 +32,12 @@ import styles from './page.module.scss';
 
 function AnnouncementsTableFallback() {
   return (
-    <div aria-busy="true">
-      <Skeleton width="40%" height={18} borderRadius={6} />
-      <Skeleton width="100%" height={160} borderRadius={12} />
-    </div>
+    <DataTable
+      columns={[]}
+      rows={[]}
+      getRowKey={() => 'loading'}
+      loading
+    />
   );
 }
 

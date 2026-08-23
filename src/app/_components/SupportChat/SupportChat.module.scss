@@ -173,21 +173,7 @@
       gap: 8px;
       overflow-x: hidden;
       overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: $border-light transparent;
-
-      &::-webkit-scrollbar {
-        width: 3px;
-      }
-
-      &::-webkit-scrollbar-track {
-        background: transparent;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        background: $border-light;
-        border-radius: 2px;
-      }
+      @include thin-scrollbar;
 
       > .timestamp {
         margin: 4px 0;
