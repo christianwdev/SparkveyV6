@@ -7,5 +7,3 @@ export const adminChatConversationIDSchema = z.object({
 export const adminChatCreateBodySchema = z.object({
   userID: z.string().trim().min(1).max(64),
 });
-
-console;
