@@ -11,6 +11,7 @@ import {
   createAdminSupportMessage,
   createUserSupportMessage,
   markSupportChatRead,
+  maybeSendAutomaticSupportReply,
 } from 'backend/utils/supportChat';
 import { getUserAvatarURL } from 'backend/utils/url';
 import { hasPermissions, StaffPermissions } from 'types/UserPermissions/StaffPermissions';
@@ -52,6 +53,18 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
 
       io.to(user.userID).emit(SocketEmits.chatMessage, result.data.message);
       io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, adminPayload);
+
+      const autoReply = await maybeSendAutomaticSupportReply({
+        conversation: result.data.conversation,
+        userMessage: result.data.message.message,
+      });
+      if (!autoReply.ok || !autoReply.data) return;
+
+      io.to(user.userID).emit(SocketEmits.chatMessage, autoReply.data);
+      io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, {
+        message: autoReply.data,
+        user: adminPayload.user,
+      });
     } catch (error) {
       console.error(error);
     }
