@@ -8,7 +8,6 @@ import { getAdminSupportConversations } from '@utils/adminChat';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 import type { AppLocale } from '@i18n/routing';
 import AdminChatPageClient from './page.client';
-import styles from './page.module.scss';
 
 type PageProps = {
   params: Promise<{ locale: AppLocale }>,
@@ -42,9 +41,5 @@ export default async function AdminChatPage({ params }: PageProps) {
 
   const conversations = await getAdminSupportConversations({ request: serverRequest });
 
-  return (
-    <main className={styles.chatPage}>
-      <AdminChatPageClient conversations={conversations ?? []} />
-    </main>
-  );
+  return <AdminChatPageClient conversations={conversations ?? []} />;
 }

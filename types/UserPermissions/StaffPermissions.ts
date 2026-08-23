@@ -24,3 +24,25 @@ export enum StaffPermissions {
   VIEW_CHAT = 1 << 19,
   REPLY_CHAT = 1 << 20,
 }
+
+/** Bits 0–16: every permission that existed before chat. */
+const LEGACY_FULL_STAFF_PERMISSIONS = (1 << 17) - 1;
+
+export function allStaffPermissionsMask(): number {
+  let mask = 0;
+  for (const value of Object.values(StaffPermissions)) {
+    if (typeof value === 'number') mask |= value;
+  }
+
+  return mask;
+}
+
+export function grantableStaffPermissionsMask(actorPerms: number): number {
+  const known = allStaffPermissionsMask();
+  const grantable = actorPerms & known;
+  if ((actorPerms & LEGACY_FULL_STAFF_PERMISSIONS) === LEGACY_FULL_STAFF_PERMISSIONS) {
+    return known;
+  }
+
+  return grantable;
+}

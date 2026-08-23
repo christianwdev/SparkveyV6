@@ -378,7 +378,9 @@
     "typeMessage": "Digite sua mensagem...",
     "send": "Enviar",
     "open": "Abrir chat de suporte",
-    "close": "Fechar"
+    "close": "Fechar",
+    "empty": "Envie uma mensagem e responderemos.",
+    "hereToHelp": "Estamos aqui para ajudar"
   },
   "PurchaseModals": {
     "common": {
@@ -1251,20 +1253,29 @@
       "users": "Users",
       "earnings": "Ganhos",
       "withdrawals": "Levantamentos",
-      "chat": "Chat"
+      "chat": "Suporte"
     }
   },
   "AdminChat": {
-    "title": "Conversas de suporte",
-    "searchPlaceholder": "Pesquisar por ID de usuário",
+    "title": "Conversas",
+    "searchPlaceholder": "Filtrar ou abrir por ID de utilizador",
     "search": "Abrir",
-    "chatTitle": "Chat de suporte",
-    "emptyTitle": "Nenhuma conversa selecionada",
-    "emptyDescription": "Selecione uma conversa para começar a conversar.",
-    "typeMessage": "Digite sua mensagem...",
+    "chatTitle": "Tópico de suporte",
+    "emptyTitle": "Seleciona uma conversa",
+    "emptyDescription": "Escolhe um tópico da lista ou abre-o pelo ID de utilizador.",
+    "typeMessage": "Escreve uma resposta…",
     "send": "Enviar",
     "noMessages": "Ainda não há mensagens",
-    "emptyInbox": "Ainda não há conversas"
+    "emptyInbox": "Ainda não há conversas",
+    "emptyFilter": "Não há conversas correspondentes",
+    "back": "Voltar",
+    "viewUser": "Ver perfil",
+    "viewOnly": "Podes ler este tópico, mas não podes responder.",
+    "errors": {
+      "notFound": "Utilizador não encontrado.",
+      "cannotCreate": "Não tens permissão para iniciar uma conversa.",
+      "generic": "Não foi possível abrir essa conversa."
+    }
   },
   "AdminDashboard": {
     "eyebrow": "Growth",
@@ -1497,10 +1508,35 @@
       "limitsDescription": "Limites de ofertas, levantamentos e códigos de afiliado.",
       "moderationTitle": "Moderação",
       "moderationDescription": "Banir, desbanir ou terminar todas as sessões.",
-      "permanentBan": "Banimento permanente"
+      "permanentBan": "Banimento permanente",
+      "permissionsTitle": "Permissões de staff",
+      "permissionsDescription": "Só podes atribuir permissões que já tens. Staff completo também pode atribuir as novas, como o chat.",
+      "permissions": {
+        "viewUsers": "Ver utilizadores",
+        "viewEarnings": "Ver ganhos",
+        "viewWithdrawals": "Ver levantamentos",
+        "viewPromocodes": "Ver códigos promo",
+        "viewSettings": "Ver definições",
+        "viewOffers": "Ver ofertas",
+        "viewLeaderboards": "Ver classificações",
+        "viewPostbacks": "Ver postbacks",
+        "viewStatistics": "Ver estatísticas",
+        "modifyUsers": "Modificar utilizadores",
+        "modifyEarnings": "Modificar ganhos",
+        "modifyWithdrawals": "Modificar levantamentos",
+        "modifyPromocodes": "Modificar códigos promo",
+        "modifySettings": "Modificar definições",
+        "modifyOffers": "Modificar ofertas",
+        "modifyLeaderboards": "Modificar classificações",
+        "modifyPostbacks": "Modificar postbacks",
+        "viewChat": "Ver chat",
+        "replyChat": "Responder no chat"
+      }
     },
     "actions": {
       "saveAccount": "Guardar conta",
+      "savePermissions": "Guardar permissões",
+      "grantAllPermissions": "Atribuir todas as que posso",
       "applyBalance": "Aplicar saldo",
       "saveLimits": "Guardar limites",
       "ban": "Banir utilizador",

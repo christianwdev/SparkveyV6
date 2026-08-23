@@ -47,16 +47,22 @@ export async function createAdminSupportConversation(
       data: { userID },
     });
 
+    if (!response.data?.success || !response.data.data) {
+      return {
+        success: false,
+        data: undefined,
+        code: response.data?.code,
+        message: response.data?.message,
+      };
+    }
+
     return {
-      success: response.data.success,
+      success: true,
       data: response.data.data,
       code: response.data.code,
       message: response.data.message,
     };
   } catch {
-    return {
-      success: false,
-      message: 'Failed to create conversation',
-    };
+    return { success: false };
   }
 }

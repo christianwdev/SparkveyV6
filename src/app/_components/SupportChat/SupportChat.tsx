@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { FormEvent, KeyboardEvent } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useFormatter, useTranslations } from 'next-intl';
 import { useSocket } from '@contexts/SocketContext';
 import { useUser } from '@contexts/UserProvider';
@@ -22,6 +23,7 @@ import type ChatMessage from 'types/ChatMessage';
 
 const TOGGLE_SUPPORT_CHAT_EVENT = 'toggleSupportChat';
 const MOBILE_BREAKPOINT = 768;
+const PANEL_TRANSITION = { duration: 0.2, ease: [ 0.22, 1, 0.36, 1 ] } as const;
 
 export default function SupportChat() {
   const { socket } = useSocket();
@@ -35,6 +37,7 @@ export default function SupportChat() {
   const [ newMessage, setNewMessage ] = useState('');
   const isOpenRef = useRef(false);
   const userIDRef = useRef(user?.userID ?? '');
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     isOpenRef.current = isOpen;
@@ -100,6 +103,8 @@ export default function SupportChat() {
   useEffect(() => {
     if (!socket) return;
 
+    const activeSocket = socket;
+
     function onChatMessage(message: ChatMessage) {
       setConversation(prev => {
         if (prev && prev.conversationID !== message.conversationID) return prev;
@@ -130,7 +135,7 @@ export default function SupportChat() {
       });
 
       if (isOpenRef.current) {
-        socket.emit(SocketEmits.chatMessageRead);
+        activeSocket.emit(SocketEmits.chatMessageRead);
       }
     }
 
@@ -145,12 +150,12 @@ export default function SupportChat() {
       });
     }
 
-    socket.on(SocketEmits.chatMessage, onChatMessage);
-    socket.on(SocketEmits.agentUpdate, onAgentUpdate);
+    activeSocket.on(SocketEmits.chatMessage, onChatMessage);
+    activeSocket.on(SocketEmits.agentUpdate, onAgentUpdate);
 
     return () => {
-      socket.off(SocketEmits.chatMessage, onChatMessage);
-      socket.off(SocketEmits.agentUpdate, onAgentUpdate);
+      activeSocket.off(SocketEmits.chatMessage, onChatMessage);
+      activeSocket.off(SocketEmits.agentUpdate, onAgentUpdate);
     };
   }, [ socket ]);
 
@@ -159,10 +164,16 @@ export default function SupportChat() {
       setIsOpen(prev => !prev);
     }
 
+    function onKeyDown(event: globalThis.KeyboardEvent) {
+      if (event.key === 'Escape') setIsOpen(false);
+    }
+
     document.addEventListener(TOGGLE_SUPPORT_CHAT_EVENT, onToggle);
+    document.addEventListener('keydown', onKeyDown);
 
     return () => {
       document.removeEventListener(TOGGLE_SUPPORT_CHAT_EVENT, onToggle);
+      document.removeEventListener('keydown', onKeyDown);
     };
   }, []);
 
@@ -179,6 +190,7 @@ export default function SupportChat() {
     });
 
     socket?.emit(SocketEmits.chatMessageRead);
+    inputRef.current?.focus();
   }, [ isOpen, socket ]);
 
   useEffect(() => {
@@ -201,9 +213,8 @@ export default function SupportChat() {
     const trimmed = newMessage.trim();
     if (!trimmed || !socket) return;
 
-    socket.emit(SocketEmits.sendChatMessage, trimmed, ok => {
-      if (ok) setNewMessage('');
-    });
+    socket.emit(SocketEmits.sendChatMessage, trimmed);
+    setNewMessage('');
   }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -221,102 +232,125 @@ export default function SupportChat() {
   const unreadLabel = conversation && conversation.unreadCount > 9
     ? '9+'
     : conversation?.unreadCount;
+  const agentName = conversation?.supportAgent?.username || t('supportAgent');
+  const agentInitial = agentName.trim().charAt(0).toUpperCase();
+  const hasMessages = Boolean(conversation?.messages.length);
 
   return (
-    <>
-      <button
-        type="button"
-        className={styles.chatBubble}
-        onClick={() => setIsOpen(prev => !prev)}
-        aria-label={t('open')}
-      >
-        <ChatIcon />
-        {conversation && conversation.unreadCount > 0 && (
-          <span className={styles.unreadBadge}>{unreadLabel}</span>
+    <div className={styles.root}>
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            type="button"
+            className={styles.chatBubble}
+            onClick={() => setIsOpen(true)}
+            aria-label={t('open')}
+            initial={{ opacity: 0, scale: 0.82 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.82 }}
+            transition={PANEL_TRANSITION}
+          >
+            <ChatIcon />
+            {conversation && conversation.unreadCount > 0 && (
+              <span className={styles.unreadBadge}>{unreadLabel}</span>
+            )}
+          </motion.button>
         )}
-      </button>
+      </AnimatePresence>
 
-      {isOpen && (
-        <div
-          className={[ styles.chatContainer, isMobile ? styles.mobile : '' ].filter(Boolean).join(' ')}
-        >
-          <div className={styles.chatHeader}>
-            <div className={styles.userAvatar}>
-              {conversation?.supportAgent?.avatar && (
-                <img
-                  src={conversation.supportAgent.avatar}
-                  alt=""
-                  width={32}
-                  height={32}
-                />
-              )}
-            </div>
-
-            <p className={styles.agentInfo}>
-              {t('talkingTo')}
-              {' '}
-              <span>{conversation?.supportAgent?.username || t('supportAgent')}</span>
-            </p>
-
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={() => setIsOpen(false)}
-              aria-label={t('close')}
-            >
-              <CloseIcon />
-            </button>
-          </div>
-
-          <div className={styles.chatMessages}>
-            {conversation?.lastMessageTimestamp ? (
-              <p className={styles.timestamp}>
-                {formatter.dateTime(new Date(conversation.lastMessageTimestamp), {
-                  dateStyle: 'medium',
-                  timeStyle: 'short',
-                })}
-              </p>
-            ) : null}
-
-            <div className={styles.messagesWrapper}>
-              {conversation?.messages.map(message => (
-                <div
-                  key={message.messageID}
-                  className={[ styles.message, styles[message.senderType] ].join(' ')}
-                >
-                  <SupportMessageBody
-                    message={message.message}
-                    imageEmbeds={message.imageEmbeds ?? []}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className={[ styles.panel, isMobile ? styles.mobile : '' ].filter(Boolean).join(' ')}
+            role="dialog"
+            aria-label={t('supportAgent')}
+            initial={isMobile ? { opacity: 0, y: 28 } : { opacity: 0, y: 14, scale: 0.96 }}
+            animate={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, y: 0, scale: 1 }}
+            exit={isMobile ? { opacity: 0, y: 16 } : { opacity: 0, y: 10, scale: 0.96 }}
+            transition={PANEL_TRANSITION}
+          >
+            <div className={styles.chatHeader}>
+              <div className={styles.userAvatar}>
+                {conversation?.supportAgent?.avatar ? (
+                  <img
+                    src={conversation.supportAgent.avatar}
+                    alt=""
+                    width={36}
+                    height={36}
                   />
-                </div>
-              ))}
-            </div>
-          </div>
+                ) : (
+                  <span>{agentInitial}</span>
+                )}
+              </div>
 
-          <form className={styles.chatInput} onSubmit={onSubmit}>
-            <div className={styles.inputWrapper}>
-              <input
-                type="text"
-                className={styles.chatInputInput}
-                placeholder={t('typeMessage')}
-                value={newMessage}
-                maxLength={SUPPORT_MESSAGE_MAX_LENGTH}
-                onChange={event => setNewMessage(event.target.value)}
-                onKeyDown={onKeyDown}
-              />
+              <div className={styles.agentInfo}>
+                <p>{agentName}</p>
+                <p>{t('hereToHelp')}</p>
+              </div>
 
               <button
-                type="submit"
-                className={styles.chatInputButton}
-                aria-label={t('send')}
-                disabled={!newMessage.trim()}
+                type="button"
+                className={styles.closeButton}
+                onClick={() => setIsOpen(false)}
+                aria-label={t('close')}
               >
-                <SendIcon />
+                <CloseIcon />
               </button>
             </div>
-          </form>
-        </div>
-      )}
-    </>
+
+            <div className={styles.chatMessages}>
+              {conversation?.lastMessageTimestamp ? (
+                <p className={styles.timestamp}>
+                  {formatter.dateTime(new Date(conversation.lastMessageTimestamp), {
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  })}
+                </p>
+              ) : null}
+
+              <div className={styles.messagesWrapper}>
+                {hasMessages ? conversation?.messages.map(message => (
+                  <div
+                    key={message.messageID}
+                    className={[ styles.message, styles[message.senderType] ].join(' ')}
+                  >
+                    <SupportMessageBody
+                      message={message.message}
+                      imageEmbeds={message.imageEmbeds ?? []}
+                    />
+                  </div>
+                )) : (
+                  <p className={styles.empty}>{t('empty')}</p>
+                )}
+              </div>
+            </div>
+
+            <form className={styles.chatInput} onSubmit={onSubmit}>
+              <div className={styles.inputWrapper}>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  className={styles.chatInputInput}
+                  placeholder={t('typeMessage')}
+                  value={newMessage}
+                  maxLength={SUPPORT_MESSAGE_MAX_LENGTH}
+                  onChange={event => setNewMessage(event.target.value)}
+                  onKeyDown={onKeyDown}
+                />
+
+                <button
+                  type="submit"
+                  className={styles.chatInputButton}
+                  aria-label={t('send')}
+                  disabled={!newMessage.trim()}
+                >
+                  <SendIcon />
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

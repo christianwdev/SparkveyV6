@@ -5,10 +5,10 @@ import SupportMessageBody from '@components/SupportMessageBody/SupportMessageBod
 import styles from './ChatMessage.module.scss';
 
 // Types
-import type ChatMessage from 'types/ChatMessage';
+import type Message from 'types/ChatMessage';
 
 type ChatMessageProps = {
-  message: ChatMessage,
+  message: Message,
 };
 
 export default function ChatMessage({ message }: ChatMessageProps) {

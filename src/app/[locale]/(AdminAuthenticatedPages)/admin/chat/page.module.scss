@@ -1,221 +1,261 @@
 @use '@styles/variables.scss' as *;
-@use 'sass:color';
 
 .chatPage {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  height: calc(100dvh - 132px);
-  min-height: 480px;
+  background: $background;
 
-  > .supportWrapper {
-    width: 100%;
-    flex: 1;
-    min-height: 0;
+  > .inbox {
     display: flex;
-    border-radius: 8px;
-    border: 1px solid $border-light;
-    overflow: hidden;
-    background: $off-white;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    width: 320px;
+    max-width: 360px;
+    flex-shrink: 0;
+    border-right: 1px solid $border-light;
 
-    > .conversationsWrapper {
-      flex: 1;
-      min-height: 0;
+    > .inboxHeader {
       display: flex;
-      flex-direction: column;
-      max-width: 400px;
-      border-right: 1px solid $border-light;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid $border-light;
 
-      > .conversationsHeader {
+      > .searchField {
         display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 20px;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+        height: 40px;
+        padding: 0 12px;
+        border: 1px solid $border-light;
+        border-radius: 10px;
+        background: $background;
+        box-sizing: border-box;
 
-        > h2 {
-          margin: 0;
-          font-size: 20px;
-          font-weight: 600;
+        > svg {
+          width: 16px;
+          height: 16px;
+          color: $text-light;
+          flex-shrink: 0;
         }
 
-        > .searchWrapper {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          gap: 10px;
+        > input {
+          flex: 1;
+          min-width: 0;
+          height: 100%;
+          border: none;
+          background: transparent;
+          color: $text-bold;
+          font-size: 13px;
+          font-weight: 500;
+          outline: none;
 
-          > input {
-            width: 100%;
-            height: 40px;
-            padding: 0 10px;
-            box-sizing: border-box;
-            border: 1px solid $border-light;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-            color: $text-bold;
-            background-color: $off-white;
-          }
-
-          > .searchButton {
-            height: 40px;
-            width: 40px;
-            padding: 0;
-            border: none;
-            border-radius: 4px;
-            background-color: $primary;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-
-            &:disabled {
-              opacity: 0.5;
-              cursor: default;
-            }
-
-            &:not(:disabled):hover {
-              background-color: color.adjust($primary, $lightness: -10%);
-            }
-
-            > svg {
-              width: 20px;
-              height: 20px;
-            }
+          &::placeholder {
+            color: $text-light;
           }
         }
       }
 
-      > .conversationsList {
-        background-color: $background;
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
+      > .openButton {
+        flex-shrink: 0;
+        height: 40px;
+        padding: 0 12px;
+        border: none;
+        border-radius: 10px;
+        background: $primary;
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
 
-        > .emptyInbox {
-          margin: 0;
-          padding: 20px;
-          font-size: 14px;
-          color: $text-light;
+        &:disabled {
+          opacity: 0.45;
+          cursor: default;
         }
       }
     }
 
-    > .chatWrapper {
+    > .inboxList {
       flex: 1;
       min-height: 0;
+      overflow-y: auto;
+
+      > .empty {
+        margin: 0;
+        padding: 24px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+        text-align: center;
+      }
+    }
+  }
+
+  > .thread {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+
+    > .threadHeader {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 12px 16px;
+      border-bottom: 1px solid $border-light;
+      box-sizing: border-box;
 
-      > .chatHeader {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 20px;
-        border-bottom: 1px solid $border-light;
-
-        > h2 {
-          margin: 0;
-          font-size: 20px;
-          font-weight: 600;
-        }
-
-        > a {
-          text-decoration: none;
-          color: $text-bold;
-
-          > h2 {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-          }
-
-          > p {
-            margin: 0;
-            font-size: 14px;
-            font-weight: 400;
-            color: $text-light;
-          }
-
-          &:hover {
-            color: $primary;
-          }
-        }
-      }
-
-      > .chatMessages {
-        min-height: 0;
-        display: flex;
-        flex-direction: column-reverse;
-        width: 100%;
-        padding: 20px;
-        gap: 12px;
-        overflow-y: auto;
-        box-sizing: border-box;
-      }
-
-      > .chatEmpty {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
+      > .backButton {
+        display: none;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: none;
+        border-radius: 8px;
+        background: $light-gray;
+        color: $text-bold;
+        cursor: pointer;
         align-items: center;
         justify-content: center;
-        gap: 8px;
 
-        > h2,
-        > p {
-          margin: 0;
-        }
-
-        > p {
-          color: $text-light;
+        > svg {
+          width: 16px;
+          height: 16px;
         }
       }
 
-      > .chatInput {
+      > .threadAvatar {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: $primary;
+        color: white;
         display: flex;
-        gap: 10px;
-        padding: 20px;
-        border-top: 1px solid $border-light;
-        margin-top: auto;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      > .threadUser {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        > p {
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:first-child {
+            font-size: 14px;
+            font-weight: 600;
+            color: $text-bold;
+          }
+
+          &:last-child {
+            font-size: 12px;
+            font-weight: 500;
+            color: $text-light;
+          }
+        }
+      }
+
+      > .profileLink {
+        margin-left: auto;
+        flex-shrink: 0;
+        font-size: 13px;
+        font-weight: 600;
+        color: $primary;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    > .threadMessages {
+      display: flex;
+      flex-direction: column-reverse;
+      flex: 1;
+      min-height: 0;
+      gap: 10px;
+      padding: 16px 20px;
+      overflow-y: auto;
+
+      > .empty {
+        margin: auto 0;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+      }
+    }
+
+    > .composer {
+      padding: 12px 16px 16px;
+
+      > .composerField {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 4px 4px 4px 16px;
+        border-radius: 24px;
+        background: $light-gray;
 
         > input {
           flex: 1;
-          height: 40px;
-          padding: 0 10px;
-          box-sizing: border-box;
-          background-color: $off-white;
-          border: 1px solid $border-light;
-          color: $text-bold;
-          border-radius: 24px;
+          min-width: 0;
+          height: 36px;
+          padding: 0;
+          border: none;
+          outline: none;
+          background: transparent;
           font-size: 14px;
+          font-weight: 400;
+          color: $text-bold;
 
-          &:focus {
-            outline: none;
-            border-color: $primary;
+          &::placeholder {
+            color: $text-light;
           }
         }
 
         > button {
-          height: 40px;
-          width: 40px;
+          width: 36px;
+          height: 36px;
+          min-width: 36px;
           padding: 0;
           border: none;
-          background-color: $primary;
-          color: white;
           border-radius: 50%;
+          background: $primary;
+          color: white;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
 
           &:disabled {
-            opacity: 0.5;
+            opacity: 0.35;
             cursor: default;
-          }
-
-          &:not(:disabled):hover {
-            background-color: color.adjust($primary, $lightness: -10%);
           }
 
           > svg {
@@ -225,24 +265,64 @@
         }
       }
     }
+
+    > .viewOnly {
+      margin: 0;
+      padding: 14px 16px;
+      border-top: 1px solid $border-light;
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+      text-align: center;
+    }
+
+    > .threadEmpty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 24px;
+
+      > h2,
+      > p {
+        margin: 0;
+        text-align: center;
+      }
+
+      > h2 {
+        font-size: 16px;
+        font-weight: 600;
+        color: $text-bold;
+      }
+
+      > p {
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+        max-width: 280px;
+      }
+    }
   }
 
-  @media (max-width: $small-tablet) {
-    height: auto;
-    min-height: 0;
+  @media screen and (max-width: $small-tablet) {
+    > .inbox {
+      width: 100%;
+      max-width: none;
+      border-right: none;
+    }
 
-    > .supportWrapper {
-      flex-direction: column;
-      height: auto;
+    &:not(.threadOpen) > .thread {
+      display: none;
+    }
 
-      > .conversationsWrapper {
-        max-width: none;
-        max-height: 400px;
-      }
+    &.threadOpen > .inbox {
+      display: none;
+    }
 
-      > .chatWrapper {
-        min-height: 500px;
-      }
+    > .thread > .threadHeader > .backButton {
+      display: inline-flex;
     }
   }
 }

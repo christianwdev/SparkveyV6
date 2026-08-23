@@ -378,7 +378,9 @@
     "typeMessage": "Escribe tu mensaje...",
     "send": "Enviar",
     "open": "Abrir chat de soporte",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "empty": "Envía un mensaje y te responderemos.",
+    "hereToHelp": "Estamos para ayudarte"
   },
   "PurchaseModals": {
     "common": {
@@ -1251,20 +1253,29 @@
       "users": "Users",
       "earnings": "Ganancias",
       "withdrawals": "Retiros",
-      "chat": "Chat"
+      "chat": "Soporte"
     }
   },
   "AdminChat": {
-    "title": "Conversaciones de soporte",
-    "searchPlaceholder": "Buscar por ID de usuario",
+    "title": "Conversaciones",
+    "searchPlaceholder": "Filtrar o abrir por ID de usuario",
     "search": "Abrir",
-    "chatTitle": "Chat de soporte",
-    "emptyTitle": "Ninguna conversación seleccionada",
-    "emptyDescription": "Selecciona una conversación para empezar a chatear.",
-    "typeMessage": "Escribe tu mensaje...",
+    "chatTitle": "Hilo de soporte",
+    "emptyTitle": "Elige una conversación",
+    "emptyDescription": "Selecciona un hilo de la bandeja o ábrelo por ID de usuario.",
+    "typeMessage": "Escribe una respuesta…",
     "send": "Enviar",
     "noMessages": "Aún no hay mensajes",
-    "emptyInbox": "Aún no hay conversaciones"
+    "emptyInbox": "Aún no hay conversaciones",
+    "emptyFilter": "No hay conversaciones coincidentes",
+    "back": "Atrás",
+    "viewUser": "Ver perfil",
+    "viewOnly": "Puedes leer este hilo, pero no responder.",
+    "errors": {
+      "notFound": "Usuario no encontrado.",
+      "cannotCreate": "No tienes permiso para iniciar una conversación.",
+      "generic": "No se pudo abrir esa conversación."
+    }
   },
   "AdminDashboard": {
     "eyebrow": "Growth",
@@ -1497,10 +1508,35 @@
       "limitsDescription": "Límites de ofertas, retiros y códigos de afiliado.",
       "moderationTitle": "Moderación",
       "moderationDescription": "Bloquea, desbloquea o cierra todas las sesiones.",
-      "permanentBan": "Bloqueo permanente"
+      "permanentBan": "Bloqueo permanente",
+      "permissionsTitle": "Permisos de staff",
+      "permissionsDescription": "Solo puedes conceder permisos que ya tienes. El staff completo también puede conceder los nuevos, como el chat.",
+      "permissions": {
+        "viewUsers": "Ver usuarios",
+        "viewEarnings": "Ver ganancias",
+        "viewWithdrawals": "Ver retiros",
+        "viewPromocodes": "Ver códigos promo",
+        "viewSettings": "Ver ajustes",
+        "viewOffers": "Ver ofertas",
+        "viewLeaderboards": "Ver clasificaciones",
+        "viewPostbacks": "Ver postbacks",
+        "viewStatistics": "Ver estadísticas",
+        "modifyUsers": "Modificar usuarios",
+        "modifyEarnings": "Modificar ganancias",
+        "modifyWithdrawals": "Modificar retiros",
+        "modifyPromocodes": "Modificar códigos promo",
+        "modifySettings": "Modificar ajustes",
+        "modifyOffers": "Modificar ofertas",
+        "modifyLeaderboards": "Modificar clasificaciones",
+        "modifyPostbacks": "Modificar postbacks",
+        "viewChat": "Ver chat",
+        "replyChat": "Responder en el chat"
+      }
     },
     "actions": {
       "saveAccount": "Guardar cuenta",
+      "savePermissions": "Guardar permisos",
+      "grantAllPermissions": "Conceder todos los míos",
       "applyBalance": "Aplicar saldo",
       "saveLimits": "Guardar límites",
       "ban": "Bloquear usuario",

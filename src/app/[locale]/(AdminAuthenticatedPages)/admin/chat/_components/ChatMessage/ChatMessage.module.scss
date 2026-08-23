@@ -4,15 +4,16 @@
   display: flex;
   flex-direction: column;
   width: fit-content;
-  max-width: 80%;
+  max-width: 78%;
+  gap: 4px;
 
   &.admin {
     align-self: flex-end;
 
     > .messageContent {
-      margin-left: auto;
-      background-color: $primary;
+      background: $primary;
       color: white;
+      border-radius: 16px 16px 4px 16px;
     }
 
     > .messageTime {
@@ -24,27 +25,23 @@
     align-self: flex-start;
 
     > .messageContent {
-      background-color: $light-blue;
+      background: $light-gray;
       color: $text-bold;
-    }
-
-    > .messageTime {
-      text-align: left;
+      border-radius: 16px 16px 16px 4px;
     }
   }
 
   > .messageContent {
-    padding: 12px 16px;
+    padding: 10px 12px;
     word-wrap: break-word;
     font-size: 14px;
     line-height: 1.4;
-    border-radius: 16px;
     width: fit-content;
   }
 
   > .messageTime {
     font-size: 11px;
+    font-weight: 500;
     color: $text-light;
-    margin-top: 4px;
   }
 }

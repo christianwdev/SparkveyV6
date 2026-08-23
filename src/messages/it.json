@@ -378,7 +378,9 @@
     "typeMessage": "Scrivi il tuo messaggio...",
     "send": "Invia",
     "open": "Apri chat di supporto",
-    "close": "Chiudi"
+    "close": "Chiudi",
+    "empty": "Invia un messaggio e ti risponderemo.",
+    "hereToHelp": "Siamo qui per aiutarti"
   },
   "PurchaseModals": {
     "common": {
@@ -1251,20 +1253,29 @@
       "users": "Users",
       "earnings": "Guadagni",
       "withdrawals": "Prelievi",
-      "chat": "Chat"
+      "chat": "Supporto"
     }
   },
   "AdminChat": {
-    "title": "Conversazioni di supporto",
-    "searchPlaceholder": "Cerca per ID utente",
+    "title": "Conversazioni",
+    "searchPlaceholder": "Filtra o apri per ID utente",
     "search": "Apri",
-    "chatTitle": "Chat di supporto",
-    "emptyTitle": "Nessuna conversazione selezionata",
-    "emptyDescription": "Seleziona una conversazione per iniziare a chattare.",
-    "typeMessage": "Scrivi il tuo messaggio...",
+    "chatTitle": "Thread di supporto",
+    "emptyTitle": "Seleziona una conversazione",
+    "emptyDescription": "Scegli un thread dalla lista oppure aprilo con l’ID utente.",
+    "typeMessage": "Scrivi una risposta…",
     "send": "Invia",
     "noMessages": "Nessun messaggio ancora",
-    "emptyInbox": "Nessuna conversazione ancora"
+    "emptyInbox": "Nessuna conversazione ancora",
+    "emptyFilter": "Nessuna conversazione corrispondente",
+    "back": "Indietro",
+    "viewUser": "Vedi profilo",
+    "viewOnly": "Puoi leggere questo thread, ma non rispondere.",
+    "errors": {
+      "notFound": "Utente non trovato.",
+      "cannotCreate": "Non hai il permesso di avviare una conversazione.",
+      "generic": "Impossibile aprire quella conversazione."
+    }
   },
   "AdminDashboard": {
     "eyebrow": "Growth",
@@ -1497,10 +1508,35 @@
       "limitsDescription": "Limiti di offerte, prelievi e codici affiliato.",
       "moderationTitle": "Moderazione",
       "moderationDescription": "Banna, sbanna o disconnetti ovunque.",
-      "permanentBan": "Ban permanente"
+      "permanentBan": "Ban permanente",
+      "permissionsTitle": "Permessi staff",
+      "permissionsDescription": "Puoi assegnare solo i permessi che hai già. Lo staff completo può anche assegnare quelli nuovi, come la chat.",
+      "permissions": {
+        "viewUsers": "Vedi utenti",
+        "viewEarnings": "Vedi guadagni",
+        "viewWithdrawals": "Vedi prelievi",
+        "viewPromocodes": "Vedi codici promo",
+        "viewSettings": "Vedi impostazioni",
+        "viewOffers": "Vedi offerte",
+        "viewLeaderboards": "Vedi classifiche",
+        "viewPostbacks": "Vedi postback",
+        "viewStatistics": "Vedi statistiche",
+        "modifyUsers": "Modifica utenti",
+        "modifyEarnings": "Modifica guadagni",
+        "modifyWithdrawals": "Modifica prelievi",
+        "modifyPromocodes": "Modifica codici promo",
+        "modifySettings": "Modifica impostazioni",
+        "modifyOffers": "Modifica offerte",
+        "modifyLeaderboards": "Modifica classifiche",
+        "modifyPostbacks": "Modifica postback",
+        "viewChat": "Vedi chat",
+        "replyChat": "Rispondi in chat"
+      }
     },
     "actions": {
       "saveAccount": "Salva account",
+      "savePermissions": "Salva permessi",
+      "grantAllPermissions": "Assegna tutti i miei",
       "applyBalance": "Applica saldo",
       "saveLimits": "Salva limiti",
       "ban": "Banna utente",

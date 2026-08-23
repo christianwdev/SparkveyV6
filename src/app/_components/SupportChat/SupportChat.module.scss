@@ -1,249 +1,282 @@
 @use '@styles/variables.scss' as *;
 
-.chatBubble {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  width: 60px;
-  height: 60px;
-  padding: 0;
-  border: none;
-  background: $primary;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(74, 63, 208, 0.3);
-  color: white;
-  transition: transform 0.2s, box-shadow 0.2s;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(74, 63, 208, 0.4);
-  }
-
-  > svg {
-    width: 26px;
-    height: 26px;
-    color: white;
-  }
-
-  > .unreadBadge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background: $red;
-    color: white;
+.root {
+  > .chatBubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border: none;
+    background: $primary;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    font-weight: 600;
-    border: 2px solid $background;
-  }
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(158, 56, 208, 0.35);
+    color: white;
 
-  @media screen and (max-width: $large-phone) {
-    display: none;
-  }
-}
+    &:hover {
+      box-shadow: 0 10px 28px rgba(158, 56, 208, 0.45);
+    }
 
-.chatContainer {
-  z-index: 1001;
-  position: fixed;
-  bottom: 90px;
-  right: 20px;
-  overflow: hidden;
-  width: 380px;
-  height: 450px;
-  max-width: calc(100vw - 32px);
-  max-height: calc(100dvh - 110px);
-  padding-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  background: $off-white;
-  border-radius: 10px;
-  box-shadow: 0 3px 7.5px 0 #0000000d;
+    > svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+    }
 
-  &.mobile {
-    inset: 0;
-    width: 100%;
-    height: calc(100dvh - 75px);
-    max-width: none;
-    max-height: none;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  > .chatHeader {
-    height: 60px;
-    border-bottom: 1px solid $border-light;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    > .userAvatar {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
+    > .unreadBadge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: $red;
+      color: white;
       border-radius: 50%;
-      overflow: hidden;
-      background: $primary;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      > img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-
-    > .agentInfo {
-      margin: 0;
-      font-size: 12px;
-      font-weight: 300;
-      color: $text-bold;
-
-      > span {
-        font-weight: 600;
-      }
-    }
-
-    > .closeButton {
-      width: 20px;
+      min-width: 20px;
       height: 20px;
-      margin-left: auto;
-      padding: 0;
-      border: none;
-      border-radius: 50%;
-      background: $light-blue;
-      color: $text-light;
+      padding: 0 5px;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      border: 2px solid $background;
+      box-sizing: border-box;
+    }
 
-      > svg {
-        width: 10px;
-        height: 10px;
-      }
-
-      &:hover {
-        background: $primary;
-        color: white;
-      }
+    @media screen and (max-width: $large-phone) {
+      display: none;
     }
   }
 
-  > .chatMessages {
-    position: relative;
-    width: 100%;
-    flex: 1;
-    overflow-y: auto;
+  > .panel {
+    z-index: 1001;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    overflow: hidden;
+    width: 380px;
+    height: min(520px, calc(100dvh - 40px));
+    max-width: calc(100vw - 32px);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    background: $off-white;
+    border: 1px solid $border-light;
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+    transform-origin: bottom right;
 
-    > .timestamp {
-      margin: 0;
-      font-size: 12px;
-      font-weight: 300;
-      color: $text-light;
-      text-align: center;
+    &.mobile {
+      inset: 0;
+      bottom: $mobile-nav-height;
       width: 100%;
-      position: sticky;
-      top: 10px;
-      background: $off-white;
-      z-index: 1;
+      height: calc(100dvh - #{$mobile-nav-height});
+      max-width: none;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+      transform-origin: center bottom;
     }
 
-    > .messagesWrapper {
-      display: flex;
-      flex-direction: column-reverse;
-      gap: 12px;
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-      padding: 24px 15px;
-
-      > .message {
-        width: fit-content;
-        max-width: 85%;
-        padding: 10px;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-
-        &.user {
-          background: $primary;
-          color: white;
-          align-self: flex-end;
-        }
-
-        &.admin {
-          background: $light-blue;
-          color: $text-light;
-          align-self: flex-start;
-        }
-      }
-    }
-  }
-
-  > .chatInput {
-    padding: 0 15px;
-    display: flex;
-
-    > .inputWrapper {
-      background: $light-blue;
-      border-radius: 5px;
-      padding: 0 15px;
-      height: 45px;
-      width: 100%;
+    > .chatHeader {
+      min-height: 64px;
+      border-bottom: 1px solid $border-light;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
+      gap: 12px;
 
-      > .chatInputInput {
-        flex: 1;
-        height: 100%;
-        padding: 0 10px;
-        box-sizing: border-box;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        font-weight: 400;
-        color: $text-bold;
-        background: transparent;
+      > .userAvatar {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: $primary;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
 
-        &::placeholder {
-          color: $text-light;
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
       }
 
-      > .chatInputButton {
-        background: none;
-        border: none;
+      > .agentInfo {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        > p {
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:first-child {
+            font-size: 14px;
+            font-weight: 600;
+            color: $text-bold;
+          }
+
+          &:last-child {
+            font-size: 12px;
+            font-weight: 400;
+            color: $text-light;
+          }
+        }
+      }
+
+      > .closeButton {
+        width: 32px;
+        height: 32px;
+        margin-left: auto;
         padding: 0;
-        color: $primary;
+        border: none;
+        border-radius: 50%;
+        background: $light-blue;
+        color: $text-light;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
 
-        &:disabled {
-          opacity: 0.4;
-          cursor: default;
+        > svg {
+          width: 14px;
+          height: 14px;
         }
 
-        > svg {
-          width: 16px;
-          height: 16px;
+        &:hover {
+          background: $primary;
+          color: white;
+        }
+      }
+    }
+
+    > .chatMessages {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+
+      > .timestamp {
+        margin: 0;
+        padding: 10px 16px 0;
+        font-size: 12px;
+        font-weight: 400;
+        color: $text-light;
+        text-align: center;
+      }
+
+      > .messagesWrapper {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 8px;
+        width: 100%;
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+
+        > .empty {
+          margin: auto 0 8px;
+          text-align: center;
+          font-size: 13px;
+          font-weight: 400;
+          color: $text-light;
+          line-height: 1.45;
+        }
+
+        > .message {
+          width: fit-content;
+          max-width: 82%;
+          padding: 10px 12px;
+          display: flex;
+          flex-direction: column;
+          font-size: 14px;
+          line-height: 1.4;
+
+          &.user {
+            background: $primary;
+            color: white;
+            align-self: flex-end;
+            border-radius: 16px 16px 4px 16px;
+          }
+
+          &.admin {
+            background: $light-blue;
+            color: $text-bold;
+            align-self: flex-start;
+            border-radius: 16px 16px 16px 4px;
+          }
+        }
+      }
+    }
+
+    > .chatInput {
+      padding: 12px 16px 16px;
+      display: flex;
+
+      > .inputWrapper {
+        background: $light-blue;
+        border-radius: 24px;
+        padding: 4px 4px 4px 16px;
+        min-height: 44px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        > .chatInputInput {
+          flex: 1;
+          height: 100%;
+          padding: 0;
+          box-sizing: border-box;
+          border: none;
+          outline: none;
+          font-size: 15px;
+          font-weight: 400;
+          color: $text-bold;
+          background: transparent;
+
+          &::placeholder {
+            color: $text-light;
+          }
+        }
+
+        > .chatInputButton {
+          width: 36px;
+          height: 36px;
+          min-width: 36px;
+          border: none;
+          border-radius: 50%;
+          background: $primary;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+
+          &:disabled {
+            opacity: 0.35;
+            cursor: default;
+          }
+
+          > svg {
+            width: 16px;
+            height: 16px;
+          }
         }
       }
     }

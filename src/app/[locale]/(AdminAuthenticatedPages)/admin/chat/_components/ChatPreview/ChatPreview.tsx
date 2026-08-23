@@ -22,6 +22,10 @@ export default function ChatPreview(
   const t = useTranslations('AdminChat');
   const formatter = useFormatter();
   const lastMessage = conversation.messages[0]?.message ?? t('noMessages');
+  const initial = conversation.user.username.trim().charAt(0).toUpperCase() || '?';
+  const unreadLabel = conversation.unreadCountAdmin > 9
+    ? '9+'
+    : conversation.unreadCountAdmin;
 
   return (
     <button
@@ -39,7 +43,7 @@ export default function ChatPreview(
         />
       ) : (
         <span className={styles.avatarFallback} aria-hidden>
-          {conversation.user.username.slice(0, 1).toUpperCase()}
+          {initial}
         </span>
       )}
 
@@ -48,18 +52,19 @@ export default function ChatPreview(
         <p>{lastMessage}</p>
       </div>
 
-      {conversation.lastMessageTimestamp > 0 && (
-        <p className={styles.timestamp}>
-          {formatter.dateTime(new Date(conversation.lastMessageTimestamp), {
-            dateStyle: 'short',
-            timeStyle: 'short',
-          })}
-        </p>
-      )}
-
-      {conversation.unreadCountAdmin > 0 && (
-        <p className={styles.unreadCount}>{conversation.unreadCountAdmin}</p>
-      )}
+      <div className={styles.meta}>
+        {conversation.lastMessageTimestamp > 0 ? (
+          <p className={styles.timestamp}>
+            {formatter.dateTime(new Date(conversation.lastMessageTimestamp), {
+              dateStyle: 'short',
+              timeStyle: 'short',
+            })}
+          </p>
+        ) : null}
+        {conversation.unreadCountAdmin > 0 ? (
+          <span className={styles.unreadCount}>{unreadLabel}</span>
+        ) : null}
+      </div>
     </button>
   );
 }

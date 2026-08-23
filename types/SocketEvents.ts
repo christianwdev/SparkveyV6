@@ -21,7 +21,7 @@ export interface ServerToClientEvents {
 }
 
 export interface ClientToServerEvents {
-  sendChatMessage: (message: string, callback: (ok: boolean) => void) => void,
+  sendChatMessage: (message: string) => void,
   adminSendChatMessage: (data: { message: string, conversationID: string }) => void,
   chatMessageRead: (conversationID?: string, asAdmin?: boolean) => void,
 }

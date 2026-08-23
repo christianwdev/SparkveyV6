@@ -93,8 +93,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     required: item.permission,
   }));
 
+  const isChat = pageTitleKey === 'chat';
+
   return (
-    <div className={styles.adminShell}>
+    <div className={[ styles.adminShell, isChat ? styles.chatMode : '' ].filter(Boolean).join(' ')}>
       <aside className={styles.sidebar}>
         <div className={styles.header}>
           <Link href={FrontendRedirectPaths.admin} className={styles.logoWrapper}>
@@ -147,7 +149,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <h1 className={styles.pageTitle}>{t(`nav.${pageTitleKey}`)}</h1>
         </header>
 
-        <div className={styles.main}>
+        <div className={[ styles.main, isChat ? styles.mainFlush : '' ].filter(Boolean).join(' ')}>
           <AdminUserRiskProvider>
             {children}
           </AdminUserRiskProvider>

@@ -23,37 +23,21 @@ const CHAT_SEND_MAX_REQUESTS = 10;
 const CHAT_SEND_WINDOW_SECONDS = 30;
 
 export function registerSupportChatHandlers(socket: TypedSocket): void {
-  socket.on('sendChatMessage', async (message, callback) => {
+  socket.on('sendChatMessage', async (message) => {
     try {
       const user = await assertChatSession(socket);
-      if (!user) {
-        callback?.(false);
-
-        return;
-      }
-      if (typeof message !== 'string') {
-        callback?.(false);
-
-        return;
-      }
+      if (!user) return;
+      if (typeof message !== 'string') return;
 
       const allowed = await allowChatSend(user.userID);
-      if (!allowed) {
-        callback?.(false);
-
-        return;
-      }
+      if (!allowed) return;
 
       const result = await createUserSupportMessage({
         user,
         message,
       });
 
-      if (!result.ok) {
-        callback?.(false);
-
-        return;
-      }
+      if (!result.ok) return;
 
       const { io } = getGlobalObject();
       const adminPayload: AdminChatMessagePayload = {
@@ -67,10 +51,8 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
 
       io.to(user.userID).emit(SocketEmits.chatMessage, result.data.message);
       io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, adminPayload);
-      callback?.(true);
     } catch (error) {
       console.error(error);
-      callback?.(false);
     }
   });
 
@@ -78,14 +60,10 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
     try {
       const admin = await assertChatSession(socket);
       if (!admin) return;
-      if (!hasPermission(admin.staffPermissions, StaffPermissions.VIEW_CHAT)) return;
-      if (!hasPermission(admin.staffPermissions, StaffPermissions.REPLY_CHAT)) return;
+      if (!hasPermission(admin.staffPermissions, StaffPermissions.VIEW_CHAT | StaffPermissions.REPLY_CHAT)) return;
       if (!data || typeof data !== 'object') return;
       if (typeof data.message !== 'string') return;
       if (typeof data.conversationID !== 'string') return;
-
-      const allowed = await allowChatSend(admin.userID);
-      if (!allowed) return;
 
       const result = await createAdminSupportMessage({
         admin,
@@ -96,17 +74,17 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
       if (!result.ok) return;
 
       const { io } = getGlobalObject();
+
       const threadUser = await getRawUser({ userID: result.data.conversation.userID });
+
       const adminPayload: AdminChatMessagePayload = {
         message: result.data.message,
         user: {
           userID: result.data.conversation.userID,
           username: threadUser.ok ? threadUser.data.username : '',
+          avatar: threadUser.ok && threadUser.data.avatar ? threadUser.data.avatar : undefined,
         },
       };
-      if (threadUser.ok && threadUser.data.avatar) {
-        adminPayload.user.avatar = threadUser.data.avatar;
-      }
 
       io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, adminPayload);
       io.to(result.data.conversation.userID).emit(SocketEmits.chatMessage, result.data.message);
@@ -173,7 +151,9 @@ async function assertChatSession(socket: TypedSocket): Promise<InternalUser | nu
 
   socket.data.staffPermissions = userResult.data.staffPermissions;
 
-  if (!hasPermission(userResult.data.staffPermissions, StaffPermissions.VIEW_CHAT)) {
+  if (hasPermission(userResult.data.staffPermissions, StaffPermissions.VIEW_CHAT)) {
+    await socket.join(SocketRooms.adminChat);
+  } else {
     await socket.leave(SocketRooms.adminChat);
   }
 

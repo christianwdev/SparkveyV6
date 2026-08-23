@@ -188,13 +188,32 @@ $sidebar-pad-x: 12px;
     > .main {
       flex: 1;
       padding: 24px 40px 48px;
+
+      &.mainFlush {
+        padding: 0;
+        min-height: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
+  &.chatMode {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+
+    > .contentColumn {
+      min-height: 0;
+      overflow: hidden;
     }
   }
 
   @media screen and (max-width: $tablet) {
     > .contentColumn {
       > .topBar,
-      > .main {
+      > .main:not(.mainFlush) {
         padding-left: 24px;
         padding-right: 24px;
       }
@@ -244,7 +263,7 @@ $sidebar-pad-x: 12px;
         }
       }
 
-      > .main {
+      > .main:not(.mainFlush) {
         padding: 20px 16px 40px;
       }
     }

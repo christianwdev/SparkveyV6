@@ -29,11 +29,36 @@ import { isCurrentlyBanned, toDate, toDateTimeLocal } from '@utils/date';
 // Types
 import type AdminUser from 'types/AdminUser';
 import type { AdminUserListItem } from 'types/AdminUser';
-import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
+import {
+  grantableStaffPermissionsMask,
+  StaffPermissions,
+} from 'types/UserPermissions/StaffPermissions';
 
 import styles from './page.module.scss';
 
-type PendingAction = 'account' | 'balance' | 'limits' | 'ban' | 'unban' | 'revokeAll';
+const STAFF_PERMISSION_OPTIONS = [
+  { bit: StaffPermissions.VIEW_USERS, labelKey: 'viewUsers' },
+  { bit: StaffPermissions.VIEW_EARNINGS, labelKey: 'viewEarnings' },
+  { bit: StaffPermissions.VIEW_WITHDRAWALS, labelKey: 'viewWithdrawals' },
+  { bit: StaffPermissions.VIEW_PROMOCODES, labelKey: 'viewPromocodes' },
+  { bit: StaffPermissions.VIEW_SETTINGS, labelKey: 'viewSettings' },
+  { bit: StaffPermissions.VIEW_OFFERS, labelKey: 'viewOffers' },
+  { bit: StaffPermissions.VIEW_LEADERBOARDS, labelKey: 'viewLeaderboards' },
+  { bit: StaffPermissions.VIEW_POSTBACKS, labelKey: 'viewPostbacks' },
+  { bit: StaffPermissions.VIEW_STATISTICS, labelKey: 'viewStatistics' },
+  { bit: StaffPermissions.MODIFY_USERS, labelKey: 'modifyUsers' },
+  { bit: StaffPermissions.MODIFY_EARNINGS, labelKey: 'modifyEarnings' },
+  { bit: StaffPermissions.MODIFY_WITHDRAWALS, labelKey: 'modifyWithdrawals' },
+  { bit: StaffPermissions.MODIFY_PROMOCODES, labelKey: 'modifyPromocodes' },
+  { bit: StaffPermissions.MODIFY_SETTINGS, labelKey: 'modifySettings' },
+  { bit: StaffPermissions.MODIFY_OFFERS, labelKey: 'modifyOffers' },
+  { bit: StaffPermissions.MODIFY_LEADERBOARDS, labelKey: 'modifyLeaderboards' },
+  { bit: StaffPermissions.MODIFY_POSTBACKS, labelKey: 'modifyPostbacks' },
+  { bit: StaffPermissions.VIEW_CHAT, labelKey: 'viewChat' },
+  { bit: StaffPermissions.REPLY_CHAT, labelKey: 'replyChat' },
+] as const;
+
+type PendingAction = 'account' | 'permissions' | 'balance' | 'limits' | 'ban' | 'unban' | 'revokeAll';
 type MutationErrorKey =
   | 'errors.notFound'
   | 'errors.emailInUse'
@@ -101,11 +126,12 @@ export default function AdminUserSettingsClient({ userID }: AdminUserSettingsCli
 function AdminUserSettingsForm({ user }: { user: AdminUser }) {
   const t = useTranslations('AdminUser');
   const queryClient = useQueryClient();
-  const { user: actor } = useUser();
+  const { user: actor, setUser } = useUser();
   const canModify = hasPermissions({
     userPermissions: actor?.staffPermissions,
     required: StaffPermissions.MODIFY_USERS,
   });
+  const grantable = grantableStaffPermissionsMask(actor?.staffPermissions ?? StaffPermissions.NONE);
   const userID = user.userID;
 
   const initialBan = banFormFromUser(user);
@@ -113,6 +139,7 @@ function AdminUserSettingsForm({ user }: { user: AdminUser }) {
   const [ username, setUsername ] = useState<string>(user.username ?? '');
   const [ email, setEmail ] = useState<string>(user.emailInformation?.emailAddress ?? '');
   const [ emailVerified, setEmailVerified ] = useState<boolean>(!!user.emailInformation?.verifiedAt);
+  const [ staffPermissions, setStaffPermissions ] = useState<number>(user.staffPermissions ?? 0);
   const [ balanceAmount, setBalanceAmount ] = useState<string>('');
   const [ instantEarnOfferLimit, setInstantEarnOfferLimit ] = useState<number>(user.userConfiguration.instantEarnOfferLimit);
   const [ dailyInstantWithdrawalLimit, setDailyInstantWithdrawalLimit ] = useState<number>(user.userConfiguration.dailyInstantWithdrawalLimit);
@@ -147,11 +174,25 @@ function AdminUserSettingsForm({ user }: { user: AdminUser }) {
     setUsername(next.username ?? '');
     setEmail(next.emailInformation?.emailAddress ?? '');
     setEmailVerified(!!next.emailInformation?.verifiedAt);
+    setStaffPermissions(next.staffPermissions ?? 0);
     setInstantEarnOfferLimit(next.userConfiguration.instantEarnOfferLimit);
     setDailyInstantWithdrawalLimit(next.userConfiguration.dailyInstantWithdrawalLimit);
     setMaxAffiliateCodes(next.userConfiguration.maxAffiliateCodes);
     setBanPermanent(nextBan.permanent);
     setBanUntil(nextBan.until);
+
+    setUser(current => {
+      if (!current || current.userID !== next.userID) return current;
+
+      const updated = { ...current };
+      if (next.staffPermissions) {
+        updated.staffPermissions = next.staffPermissions;
+      } else {
+        delete updated.staffPermissions;
+      }
+
+      return updated;
+    });
   }
 
   async function saveAccount(event: FormEvent<HTMLFormElement>) {
@@ -195,6 +236,38 @@ function AdminUserSettingsForm({ user }: { user: AdminUser }) {
       toast.error(t('errors.generic'));
     } finally {
       setPending(current => (current === 'account' ? null : current));
+    }
+  }
+
+  async function savePermissions(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (staffPermissions === (user.staffPermissions ?? 0)) {
+      toast.success(t('success.saved'));
+
+      return;
+    }
+
+    setPending('permissions');
+
+    try {
+      const result = await updateAdminUserRequest({
+        userID,
+        staffPermissions,
+      });
+      if (!result.success) {
+        toastMutationError({ t, result });
+
+        return;
+      }
+
+      if (result.data) applyUser(result.data);
+      toast.success(t('success.saved'));
+    } catch (error) {
+      console.error(error);
+      toast.error(t('errors.generic'));
+    } finally {
+      setPending(current => (current === 'permissions' ? null : current));
     }
   }
 
@@ -381,18 +454,81 @@ function AdminUserSettingsForm({ user }: { user: AdminUser }) {
               disabled={readOnly || pending === 'account'}
               required
             />
-            <label className={styles.checkboxRow}>
+            <label className={styles.toggleRow}>
+              <span className={styles.toggleCopy}>
+                <span>{t('fields.emailVerified')}</span>
+              </span>
               <input
                 type="checkbox"
+                role="switch"
+                className={styles.switch}
                 checked={emailVerified}
                 onChange={event => setEmailVerified(event.target.checked)}
                 disabled={readOnly || pending === 'account'}
               />
-              {t('fields.emailVerified')}
             </label>
             <div className={styles.actions}>
               <PrimaryButton type="submit" disabled={readOnly || pending === 'account'}>
                 {t('actions.saveAccount')}
+              </PrimaryButton>
+            </div>
+          </form>
+        </section>
+
+        <section className={[ styles.section, styles.sectionWide ].join(' ')}>
+          <div className={styles.sectionHeader}>
+            <h2>{t('settings.permissionsTitle')}</h2>
+            <p>{t('settings.permissionsDescription')}</p>
+          </div>
+          <form
+            className={styles.form}
+            onSubmit={event => {
+              savePermissions(event).catch(error => {
+                console.error(error);
+              });
+            }}
+          >
+            <div className={styles.toggleGrid}>
+              {STAFF_PERMISSION_OPTIONS.map(option => {
+                const canGrant = (grantable & option.bit) === option.bit;
+
+                return (
+                  <label key={option.labelKey} className={styles.toggleRow}>
+                    <span className={styles.toggleCopy}>
+                      <span>{t(`settings.permissions.${option.labelKey}`)}</span>
+                    </span>
+                    <input
+                      type="checkbox"
+                      role="switch"
+                      className={styles.switch}
+                      checked={(staffPermissions & option.bit) === option.bit}
+                      disabled={readOnly || !canGrant || pending === 'permissions'}
+                      onChange={event => {
+                        const checked = event.target.checked;
+                        setStaffPermissions(current => (
+                          checked
+                            ? current | option.bit
+                            : current & ~option.bit
+                        ));
+                      }}
+                    />
+                  </label>
+                );
+              })}
+            </div>
+            <div className={styles.actions}>
+              <PrimaryButton
+                type="button"
+                variant="secondary"
+                disabled={readOnly || pending === 'permissions'}
+                onClick={() => {
+                  setStaffPermissions(current => current | grantable);
+                }}
+              >
+                {t('actions.grantAllPermissions')}
+              </PrimaryButton>
+              <PrimaryButton type="submit" disabled={readOnly || pending === 'permissions'}>
+                {t('actions.savePermissions')}
               </PrimaryButton>
             </div>
           </form>
@@ -504,14 +640,18 @@ function AdminUserSettingsForm({ user }: { user: AdminUser }) {
               });
             }}
           >
-            <label className={styles.checkboxRow}>
+            <label className={styles.toggleRow}>
+              <span className={styles.toggleCopy}>
+                <span>{t('settings.permanentBan')}</span>
+              </span>
               <input
                 type="checkbox"
+                role="switch"
+                className={styles.switch}
                 checked={banPermanent}
                 onChange={event => setBanPermanent(event.target.checked)}
                 disabled={readOnly || pending === 'ban'}
               />
-              {t('settings.permanentBan')}
             </label>
             {banPermanent ? null : (
               <TextField
