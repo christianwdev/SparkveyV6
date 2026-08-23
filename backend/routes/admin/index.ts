@@ -10,6 +10,9 @@ import withdrawalsRouteInvoker from './withdrawals';
 import earningsRouteInvoker from './earnings';
 import offersRouteInvoker from './offers';
 import redemptionMethodsRouteInvoker from './redemptionMethods';
+import promocodesRouteInvoker from './promocodes';
+import announcementsRouteInvoker from './announcements';
+import chatRouteInvoker from './chat';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
@@ -25,6 +28,9 @@ export default function routesInvoker() {
   app.route('/earnings', earningsRouteInvoker());
   app.route('/offers', offersRouteInvoker());
   app.route('/redemption-methods', redemptionMethodsRouteInvoker());
+  app.route('/promocodes', promocodesRouteInvoker());
+  app.route('/announcements', announcementsRouteInvoker());
+  app.route('/chat', chatRouteInvoker());
 
   return app;
 }

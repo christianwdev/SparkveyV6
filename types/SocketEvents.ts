@@ -1,7 +1,11 @@
 import type { Server, Socket } from 'socket.io';
 import type { Socket as ClientSocket } from 'socket.io-client';
+import type InternalUser from 'types/User/InternalUser';
 import type { UserNotification } from 'types/UserNotification/UserNotifications';
 import type { LandingLiveActivityItem } from 'types/LandingHomepageResponse';
+import type ChatMessage from 'types/ChatMessage';
+import type { AdminChatMessagePayload } from 'types/ChatMessage';
+import type SanitizedUserSupportChat from 'types/SanitizedUserSupportChat';
 
 export type SiteStatisticsPayload = {
   totalEarnedUsd: number;
@@ -9,13 +13,19 @@ export type SiteStatisticsPayload = {
 
 export interface ServerToClientEvents {
   userBalanceChange: (sparks: number | undefined) => void,
+  balanceUpdate: (newBalance: InternalUser['balance']) => void,
   userNotification: (notification: UserNotification) => void,
   liveActivity: (item: LandingLiveActivityItem) => void,
   siteStatistics: (stats: SiteStatisticsPayload) => void,
+  chatMessage: (message: ChatMessage) => void,
+  adminChatMessage: (payload: AdminChatMessagePayload) => void,
+  agentUpdate: (agent: SanitizedUserSupportChat['supportAgent']) => void,
 }
 
 export interface ClientToServerEvents {
-  sendSupportMessage: (message: string) => void,
+  sendChatMessage: (message: string) => void,
+  adminSendChatMessage: (data: { message: string, conversationID: string }) => void,
+  chatMessageRead: (conversationID?: string, asAdmin?: boolean) => void,
 }
 
 export interface InterServerEvents {
@@ -24,6 +34,7 @@ export interface InterServerEvents {
 
 export interface SocketData {
   userID?: string,
+  staffPermissions?: number,
 }
 
 export type TypedServer = Server<

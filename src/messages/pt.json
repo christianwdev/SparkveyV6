@@ -376,7 +376,11 @@
     "talkingTo": "Falando com",
     "supportAgent": "Agente de suporte",
     "typeMessage": "Digite sua mensagem...",
-    "send": "Enviar"
+    "send": "Enviar",
+    "open": "Abrir chat de suporte",
+    "close": "Fechar",
+    "empty": "Envie uma mensagem e responderemos.",
+    "hereToHelp": "Estamos aqui para ajudar"
   },
   "PurchaseModals": {
     "common": {
@@ -419,7 +423,15 @@
     "title": "Resgatar código promocional",
     "description": "Esses códigos promocionais serão divulgados em nossas redes sociais e fornecerão SP para usuários limitados.",
     "placeholder": "Código promocional",
-    "redeemCode": "Resgatar código"
+    "redeemCode": "Resgatar código",
+    "redeeming": "A resgatar…",
+    "close": "Fechar",
+    "success": "Resgataste {amount} sparks.",
+    "errors": {
+      "invalidOrUnavailable": "Este código promocional é inválido ou indisponível.",
+      "invalid": "Introduz um código promocional válido.",
+      "generic": "Não foi possível resgatar este código. Tenta novamente mais tarde."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Saque",
@@ -459,17 +471,22 @@
       "earn": "Ganhar",
       "shop": "Loja",
       "leaders": "Líderes",
-      "refer": "Indicar"
+      "refer": "Indicar",
+      "support": "Suporte"
     },
     "a11y": {
       "avatarAlt": "Avatar"
     }
+  },
+  "AnnouncementBanner": {
+    "label": "Anúncio do site"
   },
   "UserDropdown": {
     "earnings": "Ganhos",
     "redemptions": "Resgates",
     "settings": "Configurações",
     "affiliates": "Afiliados",
+    "promocodes": "Códigos promo",
     "signOut": "Sair"
   },
   "Notifications": {
@@ -1237,7 +1254,13 @@
     "offersTitle": "Sparkvey | Ofertas",
     "offersDescription": "Crie, edite e desative ofertas.",
     "redemptionMethodsTitle": "Sparkvey | Métodos de resgate",
-    "redemptionMethodsDescription": "Gerencie métodos Tremendous e cripto."
+    "redemptionMethodsDescription": "Gerencie métodos Tremendous e cripto.",
+    "promocodesTitle": "Sparkvey | Códigos promo",
+    "promocodesDescription": "Cria e gere códigos promocionais.",
+    "announcementsTitle": "Sparkvey | Anúncios admin",
+    "announcementsDescription": "Gerir o banner de anúncio do site.",
+    "chatTitle": "Sparkvey | Chat de suporte",
+    "chatDescription": "Leia e responda conversas de suporte."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1251,7 +1274,31 @@
       "earnings": "Ganhos",
       "withdrawals": "Levantamentos",
       "offers": "Ofertas",
-      "redemptionMethods": "Métodos de resgate"
+      "redemptionMethods": "Métodos de resgate",
+      "promocodes": "Códigos promo",
+      "announcements": "Anúncios",
+      "chat": "Suporte"
+    }
+  },
+  "AdminChat": {
+    "title": "Conversas",
+    "searchPlaceholder": "Filtrar ou abrir por ID de utilizador",
+    "search": "Abrir",
+    "chatTitle": "Tópico de suporte",
+    "emptyTitle": "Seleciona uma conversa",
+    "emptyDescription": "Escolhe um tópico da lista ou abre-o pelo ID de utilizador.",
+    "typeMessage": "Escreve uma resposta…",
+    "send": "Enviar",
+    "noMessages": "Ainda não há mensagens",
+    "emptyInbox": "Ainda não há conversas",
+    "emptyFilter": "Não há conversas correspondentes",
+    "back": "Voltar",
+    "viewUser": "Ver perfil",
+    "viewOnly": "Podes ler este tópico, mas não podes responder.",
+    "errors": {
+      "notFound": "Utilizador não encontrado.",
+      "cannotCreate": "Não tens permissão para iniciar uma conversa.",
+      "generic": "Não foi possível abrir essa conversa."
     }
   },
   "AdminDashboard": {
@@ -1485,10 +1532,37 @@
       "limitsDescription": "Limites de ofertas, levantamentos e códigos de afiliado.",
       "moderationTitle": "Moderação",
       "moderationDescription": "Banir, desbanir ou terminar todas as sessões.",
-      "permanentBan": "Banimento permanente"
+      "permanentBan": "Banimento permanente",
+      "permissionsTitle": "Permissões de staff",
+      "permissionsDescription": "Só podes atribuir permissões que já tens.",
+      "permissions": {
+        "viewUsers": "Ver utilizadores",
+        "viewEarnings": "Ver ganhos",
+        "viewWithdrawals": "Ver levantamentos",
+        "viewPromocodes": "Ver códigos promo",
+        "viewSettings": "Ver definições",
+        "viewOffers": "Ver ofertas",
+        "viewLeaderboards": "Ver classificações",
+        "viewPostbacks": "Ver postbacks",
+        "viewStatistics": "Ver estatísticas",
+        "viewAnnouncements": "Ver anúncios",
+        "modifyUsers": "Modificar utilizadores",
+        "modifyEarnings": "Modificar ganhos",
+        "modifyWithdrawals": "Modificar levantamentos",
+        "modifyPromocodes": "Modificar códigos promo",
+        "modifySettings": "Modificar definições",
+        "modifyOffers": "Modificar ofertas",
+        "modifyLeaderboards": "Modificar classificações",
+        "modifyPostbacks": "Modificar postbacks",
+        "modifyAnnouncements": "Modificar anúncios",
+        "viewChat": "Ver chat",
+        "replyChat": "Responder no chat"
+      }
     },
     "actions": {
       "saveAccount": "Guardar conta",
+      "savePermissions": "Guardar permissões",
+      "grantAllPermissions": "Atribuir todas as que posso",
       "applyBalance": "Aplicar saldo",
       "saveLimits": "Guardar limites",
       "ban": "Banir utilizador",
@@ -1896,6 +1970,42 @@
       "invalidFeatured": "A posição de destaque deve ser um número."
     }
   },
+  "AdminPromocodes": {
+    "empty": "Ainda não há códigos promo.",
+    "na": "—",
+    "table": {
+      "code": "Código",
+      "uses": "Utilizações",
+      "reward": "Recompensa",
+      "expiry": "Validade",
+      "created": "Criado",
+      "claimedBy": "Resgatado por",
+      "actions": "Ações"
+    },
+    "form": {
+      "code": "Código",
+      "rewardValue": "Sparks",
+      "totalUses": "Utilizações totais",
+      "expiryDate": "Data de validade",
+      "create": "Criar código promo",
+      "creating": "A criar…"
+    },
+    "actions": {
+      "delete": "Eliminar",
+      "deleting": "A eliminar…"
+    },
+    "success": {
+      "created": "Código promo criado.",
+      "deleted": "Código promo eliminado."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar os códigos promo.",
+      "alreadyExists": "Este código promo já existe.",
+      "invalidExpiry": "A data de validade tem de ser no futuro.",
+      "createFailed": "Não foi possível criar este código promo.",
+      "deleteFailed": "Não foi possível eliminar este código promo."
+    }
+  },
   "AdminUserRiskModal": {
     "eyebrow": "Confiança",
     "title": "Revisão do utilizador",
@@ -1969,6 +2079,44 @@
       "linkedAccount": "Conta associada",
       "proxy": "Proxy ou Tor",
       "impossibleTravel": "Viagem impossível"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Nenhum anúncio encontrado",
+    "create": "Criar anúncio",
+    "creating": "A criar…",
+    "modalTitle": "Criar anúncio",
+    "close": "Fechar",
+    "messageLabel": "Mensagem",
+    "messagePlaceholder": "Escreva a mensagem do anúncio…",
+    "characterCount": "{count}/500",
+    "cancel": "Cancelar",
+    "submit": "Criar",
+    "na": "—",
+    "table": {
+      "message": "Mensagem",
+      "status": "Estado",
+      "created": "Criado",
+      "actions": "Ações"
+    },
+    "statuses": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+    },
+    "actions": {
+      "disable": "Desativar",
+      "disabling": "A desativar…"
+    },
+    "success": {
+      "created": "Anúncio criado.",
+      "disabled": "Anúncio desativado."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar os anúncios.",
+      "createFailed": "Não foi possível criar o anúncio.",
+      "disableFailed": "Não foi possível desativar o anúncio.",
+      "emptyMessage": "A mensagem não pode estar vazia.",
+      "messageTooLong": "A mensagem deve ter 500 caracteres ou menos."
     }
   }
 }

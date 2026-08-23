@@ -376,7 +376,11 @@
     "talkingTo": "Du chattest mit",
     "supportAgent": "Support-Mitarbeiter",
     "typeMessage": "Nachricht eingeben...",
-    "send": "Senden"
+    "send": "Senden",
+    "open": "Support-Chat öffnen",
+    "close": "Schließen",
+    "empty": "Schreib uns eine Nachricht — wir antworten so schnell wir können.",
+    "hereToHelp": "Wir sind für dich da"
   },
   "PurchaseModals": {
     "common": {
@@ -419,7 +423,15 @@
     "title": "Promocode einloesen",
     "description": "Diese Promocodes findest du auf unseren Social-Media-Kanaelen und sie geben ausgewaehlten Nutzern etwas SP.",
     "placeholder": "Promocode",
-    "redeemCode": "Code einloesen"
+    "redeemCode": "Code einloesen",
+    "redeeming": "Wird eingeloest…",
+    "close": "Schliessen",
+    "success": "{amount} Sparks eingeloest.",
+    "errors": {
+      "invalidOrUnavailable": "Dieser Promocode ist ungueltig oder nicht verfuegbar.",
+      "invalid": "Gib einen gueltigen Promocode ein.",
+      "generic": "Der Promocode konnte nicht eingeloest werden. Bitte versuche es spaeter erneut."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Auszahlung",
@@ -459,17 +471,22 @@
       "earn": "Verdienen",
       "shop": "Shop",
       "leaders": "Top-Nutzer",
-      "refer": "Empfehlen"
+      "refer": "Empfehlen",
+      "support": "Support"
     },
     "a11y": {
       "avatarAlt": "Avatar"
     }
+  },
+  "AnnouncementBanner": {
+    "label": "Seitenankündigung"
   },
   "UserDropdown": {
     "earnings": "Einnahmen",
     "redemptions": "Auszahlungen",
     "settings": "Einstellungen",
     "affiliates": "Affiliates",
+    "promocodes": "Promocodes",
     "signOut": "Abmelden"
   },
   "Notifications": {
@@ -1237,7 +1254,13 @@
     "offersTitle": "Sparkvey | Angebote",
     "offersDescription": "Angebote erstellen, bearbeiten und deaktivieren.",
     "redemptionMethodsTitle": "Sparkvey | Einlösemethoden",
-    "redemptionMethodsDescription": "Tremendous- und Krypto-Einlösemethoden verwalten."
+    "redemptionMethodsDescription": "Tremendous- und Krypto-Einlösemethoden verwalten.",
+    "promocodesTitle": "Sparkvey | Promocodes",
+    "promocodesDescription": "Promocodes erstellen und verwalten.",
+    "announcementsTitle": "Sparkvey | Admin-Ankündigungen",
+    "announcementsDescription": "Die Ankündigungsleiste der Website verwalten.",
+    "chatTitle": "Sparkvey | Support-Chat",
+    "chatDescription": "Support-Unterhaltungen lesen und beantworten."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1251,7 +1274,31 @@
       "earnings": "Einnahmen",
       "withdrawals": "Auszahlungen",
       "offers": "Angebote",
-      "redemptionMethods": "Einlösemethoden"
+      "redemptionMethods": "Einlösemethoden",
+      "promocodes": "Promocodes",
+      "announcements": "Ankündigungen",
+      "chat": "Support"
+    }
+  },
+  "AdminChat": {
+    "title": "Unterhaltungen",
+    "searchPlaceholder": "Filtern oder per Nutzer-ID öffnen",
+    "search": "Öffnen",
+    "chatTitle": "Support-Thread",
+    "emptyTitle": "Unterhaltung wählen",
+    "emptyDescription": "Wähle einen Thread aus der Liste oder öffne einen per Nutzer-ID.",
+    "typeMessage": "Antwort schreiben…",
+    "send": "Senden",
+    "noMessages": "Noch keine Nachrichten",
+    "emptyInbox": "Noch keine Unterhaltungen",
+    "emptyFilter": "Keine passenden Unterhaltungen",
+    "back": "Zurück",
+    "viewUser": "Profil ansehen",
+    "viewOnly": "Du kannst diesen Thread lesen, aber nicht antworten.",
+    "errors": {
+      "notFound": "Nutzer nicht gefunden.",
+      "cannotCreate": "Du darfst keine Unterhaltung starten.",
+      "generic": "Unterhaltung konnte nicht geöffnet werden."
     }
   },
   "AdminDashboard": {
@@ -1485,10 +1532,37 @@
       "limitsDescription": "Limits für Angebote, Auszahlungen und Partnercodes.",
       "moderationTitle": "Moderation",
       "moderationDescription": "Sperren, entsperren oder überall abmelden.",
-      "permanentBan": "Dauerhafte Sperre"
+      "permanentBan": "Dauerhafte Sperre",
+      "permissionsTitle": "Mitarbeiterrechte",
+      "permissionsDescription": "Du kannst nur Rechte vergeben, die du selbst hast.",
+      "permissions": {
+        "viewUsers": "Nutzer ansehen",
+        "viewEarnings": "Einnahmen ansehen",
+        "viewWithdrawals": "Auszahlungen ansehen",
+        "viewPromocodes": "Promo-Codes ansehen",
+        "viewSettings": "Einstellungen ansehen",
+        "viewOffers": "Angebote ansehen",
+        "viewLeaderboards": "Bestenlisten ansehen",
+        "viewPostbacks": "Postbacks ansehen",
+        "viewStatistics": "Statistiken ansehen",
+        "viewAnnouncements": "Ankündigungen ansehen",
+        "modifyUsers": "Nutzer ändern",
+        "modifyEarnings": "Einnahmen ändern",
+        "modifyWithdrawals": "Auszahlungen ändern",
+        "modifyPromocodes": "Promo-Codes ändern",
+        "modifySettings": "Einstellungen ändern",
+        "modifyOffers": "Angebote ändern",
+        "modifyLeaderboards": "Bestenlisten ändern",
+        "modifyPostbacks": "Postbacks ändern",
+        "modifyAnnouncements": "Ankündigungen ändern",
+        "viewChat": "Chat ansehen",
+        "replyChat": "Im Chat antworten"
+      }
     },
     "actions": {
       "saveAccount": "Konto speichern",
+      "savePermissions": "Rechte speichern",
+      "grantAllPermissions": "Alle möglichen vergeben",
       "applyBalance": "Guthaben anwenden",
       "saveLimits": "Limits speichern",
       "ban": "Nutzer sperren",
@@ -1896,6 +1970,42 @@
       "invalidFeatured": "Hervorhebung muss eine Zahl sein."
     }
   },
+  "AdminPromocodes": {
+    "empty": "Noch keine Promocodes.",
+    "na": "—",
+    "table": {
+      "code": "Code",
+      "uses": "Nutzungen",
+      "reward": "Belohnung",
+      "expiry": "Ablauf",
+      "created": "Erstellt",
+      "claimedBy": "Eingeloest von",
+      "actions": "Aktionen"
+    },
+    "form": {
+      "code": "Code",
+      "rewardValue": "Sparks",
+      "totalUses": "Nutzungen gesamt",
+      "expiryDate": "Ablaufdatum",
+      "create": "Promocode erstellen",
+      "creating": "Wird erstellt…"
+    },
+    "actions": {
+      "delete": "Loeschen",
+      "deleting": "Wird geloescht…"
+    },
+    "success": {
+      "created": "Promocode erstellt.",
+      "deleted": "Promocode geloescht."
+    },
+    "errors": {
+      "loadFailed": "Promocodes konnten nicht geladen werden.",
+      "alreadyExists": "Dieser Promocode existiert bereits.",
+      "invalidExpiry": "Das Ablaufdatum muss in der Zukunft liegen.",
+      "createFailed": "Der Promocode konnte nicht erstellt werden.",
+      "deleteFailed": "Der Promocode konnte nicht geloescht werden."
+    }
+  },
   "AdminUserRiskModal": {
     "eyebrow": "Vertrauen",
     "title": "Nutzerprüfung",
@@ -1969,6 +2079,44 @@
       "linkedAccount": "Verknüpftes Konto",
       "proxy": "Proxy oder Tor",
       "impossibleTravel": "Unmögliche Reise"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Keine Ankündigungen gefunden",
+    "create": "Ankündigung erstellen",
+    "creating": "Wird erstellt…",
+    "modalTitle": "Ankündigung erstellen",
+    "close": "Schließen",
+    "messageLabel": "Nachricht",
+    "messagePlaceholder": "Ankündigungstext eingeben…",
+    "characterCount": "{count}/500",
+    "cancel": "Abbrechen",
+    "submit": "Erstellen",
+    "na": "—",
+    "table": {
+      "message": "Nachricht",
+      "status": "Status",
+      "created": "Erstellt",
+      "actions": "Aktionen"
+    },
+    "statuses": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv"
+    },
+    "actions": {
+      "disable": "Deaktivieren",
+      "disabling": "Wird deaktiviert…"
+    },
+    "success": {
+      "created": "Ankündigung erstellt.",
+      "disabled": "Ankündigung deaktiviert."
+    },
+    "errors": {
+      "loadFailed": "Ankündigungen konnten nicht geladen werden.",
+      "createFailed": "Die Ankündigung konnte nicht erstellt werden.",
+      "disableFailed": "Die Ankündigung konnte nicht deaktiviert werden.",
+      "emptyMessage": "Die Nachricht darf nicht leer sein.",
+      "messageTooLong": "Die Nachricht darf höchstens 500 Zeichen haben."
     }
   }
 }

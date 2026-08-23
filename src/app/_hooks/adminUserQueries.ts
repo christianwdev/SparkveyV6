@@ -15,6 +15,7 @@ import { fetchAdminUserRisk, fetchAdminWithdrawals } from '@utils/adminWithdrawa
 import { fetchAdminEarnings } from '@utils/adminEarnings';
 import { fetchAdminOffer, fetchAdminOffers } from '@utils/adminOffers';
 import { fetchAdminRedemptionMethod, fetchAdminRedemptionMethods } from '@utils/adminRedemptionMethods';
+import { fetchAdminAnnouncements } from '@utils/adminAnnouncements';
 import { queryKeys } from './queryKeys';
 
 // Types
@@ -412,6 +413,25 @@ export function adminOffersListQueryOptions(
       });
 
       if (!rows) throw new Error('Failed to load offers');
+
+      return rows;
+    },
+  });
+}
+
+export function adminAnnouncementsListQueryOptions(
+  {
+    request,
+  }: {
+    request: RequestFn,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.announcements.list(),
+    queryFn: async () => {
+      const rows = await fetchAdminAnnouncements({ request });
+
+      if (!rows) throw new Error('Failed to load announcements');
 
       return rows;
     },

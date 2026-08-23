@@ -376,7 +376,11 @@
     "talkingTo": "対応担当",
     "supportAgent": "サポート担当者",
     "typeMessage": "メッセージを入力...",
-    "send": "送信"
+    "send": "送信",
+    "open": "サポートチャットを開く",
+    "close": "閉じる",
+    "empty": "メッセージを送っていただければ対応します。",
+    "hereToHelp": "サポートが対応します"
   },
   "PurchaseModals": {
     "common": {
@@ -419,7 +423,15 @@
     "title": "プロモコードを交換",
     "description": "これらのプロモコードは公式SNSで配布され、対象ユーザーにSPを提供します。",
     "placeholder": "プロモコード",
-    "redeemCode": "コードを交換"
+    "redeemCode": "コードを交換",
+    "redeeming": "交換中…",
+    "close": "閉じる",
+    "success": "{amount} スパークを交換しました。",
+    "errors": {
+      "invalidOrUnavailable": "このプロモコードは無効または利用できません。",
+      "invalid": "有効なプロモコードを入力してください。",
+      "generic": "プロモコードを交換できませんでした。後でもう一度お試しください。"
+    }
   },
   "UserWithdrawalModal": {
     "title": "出金",
@@ -459,17 +471,22 @@
       "earn": "稼ぐ",
       "shop": "ショップ",
       "leaders": "リーダー",
-      "refer": "紹介"
+      "refer": "紹介",
+      "support": "サポート"
     },
     "a11y": {
       "avatarAlt": "アバター"
     }
+  },
+  "AnnouncementBanner": {
+    "label": "サイトのお知らせ"
   },
   "UserDropdown": {
     "earnings": "収益",
     "redemptions": "換金",
     "settings": "設定",
     "affiliates": "アフィリエイト",
+    "promocodes": "プロモコード",
     "signOut": "ログアウト"
   },
   "Notifications": {
@@ -1237,7 +1254,13 @@
     "offersTitle": "Sparkvey | オファー",
     "offersDescription": "オファーの作成、編集、無効化。",
     "redemptionMethodsTitle": "Sparkvey | 換金方法",
-    "redemptionMethodsDescription": "Tremendousと暗号資産の換金方法を管理します。"
+    "redemptionMethodsDescription": "Tremendousと暗号資産の換金方法を管理します。",
+    "promocodesTitle": "Sparkvey | プロモコード",
+    "promocodesDescription": "プロモコードを作成・管理します。",
+    "announcementsTitle": "Sparkvey | お知らせ管理",
+    "announcementsDescription": "サイト全体のお知らせバナーを管理します。",
+    "chatTitle": "Sparkvey | サポートチャット",
+    "chatDescription": "ユーザーのサポート会話を確認して返信します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1251,7 +1274,31 @@
       "earnings": "収益",
       "withdrawals": "出金",
       "offers": "オファー",
-      "redemptionMethods": "換金方法"
+      "redemptionMethods": "換金方法",
+      "promocodes": "プロモコード",
+      "announcements": "お知らせ",
+      "chat": "サポート"
+    }
+  },
+  "AdminChat": {
+    "title": "会話",
+    "searchPlaceholder": "絞り込み、またはユーザーIDで開く",
+    "search": "開く",
+    "chatTitle": "サポートスレッド",
+    "emptyTitle": "会話を選択",
+    "emptyDescription": "リストからスレッドを選ぶか、ユーザーIDで開いてください。",
+    "typeMessage": "返信を入力…",
+    "send": "送信",
+    "noMessages": "まだメッセージはありません",
+    "emptyInbox": "まだ会話はありません",
+    "emptyFilter": "一致する会話はありません",
+    "back": "戻る",
+    "viewUser": "プロフィールを見る",
+    "viewOnly": "このスレッドは閲覧できますが、返信はできません。",
+    "errors": {
+      "notFound": "ユーザーが見つかりません。",
+      "cannotCreate": "会話を開始する権限がありません。",
+      "generic": "会話を開けませんでした。"
     }
   },
   "AdminDashboard": {
@@ -1485,10 +1532,37 @@
       "limitsDescription": "オファー、出金、アフィリエイトコードの上限。",
       "moderationTitle": "モデレーション",
       "moderationDescription": "BAN、解除、または全セッションを切断します。",
-      "permanentBan": "無期限BAN"
+      "permanentBan": "無期限BAN",
+      "permissionsTitle": "スタッフ権限",
+      "permissionsDescription": "付与できるのは自分が持っている権限だけです。",
+      "permissions": {
+        "viewUsers": "ユーザー閲覧",
+        "viewEarnings": "収益閲覧",
+        "viewWithdrawals": "出金閲覧",
+        "viewPromocodes": "プロモコード閲覧",
+        "viewSettings": "設定閲覧",
+        "viewOffers": "オファー閲覧",
+        "viewLeaderboards": "ランキング閲覧",
+        "viewPostbacks": "ポストバック閲覧",
+        "viewStatistics": "統計閲覧",
+        "viewAnnouncements": "お知らせ閲覧",
+        "modifyUsers": "ユーザー変更",
+        "modifyEarnings": "収益変更",
+        "modifyWithdrawals": "出金変更",
+        "modifyPromocodes": "プロモコード変更",
+        "modifySettings": "設定変更",
+        "modifyOffers": "オファー変更",
+        "modifyLeaderboards": "ランキング変更",
+        "modifyPostbacks": "ポストバック変更",
+        "modifyAnnouncements": "お知らせ変更",
+        "viewChat": "チャット閲覧",
+        "replyChat": "チャット返信"
+      }
     },
     "actions": {
       "saveAccount": "アカウントを保存",
+      "savePermissions": "権限を保存",
+      "grantAllPermissions": "付与できる権限をすべて選択",
       "applyBalance": "残高を適用",
       "saveLimits": "上限を保存",
       "ban": "ユーザーをBAN",
@@ -1896,6 +1970,42 @@
       "invalidFeatured": "注目順は数値である必要があります。"
     }
   },
+  "AdminPromocodes": {
+    "empty": "プロモコードはまだありません。",
+    "na": "—",
+    "table": {
+      "code": "コード",
+      "uses": "回数",
+      "reward": "報酬",
+      "expiry": "期限",
+      "created": "作成日",
+      "claimedBy": "使用したユーザー",
+      "actions": "操作"
+    },
+    "form": {
+      "code": "コード",
+      "rewardValue": "Sparks",
+      "totalUses": "利用回数",
+      "expiryDate": "有効期限",
+      "create": "プロモコードを作成",
+      "creating": "作成中…"
+    },
+    "actions": {
+      "delete": "削除",
+      "deleting": "削除中…"
+    },
+    "success": {
+      "created": "プロモコードを作成しました。",
+      "deleted": "プロモコードを削除しました。"
+    },
+    "errors": {
+      "loadFailed": "プロモコードを読み込めませんでした。",
+      "alreadyExists": "このプロモコードは既に存在します。",
+      "invalidExpiry": "有効期限は未来の日付にしてください。",
+      "createFailed": "プロモコードを作成できませんでした。",
+      "deleteFailed": "プロモコードを削除できませんでした。"
+    }
+  },
   "AdminUserRiskModal": {
     "eyebrow": "信頼",
     "title": "ユーザー確認",
@@ -1969,6 +2079,44 @@
       "linkedAccount": "関連アカウント",
       "proxy": "プロキシまたはTor",
       "impossibleTravel": "不可能な移動"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "お知らせはありません",
+    "create": "お知らせを作成",
+    "creating": "作成中…",
+    "modalTitle": "お知らせを作成",
+    "close": "閉じる",
+    "messageLabel": "メッセージ",
+    "messagePlaceholder": "お知らせの内容を入力…",
+    "characterCount": "{count}/500",
+    "cancel": "キャンセル",
+    "submit": "作成",
+    "na": "—",
+    "table": {
+      "message": "メッセージ",
+      "status": "ステータス",
+      "created": "作成日",
+      "actions": "操作"
+    },
+    "statuses": {
+      "active": "有効",
+      "inactive": "無効"
+    },
+    "actions": {
+      "disable": "無効化",
+      "disabling": "無効化中…"
+    },
+    "success": {
+      "created": "お知らせを作成しました。",
+      "disabled": "お知らせを無効にしました。"
+    },
+    "errors": {
+      "loadFailed": "お知らせを読み込めませんでした。",
+      "createFailed": "お知らせを作成できませんでした。",
+      "disableFailed": "お知らせを無効にできませんでした。",
+      "emptyMessage": "メッセージを入力してください。",
+      "messageTooLong": "メッセージは500文字以内にしてください。"
     }
   }
 }

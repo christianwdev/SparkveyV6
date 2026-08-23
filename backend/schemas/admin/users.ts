@@ -4,6 +4,7 @@ import { emailSchema, usernameSchema } from 'schemas/auth';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
 import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
 import type EmailActionable from 'types/EmailActionable';
+import { allStaffPermissionsMask } from 'types/UserPermissions/StaffPermissions';
 
 const internalEarningStatuses = [
   'completed',
@@ -74,6 +75,10 @@ export const adminUpdateUserBodySchema = z.object({
   username: usernameSchema.optional(),
   email: emailSchema.optional(),
   emailVerified: z.boolean().optional(),
+  staffPermissions: z.number().int().min(0).refine(
+    value => (value & ~allStaffPermissionsMask()) === 0,
+    { message: 'Unknown staff permission bits' },
+  ).optional(),
   userConfiguration: z.object({
     instantEarnOfferLimit: z.number().int().min(0).max(10_000).optional(),
     dailyInstantWithdrawalLimit: z.number().int().min(0).max(100_000_000).optional(),
@@ -84,6 +89,7 @@ export const adminUpdateUserBodySchema = z.object({
     value.username !== undefined
     || value.email !== undefined
     || value.emailVerified !== undefined
+    || value.staffPermissions !== undefined
     || value.userConfiguration !== undefined
   ),
   { message: 'At least one field is required' },

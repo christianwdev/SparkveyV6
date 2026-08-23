@@ -217,6 +217,13 @@
       background: $light-blue;
     }
 
+    &:is(button) {
+      font: inherit;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
     @media screen and (max-width: $small-phone) {
       padding: 6px 4px;
       font-size: 12px;

@@ -1,0 +1,328 @@
+@use '@styles/variables.scss' as *;
+
+.chatPage {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  background: $background;
+
+  > .inbox {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    width: 320px;
+    max-width: 360px;
+    flex-shrink: 0;
+    border-right: 1px solid $border-light;
+
+    > .inboxHeader {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      border-bottom: 1px solid $border-light;
+
+      > .searchField {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+        height: 40px;
+        padding: 0 12px;
+        border: 1px solid $border-light;
+        border-radius: 10px;
+        background: $background;
+        box-sizing: border-box;
+
+        > svg {
+          width: 16px;
+          height: 16px;
+          color: $text-light;
+          flex-shrink: 0;
+        }
+
+        > input {
+          flex: 1;
+          min-width: 0;
+          height: 100%;
+          border: none;
+          background: transparent;
+          color: $text-bold;
+          font-size: 13px;
+          font-weight: 500;
+          outline: none;
+
+          &::placeholder {
+            color: $text-light;
+          }
+        }
+      }
+
+      > .openButton {
+        flex-shrink: 0;
+        height: 40px;
+        padding: 0 12px;
+        border: none;
+        border-radius: 10px;
+        background: $primary;
+        color: white;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+
+        &:disabled {
+          opacity: 0.45;
+          cursor: default;
+        }
+      }
+    }
+
+    > .inboxList {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+
+      > .empty {
+        margin: 0;
+        padding: 24px 16px;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+        text-align: center;
+      }
+    }
+  }
+
+  > .thread {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+
+    > .threadHeader {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 12px 16px;
+      border-bottom: 1px solid $border-light;
+      box-sizing: border-box;
+
+      > .backButton {
+        display: none;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        border: none;
+        border-radius: 8px;
+        background: $light-gray;
+        color: $text-bold;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+
+        > svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      > .threadAvatar {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: $primary;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
+
+        > img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      > .threadUser {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        > p {
+          margin: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:first-child {
+            font-size: 14px;
+            font-weight: 600;
+            color: $text-bold;
+          }
+
+          &:last-child {
+            font-size: 12px;
+            font-weight: 500;
+            color: $text-light;
+          }
+        }
+      }
+
+      > .profileLink {
+        margin-left: auto;
+        flex-shrink: 0;
+        font-size: 13px;
+        font-weight: 600;
+        color: $primary;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    > .threadMessages {
+      display: flex;
+      flex-direction: column-reverse;
+      flex: 1;
+      min-height: 0;
+      gap: 10px;
+      padding: 16px 20px;
+      overflow-y: auto;
+
+      > .empty {
+        margin: auto 0;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+      }
+    }
+
+    > .composer {
+      padding: 12px 16px 16px;
+
+      > .composerField {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 4px 4px 4px 16px;
+        border-radius: 24px;
+        background: $light-gray;
+
+        > input {
+          flex: 1;
+          min-width: 0;
+          height: 36px;
+          padding: 0;
+          border: none;
+          outline: none;
+          background: transparent;
+          font-size: 14px;
+          font-weight: 400;
+          color: $text-bold;
+
+          &::placeholder {
+            color: $text-light;
+          }
+        }
+
+        > button {
+          width: 36px;
+          height: 36px;
+          min-width: 36px;
+          padding: 0;
+          border: none;
+          border-radius: 50%;
+          background: $primary;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+
+          &:disabled {
+            opacity: 0.35;
+            cursor: default;
+          }
+
+          > svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+    }
+
+    > .viewOnly {
+      margin: 0;
+      padding: 14px 16px;
+      border-top: 1px solid $border-light;
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+      text-align: center;
+    }
+
+    > .threadEmpty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 24px;
+
+      > h2,
+      > p {
+        margin: 0;
+        text-align: center;
+      }
+
+      > h2 {
+        font-size: 16px;
+        font-weight: 600;
+        color: $text-bold;
+      }
+
+      > p {
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+        max-width: 280px;
+      }
+    }
+  }
+
+  @media screen and (max-width: $small-tablet) {
+    > .inbox {
+      width: 100%;
+      max-width: none;
+      border-right: none;
+    }
+
+    &:not(.threadOpen) > .thread {
+      display: none;
+    }
+
+    &.threadOpen > .inbox {
+      display: none;
+    }
+
+    > .thread > .threadHeader > .backButton {
+      display: inline-flex;
+    }
+  }
+}

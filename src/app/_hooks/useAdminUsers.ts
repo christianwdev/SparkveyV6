@@ -18,6 +18,7 @@ import {
   adminOffersListQueryOptions,
   adminRedemptionMethodQueryOptions,
   adminRedemptionMethodsListQueryOptions,
+  adminAnnouncementsListQueryOptions,
 } from './adminUserQueries';
 import { queryKeys } from './queryKeys';
 
@@ -336,5 +337,11 @@ export function useAdminRedemptionMethodQuery(
   return useQuery(adminRedemptionMethodQueryOptions({
     request: clientRequest,
     rewardID,
+  }));
+}
+
+export function useAdminAnnouncementsQuery() {
+  return useQuery(adminAnnouncementsListQueryOptions({
+    request: clientRequest,
   }));
 }

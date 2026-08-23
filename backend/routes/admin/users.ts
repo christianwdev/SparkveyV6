@@ -199,6 +199,7 @@ export default function routesInvoker() {
         username: body.username,
         email: body.email,
         emailVerified: body.emailVerified,
+        staffPermissions: body.staffPermissions,
         userConfiguration: body.userConfiguration,
       });
 
