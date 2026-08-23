@@ -85,6 +85,18 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
+  await db.collection(DatabaseCollections.promocodes).createIndexes([
+    {
+      key: { code: 1 },
+      unique: true,
+      name: 'code_unique',
+    },
+    {
+      key: { createdAt: -1 },
+      name: 'createdAt',
+    },
+  ]);
+
   await db.collection(DatabaseCollections.affiliateCodes).createIndexes([
     {
       key: { code: 1 },
@@ -243,6 +255,35 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       partialFilterExpression: { type: 'offer', status: 'held', heldUntil: { $exists: true } },
     },
   );
+
+  await db.collection(DatabaseCollections.chatConversations).createIndexes([
+    {
+      key: { conversationID: 1 },
+      unique: true,
+      name: 'conversationID_unique',
+    },
+    {
+      key: { userID: 1 },
+      unique: true,
+      name: 'userID_unique',
+    },
+    {
+      key: { lastMessageTimestamp: -1 },
+      name: 'lastMessageTimestamp',
+    },
+  ]);
+
+  await db.collection(DatabaseCollections.chatMessages).createIndexes([
+    {
+      key: { messageID: 1 },
+      unique: true,
+      name: 'messageID_unique',
+    },
+    {
+      key: { conversationID: 1, timestamp: -1 },
+      name: 'conversationID_timestamp',
+    },
+  ]);
 
   await ensureSiteStatistics(db);
 }

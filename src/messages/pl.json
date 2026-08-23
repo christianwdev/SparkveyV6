@@ -376,7 +376,11 @@
     "talkingTo": "Rozmawiasz z",
     "supportAgent": "Agentem wsparcia",
     "typeMessage": "Wpisz wiadomosc...",
-    "send": "Wyslij"
+    "send": "Wyslij",
+    "open": "Otwórz czat wsparcia",
+    "close": "Zamknij",
+    "empty": "Napisz wiadomość, a odezwiemy się do Ciebie.",
+    "hereToHelp": "Jesteśmy tu, żeby pomóc"
   },
   "PurchaseModals": {
     "common": {
@@ -419,7 +423,15 @@
     "title": "Zrealizuj kod promocyjny",
     "description": "Kody promocyjne publikujemy w naszych social mediach i sa dostepne dla ograniczonej liczby uzytkownikow.",
     "placeholder": "Kod promocyjny",
-    "redeemCode": "Zrealizuj kod"
+    "redeemCode": "Zrealizuj kod",
+    "redeeming": "Realizacja…",
+    "close": "Zamknij",
+    "success": "Zrealizowano {amount} sparks.",
+    "errors": {
+      "invalidOrUnavailable": "Ten kod promocyjny jest nieprawidlowy lub niedostepny.",
+      "invalid": "Wpisz prawidlowy kod promocyjny.",
+      "generic": "Nie udalo sie zrealizowac kodu. Sprobuj ponownie pozniej."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Wyplata",
@@ -459,17 +471,22 @@
       "earn": "Zarabiaj",
       "shop": "Sklep",
       "leaders": "Liderzy",
-      "refer": "Polecaj"
+      "refer": "Polecaj",
+      "support": "Wsparcie"
     },
     "a11y": {
       "avatarAlt": "Awatar"
     }
+  },
+  "AnnouncementBanner": {
+    "label": "Ogłoszenie witryny"
   },
   "UserDropdown": {
     "earnings": "Zarobki",
     "redemptions": "Wypłaty",
     "settings": "Ustawienia",
     "affiliates": "Program partnerski",
+    "promocodes": "Kody promocyjne",
     "signOut": "Wyloguj sie"
   },
   "Notifications": {
@@ -1235,7 +1252,17 @@
     "earningsTitle": "Sparkvey | Zarobki",
     "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj.",
     "postbacksTitle": "Sparkvey | Postbacki",
-    "postbacksDescription": "Przeglądaj dzienniki postbacków i ponawiaj nieudane naliczenia."
+    "postbacksDescription": "Przeglądaj dzienniki postbacków i ponawiaj nieudane naliczenia.",
+    "offersTitle": "Sparkvey | Oferty",
+    "offersDescription": "Twórz, edytuj i wyłączaj oferty.",
+    "redemptionMethodsTitle": "Sparkvey | Metody wypłat",
+    "redemptionMethodsDescription": "Zarządzaj metodami Tremendous i krypto.",
+    "promocodesTitle": "Sparkvey | Kody promocyjne",
+    "promocodesDescription": "Twórz i zarządzaj kodami promocyjnymi.",
+    "announcementsTitle": "Sparkvey | Ogłoszenia admin",
+    "announcementsDescription": "Zarządzaj banerem ogłoszenia na stronie.",
+    "chatTitle": "Sparkvey | Czat wsparcia",
+    "chatDescription": "Czytaj i odpowiadaj na rozmowy wsparcia."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1248,7 +1275,33 @@
       "users": "Users",
       "earnings": "Zarobki",
       "postbacks": "Postbacki",
-      "withdrawals": "Wypłaty"
+      "withdrawals": "Wypłaty",
+      "offers": "Oferty",
+      "redemptionMethods": "Metody wypłat",
+      "promocodes": "Kody promocyjne",
+      "announcements": "Ogłoszenia",
+      "chat": "Wsparcie"
+    }
+  },
+  "AdminChat": {
+    "title": "Rozmowy",
+    "searchPlaceholder": "Filtruj lub otwórz po ID użytkownika",
+    "search": "Otwórz",
+    "chatTitle": "Wątek wsparcia",
+    "emptyTitle": "Wybierz rozmowę",
+    "emptyDescription": "Wybierz wątek z listy albo otwórz go po ID użytkownika.",
+    "typeMessage": "Napisz odpowiedź…",
+    "send": "Wyślij",
+    "noMessages": "Brak wiadomości",
+    "emptyInbox": "Brak rozmów",
+    "emptyFilter": "Brak pasujących rozmów",
+    "back": "Wstecz",
+    "viewUser": "Zobacz profil",
+    "viewOnly": "Możesz czytać ten wątek, ale nie możesz odpowiadać.",
+    "errors": {
+      "notFound": "Nie znaleziono użytkownika.",
+      "cannotCreate": "Nie masz uprawnień, aby rozpocząć rozmowę.",
+      "generic": "Nie udało się otworzyć tej rozmowy."
     }
   },
   "AdminDashboard": {
@@ -1482,10 +1535,37 @@
       "limitsDescription": "Limity ofert, wypłat i kodów afiliacyjnych.",
       "moderationTitle": "Moderacja",
       "moderationDescription": "Zablokuj, odblokuj lub wyloguj wszędzie.",
-      "permanentBan": "Blokada stała"
+      "permanentBan": "Blokada stała",
+      "permissionsTitle": "Uprawnienia staffu",
+      "permissionsDescription": "Możesz nadać tylko uprawnienia, które sam masz.",
+      "permissions": {
+        "viewUsers": "Przeglądaj użytkowników",
+        "viewEarnings": "Przeglądaj zarobki",
+        "viewWithdrawals": "Przeglądaj wypłaty",
+        "viewPromocodes": "Przeglądaj kody promo",
+        "viewSettings": "Przeglądaj ustawienia",
+        "viewOffers": "Przeglądaj oferty",
+        "viewLeaderboards": "Przeglądaj rankingi",
+        "viewPostbacks": "Przeglądaj postbacki",
+        "viewStatistics": "Przeglądaj statystyki",
+        "viewAnnouncements": "Przeglądaj ogłoszenia",
+        "modifyUsers": "Modyfikuj użytkowników",
+        "modifyEarnings": "Modyfikuj zarobki",
+        "modifyWithdrawals": "Modyfikuj wypłaty",
+        "modifyPromocodes": "Modyfikuj kody promo",
+        "modifySettings": "Modyfikuj ustawienia",
+        "modifyOffers": "Modyfikuj oferty",
+        "modifyLeaderboards": "Modyfikuj rankingi",
+        "modifyPostbacks": "Modyfikuj postbacki",
+        "modifyAnnouncements": "Modyfikuj ogłoszenia",
+        "viewChat": "Przeglądaj czat",
+        "replyChat": "Odpowiadaj na czacie"
+      }
     },
     "actions": {
       "saveAccount": "Zapisz konto",
+      "savePermissions": "Zapisz uprawnienia",
+      "grantAllPermissions": "Nadaj wszystkie możliwe",
       "applyBalance": "Zastosuj saldo",
       "saveLimits": "Zapisz limity",
       "ban": "Zablokuj użytkownika",
@@ -1755,6 +1835,229 @@
       "processingFailed": "Ponowienie nie powiodło się podczas przetwarzania."
     }
   },
+  "AdminOffers": {
+    "empty": "Brak ofert dla tych filtrów.",
+    "na": "—",
+    "customProvider": "Własna",
+    "searchLabel": "Szukaj ofert",
+    "table": {
+      "name": "Nazwa",
+      "provider": "Dostawca",
+      "status": "Status",
+      "featuredPriority": "Wyróżnienie",
+      "totalReward": "Nagroda",
+      "actions": "Akcje"
+    },
+    "filters": {
+      "all": "Wszystkie",
+      "status": "Status",
+      "searchBy": "Szukaj wg",
+      "sortBy": "Sortuj wg",
+      "sortDirection": "Kierunek"
+    },
+    "searchBy": {
+      "name": "Nazwa",
+      "displayName": "Nazwa wyświetlana",
+      "provider": "Dostawca",
+      "offerID": "ID oferty",
+      "externalID": "ID zewnętrzne"
+    },
+    "searchPlaceholder": {
+      "name": "Szukaj po nazwie",
+      "displayName": "Szukaj po nazwie wyświetlanej",
+      "provider": "Szukaj po dostawcy",
+      "offerID": "Szukaj po ID oferty",
+      "externalID": "Szukaj po ID zewnętrznym"
+    },
+    "sortBy": {
+      "featuredPriority": "Priorytet wyróżnienia",
+      "totalReward": "Łączna nagroda",
+      "name": "Nazwa",
+      "updatedAt": "Aktualizacja"
+    },
+    "sortDirection": {
+      "asc": "Rosnąco",
+      "desc": "Malejąco"
+    },
+    "statuses": {
+      "active": "Aktywna",
+      "inactive": "Nieaktywna",
+      "disabled": "Wyłączona"
+    },
+    "fields": {
+      "name": "Nazwa wewnętrzna",
+      "displayName": "Nazwa wyświetlana",
+      "image": "URL obrazu",
+      "trackingURL": "URL śledzenia",
+      "geos": "Geo",
+      "geosHint": "Kody krajów po przecinku. GLOBAL lub puste dla wszystkich.",
+      "geosBlacklist": "Czarna lista geo",
+      "status": "Status",
+      "featuredPriority": "Priorytet wyróżnienia",
+      "description": "Opis",
+      "terms": "Warunki",
+      "disclaimer": "Zastrzeżenie",
+      "offerIDValue": "ID oferty {offerID}"
+    },
+    "rewards": {
+      "title": "Nagrody",
+      "subtitle": "Wymagana co najmniej jedna. Liczba lub variable.",
+      "editSubtitle": "Nadpisz wypłatę lub tekst istniejących celów.",
+      "externalID": "ID zewnętrzne",
+      "description": "Opis",
+      "value": "Wartość",
+      "revenue": "Przychód",
+      "add": "Dodaj nagrodę",
+      "remove": "Usuń"
+    },
+    "create": {
+      "title": "Utwórz własną ofertę",
+      "subtitle": "Dodaje ofertę provider=custom widoczną, gdy jest aktywna."
+    },
+    "edit": {
+      "information": "Dane oferty"
+    },
+    "actions": {
+      "create": "Utwórz własną ofertę",
+      "creating": "Tworzenie…",
+      "edit": "Edytuj",
+      "save": "Zapisz",
+      "saving": "Zapisywanie…",
+      "back": "Wróć do ofert"
+    },
+    "success": {
+      "created": "Utworzono własną ofertę.",
+      "updated": "Zaktualizowano ofertę."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać ofert.",
+      "createFailed": "Nie udało się utworzyć tej oferty.",
+      "updateFailed": "Nie udało się zaktualizować tej oferty.",
+      "invalidReward": "Nagroda {index} ma nieprawidłową wartość.",
+      "invalidFeatured": "Priorytet wyróżnienia musi być liczbą."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "Brak metod dla tych filtrów.",
+    "na": "—",
+    "allCountries": "Wszystkie kraje",
+    "searchLabel": "Szukaj metod wypłat",
+    "table": {
+      "name": "Nazwa",
+      "provider": "Dostawca",
+      "status": "Status",
+      "featuredSpot": "Wyróżnienie",
+      "created": "Utworzono",
+      "actions": "Akcje"
+    },
+    "filters": {
+      "all": "Wszystkie",
+      "status": "Status",
+      "searchBy": "Szukaj wg",
+      "sortDirection": "Sortowanie"
+    },
+    "searchBy": {
+      "name": "Nazwa",
+      "rewardID": "ID nagrody"
+    },
+    "searchPlaceholder": {
+      "name": "Szukaj po nazwie",
+      "rewardID": "Szukaj po ID nagrody"
+    },
+    "sortDirection": {
+      "asc": "Rosnąco",
+      "desc": "Malejąco"
+    },
+    "statuses": {
+      "active": "Aktywna",
+      "inactive": "Nieaktywna"
+    },
+    "providers": {
+      "tremendous": "Karta podarunkowa",
+      "ccpayment": "Krypto"
+    },
+    "valueTypes": {
+      "variable": "Zmienna",
+      "denomination": "Nominały",
+      "crypto": "Krypto"
+    },
+    "categories": {
+      "cash": "Gotówka",
+      "giftcards": "Karty podarunkowe",
+      "crypto": "Krypto"
+    },
+    "imageTypes": {
+      "card": "Karta",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "ID nagrody",
+      "description": "Opis",
+      "disclosure": "Informacja",
+      "countries": "Kraje",
+      "valueRange": "Zakres wartości",
+      "status": "Status",
+      "featuredSpot": "Pozycja wyróżnienia",
+      "categories": "Kategorie",
+      "internalImage": "Wewnętrzny URL obrazu",
+      "imageType": "Typ obrazu"
+    },
+    "edit": {
+      "information": "Dane metody",
+      "controls": "Ustawienia katalogu",
+      "controlsSubtitle": "Status, kolejność, kategorie i obraz zostają po synchronizacji."
+    },
+    "actions": {
+      "edit": "Edytuj",
+      "save": "Zapisz",
+      "saving": "Zapisywanie…",
+      "back": "Wróć do metod wypłat"
+    },
+    "success": {
+      "updated": "Zaktualizowano metodę wypłaty."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać metod wypłat.",
+      "updateFailed": "Nie udało się zaktualizować tej metody.",
+      "invalidFeatured": "Pozycja wyróżnienia musi być liczbą."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Nie ma jeszcze kodow promocyjnych.",
+    "na": "—",
+    "table": {
+      "code": "Kod",
+      "uses": "Uzycia",
+      "reward": "Nagroda",
+      "expiry": "Waznosc",
+      "created": "Utworzono",
+      "claimedBy": "Wykorzystany przez",
+      "actions": "Akcje"
+    },
+    "form": {
+      "code": "Kod",
+      "rewardValue": "Sparks",
+      "totalUses": "Liczba uzyc",
+      "expiryDate": "Data waznosci",
+      "create": "Utworz kod",
+      "creating": "Tworzenie…"
+    },
+    "actions": {
+      "delete": "Usun",
+      "deleting": "Usuwanie…"
+    },
+    "success": {
+      "created": "Kod promocyjny utworzony.",
+      "deleted": "Kod promocyjny usuniety."
+    },
+    "errors": {
+      "loadFailed": "Nie udalo sie wczytac kodow promocyjnych.",
+      "alreadyExists": "Ten kod promocyjny juz istnieje.",
+      "invalidExpiry": "Data waznosci musi byc w przyszlosci.",
+      "createFailed": "Nie udalo sie utworzyc kodu promocyjnego.",
+      "deleteFailed": "Nie udalo sie usunac kodu promocyjnego."
+    }
+  },
   "AdminUserRiskModal": {
     "eyebrow": "Zaufanie",
     "title": "Przegląd użytkownika",
@@ -1828,6 +2131,44 @@
       "linkedAccount": "Powiązane konto",
       "proxy": "Proxy lub Tor",
       "impossibleTravel": "Niemożliwa podróż"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Brak ogłoszeń",
+    "create": "Utwórz ogłoszenie",
+    "creating": "Tworzenie…",
+    "modalTitle": "Utwórz ogłoszenie",
+    "close": "Zamknij",
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Wpisz treść ogłoszenia…",
+    "characterCount": "{count}/500",
+    "cancel": "Anuluj",
+    "submit": "Utwórz",
+    "na": "—",
+    "table": {
+      "message": "Wiadomość",
+      "status": "Status",
+      "created": "Utworzono",
+      "actions": "Akcje"
+    },
+    "statuses": {
+      "active": "Aktywne",
+      "inactive": "Nieaktywne"
+    },
+    "actions": {
+      "disable": "Wyłącz",
+      "disabling": "Wyłączanie…"
+    },
+    "success": {
+      "created": "Ogłoszenie utworzone.",
+      "disabled": "Ogłoszenie wyłączone."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać ogłoszeń.",
+      "createFailed": "Nie udało się utworzyć ogłoszenia.",
+      "disableFailed": "Nie udało się wyłączyć ogłoszenia.",
+      "emptyMessage": "Wiadomość nie może być pusta.",
+      "messageTooLong": "Wiadomość może mieć maksymalnie 500 znaków."
     }
   }
 }

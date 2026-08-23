@@ -376,7 +376,11 @@
     "talkingTo": "Talking to",
     "supportAgent": "Support Agent",
     "typeMessage": "Type your message...",
-    "send": "Send"
+    "send": "Send",
+    "open": "Open support chat",
+    "close": "Close",
+    "empty": "Send a message and we'll get back to you.",
+    "hereToHelp": "We're here to help"
   },
   "PurchaseModals": {
     "common": {
@@ -419,7 +423,15 @@
     "title": "Redeem Promocode",
     "description": "These promocodes will be found on our socials and will provide some SP to limited users.",
     "placeholder": "Promocode",
-    "redeemCode": "Redeem Code"
+    "redeemCode": "Redeem Code",
+    "redeeming": "Redeeming…",
+    "close": "Close",
+    "success": "Redeemed {amount} sparks.",
+    "errors": {
+      "invalidOrUnavailable": "This promocode is invalid or unavailable.",
+      "invalid": "Enter a valid promocode.",
+      "generic": "Could not redeem this promocode. Try again later."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Withdrawal",
@@ -459,17 +471,22 @@
       "earn": "Earn",
       "shop": "Shop",
       "leaders": "Leaders",
-      "refer": "Refer"
+      "refer": "Refer",
+      "support": "Support"
     },
     "a11y": {
       "avatarAlt": "Avatar"
     }
+  },
+  "AnnouncementBanner": {
+    "label": "Site announcement"
   },
   "UserDropdown": {
     "earnings": "Earnings",
     "redemptions": "Redemptions",
     "settings": "Settings",
     "affiliates": "Affiliates",
+    "promocodes": "Promocodes",
     "signOut": "Sign out"
   },
   "Notifications": {
@@ -1235,7 +1252,17 @@
     "earningsTitle": "Sparkvey | Earnings",
     "earningsDescription": "Review held offer earnings and release credits.",
     "postbacksTitle": "Sparkvey | Postbacks",
-    "postbacksDescription": "Review inbound postback logs and retry failed credits."
+    "postbacksDescription": "Review inbound postback logs and retry failed credits.",
+    "offersTitle": "Sparkvey | Offers",
+    "offersDescription": "Create, edit, and disable offers.",
+    "redemptionMethodsTitle": "Sparkvey | Redemption methods",
+    "redemptionMethodsDescription": "Manage Tremendous and crypto redemption methods.",
+    "promocodesTitle": "Sparkvey | Promocodes",
+    "promocodesDescription": "Create and manage promotional codes.",
+    "announcementsTitle": "Sparkvey | Admin Announcements",
+    "announcementsDescription": "Manage the site-wide announcement banner.",
+    "chatTitle": "Sparkvey | Support Chat",
+    "chatDescription": "Read and reply to user support conversations."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1248,7 +1275,33 @@
       "users": "Users",
       "earnings": "Earnings",
       "postbacks": "Postbacks",
-      "withdrawals": "Withdrawals"
+      "withdrawals": "Withdrawals",
+      "offers": "Offers",
+      "redemptionMethods": "Redemption methods",
+      "promocodes": "Promocodes",
+      "announcements": "Announcements",
+      "chat": "Support"
+    }
+  },
+  "AdminChat": {
+    "title": "Conversations",
+    "searchPlaceholder": "Filter or open by user ID",
+    "search": "Open",
+    "chatTitle": "Support thread",
+    "emptyTitle": "Select a conversation",
+    "emptyDescription": "Pick a thread from the inbox, or open one by user ID.",
+    "typeMessage": "Write a reply…",
+    "send": "Send",
+    "noMessages": "No messages yet",
+    "emptyInbox": "No conversations yet",
+    "emptyFilter": "No matching conversations",
+    "back": "Back",
+    "viewUser": "View profile",
+    "viewOnly": "You can read this thread, but you cannot reply.",
+    "errors": {
+      "notFound": "User not found.",
+      "cannotCreate": "You do not have permission to start a conversation.",
+      "generic": "Could not open that conversation."
     }
   },
   "AdminDashboard": {
@@ -1482,10 +1535,37 @@
       "limitsDescription": "Offer, withdrawal, and affiliate code limits.",
       "moderationTitle": "Moderation",
       "moderationDescription": "Ban, unban, or sign this user out everywhere.",
-      "permanentBan": "Permanent ban"
+      "permanentBan": "Permanent ban",
+      "permissionsTitle": "Staff permissions",
+      "permissionsDescription": "You can only grant permissions you already have.",
+      "permissions": {
+        "viewUsers": "View users",
+        "viewEarnings": "View earnings",
+        "viewWithdrawals": "View withdrawals",
+        "viewPromocodes": "View promo codes",
+        "viewSettings": "View settings",
+        "viewOffers": "View offers",
+        "viewLeaderboards": "View leaderboards",
+        "viewPostbacks": "View postbacks",
+        "viewStatistics": "View statistics",
+        "viewAnnouncements": "View announcements",
+        "modifyUsers": "Modify users",
+        "modifyEarnings": "Modify earnings",
+        "modifyWithdrawals": "Modify withdrawals",
+        "modifyPromocodes": "Modify promo codes",
+        "modifySettings": "Modify settings",
+        "modifyOffers": "Modify offers",
+        "modifyLeaderboards": "Modify leaderboards",
+        "modifyPostbacks": "Modify postbacks",
+        "modifyAnnouncements": "Modify announcements",
+        "viewChat": "View chat",
+        "replyChat": "Reply to chat"
+      }
     },
     "actions": {
       "saveAccount": "Save account",
+      "savePermissions": "Save permissions",
+      "grantAllPermissions": "Grant all I can",
       "applyBalance": "Apply balance",
       "saveLimits": "Save limits",
       "ban": "Ban user",
@@ -1755,6 +1835,229 @@
       "processingFailed": "Replay failed processing."
     }
   },
+  "AdminOffers": {
+    "empty": "No offers match these filters.",
+    "na": "—",
+    "customProvider": "Custom",
+    "searchLabel": "Search offers",
+    "table": {
+      "name": "Name",
+      "provider": "Provider",
+      "status": "Status",
+      "featuredPriority": "Featured",
+      "totalReward": "Reward",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "All",
+      "status": "Status",
+      "searchBy": "Search by",
+      "sortBy": "Sort by",
+      "sortDirection": "Direction"
+    },
+    "searchBy": {
+      "name": "Name",
+      "displayName": "Display name",
+      "provider": "Provider",
+      "offerID": "Offer ID",
+      "externalID": "External ID"
+    },
+    "searchPlaceholder": {
+      "name": "Search by name",
+      "displayName": "Search by display name",
+      "provider": "Search by provider",
+      "offerID": "Search by offer ID",
+      "externalID": "Search by external ID"
+    },
+    "sortBy": {
+      "featuredPriority": "Featured priority",
+      "totalReward": "Total reward",
+      "name": "Name",
+      "updatedAt": "Updated"
+    },
+    "sortDirection": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "disabled": "Disabled"
+    },
+    "fields": {
+      "name": "Internal name",
+      "displayName": "Display name",
+      "image": "Image URL",
+      "trackingURL": "Tracking URL",
+      "geos": "Geos",
+      "geosHint": "Comma-separated country codes. Use GLOBAL or leave empty for all countries.",
+      "geosBlacklist": "Geo blacklist",
+      "status": "Status",
+      "featuredPriority": "Featured priority",
+      "description": "Description",
+      "terms": "Terms",
+      "disclaimer": "Disclaimer",
+      "offerIDValue": "Offer ID {offerID}"
+    },
+    "rewards": {
+      "title": "Rewards",
+      "subtitle": "At least one reward is required. Use a number or variable.",
+      "editSubtitle": "Override payout or copy for existing goals.",
+      "externalID": "External ID",
+      "description": "Description",
+      "value": "Value",
+      "revenue": "Revenue",
+      "add": "Add reward",
+      "remove": "Remove"
+    },
+    "create": {
+      "title": "Create custom offer",
+      "subtitle": "Adds a provider=custom offer that appears in browse when active."
+    },
+    "edit": {
+      "information": "Offer information"
+    },
+    "actions": {
+      "create": "Create custom offer",
+      "creating": "Creating…",
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving…",
+      "back": "Back to offers"
+    },
+    "success": {
+      "created": "Custom offer created.",
+      "updated": "Offer updated."
+    },
+    "errors": {
+      "loadFailed": "Offers could not be loaded.",
+      "createFailed": "Could not create this offer.",
+      "updateFailed": "Could not update this offer.",
+      "invalidReward": "Reward {index} has an invalid value.",
+      "invalidFeatured": "Featured priority must be a number."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "No redemption methods match these filters.",
+    "na": "—",
+    "allCountries": "All countries",
+    "searchLabel": "Search redemption methods",
+    "table": {
+      "name": "Name",
+      "provider": "Provider",
+      "status": "Status",
+      "featuredSpot": "Featured",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "All",
+      "status": "Status",
+      "searchBy": "Search by",
+      "sortDirection": "Sort"
+    },
+    "searchBy": {
+      "name": "Name",
+      "rewardID": "Reward ID"
+    },
+    "searchPlaceholder": {
+      "name": "Search by name",
+      "rewardID": "Search by reward ID"
+    },
+    "sortDirection": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "providers": {
+      "tremendous": "Gift card",
+      "ccpayment": "Crypto"
+    },
+    "valueTypes": {
+      "variable": "Variable",
+      "denomination": "Denominations",
+      "crypto": "Crypto"
+    },
+    "categories": {
+      "cash": "Cash",
+      "giftcards": "Gift cards",
+      "crypto": "Crypto"
+    },
+    "imageTypes": {
+      "card": "Card",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "Reward ID",
+      "description": "Description",
+      "disclosure": "Disclosure",
+      "countries": "Countries",
+      "valueRange": "Value range",
+      "status": "Status",
+      "featuredSpot": "Featured spot",
+      "categories": "Categories",
+      "internalImage": "Internal image URL",
+      "imageType": "Image type"
+    },
+    "edit": {
+      "information": "Method information",
+      "controls": "Catalog controls",
+      "controlsSubtitle": "Status, featured order, categories, and image override persist across provider syncs."
+    },
+    "actions": {
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving…",
+      "back": "Back to redemption methods"
+    },
+    "success": {
+      "updated": "Redemption method updated."
+    },
+    "errors": {
+      "loadFailed": "Redemption methods could not be loaded.",
+      "updateFailed": "Could not update this redemption method.",
+      "invalidFeatured": "Featured spot must be a number."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "No promocodes yet.",
+    "na": "—",
+    "table": {
+      "code": "Code",
+      "uses": "Uses",
+      "reward": "Reward",
+      "expiry": "Expiry",
+      "created": "Created",
+      "claimedBy": "Claimed by",
+      "actions": "Actions"
+    },
+    "form": {
+      "code": "Code",
+      "rewardValue": "Sparks",
+      "totalUses": "Total uses",
+      "expiryDate": "Expiry date",
+      "create": "Create promocode",
+      "creating": "Creating…"
+    },
+    "actions": {
+      "delete": "Delete",
+      "deleting": "Deleting…"
+    },
+    "success": {
+      "created": "Promocode created.",
+      "deleted": "Promocode deleted."
+    },
+    "errors": {
+      "loadFailed": "Promocodes could not be loaded.",
+      "alreadyExists": "This promocode already exists.",
+      "invalidExpiry": "Expiry date must be in the future.",
+      "createFailed": "Could not create this promocode.",
+      "deleteFailed": "Could not delete this promocode."
+    }
+  },
   "AdminUserRiskModal": {
     "eyebrow": "Trust",
     "title": "User review",
@@ -1828,6 +2131,44 @@
     "actions": {
       "cancel": "Cancel",
       "confirm": "Confirm and accept"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "No announcements found",
+    "create": "Create announcement",
+    "creating": "Creating…",
+    "modalTitle": "Create announcement",
+    "close": "Close",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Enter announcement message…",
+    "characterCount": "{count}/500",
+    "cancel": "Cancel",
+    "submit": "Create",
+    "na": "—",
+    "table": {
+      "message": "Message",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "disable": "Disable",
+      "disabling": "Disabling…"
+    },
+    "success": {
+      "created": "Announcement created.",
+      "disabled": "Announcement disabled."
+    },
+    "errors": {
+      "loadFailed": "Announcements could not be loaded.",
+      "createFailed": "Could not create the announcement.",
+      "disableFailed": "Could not disable the announcement.",
+      "emptyMessage": "Message cannot be empty.",
+      "messageTooLong": "Message must be 500 characters or less."
     }
   }
 }

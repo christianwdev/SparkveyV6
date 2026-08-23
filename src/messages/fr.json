@@ -376,7 +376,11 @@
     "talkingTo": "En discussion avec",
     "supportAgent": "Agent du support",
     "typeMessage": "Tapez votre message...",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "open": "Ouvrir le chat support",
+    "close": "Fermer",
+    "empty": "Envoyez un message, nous vous répondrons.",
+    "hereToHelp": "On est là pour vous aider"
   },
   "PurchaseModals": {
     "common": {
@@ -419,7 +423,15 @@
     "title": "Échanger un code promo",
     "description": "Ces codes promo seront publiés sur nos réseaux sociaux et donneront des SP à un nombre limité d'utilisateurs.",
     "placeholder": "Code promo",
-    "redeemCode": "Échanger le code"
+    "redeemCode": "Échanger le code",
+    "redeeming": "Échange…",
+    "close": "Fermer",
+    "success": "{amount} sparks échangés.",
+    "errors": {
+      "invalidOrUnavailable": "Ce code promo est invalide ou indisponible.",
+      "invalid": "Saisissez un code promo valide.",
+      "generic": "Impossible d'échanger ce code promo. Réessayez plus tard."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Retrait",
@@ -459,17 +471,22 @@
       "earn": "Gagner",
       "shop": "Boutique",
       "leaders": "Leaders",
-      "refer": "Parrainer"
+      "refer": "Parrainer",
+      "support": "Support"
     },
     "a11y": {
       "avatarAlt": "Avatar"
     }
+  },
+  "AnnouncementBanner": {
+    "label": "Annonce du site"
   },
   "UserDropdown": {
     "earnings": "Gains",
     "redemptions": "Retraits",
     "settings": "Paramètres",
     "affiliates": "Affiliés",
+    "promocodes": "Codes promo",
     "signOut": "Se déconnecter"
   },
   "Notifications": {
@@ -1235,7 +1252,17 @@
     "earningsTitle": "Sparkvey | Gains",
     "earningsDescription": "Examiner les gains d'offres en attente et les libérer.",
     "postbacksTitle": "Sparkvey | Postbacks",
-    "postbacksDescription": "Consulter les journaux de postbacks et relancer les crédits échoués."
+    "postbacksDescription": "Consulter les journaux de postbacks et relancer les crédits échoués.",
+    "offersTitle": "Sparkvey | Offres",
+    "offersDescription": "Créer, modifier et désactiver des offres.",
+    "redemptionMethodsTitle": "Sparkvey | Méthodes d'échange",
+    "redemptionMethodsDescription": "Gérer les méthodes Tremendous et crypto.",
+    "promocodesTitle": "Sparkvey | Codes promo",
+    "promocodesDescription": "Créer et gérer les codes promotionnels.",
+    "announcementsTitle": "Sparkvey | Annonces admin",
+    "announcementsDescription": "Gérer la bannière d'annonce du site.",
+    "chatTitle": "Sparkvey | Chat support",
+    "chatDescription": "Lire et répondre aux conversations support."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1248,7 +1275,33 @@
       "users": "Users",
       "earnings": "Gains",
       "postbacks": "Postbacks",
-      "withdrawals": "Retraits"
+      "withdrawals": "Retraits",
+      "offers": "Offres",
+      "redemptionMethods": "Méthodes d'échange",
+      "promocodes": "Codes promo",
+      "announcements": "Annonces",
+      "chat": "Support"
+    }
+  },
+  "AdminChat": {
+    "title": "Conversations",
+    "searchPlaceholder": "Filtrer ou ouvrir par ID utilisateur",
+    "search": "Ouvrir",
+    "chatTitle": "Fil support",
+    "emptyTitle": "Choisissez une conversation",
+    "emptyDescription": "Sélectionnez un fil dans la liste, ou ouvrez-en un par ID utilisateur.",
+    "typeMessage": "Écrire une réponse…",
+    "send": "Envoyer",
+    "noMessages": "Aucun message pour le moment",
+    "emptyInbox": "Aucune conversation pour le moment",
+    "emptyFilter": "Aucune conversation correspondante",
+    "back": "Retour",
+    "viewUser": "Voir le profil",
+    "viewOnly": "Vous pouvez lire ce fil, mais pas y répondre.",
+    "errors": {
+      "notFound": "Utilisateur introuvable.",
+      "cannotCreate": "Vous n’avez pas la permission de démarrer une conversation.",
+      "generic": "Impossible d’ouvrir cette conversation."
     }
   },
   "AdminDashboard": {
@@ -1482,10 +1535,37 @@
       "limitsDescription": "Limites d’offres, de retraits et de codes d’affiliation.",
       "moderationTitle": "Modération",
       "moderationDescription": "Bannir, débannir ou déconnecter partout.",
-      "permanentBan": "Bannissement permanent"
+      "permanentBan": "Bannissement permanent",
+      "permissionsTitle": "Permissions staff",
+      "permissionsDescription": "Vous ne pouvez accorder que les permissions que vous avez déjà.",
+      "permissions": {
+        "viewUsers": "Voir les utilisateurs",
+        "viewEarnings": "Voir les gains",
+        "viewWithdrawals": "Voir les retraits",
+        "viewPromocodes": "Voir les codes promo",
+        "viewSettings": "Voir les paramètres",
+        "viewOffers": "Voir les offres",
+        "viewLeaderboards": "Voir les classements",
+        "viewPostbacks": "Voir les postbacks",
+        "viewStatistics": "Voir les statistiques",
+        "viewAnnouncements": "Voir les annonces",
+        "modifyUsers": "Modifier les utilisateurs",
+        "modifyEarnings": "Modifier les gains",
+        "modifyWithdrawals": "Modifier les retraits",
+        "modifyPromocodes": "Modifier les codes promo",
+        "modifySettings": "Modifier les paramètres",
+        "modifyOffers": "Modifier les offres",
+        "modifyLeaderboards": "Modifier les classements",
+        "modifyPostbacks": "Modifier les postbacks",
+        "modifyAnnouncements": "Modifier les annonces",
+        "viewChat": "Voir le chat",
+        "replyChat": "Répondre au chat"
+      }
     },
     "actions": {
       "saveAccount": "Enregistrer le compte",
+      "savePermissions": "Enregistrer les permissions",
+      "grantAllPermissions": "Accorder tout ce que je peux",
       "applyBalance": "Appliquer le solde",
       "saveLimits": "Enregistrer les limites",
       "ban": "Bannir",
@@ -1755,6 +1835,229 @@
       "processingFailed": "La relecture a échoué au traitement."
     }
   },
+  "AdminOffers": {
+    "empty": "Aucune offre ne correspond à ces filtres.",
+    "na": "—",
+    "customProvider": "Personnalisée",
+    "searchLabel": "Rechercher des offres",
+    "table": {
+      "name": "Nom",
+      "provider": "Fournisseur",
+      "status": "Statut",
+      "featuredPriority": "Mise en avant",
+      "totalReward": "Récompense",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "Toutes",
+      "status": "Statut",
+      "searchBy": "Rechercher par",
+      "sortBy": "Trier par",
+      "sortDirection": "Sens"
+    },
+    "searchBy": {
+      "name": "Nom",
+      "displayName": "Nom affiché",
+      "provider": "Fournisseur",
+      "offerID": "ID d'offre",
+      "externalID": "ID externe"
+    },
+    "searchPlaceholder": {
+      "name": "Rechercher par nom",
+      "displayName": "Rechercher par nom affiché",
+      "provider": "Rechercher par fournisseur",
+      "offerID": "Rechercher par ID d'offre",
+      "externalID": "Rechercher par ID externe"
+    },
+    "sortBy": {
+      "featuredPriority": "Priorité mise en avant",
+      "totalReward": "Récompense totale",
+      "name": "Nom",
+      "updatedAt": "Mis à jour"
+    },
+    "sortDirection": {
+      "asc": "Croissant",
+      "desc": "Décroissant"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "disabled": "Désactivée"
+    },
+    "fields": {
+      "name": "Nom interne",
+      "displayName": "Nom affiché",
+      "image": "URL de l'image",
+      "trackingURL": "URL de suivi",
+      "geos": "Geos",
+      "geosHint": "Codes pays séparés par des virgules. GLOBAL ou vide pour tous.",
+      "geosBlacklist": "Liste noire geo",
+      "status": "Statut",
+      "featuredPriority": "Priorité mise en avant",
+      "description": "Description",
+      "terms": "Conditions",
+      "disclaimer": "Avertissement",
+      "offerIDValue": "ID d'offre {offerID}"
+    },
+    "rewards": {
+      "title": "Récompenses",
+      "subtitle": "Au moins une récompense. Nombre ou variable.",
+      "editSubtitle": "Remplacer le paiement ou le texte des objectifs.",
+      "externalID": "ID externe",
+      "description": "Description",
+      "value": "Valeur",
+      "revenue": "Revenu",
+      "add": "Ajouter une récompense",
+      "remove": "Retirer"
+    },
+    "create": {
+      "title": "Créer une offre perso",
+      "subtitle": "Ajoute une offre provider=custom visible si elle est active."
+    },
+    "edit": {
+      "information": "Informations de l'offre"
+    },
+    "actions": {
+      "create": "Créer une offre perso",
+      "creating": "Création…",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "back": "Retour aux offres"
+    },
+    "success": {
+      "created": "Offre personnalisée créée.",
+      "updated": "Offre mise à jour."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les offres.",
+      "createFailed": "Impossible de créer cette offre.",
+      "updateFailed": "Impossible de mettre à jour cette offre.",
+      "invalidReward": "La récompense {index} a une valeur invalide.",
+      "invalidFeatured": "La priorité doit être un nombre."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "Aucune méthode ne correspond à ces filtres.",
+    "na": "—",
+    "allCountries": "Tous les pays",
+    "searchLabel": "Rechercher des méthodes d'échange",
+    "table": {
+      "name": "Nom",
+      "provider": "Fournisseur",
+      "status": "Statut",
+      "featuredSpot": "Mise en avant",
+      "created": "Créé",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "Toutes",
+      "status": "Statut",
+      "searchBy": "Rechercher par",
+      "sortDirection": "Tri"
+    },
+    "searchBy": {
+      "name": "Nom",
+      "rewardID": "ID de récompense"
+    },
+    "searchPlaceholder": {
+      "name": "Rechercher par nom",
+      "rewardID": "Rechercher par ID de récompense"
+    },
+    "sortDirection": {
+      "asc": "Croissant",
+      "desc": "Décroissant"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "providers": {
+      "tremendous": "Carte cadeau",
+      "ccpayment": "Crypto"
+    },
+    "valueTypes": {
+      "variable": "Variable",
+      "denomination": "Montants",
+      "crypto": "Crypto"
+    },
+    "categories": {
+      "cash": "Cash",
+      "giftcards": "Cartes cadeaux",
+      "crypto": "Crypto"
+    },
+    "imageTypes": {
+      "card": "Carte",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "ID de récompense",
+      "description": "Description",
+      "disclosure": "Mention",
+      "countries": "Pays",
+      "valueRange": "Plage de valeur",
+      "status": "Statut",
+      "featuredSpot": "Emplacement mis en avant",
+      "categories": "Catégories",
+      "internalImage": "URL d'image interne",
+      "imageType": "Type d'image"
+    },
+    "edit": {
+      "information": "Informations de la méthode",
+      "controls": "Contrôles du catalogue",
+      "controlsSubtitle": "Statut, ordre, catégories et image restent après chaque sync."
+    },
+    "actions": {
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "back": "Retour aux méthodes d'échange"
+    },
+    "success": {
+      "updated": "Méthode d'échange mise à jour."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les méthodes d'échange.",
+      "updateFailed": "Impossible de mettre à jour cette méthode.",
+      "invalidFeatured": "L'emplacement doit être un nombre."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Aucun code promo pour le moment.",
+    "na": "—",
+    "table": {
+      "code": "Code",
+      "uses": "Utilisations",
+      "reward": "Récompense",
+      "expiry": "Expiration",
+      "created": "Créé",
+      "claimedBy": "Utilisé par",
+      "actions": "Actions"
+    },
+    "form": {
+      "code": "Code",
+      "rewardValue": "Sparks",
+      "totalUses": "Utilisations totales",
+      "expiryDate": "Date d'expiration",
+      "create": "Créer un code promo",
+      "creating": "Création…"
+    },
+    "actions": {
+      "delete": "Supprimer",
+      "deleting": "Suppression…"
+    },
+    "success": {
+      "created": "Code promo créé.",
+      "deleted": "Code promo supprimé."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les codes promo.",
+      "alreadyExists": "Ce code promo existe déjà.",
+      "invalidExpiry": "La date d'expiration doit être dans le futur.",
+      "createFailed": "Impossible de créer ce code promo.",
+      "deleteFailed": "Impossible de supprimer ce code promo."
+    }
+  },
   "AdminUserRiskModal": {
     "eyebrow": "Confiance",
     "title": "Revue utilisateur",
@@ -1828,6 +2131,44 @@
       "linkedAccount": "Compte lié",
       "proxy": "Proxy ou Tor",
       "impossibleTravel": "Déplacement impossible"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Aucune annonce",
+    "create": "Créer une annonce",
+    "creating": "Création…",
+    "modalTitle": "Créer une annonce",
+    "close": "Fermer",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Saisir le message de l'annonce…",
+    "characterCount": "{count}/500",
+    "cancel": "Annuler",
+    "submit": "Créer",
+    "na": "—",
+    "table": {
+      "message": "Message",
+      "status": "Statut",
+      "created": "Créé",
+      "actions": "Actions"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "disable": "Désactiver",
+      "disabling": "Désactivation…"
+    },
+    "success": {
+      "created": "Annonce créée.",
+      "disabled": "Annonce désactivée."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les annonces.",
+      "createFailed": "Impossible de créer l'annonce.",
+      "disableFailed": "Impossible de désactiver l'annonce.",
+      "emptyMessage": "Le message ne peut pas être vide.",
+      "messageTooLong": "Le message doit faire 500 caractères ou moins."
     }
   }
 }

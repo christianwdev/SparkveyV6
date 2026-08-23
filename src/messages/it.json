@@ -376,7 +376,11 @@
     "talkingTo": "Stai parlando con",
     "supportAgent": "Agente di supporto",
     "typeMessage": "Scrivi il tuo messaggio...",
-    "send": "Invia"
+    "send": "Invia",
+    "open": "Apri chat di supporto",
+    "close": "Chiudi",
+    "empty": "Invia un messaggio e ti risponderemo.",
+    "hereToHelp": "Siamo qui per aiutarti"
   },
   "PurchaseModals": {
     "common": {
@@ -419,7 +423,15 @@
     "title": "Riscatta codice promozionale",
     "description": "Troverai questi codici promozionali sui nostri social e forniranno SP a un numero limitato di utenti.",
     "placeholder": "Codice promozionale",
-    "redeemCode": "Riscatta codice"
+    "redeemCode": "Riscatta codice",
+    "redeeming": "Riscatto…",
+    "close": "Chiudi",
+    "success": "Hai riscattato {amount} sparks.",
+    "errors": {
+      "invalidOrUnavailable": "Questo codice promozionale non e valido o non e disponibile.",
+      "invalid": "Inserisci un codice promozionale valido.",
+      "generic": "Impossibile riscattare questo codice promozionale. Riprova piu tardi."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Prelievo",
@@ -459,17 +471,22 @@
       "earn": "Guadagna",
       "shop": "Shop",
       "leaders": "Leader",
-      "refer": "Invita"
+      "refer": "Invita",
+      "support": "Supporto"
     },
     "a11y": {
       "avatarAlt": "Avatar"
     }
+  },
+  "AnnouncementBanner": {
+    "label": "Annuncio del sito"
   },
   "UserDropdown": {
     "earnings": "Guadagni",
     "redemptions": "Riscatti",
     "settings": "Impostazioni",
     "affiliates": "Affiliati",
+    "promocodes": "Codici promo",
     "signOut": "Esci"
   },
   "Notifications": {
@@ -1235,7 +1252,17 @@
     "earningsTitle": "Sparkvey | Guadagni",
     "earningsDescription": "Esamina i guadagni in attesa e rilasciali.",
     "postbacksTitle": "Sparkvey | Postback",
-    "postbacksDescription": "Esamina i log dei postback e riprova i crediti non riusciti."
+    "postbacksDescription": "Esamina i log dei postback e riprova i crediti non riusciti.",
+    "offersTitle": "Sparkvey | Offerte",
+    "offersDescription": "Crea, modifica e disattiva le offerte.",
+    "redemptionMethodsTitle": "Sparkvey | Metodi di riscatto",
+    "redemptionMethodsDescription": "Gestisci i metodi Tremendous e crypto.",
+    "promocodesTitle": "Sparkvey | Codici promo",
+    "promocodesDescription": "Crea e gestisci i codici promozionali.",
+    "announcementsTitle": "Sparkvey | Annunci admin",
+    "announcementsDescription": "Gestisci il banner di annuncio del sito.",
+    "chatTitle": "Sparkvey | Chat di supporto",
+    "chatDescription": "Leggi e rispondi alle conversazioni di supporto."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1248,7 +1275,33 @@
       "users": "Users",
       "earnings": "Guadagni",
       "postbacks": "Postback",
-      "withdrawals": "Prelievi"
+      "withdrawals": "Prelievi",
+      "offers": "Offerte",
+      "redemptionMethods": "Metodi di riscatto",
+      "promocodes": "Codici promo",
+      "announcements": "Annunci",
+      "chat": "Supporto"
+    }
+  },
+  "AdminChat": {
+    "title": "Conversazioni",
+    "searchPlaceholder": "Filtra o apri per ID utente",
+    "search": "Apri",
+    "chatTitle": "Thread di supporto",
+    "emptyTitle": "Seleziona una conversazione",
+    "emptyDescription": "Scegli un thread dalla lista oppure aprilo con l’ID utente.",
+    "typeMessage": "Scrivi una risposta…",
+    "send": "Invia",
+    "noMessages": "Nessun messaggio ancora",
+    "emptyInbox": "Nessuna conversazione ancora",
+    "emptyFilter": "Nessuna conversazione corrispondente",
+    "back": "Indietro",
+    "viewUser": "Vedi profilo",
+    "viewOnly": "Puoi leggere questo thread, ma non rispondere.",
+    "errors": {
+      "notFound": "Utente non trovato.",
+      "cannotCreate": "Non hai il permesso di avviare una conversazione.",
+      "generic": "Impossibile aprire quella conversazione."
     }
   },
   "AdminDashboard": {
@@ -1482,10 +1535,37 @@
       "limitsDescription": "Limiti di offerte, prelievi e codici affiliato.",
       "moderationTitle": "Moderazione",
       "moderationDescription": "Banna, sbanna o disconnetti ovunque.",
-      "permanentBan": "Ban permanente"
+      "permanentBan": "Ban permanente",
+      "permissionsTitle": "Permessi staff",
+      "permissionsDescription": "Puoi assegnare solo i permessi che hai già.",
+      "permissions": {
+        "viewUsers": "Vedi utenti",
+        "viewEarnings": "Vedi guadagni",
+        "viewWithdrawals": "Vedi prelievi",
+        "viewPromocodes": "Vedi codici promo",
+        "viewSettings": "Vedi impostazioni",
+        "viewOffers": "Vedi offerte",
+        "viewLeaderboards": "Vedi classifiche",
+        "viewPostbacks": "Vedi postback",
+        "viewStatistics": "Vedi statistiche",
+        "viewAnnouncements": "Vedi annunci",
+        "modifyUsers": "Modifica utenti",
+        "modifyEarnings": "Modifica guadagni",
+        "modifyWithdrawals": "Modifica prelievi",
+        "modifyPromocodes": "Modifica codici promo",
+        "modifySettings": "Modifica impostazioni",
+        "modifyOffers": "Modifica offerte",
+        "modifyLeaderboards": "Modifica classifiche",
+        "modifyPostbacks": "Modifica postback",
+        "modifyAnnouncements": "Modifica annunci",
+        "viewChat": "Vedi chat",
+        "replyChat": "Rispondi in chat"
+      }
     },
     "actions": {
       "saveAccount": "Salva account",
+      "savePermissions": "Salva permessi",
+      "grantAllPermissions": "Assegna tutti i miei",
       "applyBalance": "Applica saldo",
       "saveLimits": "Salva limiti",
       "ban": "Banna utente",
@@ -1755,6 +1835,229 @@
       "processingFailed": "La riproduzione è fallita in elaborazione."
     }
   },
+  "AdminOffers": {
+    "empty": "Nessuna offerta corrisponde a questi filtri.",
+    "na": "—",
+    "customProvider": "Personalizzata",
+    "searchLabel": "Cerca offerte",
+    "table": {
+      "name": "Nome",
+      "provider": "Provider",
+      "status": "Stato",
+      "featuredPriority": "In evidenza",
+      "totalReward": "Ricompensa",
+      "actions": "Azioni"
+    },
+    "filters": {
+      "all": "Tutte",
+      "status": "Stato",
+      "searchBy": "Cerca per",
+      "sortBy": "Ordina per",
+      "sortDirection": "Direzione"
+    },
+    "searchBy": {
+      "name": "Nome",
+      "displayName": "Nome visualizzato",
+      "provider": "Provider",
+      "offerID": "ID offerta",
+      "externalID": "ID esterno"
+    },
+    "searchPlaceholder": {
+      "name": "Cerca per nome",
+      "displayName": "Cerca per nome visualizzato",
+      "provider": "Cerca per provider",
+      "offerID": "Cerca per ID offerta",
+      "externalID": "Cerca per ID esterno"
+    },
+    "sortBy": {
+      "featuredPriority": "Priorità in evidenza",
+      "totalReward": "Ricompensa totale",
+      "name": "Nome",
+      "updatedAt": "Aggiornato"
+    },
+    "sortDirection": {
+      "asc": "Crescente",
+      "desc": "Decrescente"
+    },
+    "statuses": {
+      "active": "Attiva",
+      "inactive": "Inattiva",
+      "disabled": "Disattivata"
+    },
+    "fields": {
+      "name": "Nome interno",
+      "displayName": "Nome visualizzato",
+      "image": "URL immagine",
+      "trackingURL": "URL di tracking",
+      "geos": "Geo",
+      "geosHint": "Codici paese separati da virgola. GLOBAL o vuoto per tutti.",
+      "geosBlacklist": "Blacklist geo",
+      "status": "Stato",
+      "featuredPriority": "Priorità in evidenza",
+      "description": "Descrizione",
+      "terms": "Termini",
+      "disclaimer": "Avviso",
+      "offerIDValue": "ID offerta {offerID}"
+    },
+    "rewards": {
+      "title": "Ricompense",
+      "subtitle": "Serve almeno una ricompensa. Numero o variable.",
+      "editSubtitle": "Sovrascrivi pagamento o testo degli obiettivi.",
+      "externalID": "ID esterno",
+      "description": "Descrizione",
+      "value": "Valore",
+      "revenue": "Ricavo",
+      "add": "Aggiungi ricompensa",
+      "remove": "Rimuovi"
+    },
+    "create": {
+      "title": "Crea offerta personalizzata",
+      "subtitle": "Aggiunge un'offerta provider=custom visibile se attiva."
+    },
+    "edit": {
+      "information": "Dati offerta"
+    },
+    "actions": {
+      "create": "Crea offerta personalizzata",
+      "creating": "Creazione…",
+      "edit": "Modifica",
+      "save": "Salva",
+      "saving": "Salvataggio…",
+      "back": "Torna alle offerte"
+    },
+    "success": {
+      "created": "Offerta personalizzata creata.",
+      "updated": "Offerta aggiornata."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare le offerte.",
+      "createFailed": "Impossibile creare questa offerta.",
+      "updateFailed": "Impossibile aggiornare questa offerta.",
+      "invalidReward": "La ricompensa {index} ha un valore non valido.",
+      "invalidFeatured": "La priorità deve essere un numero."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "Nessun metodo corrisponde a questi filtri.",
+    "na": "—",
+    "allCountries": "Tutti i paesi",
+    "searchLabel": "Cerca metodi di riscatto",
+    "table": {
+      "name": "Nome",
+      "provider": "Provider",
+      "status": "Stato",
+      "featuredSpot": "In evidenza",
+      "created": "Creato",
+      "actions": "Azioni"
+    },
+    "filters": {
+      "all": "Tutti",
+      "status": "Stato",
+      "searchBy": "Cerca per",
+      "sortDirection": "Ordine"
+    },
+    "searchBy": {
+      "name": "Nome",
+      "rewardID": "ID ricompensa"
+    },
+    "searchPlaceholder": {
+      "name": "Cerca per nome",
+      "rewardID": "Cerca per ID ricompensa"
+    },
+    "sortDirection": {
+      "asc": "Crescente",
+      "desc": "Decrescente"
+    },
+    "statuses": {
+      "active": "Attivo",
+      "inactive": "Inattivo"
+    },
+    "providers": {
+      "tremendous": "Carta regalo",
+      "ccpayment": "Crypto"
+    },
+    "valueTypes": {
+      "variable": "Variabile",
+      "denomination": "Importi",
+      "crypto": "Crypto"
+    },
+    "categories": {
+      "cash": "Contanti",
+      "giftcards": "Carte regalo",
+      "crypto": "Crypto"
+    },
+    "imageTypes": {
+      "card": "Carta",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "ID ricompensa",
+      "description": "Descrizione",
+      "disclosure": "Informativa",
+      "countries": "Paesi",
+      "valueRange": "Intervallo di valore",
+      "status": "Stato",
+      "featuredSpot": "Posizione in evidenza",
+      "categories": "Categorie",
+      "internalImage": "URL immagine interna",
+      "imageType": "Tipo immagine"
+    },
+    "edit": {
+      "information": "Dati del metodo",
+      "controls": "Controlli catalogo",
+      "controlsSubtitle": "Stato, ordine, categorie e immagine restano dopo ogni sync."
+    },
+    "actions": {
+      "edit": "Modifica",
+      "save": "Salva",
+      "saving": "Salvataggio…",
+      "back": "Torna ai metodi di riscatto"
+    },
+    "success": {
+      "updated": "Metodo di riscatto aggiornato."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare i metodi di riscatto.",
+      "updateFailed": "Impossibile aggiornare questo metodo.",
+      "invalidFeatured": "La posizione deve essere un numero."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Nessun codice promo per ora.",
+    "na": "—",
+    "table": {
+      "code": "Codice",
+      "uses": "Utilizzi",
+      "reward": "Ricompensa",
+      "expiry": "Scadenza",
+      "created": "Creato",
+      "claimedBy": "Riscattato da",
+      "actions": "Azioni"
+    },
+    "form": {
+      "code": "Codice",
+      "rewardValue": "Sparks",
+      "totalUses": "Utilizzi totali",
+      "expiryDate": "Data di scadenza",
+      "create": "Crea codice promo",
+      "creating": "Creazione…"
+    },
+    "actions": {
+      "delete": "Elimina",
+      "deleting": "Eliminazione…"
+    },
+    "success": {
+      "created": "Codice promo creato.",
+      "deleted": "Codice promo eliminato."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare i codici promo.",
+      "alreadyExists": "Questo codice promo esiste gia.",
+      "invalidExpiry": "La data di scadenza deve essere futura.",
+      "createFailed": "Impossibile creare questo codice promo.",
+      "deleteFailed": "Impossibile eliminare questo codice promo."
+    }
+  },
   "AdminUserRiskModal": {
     "eyebrow": "Fiducia",
     "title": "Revisione utente",
@@ -1828,6 +2131,44 @@
       "linkedAccount": "Account collegato",
       "proxy": "Proxy o Tor",
       "impossibleTravel": "Viaggio impossibile"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Nessun annuncio trovato",
+    "create": "Crea annuncio",
+    "creating": "Creazione…",
+    "modalTitle": "Crea annuncio",
+    "close": "Chiudi",
+    "messageLabel": "Messaggio",
+    "messagePlaceholder": "Inserisci il messaggio dell'annuncio…",
+    "characterCount": "{count}/500",
+    "cancel": "Annulla",
+    "submit": "Crea",
+    "na": "—",
+    "table": {
+      "message": "Messaggio",
+      "status": "Stato",
+      "created": "Creato",
+      "actions": "Azioni"
+    },
+    "statuses": {
+      "active": "Attivo",
+      "inactive": "Inattivo"
+    },
+    "actions": {
+      "disable": "Disattiva",
+      "disabling": "Disattivazione…"
+    },
+    "success": {
+      "created": "Annuncio creato.",
+      "disabled": "Annuncio disattivato."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare gli annunci.",
+      "createFailed": "Impossibile creare l'annuncio.",
+      "disableFailed": "Impossibile disattivare l'annuncio.",
+      "emptyMessage": "Il messaggio non può essere vuoto.",
+      "messageTooLong": "Il messaggio deve avere al massimo 500 caratteri."
     }
   }
 }

@@ -12,10 +12,14 @@ const DatabaseCollections = {
   withdrawalAttestations: 'withdrawalAttestations',
   rewards: 'rewards',
   affiliateCodes: 'affiliateCodes',
+  promocodes: 'promocodes',
   offers: 'offers',
   offerHistory: 'offerHistory',
   siteStatistics: 'siteStatistics',
   leaderboards: 'leaderboards',
+  settings: 'settings',
+  chatConversations: 'chatConversations',
+  chatMessages: 'chatMessages',
 };
 
 export default DatabaseCollections;

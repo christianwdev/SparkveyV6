@@ -1,0 +1,93 @@
+@use '@styles/variables.scss' as *;
+
+.promocodesPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > .createForm {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    > .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 140px;
+
+      > span {
+        color: $text-light;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      > input {
+        height: 40px;
+        padding: 0 12px;
+        border: 1px solid $border-light;
+        border-radius: 8px;
+        background: $background;
+        color: $text-bold;
+        font-size: 14px;
+        font-weight: 500;
+        outline: none;
+        box-sizing: border-box;
+
+        &:focus {
+          border-color: $primary;
+        }
+      }
+    }
+  }
+
+  .errorState {
+    padding: 48px 24px;
+    border: 1px solid $border-light;
+    border-radius: $border-radius;
+    text-align: center;
+    color: $text-light;
+  }
+
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 12px;
+    color: $text-bold;
+  }
+
+  .claimedBy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .claimedLink {
+    color: $primary;
+    font-size: 12px;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .actionLink {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: $red;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+}

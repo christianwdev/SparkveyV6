@@ -15,6 +15,11 @@ import {
   adminWithdrawalsListQueryOptions,
   adminEarningsListQueryOptions,
   adminPostbacksListQueryOptions,
+  adminOfferQueryOptions,
+  adminOffersListQueryOptions,
+  adminRedemptionMethodQueryOptions,
+  adminRedemptionMethodsListQueryOptions,
+  adminAnnouncementsListQueryOptions,
 } from './adminUserQueries';
 import { queryKeys } from './queryKeys';
 
@@ -28,6 +33,15 @@ import type {
 } from 'types/Redemption/BaseInternalRedemption';
 import type { AdminEarningSearchBy } from 'types/AdminEarning';
 import type { AdminPostbackSearchBy, AdminPostbackStatus } from 'types/AdminPostback';
+import type {
+  AdminOfferSearchBy,
+  AdminOfferSortBy,
+  AdminOfferStatus,
+} from 'types/AdminOffer';
+import type {
+  AdminRedemptionMethodSearchBy,
+  AdminRedemptionMethodStatus,
+} from 'types/AdminRedemptionMethod';
 import type EmailActionable from 'types/EmailActionable';
 
 export function useAdminUsersQuery(
@@ -268,5 +282,90 @@ export function useAdminPostbacksQuery(
     searchBy,
     search,
     page,
+  }));
+}
+
+export function useAdminOffersQuery(
+  {
+    status,
+    searchBy,
+    search,
+    sortBy,
+    sortDirection,
+    page,
+  }: {
+    status?: AdminOfferStatus,
+    searchBy: AdminOfferSearchBy,
+    search: string,
+    sortBy: AdminOfferSortBy,
+    sortDirection: 'asc' | 'desc',
+    page: number,
+  },
+) {
+  return useQuery(adminOffersListQueryOptions({
+    request: clientRequest,
+    status,
+    searchBy,
+    search,
+    sortBy,
+    sortDirection,
+    page,
+  }));
+}
+
+export function useAdminOfferQuery(
+  {
+    offerID,
+  }: {
+    offerID: string,
+  },
+) {
+  return useQuery(adminOfferQueryOptions({
+    request: clientRequest,
+    offerID,
+  }));
+}
+
+export function useAdminRedemptionMethodsQuery(
+  {
+    status,
+    searchBy,
+    search,
+    sortDirection,
+    page,
+  }: {
+    status?: AdminRedemptionMethodStatus,
+    searchBy: AdminRedemptionMethodSearchBy,
+    search: string,
+    sortDirection: 'asc' | 'desc',
+    page: number,
+  },
+) {
+  return useQuery(adminRedemptionMethodsListQueryOptions({
+    request: clientRequest,
+    status,
+    searchBy,
+    search,
+    sortDirection,
+    page,
+  }));
+}
+
+export function useAdminRedemptionMethodQuery(
+  {
+    rewardID,
+  }: {
+    rewardID: string,
+  },
+) {
+  return useQuery(adminRedemptionMethodQueryOptions({
+    request: clientRequest,
+    rewardID,
+  }));
+}
+
+export function useAdminAnnouncementsQuery() {
+  return useQuery(adminAnnouncementsListQueryOptions({
+    request: clientRequest,
   }));
 }

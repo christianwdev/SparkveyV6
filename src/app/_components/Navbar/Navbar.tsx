@@ -25,6 +25,7 @@ import HomeIcon from '~icons/mdi/home.jsx';
 import ChecklistIcon from '~icons/solar/checklist-linear.jsx';
 import TrophyIcon from '~icons/mdi/trophy.jsx';
 import UsersIcon from '~icons/solar/users-group-rounded-linear.jsx';
+import ChatIcon from '~icons/mdi/chat.jsx';
 
 type NavbarProps = {
   showLinks?: boolean,
@@ -160,6 +161,17 @@ export default function Navbar({ showLinks }: NavbarProps) {
               </Link>
             );
           })}
+
+          <button
+            type="button"
+            className={styles.mobileTab}
+            onClick={() => {
+              document.dispatchEvent(new Event('toggleSupportChat'));
+            }}
+          >
+            <ChatIcon className={styles.mobileIcon} aria-hidden />
+            <span>{tNav('mobile.support')}</span>
+          </button>
         </nav>
       )}
     </>

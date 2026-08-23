@@ -11,6 +11,8 @@ export enum StaffPermissions {
   VIEW_LEADERBOARDS = 1 << 6,
   VIEW_POSTBACKS = 1 << 7,
   VIEW_STATISTICS = 1 << 8,
+  VIEW_ANNOUNCEMENTS = 1 << 17,
+  VIEW_CHAT = 1 << 19,
 
   // Modify Permissions
   MODIFY_USERS = 1 << 9,
@@ -21,4 +23,31 @@ export enum StaffPermissions {
   MODIFY_OFFERS = 1 << 14,
   MODIFY_LEADERBOARDS = 1 << 15,
   MODIFY_POSTBACKS = 1 << 16,
+  MODIFY_ANNOUNCEMENTS = 1 << 18,
+  REPLY_CHAT = 1 << 20,
+}
+
+export function hasPermissions(
+  {
+    userPermissions,
+    required,
+  }: {
+    userPermissions?: number,
+    required: number,
+  },
+): boolean {
+  return ((userPermissions ?? StaffPermissions.NONE) & required) === required;
+}
+
+export function allStaffPermissionsMask(): number {
+  let mask = 0;
+  for (const value of Object.values(StaffPermissions)) {
+    if (typeof value === 'number') mask |= value;
+  }
+
+  return mask;
+}
+
+export function grantableStaffPermissionsMask(actorPerms: number): number {
+  return actorPerms & allStaffPermissionsMask();
 }

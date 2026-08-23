@@ -1,0 +1,161 @@
+@use '@styles/variables.scss' as *;
+
+.redemptionMethodPage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  > .backLink {
+    color: $primary;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+
+      > h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: $text-bold;
+      }
+
+      > p {
+        margin: 0;
+        font-size: 13px;
+        color: $text-light;
+      }
+    }
+
+    > img {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: contain;
+      background: $light-gray;
+    }
+  }
+
+  > .layout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+
+    > .section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      border: 1px solid $border-light;
+      border-radius: $border-radius;
+      background: $background;
+      min-width: 0;
+
+      > .sectionHeader {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        > h2 {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: $text-bold;
+        }
+
+        > p {
+          margin: 0;
+          font-size: 13px;
+          font-weight: 500;
+          color: $text-light;
+        }
+      }
+
+      > .infoItem {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        > p {
+          margin: 0;
+          font-size: 13px;
+          color: $text-light;
+
+          &:last-child {
+            color: $text-bold;
+            font-weight: 500;
+            overflow-wrap: anywhere;
+          }
+        }
+      }
+
+      > .selectField {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        > span {
+          font-size: 13px;
+          font-weight: 600;
+          color: $text-bold;
+        }
+
+        > select {
+          height: 40px;
+          padding: 0 12px;
+          border: 1px solid $border-light;
+          border-radius: 8px;
+          background: $background;
+          color: $text-bold;
+          font: inherit;
+        }
+      }
+
+      > .categories {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        > p {
+          margin: 0;
+          font-size: 13px;
+          font-weight: 600;
+          color: $text-bold;
+        }
+
+        > div {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+
+          > label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: $text-bold;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $tablet) {
+    > .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+}
