@@ -12,6 +12,7 @@ import {
   createUserSupportMessage,
   markSupportChatRead,
   maybeSendSupportAutoAck,
+  maybeSendSupportCannedReply,
 } from 'backend/utils/supportChat';
 import { getUserAvatarURL } from 'backend/utils/avatar';
 import { hasPermissions, StaffPermissions } from 'types/UserPermissions/StaffPermissions';
@@ -53,6 +54,23 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
 
       io.to(user.userID).emit(SocketEmits.chatMessage, result.data.message);
       io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, adminPayload);
+
+      const cannedReply = await maybeSendSupportCannedReply({
+        conversation: result.data.conversation,
+        userMessage: result.data.message.message,
+        userMessageID: result.data.message.messageID,
+      });
+      if (cannedReply.ok && cannedReply.data) {
+        const cannedPayload: AdminChatMessagePayload = {
+          message: cannedReply.data,
+          user: adminPayload.user,
+        };
+
+        io.to(user.userID).emit(SocketEmits.chatMessage, cannedReply.data);
+        io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, cannedPayload);
+
+        return;
+      }
 
       const autoAck = await maybeSendSupportAutoAck({
         conversation: result.data.conversation,

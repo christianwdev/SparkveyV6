@@ -1336,6 +1336,7 @@
         "lowRiskReview": "Podemos revisar la liberación",
         "cannotRelease": "No se puede liberar antes",
         "released": "Liberada",
+        "kycExplainer": "Qué es el KYC",
         "kycRequired": "KYC obligatorio",
         "kycReceived": "KYC recibido",
         "kycCleared": "KYC aprobado",

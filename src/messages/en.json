@@ -1336,6 +1336,7 @@
         "lowRiskReview": "Can review for release",
         "cannotRelease": "Can't release early",
         "released": "Released",
+        "kycExplainer": "What KYC is",
         "kycRequired": "KYC required",
         "kycReceived": "KYC received",
         "kycCleared": "KYC cleared",

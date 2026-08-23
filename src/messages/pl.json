@@ -1336,6 +1336,7 @@
         "lowRiskReview": "Możemy sprawdzić zwolnienie",
         "cannotRelease": "Bez wcześniejszego zwolnienia",
         "released": "Zwolnione",
+        "kycExplainer": "Czym jest KYC",
         "kycRequired": "Wymagane KYC",
         "kycReceived": "Otrzymano KYC",
         "kycCleared": "KYC zatwierdzone",

@@ -1336,6 +1336,7 @@
         "lowRiskReview": "早期解放の確認が可能",
         "cannotRelease": "早期解放不可",
         "released": "解放済み",
+        "kycExplainer": "KYCとは",
         "kycRequired": "KYCが必要",
         "kycReceived": "KYC受領",
         "kycCleared": "KYC完了",

@@ -1336,6 +1336,7 @@
         "lowRiskReview": "조기 해제 검토 가능",
         "cannotRelease": "조기 해제 불가",
         "released": "해제됨",
+        "kycExplainer": "KYC란",
         "kycRequired": "KYC 필요",
         "kycReceived": "KYC 수신",
         "kycCleared": "KYC 완료",

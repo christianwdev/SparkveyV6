@@ -12,6 +12,7 @@ import {
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { getUserAvatarURL } from 'backend/utils/avatar';
+import { matchSupportCannedResponse } from 'backend/utils/supportCannedMatch';
 
 // Types
 import type { Filter } from 'mongodb';
@@ -22,6 +23,7 @@ import { SUPPORT_SYSTEM_SENDER_ID } from 'types/ChatMessage';
 import type SanitizedChatConversation from 'types/SanitizedChatConversation';
 import type SanitizedUserSupportChat from 'types/SanitizedUserSupportChat';
 import type InternalUser from 'types/User/InternalUser';
+import { CANNED_RESPONSES } from 'types/SupportCannedResponses';
 
 export type GetUserSupportConversationError = 'internalServerError';
 export type GetAdminSupportConversationsError = 'internalServerError';
@@ -31,11 +33,13 @@ export type CreateAdminSupportMessageError = 'emptyMessage' | 'messageTooLong' |
 export type CreateAdminSupportConversationError = 'notFound' | 'internalServerError';
 export type MarkSupportChatReadError = 'notFound' | 'internalServerError';
 export type SendSupportAutoAckError = 'internalServerError';
+export type SendSupportCannedReplyError = 'internalServerError';
 
 const MESSAGE_MAX_LENGTH = 1000;
 const USER_MESSAGE_LIMIT = 50;
 const ADMIN_MESSAGE_LIMIT = 100;
 const ADMIN_CONVERSATION_LIMIT = 20;
+const SUPPORT_CANNED_HISTORY_LIMIT = 8;
 const IMAGE_EXTENSION_REGEX = /\.(png|jpe?g|webp|gif|bmp)$/i;
 const URL_REGEX = /https?:\/\/[^\s<>"']+/gi;
 const TRAILING_PUNCTUATION_REGEX = /[)\],.:;!?]+$/;
@@ -350,7 +354,7 @@ export async function maybeSendSupportAutoAck(
   },
 ): Promise<FunctionResponse<ChatMessage | null, SendSupportAutoAckError>> {
   try {
-    const { db, mongoClient } = getGlobalObject();
+    const { db } = getGlobalObject();
     const now = Date.now();
     let lastAdminMessageAt: number | undefined;
 
@@ -391,69 +395,63 @@ export async function maybeSendSupportAutoAck(
       return { ok: true, data: null };
     }
 
-    const staleBefore = now - SUPPORT_AUTO_ACK_STALE_MS;
-    const chatMessage: ChatMessage = {
-      messageID: createId(),
+    const chatMessage = await insertSystemSupportMessage({
       conversationID: conversation.conversationID,
-      senderID: SUPPORT_SYSTEM_SENDER_ID,
-      senderType: 'admin',
-      message: SUPPORT_AUTO_ACK_MESSAGES[kind],
-      imageEmbeds: [],
-      timestamp: now,
-      read: false,
-    };
+      body: SUPPORT_AUTO_ACK_MESSAGES[kind],
+      requireStale: true,
+    });
 
-    const mongoSession = mongoClient.startSession();
+    return { ok: true, data: chatMessage };
+  } catch (error) {
+    console.error(error);
 
-    try {
-      mongoSession.startTransaction();
+    return { ok: false, error: 'internalServerError' };
+  }
+}
 
-      const claimed = await db.collection<ChatConversation>(DatabaseCollections.chatConversations).findOneAndUpdate(
-        {
-          conversationID: conversation.conversationID,
-          $or: [
-            { lastSupportReplyAt: { $exists: false } },
-            { lastSupportReplyAt: { $lt: staleBefore } },
-          ],
-        },
-        {
-          $set: {
-            lastSupportReplyAt: now,
-            lastMessageTimestamp: now,
-            status: 'active',
-          },
-          $inc: {
-            unreadCountUser: 1,
-          },
-        },
-        {
-          returnDocument: 'after',
-          session: mongoSession,
-        },
-      );
+export async function maybeSendSupportCannedReply(
+  {
+    conversation,
+    userMessage,
+    userMessageID,
+  }: {
+    conversation: ChatConversation,
+    userMessage: string,
+    userMessageID: string,
+  },
+): Promise<FunctionResponse<ChatMessage | null, SendSupportCannedReplyError>> {
+  try {
+    const { db } = getGlobalObject();
+    const recent = await db.collection<ChatMessage>(DatabaseCollections.chatMessages).find(
+      { conversationID: conversation.conversationID },
+    ).sort({ timestamp: -1 }).limit(SUPPORT_CANNED_HISTORY_LIMIT).toArray();
 
-      if (!claimed) {
-        await mongoSession.abortTransaction();
+    const history = recent
+      .filter(item => item.messageID !== userMessageID)
+      .slice()
+      .reverse();
 
-        return { ok: true, data: null };
-      }
+    const matchID = await matchSupportCannedResponse({
+      userMessage,
+      history,
+    });
+    if (!matchID) return { ok: true, data: null };
 
-      await db.collection<ChatMessage>(DatabaseCollections.chatMessages).insertOne(chatMessage, {
-        session: mongoSession,
-      });
+    const template = CANNED_RESPONSES.find(item => item.id === matchID);
+    if (!template) return { ok: true, data: null };
 
-      await mongoSession.commitTransaction();
+    const alreadySent = recent.some(item => (
+      item.senderType === 'admin' && item.message === template.body
+    ));
+    if (alreadySent) return { ok: true, data: null };
 
-      return { ok: true, data: chatMessage };
-    } catch (error) {
-      if (mongoSession.inTransaction()) {
-        await mongoSession.abortTransaction();
-      }
+    const chatMessage = await insertSystemSupportMessage({
+      conversationID: conversation.conversationID,
+      body: template.body,
+      requireStale: false,
+    });
 
-      throw error;
-    } finally {
-      await mongoSession.endSession();
-    }
+    return { ok: true, data: chatMessage };
   } catch (error) {
     console.error(error);
 
@@ -674,6 +672,88 @@ async function recoverUpsertedConversation(
     if (!(error instanceof MongoServerError) || error.code !== 11000) throw error;
 
     return db.collection<ChatConversation>(DatabaseCollections.chatConversations).findOne({ userID });
+  }
+}
+
+async function insertSystemSupportMessage(
+  {
+    conversationID,
+    body,
+    requireStale,
+  }: {
+    conversationID: string,
+    body: string,
+    requireStale: boolean,
+  },
+): Promise<ChatMessage | null> {
+  const { db, mongoClient } = getGlobalObject();
+  const now = Date.now();
+  const filter: Filter<ChatConversation> = { conversationID };
+
+  if (requireStale) {
+    const staleBefore = now - SUPPORT_AUTO_ACK_STALE_MS;
+
+    filter.$or = [
+      { lastSupportReplyAt: { $exists: false } },
+      { lastSupportReplyAt: { $lt: staleBefore } },
+    ];
+  }
+
+  const chatMessage: ChatMessage = {
+    messageID: createId(),
+    conversationID,
+    senderID: SUPPORT_SYSTEM_SENDER_ID,
+    senderType: 'admin',
+    message: body,
+    imageEmbeds: [],
+    timestamp: now,
+    read: false,
+  };
+
+  const mongoSession = mongoClient.startSession();
+
+  try {
+    mongoSession.startTransaction();
+
+    const claimed = await db.collection<ChatConversation>(DatabaseCollections.chatConversations).findOneAndUpdate(
+      filter,
+      {
+        $set: {
+          lastSupportReplyAt: now,
+          lastMessageTimestamp: now,
+          status: 'active',
+        },
+        $inc: {
+          unreadCountUser: 1,
+        },
+      },
+      {
+        returnDocument: 'after',
+        session: mongoSession,
+      },
+    );
+
+    if (!claimed) {
+      await mongoSession.abortTransaction();
+
+      return null;
+    }
+
+    await db.collection<ChatMessage>(DatabaseCollections.chatMessages).insertOne(chatMessage, {
+      session: mongoSession,
+    });
+
+    await mongoSession.commitTransaction();
+
+    return chatMessage;
+  } catch (error) {
+    if (mongoSession.inTransaction()) {
+      await mongoSession.abortTransaction();
+    }
+
+    throw error;
+  } finally {
+    await mongoSession.endSession();
   }
 }
 
