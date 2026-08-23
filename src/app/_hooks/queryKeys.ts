@@ -48,6 +48,10 @@ export const queryKeys = {
     all: [ 'leaderboard' ] as const,
     monthly: () => [ ...queryKeys.leaderboard.all, 'monthly' ] as const,
   },
+  announcement: {
+    all: [ 'announcement' ] as const,
+    active: () => [ ...queryKeys.announcement.all, 'active' ] as const,
+  },
   walls: {
     all: [ 'walls' ] as const,
     list: () => [ ...queryKeys.walls.all, 'list' ] as const,
@@ -108,6 +112,10 @@ export const queryKeys = {
         provider: string[],
         page: number,
       }) => [ ...queryKeys.admin.withdrawals.all(), 'list', filters ] as const,
+    },
+    announcements: {
+      all: () => [ ...queryKeys.admin.all, 'announcements' ] as const,
+      list: () => [ ...queryKeys.admin.announcements.all(), 'list' ] as const,
     },
     earnings: {
       all: () => [ ...queryKeys.admin.all, 'earnings' ] as const,

@@ -465,6 +465,9 @@
       "avatarAlt": "Avatar"
     }
   },
+  "AnnouncementBanner": {
+    "label": "Annonce du site"
+  },
   "UserDropdown": {
     "earnings": "Gains",
     "redemptions": "Retraits",
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Retraits",
     "withdrawalsDescription": "Examiner et traiter les retraits en attente.",
     "earningsTitle": "Sparkvey | Gains",
-    "earningsDescription": "Examiner les gains d'offres en attente et les libérer."
+    "earningsDescription": "Examiner les gains d'offres en attente et les libérer.",
+    "announcementsTitle": "Sparkvey | Annonces admin",
+    "announcementsDescription": "Gérer la bannière d'annonce du site."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1250,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Gains",
-      "withdrawals": "Retraits"
+      "withdrawals": "Retraits",
+      "announcements": "Annonces"
     }
   },
   "AdminDashboard": {
@@ -1776,6 +1782,44 @@
       "linkedAccount": "Compte lié",
       "proxy": "Proxy ou Tor",
       "impossibleTravel": "Déplacement impossible"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Aucune annonce",
+    "create": "Créer une annonce",
+    "creating": "Création…",
+    "modalTitle": "Créer une annonce",
+    "close": "Fermer",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Saisir le message de l'annonce…",
+    "characterCount": "{count}/500",
+    "cancel": "Annuler",
+    "submit": "Créer",
+    "na": "—",
+    "table": {
+      "message": "Message",
+      "status": "Statut",
+      "created": "Créé",
+      "actions": "Actions"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "disable": "Désactiver",
+      "disabling": "Désactivation…"
+    },
+    "success": {
+      "created": "Annonce créée.",
+      "disabled": "Annonce désactivée."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les annonces.",
+      "createFailed": "Impossible de créer l'annonce.",
+      "disableFailed": "Impossible de désactiver l'annonce.",
+      "emptyMessage": "Le message ne peut pas être vide.",
+      "messageTooLong": "Le message doit faire 500 caractères ou moins."
     }
   }
 }

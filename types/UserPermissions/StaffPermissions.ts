@@ -11,6 +11,7 @@ export enum StaffPermissions {
   VIEW_LEADERBOARDS = 1 << 6,
   VIEW_POSTBACKS = 1 << 7,
   VIEW_STATISTICS = 1 << 8,
+  VIEW_ANNOUNCEMENTS = 1 << 17,
 
   // Modify Permissions
   MODIFY_USERS = 1 << 9,
@@ -21,4 +22,5 @@ export enum StaffPermissions {
   MODIFY_OFFERS = 1 << 14,
   MODIFY_LEADERBOARDS = 1 << 15,
   MODIFY_POSTBACKS = 1 << 16,
+  MODIFY_ANNOUNCEMENTS = 1 << 18,
 }

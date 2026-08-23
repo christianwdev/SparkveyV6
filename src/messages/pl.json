@@ -465,6 +465,9 @@
       "avatarAlt": "Awatar"
     }
   },
+  "AnnouncementBanner": {
+    "label": "Ogłoszenie witryny"
+  },
   "UserDropdown": {
     "earnings": "Zarobki",
     "redemptions": "Wypłaty",
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Wypłaty",
     "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty.",
     "earningsTitle": "Sparkvey | Zarobki",
-    "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj."
+    "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj.",
+    "announcementsTitle": "Sparkvey | Ogłoszenia admin",
+    "announcementsDescription": "Zarządzaj banerem ogłoszenia na stronie."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1250,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Zarobki",
-      "withdrawals": "Wypłaty"
+      "withdrawals": "Wypłaty",
+      "announcements": "Ogłoszenia"
     }
   },
   "AdminDashboard": {
@@ -1776,6 +1782,44 @@
       "linkedAccount": "Powiązane konto",
       "proxy": "Proxy lub Tor",
       "impossibleTravel": "Niemożliwa podróż"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Brak ogłoszeń",
+    "create": "Utwórz ogłoszenie",
+    "creating": "Tworzenie…",
+    "modalTitle": "Utwórz ogłoszenie",
+    "close": "Zamknij",
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Wpisz treść ogłoszenia…",
+    "characterCount": "{count}/500",
+    "cancel": "Anuluj",
+    "submit": "Utwórz",
+    "na": "—",
+    "table": {
+      "message": "Wiadomość",
+      "status": "Status",
+      "created": "Utworzono",
+      "actions": "Akcje"
+    },
+    "statuses": {
+      "active": "Aktywne",
+      "inactive": "Nieaktywne"
+    },
+    "actions": {
+      "disable": "Wyłącz",
+      "disabling": "Wyłączanie…"
+    },
+    "success": {
+      "created": "Ogłoszenie utworzone.",
+      "disabled": "Ogłoszenie wyłączone."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać ogłoszeń.",
+      "createFailed": "Nie udało się utworzyć ogłoszenia.",
+      "disableFailed": "Nie udało się wyłączyć ogłoszenia.",
+      "emptyMessage": "Wiadomość nie może być pusta.",
+      "messageTooLong": "Wiadomość może mieć maksymalnie 500 znaków."
     }
   }
 }

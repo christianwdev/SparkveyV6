@@ -13,6 +13,7 @@ import {
 } from '@utils/adminUsers';
 import { fetchAdminUserRisk, fetchAdminWithdrawals } from '@utils/adminWithdrawals';
 import { fetchAdminEarnings } from '@utils/adminEarnings';
+import { fetchAdminAnnouncements } from '@utils/adminAnnouncements';
 import { queryKeys } from './queryKeys';
 
 // Types
@@ -355,6 +356,25 @@ export function adminEarningsListQueryOptions(
       });
 
       if (!rows) throw new Error('Failed to load earnings');
+
+      return rows;
+    },
+  });
+}
+
+export function adminAnnouncementsListQueryOptions(
+  {
+    request,
+  }: {
+    request: RequestFn,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.announcements.list(),
+    queryFn: async () => {
+      const rows = await fetchAdminAnnouncements({ request });
+
+      if (!rows) throw new Error('Failed to load announcements');
 
       return rows;
     },

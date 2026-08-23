@@ -1,0 +1,30 @@
+@use '@styles/variables.scss' as *;
+
+$announcement-banner-height: 45px;
+
+.announcementBanner {
+  position: fixed;
+  top: $navbar-height;
+  left: 0;
+  width: 100%;
+  height: $announcement-banner-height;
+  z-index: $topnav-z-index;
+  background: $primary;
+  color: $text-white;
+  @include standardPadding;
+
+  > p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: $content-max-width;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

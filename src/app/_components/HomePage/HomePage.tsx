@@ -5,6 +5,7 @@ import HomeOfferwalls from './_components/HomeOfferwalls/HomeOfferwalls';
 import Footer from '@components/Footer/Footer';
 import IsolateErrorBoundary from '@components/IsolateErrorBoundary/IsolateErrorBoundary';
 import Navbar from '@components/Navbar/Navbar';
+import AnnouncementBanner from '@components/AnnouncementBanner/AnnouncementBanner';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import Carousel from '../Carousel/Carousel';
 import { getUsersHomepage } from '@utils/homepage';
@@ -18,6 +19,7 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
+      <AnnouncementBanner />
       <main className={styles.homePage}>
         <div className={styles.content}>
           <Carousel autoPlay={15_000}>

@@ -465,6 +465,9 @@
       "avatarAlt": "아바타"
     }
   },
+  "AnnouncementBanner": {
+    "label": "사이트 공지"
+  },
   "UserDropdown": {
     "earnings": "수익",
     "redemptions": "환전",
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | 출금",
     "withdrawalsDescription": "대기 중인 출금을 검토하고 처리합니다.",
     "earningsTitle": "Sparkvey | 수익",
-    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다."
+    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다.",
+    "announcementsTitle": "Sparkvey | 공지 관리",
+    "announcementsDescription": "사이트 전체 공지 배너를 관리합니다."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1250,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "수익",
-      "withdrawals": "출금"
+      "withdrawals": "출금",
+      "announcements": "공지"
     }
   },
   "AdminDashboard": {
@@ -1776,6 +1782,44 @@
       "linkedAccount": "연결된 계정",
       "proxy": "프록시 또는 Tor",
       "impossibleTravel": "불가능한 이동"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "공지가 없습니다",
+    "create": "공지 만들기",
+    "creating": "만드는 중…",
+    "modalTitle": "공지 만들기",
+    "close": "닫기",
+    "messageLabel": "메시지",
+    "messagePlaceholder": "공지 메시지를 입력하세요…",
+    "characterCount": "{count}/500",
+    "cancel": "취소",
+    "submit": "만들기",
+    "na": "—",
+    "table": {
+      "message": "메시지",
+      "status": "상태",
+      "created": "생성일",
+      "actions": "작업"
+    },
+    "statuses": {
+      "active": "활성",
+      "inactive": "비활성"
+    },
+    "actions": {
+      "disable": "비활성화",
+      "disabling": "비활성화 중…"
+    },
+    "success": {
+      "created": "공지를 만들었습니다.",
+      "disabled": "공지를 비활성화했습니다."
+    },
+    "errors": {
+      "loadFailed": "공지를 불러오지 못했습니다.",
+      "createFailed": "공지를 만들지 못했습니다.",
+      "disableFailed": "공지를 비활성화하지 못했습니다.",
+      "emptyMessage": "메시지를 입력하세요.",
+      "messageTooLong": "메시지는 500자 이하여야 합니다."
     }
   }
 }

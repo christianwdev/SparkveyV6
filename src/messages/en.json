@@ -465,6 +465,9 @@
       "avatarAlt": "Avatar"
     }
   },
+  "AnnouncementBanner": {
+    "label": "Site announcement"
+  },
   "UserDropdown": {
     "earnings": "Earnings",
     "redemptions": "Redemptions",
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Withdrawals",
     "withdrawalsDescription": "Review and process pending withdrawals.",
     "earningsTitle": "Sparkvey | Earnings",
-    "earningsDescription": "Review held offer earnings and release credits."
+    "earningsDescription": "Review held offer earnings and release credits.",
+    "announcementsTitle": "Sparkvey | Admin Announcements",
+    "announcementsDescription": "Manage the site-wide announcement banner."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1250,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Earnings",
-      "withdrawals": "Withdrawals"
+      "withdrawals": "Withdrawals",
+      "announcements": "Announcements"
     }
   },
   "AdminDashboard": {
@@ -1776,6 +1782,44 @@
     "actions": {
       "cancel": "Cancel",
       "confirm": "Confirm and accept"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "No announcements found",
+    "create": "Create announcement",
+    "creating": "Creating…",
+    "modalTitle": "Create announcement",
+    "close": "Close",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Enter announcement message…",
+    "characterCount": "{count}/500",
+    "cancel": "Cancel",
+    "submit": "Create",
+    "na": "—",
+    "table": {
+      "message": "Message",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "disable": "Disable",
+      "disabling": "Disabling…"
+    },
+    "success": {
+      "created": "Announcement created.",
+      "disabled": "Announcement disabled."
+    },
+    "errors": {
+      "loadFailed": "Announcements could not be loaded.",
+      "createFailed": "Could not create the announcement.",
+      "disableFailed": "Could not disable the announcement.",
+      "emptyMessage": "Message cannot be empty.",
+      "messageTooLong": "Message must be 500 characters or less."
     }
   }
 }

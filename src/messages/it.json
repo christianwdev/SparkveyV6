@@ -465,6 +465,9 @@
       "avatarAlt": "Avatar"
     }
   },
+  "AnnouncementBanner": {
+    "label": "Annuncio del sito"
+  },
   "UserDropdown": {
     "earnings": "Guadagni",
     "redemptions": "Riscatti",
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Prelievi",
     "withdrawalsDescription": "Esamina ed elabora i prelievi in sospeso.",
     "earningsTitle": "Sparkvey | Guadagni",
-    "earningsDescription": "Esamina i guadagni in attesa e rilasciali."
+    "earningsDescription": "Esamina i guadagni in attesa e rilasciali.",
+    "announcementsTitle": "Sparkvey | Annunci admin",
+    "announcementsDescription": "Gestisci il banner di annuncio del sito."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1250,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Guadagni",
-      "withdrawals": "Prelievi"
+      "withdrawals": "Prelievi",
+      "announcements": "Annunci"
     }
   },
   "AdminDashboard": {
@@ -1776,6 +1782,44 @@
       "linkedAccount": "Account collegato",
       "proxy": "Proxy o Tor",
       "impossibleTravel": "Viaggio impossibile"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Nessun annuncio trovato",
+    "create": "Crea annuncio",
+    "creating": "Creazione…",
+    "modalTitle": "Crea annuncio",
+    "close": "Chiudi",
+    "messageLabel": "Messaggio",
+    "messagePlaceholder": "Inserisci il messaggio dell'annuncio…",
+    "characterCount": "{count}/500",
+    "cancel": "Annulla",
+    "submit": "Crea",
+    "na": "—",
+    "table": {
+      "message": "Messaggio",
+      "status": "Stato",
+      "created": "Creato",
+      "actions": "Azioni"
+    },
+    "statuses": {
+      "active": "Attivo",
+      "inactive": "Inattivo"
+    },
+    "actions": {
+      "disable": "Disattiva",
+      "disabling": "Disattivazione…"
+    },
+    "success": {
+      "created": "Annuncio creato.",
+      "disabled": "Annuncio disattivato."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare gli annunci.",
+      "createFailed": "Impossibile creare l'annuncio.",
+      "disableFailed": "Impossibile disattivare l'annuncio.",
+      "emptyMessage": "Il messaggio non può essere vuoto.",
+      "messageTooLong": "Il messaggio deve avere al massimo 500 caratteri."
     }
   }
 }

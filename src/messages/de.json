@@ -465,6 +465,9 @@
       "avatarAlt": "Avatar"
     }
   },
+  "AnnouncementBanner": {
+    "label": "Seitenankündigung"
+  },
   "UserDropdown": {
     "earnings": "Einnahmen",
     "redemptions": "Auszahlungen",
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Auszahlungen",
     "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten.",
     "earningsTitle": "Sparkvey | Einnahmen",
-    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben."
+    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben.",
+    "announcementsTitle": "Sparkvey | Admin-Ankündigungen",
+    "announcementsDescription": "Die Ankündigungsleiste der Website verwalten."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1250,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Einnahmen",
-      "withdrawals": "Auszahlungen"
+      "withdrawals": "Auszahlungen",
+      "announcements": "Ankündigungen"
     }
   },
   "AdminDashboard": {
@@ -1776,6 +1782,44 @@
       "linkedAccount": "Verknüpftes Konto",
       "proxy": "Proxy oder Tor",
       "impossibleTravel": "Unmögliche Reise"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Keine Ankündigungen gefunden",
+    "create": "Ankündigung erstellen",
+    "creating": "Wird erstellt…",
+    "modalTitle": "Ankündigung erstellen",
+    "close": "Schließen",
+    "messageLabel": "Nachricht",
+    "messagePlaceholder": "Ankündigungstext eingeben…",
+    "characterCount": "{count}/500",
+    "cancel": "Abbrechen",
+    "submit": "Erstellen",
+    "na": "—",
+    "table": {
+      "message": "Nachricht",
+      "status": "Status",
+      "created": "Erstellt",
+      "actions": "Aktionen"
+    },
+    "statuses": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv"
+    },
+    "actions": {
+      "disable": "Deaktivieren",
+      "disabling": "Wird deaktiviert…"
+    },
+    "success": {
+      "created": "Ankündigung erstellt.",
+      "disabled": "Ankündigung deaktiviert."
+    },
+    "errors": {
+      "loadFailed": "Ankündigungen konnten nicht geladen werden.",
+      "createFailed": "Die Ankündigung konnte nicht erstellt werden.",
+      "disableFailed": "Die Ankündigung konnte nicht deaktiviert werden.",
+      "emptyMessage": "Die Nachricht darf nicht leer sein.",
+      "messageTooLong": "Die Nachricht darf höchstens 500 Zeichen haben."
     }
   }
 }

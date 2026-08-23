@@ -465,6 +465,9 @@
       "avatarAlt": "アバター"
     }
   },
+  "AnnouncementBanner": {
+    "label": "サイトのお知らせ"
+  },
   "UserDropdown": {
     "earnings": "収益",
     "redemptions": "換金",
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | 出金",
     "withdrawalsDescription": "保留中の出金を確認して処理します。",
     "earningsTitle": "Sparkvey | 収益",
-    "earningsDescription": "保留中のオファー収益を確認して解放します。"
+    "earningsDescription": "保留中のオファー収益を確認して解放します。",
+    "announcementsTitle": "Sparkvey | お知らせ管理",
+    "announcementsDescription": "サイト全体のお知らせバナーを管理します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1250,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "収益",
-      "withdrawals": "出金"
+      "withdrawals": "出金",
+      "announcements": "お知らせ"
     }
   },
   "AdminDashboard": {
@@ -1776,6 +1782,44 @@
       "linkedAccount": "関連アカウント",
       "proxy": "プロキシまたはTor",
       "impossibleTravel": "不可能な移動"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "お知らせはありません",
+    "create": "お知らせを作成",
+    "creating": "作成中…",
+    "modalTitle": "お知らせを作成",
+    "close": "閉じる",
+    "messageLabel": "メッセージ",
+    "messagePlaceholder": "お知らせの内容を入力…",
+    "characterCount": "{count}/500",
+    "cancel": "キャンセル",
+    "submit": "作成",
+    "na": "—",
+    "table": {
+      "message": "メッセージ",
+      "status": "ステータス",
+      "created": "作成日",
+      "actions": "操作"
+    },
+    "statuses": {
+      "active": "有効",
+      "inactive": "無効"
+    },
+    "actions": {
+      "disable": "無効化",
+      "disabling": "無効化中…"
+    },
+    "success": {
+      "created": "お知らせを作成しました。",
+      "disabled": "お知らせを無効にしました。"
+    },
+    "errors": {
+      "loadFailed": "お知らせを読み込めませんでした。",
+      "createFailed": "お知らせを作成できませんでした。",
+      "disableFailed": "お知らせを無効にできませんでした。",
+      "emptyMessage": "メッセージを入力してください。",
+      "messageTooLong": "メッセージは500文字以内にしてください。"
     }
   }
 }

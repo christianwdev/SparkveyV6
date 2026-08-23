@@ -1,0 +1,113 @@
+@use '@styles/variables.scss' as *;
+
+.announcementsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > .controls {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .errorState {
+    padding: 48px 24px;
+    border: 1px solid $border-light;
+    border-radius: $border-radius;
+    text-align: center;
+    color: $text-light;
+  }
+
+  .messageCell {
+    max-width: 480px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    color: $text-bold;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    background: $light-gray;
+    color: $text-light;
+
+    &[data-tone='positive'] {
+      color: $green;
+    }
+  }
+
+  .actionLink {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: $primary;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+
+  .modalTitle {
+    margin: 0;
+    padding-right: 36px;
+    color: $text-bold;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .createForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    > .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: $text-bold;
+      font-size: 14px;
+      font-weight: 500;
+
+      > textarea {
+        width: 100%;
+        min-height: 100px;
+        padding: 12px;
+        border: 1px solid $border-light;
+        border-radius: 8px;
+        background: $background;
+        color: $text-bold;
+        font-size: 14px;
+        font-weight: 500;
+        font-family: inherit;
+        resize: vertical;
+        box-sizing: border-box;
+
+        &:focus {
+          outline: none;
+          border-color: $primary;
+        }
+      }
+
+      > .characterCount {
+        color: $text-light;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: right;
+      }
+    }
+
+    > .modalActions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+  }
+}
