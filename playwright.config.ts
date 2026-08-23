@@ -9,7 +9,8 @@ const EXPECT_TIMEOUT_MS = 15_000;
 const NAVIGATION_TIMEOUT_MS = 60_000;
 
 export default defineConfig({
-  testDir: './e2e',
+  // Browser specs live next to bun unit tests: test/<path>/*.e2e.ts
+  testDir: './test',
   testMatch: '**/*.e2e.ts',
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),

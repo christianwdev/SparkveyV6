@@ -9,7 +9,7 @@
     "worker": "bun run ./backend/workers/index.ts",
     "start": "cross-env NEXT_PUBLIC_ENV=development NODE_ENV=development concurrently -p \"[{name}]\" -n \"Frontend,Backend\" -c \"bgBlue.bold,bgMagenta.bold\" \"next dev src/\" \"bun --watch --env-file=.env app.ts\"",
     "build": "npm run build-frontend && npm run build-backend",
-    "test": "bun test tests",
+    "test": "bun test test",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "lint": "eslint .",

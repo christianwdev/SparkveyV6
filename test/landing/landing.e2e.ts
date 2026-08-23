@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 // Helpers
-import { copy, localePath } from './helpers/copy';
+import { copy, localePath } from '../helpers/copy';
 
 test.describe('landing page', () => {
   test('loads the public marketing page with key sections', async ({ page }) => {

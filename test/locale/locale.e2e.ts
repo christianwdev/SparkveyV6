@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 // Helpers
-import { copy, localePath } from './helpers/copy';
+import { copy, localePath } from '../helpers/copy';
 
 test.describe('locale routing', () => {
   test('root path redirects to the default locale', async ({ page }) => {

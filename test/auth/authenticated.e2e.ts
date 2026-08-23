@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 // Helpers
-import { copy, hasE2ECredentials, localePath } from './helpers/copy';
+import { copy, hasE2ECredentials, localePath } from '../helpers/copy';
 
 const e2eEmail = process.env.E2E_USER_EMAIL;
 const e2ePassword = process.env.E2E_USER_PASSWORD;

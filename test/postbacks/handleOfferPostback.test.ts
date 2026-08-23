@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, mock, test } from 'bun:test';
 import type { InternalOfferEarning } from 'types/Earnings/InternalEarning';
 import type { NormalizedPostback } from 'types/Postback/NormalizedPostback';
-import { createEarningsDb, MemoryCollection } from './memoryCollection';
+import { createEarningsDb, MemoryCollection } from '../helpers/memoryCollection';
 
 type BalanceCall = {
   userID: string,

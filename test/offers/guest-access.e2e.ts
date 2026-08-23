@@ -1,17 +1,15 @@
 import { expect, test } from '@playwright/test';
 
 // Helpers
-import { copy, localePath } from './helpers/copy';
+import { copy, localePath } from '../helpers/copy';
 
-const AUTH_REQUIRED_PATHS = [
+const OFFER_PATHS = [
   '/tasks',
   '/surveys',
-  '/redeem',
-  '/profile',
 ] as const;
 
-test.describe('protected routes without a session', () => {
-  for (const path of AUTH_REQUIRED_PATHS) {
+test.describe('offer pages without a session', () => {
+  for (const path of OFFER_PATHS) {
     test(`${path} redirects guests to login`, async ({ page }) => {
       await page.goto(localePath(path));
 
@@ -20,4 +18,11 @@ test.describe('protected routes without a session', () => {
       await expect(page.getByLabel(copy.en.LoginPage.emailAddress)).toBeVisible();
     });
   }
+
+  test('explore-offers CTA from the landing page sends guests to login', async ({ page }) => {
+    await page.goto(localePath('/'));
+    await page.getByRole('link', { name: copy.en.Landing.exploreOffers }).click();
+
+    await expect(page).toHaveURL(/\/en\/login\/?$/);
+  });
 });

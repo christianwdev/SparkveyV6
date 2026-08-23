@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 // Helpers
-import { copy, localePath } from './helpers/copy';
+import { copy, localePath } from '../helpers/copy';
 
 test.describe('authentication pages', () => {
   test('login page renders the form and Google sign-in', async ({ page }) => {
