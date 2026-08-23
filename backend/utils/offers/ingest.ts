@@ -127,6 +127,8 @@ type ExistingOffer = {
   hash: string,
   offerType: OfferType[],
   status: InternalOffer['status'],
+  totalReward: number,
+  customRewards?: InternalOffer['customRewards'],
 };
 
 export async function processConvertedWorkersOffers({
@@ -169,6 +171,8 @@ export async function processConvertedWorkersOffers({
             hash: 1,
             offerType: 1,
             status: 1,
+            totalReward: 1,
+            customRewards: 1,
           }
         },
       )
@@ -180,6 +184,8 @@ export async function processConvertedWorkersOffers({
         hash: doc.hash,
         offerType: doc.offerType ?? [],
         status: doc.status,
+        totalReward: doc.totalReward,
+        customRewards: doc.customRewards,
       });
     }
   }
@@ -197,7 +203,7 @@ export async function processConvertedWorkersOffers({
       needsCategories.push(offer);
     }
 
-    if (existing && existing.hash !== offer.hash) {
+    if (existing && existing.hash !== offer.hash && !existing.customRewards?.length) {
       historyEntries.push({
         offerID: offer.offerID,
         externalID: offer.externalID,
@@ -223,6 +229,12 @@ export async function processConvertedWorkersOffers({
     // Admin-disabled offers stay down even when the provider still lists them.
     if (existing?.status === 'disabled') {
       $set.status = 'disabled';
+    }
+
+    // Admin reward overrides keep their totalReward/hash; provider values would undo them.
+    if (existing?.customRewards?.length) {
+      $set.totalReward = existing.totalReward;
+      $set.hash = existing.hash;
     }
 
     const $setOnInsert: UpdateFilter<InternalOffer> = {

@@ -22,7 +22,7 @@ export function sanitizeOffer(offer: InternalOffer): SanitizedOffer {
       };
 
       if (typeof override?.description === 'string') sanitizedReward.description = override.description;
-      if (typeof override?.value === 'number') sanitizedReward.value = override.value;
+      if (override?.value !== undefined) sanitizedReward.value = override.value;
 
       return sanitizedReward;
     }),

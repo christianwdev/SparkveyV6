@@ -96,7 +96,10 @@ export async function listAdminOffers(
           query.name = { $regex: pattern, $options: 'i' };
           break;
         case 'displayName':
-          query.displayName = { $regex: pattern, $options: 'i' };
+          query.$or = [
+            { displayName: { $regex: pattern, $options: 'i' } },
+            { 'customInformation.displayName': { $regex: pattern, $options: 'i' } },
+          ];
           break;
         case 'provider':
           query.provider = { $regex: pattern, $options: 'i' };
@@ -305,40 +308,53 @@ export async function updateAdminOffer(
     }
 
     if (input.rewards) {
-      const customRewards: NonNullable<InternalOffer['customRewards']> = [];
+      const customRewards: NonNullable<InternalOffer['customRewards']> = [
+        ...(offer.customRewards ?? []),
+      ];
 
       for (const reward of input.rewards) {
         const existingReward = offer.reward.find(item => item.rewardID === reward.rewardID);
         if (!existingReward) return { ok: false, error: 'rewardNotFound' };
 
-        const nextValue = reward.value === undefined ? existingReward.value : reward.value;
-        const nextDescription = reward.description === undefined
-          ? existingReward.description
-          : reward.description;
+        const index = customRewards.findIndex(item => item.rewardID === reward.rewardID);
+        const storedOverride = index >= 0 ? customRewards[index] : undefined;
+        const currentValue = storedOverride?.value !== undefined ? storedOverride.value : existingReward.value;
+        const currentDescription = typeof storedOverride?.description === 'string'
+          ? storedOverride.description
+          : existingReward.description;
+        const nextValue = reward.value === undefined ? currentValue : reward.value;
+        const nextDescription = reward.description === undefined ? currentDescription : reward.description;
         const valueChanged = nextValue !== existingReward.value;
         const descriptionChanged = nextDescription !== existingReward.description;
 
-        if (!valueChanged && !descriptionChanged) continue;
+        if (!valueChanged && !descriptionChanged) {
+          if (index >= 0) customRewards.splice(index, 1);
+          continue;
+        }
 
-        if (valueChanged && descriptionChanged && typeof nextValue === 'number') {
-          customRewards.push({
+        let nextOverride: NonNullable<InternalOffer['customRewards']>[number];
+        if (valueChanged && descriptionChanged) {
+          nextOverride = {
             rewardID: reward.rewardID,
             value: nextValue,
             description: nextDescription,
-          });
-        } else if (valueChanged && typeof nextValue === 'number') {
-          customRewards.push({
+          };
+        } else if (valueChanged) {
+          nextOverride = {
             rewardID: reward.rewardID,
             value: nextValue,
             description: undefined,
-          });
-        } else if (descriptionChanged) {
-          customRewards.push({
+          };
+        } else {
+          nextOverride = {
             rewardID: reward.rewardID,
             value: undefined,
             description: nextDescription,
-          });
+          };
         }
+
+        if (index >= 0) customRewards[index] = nextOverride;
+        else customRewards.push(nextOverride);
       }
 
       const mergedRewards = mergeOfferRewards(offer.reward, customRewards);
@@ -429,7 +445,7 @@ function mergeOfferRewards(
       rewardID: reward.rewardID,
       externalID: reward.externalID,
       description: typeof override.description === 'string' ? override.description : reward.description,
-      value: typeof override.value === 'number' ? override.value : reward.value,
+      value: override.value !== undefined ? override.value : reward.value,
       revenue: reward.revenue,
     };
 
@@ -439,7 +455,7 @@ function mergeOfferRewards(
 
 function sumRewardValues(rewards: OfferReward[]): number {
   return rewards.reduce((total, reward) => (
-    typeof reward.value === 'number' ? total + reward.value : total
+    total + (reward.value === 'variable' ? Infinity : reward.value)
   ), 0);
 }
 
