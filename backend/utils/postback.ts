@@ -6,6 +6,7 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 import { getPostbackProvider, validationFailureToLogFields } from 'backend/schemas/postback';
 import type { PostbackQuery } from 'types/Postback/PostbackValidation';
 import type InternalPostbackRequest from 'types/InternalPostbackRequest';
+import type FunctionResponse from 'types/FunctionResponse';
 
 import { handleOfferPostback } from './offers/postback';
 import { getIPFromRequest, normalizeQuery } from './request';
@@ -31,17 +32,13 @@ export type ProcessPostbackResult = {
   logUpdate: UpdatePostbackLogFields;
 };
 
-export type RetryPostbackResult = {
-  success: boolean;
-  message: string;
-  data?: {
-    ok: boolean;
-    retryCount: number;
-    normalized?: InternalPostbackRequest['normalized'];
-    failureReason?: InternalPostbackRequest['failureReason'];
-    failureDetail?: InternalPostbackRequest['failureDetail'];
-  };
-};
+export type RetryPostbackError =
+  | 'notFound'
+  | 'alreadyCompleted'
+  | 'notFailed'
+  | 'validationFailed'
+  | 'processingFailed'
+  | 'internalServerError';
 
 export type FulfillPostbackResult = {
   respondOk: boolean;
@@ -277,74 +274,60 @@ export async function updatePostbackLog(
     ) as Record<string, ''>;
   }
 
-  await postbackLogs().updateOne({ requestID }, update);
+  await postbackLogs().updateOne({ requestID, status: { $ne: 'completed' } }, update);
 }
 
-export async function retryPostbackLog(requestID: string): Promise<RetryPostbackResult> {
-  const log = await getPostbackLog(requestID);
+export async function retryPostbackLog(
+  requestID: string,
+): Promise<FunctionResponse<{ retryCount: number }, RetryPostbackError>> {
+  try {
+    const log = await getPostbackLog(requestID);
 
-  if (!log) {
-    return { success: false, message: 'Postback log not found' };
+    if (!log) return { ok: false, error: 'notFound' };
+    if (log.status === 'completed') return { ok: false, error: 'alreadyCompleted' };
+    if (log.status !== 'failed') return { ok: false, error: 'notFailed' };
+
+    const retryCount = (log.retryCount ?? 0) + 1;
+    let logUpdate: UpdatePostbackLogFields;
+
+    if (log.normalized) {
+      logUpdate = { normalized: log.normalized };
+      if (log.resolvedProviderId) logUpdate.resolvedProviderId = log.resolvedProviderId;
+    } else {
+      const processed = processPostback({
+        routeProvider: log.resolvedProviderId ?? log.provider,
+        query: log.query,
+        remoteIP: log.remoteIP ?? undefined,
+        context: createReplayContext(),
+      });
+
+      if (!processed.ok) {
+        await updatePostbackLog(requestID, {
+          ...processed.logUpdate,
+          retryCount,
+          lastRetriedAt: new Date(),
+        });
+
+        return { ok: false, error: 'validationFailed' };
+      }
+
+      logUpdate = processed.logUpdate;
+    }
+
+    const { respondOk, logUpdate: fulfilledLogUpdate } = await fulfillPostback(requestID, logUpdate);
+
+    await updatePostbackLog(
+      requestID,
+      { ...fulfilledLogUpdate, retryCount, lastRetriedAt: new Date() },
+      respondOk ? { unsetFailureFields: true } : undefined,
+    );
+
+    if (!respondOk) return { ok: false, error: 'processingFailed' };
+
+    return { ok: true, data: { retryCount } };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
   }
-
-  if (log.status !== 'failed') {
-    return {
-      success: false,
-      message: `Only failed postbacks can be retried (current status: ${log.status})`,
-    };
-  }
-
-  const retryCount = (log.retryCount ?? 0) + 1;
-  const { ok, logUpdate } = processPostback({
-    routeProvider: log.resolvedProviderId ?? log.provider,
-    query: log.query,
-    remoteIP: log.remoteIP ?? undefined,
-    context: createReplayContext(),
-  });
-
-  if (!ok) {
-    await updatePostbackLog(requestID, {
-      ...logUpdate,
-      retryCount,
-      lastRetriedAt: new Date(),
-    });
-
-    return {
-      success: false,
-      message: 'Postback replay failed validation',
-      data: {
-        ok: false,
-        retryCount,
-        failureReason: logUpdate.failureReason,
-        failureDetail: logUpdate.failureDetail,
-      },
-    };
-  }
-
-  const { respondOk, logUpdate: fulfilledLogUpdate } = await fulfillPostback(requestID, logUpdate);
-
-  await updatePostbackLog(
-    requestID,
-    { ...fulfilledLogUpdate, retryCount, lastRetriedAt: new Date() },
-    respondOk ? { unsetFailureFields: true } : undefined,
-  );
-
-  if (respondOk) {
-    return {
-      success: true,
-      message: 'Postback replay succeeded',
-      data: { ok: true, retryCount, normalized: logUpdate.normalized },
-    };
-  }
-
-  return {
-    success: false,
-    message: 'Postback replay failed processing',
-    data: {
-      ok: false,
-      retryCount,
-      failureReason: fulfilledLogUpdate.failureReason,
-      failureDetail: fulfilledLogUpdate.failureDetail,
-    },
-  };
 }

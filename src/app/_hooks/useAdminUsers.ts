@@ -14,6 +14,7 @@ import {
   adminUsersListQueryOptions,
   adminWithdrawalsListQueryOptions,
   adminEarningsListQueryOptions,
+  adminPostbacksListQueryOptions,
   adminOfferQueryOptions,
   adminOffersListQueryOptions,
   adminRedemptionMethodQueryOptions,
@@ -31,6 +32,7 @@ import type {
   InternalRedemptionStatus,
 } from 'types/Redemption/BaseInternalRedemption';
 import type { AdminEarningSearchBy } from 'types/AdminEarning';
+import type { AdminPostbackSearchBy, AdminPostbackStatus } from 'types/AdminPostback';
 import type {
   AdminOfferSearchBy,
   AdminOfferSortBy,
@@ -253,6 +255,28 @@ export function useAdminEarningsQuery(
   },
 ) {
   return useQuery(adminEarningsListQueryOptions({
+    request: clientRequest,
+    statuses,
+    searchBy,
+    search,
+    page,
+  }));
+}
+
+export function useAdminPostbacksQuery(
+  {
+    statuses,
+    searchBy,
+    search,
+    page,
+  }: {
+    statuses: AdminPostbackStatus[],
+    searchBy: AdminPostbackSearchBy,
+    search: string,
+    page: number,
+  },
+) {
+  return useQuery(adminPostbacksListQueryOptions({
     request: clientRequest,
     statuses,
     searchBy,

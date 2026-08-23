@@ -13,6 +13,7 @@ import {
 } from '@utils/adminUsers';
 import { fetchAdminUserRisk, fetchAdminWithdrawals } from '@utils/adminWithdrawals';
 import { fetchAdminEarnings } from '@utils/adminEarnings';
+import { fetchAdminPostbacks } from '@utils/adminPostbacks';
 import { fetchAdminOffer, fetchAdminOffers } from '@utils/adminOffers';
 import { fetchAdminRedemptionMethod, fetchAdminRedemptionMethods } from '@utils/adminRedemptionMethods';
 import { fetchAdminAnnouncements } from '@utils/adminAnnouncements';
@@ -24,6 +25,7 @@ import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
 import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
 import type { AdminEarningSearchBy } from 'types/AdminEarning';
+import type { AdminPostbackSearchBy, AdminPostbackStatus } from 'types/AdminPostback';
 import type {
   AdminOfferSearchBy,
   AdminOfferSortBy,
@@ -367,6 +369,44 @@ export function adminEarningsListQueryOptions(
       });
 
       if (!rows) throw new Error('Failed to load earnings');
+
+      return rows;
+    },
+  });
+}
+
+export function adminPostbacksListQueryOptions(
+  {
+    request,
+    statuses,
+    searchBy,
+    search,
+    page,
+  }: {
+    request: RequestFn,
+    statuses: AdminPostbackStatus[],
+    searchBy: AdminPostbackSearchBy,
+    search: string,
+    page: number,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.postbacks.list({
+      status: [ ...statuses ].sort(),
+      searchBy,
+      search,
+      page,
+    }),
+    queryFn: async () => {
+      const rows = await fetchAdminPostbacks({
+        request,
+        statuses,
+        searchBy,
+        search,
+        page,
+      });
+
+      if (!rows) throw new Error('Failed to load postbacks');
 
       return rows;
     },

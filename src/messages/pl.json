@@ -1251,6 +1251,8 @@
     "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty.",
     "earningsTitle": "Sparkvey | Zarobki",
     "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj.",
+    "postbacksTitle": "Sparkvey | Postbacki",
+    "postbacksDescription": "Przeglądaj dzienniki postbacków i ponawiaj nieudane naliczenia.",
     "offersTitle": "Sparkvey | Oferty",
     "offersDescription": "Twórz, edytuj i wyłączaj oferty.",
     "redemptionMethodsTitle": "Sparkvey | Metody wypłat",
@@ -1272,6 +1274,7 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Zarobki",
+      "postbacks": "Postbacki",
       "withdrawals": "Wypłaty",
       "offers": "Oferty",
       "redemptionMethods": "Metody wypłat",
@@ -1781,6 +1784,55 @@
     "errors": {
       "loadFailed": "Nie udało się wczytać zarobków.",
       "releaseFailed": "Nie udało się zwolnić tego zarobku."
+    }
+  },
+  "AdminPostbacks": {
+    "na": "—",
+    "empty": "Żaden postback nie pasuje do tych filtrów.",
+    "searchLabel": "Szukaj postbacków",
+    "table": {
+      "date": "Data",
+      "provider": "Dostawca",
+      "status": "Status",
+      "remoteIP": "Zdalne IP",
+      "requestID": "ID żądania",
+      "actions": "Akcje"
+    },
+    "filters": {
+      "all": "Wszystkie",
+      "status": "Status",
+      "searchBy": "Szukaj według"
+    },
+    "searchBy": {
+      "provider": "Dostawca",
+      "requestID": "ID żądania",
+      "remoteIP": "Zdalne IP"
+    },
+    "searchPlaceholder": {
+      "provider": "Szukaj według dostawcy",
+      "requestID": "Szukaj według ID żądania",
+      "remoteIP": "Szukaj według zdalnego IP"
+    },
+    "statuses": {
+      "pending": "Oczekujący",
+      "completed": "Zakończony",
+      "failed": "Nieudany"
+    },
+    "actions": {
+      "retry": "Ponów",
+      "retrying": "Ponawianie…"
+    },
+    "success": {
+      "retried": "Postback został ponowiony."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać postbacków.",
+      "retryFailed": "Nie udało się ponowić tego postbacka.",
+      "notFound": "Nie znaleziono postbacka.",
+      "alreadyCompleted": "Ten postback jest już zakończony.",
+      "notFailed": "Ponowić można tylko nieudane postbacki.",
+      "validationFailed": "Ponowienie nie przeszło walidacji.",
+      "processingFailed": "Ponowienie nie powiodło się podczas przetwarzania."
     }
   },
   "AdminOffers": {

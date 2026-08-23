@@ -8,6 +8,7 @@ import usersRouteInvoker from './users';
 import dashboardRouteInvoker from './dashboard';
 import withdrawalsRouteInvoker from './withdrawals';
 import earningsRouteInvoker from './earnings';
+import postbacksRouteInvoker from './postbacks';
 import offersRouteInvoker from './offers';
 import redemptionMethodsRouteInvoker from './redemptionMethods';
 import promocodesRouteInvoker from './promocodes';
@@ -26,6 +27,7 @@ export default function routesInvoker() {
   app.route('/dashboard', dashboardRouteInvoker());
   app.route('/withdrawals', withdrawalsRouteInvoker());
   app.route('/earnings', earningsRouteInvoker());
+  app.route('/postbacks', postbacksRouteInvoker());
   app.route('/offers', offersRouteInvoker());
   app.route('/redemption-methods', redemptionMethodsRouteInvoker());
   app.route('/promocodes', promocodesRouteInvoker());

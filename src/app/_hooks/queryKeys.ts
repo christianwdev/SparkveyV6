@@ -126,6 +126,15 @@ export const queryKeys = {
         page: number,
       }) => [ ...queryKeys.admin.earnings.all(), 'list', filters ] as const,
     },
+    postbacks: {
+      all: () => [ ...queryKeys.admin.all, 'postbacks' ] as const,
+      list: (filters: {
+        status: string[],
+        searchBy: string,
+        search: string,
+        page: number,
+      }) => [ ...queryKeys.admin.postbacks.all(), 'list', filters ] as const,
+    },
     offers: {
       all: () => [ ...queryKeys.admin.all, 'offers' ] as const,
       list: (filters: {

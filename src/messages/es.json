@@ -1251,6 +1251,8 @@
     "withdrawalsDescription": "Revisa y procesa los retiros pendientes.",
     "earningsTitle": "Sparkvey | Ganancias",
     "earningsDescription": "Revisa ganancias de ofertas en espera y libéralas.",
+    "postbacksTitle": "Sparkvey | Postbacks",
+    "postbacksDescription": "Revisa los registros de postbacks y reintenta créditos fallidos.",
     "offersTitle": "Sparkvey | Ofertas",
     "offersDescription": "Crea, edita y desactiva ofertas.",
     "redemptionMethodsTitle": "Sparkvey | Métodos de canje",
@@ -1272,6 +1274,7 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Ganancias",
+      "postbacks": "Postbacks",
       "withdrawals": "Retiros",
       "offers": "Ofertas",
       "redemptionMethods": "Métodos de canje",
@@ -1781,6 +1784,55 @@
     "errors": {
       "loadFailed": "No se pudieron cargar las ganancias.",
       "releaseFailed": "No se pudo liberar esta ganancia."
+    }
+  },
+  "AdminPostbacks": {
+    "na": "—",
+    "empty": "Ningún postback coincide con estos filtros.",
+    "searchLabel": "Buscar postbacks",
+    "table": {
+      "date": "Fecha",
+      "provider": "Proveedor",
+      "status": "Estado",
+      "remoteIP": "IP remota",
+      "requestID": "ID de solicitud",
+      "actions": "Acciones"
+    },
+    "filters": {
+      "all": "Todos",
+      "status": "Estado",
+      "searchBy": "Buscar por"
+    },
+    "searchBy": {
+      "provider": "Proveedor",
+      "requestID": "ID de solicitud",
+      "remoteIP": "IP remota"
+    },
+    "searchPlaceholder": {
+      "provider": "Buscar por proveedor",
+      "requestID": "Buscar por ID de solicitud",
+      "remoteIP": "Buscar por IP remota"
+    },
+    "statuses": {
+      "pending": "Pendiente",
+      "completed": "Completado",
+      "failed": "Fallido"
+    },
+    "actions": {
+      "retry": "Reintentar",
+      "retrying": "Reintentando…"
+    },
+    "success": {
+      "retried": "El postback se reprodujo correctamente."
+    },
+    "errors": {
+      "loadFailed": "No se pudieron cargar los postbacks.",
+      "retryFailed": "No se pudo reintentar este postback.",
+      "notFound": "Postback no encontrado.",
+      "alreadyCompleted": "Este postback ya está completado.",
+      "notFailed": "Solo se pueden reintentar postbacks fallidos.",
+      "validationFailed": "La reproducción no superó la validación.",
+      "processingFailed": "La reproducción falló al procesarse."
     }
   },
   "AdminOffers": {
