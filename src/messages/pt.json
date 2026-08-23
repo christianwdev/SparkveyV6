@@ -1311,6 +1311,106 @@
     "back": "Voltar",
     "viewUser": "Ver perfil",
     "viewOnly": "Podes ler este tópico, mas não podes responder.",
+    "autoReply": "Auto",
+    "cannedResponses": {
+      "open": "Respostas pré-definidas",
+      "close": "Fechar respostas pré-definidas",
+      "categories": {
+        "acknowledgement": "Confirmação",
+        "holds": "Retenções",
+        "releases": "Libertações",
+        "kyc": "KYC",
+        "earnings": "Ganhos",
+        "withdrawals": "Levantamentos",
+        "accounts": "Contas"
+      },
+      "items": {
+        "firstMessage": {
+          "title": "Primeira mensagem",
+          "body": "Obrigado por nos contactares! Recebemos a tua mensagem e um membro da equipa responde dentro de 24-48 horas."
+        },
+        "followUp": {
+          "title": "Já passou algum tempo",
+          "body": "Obrigado pelo seguimento. Recebemos a tua mensagem e um membro da equipa responde dentro de 24-48 horas."
+        },
+        "lookingIntoIt": {
+          "title": "Estamos a analisar",
+          "body": "Obrigado pelos detalhes. Estamos a analisar isto agora e atualizamos-te assim que tivermos mais informação."
+        },
+        "resolved": {
+          "title": "Resolvido",
+          "body": "Isto já deve estar resolvido. Se ainda parecer algo errado, responde aqui e voltamos a ver."
+        },
+        "holdOverThree": {
+          "title": "Retenção de 30 dias",
+          "body": "Ofertas acima de 3 $ ficam 30 dias em retenção enquanto confirmamos a conversão com o anunciante. É normal. Os teus Sparks são libertados automaticamente no fim da retenção, a menos que a oferta seja revertida."
+        },
+        "holdInProgress": {
+          "title": "Retenção em curso",
+          "body": "Esta oferta ainda está em retenção. Não precisas de fazer nada. Libertamos os Sparks automaticamente na data mostrada nos ganhos, desde que o anunciante não reverta a conversão."
+        },
+        "holdExplainer": {
+          "title": "Como funcionam as retenções",
+          "body": "Ofertas de maior valor ficam em retenção para confirmação com o anunciante. As retenções duram 30 dias para ofertas acima de 3 $. Ofertas mais pequenas costumam ser libertadas mais cedo."
+        },
+        "lowRiskRelease": {
+          "title": "Libertada (baixo risco)",
+          "body": "Revímos esta oferta e libertámo-la mais cedo porque parece de baixo risco. Os Sparks já devem estar no saldo disponível."
+        },
+        "lowRiskReview": {
+          "title": "Podemos rever para libertar",
+          "body": "Por vezes libertamos retenções mais cedo quando uma oferta parece de baixo risco. Vamos ver esta e atualizamos-te aqui."
+        },
+        "cannotRelease": {
+          "title": "Sem libertação antecipada",
+          "body": "Não podemos libertar esta oferta mais cedo. Fica em retenção até à data prevista, a menos que o anunciante a reverta."
+        },
+        "released": {
+          "title": "Libertada",
+          "body": "Esta oferta foi libertada e os Sparks foram adicionados ao teu saldo."
+        },
+        "kycRequired": {
+          "title": "KYC necessário",
+          "body": "Precisamos de verificar a tua identidade antes de continuar. Pedimos KYC quando suspeitamos de fraude ou de várias contas da mesma pessoa. Completa os passos de verificação que te enviarmos para terminarmos a análise da conta."
+        },
+        "kycReceived": {
+          "title": "KYC recebido",
+          "body": "Recebemos os teus dados de verificação e vamos analisá-los. Escrevemos aqui quando estiver concluído."
+        },
+        "kycCleared": {
+          "title": "KYC aprovado",
+          "body": "Obrigado por completares a verificação. A tua conta ficou desbloqueada e podemos continuar a rever os teus ganhos."
+        },
+        "missingCredit": {
+          "title": "Crédito em falta",
+          "body": "Os créditos podem demorar enquanto o anunciante verifica a conversão. Confirma que seguiste exatamente os requisitos da oferta. Se ainda não tiver rastreado depois da janela indicada, responde com o nome da oferta, a hora de conclusão e capturas de ecrã."
+        },
+        "reversed": {
+          "title": "Oferta revertida",
+          "body": "Esta oferta foi revertida pelo anunciante, por isso os Sparks foram removidos. Não podemos creditar ofertas que o parceiro não nos pagou."
+        },
+        "providerPending": {
+          "title": "Pendente no fornecedor",
+          "body": "Esta conversão ainda está pendente no fornecedor da oferta. Creditamo-la quando eles confirmarem."
+        },
+        "withdrawalReview": {
+          "title": "Levantamento em análise",
+          "body": "Os levantamentos são analisados antes de serem enviados. A maioria é processada em 48 horas. Falamos contigo se precisarmos de mais alguma coisa."
+        },
+        "withdrawalHeld": {
+          "title": "Levantamento retido",
+          "body": "Precisamos de terminar a análise da tua conta antes de enviar este levantamento. Pode demorar um pouco mais se for necessária verificação de identidade."
+        },
+        "oneAccount": {
+          "title": "Apenas uma conta",
+          "body": "Cada pessoa só pode ter uma conta Sparkvey. Criar contas extra viola os nossos termos e pode levar a retenções, KYC ou medidas na conta."
+        },
+        "needScreenshots": {
+          "title": "Precisamos de capturas",
+          "body": "Podes enviar capturas da conclusão da oferta, incluindo a página de confirmação e a hora? Ajuda-nos a verificar o tracking com o anunciante."
+        }
+      }
+    },
     "errors": {
       "notFound": "Utilizador não encontrado.",
       "cannotCreate": "Não tens permissão para iniciar uma conversa.",

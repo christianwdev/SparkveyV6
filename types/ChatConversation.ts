@@ -6,6 +6,7 @@ type ChatConversation = {
   unreadCountAdmin: number,
   status: 'active' | 'closed',
   lastAgentID?: string,
+  lastSupportReplyAt?: number,
 };
 
 export default ChatConversation;

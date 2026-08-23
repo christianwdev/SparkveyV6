@@ -1,7 +1,16 @@
 import { createId } from '@paralleldrive/cuid2';
 import { MongoServerError } from 'mongodb';
-import { getGlobalObject } from 'backend/utils/globalObject';
+
+// Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
+import {
+  getSupportAutoAckKind,
+  SUPPORT_AUTO_ACK_MESSAGES,
+  SUPPORT_AUTO_ACK_STALE_MS,
+} from 'backend/constants/supportAutoAck';
+
+// Utils
+import { getGlobalObject } from 'backend/utils/globalObject';
 import { getUserAvatarURL } from 'backend/utils/avatar';
 
 // Types
@@ -9,6 +18,7 @@ import type { Filter } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
 import type ChatConversation from 'types/ChatConversation';
 import type ChatMessage from 'types/ChatMessage';
+import { SUPPORT_SYSTEM_SENDER_ID } from 'types/ChatMessage';
 import type SanitizedChatConversation from 'types/SanitizedChatConversation';
 import type SanitizedUserSupportChat from 'types/SanitizedUserSupportChat';
 import type InternalUser from 'types/User/InternalUser';
@@ -20,6 +30,7 @@ export type CreateUserSupportMessageError = 'emptyMessage' | 'messageTooLong' | 
 export type CreateAdminSupportMessageError = 'emptyMessage' | 'messageTooLong' | 'notFound' | 'internalServerError';
 export type CreateAdminSupportConversationError = 'notFound' | 'internalServerError';
 export type MarkSupportChatReadError = 'notFound' | 'internalServerError';
+export type SendSupportAutoAckError = 'internalServerError';
 
 const MESSAGE_MAX_LENGTH = 1000;
 const USER_MESSAGE_LIMIT = 50;
@@ -284,6 +295,7 @@ export async function createAdminSupportMessage(
         $set: {
           lastMessageTimestamp: timestamp,
           lastAgentID: admin.userID,
+          lastSupportReplyAt: timestamp,
           status: 'active',
         },
         $inc: {
@@ -323,6 +335,70 @@ export async function createAdminSupportMessage(
         agentInfo,
       },
     };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function maybeSendSupportAutoAck(
+  {
+    conversation,
+  }: {
+    conversation: ChatConversation,
+  },
+): Promise<FunctionResponse<ChatMessage | null, SendSupportAutoAckError>> {
+  try {
+    const now = Date.now();
+    const kind = getSupportAutoAckKind({
+      lastSupportReplyAt: conversation.lastSupportReplyAt,
+      now,
+    });
+    if (!kind) return { ok: true, data: null };
+
+    const { db } = getGlobalObject();
+    const staleBefore = now - SUPPORT_AUTO_ACK_STALE_MS;
+
+    const claimed = await db.collection<ChatConversation>(DatabaseCollections.chatConversations).findOneAndUpdate(
+      {
+        conversationID: conversation.conversationID,
+        $or: [
+          { lastSupportReplyAt: { $exists: false } },
+          { lastSupportReplyAt: { $lt: staleBefore } },
+        ],
+      },
+      {
+        $set: {
+          lastSupportReplyAt: now,
+          lastMessageTimestamp: now,
+          status: 'active',
+        },
+        $inc: {
+          unreadCountUser: 1,
+        },
+      },
+      {
+        returnDocument: 'after',
+      },
+    );
+
+    if (!claimed) return { ok: true, data: null };
+
+    const chatMessage: ChatMessage = {
+      messageID: createId(),
+      conversationID: claimed.conversationID,
+      senderID: SUPPORT_SYSTEM_SENDER_ID,
+      senderType: 'admin',
+      message: SUPPORT_AUTO_ACK_MESSAGES[kind],
+      imageEmbeds: [],
+      timestamp: now,
+      read: false,
+    };
+
+    await db.collection<ChatMessage>(DatabaseCollections.chatMessages).insertOne(chatMessage);
+
+    return { ok: true, data: chatMessage };
   } catch (error) {
     console.error(error);
 

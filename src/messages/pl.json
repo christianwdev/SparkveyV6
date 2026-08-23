@@ -1311,6 +1311,106 @@
     "back": "Wstecz",
     "viewUser": "Zobacz profil",
     "viewOnly": "Możesz czytać ten wątek, ale nie możesz odpowiadać.",
+    "autoReply": "Auto",
+    "cannedResponses": {
+      "open": "Gotowe odpowiedzi",
+      "close": "Zamknij gotowe odpowiedzi",
+      "categories": {
+        "acknowledgement": "Potwierdzenie",
+        "holds": "Holdy",
+        "releases": "Zwolnienia",
+        "kyc": "KYC",
+        "earnings": "Zarobki",
+        "withdrawals": "Wypłaty",
+        "accounts": "Konta"
+      },
+      "items": {
+        "firstMessage": {
+          "title": "Pierwsza wiadomość",
+          "body": "Dziękujemy za wiadomość! Otrzymaliśmy ją i członek zespołu odpowie w ciągu 24-48 godzin."
+        },
+        "followUp": {
+          "title": "Minęło trochę czasu",
+          "body": "Dziękujemy za przypomnienie. Otrzymaliśmy wiadomość i członek zespołu odpowie w ciągu 24-48 godzin."
+        },
+        "lookingIntoIt": {
+          "title": "Sprawdzamy to",
+          "body": "Dziękujemy za szczegóły. Sprawdzamy to teraz i damy znać, gdy będziemy wiedzieć więcej."
+        },
+        "resolved": {
+          "title": "Rozwiązane",
+          "body": "To powinno być już rozwiązane. Jeśli coś nadal wygląda nie tak, odpowiedz tutaj, a sprawdzimy ponownie."
+        },
+        "holdOverThree": {
+          "title": "30-dniowy hold",
+          "body": "Oferty powyżej 3 $ trafiają na 30-dniowy hold, gdy potwierdzamy konwersję u reklamodawcy. To normalne. Twoje Sparks zostaną zwolnione automatycznie po holdzie, chyba że oferta zostanie cofnięta."
+        },
+        "holdInProgress": {
+          "title": "Hold w toku",
+          "body": "Ta oferta jest nadal na holdzie. Nic nie musisz robić. Zwolnimy Sparks automatycznie w dacie widocznej w zarobkach, o ile reklamodawca nie cofnie konwersji."
+        },
+        "holdExplainer": {
+          "title": "Jak działają holdy",
+          "body": "Oferty o wyższej wartości trafiają na hold, żeby potwierdzić je u reklamodawcy. Holdy trwają 30 dni dla ofert powyżej 3 $. Mniejsze oferty zwykle zwalniane są szybciej."
+        },
+        "lowRiskRelease": {
+          "title": "Zwolnione (niskie ryzyko)",
+          "body": "Sprawdziliśmy tę ofertę i zwolniliśmy ją wcześniej, bo wygląda na niskie ryzyko. Sparks powinny już być w dostępnych środkach."
+        },
+        "lowRiskReview": {
+          "title": "Możemy sprawdzić zwolnienie",
+          "body": "Czasem zwalniamy holdy wcześniej, gdy oferta wygląda na niskie ryzyko. Sprawdzimy tę i damy znać tutaj."
+        },
+        "cannotRelease": {
+          "title": "Bez wcześniejszego zwolnienia",
+          "body": "Nie możemy zwolnić tej oferty wcześniej. Zostanie na holdzie do planowanej daty, chyba że reklamodawca ją cofnie."
+        },
+        "released": {
+          "title": "Zwolnione",
+          "body": "Ta oferta została zwolniona, a Sparks dodano do salda."
+        },
+        "kycRequired": {
+          "title": "Wymagane KYC",
+          "body": "Zanim będziemy kontynuować, musimy potwierdzić Twoją tożsamość. KYC prosimy, gdy podejrzewamy oszustwo albo kilka kont tej samej osoby. Dokończ kroki weryfikacji, które wyślemy, żebyśmy mogli zakończyć przegląd konta."
+        },
+        "kycReceived": {
+          "title": "Otrzymano KYC",
+          "body": "Otrzymaliśmy dane weryfikacyjne i je sprawdzimy. Dam znać tutaj, gdy to zakończymy."
+        },
+        "kycCleared": {
+          "title": "KYC zatwierdzone",
+          "body": "Dziękujemy za weryfikację. Konto zostało odblokowane i możemy dalej sprawdzać Twoje zarobki."
+        },
+        "missingCredit": {
+          "title": "Brak uznania",
+          "body": "Uznania mogą potrwać, gdy reklamodawca weryfikuje konwersję. Upewnij się, że dokładnie spełniono wymagania oferty. Jeśli po podanym oknie nadal nie ma trackingu, odpowiedz z nazwą oferty, godziną ukończenia i zrzutami ekranu."
+        },
+        "reversed": {
+          "title": "Oferta cofnięta",
+          "body": "Ta oferta została cofnięta przez reklamodawcę, więc Sparks usunięto. Nie możemy uznać ofert, za które partner nam nie zapłacił."
+        },
+        "providerPending": {
+          "title": "Oczekuje u dostawcy",
+          "body": "Ta konwersja nadal oczekuje u dostawcy oferty. Uznamy ją, gdy ją potwierdzą."
+        },
+        "withdrawalReview": {
+          "title": "Wypłata w weryfikacji",
+          "body": "Wypłaty są sprawdzane przed wysłaniem. Większość realizujemy w 48 godzin. Dam znać, jeśli będziemy potrzebować czegoś więcej."
+        },
+        "withdrawalHeld": {
+          "title": "Wypłata wstrzymana",
+          "body": "Musimy dokończyć przegląd konta, zanim wyślemy tę wypłatę. Może to potrwać dłużej, jeśli potrzebna jest weryfikacja tożsamości."
+        },
+        "oneAccount": {
+          "title": "Tylko jedno konto",
+          "body": "Każda osoba może mieć tylko jedno konto Sparkvey. Tworzenie dodatkowych kont łamie regulamin i może skutkować holdami, KYC albo działaniami wobec konta."
+        },
+        "needScreenshots": {
+          "title": "Potrzebne zrzuty ekranu",
+          "body": "Możesz wysłać zrzuty ukończenia oferty, w tym stronę potwierdzenia i godzinę? Pomoże nam to sprawdzić tracking u reklamodawcy."
+        }
+      }
+    },
     "errors": {
       "notFound": "Nie znaleziono użytkownika.",
       "cannotCreate": "Nie masz uprawnień, aby rozpocząć rozmowę.",

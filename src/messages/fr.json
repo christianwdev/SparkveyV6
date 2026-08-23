@@ -1311,6 +1311,106 @@
     "back": "Retour",
     "viewUser": "Voir le profil",
     "viewOnly": "Vous pouvez lire ce fil, mais pas y répondre.",
+    "autoReply": "Auto",
+    "cannedResponses": {
+      "open": "Réponses prédéfinies",
+      "close": "Fermer les réponses prédéfinies",
+      "categories": {
+        "acknowledgement": "Accusé de réception",
+        "holds": "Holds",
+        "releases": "Libérations",
+        "kyc": "KYC",
+        "earnings": "Gains",
+        "withdrawals": "Retraits",
+        "accounts": "Comptes"
+      },
+      "items": {
+        "firstMessage": {
+          "title": "Premier message",
+          "body": "Merci de nous avoir contactés ! Nous avons bien reçu votre message et un membre de l’équipe vous répondra sous 24-48 heures."
+        },
+        "followUp": {
+          "title": "Cela fait un moment",
+          "body": "Merci pour votre relance. Nous avons bien reçu votre message et un membre de l’équipe vous répondra sous 24-48 heures."
+        },
+        "lookingIntoIt": {
+          "title": "Nous regardons ça",
+          "body": "Merci pour les détails. Nous examinons cela maintenant et vous tiendrons au courant dès que nous en saurons plus."
+        },
+        "resolved": {
+          "title": "Résolu",
+          "body": "Cela devrait maintenant être résolu. Si quelque chose cloche encore, répondez ici et nous y reviendrons."
+        },
+        "holdOverThree": {
+          "title": "Hold de 30 jours",
+          "body": "Les offres de plus de 3 $ sont placées en hold 30 jours le temps de confirmer la conversion avec l’annonceur. C’est normal. Vos Sparks seront libérés automatiquement à la fin du hold, sauf si l’offre est annulée."
+        },
+        "holdInProgress": {
+          "title": "Hold en cours",
+          "body": "Cette offre est toujours en hold. Vous n’avez rien à faire. Nous libérerons les Sparks automatiquement à la date indiquée dans vos gains, tant que l’annonceur n’annule pas la conversion."
+        },
+        "holdExplainer": {
+          "title": "Fonctionnement des holds",
+          "body": "Les offres de plus haute valeur sont mises en hold pour confirmation auprès de l’annonceur. Les holds durent 30 jours pour les offres de plus de 3 $. Les plus petites sont généralement libérées plus tôt."
+        },
+        "lowRiskRelease": {
+          "title": "Libérée (faible risque)",
+          "body": "Nous avons examiné cette offre et l’avons libérée plus tôt car elle semble à faible risque. Les Sparks devraient maintenant être dans votre solde disponible."
+        },
+        "lowRiskReview": {
+          "title": "Examen possible pour libération",
+          "body": "Nous libérons parfois les holds plus tôt lorsqu’une offre semble à faible risque. Nous allons regarder celle-ci et vous tenir au courant ici."
+        },
+        "cannotRelease": {
+          "title": "Pas de libération anticipée",
+          "body": "Nous ne pouvons pas libérer cette offre plus tôt. Elle restera en hold jusqu’à la date prévue, sauf si l’annonceur l’annule."
+        },
+        "released": {
+          "title": "Libérée",
+          "body": "Cette offre a été libérée et les Sparks ont été ajoutés à votre solde."
+        },
+        "kycRequired": {
+          "title": "KYC requis",
+          "body": "Nous devons vérifier votre identité avant de continuer. Nous demandons un KYC en cas de suspicion de fraude ou de comptes multiples appartenant à la même personne. Merci de suivre les étapes de vérification que nous vous envoyons pour que nous puissions terminer l’examen."
+        },
+        "kycReceived": {
+          "title": "KYC reçu",
+          "body": "Nous avons reçu vos informations de vérification et allons les examiner. Nous vous écrirons ici une fois que ce sera fait."
+        },
+        "kycCleared": {
+          "title": "KYC validé",
+          "body": "Merci d’avoir terminé la vérification. Votre compte est dégagé et nous pouvons continuer à examiner vos gains."
+        },
+        "missingCredit": {
+          "title": "Crédit manquant",
+          "body": "Les crédits peuvent prendre du temps le temps que l’annonceur vérifie la conversion. Assurez-vous d’avoir suivi exactement les conditions de l’offre. Si ce n’est toujours pas tracké après la fenêtre indiquée, répondez avec le nom de l’offre, l’heure de completion et des captures d’écran."
+        },
+        "reversed": {
+          "title": "Offre annulée",
+          "body": "Cette offre a été annulée par l’annonceur, donc les Sparks ont été retirés. Nous ne pouvons pas créditer des offres que le partenaire ne nous a pas payées."
+        },
+        "providerPending": {
+          "title": "En attente chez le fournisseur",
+          "body": "Cette conversion est encore en attente chez le fournisseur de l’offre. Nous la créditerons dès qu’ils la confirmeront."
+        },
+        "withdrawalReview": {
+          "title": "Retrait en revue",
+          "body": "Les retraits sont examinés avant d’être envoyés. La plupart sont traités sous 48 heures. Nous vous écrirons si nous avons besoin d’autre chose."
+        },
+        "withdrawalHeld": {
+          "title": "Retrait retenu",
+          "body": "Nous devons terminer l’examen de votre compte avant d’envoyer ce retrait. Cela peut prendre un peu plus longtemps si une vérification d’identité est nécessaire."
+        },
+        "oneAccount": {
+          "title": "Un seul compte",
+          "body": "Chaque personne ne peut avoir qu’un compte Sparkvey. Créer des comptes supplémentaires est contraire à nos conditions et peut entraîner des holds, un KYC ou des mesures sur le compte."
+        },
+        "needScreenshots": {
+          "title": "Captures demandées",
+          "body": "Pouvez-vous envoyer des captures de la completion de l’offre, y compris la page de confirmation et l’heure de fin ? Cela nous aide à vérifier le tracking avec l’annonceur."
+        }
+      }
+    },
     "errors": {
       "notFound": "Utilisateur introuvable.",
       "cannotCreate": "Vous n’avez pas la permission de démarrer une conversation.",
