@@ -18,7 +18,7 @@ import {
 import { sendResponse } from 'backend/utils/response';
 import { getIPFromRequest, withRouteErrorHandling } from 'backend/utils/request';
 import { rateLimit } from 'backend/utils/rateLimit';
-import { buildFrontendURL } from 'backend/utils/frontendUrl';
+import { buildFrontendURL } from 'backend/utils/url';
 import { expireUserSessions, startSession } from 'backend/utils/session';
 import {
   claimEmailActionable,

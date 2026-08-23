@@ -3,7 +3,7 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import { detectSharedEmail } from 'backend/utils/fraud';
 import { scheduleFraudCheck } from 'backend/utils/userFlag';
-import { getFallbackAvatarURL, getUserAvatarURL } from 'backend/utils/avatar';
+import { getFallbackAvatarURL, getUserAvatarURL } from 'backend/utils/url';
 
 // Types
 import type { Filter, WithId } from 'mongodb';

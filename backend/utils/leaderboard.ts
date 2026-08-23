@@ -9,7 +9,7 @@ import SiteConfig from 'backend/config/config';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { LockError } from 'backend/utils/distributedLock';
 import { updateUserBalance } from 'backend/utils/userBalance';
-import { getUserAvatarURL } from 'backend/utils/avatar';
+import { getUserAvatarURL } from 'backend/utils/url';
 
 // Types
 import type FunctionResponse from 'types/FunctionResponse';

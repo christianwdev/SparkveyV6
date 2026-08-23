@@ -3,7 +3,7 @@ import { OAuth2Client } from 'google-auth-library';
 
 import config from 'backend/config/config';
 import { isDeletedEmail } from 'backend/utils/deletedAccountFingerprint';
-import { buildFrontendURL } from 'backend/utils/frontendUrl';
+import { buildFrontendURL } from 'backend/utils/url';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import {
   createUser,

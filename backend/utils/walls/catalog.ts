@@ -1,17 +1,14 @@
-import SiteConfig from 'backend/config/config';
+// Utils
+import { getBackendURL } from 'backend/utils/url';
 
+// Types
 import type OfferWallType from 'types/Offer/OfferWallType';
 import type CatalogOfferwall from 'types/Offer/CatalogOfferwall';
 
 const MIN_EARNED_SPARKS_FOR_LOCKED_WALLS = 3000;
 
 function getToroxProxyUrl() {
-  const backendURL = SiteConfig.server.backendURL
-    || (process.env.NODE_ENV === 'development'
-      ? 'http://localhost:6060'
-      : 'https://api.sparkvey.com');
-
-  return `${backendURL.replace(/\/$/, '')}/walls/torox`;
+  return `${getBackendURL()}/walls/torox`;
 }
 
 export type InternalOfferwall = CatalogOfferwall & {

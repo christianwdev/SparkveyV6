@@ -1,10 +1,16 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+
+// Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import SiteConfig from 'backend/config/config';
+
+// Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
+import { fillTimeSeries } from 'backend/utils/timeSeries';
 
 // Types
+import type { TimeSeriesBucketConfig } from 'backend/utils/timeSeries';
 import type FunctionResponse from 'types/FunctionResponse';
 import type InternalUser from 'types/User/InternalUser';
 import type { InternalOfferEarning } from 'types/Earnings/InternalEarning';
@@ -19,30 +25,21 @@ type AggregationConfig = {
   startDate: dayjs.Dayjs,
   endDate: dayjs.Dayjs,
   bucketFormat: string,
-  bucketFormatter: (date: dayjs.Dayjs) => string,
-  labelFormatter: (date: dayjs.Dayjs) => string,
-  stepUnit: dayjs.ManipulateType,
-  stepAmount: number,
-  truncateUnit: dayjs.OpUnitType,
+  timeseries: TimeSeriesBucketConfig,
 };
 
-function buildEmptyTimeseries(config: AggregationConfig): AffiliateTimeseriesPoint[] {
-  const points: AffiliateTimeseriesPoint[] = [];
-  const iterationStart = config.startDate.clone().startOf(config.truncateUnit);
-  const iterationEnd = config.endDate.clone().startOf(config.truncateUnit);
-
-  for (
-    let cursor = iterationStart.clone();
-    cursor.isBefore(iterationEnd) || cursor.isSame(iterationEnd);
-    cursor = cursor.add(config.stepAmount, config.stepUnit)
-  ) {
-    points.push({
-      date: config.labelFormatter(cursor),
-      totalEarnings: 0,
-    });
-  }
-
-  return points;
+function toTimeseriesPoints(
+  config: AggregationConfig,
+  valuesByBucket: Map<string, number>,
+): AffiliateTimeseriesPoint[] {
+  return fillTimeSeries({
+    config: config.timeseries,
+    valuesByBucket,
+    emptyValue: 0,
+  }).map(point => ({
+    date: point.label,
+    totalEarnings: point.value,
+  }));
 }
 
 function getPeriodConfig(period: AffiliatePeriod): AggregationConfig {
@@ -52,46 +49,67 @@ function getPeriodConfig(period: AffiliatePeriod): AggregationConfig {
   const isoWeekStart = now.clone().subtract(mondayOffset, 'day').startOf('day');
   const isoWeekEnd = isoWeekStart.clone().add(6, 'day').endOf('day');
 
+  const dayStart = now.clone().startOf('day');
+  const dayEnd = now.clone().endOf('day');
+  const monthStart = now.clone().startOf('month');
+  const yearStart = now.clone().startOf('year');
+
   const configs: Record<AffiliatePeriod, AggregationConfig> = {
     day: {
-      startDate: now.clone().startOf('day'),
-      endDate: now.clone().endOf('day'),
+      startDate: dayStart,
+      endDate: dayEnd,
       bucketFormat: '%Y-%m-%dT%H:00:00Z',
-      bucketFormatter: date => date.clone().startOf('hour').format('YYYY-MM-DDTHH:00:00[Z]'),
-      labelFormatter: date => date.format('HH:00'),
-      stepUnit: 'hour',
-      stepAmount: 1,
-      truncateUnit: 'hour',
+      timeseries: {
+        start: dayStart,
+        end: dayEnd,
+        bucketKey: date => date.clone().startOf('hour').format('YYYY-MM-DDTHH:00:00[Z]'),
+        label: date => date.format('HH:00'),
+        stepUnit: 'hour',
+        stepAmount: 1,
+        truncateUnit: 'hour',
+      },
     },
     week: {
       startDate: isoWeekStart,
       endDate: isoWeekEnd,
       bucketFormat: '%Y-%m-%dT00:00:00Z',
-      bucketFormatter: date => date.clone().startOf('day').format('YYYY-MM-DDT00:00:00[Z]'),
-      labelFormatter: date => date.format('ddd'),
-      stepUnit: 'day',
-      stepAmount: 1,
-      truncateUnit: 'day',
+      timeseries: {
+        start: isoWeekStart,
+        end: isoWeekEnd,
+        bucketKey: date => date.clone().startOf('day').format('YYYY-MM-DDT00:00:00[Z]'),
+        label: date => date.format('ddd'),
+        stepUnit: 'day',
+        stepAmount: 1,
+        truncateUnit: 'day',
+      },
     },
     month: {
-      startDate: now.clone().startOf('month'),
-      endDate: now.clone().endOf('day'),
+      startDate: monthStart,
+      endDate: dayEnd,
       bucketFormat: '%Y-%m-%dT00:00:00Z',
-      bucketFormatter: date => date.clone().startOf('day').format('YYYY-MM-DDT00:00:00[Z]'),
-      labelFormatter: date => date.format('DD/MM'),
-      stepUnit: 'day',
-      stepAmount: 1,
-      truncateUnit: 'day',
+      timeseries: {
+        start: monthStart,
+        end: dayEnd,
+        bucketKey: date => date.clone().startOf('day').format('YYYY-MM-DDT00:00:00[Z]'),
+        label: date => date.format('DD/MM'),
+        stepUnit: 'day',
+        stepAmount: 1,
+        truncateUnit: 'day',
+      },
     },
     year: {
-      startDate: now.clone().startOf('year'),
-      endDate: now.clone().endOf('day'),
+      startDate: yearStart,
+      endDate: dayEnd,
       bucketFormat: '%Y-%m-01T00:00:00Z',
-      bucketFormatter: date => date.clone().startOf('month').format('YYYY-MM-01T00:00:00[Z]'),
-      labelFormatter: date => date.format('MM/YY'),
-      stepUnit: 'month',
-      stepAmount: 1,
-      truncateUnit: 'month',
+      timeseries: {
+        start: yearStart,
+        end: dayEnd,
+        bucketKey: date => date.clone().startOf('month').format('YYYY-MM-01T00:00:00[Z]'),
+        label: date => date.format('MM/YY'),
+        stepUnit: 'month',
+        stepAmount: 1,
+        truncateUnit: 'month',
+      },
     },
   };
 
@@ -114,7 +132,7 @@ export async function getAffiliateTimeseries(
   try {
     const { db } = getGlobalObject();
     const config = getPeriodConfig(period);
-    const empty = buildEmptyTimeseries(config);
+    const empty = toTimeseriesPoints(config, new Map());
     const rate = SiteConfig.referral.rate;
 
     if (!Number.isFinite(rate) || rate === 0) {
@@ -181,24 +199,7 @@ export async function getAffiliateTimeseries(
       earningsByBucket.set(result._id, result.totalEarnings);
     }
 
-    const points: AffiliateTimeseriesPoint[] = [];
-    const iterationStart = config.startDate.clone().startOf(config.truncateUnit);
-    const iterationEnd = config.endDate.clone().startOf(config.truncateUnit);
-
-    for (
-      let cursor = iterationStart.clone();
-      cursor.isBefore(iterationEnd) || cursor.isSame(iterationEnd);
-      cursor = cursor.add(config.stepAmount, config.stepUnit)
-    ) {
-      const bucketKey = config.bucketFormatter(cursor);
-
-      points.push({
-        date: config.labelFormatter(cursor),
-        totalEarnings: earningsByBucket.get(bucketKey) ?? 0,
-      });
-    }
-
-    return { ok: true, data: points };
+    return { ok: true, data: toTimeseriesPoints(config, earningsByBucket) };
   } catch (error) {
     console.error(error);
 

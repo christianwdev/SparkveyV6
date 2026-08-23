@@ -6,6 +6,7 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 import { getRawUser } from 'backend/utils/user';
 import { sendOfferReleased } from 'backend/utils/email';
 import { releaseHeldOfferEarning, type ReleaseHeldOfferError } from 'backend/utils/earnings';
+import { escapeRegex } from 'backend/utils/mongo';
 
 // Types
 import type { Filter } from 'mongodb';
@@ -20,10 +21,6 @@ import type {
 export const ADMIN_EARNINGS_PAGE_SIZE = 10;
 
 export type ListAdminEarningsError = 'internalServerError';
-
-function escapeRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
 
 function formatSparksAmount(value: number): string {
   return `${value.toLocaleString('en-US')} Sparks`;

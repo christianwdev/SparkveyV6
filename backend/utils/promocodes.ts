@@ -1,10 +1,11 @@
-import { MongoServerError } from 'mongodb';
-import { getGlobalObject } from 'backend/utils/globalObject';
+// Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import SocketEmits from 'backend/constants/SocketEmits';
 
 // Utils
+import { getGlobalObject } from 'backend/utils/globalObject';
 import { updateUserBalance } from 'backend/utils/userBalance';
+import { isDuplicateKeyError } from 'backend/utils/mongo';
 
 // Types
 import type FunctionResponse from 'types/FunctionResponse';
@@ -87,7 +88,7 @@ export async function createPromocode(
 
     return { ok: true, data: promocode };
   } catch (error) {
-    if (error instanceof MongoServerError && error.code === 11000) {
+    if (isDuplicateKeyError(error)) {
       return { ok: false, error: 'alreadyExists' };
     }
 
