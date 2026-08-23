@@ -380,8 +380,7 @@
     "open": "Abrir chat de suporte",
     "close": "Fechar",
     "empty": "Envie uma mensagem e responderemos.",
-    "hereToHelp": "Estamos aqui para ajudar",
-    "autoReply": "Auto"
+    "hereToHelp": "Estamos aqui para ajudar"
   },
   "PurchaseModals": {
     "common": {
@@ -1312,33 +1311,6 @@
     "back": "Voltar",
     "viewUser": "Ver perfil",
     "viewOnly": "Podes ler este tópico, mas não podes responder.",
-    "autoReply": "Auto",
-    "cannedResponses": {
-      "open": "Respostas pré-definidas",
-      "close": "Fechar respostas pré-definidas",
-      "categories": {
-        "holds": "Retenções",
-        "releases": "Libertações",
-        "kyc": "KYC",
-        "earnings": "Ganhos",
-        "withdrawals": "Levantamentos",
-        "accounts": "Contas"
-      },
-      "items": {
-        "holdOverThree": "Retenção de 30 dias",
-        "holdInProgress": "Retenção em curso",
-        "holdExplainer": "Como funcionam as retenções",
-        "lowRiskReview": "Podemos rever para libertar",
-        "kycExplainer": "O que é o KYC",
-        "missingCredit": "Crédito em falta",
-        "reversed": "Oferta revertida",
-        "providerPending": "Pendente no fornecedor",
-        "withdrawalReview": "Levantamento em análise",
-        "withdrawalHeld": "Levantamento retido",
-        "oneAccount": "Apenas uma conta",
-        "needScreenshots": "Precisamos de capturas"
-      }
-    },
     "errors": {
       "notFound": "Utilizador não encontrado.",
       "cannotCreate": "Não tens permissão para iniciar uma conversa.",

@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import type { FormEvent, KeyboardEvent } from 'react';
+import { useEffect, useState } from 'react';
+import type { FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 import { Link } from '@i18n/navigation';
@@ -11,7 +11,6 @@ import SocketEmits from '@constants/SocketEmits';
 // Components
 import ChatPreview from './_components/ChatPreview/ChatPreview';
 import ChatMessage from './_components/ChatMessage/ChatMessage';
-import CannedResponses from './_components/CannedResponses/CannedResponses';
 
 // Hooks
 import { useSocket } from '@contexts/SocketContext';
@@ -50,7 +49,6 @@ export default function AdminChatPageClient({ conversations: initialConversation
   const [ search, setSearch ] = useState('');
   const [ message, setMessage ] = useState('');
   const [ creating, setCreating ] = useState(false);
-  const composerRef = useRef<HTMLTextAreaElement | null>(null);
 
   const canReply = hasPermissions({
     userPermissions: user?.staffPermissions,
@@ -212,21 +210,9 @@ export default function AdminChatPageClient({ conversations: initialConversation
     setMessage('');
   }
 
-  function applyCannedResponse(body: string) {
-    setMessage(body.slice(0, SUPPORT_MESSAGE_MAX_LENGTH));
-    composerRef.current?.focus();
-  }
-
   function onSend(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     sendMessage();
-  }
-
-  function onComposerKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      sendMessage();
-    }
   }
 
   return (
@@ -327,16 +313,13 @@ export default function AdminChatPageClient({ conversations: initialConversation
 
             {canReply ? (
               <form className={styles.composer} onSubmit={onSend}>
-                <CannedResponses onSelect={applyCannedResponse} />
                 <div className={styles.composerField}>
-                  <textarea
-                    ref={composerRef}
+                  <input
+                    type="text"
                     placeholder={t('typeMessage')}
                     value={message}
                     maxLength={SUPPORT_MESSAGE_MAX_LENGTH}
-                    rows={2}
                     onChange={event => setMessage(event.target.value)}
-                    onKeyDown={onComposerKeyDown}
                   />
                   <button
                     type="submit"

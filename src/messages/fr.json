@@ -380,8 +380,7 @@
     "open": "Ouvrir le chat support",
     "close": "Fermer",
     "empty": "Envoyez un message, nous vous répondrons.",
-    "hereToHelp": "On est là pour vous aider",
-    "autoReply": "Auto"
+    "hereToHelp": "On est là pour vous aider"
   },
   "PurchaseModals": {
     "common": {
@@ -1312,33 +1311,6 @@
     "back": "Retour",
     "viewUser": "Voir le profil",
     "viewOnly": "Vous pouvez lire ce fil, mais pas y répondre.",
-    "autoReply": "Auto",
-    "cannedResponses": {
-      "open": "Réponses prédéfinies",
-      "close": "Fermer les réponses prédéfinies",
-      "categories": {
-        "holds": "Holds",
-        "releases": "Libérations",
-        "kyc": "KYC",
-        "earnings": "Gains",
-        "withdrawals": "Retraits",
-        "accounts": "Comptes"
-      },
-      "items": {
-        "holdOverThree": "Hold de 30 jours",
-        "holdInProgress": "Hold en cours",
-        "holdExplainer": "Fonctionnement des holds",
-        "lowRiskReview": "Examen possible pour libération",
-        "kycExplainer": "Ce qu’est le KYC",
-        "missingCredit": "Crédit manquant",
-        "reversed": "Offre annulée",
-        "providerPending": "En attente chez le fournisseur",
-        "withdrawalReview": "Retrait en revue",
-        "withdrawalHeld": "Retrait retenu",
-        "oneAccount": "Un seul compte",
-        "needScreenshots": "Captures demandées"
-      }
-    },
     "errors": {
       "notFound": "Utilisateur introuvable.",
       "cannotCreate": "Vous n’avez pas la permission de démarrer une conversation.",

@@ -20,7 +20,6 @@ import SendIcon from '~icons/mdi/send.jsx';
 // Types
 import type SanitizedUserSupportChat from 'types/SanitizedUserSupportChat';
 import type ChatMessage from 'types/ChatMessage';
-import { SUPPORT_SYSTEM_SENDER_ID } from 'types/ChatMessage';
 
 const TOGGLE_SUPPORT_CHAT_EVENT = 'toggleSupportChat';
 const MOBILE_BREAKPOINT = 768;
@@ -319,9 +318,6 @@ export default function SupportChat() {
                       message={message.message}
                       imageEmbeds={message.imageEmbeds ?? []}
                     />
-                    {message.senderID === SUPPORT_SYSTEM_SENDER_ID ? (
-                      <span className={styles.autoLabel}>{t('autoReply')}</span>
-                    ) : null}
                   </div>
                 )) : (
                   <p className={styles.empty}>{t('empty')}</p>

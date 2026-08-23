@@ -380,8 +380,7 @@
     "open": "Otwórz czat wsparcia",
     "close": "Zamknij",
     "empty": "Napisz wiadomość, a odezwiemy się do Ciebie.",
-    "hereToHelp": "Jesteśmy tu, żeby pomóc",
-    "autoReply": "Auto"
+    "hereToHelp": "Jesteśmy tu, żeby pomóc"
   },
   "PurchaseModals": {
     "common": {
@@ -1312,33 +1311,6 @@
     "back": "Wstecz",
     "viewUser": "Zobacz profil",
     "viewOnly": "Możesz czytać ten wątek, ale nie możesz odpowiadać.",
-    "autoReply": "Auto",
-    "cannedResponses": {
-      "open": "Gotowe odpowiedzi",
-      "close": "Zamknij gotowe odpowiedzi",
-      "categories": {
-        "holds": "Holdy",
-        "releases": "Zwolnienia",
-        "kyc": "KYC",
-        "earnings": "Zarobki",
-        "withdrawals": "Wypłaty",
-        "accounts": "Konta"
-      },
-      "items": {
-        "holdOverThree": "30-dniowy hold",
-        "holdInProgress": "Hold w toku",
-        "holdExplainer": "Jak działają holdy",
-        "lowRiskReview": "Możemy sprawdzić zwolnienie",
-        "kycExplainer": "Czym jest KYC",
-        "missingCredit": "Brak uznania",
-        "reversed": "Oferta cofnięta",
-        "providerPending": "Oczekuje u dostawcy",
-        "withdrawalReview": "Wypłata w weryfikacji",
-        "withdrawalHeld": "Wypłata wstrzymana",
-        "oneAccount": "Tylko jedno konto",
-        "needScreenshots": "Potrzebne zrzuty ekranu"
-      }
-    },
     "errors": {
       "notFound": "Nie znaleziono użytkownika.",
       "cannotCreate": "Nie masz uprawnień, aby rozpocząć rozmowę.",

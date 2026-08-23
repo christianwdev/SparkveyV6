@@ -380,8 +380,7 @@
     "open": "지원 채팅 열기",
     "close": "닫기",
     "empty": "메시지를 보내주시면 답변드릴게요.",
-    "hereToHelp": "도움을 드릴게요",
-    "autoReply": "자동"
+    "hereToHelp": "도움을 드릴게요"
   },
   "PurchaseModals": {
     "common": {
@@ -1312,33 +1311,6 @@
     "back": "뒤로",
     "viewUser": "프로필 보기",
     "viewOnly": "이 스레드는 읽을 수 있지만 답장할 수 없습니다.",
-    "autoReply": "자동",
-    "cannedResponses": {
-      "open": "미리 작성된 답장",
-      "close": "미리 작성된 답장 닫기",
-      "categories": {
-        "holds": "홀드",
-        "releases": "해제",
-        "kyc": "KYC",
-        "earnings": "수익",
-        "withdrawals": "출금",
-        "accounts": "계정"
-      },
-      "items": {
-        "holdOverThree": "30일 홀드",
-        "holdInProgress": "홀드 진행 중",
-        "holdExplainer": "홀드 안내",
-        "lowRiskReview": "조기 해제 검토 가능",
-        "kycExplainer": "KYC란",
-        "missingCredit": "미반영 적립",
-        "reversed": "오퍼 취소",
-        "providerPending": "제공사 대기 중",
-        "withdrawalReview": "출금 검토",
-        "withdrawalHeld": "출금 보류",
-        "oneAccount": "계정은 하나만",
-        "needScreenshots": "스크린샷 필요"
-      }
-    },
     "errors": {
       "notFound": "사용자를 찾을 수 없습니다.",
       "cannotCreate": "대화를 시작할 권한이 없습니다.",

@@ -3,13 +3,13 @@ import { GoogleGenAI, Type } from '@google/genai';
 // Constants
 import {
   parseSupportCannedMatchResponse,
-  SUPPORT_CANNED_AUTO_MATCH,
-  SUPPORT_CANNED_AUTO_MATCH_IDS,
   SUPPORT_CANNED_MATCH_NONE,
-} from 'backend/constants/supportCannedMatch';
+  SUPPORT_CANNED_RESPONSES,
+  SUPPORT_CANNED_RESPONSE_IDS,
+} from 'backend/constants/supportCannedResponses';
 
 // Types
-import type { SupportCannedAutoMatchID } from 'backend/constants/supportCannedMatch';
+import type { SupportCannedResponseID } from 'backend/constants/supportCannedResponses';
 import type ChatMessage from 'types/ChatMessage';
 
 const SUPPORT_CANNED_MATCH_MODEL = 'gemini-2.5-flash';
@@ -25,7 +25,7 @@ export async function matchSupportCannedResponse(
     userMessage: string,
     history: ChatMessage[],
   },
-): Promise<SupportCannedAutoMatchID | null> {
+): Promise<SupportCannedResponseID | null> {
   if (!process.env.GEMINI_API_KEY) return null;
 
   const trimmed = userMessage.trim();
@@ -51,7 +51,7 @@ export async function matchSupportCannedResponse(
             id: {
               type: Type.STRING,
               format: 'enum',
-              enum: [ ...SUPPORT_CANNED_AUTO_MATCH_IDS, SUPPORT_CANNED_MATCH_NONE ],
+              enum: [ ...SUPPORT_CANNED_RESPONSE_IDS, SUPPORT_CANNED_MATCH_NONE ],
             },
           },
           required: [ 'id' ],
@@ -76,8 +76,8 @@ function buildSupportCannedMatchPrompt(
     history: ChatMessage[],
   },
 ): string {
-  const catalog = SUPPORT_CANNED_AUTO_MATCH_IDS.map(id => (
-    `- ${id}: ${SUPPORT_CANNED_AUTO_MATCH[id]}`
+  const catalog = SUPPORT_CANNED_RESPONSES.map(item => (
+    `- ${item.id}: ${item.matchHint}`
   )).join('\n');
 
   const prior = history.length === 0

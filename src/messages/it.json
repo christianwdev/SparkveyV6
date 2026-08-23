@@ -380,8 +380,7 @@
     "open": "Apri chat di supporto",
     "close": "Chiudi",
     "empty": "Invia un messaggio e ti risponderemo.",
-    "hereToHelp": "Siamo qui per aiutarti",
-    "autoReply": "Auto"
+    "hereToHelp": "Siamo qui per aiutarti"
   },
   "PurchaseModals": {
     "common": {
@@ -1312,33 +1311,6 @@
     "back": "Indietro",
     "viewUser": "Vedi profilo",
     "viewOnly": "Puoi leggere questo thread, ma non rispondere.",
-    "autoReply": "Auto",
-    "cannedResponses": {
-      "open": "Risposte predefinite",
-      "close": "Chiudi risposte predefinite",
-      "categories": {
-        "holds": "Hold",
-        "releases": "Rilasci",
-        "kyc": "KYC",
-        "earnings": "Guadagni",
-        "withdrawals": "Prelievi",
-        "accounts": "Account"
-      },
-      "items": {
-        "holdOverThree": "Hold di 30 giorni",
-        "holdInProgress": "Hold in corso",
-        "holdExplainer": "Come funzionano gli hold",
-        "lowRiskReview": "Possibile revisione per il rilascio",
-        "kycExplainer": "Cos’è il KYC",
-        "missingCredit": "Credito mancante",
-        "reversed": "Offerta stornata",
-        "providerPending": "In attesa dal provider",
-        "withdrawalReview": "Prelievo in revisione",
-        "withdrawalHeld": "Prelievo in hold",
-        "oneAccount": "Un solo account",
-        "needScreenshots": "Servono screenshot"
-      }
-    },
     "errors": {
       "notFound": "Utente non trovato.",
       "cannotCreate": "Non hai il permesso di avviare una conversazione.",

@@ -380,8 +380,7 @@
     "open": "サポートチャットを開く",
     "close": "閉じる",
     "empty": "メッセージを送っていただければ対応します。",
-    "hereToHelp": "サポートが対応します",
-    "autoReply": "自動"
+    "hereToHelp": "サポートが対応します"
   },
   "PurchaseModals": {
     "common": {
@@ -1312,33 +1311,6 @@
     "back": "戻る",
     "viewUser": "プロフィールを見る",
     "viewOnly": "このスレッドは閲覧できますが、返信はできません。",
-    "autoReply": "自動",
-    "cannedResponses": {
-      "open": "定型返信",
-      "close": "定型返信を閉じる",
-      "categories": {
-        "holds": "ホールド",
-        "releases": "リリース",
-        "kyc": "KYC",
-        "earnings": "獲得",
-        "withdrawals": "出金",
-        "accounts": "アカウント"
-      },
-      "items": {
-        "holdOverThree": "30日ホールド",
-        "holdInProgress": "ホールド中",
-        "holdExplainer": "ホールドの仕組み",
-        "lowRiskReview": "早期解放の確認が可能",
-        "kycExplainer": "KYCとは",
-        "missingCredit": "未反映の報酬",
-        "reversed": "オファー取り消し",
-        "providerPending": "プロバイダー確認待ち",
-        "withdrawalReview": "出金審査",
-        "withdrawalHeld": "出金保留",
-        "oneAccount": "アカウントは1つのみ",
-        "needScreenshots": "スクリーンショットが必要"
-      }
-    },
     "errors": {
       "notFound": "ユーザーが見つかりません。",
       "cannotCreate": "会話を開始する権限がありません。",

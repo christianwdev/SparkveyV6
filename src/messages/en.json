@@ -380,8 +380,7 @@
     "open": "Open support chat",
     "close": "Close",
     "empty": "Send a message and we'll get back to you.",
-    "hereToHelp": "We're here to help",
-    "autoReply": "Auto"
+    "hereToHelp": "We're here to help"
   },
   "PurchaseModals": {
     "common": {
@@ -1312,33 +1311,6 @@
     "back": "Back",
     "viewUser": "View profile",
     "viewOnly": "You can read this thread, but you cannot reply.",
-    "autoReply": "Auto",
-    "cannedResponses": {
-      "open": "Canned replies",
-      "close": "Close canned replies",
-      "categories": {
-        "holds": "Holds",
-        "releases": "Releases",
-        "kyc": "KYC",
-        "earnings": "Earnings",
-        "withdrawals": "Withdrawals",
-        "accounts": "Accounts"
-      },
-      "items": {
-        "holdOverThree": "30-day hold",
-        "holdInProgress": "Hold in progress",
-        "holdExplainer": "How holds work",
-        "lowRiskReview": "Can review for release",
-        "kycExplainer": "What KYC is",
-        "missingCredit": "Missing credit",
-        "reversed": "Offer reversed",
-        "providerPending": "Pending with provider",
-        "withdrawalReview": "Withdrawal review",
-        "withdrawalHeld": "Withdrawal held",
-        "oneAccount": "One account only",
-        "needScreenshots": "Need screenshots"
-      }
-    },
     "errors": {
       "notFound": "User not found.",
       "cannotCreate": "You do not have permission to start a conversation.",

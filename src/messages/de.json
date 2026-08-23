@@ -380,8 +380,7 @@
     "open": "Support-Chat öffnen",
     "close": "Schließen",
     "empty": "Schreib uns eine Nachricht — wir antworten so schnell wir können.",
-    "hereToHelp": "Wir sind für dich da",
-    "autoReply": "Auto"
+    "hereToHelp": "Wir sind für dich da"
   },
   "PurchaseModals": {
     "common": {
@@ -1312,33 +1311,6 @@
     "back": "Zurück",
     "viewUser": "Profil ansehen",
     "viewOnly": "Du kannst diesen Thread lesen, aber nicht antworten.",
-    "autoReply": "Auto",
-    "cannedResponses": {
-      "open": "Vorlagen",
-      "close": "Vorlagen schließen",
-      "categories": {
-        "holds": "Holds",
-        "releases": "Freigaben",
-        "kyc": "KYC",
-        "earnings": "Einnahmen",
-        "withdrawals": "Auszahlungen",
-        "accounts": "Konten"
-      },
-      "items": {
-        "holdOverThree": "30-Tage-Hold",
-        "holdInProgress": "Hold läuft",
-        "holdExplainer": "So funktionieren Holds",
-        "lowRiskReview": "Freigabe prüfbar",
-        "kycExplainer": "Was KYC ist",
-        "missingCredit": "Gutschrift fehlt",
-        "reversed": "Angebot storniert",
-        "providerPending": "Beim Anbieter ausstehend",
-        "withdrawalReview": "Auszahlung in Prüfung",
-        "withdrawalHeld": "Auszahlung gehalten",
-        "oneAccount": "Nur ein Konto",
-        "needScreenshots": "Screenshots nötig"
-      }
-    },
     "errors": {
       "notFound": "Nutzer nicht gefunden.",
       "cannotCreate": "Du darfst keine Unterhaltung starten.",

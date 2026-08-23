@@ -1,5 +1,3 @@
-export const SUPPORT_SYSTEM_SENDER_ID = 'system';
-
 type ChatMessage = {
   messageID: string,
   conversationID: string,

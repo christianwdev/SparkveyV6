@@ -8,6 +8,7 @@ import {
   SUPPORT_AUTO_ACK_MESSAGES,
   SUPPORT_AUTO_ACK_STALE_MS,
 } from 'backend/constants/supportAutoAck';
+import { getSupportCannedResponse } from 'backend/constants/supportCannedResponses';
 
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
@@ -19,11 +20,9 @@ import type { Filter, UpdateFilter } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
 import type ChatConversation from 'types/ChatConversation';
 import type ChatMessage from 'types/ChatMessage';
-import { SUPPORT_SYSTEM_SENDER_ID } from 'types/ChatMessage';
 import type SanitizedChatConversation from 'types/SanitizedChatConversation';
 import type SanitizedUserSupportChat from 'types/SanitizedUserSupportChat';
 import type InternalUser from 'types/User/InternalUser';
-import { CANNED_RESPONSES } from 'types/SupportCannedResponses';
 
 export type GetUserSupportConversationError = 'internalServerError';
 export type GetAdminSupportConversationsError = 'internalServerError';
@@ -40,6 +39,7 @@ const USER_MESSAGE_LIMIT = 50;
 const ADMIN_MESSAGE_LIMIT = 100;
 const ADMIN_CONVERSATION_LIMIT = 20;
 const SUPPORT_CANNED_HISTORY_LIMIT = 8;
+const SUPPORT_SYSTEM_SENDER_ID = 'system';
 const IMAGE_EXTENSION_REGEX = /\.(png|jpe?g|webp|gif|bmp)$/i;
 const URL_REGEX = /https?:\/\/[^\s<>"']+/gi;
 const TRAILING_PUNCTUATION_REGEX = /[)\],.:;!?]+$/;
@@ -437,7 +437,7 @@ export async function maybeSendSupportCannedReply(
     });
     if (!matchID) return { ok: true, data: null };
 
-    const template = CANNED_RESPONSES.find(item => item.id === matchID);
+    const template = getSupportCannedResponse(matchID);
     if (!template) return { ok: true, data: null };
 
     const alreadySent = recent.some(item => (
