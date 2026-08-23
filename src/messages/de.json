@@ -1325,90 +1325,27 @@
         "accounts": "Konten"
       },
       "items": {
-        "firstMessage": {
-          "title": "Erste Nachricht",
-          "body": "Danke für deine Nachricht! Wir haben sie erhalten und ein Teammitglied antwortet innerhalb von 24-48 Stunden."
-        },
-        "followUp": {
-          "title": "Es ist eine Weile her",
-          "body": "Danke fürs Nachhaken. Wir haben deine Nachricht erhalten und ein Teammitglied antwortet innerhalb von 24-48 Stunden."
-        },
-        "lookingIntoIt": {
-          "title": "Wir prüfen das",
-          "body": "Danke für die Details. Wir prüfen das gerade und melden uns, sobald wir mehr wissen."
-        },
-        "resolved": {
-          "title": "Erledigt",
-          "body": "Das sollte jetzt erledigt sein. Wenn noch etwas nicht stimmt, antworte hier und wir schauen noch einmal drauf."
-        },
-        "holdOverThree": {
-          "title": "30-Tage-Hold",
-          "body": "Angebote über 3 $ werden 30 Tage gehalten, während wir die Conversion mit dem Werbetreibenden bestätigen. Das ist normal. Deine Sparks werden automatisch freigegeben, wenn der Hold endet, sofern das Angebot nicht storniert wird."
-        },
-        "holdInProgress": {
-          "title": "Hold läuft",
-          "body": "Dieses Angebot ist noch im Hold. Du musst nichts tun. Wir geben die Sparks automatisch am Datum in deinen Einnahmen frei, solange der Werbetreibende die Conversion nicht storniert."
-        },
-        "holdExplainer": {
-          "title": "So funktionieren Holds",
-          "body": "Höherwertige Angebote werden gehalten, damit wir sie mit dem Werbetreibenden bestätigen können. Holds dauern 30 Tage bei Angeboten über 3 $. Kleinere Angebote werden meist früher freigegeben."
-        },
-        "lowRiskRelease": {
-          "title": "Freigegeben (geringes Risiko)",
-          "body": "Wir haben dieses Angebot geprüft und früher freigegeben, weil es risikoarm aussieht. Die Sparks sollten jetzt in deinem verfügbaren Guthaben sein."
-        },
-        "lowRiskReview": {
-          "title": "Freigabe prüfbar",
-          "body": "Holds geben wir manchmal früher frei, wenn ein Angebot risikoarm aussieht. Wir schauen uns dieses an und aktualisieren dich hier."
-        },
-        "cannotRelease": {
-          "title": "Keine vorzeitige Freigabe",
-          "body": "Dieses Angebot können wir nicht vorzeitig freigeben. Es bleibt bis zum geplanten Datum im Hold, sofern der Werbetreibende es nicht storniert."
-        },
-        "released": {
-          "title": "Freigegeben",
-          "body": "Dieses Angebot wurde freigegeben und die Sparks wurden deinem Guthaben gutgeschrieben."
-        },
-        "kycRequired": {
-          "title": "KYC erforderlich",
-          "body": "Wir müssen deine Identität prüfen, bevor es weitergeht. KYC fordern wir an, wenn wir Betrug oder mehrere Konten derselben Person vermuten. Bitte schließe die Verifizierung ab, die wir dir schicken, damit wir dein Konto fertig prüfen können."
-        },
-        "kycReceived": {
-          "title": "KYC erhalten",
-          "body": "Wir haben deine Verifizierungsdaten erhalten und prüfen sie. Wir melden uns hier, sobald das abgeschlossen ist."
-        },
-        "kycCleared": {
-          "title": "KYC abgeschlossen",
-          "body": "Danke für die Verifizierung. Dein Konto ist freigegeben, und wir können deine Einnahmen weiter prüfen."
-        },
-        "missingCredit": {
-          "title": "Gutschrift fehlt",
-          "body": "Gutschriften können dauern, während der Werbetreibende die Conversion prüft. Bitte halte dich genau an die Angebotsbedingungen. Wenn es nach dem angegebenen Fenster immer noch nicht getrackt hat, antworte mit Angebotsname, Abschlusszeit und Screenshots."
-        },
-        "reversed": {
-          "title": "Angebot storniert",
-          "body": "Dieses Angebot wurde vom Werbetreibenden storniert, daher wurden die Sparks entfernt. Wir können Angebote nicht gutschreiben, für die der Partner uns nicht bezahlt hat."
-        },
-        "providerPending": {
-          "title": "Beim Anbieter ausstehend",
-          "body": "Diese Conversion ist beim Angebotsanbieter noch ausstehend. Wir schreiben sie gut, sobald sie bestätigt ist."
-        },
-        "withdrawalReview": {
-          "title": "Auszahlung in Prüfung",
-          "body": "Auszahlungen werden vor dem Versand geprüft. Die meisten sind innerhalb von 48 Stunden durch. Wir melden uns, wenn wir noch etwas brauchen."
-        },
-        "withdrawalHeld": {
-          "title": "Auszahlung gehalten",
-          "body": "Wir müssen dein Konto noch prüfen, bevor diese Auszahlung gesendet werden kann. Das kann länger dauern, wenn eine Identitätsprüfung nötig ist."
-        },
-        "oneAccount": {
-          "title": "Nur ein Konto",
-          "body": "Jede Person darf nur ein Sparkvey-Konto haben. Extra-Konten verstoßen gegen unsere Bedingungen und können zu Holds, KYC oder Kontomaßnahmen führen."
-        },
-        "needScreenshots": {
-          "title": "Screenshots nötig",
-          "body": "Kannst du Screenshots vom Angebotsabschluss schicken, inklusive Bestätigungsseite und Uhrzeit? Damit können wir das Tracking mit dem Werbetreibenden prüfen."
-        }
+        "firstMessage": "Erste Nachricht",
+        "followUp": "Es ist eine Weile her",
+        "lookingIntoIt": "Wir prüfen das",
+        "resolved": "Erledigt",
+        "holdOverThree": "30-Tage-Hold",
+        "holdInProgress": "Hold läuft",
+        "holdExplainer": "So funktionieren Holds",
+        "lowRiskRelease": "Freigegeben (geringes Risiko)",
+        "lowRiskReview": "Freigabe prüfbar",
+        "cannotRelease": "Keine vorzeitige Freigabe",
+        "released": "Freigegeben",
+        "kycRequired": "KYC erforderlich",
+        "kycReceived": "KYC erhalten",
+        "kycCleared": "KYC abgeschlossen",
+        "missingCredit": "Gutschrift fehlt",
+        "reversed": "Angebot storniert",
+        "providerPending": "Beim Anbieter ausstehend",
+        "withdrawalReview": "Auszahlung in Prüfung",
+        "withdrawalHeld": "Auszahlung gehalten",
+        "oneAccount": "Nur ein Konto",
+        "needScreenshots": "Screenshots nötig"
       }
     },
     "errors": {

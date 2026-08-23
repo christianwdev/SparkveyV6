@@ -350,44 +350,51 @@ export async function maybeSendSupportAutoAck(
   },
 ): Promise<FunctionResponse<ChatMessage | null, SendSupportAutoAckError>> {
   try {
+    const { db, mongoClient } = getGlobalObject();
     const now = Date.now();
+    let lastAdminMessageAt: number | undefined;
+
+    if (conversation.lastSupportReplyAt == null) {
+      const lastAdminMessage = await db.collection<ChatMessage>(DatabaseCollections.chatMessages).findOne(
+        {
+          conversationID: conversation.conversationID,
+          senderType: 'admin',
+        },
+        {
+          sort: { timestamp: -1 },
+          projection: { timestamp: 1 },
+        },
+      );
+
+      lastAdminMessageAt = lastAdminMessage?.timestamp;
+    }
+
     const kind = getSupportAutoAckKind({
       lastSupportReplyAt: conversation.lastSupportReplyAt,
+      lastAdminMessageAt,
       now,
     });
-    if (!kind) return { ok: true, data: null };
 
-    const { db } = getGlobalObject();
+    if (!kind) {
+      if (conversation.lastSupportReplyAt == null && lastAdminMessageAt != null) {
+        await db.collection<ChatConversation>(DatabaseCollections.chatConversations).updateOne(
+          {
+            conversationID: conversation.conversationID,
+            lastSupportReplyAt: { $exists: false },
+          },
+          {
+            $set: { lastSupportReplyAt: lastAdminMessageAt },
+          },
+        );
+      }
+
+      return { ok: true, data: null };
+    }
+
     const staleBefore = now - SUPPORT_AUTO_ACK_STALE_MS;
-
-    const claimed = await db.collection<ChatConversation>(DatabaseCollections.chatConversations).findOneAndUpdate(
-      {
-        conversationID: conversation.conversationID,
-        $or: [
-          { lastSupportReplyAt: { $exists: false } },
-          { lastSupportReplyAt: { $lt: staleBefore } },
-        ],
-      },
-      {
-        $set: {
-          lastSupportReplyAt: now,
-          lastMessageTimestamp: now,
-          status: 'active',
-        },
-        $inc: {
-          unreadCountUser: 1,
-        },
-      },
-      {
-        returnDocument: 'after',
-      },
-    );
-
-    if (!claimed) return { ok: true, data: null };
-
     const chatMessage: ChatMessage = {
       messageID: createId(),
-      conversationID: claimed.conversationID,
+      conversationID: conversation.conversationID,
       senderID: SUPPORT_SYSTEM_SENDER_ID,
       senderType: 'admin',
       message: SUPPORT_AUTO_ACK_MESSAGES[kind],
@@ -396,9 +403,57 @@ export async function maybeSendSupportAutoAck(
       read: false,
     };
 
-    await db.collection<ChatMessage>(DatabaseCollections.chatMessages).insertOne(chatMessage);
+    const mongoSession = mongoClient.startSession();
 
-    return { ok: true, data: chatMessage };
+    try {
+      mongoSession.startTransaction();
+
+      const claimed = await db.collection<ChatConversation>(DatabaseCollections.chatConversations).findOneAndUpdate(
+        {
+          conversationID: conversation.conversationID,
+          $or: [
+            { lastSupportReplyAt: { $exists: false } },
+            { lastSupportReplyAt: { $lt: staleBefore } },
+          ],
+        },
+        {
+          $set: {
+            lastSupportReplyAt: now,
+            lastMessageTimestamp: now,
+            status: 'active',
+          },
+          $inc: {
+            unreadCountUser: 1,
+          },
+        },
+        {
+          returnDocument: 'after',
+          session: mongoSession,
+        },
+      );
+
+      if (!claimed) {
+        await mongoSession.abortTransaction();
+
+        return { ok: true, data: null };
+      }
+
+      await db.collection<ChatMessage>(DatabaseCollections.chatMessages).insertOne(chatMessage, {
+        session: mongoSession,
+      });
+
+      await mongoSession.commitTransaction();
+
+      return { ok: true, data: chatMessage };
+    } catch (error) {
+      if (mongoSession.inTransaction()) {
+        await mongoSession.abortTransaction();
+      }
+
+      throw error;
+    } finally {
+      await mongoSession.endSession();
+    }
   } catch (error) {
     console.error(error);
 

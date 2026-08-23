@@ -1325,90 +1325,27 @@
         "accounts": "Accounts"
       },
       "items": {
-        "firstMessage": {
-          "title": "First message",
-          "body": "Thanks for reaching out! We've received your message and a member of our team will reply within 24-48 hours."
-        },
-        "followUp": {
-          "title": "It's been a while",
-          "body": "Thanks for following up. We've received your message and a member of our team will reply within 24-48 hours."
-        },
-        "lookingIntoIt": {
-          "title": "Looking into it",
-          "body": "Thanks for the details. We're looking into this now and will update you as soon as we have more information."
-        },
-        "resolved": {
-          "title": "Resolved",
-          "body": "This should now be resolved. If anything still looks off, reply here and we'll take another look."
-        },
-        "holdOverThree": {
-          "title": "30-day hold",
-          "body": "Offers over $3 are placed on a 30-day hold while we confirm the conversion with the advertiser. This is normal. Your Sparks will be released automatically when the hold ends, unless the offer is reversed."
-        },
-        "holdInProgress": {
-          "title": "Hold in progress",
-          "body": "This offer is still on hold. There's nothing you need to do. We'll release the Sparks automatically on the date shown in your earnings, as long as the advertiser doesn't reverse the conversion."
-        },
-        "holdExplainer": {
-          "title": "How holds work",
-          "body": "Higher-value offers are held so we can confirm them with the advertiser. Holds last 30 days for offers over $3. Smaller offers are usually released sooner."
-        },
-        "lowRiskRelease": {
-          "title": "Released (low risk)",
-          "body": "We've reviewed this offer and released it early because it looks low risk. The Sparks should now be in your available balance."
-        },
-        "lowRiskReview": {
-          "title": "Can review for release",
-          "body": "We sometimes release holds early when an offer looks low risk. We'll take a look at this one and update you here."
-        },
-        "cannotRelease": {
-          "title": "Can't release early",
-          "body": "We're not able to release this offer early. It will stay on hold until the scheduled date unless the advertiser reverses it."
-        },
-        "released": {
-          "title": "Released",
-          "body": "This offer has been released and the Sparks have been added to your balance."
-        },
-        "kycRequired": {
-          "title": "KYC required",
-          "body": "We need to verify your identity before we can continue. We request KYC when we suspect fraud or that multiple accounts belong to the same person. Please complete the verification steps we send you so we can finish reviewing your account."
-        },
-        "kycReceived": {
-          "title": "KYC received",
-          "body": "We've received your verification details and will review them. We'll follow up here once that's complete."
-        },
-        "kycCleared": {
-          "title": "KYC cleared",
-          "body": "Thanks for completing verification. Your account has been cleared and we can continue reviewing your earnings."
-        },
-        "missingCredit": {
-          "title": "Missing credit",
-          "body": "Credits can take time while the advertiser verifies the conversion. Please make sure you followed the offer requirements exactly. If it still hasn't tracked after the stated window, reply with the offer name, the time you completed it, and any screenshots."
-        },
-        "reversed": {
-          "title": "Offer reversed",
-          "body": "This offer was reversed by the advertiser, so the Sparks were removed. We can't credit offers that the partner didn't pay us for."
-        },
-        "providerPending": {
-          "title": "Pending with provider",
-          "body": "This conversion is still pending with the offer provider. We'll credit it once they confirm it."
-        },
-        "withdrawalReview": {
-          "title": "Withdrawal review",
-          "body": "Withdrawals are reviewed before they're sent. Most are processed within 48 hours. We'll follow up if we need anything else."
-        },
-        "withdrawalHeld": {
-          "title": "Withdrawal held",
-          "body": "We need to finish reviewing your account before this withdrawal can be sent. This can take a little longer if identity checks are required."
-        },
-        "oneAccount": {
-          "title": "One account only",
-          "body": "Each person may only have one Sparkvey account. Creating extra accounts is against our terms and can lead to holds, KYC, or account action."
-        },
-        "needScreenshots": {
-          "title": "Need screenshots",
-          "body": "Could you send screenshots of the offer completion, including the confirmation page and the time it was finished? That helps us check tracking with the advertiser."
-        }
+        "firstMessage": "First message",
+        "followUp": "It's been a while",
+        "lookingIntoIt": "Looking into it",
+        "resolved": "Resolved",
+        "holdOverThree": "30-day hold",
+        "holdInProgress": "Hold in progress",
+        "holdExplainer": "How holds work",
+        "lowRiskRelease": "Released (low risk)",
+        "lowRiskReview": "Can review for release",
+        "cannotRelease": "Can't release early",
+        "released": "Released",
+        "kycRequired": "KYC required",
+        "kycReceived": "KYC received",
+        "kycCleared": "KYC cleared",
+        "missingCredit": "Missing credit",
+        "reversed": "Offer reversed",
+        "providerPending": "Pending with provider",
+        "withdrawalReview": "Withdrawal review",
+        "withdrawalHeld": "Withdrawal held",
+        "oneAccount": "One account only",
+        "needScreenshots": "Need screenshots"
       }
     },
     "errors": {

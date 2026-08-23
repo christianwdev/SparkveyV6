@@ -21,11 +21,27 @@ describe('getSupportAutoAckKind', () => {
     })).toBeNull();
   });
 
+  test('skips when an older thread has a recent admin message but no lastSupportReplyAt', () => {
+    const now = SUPPORT_AUTO_ACK_STALE_MS;
+
+    expect(getSupportAutoAckKind({
+      lastAdminMessageAt: now - 1,
+      now,
+    })).toBeNull();
+  });
+
   test('sends a follow-up ack once the last reply is stale', () => {
     const lastSupportReplyAt = 50;
     const now = lastSupportReplyAt + SUPPORT_AUTO_ACK_STALE_MS;
 
     expect(getSupportAutoAckKind({ lastSupportReplyAt, now })).toBe('followUp');
+  });
+
+  test('sends a follow-up ack when the last admin message is stale', () => {
+    const lastAdminMessageAt = 50;
+    const now = lastAdminMessageAt + SUPPORT_AUTO_ACK_STALE_MS;
+
+    expect(getSupportAutoAckKind({ lastAdminMessageAt, now })).toBe('followUp');
   });
 });
 

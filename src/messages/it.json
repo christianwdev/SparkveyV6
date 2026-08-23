@@ -1325,90 +1325,27 @@
         "accounts": "Account"
       },
       "items": {
-        "firstMessage": {
-          "title": "Primo messaggio",
-          "body": "Grazie per averci scritto! Abbiamo ricevuto il tuo messaggio e un membro del team ti risponderà entro 24-48 ore."
-        },
-        "followUp": {
-          "title": "È passato un po’",
-          "body": "Grazie per il sollecito. Abbiamo ricevuto il tuo messaggio e un membro del team ti risponderà entro 24-48 ore."
-        },
-        "lookingIntoIt": {
-          "title": "Lo stiamo verificando",
-          "body": "Grazie per i dettagli. Stiamo verificando ora e ti aggiorneremo non appena avremo più informazioni."
-        },
-        "resolved": {
-          "title": "Risolto",
-          "body": "Ora dovrebbe essere risolto. Se qualcosa non torna ancora, rispondi qui e controlleremo di nuovo."
-        },
-        "holdOverThree": {
-          "title": "Hold di 30 giorni",
-          "body": "Le offerte oltre 3 $ restano in hold per 30 giorni mentre confermiamo la conversione con l’inserzionista. È normale. I tuoi Sparks verranno rilasciati automaticamente a fine hold, a meno che l’offerta non venga stornata."
-        },
-        "holdInProgress": {
-          "title": "Hold in corso",
-          "body": "Questa offerta è ancora in hold. Non devi fare nulla. Rilasceremo gli Sparks automaticamente nella data indicata nei guadagni, purché l’inserzionista non storni la conversione."
-        },
-        "holdExplainer": {
-          "title": "Come funzionano gli hold",
-          "body": "Le offerte di valore più alto restano in hold per confermarle con l’inserzionista. Gli hold durano 30 giorni per le offerte oltre 3 $. Quelle più piccole di solito vengono rilasciate prima."
-        },
-        "lowRiskRelease": {
-          "title": "Rilasciata (basso rischio)",
-          "body": "Abbiamo esaminato questa offerta e l’abbiamo rilasciata in anticipo perché sembra a basso rischio. Gli Sparks dovrebbero già essere nel saldo disponibile."
-        },
-        "lowRiskReview": {
-          "title": "Possibile revisione per il rilascio",
-          "body": "A volte rilasciamo gli hold in anticipo quando un’offerta sembra a basso rischio. Controlleremo questa e ti aggiorneremo qui."
-        },
-        "cannotRelease": {
-          "title": "Nessun rilascio anticipato",
-          "body": "Non possiamo rilasciare questa offerta in anticipo. Resterà in hold fino alla data prevista, a meno che l’inserzionista non la storni."
-        },
-        "released": {
-          "title": "Rilasciata",
-          "body": "Questa offerta è stata rilasciata e gli Sparks sono stati aggiunti al tuo saldo."
-        },
-        "kycRequired": {
-          "title": "KYC richiesto",
-          "body": "Dobbiamo verificare la tua identità prima di continuare. Richiediamo il KYC quando sospettiamo frodi o più account della stessa persona. Completa i passaggi di verifica che ti inviamo così possiamo finire il controllo dell’account."
-        },
-        "kycReceived": {
-          "title": "KYC ricevuto",
-          "body": "Abbiamo ricevuto i tuoi dati di verifica e li esamineremo. Ti scriveremo qui a controllo ultimato."
-        },
-        "kycCleared": {
-          "title": "KYC superato",
-          "body": "Grazie per aver completato la verifica. L’account è stato sbloccato e possiamo continuare a esaminare i tuoi guadagni."
-        },
-        "missingCredit": {
-          "title": "Credito mancante",
-          "body": "I crediti possono richiedere tempo mentre l’inserzionista verifica la conversione. Assicurati di aver seguito esattamente i requisiti dell’offerta. Se dopo la finestra indicata non risulta ancora, rispondi con nome dell’offerta, orario di completamento e screenshot."
-        },
-        "reversed": {
-          "title": "Offerta stornata",
-          "body": "Questa offerta è stata stornata dall’inserzionista, quindi gli Sparks sono stati rimossi. Non possiamo accreditare offerte che il partner non ci ha pagato."
-        },
-        "providerPending": {
-          "title": "In attesa dal provider",
-          "body": "Questa conversione è ancora in attesa presso il provider dell’offerta. La accrediteremo quando la confermeranno."
-        },
-        "withdrawalReview": {
-          "title": "Prelievo in revisione",
-          "body": "I prelievi vengono esaminati prima dell’invio. La maggior parte viene elaborata entro 48 ore. Ti scriveremo se serve altro."
-        },
-        "withdrawalHeld": {
-          "title": "Prelievo in hold",
-          "body": "Dobbiamo finire di esaminare il tuo account prima di inviare questo prelievo. Può richiedere più tempo se serve una verifica dell’identità."
-        },
-        "oneAccount": {
-          "title": "Un solo account",
-          "body": "Ogni persona può avere un solo account Sparkvey. Creare account extra viola i nostri termini e può portare a hold, KYC o azioni sull’account."
-        },
-        "needScreenshots": {
-          "title": "Servono screenshot",
-          "body": "Puoi inviare screenshot del completamento dell’offerta, inclusa la pagina di conferma e l’orario? Ci aiuta a verificare il tracking con l’inserzionista."
-        }
+        "firstMessage": "Primo messaggio",
+        "followUp": "È passato un po’",
+        "lookingIntoIt": "Lo stiamo verificando",
+        "resolved": "Risolto",
+        "holdOverThree": "Hold di 30 giorni",
+        "holdInProgress": "Hold in corso",
+        "holdExplainer": "Come funzionano gli hold",
+        "lowRiskRelease": "Rilasciata (basso rischio)",
+        "lowRiskReview": "Possibile revisione per il rilascio",
+        "cannotRelease": "Nessun rilascio anticipato",
+        "released": "Rilasciata",
+        "kycRequired": "KYC richiesto",
+        "kycReceived": "KYC ricevuto",
+        "kycCleared": "KYC superato",
+        "missingCredit": "Credito mancante",
+        "reversed": "Offerta stornata",
+        "providerPending": "In attesa dal provider",
+        "withdrawalReview": "Prelievo in revisione",
+        "withdrawalHeld": "Prelievo in hold",
+        "oneAccount": "Un solo account",
+        "needScreenshots": "Servono screenshot"
       }
     },
     "errors": {

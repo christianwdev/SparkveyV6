@@ -1325,90 +1325,27 @@
         "accounts": "Cuentas"
       },
       "items": {
-        "firstMessage": {
-          "title": "Primer mensaje",
-          "body": "¡Gracias por escribirnos! Hemos recibido tu mensaje y un miembro del equipo te responderá en 24-48 horas."
-        },
-        "followUp": {
-          "title": "Ha pasado un tiempo",
-          "body": "Gracias por el seguimiento. Hemos recibido tu mensaje y un miembro del equipo te responderá en 24-48 horas."
-        },
-        "lookingIntoIt": {
-          "title": "Lo estamos revisando",
-          "body": "Gracias por los detalles. Estamos revisando esto ahora y te actualizaremos en cuanto tengamos más información."
-        },
-        "resolved": {
-          "title": "Resuelto",
-          "body": "Esto ya debería estar resuelto. Si algo sigue viéndose mal, responde aquí y lo volveremos a revisar."
-        },
-        "holdOverThree": {
-          "title": "Retención de 30 días",
-          "body": "Las ofertas de más de 3 $ se retienen 30 días mientras confirmamos la conversión con el anunciante. Es normal. Tus Sparks se liberarán automáticamente al terminar la retención, salvo que la oferta se revierta."
-        },
-        "holdInProgress": {
-          "title": "Retención en curso",
-          "body": "Esta oferta sigue en retención. No tienes que hacer nada. Liberaremos los Sparks automáticamente en la fecha que aparece en tus ganancias, salvo que el anunciante revierta la conversión."
-        },
-        "holdExplainer": {
-          "title": "Cómo funcionan las retenciones",
-          "body": "Las ofertas de mayor valor se retienen para confirmarlas con el anunciante. Las retenciones duran 30 días para ofertas de más de 3 $. Las más pequeñas suelen liberarse antes."
-        },
-        "lowRiskRelease": {
-          "title": "Liberada (bajo riesgo)",
-          "body": "Hemos revisado esta oferta y la hemos liberado antes de tiempo porque parece de bajo riesgo. Los Sparks ya deberían estar en tu saldo disponible."
-        },
-        "lowRiskReview": {
-          "title": "Podemos revisar la liberación",
-          "body": "A veces liberamos retenciones antes de tiempo cuando una oferta parece de bajo riesgo. Vamos a revisar esta y te actualizaremos aquí."
-        },
-        "cannotRelease": {
-          "title": "No se puede liberar antes",
-          "body": "No podemos liberar esta oferta antes de tiempo. Seguirá en retención hasta la fecha prevista, salvo que el anunciante la revierta."
-        },
-        "released": {
-          "title": "Liberada",
-          "body": "Esta oferta ha sido liberada y los Sparks se han añadido a tu saldo."
-        },
-        "kycRequired": {
-          "title": "KYC obligatorio",
-          "body": "Necesitamos verificar tu identidad antes de continuar. Pedimos KYC cuando sospechamos fraude o que varias cuentas pertenecen a la misma persona. Completa los pasos de verificación que te enviemos para poder terminar la revisión."
-        },
-        "kycReceived": {
-          "title": "KYC recibido",
-          "body": "Hemos recibido tus datos de verificación y los revisaremos. Te escribiremos aquí cuando esté listo."
-        },
-        "kycCleared": {
-          "title": "KYC aprobado",
-          "body": "Gracias por completar la verificación. Tu cuenta ha sido despejada y podemos seguir revisando tus ganancias."
-        },
-        "missingCredit": {
-          "title": "Crédito faltante",
-          "body": "Los créditos pueden tardar mientras el anunciante verifica la conversión. Asegúrate de haber seguido los requisitos de la oferta. Si sigue sin registrarse después del plazo indicado, responde con el nombre de la oferta, la hora en que la completaste y capturas de pantalla."
-        },
-        "reversed": {
-          "title": "Oferta revertida",
-          "body": "El anunciante revirtió esta oferta, así que se quitaron los Sparks. No podemos acreditar ofertas que el partner no nos pagó."
-        },
-        "providerPending": {
-          "title": "Pendiente con el proveedor",
-          "body": "Esta conversión sigue pendiente con el proveedor de la oferta. La acreditaremos cuando la confirmen."
-        },
-        "withdrawalReview": {
-          "title": "Revisión de retiro",
-          "body": "Los retiros se revisan antes de enviarse. La mayoría se procesan en 48 horas. Te escribiremos si necesitamos algo más."
-        },
-        "withdrawalHeld": {
-          "title": "Retiro retenido",
-          "body": "Tenemos que terminar de revisar tu cuenta antes de enviar este retiro. Puede tardar un poco más si hace falta verificar la identidad."
-        },
-        "oneAccount": {
-          "title": "Solo una cuenta",
-          "body": "Cada persona solo puede tener una cuenta de Sparkvey. Crear cuentas extra va contra nuestros términos y puede llevar a retenciones, KYC o medidas sobre la cuenta."
-        },
-        "needScreenshots": {
-          "title": "Hacen falta capturas",
-          "body": "¿Puedes enviar capturas de la finalización de la oferta, incluida la página de confirmación y la hora en que se completó? Así podemos comprobar el tracking con el anunciante."
-        }
+        "firstMessage": "Primer mensaje",
+        "followUp": "Ha pasado un tiempo",
+        "lookingIntoIt": "Lo estamos revisando",
+        "resolved": "Resuelto",
+        "holdOverThree": "Retención de 30 días",
+        "holdInProgress": "Retención en curso",
+        "holdExplainer": "Cómo funcionan las retenciones",
+        "lowRiskRelease": "Liberada (bajo riesgo)",
+        "lowRiskReview": "Podemos revisar la liberación",
+        "cannotRelease": "No se puede liberar antes",
+        "released": "Liberada",
+        "kycRequired": "KYC obligatorio",
+        "kycReceived": "KYC recibido",
+        "kycCleared": "KYC aprobado",
+        "missingCredit": "Crédito faltante",
+        "reversed": "Oferta revertida",
+        "providerPending": "Pendiente con el proveedor",
+        "withdrawalReview": "Revisión de retiro",
+        "withdrawalHeld": "Retiro retenido",
+        "oneAccount": "Solo una cuenta",
+        "needScreenshots": "Hacen falta capturas"
       }
     },
     "errors": {

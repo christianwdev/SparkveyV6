@@ -52,12 +52,12 @@ export default function CannedResponses({ onSelect }: CannedResponsesProps) {
                   key={item.id}
                   type="button"
                   onClick={() => {
-                    onSelect(t(`items.${item.id}.body`));
+                    onSelect(item.body);
                     setOpen(false);
                   }}
                 >
-                  <span>{t(`items.${item.id}.title`)}</span>
-                  <span>{t(`items.${item.id}.body`)}</span>
+                  <span>{t(`items.${item.id}`)}</span>
+                  <span>{item.body}</span>
                 </button>
               ))}
             </div>

@@ -10,14 +10,17 @@ export type SupportAutoAckKind = keyof typeof SUPPORT_AUTO_ACK_MESSAGES;
 export function getSupportAutoAckKind(
   {
     lastSupportReplyAt,
+    lastAdminMessageAt,
     now,
   }: {
     lastSupportReplyAt?: number,
+    lastAdminMessageAt?: number,
     now: number,
   },
 ): SupportAutoAckKind | null {
-  if (lastSupportReplyAt == null) return 'first';
-  if (now - lastSupportReplyAt >= SUPPORT_AUTO_ACK_STALE_MS) return 'followUp';
+  const lastReplyAt = lastSupportReplyAt ?? lastAdminMessageAt;
+  if (lastReplyAt == null) return 'first';
+  if (now - lastReplyAt >= SUPPORT_AUTO_ACK_STALE_MS) return 'followUp';
 
   return null;
 }
