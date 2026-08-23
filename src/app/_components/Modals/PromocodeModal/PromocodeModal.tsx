@@ -16,23 +16,6 @@ type PromocodeModalProps = {
   onClose: () => void,
 };
 
-type ClaimError =
-  | 'notFound'
-  | 'alreadyClaimed'
-  | 'expired'
-  | 'noUsesLeft'
-  | 'invalid'
-  | 'generic';
-
-function claimErrorKey(code?: string): ClaimError {
-  if (code === 'notFound') return 'notFound';
-  if (code === 'alreadyClaimed') return 'alreadyClaimed';
-  if (code === 'expired') return 'expired';
-  if (code === 'noUsesLeft') return 'noUsesLeft';
-
-  return 'generic';
-}
-
 export default function PromocodeModal({ onClose }: PromocodeModalProps) {
   const t = useTranslations('PromocodeModal');
   const [ code, setCode ] = useState('');
@@ -69,7 +52,7 @@ export default function PromocodeModal({ onClose }: PromocodeModalProps) {
       if (!data?.success || data.data?.amount === undefined) {
         setResponse({
           success: false,
-          message: t(`errors.${claimErrorKey(data?.code)}`),
+          message: t('errors.invalidOrUnavailable'),
         });
 
         return;

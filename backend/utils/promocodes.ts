@@ -18,12 +18,7 @@ export type CreatePromocodeError = 'alreadyExists' | 'internalServerError';
 
 export type DeletePromocodeError = 'notFound' | 'internalServerError';
 
-export type ClaimPromocodeError =
-  | 'notFound'
-  | 'alreadyClaimed'
-  | 'expired'
-  | 'noUsesLeft'
-  | 'internalServerError';
+export type ClaimPromocodeError = 'invalidOrUnavailable' | 'internalServerError';
 
 export async function listPromocodes(
   {
@@ -194,7 +189,7 @@ export async function claimPromocode(
     }
 
     if (error instanceof Error && error.message === 'claimRejected') {
-      return await classifyClaimFailure({ userID, code: sanitized });
+      return { ok: false, error: 'invalidOrUnavailable' };
     }
 
     console.error(error);
@@ -207,30 +202,4 @@ export async function claimPromocode(
 
 function sanitizeCode(code: string): string {
   return code.trim().toLowerCase();
-}
-
-async function classifyClaimFailure(
-  {
-    userID,
-    code,
-  }: {
-    userID: string,
-    code: string,
-  },
-): Promise<FunctionResponse<{ amount: number }, ClaimPromocodeError>> {
-  try {
-    const { db } = getGlobalObject();
-    const existing = await db.collection<InternalPromocode>(DatabaseCollections.promocodes).findOne({ code });
-
-    if (!existing) return { ok: false, error: 'notFound' };
-    if (existing.claimedBy.includes(userID)) return { ok: false, error: 'alreadyClaimed' };
-    if (existing.expiryDate <= new Date()) return { ok: false, error: 'expired' };
-    if (existing.uses <= 0) return { ok: false, error: 'noUsesLeft' };
-
-    return { ok: false, error: 'notFound' };
-  } catch (error) {
-    console.error(error);
-
-    return { ok: false, error: 'internalServerError' };
-  }
 }

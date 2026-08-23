@@ -424,10 +424,7 @@
     "close": "Fermer",
     "success": "{amount} sparks échangés.",
     "errors": {
-      "notFound": "Ce code promo est invalide ou a expiré.",
-      "alreadyClaimed": "Vous avez déjà échangé ce code promo.",
-      "expired": "Ce code promo a expiré.",
-      "noUsesLeft": "Ce code promo n'a plus d'utilisations.",
+      "invalidOrUnavailable": "Ce code promo est invalide ou indisponible.",
       "invalid": "Saisissez un code promo valide.",
       "generic": "Impossible d'échanger ce code promo. Réessayez plus tard."
     }

@@ -424,10 +424,7 @@
     "close": "Chiudi",
     "success": "Hai riscattato {amount} sparks.",
     "errors": {
-      "notFound": "Questo codice promozionale non e valido o e scaduto.",
-      "alreadyClaimed": "Hai gia riscattato questo codice promozionale.",
-      "expired": "Questo codice promozionale e scaduto.",
-      "noUsesLeft": "Questo codice promozionale non ha piu utilizzi.",
+      "invalidOrUnavailable": "Questo codice promozionale non e valido o non e disponibile.",
       "invalid": "Inserisci un codice promozionale valido.",
       "generic": "Impossibile riscattare questo codice promozionale. Riprova piu tardi."
     }

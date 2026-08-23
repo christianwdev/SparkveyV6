@@ -424,10 +424,7 @@
     "close": "Zamknij",
     "success": "Zrealizowano {amount} sparks.",
     "errors": {
-      "notFound": "Ten kod promocyjny jest nieprawidlowy lub wygasl.",
-      "alreadyClaimed": "Juz zrealizowales ten kod promocyjny.",
-      "expired": "Ten kod promocyjny wygasl.",
-      "noUsesLeft": "Ten kod promocyjny nie ma juz uzyc.",
+      "invalidOrUnavailable": "Ten kod promocyjny jest nieprawidlowy lub niedostepny.",
       "invalid": "Wpisz prawidlowy kod promocyjny.",
       "generic": "Nie udalo sie zrealizowac kodu. Sprobuj ponownie pozniej."
     }

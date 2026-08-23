@@ -424,10 +424,7 @@
     "close": "Close",
     "success": "Redeemed {amount} sparks.",
     "errors": {
-      "notFound": "This promocode is invalid or has expired.",
-      "alreadyClaimed": "You have already claimed this promocode.",
-      "expired": "This promocode has expired.",
-      "noUsesLeft": "There are no more uses left for this promocode.",
+      "invalidOrUnavailable": "This promocode is invalid or unavailable.",
       "invalid": "Enter a valid promocode.",
       "generic": "Could not redeem this promocode. Try again later."
     }

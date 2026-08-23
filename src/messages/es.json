@@ -424,10 +424,7 @@
     "close": "Cerrar",
     "success": "Canjeaste {amount} sparks.",
     "errors": {
-      "notFound": "Este promocodigo no es valido o ha caducado.",
-      "alreadyClaimed": "Ya has canjeado este promocodigo.",
-      "expired": "Este promocodigo ha caducado.",
-      "noUsesLeft": "Este promocodigo no tiene usos restantes.",
+      "invalidOrUnavailable": "Este promocodigo no es valido o no esta disponible.",
       "invalid": "Introduce un promocodigo valido.",
       "generic": "No se pudo canjear este promocodigo. Intentalo de nuevo mas tarde."
     }

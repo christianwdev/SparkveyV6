@@ -424,10 +424,7 @@
     "close": "Fechar",
     "success": "Resgataste {amount} sparks.",
     "errors": {
-      "notFound": "Este código promocional é inválido ou expirou.",
-      "alreadyClaimed": "Já resgataste este código promocional.",
-      "expired": "Este código promocional expirou.",
-      "noUsesLeft": "Este código promocional não tem mais utilizações.",
+      "invalidOrUnavailable": "Este código promocional é inválido ou indisponível.",
       "invalid": "Introduz um código promocional válido.",
       "generic": "Não foi possível resgatar este código. Tenta novamente mais tarde."
     }
