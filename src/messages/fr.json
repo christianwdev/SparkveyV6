@@ -1233,7 +1233,11 @@
     "withdrawalsTitle": "Sparkvey | Retraits",
     "withdrawalsDescription": "Examiner et traiter les retraits en attente.",
     "earningsTitle": "Sparkvey | Gains",
-    "earningsDescription": "Examiner les gains d'offres en attente et les libérer."
+    "earningsDescription": "Examiner les gains d'offres en attente et les libérer.",
+    "offersTitle": "Sparkvey | Offres",
+    "offersDescription": "Créer, modifier et désactiver des offres.",
+    "redemptionMethodsTitle": "Sparkvey | Méthodes d'échange",
+    "redemptionMethodsDescription": "Gérer les méthodes Tremendous et crypto."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1249,9 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Gains",
-      "withdrawals": "Retraits"
+      "withdrawals": "Retraits",
+      "offers": "Offres",
+      "redemptionMethods": "Méthodes d'échange"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1707,193 @@
     "errors": {
       "loadFailed": "Impossible de charger les gains.",
       "releaseFailed": "Impossible de libérer ce gain."
+    }
+  },
+  "AdminOffers": {
+    "empty": "Aucune offre ne correspond à ces filtres.",
+    "na": "—",
+    "customProvider": "Personnalisée",
+    "searchLabel": "Rechercher des offres",
+    "table": {
+      "name": "Nom",
+      "provider": "Fournisseur",
+      "status": "Statut",
+      "featuredPriority": "Mise en avant",
+      "totalReward": "Récompense",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "Toutes",
+      "status": "Statut",
+      "searchBy": "Rechercher par",
+      "sortBy": "Trier par",
+      "sortDirection": "Sens"
+    },
+    "searchBy": {
+      "name": "Nom",
+      "displayName": "Nom affiché",
+      "provider": "Fournisseur",
+      "offerID": "ID d'offre",
+      "externalID": "ID externe"
+    },
+    "searchPlaceholder": {
+      "name": "Rechercher par nom",
+      "displayName": "Rechercher par nom affiché",
+      "provider": "Rechercher par fournisseur",
+      "offerID": "Rechercher par ID d'offre",
+      "externalID": "Rechercher par ID externe"
+    },
+    "sortBy": {
+      "featuredPriority": "Priorité mise en avant",
+      "totalReward": "Récompense totale",
+      "name": "Nom",
+      "updatedAt": "Mis à jour"
+    },
+    "sortDirection": {
+      "asc": "Croissant",
+      "desc": "Décroissant"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "disabled": "Désactivée"
+    },
+    "fields": {
+      "name": "Nom interne",
+      "displayName": "Nom affiché",
+      "image": "URL de l'image",
+      "trackingURL": "URL de suivi",
+      "geos": "Geos",
+      "geosHint": "Codes pays séparés par des virgules. GLOBAL ou vide pour tous.",
+      "geosBlacklist": "Liste noire geo",
+      "status": "Statut",
+      "featuredPriority": "Priorité mise en avant",
+      "description": "Description",
+      "terms": "Conditions",
+      "disclaimer": "Avertissement",
+      "offerIDValue": "ID d'offre {offerID}"
+    },
+    "rewards": {
+      "title": "Récompenses",
+      "subtitle": "Au moins une récompense. Nombre ou variable.",
+      "editSubtitle": "Remplacer le paiement ou le texte des objectifs.",
+      "externalID": "ID externe",
+      "description": "Description",
+      "value": "Valeur",
+      "revenue": "Revenu",
+      "add": "Ajouter une récompense",
+      "remove": "Retirer"
+    },
+    "create": {
+      "title": "Créer une offre perso",
+      "subtitle": "Ajoute une offre provider=custom visible si elle est active."
+    },
+    "edit": {
+      "information": "Informations de l'offre"
+    },
+    "actions": {
+      "create": "Créer une offre perso",
+      "creating": "Création…",
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "back": "Retour aux offres"
+    },
+    "success": {
+      "created": "Offre personnalisée créée.",
+      "updated": "Offre mise à jour."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les offres.",
+      "createFailed": "Impossible de créer cette offre.",
+      "updateFailed": "Impossible de mettre à jour cette offre.",
+      "invalidReward": "La récompense {index} a une valeur invalide.",
+      "invalidFeatured": "La priorité doit être un nombre."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "Aucune méthode ne correspond à ces filtres.",
+    "na": "—",
+    "allCountries": "Tous les pays",
+    "searchLabel": "Rechercher des méthodes d'échange",
+    "table": {
+      "name": "Nom",
+      "provider": "Fournisseur",
+      "status": "Statut",
+      "featuredSpot": "Mise en avant",
+      "created": "Créé",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "Toutes",
+      "status": "Statut",
+      "searchBy": "Rechercher par",
+      "sortDirection": "Tri"
+    },
+    "searchBy": {
+      "name": "Nom",
+      "rewardID": "ID de récompense"
+    },
+    "searchPlaceholder": {
+      "name": "Rechercher par nom",
+      "rewardID": "Rechercher par ID de récompense"
+    },
+    "sortDirection": {
+      "asc": "Croissant",
+      "desc": "Décroissant"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "providers": {
+      "tremendous": "Carte cadeau",
+      "ccpayment": "Crypto"
+    },
+    "valueTypes": {
+      "variable": "Variable",
+      "denomination": "Montants",
+      "crypto": "Crypto"
+    },
+    "categories": {
+      "cash": "Cash",
+      "giftcards": "Cartes cadeaux",
+      "crypto": "Crypto"
+    },
+    "imageTypes": {
+      "card": "Carte",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "ID de récompense",
+      "description": "Description",
+      "disclosure": "Mention",
+      "countries": "Pays",
+      "valueRange": "Plage de valeur",
+      "status": "Statut",
+      "featuredSpot": "Emplacement mis en avant",
+      "categories": "Catégories",
+      "internalImage": "URL d'image interne",
+      "imageType": "Type d'image"
+    },
+    "edit": {
+      "information": "Informations de la méthode",
+      "controls": "Contrôles du catalogue",
+      "controlsSubtitle": "Statut, ordre, catégories et image restent après chaque sync."
+    },
+    "actions": {
+      "edit": "Modifier",
+      "save": "Enregistrer",
+      "saving": "Enregistrement…",
+      "back": "Retour aux méthodes d'échange"
+    },
+    "success": {
+      "updated": "Méthode d'échange mise à jour."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les méthodes d'échange.",
+      "updateFailed": "Impossible de mettre à jour cette méthode.",
+      "invalidFeatured": "L'emplacement doit être un nombre."
     }
   },
   "AdminUserRiskModal": {

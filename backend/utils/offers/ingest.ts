@@ -126,6 +126,7 @@ type ExistingOffer = {
   offerID: string,
   hash: string,
   offerType: OfferType[],
+  status: InternalOffer['status'],
 };
 
 export async function processConvertedWorkersOffers({
@@ -166,14 +167,20 @@ export async function processConvertedWorkersOffers({
           projection: {
             offerID: 1,
             hash: 1,
-            offerType: 1
+            offerType: 1,
+            status: 1,
           }
         },
       )
       .toArray();
 
     for (const doc of docs) {
-      existingMap.set(doc.offerID, { offerID: doc.offerID, hash: doc.hash, offerType: doc.offerType ?? [] });
+      existingMap.set(doc.offerID, {
+        offerID: doc.offerID,
+        hash: doc.hash,
+        offerType: doc.offerType ?? [],
+        status: doc.status,
+      });
     }
   }
 
@@ -212,6 +219,11 @@ export async function processConvertedWorkersOffers({
       rawDescription: description,
       updatedAt: now,
     };
+
+    // Admin-disabled offers stay down even when the provider still lists them.
+    if (existing?.status === 'disabled') {
+      $set.status = 'disabled';
+    }
 
     const $setOnInsert: UpdateFilter<InternalOffer> = {
       description,

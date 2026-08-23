@@ -1233,7 +1233,11 @@
     "withdrawalsTitle": "Sparkvey | Withdrawals",
     "withdrawalsDescription": "Review and process pending withdrawals.",
     "earningsTitle": "Sparkvey | Earnings",
-    "earningsDescription": "Review held offer earnings and release credits."
+    "earningsDescription": "Review held offer earnings and release credits.",
+    "offersTitle": "Sparkvey | Offers",
+    "offersDescription": "Create, edit, and disable offers.",
+    "redemptionMethodsTitle": "Sparkvey | Redemption methods",
+    "redemptionMethodsDescription": "Manage Tremendous and crypto redemption methods."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1249,9 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Earnings",
-      "withdrawals": "Withdrawals"
+      "withdrawals": "Withdrawals",
+      "offers": "Offers",
+      "redemptionMethods": "Redemption methods"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1707,193 @@
     "errors": {
       "loadFailed": "Earnings could not be loaded.",
       "releaseFailed": "Could not release this earning."
+    }
+  },
+  "AdminOffers": {
+    "empty": "No offers match these filters.",
+    "na": "—",
+    "customProvider": "Custom",
+    "searchLabel": "Search offers",
+    "table": {
+      "name": "Name",
+      "provider": "Provider",
+      "status": "Status",
+      "featuredPriority": "Featured",
+      "totalReward": "Reward",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "All",
+      "status": "Status",
+      "searchBy": "Search by",
+      "sortBy": "Sort by",
+      "sortDirection": "Direction"
+    },
+    "searchBy": {
+      "name": "Name",
+      "displayName": "Display name",
+      "provider": "Provider",
+      "offerID": "Offer ID",
+      "externalID": "External ID"
+    },
+    "searchPlaceholder": {
+      "name": "Search by name",
+      "displayName": "Search by display name",
+      "provider": "Search by provider",
+      "offerID": "Search by offer ID",
+      "externalID": "Search by external ID"
+    },
+    "sortBy": {
+      "featuredPriority": "Featured priority",
+      "totalReward": "Total reward",
+      "name": "Name",
+      "updatedAt": "Updated"
+    },
+    "sortDirection": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "disabled": "Disabled"
+    },
+    "fields": {
+      "name": "Internal name",
+      "displayName": "Display name",
+      "image": "Image URL",
+      "trackingURL": "Tracking URL",
+      "geos": "Geos",
+      "geosHint": "Comma-separated country codes. Use GLOBAL or leave empty for all countries.",
+      "geosBlacklist": "Geo blacklist",
+      "status": "Status",
+      "featuredPriority": "Featured priority",
+      "description": "Description",
+      "terms": "Terms",
+      "disclaimer": "Disclaimer",
+      "offerIDValue": "Offer ID {offerID}"
+    },
+    "rewards": {
+      "title": "Rewards",
+      "subtitle": "At least one reward is required. Use a number or variable.",
+      "editSubtitle": "Override payout or copy for existing goals.",
+      "externalID": "External ID",
+      "description": "Description",
+      "value": "Value",
+      "revenue": "Revenue",
+      "add": "Add reward",
+      "remove": "Remove"
+    },
+    "create": {
+      "title": "Create custom offer",
+      "subtitle": "Adds a provider=custom offer that appears in browse when active."
+    },
+    "edit": {
+      "information": "Offer information"
+    },
+    "actions": {
+      "create": "Create custom offer",
+      "creating": "Creating…",
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving…",
+      "back": "Back to offers"
+    },
+    "success": {
+      "created": "Custom offer created.",
+      "updated": "Offer updated."
+    },
+    "errors": {
+      "loadFailed": "Offers could not be loaded.",
+      "createFailed": "Could not create this offer.",
+      "updateFailed": "Could not update this offer.",
+      "invalidReward": "Reward {index} has an invalid value.",
+      "invalidFeatured": "Featured priority must be a number."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "No redemption methods match these filters.",
+    "na": "—",
+    "allCountries": "All countries",
+    "searchLabel": "Search redemption methods",
+    "table": {
+      "name": "Name",
+      "provider": "Provider",
+      "status": "Status",
+      "featuredSpot": "Featured",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "All",
+      "status": "Status",
+      "searchBy": "Search by",
+      "sortDirection": "Sort"
+    },
+    "searchBy": {
+      "name": "Name",
+      "rewardID": "Reward ID"
+    },
+    "searchPlaceholder": {
+      "name": "Search by name",
+      "rewardID": "Search by reward ID"
+    },
+    "sortDirection": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "statuses": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "providers": {
+      "tremendous": "Gift card",
+      "ccpayment": "Crypto"
+    },
+    "valueTypes": {
+      "variable": "Variable",
+      "denomination": "Denominations",
+      "crypto": "Crypto"
+    },
+    "categories": {
+      "cash": "Cash",
+      "giftcards": "Gift cards",
+      "crypto": "Crypto"
+    },
+    "imageTypes": {
+      "card": "Card",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "Reward ID",
+      "description": "Description",
+      "disclosure": "Disclosure",
+      "countries": "Countries",
+      "valueRange": "Value range",
+      "status": "Status",
+      "featuredSpot": "Featured spot",
+      "categories": "Categories",
+      "internalImage": "Internal image URL",
+      "imageType": "Image type"
+    },
+    "edit": {
+      "information": "Method information",
+      "controls": "Catalog controls",
+      "controlsSubtitle": "Status, featured order, categories, and image override persist across provider syncs."
+    },
+    "actions": {
+      "edit": "Edit",
+      "save": "Save",
+      "saving": "Saving…",
+      "back": "Back to redemption methods"
+    },
+    "success": {
+      "updated": "Redemption method updated."
+    },
+    "errors": {
+      "loadFailed": "Redemption methods could not be loaded.",
+      "updateFailed": "Could not update this redemption method.",
+      "invalidFeatured": "Featured spot must be a number."
     }
   },
   "AdminUserRiskModal": {

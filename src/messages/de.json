@@ -1233,7 +1233,11 @@
     "withdrawalsTitle": "Sparkvey | Auszahlungen",
     "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten.",
     "earningsTitle": "Sparkvey | Einnahmen",
-    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben."
+    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben.",
+    "offersTitle": "Sparkvey | Angebote",
+    "offersDescription": "Angebote erstellen, bearbeiten und deaktivieren.",
+    "redemptionMethodsTitle": "Sparkvey | Einlösemethoden",
+    "redemptionMethodsDescription": "Tremendous- und Krypto-Einlösemethoden verwalten."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1249,9 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Einnahmen",
-      "withdrawals": "Auszahlungen"
+      "withdrawals": "Auszahlungen",
+      "offers": "Angebote",
+      "redemptionMethods": "Einlösemethoden"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1707,193 @@
     "errors": {
       "loadFailed": "Einnahmen konnten nicht geladen werden.",
       "releaseFailed": "Diese Einnahme konnte nicht freigegeben werden."
+    }
+  },
+  "AdminOffers": {
+    "empty": "Keine Angebote passen zu diesen Filtern.",
+    "na": "—",
+    "customProvider": "Benutzerdefiniert",
+    "searchLabel": "Angebote suchen",
+    "table": {
+      "name": "Name",
+      "provider": "Anbieter",
+      "status": "Status",
+      "featuredPriority": "Hervorgehoben",
+      "totalReward": "Belohnung",
+      "actions": "Aktionen"
+    },
+    "filters": {
+      "all": "Alle",
+      "status": "Status",
+      "searchBy": "Suchen nach",
+      "sortBy": "Sortieren nach",
+      "sortDirection": "Richtung"
+    },
+    "searchBy": {
+      "name": "Name",
+      "displayName": "Anzeigename",
+      "provider": "Anbieter",
+      "offerID": "Angebots-ID",
+      "externalID": "Externe ID"
+    },
+    "searchPlaceholder": {
+      "name": "Nach Name suchen",
+      "displayName": "Nach Anzeigename suchen",
+      "provider": "Nach Anbieter suchen",
+      "offerID": "Nach Angebots-ID suchen",
+      "externalID": "Nach externer ID suchen"
+    },
+    "sortBy": {
+      "featuredPriority": "Hervorhebung",
+      "totalReward": "Gesamtbelohnung",
+      "name": "Name",
+      "updatedAt": "Aktualisiert"
+    },
+    "sortDirection": {
+      "asc": "Aufsteigend",
+      "desc": "Absteigend"
+    },
+    "statuses": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "disabled": "Deaktiviert"
+    },
+    "fields": {
+      "name": "Interner Name",
+      "displayName": "Anzeigename",
+      "image": "Bild-URL",
+      "trackingURL": "Tracking-URL",
+      "geos": "Geos",
+      "geosHint": "Ländercodes, kommagetrennt. GLOBAL oder leer für alle Länder.",
+      "geosBlacklist": "Geo-Blacklist",
+      "status": "Status",
+      "featuredPriority": "Hervorhebung",
+      "description": "Beschreibung",
+      "terms": "Bedingungen",
+      "disclaimer": "Hinweis",
+      "offerIDValue": "Angebots-ID {offerID}"
+    },
+    "rewards": {
+      "title": "Belohnungen",
+      "subtitle": "Mindestens eine Belohnung. Zahl oder variable.",
+      "editSubtitle": "Auszahlung oder Text vorhandener Ziele überschreiben.",
+      "externalID": "Externe ID",
+      "description": "Beschreibung",
+      "value": "Wert",
+      "revenue": "Umsatz",
+      "add": "Belohnung hinzufügen",
+      "remove": "Entfernen"
+    },
+    "create": {
+      "title": "Eigenes Angebot erstellen",
+      "subtitle": "Erstellt ein Angebot mit provider=custom, sichtbar wenn aktiv."
+    },
+    "edit": {
+      "information": "Angebotsdaten"
+    },
+    "actions": {
+      "create": "Eigenes Angebot erstellen",
+      "creating": "Wird erstellt…",
+      "edit": "Bearbeiten",
+      "save": "Speichern",
+      "saving": "Wird gespeichert…",
+      "back": "Zurück zu Angeboten"
+    },
+    "success": {
+      "created": "Eigenes Angebot erstellt.",
+      "updated": "Angebot aktualisiert."
+    },
+    "errors": {
+      "loadFailed": "Angebote konnten nicht geladen werden.",
+      "createFailed": "Angebot konnte nicht erstellt werden.",
+      "updateFailed": "Angebot konnte nicht aktualisiert werden.",
+      "invalidReward": "Belohnung {index} hat einen ungültigen Wert.",
+      "invalidFeatured": "Hervorhebung muss eine Zahl sein."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "Keine Einlösemethoden passen zu diesen Filtern.",
+    "na": "—",
+    "allCountries": "Alle Länder",
+    "searchLabel": "Einlösemethoden suchen",
+    "table": {
+      "name": "Name",
+      "provider": "Anbieter",
+      "status": "Status",
+      "featuredSpot": "Hervorgehoben",
+      "created": "Erstellt",
+      "actions": "Aktionen"
+    },
+    "filters": {
+      "all": "Alle",
+      "status": "Status",
+      "searchBy": "Suchen nach",
+      "sortDirection": "Sortierung"
+    },
+    "searchBy": {
+      "name": "Name",
+      "rewardID": "Belohnungs-ID"
+    },
+    "searchPlaceholder": {
+      "name": "Nach Name suchen",
+      "rewardID": "Nach Belohnungs-ID suchen"
+    },
+    "sortDirection": {
+      "asc": "Aufsteigend",
+      "desc": "Absteigend"
+    },
+    "statuses": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv"
+    },
+    "providers": {
+      "tremendous": "Geschenkkarte",
+      "ccpayment": "Krypto"
+    },
+    "valueTypes": {
+      "variable": "Variabel",
+      "denomination": "Beträge",
+      "crypto": "Krypto"
+    },
+    "categories": {
+      "cash": "Bargeld",
+      "giftcards": "Geschenkkarten",
+      "crypto": "Krypto"
+    },
+    "imageTypes": {
+      "card": "Karte",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "Belohnungs-ID",
+      "description": "Beschreibung",
+      "disclosure": "Hinweis",
+      "countries": "Länder",
+      "valueRange": "Wertebereich",
+      "status": "Status",
+      "featuredSpot": "Hervorhebung",
+      "categories": "Kategorien",
+      "internalImage": "Interne Bild-URL",
+      "imageType": "Bildtyp"
+    },
+    "edit": {
+      "information": "Methodendaten",
+      "controls": "Katalogsteuerung",
+      "controlsSubtitle": "Status, Reihenfolge, Kategorien und Bild bleiben bei Syncs erhalten."
+    },
+    "actions": {
+      "edit": "Bearbeiten",
+      "save": "Speichern",
+      "saving": "Wird gespeichert…",
+      "back": "Zurück zu Einlösemethoden"
+    },
+    "success": {
+      "updated": "Einlösemethode aktualisiert."
+    },
+    "errors": {
+      "loadFailed": "Einlösemethoden konnten nicht geladen werden.",
+      "updateFailed": "Einlösemethode konnte nicht aktualisiert werden.",
+      "invalidFeatured": "Hervorhebung muss eine Zahl sein."
     }
   },
   "AdminUserRiskModal": {

@@ -1233,7 +1233,11 @@
     "withdrawalsTitle": "Sparkvey | 出金",
     "withdrawalsDescription": "保留中の出金を確認して処理します。",
     "earningsTitle": "Sparkvey | 収益",
-    "earningsDescription": "保留中のオファー収益を確認して解放します。"
+    "earningsDescription": "保留中のオファー収益を確認して解放します。",
+    "offersTitle": "Sparkvey | オファー",
+    "offersDescription": "オファーの作成、編集、無効化。",
+    "redemptionMethodsTitle": "Sparkvey | 換金方法",
+    "redemptionMethodsDescription": "Tremendousと暗号資産の換金方法を管理します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1249,9 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "収益",
-      "withdrawals": "出金"
+      "withdrawals": "出金",
+      "offers": "オファー",
+      "redemptionMethods": "換金方法"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1707,193 @@
     "errors": {
       "loadFailed": "収益を読み込めませんでした。",
       "releaseFailed": "この収益を解放できませんでした。"
+    }
+  },
+  "AdminOffers": {
+    "empty": "条件に合うオファーはありません。",
+    "na": "—",
+    "customProvider": "カスタム",
+    "searchLabel": "オファーを検索",
+    "table": {
+      "name": "名前",
+      "provider": "プロバイダー",
+      "status": "ステータス",
+      "featuredPriority": "注目",
+      "totalReward": "報酬",
+      "actions": "操作"
+    },
+    "filters": {
+      "all": "すべて",
+      "status": "ステータス",
+      "searchBy": "検索対象",
+      "sortBy": "並び替え",
+      "sortDirection": "方向"
+    },
+    "searchBy": {
+      "name": "名前",
+      "displayName": "表示名",
+      "provider": "プロバイダー",
+      "offerID": "オファーID",
+      "externalID": "外部ID"
+    },
+    "searchPlaceholder": {
+      "name": "名前で検索",
+      "displayName": "表示名で検索",
+      "provider": "プロバイダーで検索",
+      "offerID": "オファーIDで検索",
+      "externalID": "外部IDで検索"
+    },
+    "sortBy": {
+      "featuredPriority": "注目優先度",
+      "totalReward": "合計報酬",
+      "name": "名前",
+      "updatedAt": "更新日"
+    },
+    "sortDirection": {
+      "asc": "昇順",
+      "desc": "降順"
+    },
+    "statuses": {
+      "active": "有効",
+      "inactive": "無効",
+      "disabled": "停止"
+    },
+    "fields": {
+      "name": "内部名",
+      "displayName": "表示名",
+      "image": "画像URL",
+      "trackingURL": "トラッキングURL",
+      "geos": "対象地域",
+      "geosHint": "国コードをカンマ区切り。GLOBALまたは空ですべて。",
+      "geosBlacklist": "除外地域",
+      "status": "ステータス",
+      "featuredPriority": "注目優先度",
+      "description": "説明",
+      "terms": "利用条件",
+      "disclaimer": "免責",
+      "offerIDValue": "オファーID {offerID}"
+    },
+    "rewards": {
+      "title": "報酬",
+      "subtitle": "報酬は1つ以上。数値またはvariable。",
+      "editSubtitle": "既存ゴールの報酬や文言を上書きします。",
+      "externalID": "外部ID",
+      "description": "説明",
+      "value": "値",
+      "revenue": "売上",
+      "add": "報酬を追加",
+      "remove": "削除"
+    },
+    "create": {
+      "title": "カスタムオファーを作成",
+      "subtitle": "有効時に一覧へ出るprovider=customのオファーです。"
+    },
+    "edit": {
+      "information": "オファー情報"
+    },
+    "actions": {
+      "create": "カスタムオファーを作成",
+      "creating": "作成中…",
+      "edit": "編集",
+      "save": "保存",
+      "saving": "保存中…",
+      "back": "オファー一覧へ戻る"
+    },
+    "success": {
+      "created": "カスタムオファーを作成しました。",
+      "updated": "オファーを更新しました。"
+    },
+    "errors": {
+      "loadFailed": "オファーを読み込めませんでした。",
+      "createFailed": "このオファーを作成できませんでした。",
+      "updateFailed": "このオファーを更新できませんでした。",
+      "invalidReward": "報酬 {index} の値が無効です。",
+      "invalidFeatured": "注目優先度は数値である必要があります。"
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "条件に合う換金方法はありません。",
+    "na": "—",
+    "allCountries": "すべての国",
+    "searchLabel": "換金方法を検索",
+    "table": {
+      "name": "名前",
+      "provider": "プロバイダー",
+      "status": "ステータス",
+      "featuredSpot": "注目",
+      "created": "作成日",
+      "actions": "操作"
+    },
+    "filters": {
+      "all": "すべて",
+      "status": "ステータス",
+      "searchBy": "検索対象",
+      "sortDirection": "並び替え"
+    },
+    "searchBy": {
+      "name": "名前",
+      "rewardID": "報酬ID"
+    },
+    "searchPlaceholder": {
+      "name": "名前で検索",
+      "rewardID": "報酬IDで検索"
+    },
+    "sortDirection": {
+      "asc": "昇順",
+      "desc": "降順"
+    },
+    "statuses": {
+      "active": "有効",
+      "inactive": "無効"
+    },
+    "providers": {
+      "tremendous": "ギフトカード",
+      "ccpayment": "暗号資産"
+    },
+    "valueTypes": {
+      "variable": "変動",
+      "denomination": "定額",
+      "crypto": "暗号資産"
+    },
+    "categories": {
+      "cash": "現金",
+      "giftcards": "ギフトカード",
+      "crypto": "暗号資産"
+    },
+    "imageTypes": {
+      "card": "カード",
+      "logo": "ロゴ"
+    },
+    "fields": {
+      "rewardID": "報酬ID",
+      "description": "説明",
+      "disclosure": "表記",
+      "countries": "国",
+      "valueRange": "金額範囲",
+      "status": "ステータス",
+      "featuredSpot": "注目順",
+      "categories": "カテゴリ",
+      "internalImage": "内部画像URL",
+      "imageType": "画像タイプ"
+    },
+    "edit": {
+      "information": "方法の情報",
+      "controls": "カタログ設定",
+      "controlsSubtitle": "ステータス、順位、カテゴリ、画像は同期後も残ります。"
+    },
+    "actions": {
+      "edit": "編集",
+      "save": "保存",
+      "saving": "保存中…",
+      "back": "換金方法一覧へ戻る"
+    },
+    "success": {
+      "updated": "換金方法を更新しました。"
+    },
+    "errors": {
+      "loadFailed": "換金方法を読み込めませんでした。",
+      "updateFailed": "この換金方法を更新できませんでした。",
+      "invalidFeatured": "注目順は数値である必要があります。"
     }
   },
   "AdminUserRiskModal": {

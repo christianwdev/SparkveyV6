@@ -13,6 +13,8 @@ import {
 } from '@utils/adminUsers';
 import { fetchAdminUserRisk, fetchAdminWithdrawals } from '@utils/adminWithdrawals';
 import { fetchAdminEarnings } from '@utils/adminEarnings';
+import { fetchAdminOffer, fetchAdminOffers } from '@utils/adminOffers';
+import { fetchAdminRedemptionMethod, fetchAdminRedemptionMethods } from '@utils/adminRedemptionMethods';
 import { queryKeys } from './queryKeys';
 
 // Types
@@ -21,6 +23,15 @@ import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
 import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
 import type { AdminEarningSearchBy } from 'types/AdminEarning';
+import type {
+  AdminOfferSearchBy,
+  AdminOfferSortBy,
+  AdminOfferStatus,
+} from 'types/AdminOffer';
+import type {
+  AdminRedemptionMethodSearchBy,
+  AdminRedemptionMethodStatus,
+} from 'types/AdminRedemptionMethod';
 import type EmailActionable from 'types/EmailActionable';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
@@ -357,6 +368,142 @@ export function adminEarningsListQueryOptions(
       if (!rows) throw new Error('Failed to load earnings');
 
       return rows;
+    },
+  });
+}
+
+export function adminOffersListQueryOptions(
+  {
+    request,
+    status,
+    searchBy,
+    search,
+    sortBy,
+    sortDirection,
+    page,
+  }: {
+    request: RequestFn,
+    status?: AdminOfferStatus,
+    searchBy: AdminOfferSearchBy,
+    search: string,
+    sortBy: AdminOfferSortBy,
+    sortDirection: 'asc' | 'desc',
+    page: number,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.offers.list({
+      status: status ?? '',
+      searchBy,
+      search,
+      sortBy,
+      sortDirection,
+      page,
+    }),
+    queryFn: async () => {
+      const rows = await fetchAdminOffers({
+        request,
+        status,
+        searchBy,
+        search,
+        sortBy,
+        sortDirection,
+        page,
+      });
+
+      if (!rows) throw new Error('Failed to load offers');
+
+      return rows;
+    },
+  });
+}
+
+export function adminOfferQueryOptions(
+  {
+    request,
+    offerID,
+  }: {
+    request: RequestFn,
+    offerID: string,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.offers.detail(offerID),
+    queryFn: async () => {
+      const offer = await fetchAdminOffer({
+        request,
+        offerID,
+      });
+
+      if (!offer) throw new Error('Failed to load offer');
+
+      return offer;
+    },
+  });
+}
+
+export function adminRedemptionMethodsListQueryOptions(
+  {
+    request,
+    status,
+    searchBy,
+    search,
+    sortDirection,
+    page,
+  }: {
+    request: RequestFn,
+    status?: AdminRedemptionMethodStatus,
+    searchBy: AdminRedemptionMethodSearchBy,
+    search: string,
+    sortDirection: 'asc' | 'desc',
+    page: number,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.redemptionMethods.list({
+      status: status ?? '',
+      searchBy,
+      search,
+      sortDirection,
+      page,
+    }),
+    queryFn: async () => {
+      const rows = await fetchAdminRedemptionMethods({
+        request,
+        status,
+        searchBy,
+        search,
+        sortDirection,
+        page,
+      });
+
+      if (!rows) throw new Error('Failed to load redemption methods');
+
+      return rows;
+    },
+  });
+}
+
+export function adminRedemptionMethodQueryOptions(
+  {
+    request,
+    rewardID,
+  }: {
+    request: RequestFn,
+    rewardID: string,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.redemptionMethods.detail(rewardID),
+    queryFn: async () => {
+      const method = await fetchAdminRedemptionMethod({
+        request,
+        rewardID,
+      });
+
+      if (!method) throw new Error('Failed to load redemption method');
+
+      return method;
     },
   });
 }

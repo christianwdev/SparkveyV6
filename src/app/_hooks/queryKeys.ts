@@ -118,5 +118,28 @@ export const queryKeys = {
         page: number,
       }) => [ ...queryKeys.admin.earnings.all(), 'list', filters ] as const,
     },
+    offers: {
+      all: () => [ ...queryKeys.admin.all, 'offers' ] as const,
+      list: (filters: {
+        status: string,
+        searchBy: string,
+        search: string,
+        sortBy: string,
+        sortDirection: string,
+        page: number,
+      }) => [ ...queryKeys.admin.offers.all(), 'list', filters ] as const,
+      detail: (offerID: string) => [ ...queryKeys.admin.offers.all(), 'detail', offerID ] as const,
+    },
+    redemptionMethods: {
+      all: () => [ ...queryKeys.admin.all, 'redemptionMethods' ] as const,
+      list: (filters: {
+        status: string,
+        searchBy: string,
+        search: string,
+        sortDirection: string,
+        page: number,
+      }) => [ ...queryKeys.admin.redemptionMethods.all(), 'list', filters ] as const,
+      detail: (rewardID: string) => [ ...queryKeys.admin.redemptionMethods.all(), 'detail', rewardID ] as const,
+    },
   },
 };

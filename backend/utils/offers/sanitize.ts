@@ -13,11 +13,19 @@ export function sanitizeOffer(offer: InternalOffer): SanitizedOffer {
     offerType: offer.offerType,
     devices: offer.devices,
     operatingSystem: offer.operatingSystem,
-    reward: offer.reward.map(reward => ({
-      rewardID: reward.rewardID,
-      description: reward.description,
-      value: reward.value,
-    })),
+    reward: offer.reward.map(reward => {
+      const override = offer.customRewards?.find(customReward => customReward.rewardID === reward.rewardID);
+      const sanitizedReward = {
+        rewardID: reward.rewardID,
+        description: reward.description,
+        value: reward.value,
+      };
+
+      if (typeof override?.description === 'string') sanitizedReward.description = override.description;
+      if (typeof override?.value === 'number') sanitizedReward.value = override.value;
+
+      return sanitizedReward;
+    }),
   };
 
   const terms = custom?.terms || offer.terms;
