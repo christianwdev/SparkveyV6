@@ -11,8 +11,7 @@ import {
   createAdminSupportMessage,
   createUserSupportMessage,
   markSupportChatRead,
-  maybeSendSupportAutoAck,
-  maybeSendSupportCannedReply,
+  maybeSendAutomaticSupportReply,
 } from 'backend/utils/supportChat';
 import { getUserAvatarURL } from 'backend/utils/avatar';
 import { hasPermissions, StaffPermissions } from 'types/UserPermissions/StaffPermissions';
@@ -55,35 +54,17 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
       io.to(user.userID).emit(SocketEmits.chatMessage, result.data.message);
       io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, adminPayload);
 
-      const cannedReply = await maybeSendSupportCannedReply({
+      const autoReply = await maybeSendAutomaticSupportReply({
         conversation: result.data.conversation,
         userMessage: result.data.message.message,
-        userMessageID: result.data.message.messageID,
       });
-      if (cannedReply.ok && cannedReply.data) {
-        const cannedPayload: AdminChatMessagePayload = {
-          message: cannedReply.data,
-          user: adminPayload.user,
-        };
+      if (!autoReply.ok || !autoReply.data) return;
 
-        io.to(user.userID).emit(SocketEmits.chatMessage, cannedReply.data);
-        io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, cannedPayload);
-
-        return;
-      }
-
-      const autoAck = await maybeSendSupportAutoAck({
-        conversation: result.data.conversation,
-      });
-      if (!autoAck.ok || !autoAck.data) return;
-
-      const autoPayload: AdminChatMessagePayload = {
-        message: autoAck.data,
+      io.to(user.userID).emit(SocketEmits.chatMessage, autoReply.data);
+      io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, {
+        message: autoReply.data,
         user: adminPayload.user,
-      };
-
-      io.to(user.userID).emit(SocketEmits.chatMessage, autoAck.data);
-      io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, autoPayload);
+      });
     } catch (error) {
       console.error(error);
     }
