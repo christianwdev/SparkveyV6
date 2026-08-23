@@ -7,7 +7,6 @@ type ChatConversation = {
   status: 'active' | 'closed',
   lastAgentID?: string,
   lastSupportReplyAt?: number,
-  sentCannedReplyIDs?: string[],
 };
 
 export default ChatConversation;

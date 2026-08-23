@@ -164,62 +164,69 @@
     }
 
     > .chatMessages {
-      position: relative;
-      width: 100%;
       flex: 1;
-      overflow: hidden;
+      min-height: 0;
+      width: 100%;
+      padding: 16px;
       display: flex;
       flex-direction: column;
+      gap: 8px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: $border-light transparent;
+
+      &::-webkit-scrollbar {
+        width: 3px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: $border-light;
+        border-radius: 2px;
+      }
 
       > .timestamp {
-        margin: 0;
-        padding: 10px 16px 0;
+        margin: 4px 0;
         font-size: 12px;
         font-weight: 400;
         color: $text-light;
         text-align: center;
       }
 
-      > .messagesWrapper {
-        display: flex;
-        flex-direction: column-reverse;
-        gap: 8px;
-        width: 100%;
-        flex: 1;
-        overflow-y: auto;
-        padding: 16px;
+      > .empty {
+        margin: auto 0;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 400;
+        color: $text-light;
+        line-height: 1.45;
+      }
 
-        > .empty {
-          margin: auto 0 8px;
-          text-align: center;
-          font-size: 13px;
-          font-weight: 400;
-          color: $text-light;
-          line-height: 1.45;
+      > .message {
+        width: fit-content;
+        max-width: 82%;
+        padding: 10px 12px;
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        line-height: 1.4;
+
+        &.user {
+          background: $primary;
+          color: white;
+          align-self: flex-end;
+          border-radius: 16px 16px 4px 16px;
         }
 
-        > .message {
-          width: fit-content;
-          max-width: 82%;
-          padding: 10px 12px;
-          display: flex;
-          flex-direction: column;
-          font-size: 14px;
-          line-height: 1.4;
-
-          &.user {
-            background: $primary;
-            color: white;
-            align-self: flex-end;
-            border-radius: 16px 16px 4px 16px;
-          }
-
-          &.admin {
-            background: $light-blue;
-            color: $text-bold;
-            align-self: flex-start;
-            border-radius: 16px 16px 16px 4px;
-          }
+        &.admin {
+          background: $light-blue;
+          color: $text-bold;
+          align-self: flex-start;
+          border-radius: 16px 16px 16px 4px;
         }
       }
     }

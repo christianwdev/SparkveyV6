@@ -11,9 +11,10 @@ describe('automaticSupportResponses', () => {
     expect(automaticSupportAck.length).toBeGreaterThan(0);
     expect(automaticSupportAck.length).toBeLessThanOrEqual(MESSAGE_MAX_LENGTH);
 
-    for (const body of Object.values(automaticSupportResponses)) {
-      expect(body.length).toBeGreaterThan(0);
-      expect(body.length).toBeLessThanOrEqual(MESSAGE_MAX_LENGTH);
+    for (const { hint, message } of Object.values(automaticSupportResponses)) {
+      expect(hint.length).toBeGreaterThan(0);
+      expect(message.length).toBeGreaterThan(0);
+      expect(message.length).toBeLessThanOrEqual(MESSAGE_MAX_LENGTH);
     }
   });
 });

@@ -380,7 +380,9 @@
     "open": "Ouvrir le chat support",
     "close": "Fermer",
     "empty": "Envoyez un message, nous vous répondrons.",
-    "hereToHelp": "On est là pour vous aider"
+    "hereToHelp": "On est là pour vous aider",
+    "timestampToday": "Aujourd'hui {time}",
+    "timestampYesterday": "Hier {time}"
   },
   "PurchaseModals": {
     "common": {

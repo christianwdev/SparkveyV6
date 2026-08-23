@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import type { FormEvent, KeyboardEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useFormatter, useTranslations } from 'next-intl';
@@ -23,6 +23,7 @@ import type ChatMessage from 'types/ChatMessage';
 
 const TOGGLE_SUPPORT_CHAT_EVENT = 'toggleSupportChat';
 const MOBILE_BREAKPOINT = 768;
+const TIMESTAMP_GAP_MS = 3_600_000; // 1 hour
 const PANEL_TRANSITION = { duration: 0.2, ease: [ 0.22, 1, 0.36, 1 ] } as const;
 
 export default function SupportChat() {
@@ -38,6 +39,7 @@ export default function SupportChat() {
   const isOpenRef = useRef(false);
   const userIDRef = useRef(user?.userID ?? '');
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const messagesRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     isOpenRef.current = isOpen;
@@ -194,6 +196,15 @@ export default function SupportChat() {
   }, [ isOpen, socket ]);
 
   useEffect(() => {
+    if (!isOpen) return;
+
+    const container = messagesRef.current;
+    if (!container) return;
+
+    container.scrollTop = container.scrollHeight;
+  }, [ isOpen, conversation?.messages ]);
+
+  useEffect(() => {
     if (!isOpen || !isMobile) {
       document.body.style.removeProperty('overflow');
 
@@ -229,12 +240,44 @@ export default function SupportChat() {
     }
   }
 
+  function formatMessageTimestamp(timestamp: number) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const time = formatter.dateTime(date, { timeStyle: 'short' });
+
+    if (isSameCalendarDay(date, now)) {
+      return t('timestampToday', { time });
+    }
+
+    const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+    if (isSameCalendarDay(date, yesterday)) {
+      return t('timestampYesterday', { time });
+    }
+
+    const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6);
+    if (date >= weekStart) {
+      return formatter.dateTime(date, {
+        weekday: 'long',
+        hour: 'numeric',
+        minute: '2-digit',
+      });
+    }
+
+    return formatter.dateTime(date, {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
+  }
+
   const unreadLabel = conversation && conversation.unreadCount > 9
     ? '9+'
     : conversation?.unreadCount;
   const agentName = conversation?.supportAgent?.username || t('supportAgent');
   const agentInitial = agentName.trim().charAt(0).toUpperCase();
-  const hasMessages = Boolean(conversation?.messages.length);
+  const chronologicalMessages = conversation?.messages
+    ? [ ...conversation.messages ].sort((a, b) => a.timestamp - b.timestamp)
+    : [];
+  const hasMessages = chronologicalMessages.length > 0;
 
   return (
     <div className={styles.root}>
@@ -298,31 +341,32 @@ export default function SupportChat() {
               </button>
             </div>
 
-            <div className={styles.chatMessages}>
-              {conversation?.lastMessageTimestamp ? (
-                <p className={styles.timestamp}>
-                  {formatter.dateTime(new Date(conversation.lastMessageTimestamp), {
-                    dateStyle: 'medium',
-                    timeStyle: 'short',
-                  })}
-                </p>
-              ) : null}
+            <div className={styles.chatMessages} ref={messagesRef}>
+              {hasMessages ? chronologicalMessages.map((message, index) => {
+                const previous = chronologicalMessages[index - 1];
+                const showTimestamp = !previous
+                  || shouldShowMessageTimestamp(previous.timestamp, message.timestamp);
 
-              <div className={styles.messagesWrapper}>
-                {hasMessages ? conversation?.messages.map(message => (
-                  <div
-                    key={message.messageID}
-                    className={[ styles.message, styles[message.senderType] ].join(' ')}
-                  >
-                    <SupportMessageBody
-                      message={message.message}
-                      imageEmbeds={message.imageEmbeds ?? []}
-                    />
-                  </div>
-                )) : (
-                  <p className={styles.empty}>{t('empty')}</p>
-                )}
-              </div>
+                return (
+                  <Fragment key={message.messageID}>
+                    {showTimestamp ? (
+                      <p className={styles.timestamp}>
+                        {formatMessageTimestamp(message.timestamp)}
+                      </p>
+                    ) : null}
+                    <div
+                      className={[ styles.message, styles[message.senderType] ].join(' ')}
+                    >
+                      <SupportMessageBody
+                        message={message.message}
+                        imageEmbeds={message.imageEmbeds ?? []}
+                      />
+                    </div>
+                  </Fragment>
+                );
+              }) : (
+                <p className={styles.empty}>{t('empty')}</p>
+              )}
             </div>
 
             <form className={styles.chatInput} onSubmit={onSubmit}>
@@ -353,4 +397,16 @@ export default function SupportChat() {
       </AnimatePresence>
     </div>
   );
+}
+
+function isSameCalendarDay(left: Date, right: Date): boolean {
+  return left.getFullYear() === right.getFullYear()
+    && left.getMonth() === right.getMonth()
+    && left.getDate() === right.getDate();
+}
+
+function shouldShowMessageTimestamp(previous: number, current: number): boolean {
+  if (current - previous >= TIMESTAMP_GAP_MS) return true;
+
+  return !isSameCalendarDay(new Date(previous), new Date(current));
 }

@@ -380,7 +380,9 @@
     "open": "Otwórz czat wsparcia",
     "close": "Zamknij",
     "empty": "Napisz wiadomość, a odezwiemy się do Ciebie.",
-    "hereToHelp": "Jesteśmy tu, żeby pomóc"
+    "hereToHelp": "Jesteśmy tu, żeby pomóc",
+    "timestampToday": "Dzisiaj {time}",
+    "timestampYesterday": "Wczoraj {time}"
   },
   "PurchaseModals": {
     "common": {

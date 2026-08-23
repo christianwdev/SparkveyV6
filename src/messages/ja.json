@@ -380,7 +380,9 @@
     "open": "サポートチャットを開く",
     "close": "閉じる",
     "empty": "メッセージを送っていただければ対応します。",
-    "hereToHelp": "サポートが対応します"
+    "hereToHelp": "サポートが対応します",
+    "timestampToday": "今日 {time}",
+    "timestampYesterday": "昨日 {time}"
   },
   "PurchaseModals": {
     "common": {
