@@ -1,6 +1,6 @@
 import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
-import { hashEmail, normalizeEmailForHash } from 'backend/utils/emailHash';
+import { hashEmail, normalizeEmailForHash } from 'backend/utils/secrets';
 
 // Types
 import type DeletedAccountFingerprint from 'types/DeletedAccountFingerprint';

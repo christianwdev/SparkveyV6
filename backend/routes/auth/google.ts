@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 
 import { beginGoogleOAuthLogin, completeGoogleOAuthLogin } from 'backend/utils/auth/google';
-import { buildFrontendURL } from 'backend/utils/frontendUrl';
+import { buildFrontendURL } from 'backend/utils/url';
 import { startSession } from 'backend/utils/session';
 
 const app = new Hono();

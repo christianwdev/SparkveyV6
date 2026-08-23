@@ -6,6 +6,7 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { createOfferHash, createRewardID } from 'backend/utils/offers/ingest';
+import { escapeRegex } from 'backend/utils/mongo';
 
 // Types
 import type { Filter, Sort, UpdateFilter } from 'mongodb';
@@ -492,8 +493,4 @@ function normalizeGeosBlacklist(values: string[]): string[] {
   }
 
   return geos;
-}
-
-function escapeRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

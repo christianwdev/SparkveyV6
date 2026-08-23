@@ -2,8 +2,9 @@
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { createUserNotification } from 'backend/utils/notifications';
 import { updateUserBalance } from 'backend/utils/userBalance';
-import { applySparksEarningsSideEffects } from 'backend/utils/sparksEarningsSideEffects';
+import { applySparksEarningsSideEffects } from 'backend/utils/earnings';
 import { createOfferID } from 'backend/utils/offers/ingest';
+import { isDuplicateKeyError } from 'backend/utils/mongo';
 import { adjustTotalEarnedUsd } from 'backend/utils/siteStatistics';
 import { emitLiveActivity } from 'backend/utils/liveActivity';
 
@@ -14,6 +15,7 @@ import DatabaseCollections from "backend/constants/DatabaseCollections";
 import type { InternalOfferEarning } from "types/Earnings/InternalEarning";
 import type { NormalizedPostback } from "types/Postback/NormalizedPostback";
 import type FunctionResponse from "types/FunctionResponse";
+import type { UserNotificationMeta } from 'types/UserNotification/UserNotifications';
 
 async function getHoldDuration({
   value,
@@ -50,7 +52,7 @@ async function creditOfferConversion(
     ),
   });
 
-  void createUserNotification({
+  notifyUser({
     userID: conversion.userID,
     meta: {
       type: 'offerCredited',
@@ -59,13 +61,6 @@ async function creditOfferConversion(
       offerName: postback.offerName,
     },
   });
-}
-
-function isDuplicateKeyError(error: unknown): boolean {
-  return typeof error === 'object'
-    && error !== null
-    && 'code' in error
-    && (error as { code: unknown }).code === 11000;
 }
 
 /** Provider sent a chargeback for a conversion we already credited. */
@@ -107,7 +102,7 @@ async function reverseOfferConversion(
     heldUntil: undefined,
   };
 
-  void createUserNotification({
+  notifyUser({
     userID: previous.userID,
     meta: {
       type: 'offerReversal',
@@ -177,7 +172,7 @@ async function confirmAdvertiserOffer(
   if (!updatedConversion) return { ok: false, error: 'internalError' };
 
   if (heldUntil) {
-    void createUserNotification({
+    notifyUser({
       userID: conversion.userID,
       meta: {
         type: 'offerAdvConfirmed',
@@ -262,7 +257,7 @@ async function handleNewOfferPostback(
   emitLiveActivity(conversion);
 
   if (awaitingAdvertiser) {
-    void createUserNotification({
+    notifyUser({
       userID: postback.user,
       meta: {
         type: 'offerPending',
@@ -273,7 +268,7 @@ async function handleNewOfferPostback(
       },
     });
   } else if (heldUntil) {
-    void createUserNotification({
+    notifyUser({
       userID: postback.user,
       meta: {
         type: 'offerHeld',
@@ -327,4 +322,18 @@ export async function handleOfferPostback({
 
     return { ok: false, error: 'internalError' };
   }
+}
+
+function notifyUser(
+  {
+    userID,
+    meta,
+  }: {
+    userID: string,
+    meta: UserNotificationMeta,
+  },
+): void {
+  createUserNotification({ userID, meta }).catch(error => {
+    console.error(error);
+  });
 }

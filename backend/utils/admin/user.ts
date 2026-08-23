@@ -18,7 +18,8 @@ import { deleteUserSession, expireUserSessions } from 'backend/utils/session';
 import { isEmailInUse, sanitizeEmail } from 'backend/utils/user';
 import { detectSharedEmail } from 'backend/utils/fraud';
 import { getActiveFlagsByUserIDs, scheduleFraudCheck } from 'backend/utils/userFlag';
-import { getUserAvatarURL } from 'backend/utils/avatar';
+import { getUserAvatarURL } from 'backend/utils/url';
+import { escapeRegex } from 'backend/utils/mongo';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -78,10 +79,6 @@ function sanitizeAdminUser(user: InternalUser): AdminUser {
     avatar: getUserAvatarURL(user.userID),
     hasPassword: Boolean(password),
   };
-}
-
-function escapeRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 function sanitizeAdminSession(session: UserSession): AdminUserSession {

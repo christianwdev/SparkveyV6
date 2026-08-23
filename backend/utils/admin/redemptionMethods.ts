@@ -3,6 +3,7 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
+import { escapeRegex } from 'backend/utils/mongo';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -236,8 +237,4 @@ function parseHttpUrl(value: string): string | null {
   } catch {
     return null;
   }
-}
-
-function escapeRegex(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }

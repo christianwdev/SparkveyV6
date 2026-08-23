@@ -1,12 +1,14 @@
 import { createId } from '@paralleldrive/cuid2';
-import { MongoServerError } from 'mongodb';
-import { getGlobalObject } from 'backend/utils/globalObject';
+
+// Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import SocketEmits from 'backend/constants/SocketEmits';
 import SiteConfig from 'backend/config/config';
 
 // Utils
+import { getGlobalObject } from 'backend/utils/globalObject';
 import { getRawUser } from 'backend/utils/user';
+import { isDuplicateKeyError } from 'backend/utils/mongo';
 
 // Types
 import type { Filter } from 'mongodb';
@@ -85,7 +87,7 @@ export async function createAffiliateCode(
 
     return { ok: true, data: affiliateCode };
   } catch (error) {
-    if (error instanceof MongoServerError && error.code === 11000) {
+    if (isDuplicateKeyError(error)) {
       return { ok: false, error: 'alreadyExists' };
     }
 

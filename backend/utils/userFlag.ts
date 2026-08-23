@@ -5,6 +5,7 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
+import { isDuplicateKeyError } from 'backend/utils/mongo';
 
 // Types
 import type FunctionResponse from 'types/FunctionResponse';
@@ -13,13 +14,6 @@ import type { UserFlagMeta, UserFlagType } from 'types/UserFlag';
 
 export type CreateUserFlagError = 'internalServerError';
 export type ClearUserFlagError = 'notFound' | 'alreadyCleared' | 'internalServerError';
-
-function isDuplicateKeyError(error: unknown): boolean {
-  return typeof error === 'object'
-    && error !== null
-    && 'code' in error
-    && (error as { code: unknown }).code === 11000;
-}
 
 export async function createFlagIfAbsent(
   {

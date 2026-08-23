@@ -3,7 +3,7 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
-import { hashEmail, normalizeEmailForHash } from 'backend/utils/emailHash';
+import { hashEmail, normalizeEmailForHash } from 'backend/utils/secrets';
 import { createFlagIfAbsent } from 'backend/utils/userFlag';
 
 // Types
