@@ -423,7 +423,15 @@
     "title": "Canjear promocodigo",
     "description": "Encontraras estos promocodigos en nuestras redes sociales y otorgaran SP a un numero limitado de usuarios.",
     "placeholder": "Promocodigo",
-    "redeemCode": "Canjear codigo"
+    "redeemCode": "Canjear codigo",
+    "redeeming": "Canjeando…",
+    "close": "Cerrar",
+    "success": "Canjeaste {amount} sparks.",
+    "errors": {
+      "invalidOrUnavailable": "Este promocodigo no es valido o no esta disponible.",
+      "invalid": "Introduce un promocodigo valido.",
+      "generic": "No se pudo canjear este promocodigo. Intentalo de nuevo mas tarde."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Retiro",
@@ -478,6 +486,7 @@
     "redemptions": "Canjes",
     "settings": "Configuracion",
     "affiliates": "Afiliados",
+    "promocodes": "Promocodigos",
     "signOut": "Cerrar sesion"
   },
   "Notifications": {
@@ -1242,6 +1251,8 @@
     "withdrawalsDescription": "Revisa y procesa los retiros pendientes.",
     "earningsTitle": "Sparkvey | Ganancias",
     "earningsDescription": "Revisa ganancias de ofertas en espera y libéralas.",
+    "promocodesTitle": "Sparkvey | Promocodigos",
+    "promocodesDescription": "Crea y gestiona codigos promocionales.",
     "announcementsTitle": "Sparkvey | Anuncios admin",
     "announcementsDescription": "Administra el anuncio del sitio.",
     "chatTitle": "Sparkvey | Chat de soporte",
@@ -1258,6 +1269,7 @@
       "users": "Users",
       "earnings": "Ganancias",
       "withdrawals": "Retiros",
+      "promocodes": "Promocodigos",
       "announcements": "Anuncios",
       "chat": "Soporte"
     }
@@ -1516,7 +1528,7 @@
       "moderationDescription": "Bloquea, desbloquea o cierra todas las sesiones.",
       "permanentBan": "Bloqueo permanente",
       "permissionsTitle": "Permisos de staff",
-      "permissionsDescription": "Solo puedes conceder permisos que ya tienes. El staff completo también puede conceder los nuevos, como el chat.",
+      "permissionsDescription": "Solo puedes conceder permisos que ya tienes.",
       "permissions": {
         "viewUsers": "Ver usuarios",
         "viewEarnings": "Ver ganancias",
@@ -1763,6 +1775,42 @@
     "errors": {
       "loadFailed": "No se pudieron cargar las ganancias.",
       "releaseFailed": "No se pudo liberar esta ganancia."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Aun no hay promocodigos.",
+    "na": "—",
+    "table": {
+      "code": "Codigo",
+      "uses": "Usos",
+      "reward": "Recompensa",
+      "expiry": "Caducidad",
+      "created": "Creado",
+      "claimedBy": "Canjeado por",
+      "actions": "Acciones"
+    },
+    "form": {
+      "code": "Codigo",
+      "rewardValue": "Sparks",
+      "totalUses": "Usos totales",
+      "expiryDate": "Fecha de caducidad",
+      "create": "Crear promocodigo",
+      "creating": "Creando…"
+    },
+    "actions": {
+      "delete": "Eliminar",
+      "deleting": "Eliminando…"
+    },
+    "success": {
+      "created": "Promocodigo creado.",
+      "deleted": "Promocodigo eliminado."
+    },
+    "errors": {
+      "loadFailed": "No se pudieron cargar los promocodigos.",
+      "alreadyExists": "Este promocodigo ya existe.",
+      "invalidExpiry": "La fecha de caducidad debe ser futura.",
+      "createFailed": "No se pudo crear este promocodigo.",
+      "deleteFailed": "No se pudo eliminar este promocodigo."
     }
   },
   "AdminUserRiskModal": {

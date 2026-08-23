@@ -19,6 +19,7 @@ const FrontendRedirectPaths = {
   adminUsers: '/admin/users',
   adminWithdrawals: '/admin/withdrawals',
   adminEarnings: '/admin/earnings',
+  adminPromocodes: '/admin/promocodes',
   adminAnnouncements: '/admin/announcements',
   adminChat: '/admin/chat',
 } as const;

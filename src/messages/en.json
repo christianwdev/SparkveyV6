@@ -423,7 +423,15 @@
     "title": "Redeem Promocode",
     "description": "These promocodes will be found on our socials and will provide some SP to limited users.",
     "placeholder": "Promocode",
-    "redeemCode": "Redeem Code"
+    "redeemCode": "Redeem Code",
+    "redeeming": "Redeeming…",
+    "close": "Close",
+    "success": "Redeemed {amount} sparks.",
+    "errors": {
+      "invalidOrUnavailable": "This promocode is invalid or unavailable.",
+      "invalid": "Enter a valid promocode.",
+      "generic": "Could not redeem this promocode. Try again later."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Withdrawal",
@@ -478,6 +486,7 @@
     "redemptions": "Redemptions",
     "settings": "Settings",
     "affiliates": "Affiliates",
+    "promocodes": "Promocodes",
     "signOut": "Sign out"
   },
   "Notifications": {
@@ -1242,6 +1251,8 @@
     "withdrawalsDescription": "Review and process pending withdrawals.",
     "earningsTitle": "Sparkvey | Earnings",
     "earningsDescription": "Review held offer earnings and release credits.",
+    "promocodesTitle": "Sparkvey | Promocodes",
+    "promocodesDescription": "Create and manage promotional codes.",
     "announcementsTitle": "Sparkvey | Admin Announcements",
     "announcementsDescription": "Manage the site-wide announcement banner.",
     "chatTitle": "Sparkvey | Support Chat",
@@ -1258,6 +1269,7 @@
       "users": "Users",
       "earnings": "Earnings",
       "withdrawals": "Withdrawals",
+      "promocodes": "Promocodes",
       "announcements": "Announcements",
       "chat": "Support"
     }
@@ -1516,7 +1528,7 @@
       "moderationDescription": "Ban, unban, or sign this user out everywhere.",
       "permanentBan": "Permanent ban",
       "permissionsTitle": "Staff permissions",
-      "permissionsDescription": "You can only grant permissions you already have. Full staff can also grant newly added ones such as chat.",
+      "permissionsDescription": "You can only grant permissions you already have.",
       "permissions": {
         "viewUsers": "View users",
         "viewEarnings": "View earnings",
@@ -1763,6 +1775,42 @@
     "errors": {
       "loadFailed": "Earnings could not be loaded.",
       "releaseFailed": "Could not release this earning."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "No promocodes yet.",
+    "na": "—",
+    "table": {
+      "code": "Code",
+      "uses": "Uses",
+      "reward": "Reward",
+      "expiry": "Expiry",
+      "created": "Created",
+      "claimedBy": "Claimed by",
+      "actions": "Actions"
+    },
+    "form": {
+      "code": "Code",
+      "rewardValue": "Sparks",
+      "totalUses": "Total uses",
+      "expiryDate": "Expiry date",
+      "create": "Create promocode",
+      "creating": "Creating…"
+    },
+    "actions": {
+      "delete": "Delete",
+      "deleting": "Deleting…"
+    },
+    "success": {
+      "created": "Promocode created.",
+      "deleted": "Promocode deleted."
+    },
+    "errors": {
+      "loadFailed": "Promocodes could not be loaded.",
+      "alreadyExists": "This promocode already exists.",
+      "invalidExpiry": "Expiry date must be in the future.",
+      "createFailed": "Could not create this promocode.",
+      "deleteFailed": "Could not delete this promocode."
     }
   },
   "AdminUserRiskModal": {

@@ -423,7 +423,15 @@
     "title": "Resgatar código promocional",
     "description": "Esses códigos promocionais serão divulgados em nossas redes sociais e fornecerão SP para usuários limitados.",
     "placeholder": "Código promocional",
-    "redeemCode": "Resgatar código"
+    "redeemCode": "Resgatar código",
+    "redeeming": "A resgatar…",
+    "close": "Fechar",
+    "success": "Resgataste {amount} sparks.",
+    "errors": {
+      "invalidOrUnavailable": "Este código promocional é inválido ou indisponível.",
+      "invalid": "Introduz um código promocional válido.",
+      "generic": "Não foi possível resgatar este código. Tenta novamente mais tarde."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Saque",
@@ -478,6 +486,7 @@
     "redemptions": "Resgates",
     "settings": "Configurações",
     "affiliates": "Afiliados",
+    "promocodes": "Códigos promo",
     "signOut": "Sair"
   },
   "Notifications": {
@@ -1242,6 +1251,8 @@
     "withdrawalsDescription": "Reveja e processe levantamentos pendentes.",
     "earningsTitle": "Sparkvey | Ganhos",
     "earningsDescription": "Reveja ganhos de ofertas em espera e liberte-os.",
+    "promocodesTitle": "Sparkvey | Códigos promo",
+    "promocodesDescription": "Cria e gere códigos promocionais.",
     "announcementsTitle": "Sparkvey | Anúncios admin",
     "announcementsDescription": "Gerir o banner de anúncio do site.",
     "chatTitle": "Sparkvey | Chat de suporte",
@@ -1258,6 +1269,7 @@
       "users": "Users",
       "earnings": "Ganhos",
       "withdrawals": "Levantamentos",
+      "promocodes": "Códigos promo",
       "announcements": "Anúncios",
       "chat": "Suporte"
     }
@@ -1516,7 +1528,7 @@
       "moderationDescription": "Banir, desbanir ou terminar todas as sessões.",
       "permanentBan": "Banimento permanente",
       "permissionsTitle": "Permissões de staff",
-      "permissionsDescription": "Só podes atribuir permissões que já tens. Staff completo também pode atribuir as novas, como o chat.",
+      "permissionsDescription": "Só podes atribuir permissões que já tens.",
       "permissions": {
         "viewUsers": "Ver utilizadores",
         "viewEarnings": "Ver ganhos",
@@ -1763,6 +1775,42 @@
     "errors": {
       "loadFailed": "Não foi possível carregar os ganhos.",
       "releaseFailed": "Não foi possível libertar este ganho."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Ainda não há códigos promo.",
+    "na": "—",
+    "table": {
+      "code": "Código",
+      "uses": "Utilizações",
+      "reward": "Recompensa",
+      "expiry": "Validade",
+      "created": "Criado",
+      "claimedBy": "Resgatado por",
+      "actions": "Ações"
+    },
+    "form": {
+      "code": "Código",
+      "rewardValue": "Sparks",
+      "totalUses": "Utilizações totais",
+      "expiryDate": "Data de validade",
+      "create": "Criar código promo",
+      "creating": "A criar…"
+    },
+    "actions": {
+      "delete": "Eliminar",
+      "deleting": "A eliminar…"
+    },
+    "success": {
+      "created": "Código promo criado.",
+      "deleted": "Código promo eliminado."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar os códigos promo.",
+      "alreadyExists": "Este código promo já existe.",
+      "invalidExpiry": "A data de validade tem de ser no futuro.",
+      "createFailed": "Não foi possível criar este código promo.",
+      "deleteFailed": "Não foi possível eliminar este código promo."
     }
   },
   "AdminUserRiskModal": {

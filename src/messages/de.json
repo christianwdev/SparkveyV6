@@ -423,7 +423,15 @@
     "title": "Promocode einloesen",
     "description": "Diese Promocodes findest du auf unseren Social-Media-Kanaelen und sie geben ausgewaehlten Nutzern etwas SP.",
     "placeholder": "Promocode",
-    "redeemCode": "Code einloesen"
+    "redeemCode": "Code einloesen",
+    "redeeming": "Wird eingeloest…",
+    "close": "Schliessen",
+    "success": "{amount} Sparks eingeloest.",
+    "errors": {
+      "invalidOrUnavailable": "Dieser Promocode ist ungueltig oder nicht verfuegbar.",
+      "invalid": "Gib einen gueltigen Promocode ein.",
+      "generic": "Der Promocode konnte nicht eingeloest werden. Bitte versuche es spaeter erneut."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Auszahlung",
@@ -478,6 +486,7 @@
     "redemptions": "Auszahlungen",
     "settings": "Einstellungen",
     "affiliates": "Affiliates",
+    "promocodes": "Promocodes",
     "signOut": "Abmelden"
   },
   "Notifications": {
@@ -1242,6 +1251,8 @@
     "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten.",
     "earningsTitle": "Sparkvey | Einnahmen",
     "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben.",
+    "promocodesTitle": "Sparkvey | Promocodes",
+    "promocodesDescription": "Promocodes erstellen und verwalten.",
     "announcementsTitle": "Sparkvey | Admin-Ankündigungen",
     "announcementsDescription": "Die Ankündigungsleiste der Website verwalten.",
     "chatTitle": "Sparkvey | Support-Chat",
@@ -1258,6 +1269,7 @@
       "users": "Users",
       "earnings": "Einnahmen",
       "withdrawals": "Auszahlungen",
+      "promocodes": "Promocodes",
       "announcements": "Ankündigungen",
       "chat": "Support"
     }
@@ -1516,7 +1528,7 @@
       "moderationDescription": "Sperren, entsperren oder überall abmelden.",
       "permanentBan": "Dauerhafte Sperre",
       "permissionsTitle": "Mitarbeiterrechte",
-      "permissionsDescription": "Du kannst nur Rechte vergeben, die du selbst hast. Volle Admins können auch neue Rechte wie Chat vergeben.",
+      "permissionsDescription": "Du kannst nur Rechte vergeben, die du selbst hast.",
       "permissions": {
         "viewUsers": "Nutzer ansehen",
         "viewEarnings": "Einnahmen ansehen",
@@ -1763,6 +1775,42 @@
     "errors": {
       "loadFailed": "Einnahmen konnten nicht geladen werden.",
       "releaseFailed": "Diese Einnahme konnte nicht freigegeben werden."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Noch keine Promocodes.",
+    "na": "—",
+    "table": {
+      "code": "Code",
+      "uses": "Nutzungen",
+      "reward": "Belohnung",
+      "expiry": "Ablauf",
+      "created": "Erstellt",
+      "claimedBy": "Eingeloest von",
+      "actions": "Aktionen"
+    },
+    "form": {
+      "code": "Code",
+      "rewardValue": "Sparks",
+      "totalUses": "Nutzungen gesamt",
+      "expiryDate": "Ablaufdatum",
+      "create": "Promocode erstellen",
+      "creating": "Wird erstellt…"
+    },
+    "actions": {
+      "delete": "Loeschen",
+      "deleting": "Wird geloescht…"
+    },
+    "success": {
+      "created": "Promocode erstellt.",
+      "deleted": "Promocode geloescht."
+    },
+    "errors": {
+      "loadFailed": "Promocodes konnten nicht geladen werden.",
+      "alreadyExists": "Dieser Promocode existiert bereits.",
+      "invalidExpiry": "Das Ablaufdatum muss in der Zukunft liegen.",
+      "createFailed": "Der Promocode konnte nicht erstellt werden.",
+      "deleteFailed": "Der Promocode konnte nicht geloescht werden."
     }
   },
   "AdminUserRiskModal": {
