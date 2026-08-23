@@ -1,3 +1,3 @@
-import { StaffPermissions } from "types/UserPermissions/StaffPermissions";
+import { allStaffPermissionsMask } from "types/UserPermissions/StaffPermissions";
 
-export const SUPER_ADMIN_PERMISSIONS = StaffPermissions.VIEW_USERS | StaffPermissions.VIEW_EARNINGS | StaffPermissions.VIEW_WITHDRAWALS | StaffPermissions.VIEW_PROMOCODES | StaffPermissions.VIEW_SETTINGS | StaffPermissions.VIEW_OFFERS | StaffPermissions.VIEW_LEADERBOARDS | StaffPermissions.VIEW_POSTBACKS | StaffPermissions.VIEW_STATISTICS | StaffPermissions.MODIFY_USERS | StaffPermissions.MODIFY_EARNINGS | StaffPermissions.MODIFY_WITHDRAWALS | StaffPermissions.MODIFY_PROMOCODES | StaffPermissions.MODIFY_SETTINGS | StaffPermissions.MODIFY_OFFERS | StaffPermissions.MODIFY_LEADERBOARDS | StaffPermissions.MODIFY_POSTBACKS;
+export const SUPER_ADMIN_PERMISSIONS = allStaffPermissionsMask();

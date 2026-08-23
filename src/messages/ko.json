@@ -376,7 +376,11 @@
     "talkingTo": "대화 중",
     "supportAgent": "지원 에이전트",
     "typeMessage": "메시지를 입력하세요...",
-    "send": "보내기"
+    "send": "보내기",
+    "open": "지원 채팅 열기",
+    "close": "닫기",
+    "empty": "메시지를 보내주시면 답변드릴게요.",
+    "hereToHelp": "도움을 드릴게요"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +463,8 @@
       "earn": "적립",
       "shop": "상점",
       "leaders": "리더",
-      "refer": "추천"
+      "refer": "추천",
+      "support": "지원"
     },
     "a11y": {
       "avatarAlt": "아바타"
@@ -1233,7 +1238,9 @@
     "withdrawalsTitle": "Sparkvey | 출금",
     "withdrawalsDescription": "대기 중인 출금을 검토하고 처리합니다.",
     "earningsTitle": "Sparkvey | 수익",
-    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다."
+    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다.",
+    "chatTitle": "Sparkvey | 지원 채팅",
+    "chatDescription": "사용자 지원 대화를 읽고 답장합니다."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1252,29 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "수익",
-      "withdrawals": "출금"
+      "withdrawals": "출금",
+      "chat": "지원"
+    }
+  },
+  "AdminChat": {
+    "title": "대화",
+    "searchPlaceholder": "필터 또는 사용자 ID로 열기",
+    "search": "열기",
+    "chatTitle": "지원 스레드",
+    "emptyTitle": "대화를 선택하세요",
+    "emptyDescription": "목록에서 스레드를 고르거나 사용자 ID로 여세요.",
+    "typeMessage": "답장 작성…",
+    "send": "보내기",
+    "noMessages": "아직 메시지가 없습니다",
+    "emptyInbox": "아직 대화가 없습니다",
+    "emptyFilter": "일치하는 대화가 없습니다",
+    "back": "뒤로",
+    "viewUser": "프로필 보기",
+    "viewOnly": "이 스레드는 읽을 수 있지만 답장할 수 없습니다.",
+    "errors": {
+      "notFound": "사용자를 찾을 수 없습니다.",
+      "cannotCreate": "대화를 시작할 권한이 없습니다.",
+      "generic": "대화를 열 수 없습니다."
     }
   },
   "AdminDashboard": {
@@ -1479,10 +1508,35 @@
       "limitsDescription": "오퍼, 출금, 제휴 코드 한도.",
       "moderationTitle": "운영",
       "moderationDescription": "차단, 해제 또는 모든 세션을 종료합니다.",
-      "permanentBan": "영구 차단"
+      "permanentBan": "영구 차단",
+      "permissionsTitle": "스태프 권한",
+      "permissionsDescription": "이미 가진 권한만 부여할 수 있습니다. 전체 권한 스태프는 채팅 같은 새 권한도 부여할 수 있습니다.",
+      "permissions": {
+        "viewUsers": "사용자 보기",
+        "viewEarnings": "수익 보기",
+        "viewWithdrawals": "출금 보기",
+        "viewPromocodes": "프로모 코드 보기",
+        "viewSettings": "설정 보기",
+        "viewOffers": "오퍼 보기",
+        "viewLeaderboards": "리더보드 보기",
+        "viewPostbacks": "포스트백 보기",
+        "viewStatistics": "통계 보기",
+        "modifyUsers": "사용자 수정",
+        "modifyEarnings": "수익 수정",
+        "modifyWithdrawals": "출금 수정",
+        "modifyPromocodes": "프로모 코드 수정",
+        "modifySettings": "설정 수정",
+        "modifyOffers": "오퍼 수정",
+        "modifyLeaderboards": "리더보드 수정",
+        "modifyPostbacks": "포스트백 수정",
+        "viewChat": "채팅 보기",
+        "replyChat": "채팅 답장"
+      }
     },
     "actions": {
       "saveAccount": "계정 저장",
+      "savePermissions": "권한 저장",
+      "grantAllPermissions": "부여 가능한 권한 모두",
       "applyBalance": "잔액 적용",
       "saveLimits": "한도 저장",
       "ban": "사용자 차단",

@@ -118,5 +118,18 @@ export const queryKeys = {
         page: number,
       }) => [ ...queryKeys.admin.earnings.all(), 'list', filters ] as const,
     },
+    chat: {
+      all: () => [ ...queryKeys.admin.all, 'chat' ] as const,
+      conversations: () => [ ...queryKeys.admin.chat.all(), 'conversations' ] as const,
+      conversation: (conversationID: string) => [
+        ...queryKeys.admin.chat.all(),
+        'conversation',
+        conversationID,
+      ] as const,
+    },
+  },
+  supportChat: {
+    all: [ 'supportChat' ] as const,
+    conversation: () => [ ...queryKeys.supportChat.all, 'conversation' ] as const,
   },
 };

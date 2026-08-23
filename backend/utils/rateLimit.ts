@@ -62,6 +62,20 @@ async function attemptRateLimit(
   };
 }
 
+export async function checkRateLimit(
+  {
+    key,
+    maxRequests,
+    windowSeconds,
+  }: {
+    key: string,
+    maxRequests: number,
+    windowSeconds: number,
+  },
+): Promise<RateLimitResult> {
+  return attemptRateLimit(key, { maxRequests, windowSeconds });
+}
+
 export function rateLimit(options: RateLimitOptions = {}) {
   const config: SlidingWindowLogConfig = {
     maxRequests: options.maxRequests ?? DEFAULT_CONFIG.maxRequests,
