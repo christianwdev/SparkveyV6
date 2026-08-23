@@ -14,6 +14,8 @@ import ChartIcon from '~icons/solar/chart-linear.jsx';
 import UsersIcon from '~icons/solar/users-group-rounded-linear.jsx';
 import GraphUpIcon from '~icons/solar/graph-up-linear.jsx';
 import WalletIcon from '~icons/solar/wallet-money-linear.jsx';
+import ChecklistIcon from '~icons/solar/checklist-linear.jsx';
+import GiftIcon from '~icons/solar/gift-linear.jsx';
 import TicketIcon from '~icons/solar/ticket-sale-linear.jsx';
 import BellIcon from '~icons/mdi/bell.jsx';
 import ChatIcon from '~icons/solar/chat-round-linear.jsx';
@@ -52,6 +54,20 @@ const ADMIN_NAV = [
     permission: StaffPermissions.VIEW_WITHDRAWALS,
   },
   {
+    href: FrontendRedirectPaths.adminOffers,
+    labelKey: 'offers',
+    Icon: ChecklistIcon,
+    exact: false,
+    permission: StaffPermissions.VIEW_OFFERS,
+  },
+  {
+    href: FrontendRedirectPaths.adminRedemptionMethods,
+    labelKey: 'redemptionMethods',
+    Icon: GiftIcon,
+    exact: false,
+    permission: StaffPermissions.VIEW_OFFERS,
+  },
+  {
     href: FrontendRedirectPaths.adminPromocodes,
     labelKey: 'promocodes',
     Icon: TicketIcon,
@@ -76,7 +92,7 @@ const ADMIN_NAV = [
 
 function resolvePageTitleKey(
   pathname: string,
-): 'dashboard' | 'users' | 'earnings' | 'withdrawals' | 'promocodes' | 'announcements' | 'chat' {
+): 'dashboard' | 'users' | 'earnings' | 'withdrawals' | 'offers' | 'redemptionMethods' | 'promocodes' | 'announcements' | 'chat' {
   if (pathname === FrontendRedirectPaths.admin || pathname === `${FrontendRedirectPaths.admin}/`) {
     return 'dashboard';
   }
@@ -87,6 +103,14 @@ function resolvePageTitleKey(
 
   if (pathname.startsWith(FrontendRedirectPaths.adminWithdrawals)) {
     return 'withdrawals';
+  }
+
+  if (pathname.startsWith(FrontendRedirectPaths.adminRedemptionMethods)) {
+    return 'redemptionMethods';
+  }
+
+  if (pathname.startsWith(FrontendRedirectPaths.adminOffers)) {
+    return 'offers';
   }
 
   if (pathname.startsWith(FrontendRedirectPaths.adminPromocodes)) {

@@ -1251,6 +1251,10 @@
     "withdrawalsDescription": "Esamina ed elabora i prelievi in sospeso.",
     "earningsTitle": "Sparkvey | Guadagni",
     "earningsDescription": "Esamina i guadagni in attesa e rilasciali.",
+    "offersTitle": "Sparkvey | Offerte",
+    "offersDescription": "Crea, modifica e disattiva le offerte.",
+    "redemptionMethodsTitle": "Sparkvey | Metodi di riscatto",
+    "redemptionMethodsDescription": "Gestisci i metodi Tremendous e crypto.",
     "promocodesTitle": "Sparkvey | Codici promo",
     "promocodesDescription": "Crea e gestisci i codici promozionali.",
     "announcementsTitle": "Sparkvey | Annunci admin",
@@ -1269,6 +1273,8 @@
       "users": "Users",
       "earnings": "Guadagni",
       "withdrawals": "Prelievi",
+      "offers": "Offerte",
+      "redemptionMethods": "Metodi di riscatto",
       "promocodes": "Codici promo",
       "announcements": "Annunci",
       "chat": "Supporto"
@@ -1775,6 +1781,193 @@
     "errors": {
       "loadFailed": "Impossibile caricare i guadagni.",
       "releaseFailed": "Impossibile rilasciare questo guadagno."
+    }
+  },
+  "AdminOffers": {
+    "empty": "Nessuna offerta corrisponde a questi filtri.",
+    "na": "—",
+    "customProvider": "Personalizzata",
+    "searchLabel": "Cerca offerte",
+    "table": {
+      "name": "Nome",
+      "provider": "Provider",
+      "status": "Stato",
+      "featuredPriority": "In evidenza",
+      "totalReward": "Ricompensa",
+      "actions": "Azioni"
+    },
+    "filters": {
+      "all": "Tutte",
+      "status": "Stato",
+      "searchBy": "Cerca per",
+      "sortBy": "Ordina per",
+      "sortDirection": "Direzione"
+    },
+    "searchBy": {
+      "name": "Nome",
+      "displayName": "Nome visualizzato",
+      "provider": "Provider",
+      "offerID": "ID offerta",
+      "externalID": "ID esterno"
+    },
+    "searchPlaceholder": {
+      "name": "Cerca per nome",
+      "displayName": "Cerca per nome visualizzato",
+      "provider": "Cerca per provider",
+      "offerID": "Cerca per ID offerta",
+      "externalID": "Cerca per ID esterno"
+    },
+    "sortBy": {
+      "featuredPriority": "Priorità in evidenza",
+      "totalReward": "Ricompensa totale",
+      "name": "Nome",
+      "updatedAt": "Aggiornato"
+    },
+    "sortDirection": {
+      "asc": "Crescente",
+      "desc": "Decrescente"
+    },
+    "statuses": {
+      "active": "Attiva",
+      "inactive": "Inattiva",
+      "disabled": "Disattivata"
+    },
+    "fields": {
+      "name": "Nome interno",
+      "displayName": "Nome visualizzato",
+      "image": "URL immagine",
+      "trackingURL": "URL di tracking",
+      "geos": "Geo",
+      "geosHint": "Codici paese separati da virgola. GLOBAL o vuoto per tutti.",
+      "geosBlacklist": "Blacklist geo",
+      "status": "Stato",
+      "featuredPriority": "Priorità in evidenza",
+      "description": "Descrizione",
+      "terms": "Termini",
+      "disclaimer": "Avviso",
+      "offerIDValue": "ID offerta {offerID}"
+    },
+    "rewards": {
+      "title": "Ricompense",
+      "subtitle": "Serve almeno una ricompensa. Numero o variable.",
+      "editSubtitle": "Sovrascrivi pagamento o testo degli obiettivi.",
+      "externalID": "ID esterno",
+      "description": "Descrizione",
+      "value": "Valore",
+      "revenue": "Ricavo",
+      "add": "Aggiungi ricompensa",
+      "remove": "Rimuovi"
+    },
+    "create": {
+      "title": "Crea offerta personalizzata",
+      "subtitle": "Aggiunge un'offerta provider=custom visibile se attiva."
+    },
+    "edit": {
+      "information": "Dati offerta"
+    },
+    "actions": {
+      "create": "Crea offerta personalizzata",
+      "creating": "Creazione…",
+      "edit": "Modifica",
+      "save": "Salva",
+      "saving": "Salvataggio…",
+      "back": "Torna alle offerte"
+    },
+    "success": {
+      "created": "Offerta personalizzata creata.",
+      "updated": "Offerta aggiornata."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare le offerte.",
+      "createFailed": "Impossibile creare questa offerta.",
+      "updateFailed": "Impossibile aggiornare questa offerta.",
+      "invalidReward": "La ricompensa {index} ha un valore non valido.",
+      "invalidFeatured": "La priorità deve essere un numero."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "Nessun metodo corrisponde a questi filtri.",
+    "na": "—",
+    "allCountries": "Tutti i paesi",
+    "searchLabel": "Cerca metodi di riscatto",
+    "table": {
+      "name": "Nome",
+      "provider": "Provider",
+      "status": "Stato",
+      "featuredSpot": "In evidenza",
+      "created": "Creato",
+      "actions": "Azioni"
+    },
+    "filters": {
+      "all": "Tutti",
+      "status": "Stato",
+      "searchBy": "Cerca per",
+      "sortDirection": "Ordine"
+    },
+    "searchBy": {
+      "name": "Nome",
+      "rewardID": "ID ricompensa"
+    },
+    "searchPlaceholder": {
+      "name": "Cerca per nome",
+      "rewardID": "Cerca per ID ricompensa"
+    },
+    "sortDirection": {
+      "asc": "Crescente",
+      "desc": "Decrescente"
+    },
+    "statuses": {
+      "active": "Attivo",
+      "inactive": "Inattivo"
+    },
+    "providers": {
+      "tremendous": "Carta regalo",
+      "ccpayment": "Crypto"
+    },
+    "valueTypes": {
+      "variable": "Variabile",
+      "denomination": "Importi",
+      "crypto": "Crypto"
+    },
+    "categories": {
+      "cash": "Contanti",
+      "giftcards": "Carte regalo",
+      "crypto": "Crypto"
+    },
+    "imageTypes": {
+      "card": "Carta",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "ID ricompensa",
+      "description": "Descrizione",
+      "disclosure": "Informativa",
+      "countries": "Paesi",
+      "valueRange": "Intervallo di valore",
+      "status": "Stato",
+      "featuredSpot": "Posizione in evidenza",
+      "categories": "Categorie",
+      "internalImage": "URL immagine interna",
+      "imageType": "Tipo immagine"
+    },
+    "edit": {
+      "information": "Dati del metodo",
+      "controls": "Controlli catalogo",
+      "controlsSubtitle": "Stato, ordine, categorie e immagine restano dopo ogni sync."
+    },
+    "actions": {
+      "edit": "Modifica",
+      "save": "Salva",
+      "saving": "Salvataggio…",
+      "back": "Torna ai metodi di riscatto"
+    },
+    "success": {
+      "updated": "Metodo di riscatto aggiornato."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare i metodi di riscatto.",
+      "updateFailed": "Impossibile aggiornare questo metodo.",
+      "invalidFeatured": "La posizione deve essere un numero."
     }
   },
   "AdminPromocodes": {

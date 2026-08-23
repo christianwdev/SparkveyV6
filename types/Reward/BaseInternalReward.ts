@@ -16,6 +16,11 @@ type BaseInternalReward = {
     priority?: number,
   }>,
 
+  internalImage?: {
+    src: string,
+    type: 'logo' | 'card',
+  },
+
   status: 'active' | 'inactive';
   disabledAt?: Date;
 

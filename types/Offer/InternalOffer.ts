@@ -43,14 +43,14 @@ type InternalOffer = {
 
   customRewards?: Array<{
     description: undefined,
-    value: number,
+    value: number | 'variable',
     rewardID: string,
   } | {
     value: undefined,
     description: string,
     rewardID: string,
   } | {
-    value: number,
+    value: number | 'variable',
     description: string,
     rewardID: string,
   }>,

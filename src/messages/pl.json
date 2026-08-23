@@ -1251,6 +1251,10 @@
     "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty.",
     "earningsTitle": "Sparkvey | Zarobki",
     "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj.",
+    "offersTitle": "Sparkvey | Oferty",
+    "offersDescription": "Twórz, edytuj i wyłączaj oferty.",
+    "redemptionMethodsTitle": "Sparkvey | Metody wypłat",
+    "redemptionMethodsDescription": "Zarządzaj metodami Tremendous i krypto.",
     "promocodesTitle": "Sparkvey | Kody promocyjne",
     "promocodesDescription": "Twórz i zarządzaj kodami promocyjnymi.",
     "announcementsTitle": "Sparkvey | Ogłoszenia admin",
@@ -1269,6 +1273,8 @@
       "users": "Users",
       "earnings": "Zarobki",
       "withdrawals": "Wypłaty",
+      "offers": "Oferty",
+      "redemptionMethods": "Metody wypłat",
       "promocodes": "Kody promocyjne",
       "announcements": "Ogłoszenia",
       "chat": "Wsparcie"
@@ -1775,6 +1781,193 @@
     "errors": {
       "loadFailed": "Nie udało się wczytać zarobków.",
       "releaseFailed": "Nie udało się zwolnić tego zarobku."
+    }
+  },
+  "AdminOffers": {
+    "empty": "Brak ofert dla tych filtrów.",
+    "na": "—",
+    "customProvider": "Własna",
+    "searchLabel": "Szukaj ofert",
+    "table": {
+      "name": "Nazwa",
+      "provider": "Dostawca",
+      "status": "Status",
+      "featuredPriority": "Wyróżnienie",
+      "totalReward": "Nagroda",
+      "actions": "Akcje"
+    },
+    "filters": {
+      "all": "Wszystkie",
+      "status": "Status",
+      "searchBy": "Szukaj wg",
+      "sortBy": "Sortuj wg",
+      "sortDirection": "Kierunek"
+    },
+    "searchBy": {
+      "name": "Nazwa",
+      "displayName": "Nazwa wyświetlana",
+      "provider": "Dostawca",
+      "offerID": "ID oferty",
+      "externalID": "ID zewnętrzne"
+    },
+    "searchPlaceholder": {
+      "name": "Szukaj po nazwie",
+      "displayName": "Szukaj po nazwie wyświetlanej",
+      "provider": "Szukaj po dostawcy",
+      "offerID": "Szukaj po ID oferty",
+      "externalID": "Szukaj po ID zewnętrznym"
+    },
+    "sortBy": {
+      "featuredPriority": "Priorytet wyróżnienia",
+      "totalReward": "Łączna nagroda",
+      "name": "Nazwa",
+      "updatedAt": "Aktualizacja"
+    },
+    "sortDirection": {
+      "asc": "Rosnąco",
+      "desc": "Malejąco"
+    },
+    "statuses": {
+      "active": "Aktywna",
+      "inactive": "Nieaktywna",
+      "disabled": "Wyłączona"
+    },
+    "fields": {
+      "name": "Nazwa wewnętrzna",
+      "displayName": "Nazwa wyświetlana",
+      "image": "URL obrazu",
+      "trackingURL": "URL śledzenia",
+      "geos": "Geo",
+      "geosHint": "Kody krajów po przecinku. GLOBAL lub puste dla wszystkich.",
+      "geosBlacklist": "Czarna lista geo",
+      "status": "Status",
+      "featuredPriority": "Priorytet wyróżnienia",
+      "description": "Opis",
+      "terms": "Warunki",
+      "disclaimer": "Zastrzeżenie",
+      "offerIDValue": "ID oferty {offerID}"
+    },
+    "rewards": {
+      "title": "Nagrody",
+      "subtitle": "Wymagana co najmniej jedna. Liczba lub variable.",
+      "editSubtitle": "Nadpisz wypłatę lub tekst istniejących celów.",
+      "externalID": "ID zewnętrzne",
+      "description": "Opis",
+      "value": "Wartość",
+      "revenue": "Przychód",
+      "add": "Dodaj nagrodę",
+      "remove": "Usuń"
+    },
+    "create": {
+      "title": "Utwórz własną ofertę",
+      "subtitle": "Dodaje ofertę provider=custom widoczną, gdy jest aktywna."
+    },
+    "edit": {
+      "information": "Dane oferty"
+    },
+    "actions": {
+      "create": "Utwórz własną ofertę",
+      "creating": "Tworzenie…",
+      "edit": "Edytuj",
+      "save": "Zapisz",
+      "saving": "Zapisywanie…",
+      "back": "Wróć do ofert"
+    },
+    "success": {
+      "created": "Utworzono własną ofertę.",
+      "updated": "Zaktualizowano ofertę."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać ofert.",
+      "createFailed": "Nie udało się utworzyć tej oferty.",
+      "updateFailed": "Nie udało się zaktualizować tej oferty.",
+      "invalidReward": "Nagroda {index} ma nieprawidłową wartość.",
+      "invalidFeatured": "Priorytet wyróżnienia musi być liczbą."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "Brak metod dla tych filtrów.",
+    "na": "—",
+    "allCountries": "Wszystkie kraje",
+    "searchLabel": "Szukaj metod wypłat",
+    "table": {
+      "name": "Nazwa",
+      "provider": "Dostawca",
+      "status": "Status",
+      "featuredSpot": "Wyróżnienie",
+      "created": "Utworzono",
+      "actions": "Akcje"
+    },
+    "filters": {
+      "all": "Wszystkie",
+      "status": "Status",
+      "searchBy": "Szukaj wg",
+      "sortDirection": "Sortowanie"
+    },
+    "searchBy": {
+      "name": "Nazwa",
+      "rewardID": "ID nagrody"
+    },
+    "searchPlaceholder": {
+      "name": "Szukaj po nazwie",
+      "rewardID": "Szukaj po ID nagrody"
+    },
+    "sortDirection": {
+      "asc": "Rosnąco",
+      "desc": "Malejąco"
+    },
+    "statuses": {
+      "active": "Aktywna",
+      "inactive": "Nieaktywna"
+    },
+    "providers": {
+      "tremendous": "Karta podarunkowa",
+      "ccpayment": "Krypto"
+    },
+    "valueTypes": {
+      "variable": "Zmienna",
+      "denomination": "Nominały",
+      "crypto": "Krypto"
+    },
+    "categories": {
+      "cash": "Gotówka",
+      "giftcards": "Karty podarunkowe",
+      "crypto": "Krypto"
+    },
+    "imageTypes": {
+      "card": "Karta",
+      "logo": "Logo"
+    },
+    "fields": {
+      "rewardID": "ID nagrody",
+      "description": "Opis",
+      "disclosure": "Informacja",
+      "countries": "Kraje",
+      "valueRange": "Zakres wartości",
+      "status": "Status",
+      "featuredSpot": "Pozycja wyróżnienia",
+      "categories": "Kategorie",
+      "internalImage": "Wewnętrzny URL obrazu",
+      "imageType": "Typ obrazu"
+    },
+    "edit": {
+      "information": "Dane metody",
+      "controls": "Ustawienia katalogu",
+      "controlsSubtitle": "Status, kolejność, kategorie i obraz zostają po synchronizacji."
+    },
+    "actions": {
+      "edit": "Edytuj",
+      "save": "Zapisz",
+      "saving": "Zapisywanie…",
+      "back": "Wróć do metod wypłat"
+    },
+    "success": {
+      "updated": "Zaktualizowano metodę wypłaty."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać metod wypłat.",
+      "updateFailed": "Nie udało się zaktualizować tej metody.",
+      "invalidFeatured": "Pozycja wyróżnienia musi być liczbą."
     }
   },
   "AdminPromocodes": {

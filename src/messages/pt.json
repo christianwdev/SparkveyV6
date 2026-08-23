@@ -1251,6 +1251,10 @@
     "withdrawalsDescription": "Reveja e processe levantamentos pendentes.",
     "earningsTitle": "Sparkvey | Ganhos",
     "earningsDescription": "Reveja ganhos de ofertas em espera e liberte-os.",
+    "offersTitle": "Sparkvey | Ofertas",
+    "offersDescription": "Crie, edite e desative ofertas.",
+    "redemptionMethodsTitle": "Sparkvey | Métodos de resgate",
+    "redemptionMethodsDescription": "Gerencie métodos Tremendous e cripto.",
     "promocodesTitle": "Sparkvey | Códigos promo",
     "promocodesDescription": "Cria e gere códigos promocionais.",
     "announcementsTitle": "Sparkvey | Anúncios admin",
@@ -1269,6 +1273,8 @@
       "users": "Users",
       "earnings": "Ganhos",
       "withdrawals": "Levantamentos",
+      "offers": "Ofertas",
+      "redemptionMethods": "Métodos de resgate",
       "promocodes": "Códigos promo",
       "announcements": "Anúncios",
       "chat": "Suporte"
@@ -1775,6 +1781,193 @@
     "errors": {
       "loadFailed": "Não foi possível carregar os ganhos.",
       "releaseFailed": "Não foi possível libertar este ganho."
+    }
+  },
+  "AdminOffers": {
+    "empty": "Nenhuma oferta corresponde a estes filtros.",
+    "na": "—",
+    "customProvider": "Personalizada",
+    "searchLabel": "Pesquisar ofertas",
+    "table": {
+      "name": "Nome",
+      "provider": "Fornecedor",
+      "status": "Estado",
+      "featuredPriority": "Destaque",
+      "totalReward": "Recompensa",
+      "actions": "Ações"
+    },
+    "filters": {
+      "all": "Todas",
+      "status": "Estado",
+      "searchBy": "Pesquisar por",
+      "sortBy": "Ordenar por",
+      "sortDirection": "Direção"
+    },
+    "searchBy": {
+      "name": "Nome",
+      "displayName": "Nome visível",
+      "provider": "Fornecedor",
+      "offerID": "ID da oferta",
+      "externalID": "ID externa"
+    },
+    "searchPlaceholder": {
+      "name": "Pesquisar por nome",
+      "displayName": "Pesquisar por nome visível",
+      "provider": "Pesquisar por fornecedor",
+      "offerID": "Pesquisar por ID da oferta",
+      "externalID": "Pesquisar por ID externa"
+    },
+    "sortBy": {
+      "featuredPriority": "Prioridade de destaque",
+      "totalReward": "Recompensa total",
+      "name": "Nome",
+      "updatedAt": "Atualizado"
+    },
+    "sortDirection": {
+      "asc": "Ascendente",
+      "desc": "Descendente"
+    },
+    "statuses": {
+      "active": "Ativa",
+      "inactive": "Inativa",
+      "disabled": "Desativada"
+    },
+    "fields": {
+      "name": "Nome interno",
+      "displayName": "Nome visível",
+      "image": "URL da imagem",
+      "trackingURL": "URL de tracking",
+      "geos": "Geos",
+      "geosHint": "Códigos de país separados por vírgulas. GLOBAL ou vazio para todos.",
+      "geosBlacklist": "Lista negra de geos",
+      "status": "Estado",
+      "featuredPriority": "Prioridade de destaque",
+      "description": "Descrição",
+      "terms": "Termos",
+      "disclaimer": "Aviso",
+      "offerIDValue": "ID da oferta {offerID}"
+    },
+    "rewards": {
+      "title": "Recompensas",
+      "subtitle": "É necessária pelo menos uma. Número ou variable.",
+      "editSubtitle": "Substitui o pagamento ou o texto das metas.",
+      "externalID": "ID externa",
+      "description": "Descrição",
+      "value": "Valor",
+      "revenue": "Receita",
+      "add": "Adicionar recompensa",
+      "remove": "Remover"
+    },
+    "create": {
+      "title": "Criar oferta própria",
+      "subtitle": "Adiciona uma oferta provider=custom visível quando ativa."
+    },
+    "edit": {
+      "information": "Dados da oferta"
+    },
+    "actions": {
+      "create": "Criar oferta própria",
+      "creating": "A criar…",
+      "edit": "Editar",
+      "save": "Guardar",
+      "saving": "A guardar…",
+      "back": "Voltar às ofertas"
+    },
+    "success": {
+      "created": "Oferta própria criada.",
+      "updated": "Oferta atualizada."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar as ofertas.",
+      "createFailed": "Não foi possível criar esta oferta.",
+      "updateFailed": "Não foi possível atualizar esta oferta.",
+      "invalidReward": "A recompensa {index} tem um valor inválido.",
+      "invalidFeatured": "A prioridade de destaque deve ser um número."
+    }
+  },
+  "AdminRedemptionMethods": {
+    "empty": "Nenhum método corresponde a estes filtros.",
+    "na": "—",
+    "allCountries": "Todos os países",
+    "searchLabel": "Pesquisar métodos de resgate",
+    "table": {
+      "name": "Nome",
+      "provider": "Fornecedor",
+      "status": "Estado",
+      "featuredSpot": "Destaque",
+      "created": "Criado",
+      "actions": "Ações"
+    },
+    "filters": {
+      "all": "Todos",
+      "status": "Estado",
+      "searchBy": "Pesquisar por",
+      "sortDirection": "Ordenação"
+    },
+    "searchBy": {
+      "name": "Nome",
+      "rewardID": "ID da recompensa"
+    },
+    "searchPlaceholder": {
+      "name": "Pesquisar por nome",
+      "rewardID": "Pesquisar por ID da recompensa"
+    },
+    "sortDirection": {
+      "asc": "Ascendente",
+      "desc": "Descendente"
+    },
+    "statuses": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+    },
+    "providers": {
+      "tremendous": "Cartão oferta",
+      "ccpayment": "Cripto"
+    },
+    "valueTypes": {
+      "variable": "Variável",
+      "denomination": "Montantes",
+      "crypto": "Cripto"
+    },
+    "categories": {
+      "cash": "Numerário",
+      "giftcards": "Cartões oferta",
+      "crypto": "Cripto"
+    },
+    "imageTypes": {
+      "card": "Cartão",
+      "logo": "Logótipo"
+    },
+    "fields": {
+      "rewardID": "ID da recompensa",
+      "description": "Descrição",
+      "disclosure": "Aviso",
+      "countries": "Países",
+      "valueRange": "Intervalo de valor",
+      "status": "Estado",
+      "featuredSpot": "Posição de destaque",
+      "categories": "Categorias",
+      "internalImage": "URL da imagem interna",
+      "imageType": "Tipo de imagem"
+    },
+    "edit": {
+      "information": "Dados do método",
+      "controls": "Controlos do catálogo",
+      "controlsSubtitle": "Estado, ordem, categorias e imagem mantêm-se após cada sync."
+    },
+    "actions": {
+      "edit": "Editar",
+      "save": "Guardar",
+      "saving": "A guardar…",
+      "back": "Voltar aos métodos de resgate"
+    },
+    "success": {
+      "updated": "Método de resgate atualizado."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar os métodos de resgate.",
+      "updateFailed": "Não foi possível atualizar este método.",
+      "invalidFeatured": "A posição de destaque deve ser um número."
     }
   },
   "AdminPromocodes": {

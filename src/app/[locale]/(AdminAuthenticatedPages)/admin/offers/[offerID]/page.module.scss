@@ -1,0 +1,132 @@
+@use '@styles/variables.scss' as *;
+
+.offerPage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  > .backLink {
+    color: $primary;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  > .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+
+      > h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+        color: $text-bold;
+      }
+
+      > p {
+        margin: 0;
+        font-size: 13px;
+        color: $text-light;
+      }
+    }
+
+    > img {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: $light-gray;
+    }
+  }
+
+  > .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    > .section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      border: 1px solid $border-light;
+      border-radius: $border-radius;
+      background: $background;
+
+      > .sectionHeader {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        > h2 {
+          margin: 0;
+          font-size: 16px;
+          font-weight: 600;
+          color: $text-bold;
+        }
+
+        > p {
+          margin: 0;
+          font-size: 13px;
+          font-weight: 500;
+          color: $text-light;
+        }
+      }
+
+      > .selectField,
+      > .areaField {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        > span {
+          font-size: 13px;
+          font-weight: 600;
+          color: $text-bold;
+        }
+
+        > select,
+        > textarea {
+          width: 100%;
+          box-sizing: border-box;
+          border: 1px solid $border-light;
+          border-radius: 8px;
+          background: $background;
+          color: $text-bold;
+          font: inherit;
+        }
+
+        > select {
+          height: 40px;
+          padding: 0 12px;
+        }
+
+        > textarea {
+          padding: 10px 12px;
+          resize: vertical;
+        }
+      }
+
+      > .rewardRow {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        gap: 12px;
+      }
+    }
+  }
+
+  @media screen and (max-width: $tablet) {
+    > .form > .section > .rewardRow {
+      grid-template-columns: 1fr;
+    }
+  }
+}

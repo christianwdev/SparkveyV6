@@ -279,6 +279,13 @@ function getCryptoDenominations(reward: Extract<InternalReward, { providerName: 
 function getRewardImage(
   reward: InternalReward,
 ): CatalogReward['image'] {
+  if (reward.internalImage) {
+    return {
+      src: reward.internalImage.src,
+      type: reward.internalImage.type,
+    };
+  }
+
   const images = (reward.image ?? [])
     .filter(image => !image.disabledAt)
     .sort((a, b) => (a.priority ?? Number.MAX_SAFE_INTEGER) - (b.priority ?? Number.MAX_SAFE_INTEGER));
@@ -588,20 +595,17 @@ export async function processConvertedWorkersRewards(
       $set['image'] = reward.image;
     }
 
-    if (reward.categories !== undefined) {
-      $set['categories'] = reward.categories;
-    }
-
     if (reward.feeRate !== undefined) {
       $set['feeRate'] = reward.feeRate;
     }
 
-    const $setOnInsert = {
+    const $setOnInsert: UpdateFilter<InternalReward> = {
       rewardID: reward.rewardID,
       providerName: reward.providerName,
       status: reward.status,
       createdAt: now,
     };
+    if (reward.categories !== undefined) $setOnInsert.categories = reward.categories;
 
     return {
       updateOne: {
