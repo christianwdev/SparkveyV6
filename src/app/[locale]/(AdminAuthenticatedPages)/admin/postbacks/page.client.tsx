@@ -78,6 +78,7 @@ function PostbacksPageContent() {
       if (!result.success) {
         if (result.code === 'notFound') toast.error(t('errors.notFound'));
         else if (result.code === 'alreadyCompleted') toast.error(t('errors.alreadyCompleted'));
+        else if (result.code === 'notFailed') toast.error(t('errors.notFailed'));
         else if (result.code === 'validationFailed') toast.error(t('errors.validationFailed'));
         else if (result.code === 'processingFailed') toast.error(t('errors.processingFailed'));
         else toast.error(t('errors.retryFailed'));
@@ -150,7 +151,7 @@ function PostbacksPageContent() {
       id: 'actions',
       header: t('table.actions'),
       cell: (row) => {
-        if (row.status === 'completed') return t('na');
+        if (row.status !== 'failed') return t('na');
 
         const retrying = retryingID === row.requestID;
 

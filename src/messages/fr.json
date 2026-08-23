@@ -1750,6 +1750,7 @@
       "retryFailed": "Impossible de relancer ce postback.",
       "notFound": "Postback introuvable.",
       "alreadyCompleted": "Ce postback est déjà terminé.",
+      "notFailed": "Seuls les postbacks en échec peuvent être relancés.",
       "validationFailed": "La relecture a échoué à la validation.",
       "processingFailed": "La relecture a échoué au traitement."
     }

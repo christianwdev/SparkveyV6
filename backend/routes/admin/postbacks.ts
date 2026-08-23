@@ -98,6 +98,16 @@ export default function routesInvoker() {
         });
       }
 
+      if (!result.ok && result.error === 'notFailed') {
+        return sendResponse({
+          c,
+          status: 400,
+          success: false,
+          code: result.error,
+          message: 'Only failed postbacks can be retried',
+        });
+      }
+
       if (!result.ok && (result.error === 'validationFailed' || result.error === 'processingFailed')) {
         return sendResponse({
           c,

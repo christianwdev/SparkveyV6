@@ -1750,6 +1750,7 @@
       "retryFailed": "Impossibile riprovare questo postback.",
       "notFound": "Postback non trovato.",
       "alreadyCompleted": "Questo postback è già completato.",
+      "notFailed": "Solo i postback non riusciti possono essere riprovati.",
       "validationFailed": "La riproduzione non ha superato la convalida.",
       "processingFailed": "La riproduzione è fallita in elaborazione."
     }

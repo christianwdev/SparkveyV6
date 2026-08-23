@@ -1750,6 +1750,7 @@
       "retryFailed": "Nie udało się ponowić tego postbacka.",
       "notFound": "Nie znaleziono postbacka.",
       "alreadyCompleted": "Ten postback jest już zakończony.",
+      "notFailed": "Ponowić można tylko nieudane postbacki.",
       "validationFailed": "Ponowienie nie przeszło walidacji.",
       "processingFailed": "Ponowienie nie powiodło się podczas przetwarzania."
     }

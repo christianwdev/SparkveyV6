@@ -1750,6 +1750,7 @@
       "retryFailed": "Dieser Postback konnte nicht wiederholt werden.",
       "notFound": "Postback nicht gefunden.",
       "alreadyCompleted": "Dieser Postback ist bereits abgeschlossen.",
+      "notFailed": "Nur fehlgeschlagene Postbacks können wiederholt werden.",
       "validationFailed": "Wiederholung hat die Prüfung nicht bestanden.",
       "processingFailed": "Wiederholung ist bei der Verarbeitung fehlgeschlagen."
     }

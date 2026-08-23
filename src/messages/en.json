@@ -1750,6 +1750,7 @@
       "retryFailed": "Could not retry this postback.",
       "notFound": "Postback not found.",
       "alreadyCompleted": "This postback is already completed.",
+      "notFailed": "Only failed postbacks can be retried.",
       "validationFailed": "Replay failed validation.",
       "processingFailed": "Replay failed processing."
     }

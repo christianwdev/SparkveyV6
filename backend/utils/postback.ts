@@ -35,6 +35,7 @@ export type ProcessPostbackResult = {
 export type RetryPostbackError =
   | 'notFound'
   | 'alreadyCompleted'
+  | 'notFailed'
   | 'validationFailed'
   | 'processingFailed'
   | 'internalServerError';
@@ -273,7 +274,7 @@ export async function updatePostbackLog(
     ) as Record<string, ''>;
   }
 
-  await postbackLogs().updateOne({ requestID }, update);
+  await postbackLogs().updateOne({ requestID, status: { $ne: 'completed' } }, update);
 }
 
 export async function retryPostbackLog(
@@ -284,6 +285,7 @@ export async function retryPostbackLog(
 
     if (!log) return { ok: false, error: 'notFound' };
     if (log.status === 'completed') return { ok: false, error: 'alreadyCompleted' };
+    if (log.status !== 'failed') return { ok: false, error: 'notFailed' };
 
     const retryCount = (log.retryCount ?? 0) + 1;
     let logUpdate: UpdatePostbackLogFields;

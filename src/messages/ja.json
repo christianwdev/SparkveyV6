@@ -1750,6 +1750,7 @@
       "retryFailed": "このポストバックを再試行できませんでした。",
       "notFound": "ポストバックが見つかりません。",
       "alreadyCompleted": "このポストバックは完了済みです。",
+      "notFailed": "失敗したポストバックのみ再試行できます。",
       "validationFailed": "再実行は検証に失敗しました。",
       "processingFailed": "再実行は処理に失敗しました。"
     }

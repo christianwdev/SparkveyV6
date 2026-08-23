@@ -1750,6 +1750,7 @@
       "retryFailed": "Não foi possível repetir este postback.",
       "notFound": "Postback não encontrado.",
       "alreadyCompleted": "Este postback já está concluído.",
+      "notFailed": "Só é possível repetir postbacks falhados.",
       "validationFailed": "A repetição falhou na validação.",
       "processingFailed": "A repetição falhou no processamento."
     }
