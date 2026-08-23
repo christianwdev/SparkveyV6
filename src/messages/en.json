@@ -264,7 +264,6 @@
     "waysToEarn": "Ways to Earn",
     "discover": "Discover",
     "tasks": "Tasks",
-    "videos": "Videos",
     "termsOfService": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
     "contactUs": "Contact Us",
@@ -657,25 +656,6 @@
   },
   "LegalEnglishOnlyNotice": {
     "message": "This legal document is currently provided in English only."
-  },
-  "VideosMetadata": {
-    "title": "Sparkvey | Videos",
-    "description": "Watch videos to earn rewards and cash."
-  },
-  "VideosPage": {
-    "title": "Earn by Watching",
-    "subtitle": "Select your favorite platform to watch videos on",
-    "rewardPrefix": "Earn up to",
-    "rewardUnlimited": "unlimited",
-    "sparksAlt": "Sparks",
-    "platforms": {
-      "cheddar": {
-        "description": "Watch your favorite content & earn"
-      },
-      "mmwatch": {
-        "description": "Watch videos"
-      }
-    }
   },
   "OfferMetadata": {
     "title": "Sparkvey | {offerName}",
@@ -1251,7 +1231,9 @@
     "userTitle": "Sparkvey | {username}",
     "userDescription": "View and manage this Sparkvey user.",
     "withdrawalsTitle": "Sparkvey | Withdrawals",
-    "withdrawalsDescription": "Review and process pending withdrawals."
+    "withdrawalsDescription": "Review and process pending withdrawals.",
+    "earningsTitle": "Sparkvey | Earnings",
+    "earningsDescription": "Review held offer earnings and release credits."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1262,6 +1244,7 @@
     "nav": {
       "dashboard": "Overview",
       "users": "Users",
+      "earnings": "Earnings",
       "withdrawals": "Withdrawals"
     }
   },
@@ -1507,11 +1490,14 @@
       "revokeAllSessions": "Revoke all sessions",
       "revoke": "Revoke",
       "viewReward": "View reward",
-      "reviewFlags": "Review flags"
+      "reviewFlags": "Review flags",
+      "release": "Release",
+      "releasing": "Releasing…"
     },
     "success": {
       "saved": "Saved.",
-      "sessionRevoked": "Session revoked."
+      "sessionRevoked": "Session revoked.",
+      "released": "Offer released and credited."
     },
     "errors": {
       "generic": "Something went wrong. Try again.",
@@ -1521,7 +1507,8 @@
       "deleted": "This account is deleted.",
       "selfBan": "You cannot ban your own account.",
       "insufficientBalance": "Not enough sparks for this debit.",
-      "invalidAmount": "Enter a non-zero whole number."
+      "invalidAmount": "Enter a non-zero whole number.",
+      "releaseFailed": "Could not release this earning."
     },
     "history": {
       "earningsTitle": "Earnings",
@@ -1662,6 +1649,58 @@
       "acceptFailed": "Could not accept the selected withdrawals.",
       "rejectFailed": "Could not reject the selected withdrawals.",
       "partial": "{failed} of {total} withdrawals could not be processed."
+    }
+  },
+  "AdminEarnings": {
+    "unnamed": "Unnamed",
+    "na": "—",
+    "empty": "No earnings match these filters.",
+    "searchLabel": "Search earnings",
+    "table": {
+      "user": "User",
+      "offer": "Offer",
+      "conversionID": "Conversion ID",
+      "status": "Status",
+      "sparks": "Sparks",
+      "heldUntil": "Held until",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "All",
+      "status": "Status",
+      "searchBy": "Search by"
+    },
+    "searchBy": {
+      "userID": "User ID",
+      "conversionID": "Conversion ID",
+      "offerName": "Offer name",
+      "clickID": "Click ID",
+      "transactionID": "Transaction ID"
+    },
+    "searchPlaceholder": {
+      "userID": "Search by user ID",
+      "conversionID": "Search by conversion ID",
+      "offerName": "Search by offer name",
+      "clickID": "Search by click ID",
+      "transactionID": "Search by transaction ID"
+    },
+    "statuses": {
+      "completed": "Completed",
+      "providerPending": "Provider pending",
+      "held": "Held",
+      "reversed": "Reversed"
+    },
+    "actions": {
+      "release": "Release",
+      "releasing": "Releasing…"
+    },
+    "success": {
+      "released": "Offer released and credited."
+    },
+    "errors": {
+      "loadFailed": "Earnings could not be loaded.",
+      "releaseFailed": "Could not release this earning."
     }
   },
   "AdminUserRiskModal": {

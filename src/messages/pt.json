@@ -263,7 +263,6 @@
     "waysToEarn": "Formas de Ganhar",
     "discover": "Descobrir",
     "tasks": "Tarefas",
-    "videos": "Vídeos",
     "termsOfService": "Termos de uso",
     "privacyPolicy": "Política de Privacidade",
     "contactUs": "Fale conosco",
@@ -654,25 +653,6 @@
   },
   "LegalEnglishOnlyNotice": {
     "message": "Este documento legal está disponível apenas em inglês no momento."
-  },
-  "VideosMetadata": {
-    "title": "Sparkvey | Vídeos",
-    "description": "Assista a vídeos para ganhar recompensas e dinheiro."
-  },
-  "VideosPage": {
-    "title": "Ganhe Assistindo",
-    "subtitle": "Selecione sua plataforma favorita para assistir a vídeos",
-    "rewardPrefix": "Ganhe até",
-    "rewardUnlimited": "ilimitado",
-    "sparksAlt": "Sparks",
-    "platforms": {
-      "cheddar": {
-        "description": "Assista ao seu conteúdo favorito e ganhe"
-      },
-      "mmwatch": {
-        "description": "Assista a vídeos"
-      }
-    }
   },
   "OfferMetadata": {
     "title": "Sparkvey | {offerName}",
@@ -1251,7 +1231,9 @@
     "userTitle": "Sparkvey | {username}",
     "userDescription": "Veja e gerencie este usuário Sparkvey.",
     "withdrawalsTitle": "Sparkvey | Levantamentos",
-    "withdrawalsDescription": "Reveja e processe levantamentos pendentes."
+    "withdrawalsDescription": "Reveja e processe levantamentos pendentes.",
+    "earningsTitle": "Sparkvey | Ganhos",
+    "earningsDescription": "Reveja ganhos de ofertas em espera e liberte-os."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1262,6 +1244,7 @@
     "nav": {
       "dashboard": "Overview",
       "users": "Users",
+      "earnings": "Ganhos",
       "withdrawals": "Levantamentos"
     }
   },
@@ -1507,11 +1490,14 @@
       "revokeAllSessions": "Revogar todas as sessões",
       "revoke": "Revogar",
       "viewReward": "Ver prémio",
-      "reviewFlags": "Rever alertas"
+      "reviewFlags": "Rever alertas",
+      "release": "Libertar",
+      "releasing": "A libertar…"
     },
     "success": {
       "saved": "Guardado.",
-      "sessionRevoked": "Sessão revogada."
+      "sessionRevoked": "Sessão revogada.",
+      "released": "Oferta libertada e creditada."
     },
     "errors": {
       "generic": "Algo correu mal. Tente novamente.",
@@ -1521,7 +1507,8 @@
       "deleted": "Esta conta está eliminada.",
       "selfBan": "Não pode banir a sua própria conta.",
       "insufficientBalance": "Sparks insuficientes para este débito.",
-      "invalidAmount": "Introduza um número inteiro diferente de zero."
+      "invalidAmount": "Introduza um número inteiro diferente de zero.",
+      "releaseFailed": "Não foi possível libertar este ganho."
     },
     "history": {
       "earningsTitle": "Ganhos",
@@ -1662,6 +1649,58 @@
       "acceptFailed": "Não foi possível aceitar os levantamentos selecionados.",
       "rejectFailed": "Não foi possível rejeitar os levantamentos selecionados.",
       "partial": "Não foi possível processar {failed} de {total} levantamentos."
+    }
+  },
+  "AdminEarnings": {
+    "unnamed": "Sem nome",
+    "na": "—",
+    "empty": "Nenhum ganho corresponde a estes filtros.",
+    "searchLabel": "Pesquisar ganhos",
+    "table": {
+      "user": "Utilizador",
+      "offer": "Oferta",
+      "conversionID": "ID de conversão",
+      "status": "Estado",
+      "sparks": "Sparks",
+      "heldUntil": "Retido até",
+      "created": "Criado",
+      "actions": "Ações"
+    },
+    "filters": {
+      "all": "Todos",
+      "status": "Estado",
+      "searchBy": "Pesquisar por"
+    },
+    "searchBy": {
+      "userID": "ID de utilizador",
+      "conversionID": "ID de conversão",
+      "offerName": "Nome da oferta",
+      "clickID": "ID de clique",
+      "transactionID": "ID de transação"
+    },
+    "searchPlaceholder": {
+      "userID": "Pesquisar por ID de utilizador",
+      "conversionID": "Pesquisar por ID de conversão",
+      "offerName": "Pesquisar por nome da oferta",
+      "clickID": "Pesquisar por ID de clique",
+      "transactionID": "Pesquisar por ID de transação"
+    },
+    "statuses": {
+      "completed": "Concluído",
+      "providerPending": "Pendente do fornecedor",
+      "held": "Retido",
+      "reversed": "Revertido"
+    },
+    "actions": {
+      "release": "Libertar",
+      "releasing": "A libertar…"
+    },
+    "success": {
+      "released": "Oferta libertada e creditada."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar os ganhos.",
+      "releaseFailed": "Não foi possível libertar este ganho."
     }
   },
   "AdminUserRiskModal": {

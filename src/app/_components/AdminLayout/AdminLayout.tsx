@@ -12,6 +12,7 @@ import styles from './AdminLayout.module.scss';
 // Icons
 import ChartIcon from '~icons/solar/chart-linear.jsx';
 import UsersIcon from '~icons/solar/users-group-rounded-linear.jsx';
+import GraphUpIcon from '~icons/solar/graph-up-linear.jsx';
 import WalletIcon from '~icons/solar/wallet-money-linear.jsx';
 import ArrowLeftIcon from '~icons/solar/arrow-left-linear.jsx';
 
@@ -34,6 +35,13 @@ const ADMIN_NAV = [
     permission: StaffPermissions.VIEW_USERS,
   },
   {
+    href: FrontendRedirectPaths.adminEarnings,
+    labelKey: 'earnings',
+    Icon: GraphUpIcon,
+    exact: false,
+    permission: StaffPermissions.VIEW_EARNINGS,
+  },
+  {
     href: FrontendRedirectPaths.adminWithdrawals,
     labelKey: 'withdrawals',
     Icon: WalletIcon,
@@ -42,9 +50,13 @@ const ADMIN_NAV = [
   },
 ] as const;
 
-function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' | 'withdrawals' {
+function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' | 'earnings' | 'withdrawals' {
   if (pathname === FrontendRedirectPaths.admin || pathname === `${FrontendRedirectPaths.admin}/`) {
     return 'dashboard';
+  }
+
+  if (pathname.startsWith(FrontendRedirectPaths.adminEarnings)) {
+    return 'earnings';
   }
 
   if (pathname.startsWith(FrontendRedirectPaths.adminWithdrawals)) {

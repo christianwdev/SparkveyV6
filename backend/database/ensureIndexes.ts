@@ -4,8 +4,6 @@ import { ensureSiteStatistics } from '../utils/siteStatistics';
 import type { Db } from 'mongodb';
 
 export default async function ensureIndexes(db: Db): Promise<void> {
-  await db.collection(DatabaseCollections.users).dropIndex('username_unique').catch(() => {});
-
   await db.collection(DatabaseCollections.users).createIndexes([
     {
       key: { userID: 1 },
@@ -39,9 +37,6 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       name: 'referredByID_creationDate',
     },
   ]);
-
-  // Usernames are intentionally non-unique; drop any legacy unique index.
-  await db.collection(DatabaseCollections.users).dropIndex('username_unique_active').catch(() => {});
 
   await db.collection(DatabaseCollections.deletedAccountFingerprints).createIndexes([
     {
@@ -240,6 +235,14 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       name: 'status_createdAt',
     },
   ]);
+
+  await userEarnings.createIndex(
+    { type: 1, status: 1, heldUntil: 1 },
+    {
+      name: 'type_status_heldUntil',
+      partialFilterExpression: { type: 'offer', status: 'held', heldUntil: { $exists: true } },
+    },
+  );
 
   await ensureSiteStatistics(db);
 }

@@ -263,7 +263,6 @@
     "waysToEarn": "Sposoby zarabiania",
     "discover": "Odkrywaj",
     "tasks": "Zadania",
-    "videos": "Wideo",
     "termsOfService": "Warunki korzystania",
     "privacyPolicy": "Polityka prywatnosci",
     "contactUs": "Skontaktuj sie z nami",
@@ -654,25 +653,6 @@
   },
   "LegalEnglishOnlyNotice": {
     "message": "Ten dokument prawny jest obecnie dostepny tylko w jezyku angielskim."
-  },
-  "VideosMetadata": {
-    "title": "Sparkvey | Wideo",
-    "description": "Ogladaj wideo i zdobywaj nagrody oraz gotowke."
-  },
-  "VideosPage": {
-    "title": "Zarabiaj ogladajac",
-    "subtitle": "Wybierz ulubiona platforme do ogladania wideo",
-    "rewardPrefix": "Zarabiaj do",
-    "rewardUnlimited": "bez limitu",
-    "sparksAlt": "Sparks",
-    "platforms": {
-      "cheddar": {
-        "description": "Ogladaj ulubione tresci i zarabiaj"
-      },
-      "mmwatch": {
-        "description": "Ogladaj wideo"
-      }
-    }
   },
   "OfferMetadata": {
     "title": "Sparkvey | {offerName}",
@@ -1251,7 +1231,9 @@
     "userTitle": "Sparkvey | {username}",
     "userDescription": "Przeglądaj i zarządzaj tym użytkownikiem Sparkvey.",
     "withdrawalsTitle": "Sparkvey | Wypłaty",
-    "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty."
+    "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty.",
+    "earningsTitle": "Sparkvey | Zarobki",
+    "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1262,6 +1244,7 @@
     "nav": {
       "dashboard": "Overview",
       "users": "Users",
+      "earnings": "Zarobki",
       "withdrawals": "Wypłaty"
     }
   },
@@ -1507,11 +1490,14 @@
       "revokeAllSessions": "Unieważnij wszystkie sesje",
       "revoke": "Unieważnij",
       "viewReward": "Zobacz nagrodę",
-      "reviewFlags": "Przejrzyj flagi"
+      "reviewFlags": "Przejrzyj flagi",
+      "release": "Zwolnij",
+      "releasing": "Zwalnianie…"
     },
     "success": {
       "saved": "Zapisano.",
-      "sessionRevoked": "Sesja unieważniona."
+      "sessionRevoked": "Sesja unieważniona.",
+      "released": "Oferta zwolniona i uznana."
     },
     "errors": {
       "generic": "Coś poszło nie tak. Spróbuj ponownie.",
@@ -1521,7 +1507,8 @@
       "deleted": "To konto jest usunięte.",
       "selfBan": "Nie możesz zablokować własnego konta.",
       "insufficientBalance": "Za mało sparks na to obciążenie.",
-      "invalidAmount": "Podaj liczbę całkowitą różną od zera."
+      "invalidAmount": "Podaj liczbę całkowitą różną od zera.",
+      "releaseFailed": "Nie udało się zwolnić tego zarobku."
     },
     "history": {
       "earningsTitle": "Zarobki",
@@ -1662,6 +1649,58 @@
       "acceptFailed": "Nie udało się zaakceptować wybranych wypłat.",
       "rejectFailed": "Nie udało się odrzucić wybranych wypłat.",
       "partial": "Nie udało się przetworzyć {failed} z {total} wypłat."
+    }
+  },
+  "AdminEarnings": {
+    "unnamed": "Bez nazwy",
+    "na": "—",
+    "empty": "Żadne zarobki nie pasują do tych filtrów.",
+    "searchLabel": "Szukaj zarobków",
+    "table": {
+      "user": "Użytkownik",
+      "offer": "Oferta",
+      "conversionID": "ID konwersji",
+      "status": "Status",
+      "sparks": "Sparks",
+      "heldUntil": "Wstrzymane do",
+      "created": "Utworzono",
+      "actions": "Akcje"
+    },
+    "filters": {
+      "all": "Wszystkie",
+      "status": "Status",
+      "searchBy": "Szukaj według"
+    },
+    "searchBy": {
+      "userID": "ID użytkownika",
+      "conversionID": "ID konwersji",
+      "offerName": "Nazwa oferty",
+      "clickID": "ID kliknięcia",
+      "transactionID": "ID transakcji"
+    },
+    "searchPlaceholder": {
+      "userID": "Szukaj po ID użytkownika",
+      "conversionID": "Szukaj po ID konwersji",
+      "offerName": "Szukaj po nazwie oferty",
+      "clickID": "Szukaj po ID kliknięcia",
+      "transactionID": "Szukaj po ID transakcji"
+    },
+    "statuses": {
+      "completed": "Zakończone",
+      "providerPending": "Oczekuje na dostawcę",
+      "held": "Wstrzymane",
+      "reversed": "Cofnięte"
+    },
+    "actions": {
+      "release": "Zwolnij",
+      "releasing": "Zwalnianie…"
+    },
+    "success": {
+      "released": "Oferta zwolniona i uznana."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać zarobków.",
+      "releaseFailed": "Nie udało się zwolnić tego zarobku."
     }
   },
   "AdminUserRiskModal": {

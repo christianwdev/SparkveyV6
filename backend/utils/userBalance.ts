@@ -33,6 +33,7 @@ export async function updateUserBalance({
   minBalance,
   session: externalSession,
   afterCommit,
+  transactionID: suppliedTransactionID,
 }: {
   userID: string;
   balanceType?: keyof InternalUser['balance'];
@@ -41,6 +42,7 @@ export async function updateUserBalance({
   minBalance?: number;
   session?: ClientSession;
   afterCommit?: UpdateUserBalanceAfterCommit;
+  transactionID?: string;
 }): Promise<FunctionResponse<{ user: InternalUser; transaction: InternalTransaction }, UpdateUserBalanceError>> {
   const { db, mongoClient, io } = getGlobalObject();
   const ownsSession = externalSession === undefined;
@@ -76,7 +78,7 @@ export async function updateUserBalance({
 
     const now = new Date();
     const transaction: InternalTransaction = {
-      transactionID: createId(),
+      transactionID: suppliedTransactionID ?? createId(),
       userID,
       balanceType,
       balanceChange,

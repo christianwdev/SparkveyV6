@@ -2,17 +2,24 @@
 
 import { useState } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
+import { toast } from 'react-toastify';
+import { useQueryClient } from '@tanstack/react-query';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
+import { useUser } from '@contexts/UserProvider';
 import { useAdminUserEarningsQuery } from '@hooks/useAdminUsers';
+import { queryKeys } from '@hooks/queryKeys';
+import { hasPermissions } from '@utils/admin';
 import { ADMIN_USER_HISTORY_PAGE_SIZE } from '@utils/adminUsers';
+import { releaseAdminEarningRequest } from '@utils/adminEarnings';
 import { toDate } from '@utils/date';
 
 // Types
 import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
+import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 import styles from '../history.module.scss';
 
@@ -38,6 +45,12 @@ function earningName(row: InternalEarning): string {
   return row.storeDisplayName || row.storeName;
 }
 
+function earningRowKey(row: InternalEarning): string {
+  if (row.type === 'offer') return `${row.provider}:${row.conversionID}`;
+
+  return `${row.type}:${row.conversionID}:${String(row.createdAt)}`;
+}
+
 export default function AdminUserEarningsClient(
   {
     userID,
@@ -47,9 +60,12 @@ export default function AdminUserEarningsClient(
 ) {
   const t = useTranslations('AdminUser');
   const formatter = useFormatter();
+  const queryClient = useQueryClient();
+  const { user } = useUser();
   const [ page, setPage ] = useState<number>(1);
   const [ status, setStatus ] = useState<'all' | InternalEarningStatus>('all');
   const [ type, setType ] = useState<'all' | InternalEarning['type']>('all');
+  const [ releasingKey, setReleasingKey ] = useState<string | null>(null);
 
   const { data: earnings = [], isPending, isFetching } = useAdminUserEarningsQuery({
     userID,
@@ -57,6 +73,39 @@ export default function AdminUserEarningsClient(
     status: status === 'all' ? undefined : status,
     type: type === 'all' ? undefined : type,
   });
+
+  const canModify = hasPermissions({
+    userPermissions: user?.staffPermissions,
+    required: StaffPermissions.MODIFY_EARNINGS,
+  });
+
+  async function releaseRow(row: InternalEarning) {
+    if (row.type !== 'offer' || releasingKey) return;
+
+    const key = earningRowKey(row);
+    setReleasingKey(key);
+
+    try {
+      const result = await releaseAdminEarningRequest({
+        provider: row.provider,
+        conversionID: row.conversionID,
+      });
+
+      if (!result.success) {
+        toast.error(result.message || t('errors.releaseFailed'));
+
+        return;
+      }
+
+      toast.success(t('success.released'));
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: queryKeys.admin.earnings.all() }),
+        queryClient.invalidateQueries({ queryKey: [ ...queryKeys.admin.users.all(), 'earnings' ] }),
+      ]);
+    } finally {
+      setReleasingKey(null);
+    }
+  }
 
   const columns: DataTableColumn<InternalEarning>[] = [
     {
@@ -101,6 +150,34 @@ export default function AdminUserEarningsClient(
     },
   ];
 
+  if (canModify) {
+    columns.push({
+      id: 'actions',
+      header: t('table.actions'),
+      cell: (row) => {
+        if (row.type !== 'offer' || row.status !== 'held') return t('na');
+
+        const key = earningRowKey(row);
+        const releasing = releasingKey === key;
+
+        return (
+          <button
+            type="button"
+            className={styles.actionLink}
+            disabled={releasingKey !== null}
+            onClick={() => {
+              releaseRow(row).catch(error => {
+                console.error(error);
+              });
+            }}
+          >
+            {releasing ? t('actions.releasing') : t('actions.release')}
+          </button>
+        );
+      },
+    });
+  }
+
   const hasNextPage = earnings.length >= ADMIN_USER_HISTORY_PAGE_SIZE;
   const loading = isPending || (isFetching && earnings.length === 0);
 
@@ -142,7 +219,7 @@ export default function AdminUserEarningsClient(
       <DataTable
         columns={columns}
         rows={earnings}
-        getRowKey={row => `${row.conversionID}-${row.createdAt}`}
+        getRowKey={earningRowKey}
         loading={loading}
         emptyMessage={t('history.earningsEmpty')}
       />

@@ -12,16 +12,15 @@ import {
   fetchAdminUsers,
 } from '@utils/adminUsers';
 import { fetchAdminUserRisk, fetchAdminWithdrawals } from '@utils/adminWithdrawals';
+import { fetchAdminEarnings } from '@utils/adminEarnings';
 import { queryKeys } from './queryKeys';
 
 // Types
 import type { AdminUserFilterBy, AdminUserOrder, AdminUserSort } from 'types/AdminUser';
 import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
-import type {
-  InternalRedemptionProvider,
-  InternalRedemptionStatus,
-} from 'types/Redemption/BaseInternalRedemption';
+import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
+import type { AdminEarningSearchBy } from 'types/AdminEarning';
 import type EmailActionable from 'types/EmailActionable';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
@@ -318,6 +317,44 @@ export function adminWithdrawalsListQueryOptions(
       });
 
       if (!rows) throw new Error('Failed to load withdrawals');
+
+      return rows;
+    },
+  });
+}
+
+export function adminEarningsListQueryOptions(
+  {
+    request,
+    statuses,
+    searchBy,
+    search,
+    page,
+  }: {
+    request: RequestFn,
+    statuses: InternalEarningStatus[],
+    searchBy: AdminEarningSearchBy,
+    search: string,
+    page: number,
+  },
+) {
+  return queryOptions({
+    queryKey: queryKeys.admin.earnings.list({
+      status: [ ...statuses ].sort(),
+      searchBy,
+      search,
+      page,
+    }),
+    queryFn: async () => {
+      const rows = await fetchAdminEarnings({
+        request,
+        statuses,
+        searchBy,
+        search,
+        page,
+      });
+
+      if (!rows) throw new Error('Failed to load earnings');
 
       return rows;
     },

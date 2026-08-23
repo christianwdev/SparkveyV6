@@ -109,5 +109,14 @@ export const queryKeys = {
         page: number,
       }) => [ ...queryKeys.admin.withdrawals.all(), 'list', filters ] as const,
     },
+    earnings: {
+      all: () => [ ...queryKeys.admin.all, 'earnings' ] as const,
+      list: (filters: {
+        status: string[],
+        searchBy: string,
+        search: string,
+        page: number,
+      }) => [ ...queryKeys.admin.earnings.all(), 'list', filters ] as const,
+    },
   },
 };

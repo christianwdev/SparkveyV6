@@ -263,7 +263,6 @@
     "waysToEarn": "적립 방법",
     "discover": "둘러보기",
     "tasks": "작업",
-    "videos": "비디오",
     "termsOfService": "이용약관",
     "privacyPolicy": "개인 정보 보호 정책",
     "contactUs": "문의하기",
@@ -654,25 +653,6 @@
   },
   "LegalEnglishOnlyNotice": {
     "message": "이 법적 문서는 현재 영어로만 제공됩니다."
-  },
-  "VideosMetadata": {
-    "title": "Sparkvey | 비디오",
-    "description": "동영상을 시청하여 보상과 현금을 받으세요."
-  },
-  "VideosPage": {
-    "title": "시청으로 수익을 창출하세요",
-    "subtitle": "좋아하는 플랫폼을 선택하여 비디오를 시청하세요",
-    "rewardPrefix": "최대 적립",
-    "rewardUnlimited": "제한 없는",
-    "sparksAlt": "스파크",
-    "platforms": {
-      "cheddar": {
-        "description": "좋아하는 콘텐츠를 시청하고 수익을 얻으세요"
-      },
-      "mmwatch": {
-        "description": "동영상 보기"
-      }
-    }
   },
   "OfferMetadata": {
     "title": "Sparkvey | {offerName}",
@@ -1251,7 +1231,9 @@
     "userTitle": "Sparkvey | {username}",
     "userDescription": "이 Sparkvey 사용자를 조회하고 관리합니다.",
     "withdrawalsTitle": "Sparkvey | 출금",
-    "withdrawalsDescription": "대기 중인 출금을 검토하고 처리합니다."
+    "withdrawalsDescription": "대기 중인 출금을 검토하고 처리합니다.",
+    "earningsTitle": "Sparkvey | 수익",
+    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1262,6 +1244,7 @@
     "nav": {
       "dashboard": "Overview",
       "users": "Users",
+      "earnings": "수익",
       "withdrawals": "출금"
     }
   },
@@ -1507,11 +1490,14 @@
       "revokeAllSessions": "모든 세션 종료",
       "revoke": "종료",
       "viewReward": "보상 보기",
-      "reviewFlags": "플래그 검토"
+      "reviewFlags": "플래그 검토",
+      "release": "해제",
+      "releasing": "해제 중…"
     },
     "success": {
       "saved": "저장되었습니다.",
-      "sessionRevoked": "세션이 종료되었습니다."
+      "sessionRevoked": "세션이 종료되었습니다.",
+      "released": "오퍼가 해제되어 적립되었습니다."
     },
     "errors": {
       "generic": "문제가 발생했습니다. 다시 시도하세요.",
@@ -1521,7 +1507,8 @@
       "deleted": "이 계정은 삭제되었습니다.",
       "selfBan": "자신의 계정은 차단할 수 없습니다.",
       "insufficientBalance": "이 차감에 필요한 Sparks가 부족합니다.",
-      "invalidAmount": "0이 아닌 정수를 입력하세요."
+      "invalidAmount": "0이 아닌 정수를 입력하세요.",
+      "releaseFailed": "이 수익을 해제하지 못했습니다."
     },
     "history": {
       "earningsTitle": "수익",
@@ -1662,6 +1649,58 @@
       "acceptFailed": "선택한 출금을 승인하지 못했습니다.",
       "rejectFailed": "선택한 출금을 거절하지 못했습니다.",
       "partial": "{total}건 중 {failed}건의 출금을 처리하지 못했습니다."
+    }
+  },
+  "AdminEarnings": {
+    "unnamed": "이름 없음",
+    "na": "—",
+    "empty": "이 필터에 맞는 수익이 없습니다.",
+    "searchLabel": "수익 검색",
+    "table": {
+      "user": "사용자",
+      "offer": "오퍼",
+      "conversionID": "전환 ID",
+      "status": "상태",
+      "sparks": "Sparks",
+      "heldUntil": "보류 종료",
+      "created": "생성일",
+      "actions": "작업"
+    },
+    "filters": {
+      "all": "전체",
+      "status": "상태",
+      "searchBy": "검색 기준"
+    },
+    "searchBy": {
+      "userID": "사용자 ID",
+      "conversionID": "전환 ID",
+      "offerName": "오퍼 이름",
+      "clickID": "클릭 ID",
+      "transactionID": "거래 ID"
+    },
+    "searchPlaceholder": {
+      "userID": "사용자 ID로 검색",
+      "conversionID": "전환 ID로 검색",
+      "offerName": "오퍼 이름으로 검색",
+      "clickID": "클릭 ID로 검색",
+      "transactionID": "거래 ID로 검색"
+    },
+    "statuses": {
+      "completed": "완료",
+      "providerPending": "제공자 대기",
+      "held": "보류",
+      "reversed": "취소"
+    },
+    "actions": {
+      "release": "해제",
+      "releasing": "해제 중…"
+    },
+    "success": {
+      "released": "오퍼가 해제되어 적립되었습니다."
+    },
+    "errors": {
+      "loadFailed": "수익을 불러오지 못했습니다.",
+      "releaseFailed": "이 수익을 해제하지 못했습니다."
     }
   },
   "AdminUserRiskModal": {

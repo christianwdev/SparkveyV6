@@ -49,7 +49,6 @@ export default function Footer() {
             <p>{t('waysToEarn')}</p>
             <Link href="/">{t('discover')}</Link>
             <Link href="/tasks">{t('tasks')}</Link>
-            <Link href="/videos">{t('videos')}</Link>
           </div>
 
           <div className={styles.category}>

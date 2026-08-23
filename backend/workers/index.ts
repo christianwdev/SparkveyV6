@@ -13,6 +13,7 @@ import startCurrencyWorker from './currency';
 import startRewardsWorkers from './rewards';
 import startOffersWorkers from './offers';
 import startLeaderboardWorker from './leaderboard';
+import startHoldsWorker from './holds';
 
 // Types
 import type { TypedServer } from 'types/SocketEvents';
@@ -48,5 +49,6 @@ await startCurrencyWorker();
 startRewardsWorkers();
 startOffersWorkers();
 startLeaderboardWorker();
+startHoldsWorker();
 
 console.log('Worker is running');

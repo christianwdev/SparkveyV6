@@ -9,6 +9,7 @@ import VerifyEmail from 'backend/emails/VerifyEmail';
 import ConfirmEmailChange from 'backend/emails/ConfirmEmailChange';
 import ConfirmAccountDeletion from 'backend/emails/ConfirmAccountDeletion';
 import EmailChangedNotice from 'backend/emails/EmailChangedNotice';
+import OfferReleased from 'backend/emails/OfferReleased';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -132,6 +133,57 @@ export async function sendEmailChangedNotice(
       from: 'noreply@sparkvey.com',
       to: email,
       subject: 'Your Sparkvey email address was changed',
+      html: renderedEmail,
+      replyTo: 'support@sparkvey.com',
+    });
+
+    if (response.error) return [ true, 'We encountered an error when trying to send your email.' ];
+
+    return [ false ];
+  } catch (err) {
+    console.error(err);
+
+    return [ true, 'Internal server error' ];
+  }
+}
+
+export async function sendOfferReleased(
+  {
+    email,
+    offerName,
+    offerAmount,
+    releaseDate,
+    offerImageUrl,
+  }: {
+    email: string,
+    offerName: string,
+    offerAmount: string,
+    releaseDate: string,
+    offerImageUrl?: string,
+  },
+): Promise<[err: true, message: string] | [err: false]> {
+  try {
+    const templateProps: {
+      offerName: string,
+      offerAmount: string,
+      releaseDate: string,
+      offerImageUrl?: string,
+    } = {
+      offerName,
+      offerAmount,
+      releaseDate,
+    };
+
+    if (offerImageUrl) templateProps.offerImageUrl = offerImageUrl;
+
+    const renderedEmail = await render(
+      OfferReleased(templateProps),
+    );
+
+    const response = await resend.emails.send({
+      from: 'noreply@sparkvey.com',
+      to: email,
+      subject: 'Your Sparkvey offer has been released',
       html: renderedEmail,
       replyTo: 'support@sparkvey.com',
     });

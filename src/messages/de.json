@@ -263,7 +263,6 @@
     "waysToEarn": "Verdienstmoeglichkeiten",
     "discover": "Entdecken",
     "tasks": "Aufgaben",
-    "videos": "Videos",
     "termsOfService": "Nutzungsbedingungen",
     "privacyPolicy": "Datenschutzrichtlinie",
     "contactUs": "Kontakt",
@@ -654,25 +653,6 @@
   },
   "LegalEnglishOnlyNotice": {
     "message": "Dieses Rechtsdokument wird derzeit nur auf Englisch bereitgestellt."
-  },
-  "VideosMetadata": {
-    "title": "Sparkvey | Videos",
-    "description": "Sieh dir Videos an, um Belohnungen und Bargeld zu verdienen."
-  },
-  "VideosPage": {
-    "title": "Durch Zuschauen verdienen",
-    "subtitle": "Waehle deine Lieblingsplattform, um Videos anzusehen",
-    "rewardPrefix": "Verdiene bis zu",
-    "rewardUnlimited": "unbegrenzt",
-    "sparksAlt": "Sparks",
-    "platforms": {
-      "cheddar": {
-        "description": "Sieh dir deine Lieblingsinhalte an und verdiene"
-      },
-      "mmwatch": {
-        "description": "Sieh dir Videos an"
-      }
-    }
   },
   "OfferMetadata": {
     "title": "Sparkvey | {offerName}",
@@ -1251,7 +1231,9 @@
     "userTitle": "Sparkvey | {username}",
     "userDescription": "Diesen Sparkvey-Nutzer ansehen und verwalten.",
     "withdrawalsTitle": "Sparkvey | Auszahlungen",
-    "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten."
+    "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten.",
+    "earningsTitle": "Sparkvey | Einnahmen",
+    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1262,6 +1244,7 @@
     "nav": {
       "dashboard": "Overview",
       "users": "Users",
+      "earnings": "Einnahmen",
       "withdrawals": "Auszahlungen"
     }
   },
@@ -1507,11 +1490,14 @@
       "revokeAllSessions": "Alle Sitzungen beenden",
       "revoke": "Beenden",
       "viewReward": "Prämie ansehen",
-      "reviewFlags": "Hinweise prüfen"
+      "reviewFlags": "Hinweise prüfen",
+      "release": "Freigeben",
+      "releasing": "Wird freigegeben…"
     },
     "success": {
       "saved": "Gespeichert.",
-      "sessionRevoked": "Sitzung beendet."
+      "sessionRevoked": "Sitzung beendet.",
+      "released": "Angebot freigegeben und gutgeschrieben."
     },
     "errors": {
       "generic": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
@@ -1521,7 +1507,8 @@
       "deleted": "Dieses Konto ist gelöscht.",
       "selfBan": "Du kannst dein eigenes Konto nicht sperren.",
       "insufficientBalance": "Nicht genug Sparks für diese Abbuchung.",
-      "invalidAmount": "Gib eine ganze Zahl ungleich null ein."
+      "invalidAmount": "Gib eine ganze Zahl ungleich null ein.",
+      "releaseFailed": "Diese Einnahme konnte nicht freigegeben werden."
     },
     "history": {
       "earningsTitle": "Einnahmen",
@@ -1662,6 +1649,58 @@
       "acceptFailed": "Ausgewählte Auszahlungen konnten nicht akzeptiert werden.",
       "rejectFailed": "Ausgewählte Auszahlungen konnten nicht abgelehnt werden.",
       "partial": "{failed} von {total} Auszahlungen konnten nicht verarbeitet werden."
+    }
+  },
+  "AdminEarnings": {
+    "unnamed": "Unbenannt",
+    "na": "—",
+    "empty": "Keine Einnahmen entsprechen diesen Filtern.",
+    "searchLabel": "Einnahmen suchen",
+    "table": {
+      "user": "Nutzer",
+      "offer": "Angebot",
+      "conversionID": "Conversion-ID",
+      "status": "Status",
+      "sparks": "Sparks",
+      "heldUntil": "Gehalten bis",
+      "created": "Erstellt",
+      "actions": "Aktionen"
+    },
+    "filters": {
+      "all": "Alle",
+      "status": "Status",
+      "searchBy": "Suchen nach"
+    },
+    "searchBy": {
+      "userID": "Nutzer-ID",
+      "conversionID": "Conversion-ID",
+      "offerName": "Angebotsname",
+      "clickID": "Click-ID",
+      "transactionID": "Transaktions-ID"
+    },
+    "searchPlaceholder": {
+      "userID": "Nach Nutzer-ID suchen",
+      "conversionID": "Nach Conversion-ID suchen",
+      "offerName": "Nach Angebotsname suchen",
+      "clickID": "Nach Click-ID suchen",
+      "transactionID": "Nach Transaktions-ID suchen"
+    },
+    "statuses": {
+      "completed": "Abgeschlossen",
+      "providerPending": "Anbieter ausstehend",
+      "held": "Gehalten",
+      "reversed": "Storniert"
+    },
+    "actions": {
+      "release": "Freigeben",
+      "releasing": "Wird freigegeben…"
+    },
+    "success": {
+      "released": "Angebot freigegeben und gutgeschrieben."
+    },
+    "errors": {
+      "loadFailed": "Einnahmen konnten nicht geladen werden.",
+      "releaseFailed": "Diese Einnahme konnte nicht freigegeben werden."
     }
   },
   "AdminUserRiskModal": {

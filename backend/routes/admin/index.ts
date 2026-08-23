@@ -7,6 +7,7 @@ import { requireAdmin } from 'backend/middleware/auth';
 import usersRouteInvoker from './users';
 import dashboardRouteInvoker from './dashboard';
 import withdrawalsRouteInvoker from './withdrawals';
+import earningsRouteInvoker from './earnings';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
@@ -19,6 +20,7 @@ export default function routesInvoker() {
   app.route('/users', usersRouteInvoker());
   app.route('/dashboard', dashboardRouteInvoker());
   app.route('/withdrawals', withdrawalsRouteInvoker());
+  app.route('/earnings', earningsRouteInvoker());
 
   return app;
 }

@@ -263,7 +263,6 @@
     "waysToEarn": "Modi per guadagnare",
     "discover": "Scopri",
     "tasks": "Task",
-    "videos": "Video",
     "termsOfService": "Termini d'uso",
     "privacyPolicy": "Informativa sulla privacy",
     "contactUs": "Contattaci",
@@ -654,25 +653,6 @@
   },
   "LegalEnglishOnlyNotice": {
     "message": "Questo documento legale e attualmente disponibile solo in inglese."
-  },
-  "VideosMetadata": {
-    "title": "Sparkvey | Video",
-    "description": "Guarda video per guadagnare premi e denaro."
-  },
-  "VideosPage": {
-    "title": "Guadagna guardando",
-    "subtitle": "Seleziona la tua piattaforma preferita su cui guardare video",
-    "rewardPrefix": "Guadagna fino a",
-    "rewardUnlimited": "illimitato",
-    "sparksAlt": "Sparks",
-    "platforms": {
-      "cheddar": {
-        "description": "Guarda i tuoi contenuti preferiti e guadagna"
-      },
-      "mmwatch": {
-        "description": "Guarda video"
-      }
-    }
   },
   "OfferMetadata": {
     "title": "Sparkvey | {offerName}",
@@ -1251,7 +1231,9 @@
     "userTitle": "Sparkvey | {username}",
     "userDescription": "Visualizza e gestisci questo utente Sparkvey.",
     "withdrawalsTitle": "Sparkvey | Prelievi",
-    "withdrawalsDescription": "Esamina ed elabora i prelievi in sospeso."
+    "withdrawalsDescription": "Esamina ed elabora i prelievi in sospeso.",
+    "earningsTitle": "Sparkvey | Guadagni",
+    "earningsDescription": "Esamina i guadagni in attesa e rilasciali."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1262,6 +1244,7 @@
     "nav": {
       "dashboard": "Overview",
       "users": "Users",
+      "earnings": "Guadagni",
       "withdrawals": "Prelievi"
     }
   },
@@ -1507,11 +1490,14 @@
       "revokeAllSessions": "Revoca tutte le sessioni",
       "revoke": "Revoca",
       "viewReward": "Vedi premio",
-      "reviewFlags": "Rivedi avvisi"
+      "reviewFlags": "Rivedi avvisi",
+      "release": "Rilascia",
+      "releasing": "Rilascio…"
     },
     "success": {
       "saved": "Salvato.",
-      "sessionRevoked": "Sessione revocata."
+      "sessionRevoked": "Sessione revocata.",
+      "released": "Offerta rilasciata e accreditata."
     },
     "errors": {
       "generic": "Qualcosa è andato storto. Riprova.",
@@ -1521,7 +1507,8 @@
       "deleted": "Questo account è eliminato.",
       "selfBan": "Non puoi bannare il tuo account.",
       "insufficientBalance": "Sparks insufficienti per questo addebito.",
-      "invalidAmount": "Inserisci un intero diverso da zero."
+      "invalidAmount": "Inserisci un intero diverso da zero.",
+      "releaseFailed": "Impossibile rilasciare questo guadagno."
     },
     "history": {
       "earningsTitle": "Guadagni",
@@ -1662,6 +1649,58 @@
       "acceptFailed": "Impossibile accettare i prelievi selezionati.",
       "rejectFailed": "Impossibile rifiutare i prelievi selezionati.",
       "partial": "Impossibile elaborare {failed} di {total} prelievi."
+    }
+  },
+  "AdminEarnings": {
+    "unnamed": "Senza nome",
+    "na": "—",
+    "empty": "Nessun guadagno corrisponde a questi filtri.",
+    "searchLabel": "Cerca guadagni",
+    "table": {
+      "user": "Utente",
+      "offer": "Offerta",
+      "conversionID": "ID conversione",
+      "status": "Stato",
+      "sparks": "Sparks",
+      "heldUntil": "In attesa fino al",
+      "created": "Creato",
+      "actions": "Azioni"
+    },
+    "filters": {
+      "all": "Tutti",
+      "status": "Stato",
+      "searchBy": "Cerca per"
+    },
+    "searchBy": {
+      "userID": "ID utente",
+      "conversionID": "ID conversione",
+      "offerName": "Nome offerta",
+      "clickID": "ID clic",
+      "transactionID": "ID transazione"
+    },
+    "searchPlaceholder": {
+      "userID": "Cerca per ID utente",
+      "conversionID": "Cerca per ID conversione",
+      "offerName": "Cerca per nome offerta",
+      "clickID": "Cerca per ID clic",
+      "transactionID": "Cerca per ID transazione"
+    },
+    "statuses": {
+      "completed": "Completato",
+      "providerPending": "In attesa del provider",
+      "held": "In attesa",
+      "reversed": "Stornato"
+    },
+    "actions": {
+      "release": "Rilascia",
+      "releasing": "Rilascio…"
+    },
+    "success": {
+      "released": "Offerta rilasciata e accreditata."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare i guadagni.",
+      "releaseFailed": "Impossibile rilasciare questo guadagno."
     }
   },
   "AdminUserRiskModal": {

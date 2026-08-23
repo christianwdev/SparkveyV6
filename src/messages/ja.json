@@ -263,7 +263,6 @@
     "waysToEarn": "稼ぎ方",
     "discover": "見つける",
     "tasks": "タスク",
-    "videos": "動画",
     "termsOfService": "利用規約",
     "privacyPolicy": "プライバシーポリシー",
     "contactUs": "お問い合わせ",
@@ -654,25 +653,6 @@
   },
   "LegalEnglishOnlyNotice": {
     "message": "この法的文書は現在、英語版のみ提供されています。"
-  },
-  "VideosMetadata": {
-    "title": "Sparkvey | 動画",
-    "description": "動画を視聴して報酬と現金を獲得しましょう。"
-  },
-  "VideosPage": {
-    "title": "視聴して獲得",
-    "subtitle": "動画を視聴するお気に入りのプラットフォームを選択",
-    "rewardPrefix": "最大",
-    "rewardUnlimited": "無制限",
-    "sparksAlt": "Sparks",
-    "platforms": {
-      "cheddar": {
-        "description": "お気に入りのコンテンツを視聴して獲得"
-      },
-      "mmwatch": {
-        "description": "動画を視聴"
-      }
-    }
   },
   "OfferMetadata": {
     "title": "Sparkvey | {offerName}",
@@ -1251,7 +1231,9 @@
     "userTitle": "Sparkvey | {username}",
     "userDescription": "このSparkveyユーザーを表示・管理します。",
     "withdrawalsTitle": "Sparkvey | 出金",
-    "withdrawalsDescription": "保留中の出金を確認して処理します。"
+    "withdrawalsDescription": "保留中の出金を確認して処理します。",
+    "earningsTitle": "Sparkvey | 収益",
+    "earningsDescription": "保留中のオファー収益を確認して解放します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1262,6 +1244,7 @@
     "nav": {
       "dashboard": "Overview",
       "users": "Users",
+      "earnings": "収益",
       "withdrawals": "出金"
     }
   },
@@ -1507,11 +1490,14 @@
       "revokeAllSessions": "全セッションを切断",
       "revoke": "切断",
       "viewReward": "報酬を見る",
-      "reviewFlags": "フラグを確認"
+      "reviewFlags": "フラグを確認",
+      "release": "解放",
+      "releasing": "解放中…"
     },
     "success": {
       "saved": "保存しました。",
-      "sessionRevoked": "セッションを切断しました。"
+      "sessionRevoked": "セッションを切断しました。",
+      "released": "オファーを解放して付与しました。"
     },
     "errors": {
       "generic": "問題が発生しました。再試行してください。",
@@ -1521,7 +1507,8 @@
       "deleted": "このアカウントは削除済みです。",
       "selfBan": "自分のアカウントはBANできません。",
       "insufficientBalance": "この減算に必要なSparksが不足しています。",
-      "invalidAmount": "0以外の整数を入力してください。"
+      "invalidAmount": "0以外の整数を入力してください。",
+      "releaseFailed": "この収益を解放できませんでした。"
     },
     "history": {
       "earningsTitle": "収益",
@@ -1662,6 +1649,58 @@
       "acceptFailed": "選択した出金を承認できませんでした。",
       "rejectFailed": "選択した出金を拒否できませんでした。",
       "partial": "{total} 件中 {failed} 件の出金を処理できませんでした。"
+    }
+  },
+  "AdminEarnings": {
+    "unnamed": "未設定",
+    "na": "—",
+    "empty": "これらの条件に一致する収益はありません。",
+    "searchLabel": "収益を検索",
+    "table": {
+      "user": "ユーザー",
+      "offer": "オファー",
+      "conversionID": "コンバージョンID",
+      "status": "ステータス",
+      "sparks": "Sparks",
+      "heldUntil": "保留期限",
+      "created": "作成日",
+      "actions": "操作"
+    },
+    "filters": {
+      "all": "すべて",
+      "status": "ステータス",
+      "searchBy": "検索対象"
+    },
+    "searchBy": {
+      "userID": "ユーザーID",
+      "conversionID": "コンバージョンID",
+      "offerName": "オファー名",
+      "clickID": "クリックID",
+      "transactionID": "取引ID"
+    },
+    "searchPlaceholder": {
+      "userID": "ユーザーIDで検索",
+      "conversionID": "コンバージョンIDで検索",
+      "offerName": "オファー名で検索",
+      "clickID": "クリックIDで検索",
+      "transactionID": "取引IDで検索"
+    },
+    "statuses": {
+      "completed": "完了",
+      "providerPending": "プロバイダー保留",
+      "held": "保留",
+      "reversed": "取消"
+    },
+    "actions": {
+      "release": "解放",
+      "releasing": "解放中…"
+    },
+    "success": {
+      "released": "オファーを解放して付与しました。"
+    },
+    "errors": {
+      "loadFailed": "収益を読み込めませんでした。",
+      "releaseFailed": "この収益を解放できませんでした。"
     }
   },
   "AdminUserRiskModal": {
