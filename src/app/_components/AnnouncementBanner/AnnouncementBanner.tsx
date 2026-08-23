@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslations } from 'next-intl';
 import { useUser } from '@contexts/UserProvider';
@@ -37,20 +36,23 @@ export default function AnnouncementBanner() {
   const message = announcement?.message?.trim() ?? '';
   const visible = verified && message.length > 0;
 
-  useEffect(() => {
-    if (!visible) return;
-
-    document.documentElement.style.setProperty('--announcement-banner-height', BANNER_HEIGHT);
-
-    return () => {
-      document.documentElement.style.removeProperty('--announcement-banner-height');
-    };
-  }, [ visible ]);
-
   if (!visible) return null;
 
   return (
-    <div className={styles.announcementBanner} role="status" aria-label={t('label')}>
+    <div
+      className={styles.announcementBanner}
+      role="status"
+      aria-label={t('label')}
+      ref={node => {
+        if (node) {
+          document.documentElement.style.setProperty('--announcement-banner-height', BANNER_HEIGHT);
+
+          return;
+        }
+
+        document.documentElement.style.removeProperty('--announcement-banner-height');
+      }}
+    >
       <p>{message}</p>
     </div>
   );

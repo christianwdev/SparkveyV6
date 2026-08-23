@@ -1,14 +1,16 @@
 @use '@styles/variables.scss' as *;
 
 $announcement-banner-height: 45px;
+$announcement-banner-z-index: 20; // above page chrome (10), below navbar (100)
 
 .announcementBanner {
   position: fixed;
   top: $navbar-height;
   left: 0;
   width: 100%;
+  min-height: $announcement-banner-height;
   height: $announcement-banner-height;
-  z-index: $topnav-z-index;
+  z-index: $announcement-banner-z-index;
   background: $primary;
   color: $text-white;
   @include standardPadding;
