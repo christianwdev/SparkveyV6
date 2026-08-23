@@ -713,7 +713,7 @@ async function insertSystemSupportMessage(
   }
 
   if (cannedReplyID) {
-    filter.sentCannedReplyIDs = { $ne: cannedReplyID };
+    filter.sentCannedReplyIDs = { $nin: [ cannedReplyID ] };
     update.$addToSet = { sentCannedReplyIDs: cannedReplyID };
   }
 
