@@ -23,21 +23,37 @@ const CHAT_SEND_MAX_REQUESTS = 10;
 const CHAT_SEND_WINDOW_SECONDS = 30;
 
 export function registerSupportChatHandlers(socket: TypedSocket): void {
-  socket.on('sendChatMessage', async (message) => {
+  socket.on('sendChatMessage', async (message, callback) => {
     try {
       const user = await assertChatSession(socket);
-      if (!user) return;
-      if (typeof message !== 'string') return;
+      if (!user) {
+        callback?.(false);
+
+        return;
+      }
+      if (typeof message !== 'string') {
+        callback?.(false);
+
+        return;
+      }
 
       const allowed = await allowChatSend(user.userID);
-      if (!allowed) return;
+      if (!allowed) {
+        callback?.(false);
+
+        return;
+      }
 
       const result = await createUserSupportMessage({
         user,
         message,
       });
 
-      if (!result.ok) return;
+      if (!result.ok) {
+        callback?.(false);
+
+        return;
+      }
 
       const { io } = getGlobalObject();
       const adminPayload: AdminChatMessagePayload = {
@@ -51,8 +67,10 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
 
       io.to(user.userID).emit(SocketEmits.chatMessage, result.data.message);
       io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, adminPayload);
+      callback?.(true);
     } catch (error) {
       console.error(error);
+      callback?.(false);
     }
   });
 

@@ -54,7 +54,27 @@ export default function SupportChat() {
     let cancelled = false;
 
     getSupportConversation({ request: clientRequest }).then(result => {
-      if (!cancelled) setConversation(result);
+      if (cancelled) return;
+
+      setConversation(prev => {
+        if (!result) return prev;
+        if (!prev || prev.conversationID !== result.conversationID) {
+          return isOpenRef.current ? { ...result, unreadCount: 0 } : result;
+        }
+
+        const fetchedIDs = new Set(result.messages.map(item => item.messageID));
+
+        return {
+          ...result,
+          lastMessageTimestamp: Math.max(prev.lastMessageTimestamp, result.lastMessageTimestamp),
+          unreadCount: isOpenRef.current ? 0 : Math.max(prev.unreadCount, result.unreadCount),
+          supportAgent: result.supportAgent ?? prev.supportAgent,
+          messages: [
+            ...prev.messages.filter(item => !fetchedIDs.has(item.messageID)),
+            ...result.messages,
+          ],
+        };
+      });
     }).catch(error => {
       console.error(error);
     });
@@ -108,6 +128,10 @@ export default function SupportChat() {
           messages: nextMessages,
         };
       });
+
+      if (isOpenRef.current) {
+        socket.emit(SocketEmits.chatMessageRead);
+      }
     }
 
     function onAgentUpdate(agent: SanitizedUserSupportChat['supportAgent']) {
@@ -177,8 +201,9 @@ export default function SupportChat() {
     const trimmed = newMessage.trim();
     if (!trimmed || !socket) return;
 
-    socket.emit(SocketEmits.sendChatMessage, trimmed);
-    setNewMessage('');
+    socket.emit(SocketEmits.sendChatMessage, trimmed, ok => {
+      if (ok) setNewMessage('');
+    });
   }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
