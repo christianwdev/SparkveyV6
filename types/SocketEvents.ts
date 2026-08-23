@@ -1,5 +1,6 @@
 import type { Server, Socket } from 'socket.io';
 import type { Socket as ClientSocket } from 'socket.io-client';
+import type InternalUser from 'types/User/InternalUser';
 import type { UserNotification } from 'types/UserNotification/UserNotifications';
 import type { LandingLiveActivityItem } from 'types/LandingHomepageResponse';
 
@@ -9,6 +10,7 @@ export type SiteStatisticsPayload = {
 
 export interface ServerToClientEvents {
   userBalanceChange: (sparks: number | undefined) => void,
+  balanceUpdate: (newBalance: InternalUser['balance']) => void,
   userNotification: (notification: UserNotification) => void,
   liveActivity: (item: LandingLiveActivityItem) => void,
   siteStatistics: (stats: SiteStatisticsPayload) => void,

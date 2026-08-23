@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import ModalShell from '@components/ModalShell/ModalShell';
 import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
 import { clientRequest } from '@utils/clientRequest';
+import { useUser } from '@contexts/UserProvider';
 import { getScope } from '@utils/scope';
 
 // Types
@@ -18,6 +19,7 @@ type PromocodeModalProps = {
 
 export default function PromocodeModal({ onClose }: PromocodeModalProps) {
   const t = useTranslations('PromocodeModal');
+  const { setUser } = useUser();
   const [ code, setCode ] = useState('');
   const [ claiming, setClaiming ] = useState(false);
   const [ response, setResponse ] = useState<{ success: boolean, message: string } | null>(null);
@@ -40,7 +42,7 @@ export default function PromocodeModal({ onClose }: PromocodeModalProps) {
     setClaiming(true);
 
     try {
-      const { data } = await clientRequest<APIResponse<{ amount: number }>>({
+      const { data } = await clientRequest<APIResponse<{ amount: number, sparks: number }>>({
         url: `${getScope()}/user/promocodes/claim`,
         method: 'POST',
         credentials: 'include',
@@ -49,7 +51,10 @@ export default function PromocodeModal({ onClose }: PromocodeModalProps) {
         },
       });
 
-      if (!data?.success || data.data?.amount === undefined) {
+      const amount = data.data?.amount;
+      const sparks = data.data?.sparks;
+
+      if (!data?.success || amount === undefined || typeof sparks !== 'number') {
         setResponse({
           success: false,
           message: t('errors.invalidOrUnavailable'),
@@ -60,9 +65,20 @@ export default function PromocodeModal({ onClose }: PromocodeModalProps) {
 
       setResponse({
         success: true,
-        message: t('success', { amount: data.data.amount }),
+        message: t('success', { amount }),
       });
       setCode('');
+      setUser(current => {
+        if (!current) return null;
+
+        return {
+          ...current,
+          balance: {
+            ...current.balance,
+            sparks,
+          },
+        };
+      });
     } catch (error) {
       console.error(error);
       setResponse({

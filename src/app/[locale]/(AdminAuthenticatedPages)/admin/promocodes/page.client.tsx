@@ -194,6 +194,8 @@ function PromocodesPageContent() {
       id: 'actions',
       header: t('table.actions'),
       cell: row => {
+        if (row.disabled) return t('na');
+
         const deleting = deletingCode === row.code;
 
         return (

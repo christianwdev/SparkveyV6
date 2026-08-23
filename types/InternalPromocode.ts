@@ -9,6 +9,7 @@ type InternalPromocode = {
     value: number,
   },
   claimedBy: string[],
+  disabled?: boolean,
 };
 
 export default InternalPromocode;

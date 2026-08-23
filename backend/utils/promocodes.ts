@@ -108,11 +108,17 @@ export async function deletePromocode(
     const { db } = getGlobalObject();
     const sanitized = sanitizeCode(code);
 
-    const result = await db.collection<InternalPromocode>(DatabaseCollections.promocodes).deleteOne({
-      code: sanitized,
-    });
+    const result = await db.collection<InternalPromocode>(DatabaseCollections.promocodes).findOneAndUpdate(
+      { code: sanitized },
+      {
+        $set: {
+          disabled: true,
+          uses: 0,
+        },
+      },
+    );
 
-    if (!result.deletedCount) return { ok: false, error: 'notFound' };
+    if (!result) return { ok: false, error: 'notFound' };
 
     return { ok: true, data: { code: sanitized } };
   } catch (error) {
@@ -130,7 +136,7 @@ export async function claimPromocode(
     userID: string,
     code: string,
   },
-): Promise<FunctionResponse<{ amount: number }, ClaimPromocodeError>> {
+): Promise<FunctionResponse<{ amount: number, sparks: number }, ClaimPromocodeError>> {
   const {
     db,
     mongoClient,
@@ -146,6 +152,7 @@ export async function claimPromocode(
     const claimed = await db.collection<InternalPromocode>(DatabaseCollections.promocodes).findOneAndUpdate(
       {
         code: sanitized,
+        disabled: { $ne: true },
         uses: { $gt: 0 },
         expiryDate: { $gt: now },
         claimedBy: { $ne: userID },
@@ -177,12 +184,12 @@ export async function claimPromocode(
     await session.commitTransaction();
 
     try {
-      io.to(userID).emit(SocketEmits.userBalanceChange, balanceResult.data.user.balance.sparks);
+      io.to(userID).emit(SocketEmits.balanceUpdate, balanceResult.data.user.balance);
     } catch (emitError) {
       console.error(emitError);
     }
 
-    return { ok: true, data: { amount: claimed.reward.value } };
+    return { ok: true, data: { amount: claimed.reward.value, sparks: balanceResult.data.user.balance.sparks } };
   } catch (error) {
     if (session.inTransaction()) {
       await session.abortTransaction();
