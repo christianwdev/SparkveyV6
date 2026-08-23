@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, mock, test } from 'bun:test';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import type UserSession from 'types/UserSession';
-import { createEarningsDb, MemoryCollection } from '../postback/memoryCollection';
+import { createEarningsDb, MemoryCollection } from '../helpers/memoryCollection';
 
 const store = new MemoryCollection<Record<string, unknown>>();
 

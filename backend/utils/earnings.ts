@@ -9,7 +9,8 @@ import SocketEmits from 'backend/constants/SocketEmits';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { createUserNotification } from 'backend/utils/notifications';
 import { updateUserBalance } from 'backend/utils/userBalance';
-import { applySparksEarningsSideEffects } from 'backend/utils/sparksEarningsSideEffects';
+import { creditReferrerPendingEarnings } from 'backend/utils/affiliateCode';
+import { addLeaderboardEarnings } from 'backend/utils/leaderboard';
 
 // Types
 import type { ClientSession, Filter } from 'mongodb';
@@ -24,6 +25,32 @@ export type ReleaseHeldOfferError =
 const CREDIT_RETRY_DELAY_MS = 60_000; // skip a poison hold until the next minute
 const MAX_RELEASES_PER_POLL = 50;
 const RELEASE_CONCURRENCY = 5; // distinct users; same user stays serial
+
+/** Side effects for sparks earned/reversed via offer (and similar) credits. */
+export async function applySparksEarningsSideEffects(
+  {
+    userID,
+    amount,
+  }: {
+    userID: string,
+    amount: number,
+  },
+): Promise<void> {
+  if (!Number.isFinite(amount) || amount === 0) return;
+
+  const [ referralResult, leaderboardResult ] = await Promise.all([
+    creditReferrerPendingEarnings({ referredUserID: userID, amount }),
+    addLeaderboardEarnings({ userID, amount, type: 'monthly' }),
+  ]);
+
+  if (!referralResult.ok) {
+    console.error('creditReferrerPendingEarnings failed', referralResult.error);
+  }
+
+  if (!leaderboardResult.ok) {
+    console.error('addLeaderboardEarnings failed', leaderboardResult.error);
+  }
+}
 
 type HeldOfferClaim = {
   userID: string,

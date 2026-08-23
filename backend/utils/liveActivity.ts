@@ -7,7 +7,7 @@ import SocketRooms from '../constants/SocketRooms';
 import { getGlobalObject } from './globalObject';
 import { withCache } from './cache';
 import { NON_REVERSED_STATUSES } from './siteStatistics';
-import { getUserAvatarURL } from './avatar';
+import { getUserAvatarURL } from './url';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';

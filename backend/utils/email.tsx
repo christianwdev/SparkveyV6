@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { render } from '@react-email/render';
 import config from '../config/config';
-import { buildFrontendURL } from './frontendUrl';
+import { buildFrontendURL } from './url';
 
 // Email Templates
 import ForgotPassword from 'backend/emails/ForgotPassword';

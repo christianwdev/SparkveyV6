@@ -13,7 +13,7 @@ import {
   markSupportChatRead,
   maybeSendAutomaticSupportReply,
 } from 'backend/utils/supportChat';
-import { getUserAvatarURL } from 'backend/utils/avatar';
+import { getUserAvatarURL } from 'backend/utils/url';
 import { hasPermissions, StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 // Types

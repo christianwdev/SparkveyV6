@@ -7,7 +7,7 @@ import { rateLimit } from 'backend/utils/rateLimit';
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { transformImage } from 'backend/utils/image';
-import { getFallbackAvatarURL } from 'backend/utils/avatar';
+import { getFallbackAvatarURL } from 'backend/utils/url';
 
 // Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';

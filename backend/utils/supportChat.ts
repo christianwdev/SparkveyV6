@@ -1,6 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
 import { GoogleGenAI, Type } from '@google/genai';
-import { MongoServerError } from 'mongodb';
 
 // Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
@@ -11,7 +10,8 @@ import {
 
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
-import { getUserAvatarURL } from 'backend/utils/avatar';
+import { isDuplicateKeyError } from 'backend/utils/mongo';
+import { getUserAvatarURL } from 'backend/utils/url';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -231,7 +231,7 @@ export async function createUserSupportMessage(
         },
       );
     } catch (error) {
-      if (!(error instanceof MongoServerError) || error.code !== 11000) throw error;
+      if (!isDuplicateKeyError(error)) throw error;
     }
 
     if (!conversation) {
@@ -444,7 +444,7 @@ export async function createAdminSupportConversation(
     try {
       await db.collection<ChatConversation>(DatabaseCollections.chatConversations).insertOne(conversation);
     } catch (error) {
-      if (!(error instanceof MongoServerError) || error.code !== 11000) throw error;
+      if (!isDuplicateKeyError(error)) throw error;
 
       const raced = await getAdminSupportConversation({ userID });
       if (raced.ok) return raced;
@@ -619,7 +619,7 @@ async function recoverUpsertedConversation(
       },
     );
   } catch (error) {
-    if (!(error instanceof MongoServerError) || error.code !== 11000) throw error;
+    if (!isDuplicateKeyError(error)) throw error;
 
     return db.collection<ChatConversation>(DatabaseCollections.chatConversations).findOne({ userID });
   }

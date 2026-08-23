@@ -1,14 +1,18 @@
 import crypto from 'crypto';
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie';
 
-export const CSRF_HEADER_NAME = 'x-csrf-token';
-export const CSRF_COOKIE_NAME = 'csrfToken';
-
 import {
-  getCsrfCookieOptions,
+  CSRF_COOKIE_NAME,
   getClearCookieOptions,
+  getCsrfCookieOptions,
 } from './cookies';
+import { secretsEqual } from './secrets';
+
+// Types
 import type { Context } from 'hono';
+
+export const CSRF_HEADER_NAME = 'x-csrf-token';
+export { CSRF_COOKIE_NAME };
 
 export function createCsrfToken() {
   return crypto.randomBytes(32).toString('hex');
@@ -30,16 +34,5 @@ export function validateCsrf(c: Context) {
   const cookieToken = getCookie(c, CSRF_COOKIE_NAME);
   const headerToken = c.req.header(CSRF_HEADER_NAME);
 
-  if (!cookieToken || !headerToken) {
-    return false;
-  }
-
-  const cookieBuffer = new TextEncoder().encode(cookieToken);
-  const headerBuffer = new TextEncoder().encode(headerToken);
-
-  if (cookieBuffer.length !== headerBuffer.length) {
-    return false;
-  }
-
-  return crypto.timingSafeEqual(cookieBuffer, headerBuffer);
+  return secretsEqual(cookieToken, headerToken);
 }

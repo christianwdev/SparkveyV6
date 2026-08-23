@@ -80,6 +80,12 @@ export class MemoryCollection<T extends Record<string, unknown>> {
     return this.docs.find(doc => matchesFilter(doc, filter)) ?? null;
   }
 
+  find(filter: Filter = {}) {
+    return {
+      toArray: async () => this.docs.filter(doc => matchesFilter(doc, filter)),
+    };
+  }
+
   async insertOne(doc: T): Promise<{ acknowledged: true }> {
     if (this.options.yieldBeforeWrite) {
       await Promise.resolve();
@@ -132,5 +138,21 @@ export class MemoryCollection<T extends Record<string, unknown>> {
 export function createEarningsDb(collection: MemoryCollection<Record<string, unknown>>) {
   return {
     collection: (_name: string) => collection,
+  };
+}
+
+export function createMemoryDb(
+  collections: Record<string, MemoryCollection<Record<string, unknown>>>,
+) {
+  return {
+    collection: (name: string) => {
+      const existing = collections[name];
+      if (existing) return existing;
+
+      const created = new MemoryCollection<Record<string, unknown>>();
+      collections[name] = created;
+
+      return created;
+    },
   };
 }

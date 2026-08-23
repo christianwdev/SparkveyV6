@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, mock, test } from 'bun:test';
-import { DuplicateKeyError, MemoryCollection } from '../postback/memoryCollection';
+import { DuplicateKeyError, MemoryCollection } from '../helpers/memoryCollection';
 import type UserFlag from 'types/UserFlag';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
 
