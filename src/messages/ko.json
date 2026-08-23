@@ -1528,7 +1528,7 @@
       "moderationDescription": "차단, 해제 또는 모든 세션을 종료합니다.",
       "permanentBan": "영구 차단",
       "permissionsTitle": "스태프 권한",
-      "permissionsDescription": "이미 가진 권한만 부여할 수 있습니다. 전체 권한 스태프는 채팅 같은 새 권한도 부여할 수 있습니다.",
+      "permissionsDescription": "이미 가진 권한만 부여할 수 있습니다.",
       "permissions": {
         "viewUsers": "사용자 보기",
         "viewEarnings": "수익 보기",

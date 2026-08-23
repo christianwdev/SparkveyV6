@@ -1528,7 +1528,7 @@
       "moderationDescription": "Zablokuj, odblokuj lub wyloguj wszędzie.",
       "permanentBan": "Blokada stała",
       "permissionsTitle": "Uprawnienia staffu",
-      "permissionsDescription": "Możesz nadać tylko uprawnienia, które sam masz. Pełny staff może też nadawać nowe, np. czat.",
+      "permissionsDescription": "Możesz nadać tylko uprawnienia, które sam masz.",
       "permissions": {
         "viewUsers": "Przeglądaj użytkowników",
         "viewEarnings": "Przeglądaj zarobki",

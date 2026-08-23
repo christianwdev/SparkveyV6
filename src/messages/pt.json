@@ -1528,7 +1528,7 @@
       "moderationDescription": "Banir, desbanir ou terminar todas as sessões.",
       "permanentBan": "Banimento permanente",
       "permissionsTitle": "Permissões de staff",
-      "permissionsDescription": "Só podes atribuir permissões que já tens. Staff completo também pode atribuir as novas, como o chat.",
+      "permissionsDescription": "Só podes atribuir permissões que já tens.",
       "permissions": {
         "viewUsers": "Ver utilizadores",
         "viewEarnings": "Ver ganhos",

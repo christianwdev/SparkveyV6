@@ -14,7 +14,7 @@ import { sendResponse } from '../utils/response';
 import type { Context, Next } from 'hono';
 import type InternalUser from 'types/User/InternalUser';
 import type UserSession from 'types/UserSession';
-import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
+import { hasPermissions, StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 function getSessionConsumeContext(c: Context) {
   return {
@@ -127,9 +127,11 @@ export function requireAdmin(permission?: StaffPermissions) {
     const { staffPermissions = StaffPermissions.NONE } = userResult.data;
 
     if (permission !== undefined) {
-      if ((staffPermissions & permission) !== permission) return sendResponse({ c, status: 403, success: false, message: 'You do not have permission to access this resource' });
-    } else {
-      if (staffPermissions === StaffPermissions.NONE) return sendResponse({ c, status: 403, success: false, message: 'You do not have permission to access this resource' });
+      if (!hasPermissions({ userPermissions: staffPermissions, required: permission })) {
+        return sendResponse({ c, status: 403, success: false, message: 'You do not have permission to access this resource' });
+      }
+    } else if (staffPermissions === StaffPermissions.NONE) {
+      return sendResponse({ c, status: 403, success: false, message: 'You do not have permission to access this resource' });
     }
 
     c.set('user', userResult.data);

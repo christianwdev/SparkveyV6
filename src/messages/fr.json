@@ -1528,7 +1528,7 @@
       "moderationDescription": "Bannir, débannir ou déconnecter partout.",
       "permanentBan": "Bannissement permanent",
       "permissionsTitle": "Permissions staff",
-      "permissionsDescription": "Vous ne pouvez accorder que les permissions que vous avez déjà. Les super-admins peuvent aussi accorder les nouvelles, comme le chat.",
+      "permissionsDescription": "Vous ne pouvez accorder que les permissions que vous avez déjà.",
       "permissions": {
         "viewUsers": "Voir les utilisateurs",
         "viewEarnings": "Voir les gains",

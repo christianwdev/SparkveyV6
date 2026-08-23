@@ -1528,7 +1528,7 @@
       "moderationDescription": "Banna, sbanna o disconnetti ovunque.",
       "permanentBan": "Ban permanente",
       "permissionsTitle": "Permessi staff",
-      "permissionsDescription": "Puoi assegnare solo i permessi che hai già. Lo staff completo può anche assegnare quelli nuovi, come la chat.",
+      "permissionsDescription": "Puoi assegnare solo i permessi che hai già.",
       "permissions": {
         "viewUsers": "Vedi utenti",
         "viewEarnings": "Vedi guadagni",

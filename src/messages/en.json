@@ -1528,7 +1528,7 @@
       "moderationDescription": "Ban, unban, or sign this user out everywhere.",
       "permanentBan": "Permanent ban",
       "permissionsTitle": "Staff permissions",
-      "permissionsDescription": "You can only grant permissions you already have. Full staff can also grant newly added ones such as chat.",
+      "permissionsDescription": "You can only grant permissions you already have.",
       "permissions": {
         "viewUsers": "View users",
         "viewEarnings": "View earnings",

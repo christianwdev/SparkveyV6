@@ -27,9 +27,6 @@ export enum StaffPermissions {
   REPLY_CHAT = 1 << 20,
 }
 
-/** Bits 0–16: every permission that existed before announcements and chat. */
-const LEGACY_FULL_STAFF_PERMISSIONS = (1 << 17) - 1;
-
 export function hasPermissions(
   {
     userPermissions,
@@ -52,11 +49,5 @@ export function allStaffPermissionsMask(): number {
 }
 
 export function grantableStaffPermissionsMask(actorPerms: number): number {
-  const known = allStaffPermissionsMask();
-  const grantable = actorPerms & known;
-  if ((actorPerms & LEGACY_FULL_STAFF_PERMISSIONS) === LEGACY_FULL_STAFF_PERMISSIONS) {
-    return known;
-  }
-
-  return grantable;
+  return actorPerms & allStaffPermissionsMask();
 }
