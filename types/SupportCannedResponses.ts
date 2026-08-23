@@ -1,5 +1,4 @@
 export const CANNED_RESPONSE_CATEGORIES = [
-  'acknowledgement',
   'holds',
   'releases',
   'kyc',
@@ -9,26 +8,6 @@ export const CANNED_RESPONSE_CATEGORIES = [
 ] as const;
 
 export const CANNED_RESPONSES = [
-  {
-    id: 'firstMessage',
-    category: 'acknowledgement',
-    body: 'Thanks for reaching out! We\'ve received your message and a member of our team will reply within 24-48 hours.',
-  },
-  {
-    id: 'followUp',
-    category: 'acknowledgement',
-    body: 'Thanks for following up. We\'ve received your message and a member of our team will reply within 24-48 hours.',
-  },
-  {
-    id: 'lookingIntoIt',
-    category: 'acknowledgement',
-    body: 'Thanks for the details. We\'re looking into this now and will update you as soon as we have more information.',
-  },
-  {
-    id: 'resolved',
-    category: 'acknowledgement',
-    body: 'This should now be resolved. If anything still looks off, reply here and we\'ll take another look.',
-  },
   {
     id: 'holdOverThree',
     category: 'holds',
@@ -45,44 +24,14 @@ export const CANNED_RESPONSES = [
     body: 'Higher-value offers are held so we can confirm them with the advertiser. Holds last 30 days for offers over $3. Smaller offers are usually released sooner.',
   },
   {
-    id: 'lowRiskRelease',
-    category: 'releases',
-    body: 'We\'ve reviewed this offer and released it early because it looks low risk. The Sparks should now be in your available balance.',
-  },
-  {
     id: 'lowRiskReview',
     category: 'releases',
     body: 'We sometimes release holds early when an offer looks low risk. We\'ll take a look at this one and update you here.',
   },
   {
-    id: 'cannotRelease',
-    category: 'releases',
-    body: 'We\'re not able to release this offer early. It will stay on hold until the scheduled date unless the advertiser reverses it.',
-  },
-  {
-    id: 'released',
-    category: 'releases',
-    body: 'This offer has been released and the Sparks have been added to your balance.',
-  },
-  {
     id: 'kycExplainer',
     category: 'kyc',
     body: 'We sometimes ask for identity verification (KYC) when we suspect fraud or that multiple accounts belong to the same person. Completing it lets us finish reviewing an account. A team member will tell you if we need anything from you.',
-  },
-  {
-    id: 'kycRequired',
-    category: 'kyc',
-    body: 'We need to verify your identity before we can continue. We request KYC when we suspect fraud or that multiple accounts belong to the same person. Please complete the verification steps we send you so we can finish reviewing your account.',
-  },
-  {
-    id: 'kycReceived',
-    category: 'kyc',
-    body: 'We\'ve received your verification details and will review them. We\'ll follow up here once that\'s complete.',
-  },
-  {
-    id: 'kycCleared',
-    category: 'kyc',
-    body: 'Thanks for completing verification. Your account has been cleared and we can continue reviewing your earnings.',
   },
   {
     id: 'missingCredit',

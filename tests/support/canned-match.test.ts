@@ -15,13 +15,10 @@ describe('parseSupportCannedMatchResponse', () => {
     expect(parseSupportCannedMatchResponse('{"id":"holdOverThree"}')).toBe('holdOverThree');
   });
 
-  test('rejects staff-only templates', () => {
-    expect(parseSupportCannedMatchResponse('{"id":"released"}')).toBeNull();
-    expect(parseSupportCannedMatchResponse('{"id":"kycRequired"}')).toBeNull();
-  });
-
   test('rejects unknown ids', () => {
     expect(parseSupportCannedMatchResponse('{"id":"notATemplate"}')).toBeNull();
+    expect(parseSupportCannedMatchResponse('{"id":"released"}')).toBeNull();
+    expect(parseSupportCannedMatchResponse('{"id":"kycRequired"}')).toBeNull();
   });
 
   test('parses fenced JSON', () => {
@@ -40,11 +37,10 @@ describe('parseSupportCannedMatchId', () => {
 });
 
 describe('SUPPORT_CANNED_AUTO_MATCH_IDS', () => {
-  test('every auto-match id exists on the canned catalog', () => {
-    const catalogIDs = new Set(CANNED_RESPONSES.map(item => item.id));
+  test('covers every canned catalog id', () => {
+    const catalogIDs = CANNED_RESPONSES.map(item => item.id).sort();
+    const matchIDs = [ ...SUPPORT_CANNED_AUTO_MATCH_IDS ].sort();
 
-    for (const id of SUPPORT_CANNED_AUTO_MATCH_IDS) {
-      expect(catalogIDs.has(id)).toBe(true);
-    }
+    expect(matchIDs).toEqual(catalogIDs);
   });
 });

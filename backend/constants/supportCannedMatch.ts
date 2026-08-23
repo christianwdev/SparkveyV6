@@ -2,7 +2,7 @@ import type { CannedResponseID } from 'types/SupportCannedResponses';
 
 export const SUPPORT_CANNED_MATCH_NONE = 'none';
 
-/** Templates Gemini may auto-send. Action-confirmations stay staff-only. */
+/** Match hints for every canned template. Gemini may auto-send any of these. */
 export const SUPPORT_CANNED_AUTO_MATCH = {
   holdOverThree: 'User asks why a higher-value offer is held or pending for a long time, or how long holds last (30 days / over $3).',
   holdInProgress: 'User asks when their held offer will release, or says they are still waiting on a hold.',
@@ -16,7 +16,7 @@ export const SUPPORT_CANNED_AUTO_MATCH = {
   withdrawalHeld: 'User says a withdrawal is stuck, delayed, or waiting on review or identity checks.',
   oneAccount: 'User asks about multiple accounts, alts, family sharing, or being flagged for extra accounts.',
   needScreenshots: 'User asks what proof we need, or reports a tracking issue without offer details or screenshots.',
-} as const satisfies Partial<Record<CannedResponseID, string>>;
+} as const satisfies Record<CannedResponseID, string>;
 
 export type SupportCannedAutoMatchID = keyof typeof SUPPORT_CANNED_AUTO_MATCH;
 
