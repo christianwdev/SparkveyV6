@@ -51,35 +51,6 @@ $checkbox-size: 18px;
     min-width: 0;
   }
 
-  .usernameCell {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-    text-decoration: none;
-    color: inherit;
-
-    > .name {
-      color: $text-bold;
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    > .muted {
-      color: $text-light;
-      font-size: 12px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &:hover > .name {
-      color: $primary;
-    }
-  }
-
   .name {
     color: $text-bold;
     font-weight: 600;

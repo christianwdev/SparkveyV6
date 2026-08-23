@@ -476,6 +476,18 @@
     },
     "a11y": {
       "avatarAlt": "Awatar"
+    },
+    "emailVerification": {
+      "welcome": "Witamy w Sparkvey! Zweryfikuj swój adres e-mail, zanim zaczniesz zarabiać.",
+      "resend": "Wyślij ponownie e-mail",
+      "sending": "Wysyłanie...",
+      "sent": "E-mail wysłany"
+    },
+    "toasts": {
+      "resendSuccess": "Wysłaliśmy ponownie e-mail weryfikacyjny. Sprawdź skrzynkę odbiorczą oraz spam.",
+      "resendError": "Nie udało się wysłać ponownie e-maila weryfikacyjnego. Spróbuj ponownie.",
+      "tooSoon": "Już poproszono o link weryfikacyjny. Odczekaj 2 minuty między prośbami.",
+      "alreadyVerified": "Twój e-mail jest już zweryfikowany."
     }
   },
   "AnnouncementBanner": {
@@ -486,6 +498,7 @@
     "redemptions": "Wypłaty",
     "settings": "Ustawienia",
     "affiliates": "Program partnerski",
+    "admin": "Administrator",
     "promocodes": "Kody promocyjne",
     "signOut": "Wyloguj sie"
   },

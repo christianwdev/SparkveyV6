@@ -15,6 +15,7 @@ import adminRouteInvoker from './admin';
 import announcementsRouteInvoker from './announcements';
 import webhooksRouteInvoker from './webhooks';
 import supportRouteInvoker from './support';
+import imgRouteInvoker from './img';
 
 const app = new Hono();
 
@@ -34,6 +35,7 @@ export default function routesInvoker() {
   app.route('/admin', adminRouteInvoker());
   app.route('/announcements', announcementsRouteInvoker());
   app.route('/support', supportRouteInvoker());
+  app.route('/img', imgRouteInvoker());
   app.route('/webhooks', webhooksRouteInvoker());
 
   return app;

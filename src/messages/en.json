@@ -476,6 +476,18 @@
     },
     "a11y": {
       "avatarAlt": "Avatar"
+    },
+    "emailVerification": {
+      "welcome": "Welcome to Sparkvey! Please verify your email before you start earning.",
+      "resend": "Resend Email",
+      "sending": "Sending...",
+      "sent": "Email Sent"
+    },
+    "toasts": {
+      "resendSuccess": "Successfully resent your verification email, please check your inbox and junk folder.",
+      "resendError": "Failed to resend your verification email, please try again.",
+      "tooSoon": "You already requested a verification link. Please wait 2 minutes between requests.",
+      "alreadyVerified": "Your email is already verified."
     }
   },
   "AnnouncementBanner": {
@@ -486,6 +498,7 @@
     "redemptions": "Redemptions",
     "settings": "Settings",
     "affiliates": "Affiliates",
+    "admin": "Admin",
     "promocodes": "Promocodes",
     "signOut": "Sign out"
   },

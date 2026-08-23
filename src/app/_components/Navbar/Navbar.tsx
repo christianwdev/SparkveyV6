@@ -10,6 +10,7 @@ import SparksAmount from '@components/SparksAmount/SparksAmount';
 import UserDropdown from './_components/UserDropdown/UserDropdown';
 import EarnDropdown from './_components/EarnDropdown/EarnDropdown';
 import NotificationsDropdown from './_components/NotificationsDropdown/NotificationsDropdown';
+import EmailVerificationBanner from './_components/EmailVerificationBanner/EmailVerificationBanner';
 
 // Constants
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
@@ -143,6 +144,8 @@ export default function Navbar({ showLinks }: NavbarProps) {
           )}
         </div>
       </div>
+
+      <EmailVerificationBanner />
 
       {user && (
         <nav className={styles.mobileNav} aria-label={tNav('mobile.navLabel')}>

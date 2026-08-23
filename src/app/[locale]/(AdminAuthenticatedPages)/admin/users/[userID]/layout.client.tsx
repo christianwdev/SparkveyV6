@@ -11,6 +11,7 @@ import { useAdminUserQuery } from '@hooks/useAdminUsers';
 import { useAdminUserRisk } from '@contexts/AdminUserRiskContext';
 import { hasPermissions } from '@utils/admin';
 import { isCurrentlyBanned, toDate } from '@utils/date';
+import { getUserAvatarUrl } from '@utils/avatar';
 
 // Icons
 import ArrowLeftIcon from '~icons/solar/arrow-left-linear.jsx';
@@ -177,19 +178,13 @@ export default function AdminUserLayoutClient({
       {user ? (
         <div className={styles.header}>
           <div className={styles.identity}>
-            {user.avatar ? (
-              <Image
-                className={styles.avatar}
-                src={user.avatar}
-                alt=""
-                width={56}
-                height={56}
-              />
-            ) : (
-              <div className={styles.avatarFallback} aria-hidden>
-                <UserIcon />
-              </div>
-            )}
+            <Image
+              className={styles.avatar}
+              src={getUserAvatarUrl(user.userID)}
+              alt=""
+              width={56}
+              height={56}
+            />
             <div className={styles.meta}>
               <div className={styles.nameRow}>
                 <h1>{user.username || t('unnamed')}</h1>

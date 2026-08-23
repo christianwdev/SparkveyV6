@@ -9,6 +9,7 @@ import SiteConfig from 'backend/config/config';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { LockError } from 'backend/utils/distributedLock';
 import { updateUserBalance } from 'backend/utils/userBalance';
+import { getUserAvatarURL } from 'backend/utils/avatar';
 
 // Types
 import type FunctionResponse from 'types/FunctionResponse';
@@ -145,7 +146,7 @@ export async function getSanitizedLeaderboard(
         userID: user.userID,
         earned: user.earned,
         username: dbUser?.username ?? undefined,
-        avatar: dbUser?.avatar || undefined,
+        avatar: dbUser ? getUserAvatarURL(user.userID) : undefined,
       };
     });
 

@@ -476,6 +476,18 @@
     },
     "a11y": {
       "avatarAlt": "Avatar"
+    },
+    "emailVerification": {
+      "welcome": "Benvenuto su Sparkvey! Verifica la tua email prima di iniziare a guadagnare.",
+      "resend": "Invia di nuovo email",
+      "sending": "Invio in corso...",
+      "sent": "Email inviata"
+    },
+    "toasts": {
+      "resendSuccess": "Email di verifica reinviata con successo, controlla la posta in arrivo e la cartella spam.",
+      "resendError": "Impossibile reinviare l'email di verifica, riprova.",
+      "tooSoon": "Hai già richiesto un link di verifica. Attendi 2 minuti tra le richieste.",
+      "alreadyVerified": "La tua email è già verificata."
     }
   },
   "AnnouncementBanner": {
@@ -486,6 +498,7 @@
     "redemptions": "Riscatti",
     "settings": "Impostazioni",
     "affiliates": "Affiliati",
+    "admin": "Admin",
     "promocodes": "Codici promo",
     "signOut": "Esci"
   },

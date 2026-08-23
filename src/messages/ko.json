@@ -476,6 +476,18 @@
     },
     "a11y": {
       "avatarAlt": "아바타"
+    },
+    "emailVerification": {
+      "welcome": "Sparkvey에 오신 것을 환영합니다! 적립을 시작하기 전에 이메일을 확인하세요.",
+      "resend": "이메일 재전송",
+      "sending": "전송 중...",
+      "sent": "이메일 전송됨"
+    },
+    "toasts": {
+      "resendSuccess": "확인 이메일을 성공적으로 다시 보냈습니다. 받은편지함과 정크 폴더를 확인하세요.",
+      "resendError": "확인 이메일을 다시 보내지 못했습니다. 다시 시도해 주세요.",
+      "tooSoon": "이미 인증 링크를 요청했습니다. 요청 사이에 2분을 기다려 주세요.",
+      "alreadyVerified": "이메일이 이미 인증되었습니다."
     }
   },
   "AnnouncementBanner": {
@@ -486,6 +498,7 @@
     "redemptions": "환전",
     "settings": "설정",
     "affiliates": "계열사",
+    "admin": "관리자",
     "promocodes": "프로모코드",
     "signOut": "로그아웃"
   },

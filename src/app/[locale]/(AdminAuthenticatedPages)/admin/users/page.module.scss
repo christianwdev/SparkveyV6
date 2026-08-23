@@ -66,35 +66,6 @@
     color: $text-light;
   }
 
-  .usernameCell {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-    text-decoration: none;
-    color: inherit;
-
-    > .name {
-      color: $text-bold;
-      font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    > .muted {
-      color: $text-light;
-      font-size: 12px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &:hover > .name {
-      color: $primary;
-    }
-  }
-
   .idCell {
     display: inline-flex;
     align-items: center;

@@ -66,14 +66,11 @@
     color: $text-light;
   }
 
-  .usernameCell,
   .offerCell {
     display: flex;
     flex-direction: column;
     gap: 2px;
     min-width: 0;
-    text-decoration: none;
-    color: inherit;
 
     > .name {
       color: $text-bold;
@@ -89,12 +86,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-  }
-
-  .usernameCell {
-    &:hover > .name {
-      color: $primary;
     }
   }
 

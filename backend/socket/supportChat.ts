@@ -12,6 +12,7 @@ import {
   createUserSupportMessage,
   markSupportChatRead,
 } from 'backend/utils/supportChat';
+import { getUserAvatarURL } from 'backend/utils/avatar';
 import { hasPermissions, StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 // Types
@@ -45,9 +46,9 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
         user: {
           userID: user.userID,
           username: user.username,
+          avatar: getUserAvatarURL(user.userID),
         },
       };
-      if (user.avatar) adminPayload.user.avatar = user.avatar;
 
       io.to(user.userID).emit(SocketEmits.chatMessage, result.data.message);
       io.to(SocketRooms.adminChat).emit(SocketEmits.adminChatMessage, adminPayload);
@@ -85,7 +86,7 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
         user: {
           userID: result.data.conversation.userID,
           username: threadUser.ok ? threadUser.data.username : '',
-          avatar: threadUser.ok && threadUser.data.avatar ? threadUser.data.avatar : undefined,
+          avatar: getUserAvatarURL(result.data.conversation.userID),
         },
       };
 

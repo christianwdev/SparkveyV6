@@ -476,6 +476,18 @@
     },
     "a11y": {
       "avatarAlt": "Avatar"
+    },
+    "emailVerification": {
+      "welcome": "Willkommen bei Sparkvey! Bitte bestätige deine E-Mail, bevor du mit dem Verdienen beginnst.",
+      "resend": "E-Mail erneut senden",
+      "sending": "Wird gesendet...",
+      "sent": "E-Mail gesendet"
+    },
+    "toasts": {
+      "resendSuccess": "Deine Bestätigungs-E-Mail wurde erneut gesendet. Bitte prüfe deinen Posteingang und den Spam-Ordner.",
+      "resendError": "Deine Bestätigungs-E-Mail konnte nicht erneut gesendet werden. Bitte versuche es erneut.",
+      "tooSoon": "Du hast bereits einen Bestätigungslink angefordert. Bitte warte 2 Minuten zwischen den Anfragen.",
+      "alreadyVerified": "Deine E-Mail ist bereits bestätigt."
     }
   },
   "AnnouncementBanner": {
@@ -486,6 +498,7 @@
     "redemptions": "Auszahlungen",
     "settings": "Einstellungen",
     "affiliates": "Affiliates",
+    "admin": "Admin",
     "promocodes": "Promocodes",
     "signOut": "Abmelden"
   },

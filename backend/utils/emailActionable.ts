@@ -20,10 +20,12 @@ export async function createEmailActionable(
     userID,
     email,
     type,
+    deactivateExisting = true,
   }: {
     userID: string;
     email: string;
     type: EmailActionable['type'];
+    deactivateExisting?: boolean;
   },
 ): Promise<FunctionResponse<{ actionableID: string }>> {
   try {
@@ -31,18 +33,20 @@ export async function createEmailActionable(
     const issueDate = new Date();
     const actionableID = crypto.randomBytes(32).toString('hex');
 
-    await db.collection<EmailActionable>(DatabaseCollections.emailActionables).updateMany(
-      {
-        userID,
-        type,
-        deactivatedAt: { $exists: false },
-      },
-      {
-        $set: {
-          deactivatedAt: issueDate,
+    if (deactivateExisting) {
+      await db.collection<EmailActionable>(DatabaseCollections.emailActionables).updateMany(
+        {
+          userID,
+          type,
+          deactivatedAt: { $exists: false },
         },
-      },
-    );
+        {
+          $set: {
+            deactivatedAt: issueDate,
+          },
+        },
+      );
+    }
 
     const actionable: EmailActionable = {
       actionableID,
@@ -58,6 +62,36 @@ export async function createEmailActionable(
     if (!result.acknowledged) return { ok: false, error: 'internalServerError' };
 
     return { ok: true, data: { actionableID } };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function getLatestEmailActionable(
+  {
+    userID,
+    type,
+  }: {
+    userID: string,
+    type: EmailActionable['type'],
+  },
+): Promise<FunctionResponse<EmailActionable>> {
+  try {
+    const { db } = getGlobalObject();
+    const actionable = await db.collection<EmailActionable>(DatabaseCollections.emailActionables).findOne(
+      {
+        userID,
+        type,
+        deactivatedAt: { $exists: false },
+      },
+      { sort: { issueDate: -1 } },
+    );
+
+    if (!actionable) return { ok: false, error: 'notFound' };
+
+    return { ok: true, data: actionable };
   } catch (error) {
     console.error(error);
 
@@ -224,6 +258,69 @@ export async function deactivateUserEmailActionables(
 
     await db.collection<EmailActionable>(DatabaseCollections.emailActionables).updateMany(
       filter,
+      {
+        $set: {
+          deactivatedAt: new Date(),
+        },
+      },
+    );
+
+    return { ok: true, data: undefined };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function deactivateOtherEmailActionables(
+  {
+    userID,
+    type,
+    exceptActionableID,
+  }: {
+    userID: string,
+    type: EmailActionable['type'],
+    exceptActionableID: string,
+  },
+): Promise<FunctionResponse<void>> {
+  try {
+    const { db } = getGlobalObject();
+
+    await db.collection<EmailActionable>(DatabaseCollections.emailActionables).updateMany(
+      {
+        userID,
+        type,
+        actionableID: { $ne: exceptActionableID },
+        deactivatedAt: { $exists: false },
+        accessedDate: { $exists: false },
+      },
+      {
+        $set: {
+          deactivatedAt: new Date(),
+        },
+      },
+    );
+
+    return { ok: true, data: undefined };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
+export async function deactivateEmailActionable(
+  actionableID: string,
+): Promise<FunctionResponse<void>> {
+  try {
+    const { db } = getGlobalObject();
+
+    await db.collection<EmailActionable>(DatabaseCollections.emailActionables).updateOne(
+      {
+        actionableID,
+        deactivatedAt: { $exists: false },
+      },
       {
         $set: {
           deactivatedAt: new Date(),

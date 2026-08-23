@@ -7,6 +7,7 @@ import SocketRooms from '../constants/SocketRooms';
 import { getGlobalObject } from './globalObject';
 import { withCache } from './cache';
 import { NON_REVERSED_STATUSES } from './siteStatistics';
+import { getUserAvatarURL } from './avatar';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
@@ -16,23 +17,26 @@ import type { LandingLiveActivityItem } from 'types/LandingHomepageResponse';
 const LIVE_ACTIVITY_CACHE_TTL_SECONDS = 30;
 const LIVE_ACTIVITY_LIMIT = 5;
 
-type LiveActivityUser = Pick<InternalUser, 'username' | 'avatar' | 'userPreferences'>;
+type LiveActivityUser = Pick<InternalUser, 'username' | 'userPreferences'>;
 
 export function earningToLiveActivityItem(
   earning: InternalEarning,
   user?: LiveActivityUser | null,
 ): LandingLiveActivityItem {
   const isAnonymous = user?.userPreferences?.anonymous ?? false;
-
-  return {
+  const item: LandingLiveActivityItem = {
     id: earning.conversionID,
     username: isAnonymous || !user ? 'Anonymous' : user.username,
-    ...(isAnonymous || !user?.avatar ? {} : { avatar: user.avatar }),
     type: earning.type,
     label: earning.type === 'offer' ? earning.offerDisplayName : earning.storeDisplayName,
     value: earning.value,
     createdAt: earning.createdAt,
   };
+  if (!isAnonymous && user) {
+    item.avatar = getUserAvatarURL(earning.userID);
+  }
+
+  return item;
 }
 
 export async function emitLiveActivity(earning: InternalEarning): Promise<void> {

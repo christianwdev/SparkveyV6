@@ -3,6 +3,7 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import { detectSharedEmail } from 'backend/utils/fraud';
 import { scheduleFraudCheck } from 'backend/utils/userFlag';
+import { getFallbackAvatarURL, getUserAvatarURL } from 'backend/utils/avatar';
 
 // Types
 import type { Filter, WithId } from 'mongodb';
@@ -78,7 +79,7 @@ export async function createUser(
     const user: InternalUser = {
       userID,
       username: username ?? '',
-      avatar,
+      avatar: avatar || getFallbackAvatarURL(userID),
       password: passwordHash,
 
       balance: {
@@ -207,7 +208,7 @@ export function sanitizeUser(user: InternalUser | WithId<InternalUser>): Sanitiz
   const sanitized: SanitizedUser = {
     userID: user.userID,
     username: user.username,
-    avatar: user.avatar,
+    avatar: getUserAvatarURL(user.userID),
     balance: user.balance,
     hasPassword: userHasPassword(user),
     emailInformation: user.emailInformation,

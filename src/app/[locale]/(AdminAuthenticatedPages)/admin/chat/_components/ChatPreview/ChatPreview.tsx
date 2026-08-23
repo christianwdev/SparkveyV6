@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useFormatter, useTranslations } from 'next-intl';
+import { getUserAvatarUrl } from '@utils/avatar';
 import styles from './ChatPreview.module.scss';
 
 // Types
@@ -21,11 +23,16 @@ export default function ChatPreview(
 ) {
   const t = useTranslations('AdminChat');
   const formatter = useFormatter();
+  const [ imageFailed, setImageFailed ] = useState(false);
   const lastMessage = conversation.messages[0]?.message ?? t('noMessages');
   const initial = conversation.user.username.trim().charAt(0).toUpperCase() || '?';
   const unreadLabel = conversation.unreadCountAdmin > 9
     ? '9+'
     : conversation.unreadCountAdmin;
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [ conversation.user.userID ]);
 
   return (
     <button
@@ -33,18 +40,19 @@ export default function ChatPreview(
       className={[ styles.conversation, selected ? styles.selected : '' ].filter(Boolean).join(' ')}
       onClick={onSelect}
     >
-      {conversation.user.avatar ? (
+      {imageFailed ? (
+        <span className={styles.avatarFallback} aria-hidden>
+          {initial}
+        </span>
+      ) : (
         <img
-          src={conversation.user.avatar}
+          src={getUserAvatarUrl(conversation.user.userID)}
           alt=""
           className={styles.avatar}
           width={40}
           height={40}
+          onError={() => setImageFailed(true)}
         />
-      ) : (
-        <span className={styles.avatarFallback} aria-hidden>
-          {initial}
-        </span>
       )}
 
       <div className={styles.conversationInfo}>

@@ -6,13 +6,13 @@ import { useSearchParams } from 'next/navigation';
 import { useFormatter, useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
-import { Link } from '@i18n/navigation';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
 import Skeleton from '@components/Skeleton/Skeleton';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
+import AdminUserCell from '@components/AdminUserCell/AdminUserCell';
 import { useUser } from '@contexts/UserProvider';
 import { useAdminEarningsQuery } from '@hooks/useAdminUsers';
 import { queryKeys } from '@hooks/queryKeys';
@@ -105,13 +105,13 @@ function EarningsPageContent() {
       id: 'user',
       header: t('table.user'),
       cell: (row) => (
-        <Link
+        <AdminUserCell
           href={`${FrontendRedirectPaths.adminUsers}/${row.user.userID}`}
-          className={styles.usernameCell}
-        >
-          <span className={styles.name}>{row.user.username || t('unnamed')}</span>
-          <span className={styles.muted}>{row.user.userID}</span>
-        </Link>
+          userID={row.user.userID}
+          username={row.user.username}
+          subtitle={row.user.userID}
+          unnamedLabel={t('unnamed')}
+        />
       ),
     },
     {

@@ -5,7 +5,6 @@ import { useQueryStates } from 'nuqs';
 import { useFormatter, useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
-import { Link } from '@i18n/navigation';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import Dropdown from '@components/Dropdown/Dropdown';
@@ -13,6 +12,7 @@ import Pagination from '@components/Pagination/Pagination';
 import PrimaryButton from '@components/FormInputs/PrimaryButton/PrimaryButton';
 import Skeleton from '@components/Skeleton/Skeleton';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
+import AdminUserCell from '@components/AdminUserCell/AdminUserCell';
 import AdminWithdrawalAttestationModal, {
   type AttestationFlaggedUser,
 } from '@components/AdminWithdrawalAttestationModal/AdminWithdrawalAttestationModal';
@@ -314,15 +314,13 @@ function WithdrawalsPageContent() {
       id: 'user',
       header: t('table.user'),
       cell: (row) => (
-        <div className={styles.userCell}>
-          <Link
-            href={`${FrontendRedirectPaths.adminUsers}/${row.user.userID}`}
-            className={styles.usernameCell}
-          >
-            <span className={styles.name}>{row.user.username || t('unnamed')}</span>
-            <span className={styles.muted}>{row.user.email || t('noEmail')}</span>
-          </Link>
-        </div>
+        <AdminUserCell
+          href={`${FrontendRedirectPaths.adminUsers}/${row.user.userID}`}
+          userID={row.user.userID}
+          username={row.user.username}
+          subtitle={row.user.email || t('noEmail')}
+          unnamedLabel={t('unnamed')}
+        />
       ),
     },
     {

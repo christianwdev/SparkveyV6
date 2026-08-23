@@ -21,6 +21,7 @@ import { hasPermissions } from '@utils/admin';
 import { clientRequest } from '@utils/clientRequest';
 import { createAdminSupportConversation } from '@utils/adminChat';
 import { SUPPORT_MESSAGE_MAX_LENGTH } from '@utils/supportChat';
+import { getUserAvatarUrl } from '@utils/avatar';
 
 // Icons
 import SearchIcon from '~icons/mdi/magnify.jsx';
@@ -214,8 +215,6 @@ export default function AdminChatPageClient({ conversations: initialConversation
     sendMessage();
   }
 
-  const userInitial = selectedConversation?.user.username.trim().charAt(0).toUpperCase() || '?';
-
   return (
     <div className={[ styles.chatPage, selectedConversation ? styles.threadOpen : '' ].filter(Boolean).join(' ')}>
       <section className={styles.inbox} aria-label={t('title')}>
@@ -278,16 +277,12 @@ export default function AdminChatPageClient({ conversations: initialConversation
               </button>
 
               <div className={styles.threadAvatar} aria-hidden>
-                {selectedConversation.user.avatar ? (
-                  <img
-                    src={selectedConversation.user.avatar}
-                    alt=""
-                    width={36}
-                    height={36}
-                  />
-                ) : (
-                  <span>{userInitial}</span>
-                )}
+                <img
+                  src={getUserAvatarUrl(selectedConversation.user.userID)}
+                  alt=""
+                  width={36}
+                  height={36}
+                />
               </div>
 
               <div className={styles.threadUser}>

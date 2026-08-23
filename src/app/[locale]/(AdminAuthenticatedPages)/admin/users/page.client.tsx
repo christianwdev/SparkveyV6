@@ -11,6 +11,7 @@ import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
 import Skeleton from '@components/Skeleton/Skeleton';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
+import AdminUserCell from '@components/AdminUserCell/AdminUserCell';
 import { useAdminUsersQuery } from '@hooks/useAdminUsers';
 import { useAdminUserRisk } from '@contexts/AdminUserRiskContext';
 import { adminUsersSearchParams } from '@utils/adminUsersSearchParams';
@@ -114,13 +115,13 @@ function UsersPageContent() {
       id: 'username',
       header: t('table.username'),
       cell: (row) => (
-        <Link
+        <AdminUserCell
           href={`${FrontendRedirectPaths.adminUsers}/${row.userID}`}
-          className={styles.usernameCell}
-        >
-          <span className={styles.name}>{row.username || t('unnamed')}</span>
-          <span className={styles.muted}>{row.emailInformation?.emailAddress || t('noEmail')}</span>
-        </Link>
+          userID={row.userID}
+          username={row.username}
+          subtitle={row.emailInformation?.emailAddress || t('noEmail')}
+          unnamedLabel={t('unnamed')}
+        />
       ),
     },
     {

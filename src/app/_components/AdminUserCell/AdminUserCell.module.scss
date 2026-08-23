@@ -1,0 +1,56 @@
+@use '@styles/variables.scss' as *;
+
+.adminUserCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+
+  > .avatar,
+  > .avatarFallback {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  > .avatarFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  > .identity {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+
+    > .name {
+      color: $text-bold;
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > .muted {
+      color: $text-light;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &:hover > .identity > .name {
+    color: $primary;
+  }
+}

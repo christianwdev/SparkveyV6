@@ -2,6 +2,7 @@ import { createId } from '@paralleldrive/cuid2';
 import { MongoServerError } from 'mongodb';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
+import { getUserAvatarURL } from 'backend/utils/avatar';
 
 // Types
 import type { Filter } from 'mongodb';
@@ -45,6 +46,7 @@ export async function getUserSupportConversation(
       unreadCountUser: number,
       status: SanitizedUserSupportChat['status'],
       messages: ChatMessage[],
+      lastAgentID?: string,
       lastAgent?: {
         username: string,
         avatar?: string,
@@ -104,7 +106,9 @@ export async function getUserSupportConversation(
       supportAgent: conversation.lastAgent
         ? {
           username: conversation.lastAgent.username,
-          avatar: conversation.lastAgent.avatar,
+          avatar: conversation.lastAgentID
+            ? getUserAvatarURL(conversation.lastAgentID)
+            : undefined,
         }
         : null,
     };
@@ -308,8 +312,8 @@ export async function createAdminSupportMessage(
 
     const agentInfo: SanitizedUserSupportChat['supportAgent'] = {
       username: admin.username,
+      avatar: getUserAvatarURL(admin.userID),
     };
-    if (admin.avatar) agentInfo.avatar = admin.avatar;
 
     return {
       ok: true,
@@ -380,10 +384,10 @@ export async function createAdminSupportConversation(
       user: {
         username: user.username,
         userID: user.userID,
+        avatar: getUserAvatarURL(user.userID),
       },
       messages: [],
     };
-    if (user.avatar) sanitized.user.avatar = user.avatar;
 
     return { ok: true, data: sanitized };
   } catch (error) {
@@ -499,7 +503,13 @@ async function aggregateAdminConversations(
     { $project: { _id: 0 } },
   ]).toArray();
 
-  return conversations;
+  return conversations.map(conversation => ({
+    ...conversation,
+    user: {
+      ...conversation.user,
+      avatar: getUserAvatarURL(conversation.user.userID),
+    },
+  }));
 }
 
 async function recoverUpsertedConversation(

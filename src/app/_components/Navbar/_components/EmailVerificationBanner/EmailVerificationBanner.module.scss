@@ -1,0 +1,62 @@
+@use '@styles/variables.scss' as *;
+
+$email-verification-banner-height: 45px;
+$email-verification-banner-z-index: 20; // above page chrome (10), below navbar (100)
+
+.emailVerificationBanner {
+  position: fixed;
+  top: $navbar-height;
+  left: 0;
+  width: 100%;
+  min-height: $email-verification-banner-height;
+  height: $email-verification-banner-height;
+  z-index: $email-verification-banner-z-index;
+  background: $primary;
+  color: $text-white;
+  @include standardPadding;
+
+  > .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 auto;
+    max-width: $content-max-width;
+    height: 100%;
+
+    > p {
+      margin: 0;
+      min-width: 0;
+      font-size: 14px;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > button {
+      flex-shrink: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: underline;
+      white-space: nowrap;
+      cursor: pointer;
+
+      &:disabled {
+        cursor: default;
+        text-decoration: none;
+        opacity: 0.85;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $text-white;
+        outline-offset: 2px;
+      }
+    }
+  }
+}

@@ -2,6 +2,10 @@ import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
 
+// Middleware
+import { requireAuth } from 'backend/middleware/auth';
+import { requireCsrf } from 'backend/middleware/csrf';
+
 // Utils
 import {
   createUser,
@@ -12,13 +16,16 @@ import {
   verifyUserEmail,
 } from 'backend/utils/user';
 import { sendResponse } from 'backend/utils/response';
-import { withRouteErrorHandling } from 'backend/utils/request';
+import { getIPFromRequest, withRouteErrorHandling } from 'backend/utils/request';
 import { rateLimit } from 'backend/utils/rateLimit';
 import { buildFrontendURL } from 'backend/utils/frontendUrl';
 import { expireUserSessions, startSession } from 'backend/utils/session';
 import {
   claimEmailActionable,
   createEmailActionable,
+  deactivateEmailActionable,
+  deactivateOtherEmailActionables,
+  getLatestEmailActionable,
   releaseEmailActionable,
 } from 'backend/utils/emailActionable';
 import { sendForgottenPassword, sendVerificationEmail } from 'backend/utils/email';
@@ -31,6 +38,9 @@ import {
   usernameSchema,
 } from 'schemas/auth';
 import RouteResponseError from 'types/RouteResponseError';
+
+// Types
+import type InternalUser from 'types/User/InternalUser';
 
 const loginRateLimit = rateLimit({
   keyPrefix: 'auth:login',
@@ -62,6 +72,19 @@ const verifyRateLimit = rateLimit({
   windowSeconds: 60,
 });
 
+const resendVerificationRateLimit = rateLimit({
+  keyPrefix: 'auth:verify-resend',
+  maxRequests: 3,
+  windowSeconds: 900, // 15 minutes
+  keyGenerator: (c) => {
+    const actor = c.get('user');
+
+    return actor?.userID ?? getIPFromRequest(c);
+  },
+});
+
+const RESEND_COOLDOWN_MS = 120000; // 2 minutes
+
 const registerBodySchema = z.object({
   email: emailSchema,
   username: usernameSchema,
@@ -91,7 +114,7 @@ const EMAIL_UNAVAILABLE_MESSAGE = 'This email cannot be used to create an accoun
 /** Bcrypt (cost 10) used when no account/password exists so verify always runs. */
 const DUMMY_PASSWORD_HASH = '$2b$10$IcmtA9HO1LrR7OXzQRcZiOq1RNy8n2Q85AP/tU7uJ0DV7BdsiiWaC';
 
-const app = new Hono();
+const app = new Hono<{ Variables: { user: InternalUser } }>();
 
 export default function routeInvoker() {
   app.post(
@@ -332,6 +355,94 @@ export default function routeInvoker() {
         status: 200,
         success: true,
         message: 'Your password has been reset. You can now log in with your new password.',
+      });
+    },
+  );
+
+  app.post(
+    '/verify/resend',
+    requireAuth,
+    resendVerificationRateLimit,
+    requireCsrf,
+    withRouteErrorHandling,
+    async (c) => {
+      const user = c.get('user');
+
+      if (user.emailInformation.verifiedAt) {
+        return sendResponse({
+          c,
+          status: 400,
+          success: false,
+          code: 'alreadyVerified',
+          message: 'alreadyVerified',
+        });
+      }
+
+      const email = user.emailInformation.emailAddress;
+      if (!email) {
+        return sendResponse({
+          c,
+          status: 400,
+          success: false,
+          code: 'noEmail',
+          message: 'noEmail',
+        });
+      }
+
+      const latestResult = await getLatestEmailActionable({
+        userID: user.userID,
+        type: 'verification',
+      });
+
+      if (!latestResult.ok && latestResult.error !== 'notFound') {
+        throw new RouteResponseError({ status: 500, message: latestResult.error });
+      }
+
+      if (latestResult.ok) {
+        const elapsedMs = Date.now() - new Date(latestResult.data.issueDate).getTime();
+        if (elapsedMs < RESEND_COOLDOWN_MS) {
+          return sendResponse({
+            c,
+            status: 429,
+            success: false,
+            code: 'tooSoon',
+            message: 'tooSoon',
+          });
+        }
+      }
+
+      const actionableResult = await createEmailActionable({
+        userID: user.userID,
+        email,
+        type: 'verification',
+        deactivateExisting: false,
+      });
+
+      if (!actionableResult.ok) {
+        throw new RouteResponseError({ status: 500, message: actionableResult.error });
+      }
+
+      const [ emailSendError, emailErrorMessage ] = await sendVerificationEmail({
+        email,
+        code: actionableResult.data.actionableID,
+      });
+
+      if (emailSendError) {
+        await deactivateEmailActionable(actionableResult.data.actionableID);
+        throw new RouteResponseError({ status: 500, message: emailErrorMessage });
+      }
+
+      await deactivateOtherEmailActionables({
+        userID: user.userID,
+        type: 'verification',
+        exceptActionableID: actionableResult.data.actionableID,
+      });
+
+      return sendResponse({
+        c,
+        status: 200,
+        success: true,
+        message: 'Verification email sent.',
       });
     },
   );

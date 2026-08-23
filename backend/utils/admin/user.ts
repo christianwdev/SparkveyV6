@@ -18,6 +18,7 @@ import { deleteUserSession, expireUserSessions } from 'backend/utils/session';
 import { isEmailInUse, sanitizeEmail } from 'backend/utils/user';
 import { detectSharedEmail } from 'backend/utils/fraud';
 import { getActiveFlagsByUserIDs, scheduleFraudCheck } from 'backend/utils/userFlag';
+import { getUserAvatarURL } from 'backend/utils/avatar';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -74,6 +75,7 @@ function sanitizeAdminUser(user: InternalUser): AdminUser {
 
   return {
     ...adminUser,
+    avatar: getUserAvatarURL(user.userID),
     hasPassword: Boolean(password),
   };
 }

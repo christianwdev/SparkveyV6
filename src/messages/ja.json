@@ -476,6 +476,18 @@
     },
     "a11y": {
       "avatarAlt": "アバター"
+    },
+    "emailVerification": {
+      "welcome": "Sparkveyへようこそ！稼ぎ始める前にメールアドレスを認証してください。",
+      "resend": "メールを再送",
+      "sending": "送信中...",
+      "sent": "メールを送信しました"
+    },
+    "toasts": {
+      "resendSuccess": "認証メールを再送しました。受信トレイと迷惑メールフォルダをご確認ください。",
+      "resendError": "認証メールの再送に失敗しました。もう一度お試しください。",
+      "tooSoon": "認証リンクはすでにリクエスト済みです。2分待ってから再試行してください。",
+      "alreadyVerified": "メールアドレスはすでに認証されています。"
     }
   },
   "AnnouncementBanner": {
@@ -486,6 +498,7 @@
     "redemptions": "換金",
     "settings": "設定",
     "affiliates": "アフィリエイト",
+    "admin": "管理者",
     "promocodes": "プロモコード",
     "signOut": "ログアウト"
   },

@@ -7,17 +7,18 @@ import { Link } from '@i18n/navigation';
 import { useUser } from '@contexts/UserProvider';
 import { useLogout } from '@hooks/useLogout';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
+import { getUserAvatarUrl } from '@utils/avatar';
 
 // Components
 import PopperMenu from '@components/PopperMenu/PopperMenu';
 import PromocodeModal from '@components/Modals/PromocodeModal/PromocodeModal';
 
 // Icons
-import ProfileIcon from '~icons/solar/user-rounded-linear.jsx';
 import EarningsIcon from '~icons/solar/chart-linear.jsx';
 import RedemptionsIcon from '~icons/solar/gift-linear.jsx';
 import SettingsIcon from '~icons/solar/settings-linear.jsx';
 import AffiliatesIcon from '~icons/solar/users-group-rounded-linear.jsx';
+import GraphUpIcon from '~icons/solar/graph-up-linear.jsx';
 import TicketIcon from '~icons/solar/ticket-sale-linear.jsx';
 import SignOutIcon from '~icons/solar/logout-2-linear.jsx';
 
@@ -56,17 +57,13 @@ export default function UserDropdown() {
             aria-expanded={active}
             aria-haspopup="menu"
           >
-            {user.avatar ? (
-              <Image
-                className={styles.avatar}
-                src={user.avatar}
-                alt={tNav('a11y.avatarAlt')}
-                width={48}
-                height={48}
-              />
-            ) : (
-              <ProfileIcon className={styles.avatarFallback} aria-hidden />
-            )}
+            <Image
+              className={styles.avatar}
+              src={getUserAvatarUrl(user.userID)}
+              alt={tNav('a11y.avatarAlt')}
+              width={48}
+              height={48}
+            />
           </button>
         )}
       >
@@ -82,6 +79,18 @@ export default function UserDropdown() {
             <span>{t(labelKey)}</span>
           </Link>
         ))}
+
+        {!!user.staffPermissions && (
+          <Link
+            href={FrontendRedirectPaths.admin}
+            role="menuitem"
+            className={styles.menuItem}
+            onClick={() => setActive(false)}
+          >
+            <GraphUpIcon className={styles.itemIcon} aria-hidden />
+            <span>{t('admin')}</span>
+          </Link>
+        )}
 
         <button
           type="button"
