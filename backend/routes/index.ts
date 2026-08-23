@@ -12,6 +12,7 @@ import leaderboardRouteInvoker from './leaderboard';
 import offerwallsRouteInvoker from './offerwalls';
 import wallsRouteInvoker from './walls';
 import adminRouteInvoker from './admin';
+import announcementsRouteInvoker from './announcements';
 import webhooksRouteInvoker from './webhooks';
 import supportRouteInvoker from './support';
 
@@ -31,6 +32,7 @@ export default function routesInvoker() {
   app.route('/offerwalls', offerwallsRouteInvoker());
   app.route('/walls', wallsRouteInvoker());
   app.route('/admin', adminRouteInvoker());
+  app.route('/announcements', announcementsRouteInvoker());
   app.route('/support', supportRouteInvoker());
   app.route('/webhooks', webhooksRouteInvoker());
 

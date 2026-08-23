@@ -470,6 +470,9 @@
       "avatarAlt": "Avatar"
     }
   },
+  "AnnouncementBanner": {
+    "label": "Anúncio do site"
+  },
   "UserDropdown": {
     "earnings": "Ganhos",
     "redemptions": "Resgates",
@@ -1239,6 +1242,8 @@
     "withdrawalsDescription": "Reveja e processe levantamentos pendentes.",
     "earningsTitle": "Sparkvey | Ganhos",
     "earningsDescription": "Reveja ganhos de ofertas em espera e liberte-os.",
+    "announcementsTitle": "Sparkvey | Anúncios admin",
+    "announcementsDescription": "Gerir o banner de anúncio do site.",
     "chatTitle": "Sparkvey | Chat de suporte",
     "chatDescription": "Leia e responda conversas de suporte."
   },
@@ -1253,6 +1258,7 @@
       "users": "Users",
       "earnings": "Ganhos",
       "withdrawals": "Levantamentos",
+      "announcements": "Anúncios",
       "chat": "Suporte"
     }
   },
@@ -1521,6 +1527,7 @@
         "viewLeaderboards": "Ver classificações",
         "viewPostbacks": "Ver postbacks",
         "viewStatistics": "Ver estatísticas",
+        "viewAnnouncements": "Ver anúncios",
         "modifyUsers": "Modificar utilizadores",
         "modifyEarnings": "Modificar ganhos",
         "modifyWithdrawals": "Modificar levantamentos",
@@ -1529,6 +1536,7 @@
         "modifyOffers": "Modificar ofertas",
         "modifyLeaderboards": "Modificar classificações",
         "modifyPostbacks": "Modificar postbacks",
+        "modifyAnnouncements": "Modificar anúncios",
         "viewChat": "Ver chat",
         "replyChat": "Responder no chat"
       }
@@ -1830,6 +1838,44 @@
       "linkedAccount": "Conta associada",
       "proxy": "Proxy ou Tor",
       "impossibleTravel": "Viagem impossível"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Nenhum anúncio encontrado",
+    "create": "Criar anúncio",
+    "creating": "A criar…",
+    "modalTitle": "Criar anúncio",
+    "close": "Fechar",
+    "messageLabel": "Mensagem",
+    "messagePlaceholder": "Escreva a mensagem do anúncio…",
+    "characterCount": "{count}/500",
+    "cancel": "Cancelar",
+    "submit": "Criar",
+    "na": "—",
+    "table": {
+      "message": "Mensagem",
+      "status": "Estado",
+      "created": "Criado",
+      "actions": "Ações"
+    },
+    "statuses": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+    },
+    "actions": {
+      "disable": "Desativar",
+      "disabling": "A desativar…"
+    },
+    "success": {
+      "created": "Anúncio criado.",
+      "disabled": "Anúncio desativado."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar os anúncios.",
+      "createFailed": "Não foi possível criar o anúncio.",
+      "disableFailed": "Não foi possível desativar o anúncio.",
+      "emptyMessage": "A mensagem não pode estar vazia.",
+      "messageTooLong": "A mensagem deve ter 500 caracteres ou menos."
     }
   }
 }

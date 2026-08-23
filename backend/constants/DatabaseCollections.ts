@@ -16,6 +16,7 @@ const DatabaseCollections = {
   offerHistory: 'offerHistory',
   siteStatistics: 'siteStatistics',
   leaderboards: 'leaderboards',
+  settings: 'settings',
   chatConversations: 'chatConversations',
   chatMessages: 'chatMessages',
 };

@@ -46,6 +46,7 @@ const STAFF_PERMISSION_OPTIONS = [
   { bit: StaffPermissions.VIEW_LEADERBOARDS, labelKey: 'viewLeaderboards' },
   { bit: StaffPermissions.VIEW_POSTBACKS, labelKey: 'viewPostbacks' },
   { bit: StaffPermissions.VIEW_STATISTICS, labelKey: 'viewStatistics' },
+  { bit: StaffPermissions.VIEW_ANNOUNCEMENTS, labelKey: 'viewAnnouncements' },
   { bit: StaffPermissions.MODIFY_USERS, labelKey: 'modifyUsers' },
   { bit: StaffPermissions.MODIFY_EARNINGS, labelKey: 'modifyEarnings' },
   { bit: StaffPermissions.MODIFY_WITHDRAWALS, labelKey: 'modifyWithdrawals' },
@@ -54,6 +55,7 @@ const STAFF_PERMISSION_OPTIONS = [
   { bit: StaffPermissions.MODIFY_OFFERS, labelKey: 'modifyOffers' },
   { bit: StaffPermissions.MODIFY_LEADERBOARDS, labelKey: 'modifyLeaderboards' },
   { bit: StaffPermissions.MODIFY_POSTBACKS, labelKey: 'modifyPostbacks' },
+  { bit: StaffPermissions.MODIFY_ANNOUNCEMENTS, labelKey: 'modifyAnnouncements' },
   { bit: StaffPermissions.VIEW_CHAT, labelKey: 'viewChat' },
   { bit: StaffPermissions.REPLY_CHAT, labelKey: 'replyChat' },
 ] as const;

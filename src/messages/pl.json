@@ -470,6 +470,9 @@
       "avatarAlt": "Awatar"
     }
   },
+  "AnnouncementBanner": {
+    "label": "Ogłoszenie witryny"
+  },
   "UserDropdown": {
     "earnings": "Zarobki",
     "redemptions": "Wypłaty",
@@ -1239,6 +1242,8 @@
     "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty.",
     "earningsTitle": "Sparkvey | Zarobki",
     "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj.",
+    "announcementsTitle": "Sparkvey | Ogłoszenia admin",
+    "announcementsDescription": "Zarządzaj banerem ogłoszenia na stronie.",
     "chatTitle": "Sparkvey | Czat wsparcia",
     "chatDescription": "Czytaj i odpowiadaj na rozmowy wsparcia."
   },
@@ -1253,6 +1258,7 @@
       "users": "Users",
       "earnings": "Zarobki",
       "withdrawals": "Wypłaty",
+      "announcements": "Ogłoszenia",
       "chat": "Wsparcie"
     }
   },
@@ -1521,6 +1527,7 @@
         "viewLeaderboards": "Przeglądaj rankingi",
         "viewPostbacks": "Przeglądaj postbacki",
         "viewStatistics": "Przeglądaj statystyki",
+        "viewAnnouncements": "Przeglądaj ogłoszenia",
         "modifyUsers": "Modyfikuj użytkowników",
         "modifyEarnings": "Modyfikuj zarobki",
         "modifyWithdrawals": "Modyfikuj wypłaty",
@@ -1529,6 +1536,7 @@
         "modifyOffers": "Modyfikuj oferty",
         "modifyLeaderboards": "Modyfikuj rankingi",
         "modifyPostbacks": "Modyfikuj postbacki",
+        "modifyAnnouncements": "Modyfikuj ogłoszenia",
         "viewChat": "Przeglądaj czat",
         "replyChat": "Odpowiadaj na czacie"
       }
@@ -1830,6 +1838,44 @@
       "linkedAccount": "Powiązane konto",
       "proxy": "Proxy lub Tor",
       "impossibleTravel": "Niemożliwa podróż"
+    }
+  },
+  "AdminAnnouncements": {
+    "empty": "Brak ogłoszeń",
+    "create": "Utwórz ogłoszenie",
+    "creating": "Tworzenie…",
+    "modalTitle": "Utwórz ogłoszenie",
+    "close": "Zamknij",
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Wpisz treść ogłoszenia…",
+    "characterCount": "{count}/500",
+    "cancel": "Anuluj",
+    "submit": "Utwórz",
+    "na": "—",
+    "table": {
+      "message": "Wiadomość",
+      "status": "Status",
+      "created": "Utworzono",
+      "actions": "Akcje"
+    },
+    "statuses": {
+      "active": "Aktywne",
+      "inactive": "Nieaktywne"
+    },
+    "actions": {
+      "disable": "Wyłącz",
+      "disabling": "Wyłączanie…"
+    },
+    "success": {
+      "created": "Ogłoszenie utworzone.",
+      "disabled": "Ogłoszenie wyłączone."
+    },
+    "errors": {
+      "loadFailed": "Nie udało się wczytać ogłoszeń.",
+      "createFailed": "Nie udało się utworzyć ogłoszenia.",
+      "disableFailed": "Nie udało się wyłączyć ogłoszenia.",
+      "emptyMessage": "Wiadomość nie może być pusta.",
+      "messageTooLong": "Wiadomość może mieć maksymalnie 500 znaków."
     }
   }
 }
