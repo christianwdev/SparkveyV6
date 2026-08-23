@@ -16,7 +16,7 @@ test.describe('authenticated flows', () => {
     await page.goto(localePath('/login'));
     await page.getByLabel(copy.en.LoginPage.emailAddress).fill(e2eEmail ?? '');
     await page.getByLabel(copy.en.LoginPage.password).fill(e2ePassword ?? '');
-    await page.getByRole('button', { name: copy.en.LoginPage.signIn }).click();
+    await page.getByRole('button', { name: copy.en.LoginPage.signIn, exact: true }).click();
 
     await expect(page).not.toHaveURL(/\/login/);
     await expect(page.getByRole('link', { name: copy.en.Landing.signIn })).toHaveCount(0);

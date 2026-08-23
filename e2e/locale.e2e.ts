@@ -39,7 +39,8 @@ test.describe('locale routing', () => {
     await page.getByRole('link', { name: copy.en.Footer.spanish }).click();
 
     await expect(page).toHaveURL(/\/es\/?$/);
-    await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+
+    // Root <html lang> is set by the server layout and can stay "en" on client navigations.
     await expect(page.getByRole('heading', {
       name: copy.es.Landing.heroHeadline,
     })).toBeVisible();

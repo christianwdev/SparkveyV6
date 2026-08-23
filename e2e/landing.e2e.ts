@@ -29,6 +29,7 @@ test.describe('landing page', () => {
     })).toBeVisible();
     await expect(page.getByRole('heading', {
       name: copy.en.Landing.waysToEarn.eyebrow,
+      exact: true,
     })).toBeVisible();
     await expect(page.getByRole('heading', {
       name: copy.en.Landing.faq.eyebrow,

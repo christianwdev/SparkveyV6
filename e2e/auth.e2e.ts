@@ -12,7 +12,7 @@ test.describe('authentication pages', () => {
     await expect(page.getByRole('heading', { name: copy.en.LoginPage.title })).toBeVisible();
     await expect(page.getByLabel(copy.en.LoginPage.emailAddress)).toBeVisible();
     await expect(page.getByLabel(copy.en.LoginPage.password)).toBeVisible();
-    await expect(page.getByRole('button', { name: copy.en.LoginPage.signIn })).toBeVisible();
+    await expect(page.getByRole('button', { name: copy.en.LoginPage.signIn, exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: copy.en.LoginPage.signInWithGoogle })).toBeVisible();
     await expect(page.getByRole('link', { name: copy.en.LoginPage.forgotPassword })).toBeVisible();
     await expect(page.getByRole('link', { name: copy.en.LoginPage.joinToday })).toBeVisible();
@@ -20,7 +20,7 @@ test.describe('authentication pages', () => {
 
   test('login empty submit shows client-side validation', async ({ page }) => {
     await page.goto(localePath('/login'));
-    await page.getByRole('button', { name: copy.en.LoginPage.signIn }).click();
+    await page.getByRole('button', { name: copy.en.LoginPage.signIn, exact: true }).click();
 
     await expect(page.getByText(copy.en.LoginPage.errors.emailRequired)).toBeVisible();
     await expect(page.getByText(copy.en.LoginPage.errors.passwordRequired)).toBeVisible();
@@ -61,7 +61,7 @@ test.describe('authentication pages', () => {
     await expect(page).toHaveURL(/\/en\/signup\/?$/);
   });
 
-  test('forgot password page validates an empty submit', async ({ page }) => {
+  test('forgot password page validates an invalid email', async ({ page }) => {
     const response = await page.goto(localePath('/forgot-password'));
 
     expect(response?.ok()).toBeTruthy();
@@ -69,9 +69,10 @@ test.describe('authentication pages', () => {
     await expect(page.getByRole('heading', { name: copy.en.ForgotPasswordPage.title })).toBeVisible();
     await expect(page.getByLabel(copy.en.ForgotPasswordPage.emailAddress)).toBeVisible();
 
+    await page.getByLabel(copy.en.ForgotPasswordPage.emailAddress).fill('not-an-email');
     await page.getByRole('button', { name: copy.en.ForgotPasswordPage.sendResetEmail }).click();
 
-    await expect(page.getByText(copy.en.ForgotPasswordPage.errors.emailRequired)).toBeVisible();
+    await expect(page.getByText(copy.en.ForgotPasswordPage.errors.emailInvalid)).toBeVisible();
     await expect(page).toHaveURL(/\/en\/forgot-password\/?$/);
   });
 });

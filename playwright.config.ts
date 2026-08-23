@@ -49,6 +49,7 @@ export default defineConfig({
     env: {
       ...process.env,
       NEXT_PUBLIC_ENV: 'development',
+      NEXT_TELEMETRY_DISABLED: '1',
     },
   },
 });
