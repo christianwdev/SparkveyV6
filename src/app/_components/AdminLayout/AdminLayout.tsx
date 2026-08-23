@@ -15,6 +15,8 @@ import UsersIcon from '~icons/solar/users-group-rounded-linear.jsx';
 import GraphUpIcon from '~icons/solar/graph-up-linear.jsx';
 import WalletIcon from '~icons/solar/wallet-money-linear.jsx';
 import TicketIcon from '~icons/solar/ticket-sale-linear.jsx';
+import BellIcon from '~icons/mdi/bell.jsx';
+import ChatIcon from '~icons/solar/chat-round-linear.jsx';
 import ArrowLeftIcon from '~icons/solar/arrow-left-linear.jsx';
 
 // Types
@@ -56,9 +58,25 @@ const ADMIN_NAV = [
     exact: false,
     permission: StaffPermissions.VIEW_PROMOCODES,
   },
+  {
+    href: FrontendRedirectPaths.adminAnnouncements,
+    labelKey: 'announcements',
+    Icon: BellIcon,
+    exact: false,
+    permission: StaffPermissions.VIEW_ANNOUNCEMENTS,
+  },
+  {
+    href: FrontendRedirectPaths.adminChat,
+    labelKey: 'chat',
+    Icon: ChatIcon,
+    exact: false,
+    permission: StaffPermissions.VIEW_CHAT,
+  },
 ] as const;
 
-function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' | 'earnings' | 'withdrawals' | 'promocodes' {
+function resolvePageTitleKey(
+  pathname: string,
+): 'dashboard' | 'users' | 'earnings' | 'withdrawals' | 'promocodes' | 'announcements' | 'chat' {
   if (pathname === FrontendRedirectPaths.admin || pathname === `${FrontendRedirectPaths.admin}/`) {
     return 'dashboard';
   }
@@ -73,6 +91,14 @@ function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' | 'earning
 
   if (pathname.startsWith(FrontendRedirectPaths.adminPromocodes)) {
     return 'promocodes';
+  }
+
+  if (pathname.startsWith(FrontendRedirectPaths.adminAnnouncements)) {
+    return 'announcements';
+  }
+
+  if (pathname.startsWith(FrontendRedirectPaths.adminChat)) {
+    return 'chat';
   }
 
   if (pathname.startsWith(FrontendRedirectPaths.adminUsers)) {
@@ -93,8 +119,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     required: item.permission,
   }));
 
+  const isChat = pageTitleKey === 'chat';
+
   return (
-    <div className={styles.adminShell}>
+    <div className={[ styles.adminShell, isChat ? styles.chatMode : '' ].filter(Boolean).join(' ')}>
       <aside className={styles.sidebar}>
         <div className={styles.header}>
           <Link href={FrontendRedirectPaths.admin} className={styles.logoWrapper}>
@@ -147,7 +175,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <h1 className={styles.pageTitle}>{t(`nav.${pageTitleKey}`)}</h1>
         </header>
 
-        <div className={styles.main}>
+        <div className={[ styles.main, isChat ? styles.mainFlush : '' ].filter(Boolean).join(' ')}>
           <AdminUserRiskProvider>
             {children}
           </AdminUserRiskProvider>

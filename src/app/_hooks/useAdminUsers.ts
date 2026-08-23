@@ -14,6 +14,7 @@ import {
   adminUsersListQueryOptions,
   adminWithdrawalsListQueryOptions,
   adminEarningsListQueryOptions,
+  adminAnnouncementsListQueryOptions,
 } from './adminUserQueries';
 import { queryKeys } from './queryKeys';
 
@@ -244,5 +245,11 @@ export function useAdminEarningsQuery(
     searchBy,
     search,
     page,
+  }));
+}
+
+export function useAdminAnnouncementsQuery() {
+  return useQuery(adminAnnouncementsListQueryOptions({
+    request: clientRequest,
   }));
 }

@@ -48,6 +48,10 @@ export const queryKeys = {
     all: [ 'leaderboard' ] as const,
     monthly: () => [ ...queryKeys.leaderboard.all, 'monthly' ] as const,
   },
+  announcement: {
+    all: [ 'announcement' ] as const,
+    active: () => [ ...queryKeys.announcement.all, 'active' ] as const,
+  },
   walls: {
     all: [ 'walls' ] as const,
     list: () => [ ...queryKeys.walls.all, 'list' ] as const,
@@ -109,6 +113,10 @@ export const queryKeys = {
         page: number,
       }) => [ ...queryKeys.admin.withdrawals.all(), 'list', filters ] as const,
     },
+    announcements: {
+      all: () => [ ...queryKeys.admin.all, 'announcements' ] as const,
+      list: () => [ ...queryKeys.admin.announcements.all(), 'list' ] as const,
+    },
     earnings: {
       all: () => [ ...queryKeys.admin.all, 'earnings' ] as const,
       list: (filters: {
@@ -122,5 +130,18 @@ export const queryKeys = {
       all: () => [ ...queryKeys.admin.all, 'promocodes' ] as const,
       list: (page: number) => [ ...queryKeys.admin.promocodes.all(), 'list', page ] as const,
     },
+    chat: {
+      all: () => [ ...queryKeys.admin.all, 'chat' ] as const,
+      conversations: () => [ ...queryKeys.admin.chat.all(), 'conversations' ] as const,
+      conversation: (conversationID: string) => [
+        ...queryKeys.admin.chat.all(),
+        'conversation',
+        conversationID,
+      ] as const,
+    },
+  },
+  supportChat: {
+    all: [ 'supportChat' ] as const,
+    conversation: () => [ ...queryKeys.supportChat.all, 'conversation' ] as const,
   },
 };

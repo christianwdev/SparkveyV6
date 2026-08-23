@@ -256,5 +256,34 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   );
 
+  await db.collection(DatabaseCollections.chatConversations).createIndexes([
+    {
+      key: { conversationID: 1 },
+      unique: true,
+      name: 'conversationID_unique',
+    },
+    {
+      key: { userID: 1 },
+      unique: true,
+      name: 'userID_unique',
+    },
+    {
+      key: { lastMessageTimestamp: -1 },
+      name: 'lastMessageTimestamp',
+    },
+  ]);
+
+  await db.collection(DatabaseCollections.chatMessages).createIndexes([
+    {
+      key: { messageID: 1 },
+      unique: true,
+      name: 'messageID_unique',
+    },
+    {
+      key: { conversationID: 1, timestamp: -1 },
+      name: 'conversationID_timestamp',
+    },
+  ]);
+
   await ensureSiteStatistics(db);
 }
