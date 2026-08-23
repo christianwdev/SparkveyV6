@@ -14,6 +14,7 @@ import ChartIcon from '~icons/solar/chart-linear.jsx';
 import UsersIcon from '~icons/solar/users-group-rounded-linear.jsx';
 import GraphUpIcon from '~icons/solar/graph-up-linear.jsx';
 import WalletIcon from '~icons/solar/wallet-money-linear.jsx';
+import TicketIcon from '~icons/solar/ticket-sale-linear.jsx';
 import ArrowLeftIcon from '~icons/solar/arrow-left-linear.jsx';
 
 // Types
@@ -48,9 +49,16 @@ const ADMIN_NAV = [
     exact: false,
     permission: StaffPermissions.VIEW_WITHDRAWALS,
   },
+  {
+    href: FrontendRedirectPaths.adminPromocodes,
+    labelKey: 'promocodes',
+    Icon: TicketIcon,
+    exact: false,
+    permission: StaffPermissions.VIEW_PROMOCODES,
+  },
 ] as const;
 
-function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' | 'earnings' | 'withdrawals' {
+function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' | 'earnings' | 'withdrawals' | 'promocodes' {
   if (pathname === FrontendRedirectPaths.admin || pathname === `${FrontendRedirectPaths.admin}/`) {
     return 'dashboard';
   }
@@ -61,6 +69,10 @@ function resolvePageTitleKey(pathname: string): 'dashboard' | 'users' | 'earning
 
   if (pathname.startsWith(FrontendRedirectPaths.adminWithdrawals)) {
     return 'withdrawals';
+  }
+
+  if (pathname.startsWith(FrontendRedirectPaths.adminPromocodes)) {
+    return 'promocodes';
   }
 
   if (pathname.startsWith(FrontendRedirectPaths.adminUsers)) {

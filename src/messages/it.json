@@ -419,7 +419,18 @@
     "title": "Riscatta codice promozionale",
     "description": "Troverai questi codici promozionali sui nostri social e forniranno SP a un numero limitato di utenti.",
     "placeholder": "Codice promozionale",
-    "redeemCode": "Riscatta codice"
+    "redeemCode": "Riscatta codice",
+    "redeeming": "Riscatto…",
+    "close": "Chiudi",
+    "success": "Hai riscattato {amount} sparks.",
+    "errors": {
+      "notFound": "Questo codice promozionale non e valido o e scaduto.",
+      "alreadyClaimed": "Hai gia riscattato questo codice promozionale.",
+      "expired": "Questo codice promozionale e scaduto.",
+      "noUsesLeft": "Questo codice promozionale non ha piu utilizzi.",
+      "invalid": "Inserisci un codice promozionale valido.",
+      "generic": "Impossibile riscattare questo codice promozionale. Riprova piu tardi."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Prelievo",
@@ -470,6 +481,7 @@
     "redemptions": "Riscatti",
     "settings": "Impostazioni",
     "affiliates": "Affiliati",
+    "promocodes": "Codici promo",
     "signOut": "Esci"
   },
   "Notifications": {
@@ -1233,7 +1245,9 @@
     "withdrawalsTitle": "Sparkvey | Prelievi",
     "withdrawalsDescription": "Esamina ed elabora i prelievi in sospeso.",
     "earningsTitle": "Sparkvey | Guadagni",
-    "earningsDescription": "Esamina i guadagni in attesa e rilasciali."
+    "earningsDescription": "Esamina i guadagni in attesa e rilasciali.",
+    "promocodesTitle": "Sparkvey | Codici promo",
+    "promocodesDescription": "Crea e gestisci i codici promozionali."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1259,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Guadagni",
-      "withdrawals": "Prelievi"
+      "withdrawals": "Prelievi",
+      "promocodes": "Codici promo"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1716,42 @@
     "errors": {
       "loadFailed": "Impossibile caricare i guadagni.",
       "releaseFailed": "Impossibile rilasciare questo guadagno."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Nessun codice promo per ora.",
+    "na": "—",
+    "table": {
+      "code": "Codice",
+      "uses": "Utilizzi",
+      "reward": "Ricompensa",
+      "expiry": "Scadenza",
+      "created": "Creato",
+      "claimedBy": "Riscattato da",
+      "actions": "Azioni"
+    },
+    "form": {
+      "code": "Codice",
+      "rewardValue": "Sparks",
+      "totalUses": "Utilizzi totali",
+      "expiryDate": "Data di scadenza",
+      "create": "Crea codice promo",
+      "creating": "Creazione…"
+    },
+    "actions": {
+      "delete": "Elimina",
+      "deleting": "Eliminazione…"
+    },
+    "success": {
+      "created": "Codice promo creato.",
+      "deleted": "Codice promo eliminato."
+    },
+    "errors": {
+      "loadFailed": "Impossibile caricare i codici promo.",
+      "alreadyExists": "Questo codice promo esiste gia.",
+      "invalidExpiry": "La data di scadenza deve essere futura.",
+      "createFailed": "Impossibile creare questo codice promo.",
+      "deleteFailed": "Impossibile eliminare questo codice promo."
     }
   },
   "AdminUserRiskModal": {

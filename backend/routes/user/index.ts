@@ -8,6 +8,7 @@ import { requireAuth } from 'backend/middleware/auth';
 import { sendResponse } from 'backend/utils/response';
 import { sanitizeUser } from 'backend/utils/user';
 import notificationsRouteInvoker from './notifications';
+import promocodesRouteInvoker from './promocodes';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
@@ -25,6 +26,7 @@ export default function routesInvoker() {
   });
 
   app.route('/notifications', notificationsRouteInvoker());
+  app.route('/promocodes', promocodesRouteInvoker());
 
   return app;
 }

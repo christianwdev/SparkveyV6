@@ -419,7 +419,18 @@
     "title": "Échanger un code promo",
     "description": "Ces codes promo seront publiés sur nos réseaux sociaux et donneront des SP à un nombre limité d'utilisateurs.",
     "placeholder": "Code promo",
-    "redeemCode": "Échanger le code"
+    "redeemCode": "Échanger le code",
+    "redeeming": "Échange…",
+    "close": "Fermer",
+    "success": "{amount} sparks échangés.",
+    "errors": {
+      "notFound": "Ce code promo est invalide ou a expiré.",
+      "alreadyClaimed": "Vous avez déjà échangé ce code promo.",
+      "expired": "Ce code promo a expiré.",
+      "noUsesLeft": "Ce code promo n'a plus d'utilisations.",
+      "invalid": "Saisissez un code promo valide.",
+      "generic": "Impossible d'échanger ce code promo. Réessayez plus tard."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Retrait",
@@ -470,6 +481,7 @@
     "redemptions": "Retraits",
     "settings": "Paramètres",
     "affiliates": "Affiliés",
+    "promocodes": "Codes promo",
     "signOut": "Se déconnecter"
   },
   "Notifications": {
@@ -1233,7 +1245,9 @@
     "withdrawalsTitle": "Sparkvey | Retraits",
     "withdrawalsDescription": "Examiner et traiter les retraits en attente.",
     "earningsTitle": "Sparkvey | Gains",
-    "earningsDescription": "Examiner les gains d'offres en attente et les libérer."
+    "earningsDescription": "Examiner les gains d'offres en attente et les libérer.",
+    "promocodesTitle": "Sparkvey | Codes promo",
+    "promocodesDescription": "Créer et gérer les codes promotionnels."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1259,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Gains",
-      "withdrawals": "Retraits"
+      "withdrawals": "Retraits",
+      "promocodes": "Codes promo"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1716,42 @@
     "errors": {
       "loadFailed": "Impossible de charger les gains.",
       "releaseFailed": "Impossible de libérer ce gain."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Aucun code promo pour le moment.",
+    "na": "—",
+    "table": {
+      "code": "Code",
+      "uses": "Utilisations",
+      "reward": "Récompense",
+      "expiry": "Expiration",
+      "created": "Créé",
+      "claimedBy": "Utilisé par",
+      "actions": "Actions"
+    },
+    "form": {
+      "code": "Code",
+      "rewardValue": "Sparks",
+      "totalUses": "Utilisations totales",
+      "expiryDate": "Date d'expiration",
+      "create": "Créer un code promo",
+      "creating": "Création…"
+    },
+    "actions": {
+      "delete": "Supprimer",
+      "deleting": "Suppression…"
+    },
+    "success": {
+      "created": "Code promo créé.",
+      "deleted": "Code promo supprimé."
+    },
+    "errors": {
+      "loadFailed": "Impossible de charger les codes promo.",
+      "alreadyExists": "Ce code promo existe déjà.",
+      "invalidExpiry": "La date d'expiration doit être dans le futur.",
+      "createFailed": "Impossible de créer ce code promo.",
+      "deleteFailed": "Impossible de supprimer ce code promo."
     }
   },
   "AdminUserRiskModal": {

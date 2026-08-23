@@ -419,7 +419,18 @@
     "title": "프로모션 코드 사용",
     "description": "이러한 프로모션 코드는 소셜 미디어에서 찾을 수 있으며 제한된 사용자에게 일부 SP를 제공합니다.",
     "placeholder": "프로모션코드",
-    "redeemCode": "코드 사용"
+    "redeemCode": "코드 사용",
+    "redeeming": "사용 중…",
+    "close": "닫기",
+    "success": "{amount} 스파크를 사용했습니다.",
+    "errors": {
+      "notFound": "이 프로모션 코드는 유효하지 않거나 만료되었습니다.",
+      "alreadyClaimed": "이미 이 프로모션 코드를 사용했습니다.",
+      "expired": "이 프로모션 코드는 만료되었습니다.",
+      "noUsesLeft": "이 프로모션 코드의 사용 횟수가 남아 있지 않습니다.",
+      "invalid": "유효한 프로모션 코드를 입력하세요.",
+      "generic": "프로모션 코드를 사용할 수 없습니다. 나중에 다시 시도하세요."
+    }
   },
   "UserWithdrawalModal": {
     "title": "출금",
@@ -470,6 +481,7 @@
     "redemptions": "환전",
     "settings": "설정",
     "affiliates": "계열사",
+    "promocodes": "프로모코드",
     "signOut": "로그아웃"
   },
   "Notifications": {
@@ -1233,7 +1245,9 @@
     "withdrawalsTitle": "Sparkvey | 출금",
     "withdrawalsDescription": "대기 중인 출금을 검토하고 처리합니다.",
     "earningsTitle": "Sparkvey | 수익",
-    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다."
+    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다.",
+    "promocodesTitle": "Sparkvey | 프로모코드",
+    "promocodesDescription": "프로모션 코드를 만들고 관리합니다."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1259,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "수익",
-      "withdrawals": "출금"
+      "withdrawals": "출금",
+      "promocodes": "프로모코드"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1716,42 @@
     "errors": {
       "loadFailed": "수익을 불러오지 못했습니다.",
       "releaseFailed": "이 수익을 해제하지 못했습니다."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "아직 프로모코드가 없습니다.",
+    "na": "—",
+    "table": {
+      "code": "코드",
+      "uses": "횟수",
+      "reward": "보상",
+      "expiry": "만료",
+      "created": "생성일",
+      "claimedBy": "사용한 사용자",
+      "actions": "작업"
+    },
+    "form": {
+      "code": "코드",
+      "rewardValue": "Sparks",
+      "totalUses": "총 사용 횟수",
+      "expiryDate": "만료일",
+      "create": "프로모코드 만들기",
+      "creating": "만드는 중…"
+    },
+    "actions": {
+      "delete": "삭제",
+      "deleting": "삭제 중…"
+    },
+    "success": {
+      "created": "프로모코드를 만들었습니다.",
+      "deleted": "프로모코드를 삭제했습니다."
+    },
+    "errors": {
+      "loadFailed": "프로모코드를 불러오지 못했습니다.",
+      "alreadyExists": "이 프로모코드는 이미 있습니다.",
+      "invalidExpiry": "만료일은 미래여야 합니다.",
+      "createFailed": "프로모코드를 만들지 못했습니다.",
+      "deleteFailed": "프로모코드를 삭제하지 못했습니다."
     }
   },
   "AdminUserRiskModal": {

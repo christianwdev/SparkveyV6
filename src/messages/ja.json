@@ -419,7 +419,18 @@
     "title": "プロモコードを交換",
     "description": "これらのプロモコードは公式SNSで配布され、対象ユーザーにSPを提供します。",
     "placeholder": "プロモコード",
-    "redeemCode": "コードを交換"
+    "redeemCode": "コードを交換",
+    "redeeming": "交換中…",
+    "close": "閉じる",
+    "success": "{amount} スパークを交換しました。",
+    "errors": {
+      "notFound": "このプロモコードは無効または期限切れです。",
+      "alreadyClaimed": "このプロモコードはすでに使用済みです。",
+      "expired": "このプロモコードは期限切れです。",
+      "noUsesLeft": "このプロモコードの利用回数は残っていません。",
+      "invalid": "有効なプロモコードを入力してください。",
+      "generic": "プロモコードを交換できませんでした。後でもう一度お試しください。"
+    }
   },
   "UserWithdrawalModal": {
     "title": "出金",
@@ -470,6 +481,7 @@
     "redemptions": "換金",
     "settings": "設定",
     "affiliates": "アフィリエイト",
+    "promocodes": "プロモコード",
     "signOut": "ログアウト"
   },
   "Notifications": {
@@ -1233,7 +1245,9 @@
     "withdrawalsTitle": "Sparkvey | 出金",
     "withdrawalsDescription": "保留中の出金を確認して処理します。",
     "earningsTitle": "Sparkvey | 収益",
-    "earningsDescription": "保留中のオファー収益を確認して解放します。"
+    "earningsDescription": "保留中のオファー収益を確認して解放します。",
+    "promocodesTitle": "Sparkvey | プロモコード",
+    "promocodesDescription": "プロモコードを作成・管理します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1259,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "収益",
-      "withdrawals": "出金"
+      "withdrawals": "出金",
+      "promocodes": "プロモコード"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1716,42 @@
     "errors": {
       "loadFailed": "収益を読み込めませんでした。",
       "releaseFailed": "この収益を解放できませんでした。"
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "プロモコードはまだありません。",
+    "na": "—",
+    "table": {
+      "code": "コード",
+      "uses": "回数",
+      "reward": "報酬",
+      "expiry": "期限",
+      "created": "作成日",
+      "claimedBy": "使用したユーザー",
+      "actions": "操作"
+    },
+    "form": {
+      "code": "コード",
+      "rewardValue": "Sparks",
+      "totalUses": "利用回数",
+      "expiryDate": "有効期限",
+      "create": "プロモコードを作成",
+      "creating": "作成中…"
+    },
+    "actions": {
+      "delete": "削除",
+      "deleting": "削除中…"
+    },
+    "success": {
+      "created": "プロモコードを作成しました。",
+      "deleted": "プロモコードを削除しました。"
+    },
+    "errors": {
+      "loadFailed": "プロモコードを読み込めませんでした。",
+      "alreadyExists": "このプロモコードは既に存在します。",
+      "invalidExpiry": "有効期限は未来の日付にしてください。",
+      "createFailed": "プロモコードを作成できませんでした。",
+      "deleteFailed": "プロモコードを削除できませんでした。"
     }
   },
   "AdminUserRiskModal": {

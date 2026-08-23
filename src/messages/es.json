@@ -419,7 +419,18 @@
     "title": "Canjear promocodigo",
     "description": "Encontraras estos promocodigos en nuestras redes sociales y otorgaran SP a un numero limitado de usuarios.",
     "placeholder": "Promocodigo",
-    "redeemCode": "Canjear codigo"
+    "redeemCode": "Canjear codigo",
+    "redeeming": "Canjeando…",
+    "close": "Cerrar",
+    "success": "Canjeaste {amount} sparks.",
+    "errors": {
+      "notFound": "Este promocodigo no es valido o ha caducado.",
+      "alreadyClaimed": "Ya has canjeado este promocodigo.",
+      "expired": "Este promocodigo ha caducado.",
+      "noUsesLeft": "Este promocodigo no tiene usos restantes.",
+      "invalid": "Introduce un promocodigo valido.",
+      "generic": "No se pudo canjear este promocodigo. Intentalo de nuevo mas tarde."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Retiro",
@@ -470,6 +481,7 @@
     "redemptions": "Canjes",
     "settings": "Configuracion",
     "affiliates": "Afiliados",
+    "promocodes": "Promocodigos",
     "signOut": "Cerrar sesion"
   },
   "Notifications": {
@@ -1233,7 +1245,9 @@
     "withdrawalsTitle": "Sparkvey | Retiros",
     "withdrawalsDescription": "Revisa y procesa los retiros pendientes.",
     "earningsTitle": "Sparkvey | Ganancias",
-    "earningsDescription": "Revisa ganancias de ofertas en espera y libéralas."
+    "earningsDescription": "Revisa ganancias de ofertas en espera y libéralas.",
+    "promocodesTitle": "Sparkvey | Promocodigos",
+    "promocodesDescription": "Crea y gestiona codigos promocionales."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1259,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Ganancias",
-      "withdrawals": "Retiros"
+      "withdrawals": "Retiros",
+      "promocodes": "Promocodigos"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1716,42 @@
     "errors": {
       "loadFailed": "No se pudieron cargar las ganancias.",
       "releaseFailed": "No se pudo liberar esta ganancia."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Aun no hay promocodigos.",
+    "na": "—",
+    "table": {
+      "code": "Codigo",
+      "uses": "Usos",
+      "reward": "Recompensa",
+      "expiry": "Caducidad",
+      "created": "Creado",
+      "claimedBy": "Canjeado por",
+      "actions": "Acciones"
+    },
+    "form": {
+      "code": "Codigo",
+      "rewardValue": "Sparks",
+      "totalUses": "Usos totales",
+      "expiryDate": "Fecha de caducidad",
+      "create": "Crear promocodigo",
+      "creating": "Creando…"
+    },
+    "actions": {
+      "delete": "Eliminar",
+      "deleting": "Eliminando…"
+    },
+    "success": {
+      "created": "Promocodigo creado.",
+      "deleted": "Promocodigo eliminado."
+    },
+    "errors": {
+      "loadFailed": "No se pudieron cargar los promocodigos.",
+      "alreadyExists": "Este promocodigo ya existe.",
+      "invalidExpiry": "La fecha de caducidad debe ser futura.",
+      "createFailed": "No se pudo crear este promocodigo.",
+      "deleteFailed": "No se pudo eliminar este promocodigo."
     }
   },
   "AdminUserRiskModal": {

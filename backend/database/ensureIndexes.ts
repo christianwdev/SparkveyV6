@@ -85,6 +85,18 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
+  await db.collection(DatabaseCollections.promocodes).createIndexes([
+    {
+      key: { code: 1 },
+      unique: true,
+      name: 'code_unique',
+    },
+    {
+      key: { createdAt: -1 },
+      name: 'createdAt',
+    },
+  ]);
+
   await db.collection(DatabaseCollections.affiliateCodes).createIndexes([
     {
       key: { code: 1 },

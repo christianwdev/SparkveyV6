@@ -419,7 +419,18 @@
     "title": "Promocode einloesen",
     "description": "Diese Promocodes findest du auf unseren Social-Media-Kanaelen und sie geben ausgewaehlten Nutzern etwas SP.",
     "placeholder": "Promocode",
-    "redeemCode": "Code einloesen"
+    "redeemCode": "Code einloesen",
+    "redeeming": "Wird eingeloest…",
+    "close": "Schliessen",
+    "success": "{amount} Sparks eingeloest.",
+    "errors": {
+      "notFound": "Dieser Promocode ist ungueltig oder abgelaufen.",
+      "alreadyClaimed": "Du hast diesen Promocode bereits eingeloest.",
+      "expired": "Dieser Promocode ist abgelaufen.",
+      "noUsesLeft": "Dieser Promocode hat keine Nutzungen mehr.",
+      "invalid": "Gib einen gueltigen Promocode ein.",
+      "generic": "Der Promocode konnte nicht eingeloest werden. Bitte versuche es spaeter erneut."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Auszahlung",
@@ -470,6 +481,7 @@
     "redemptions": "Auszahlungen",
     "settings": "Einstellungen",
     "affiliates": "Affiliates",
+    "promocodes": "Promocodes",
     "signOut": "Abmelden"
   },
   "Notifications": {
@@ -1233,7 +1245,9 @@
     "withdrawalsTitle": "Sparkvey | Auszahlungen",
     "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten.",
     "earningsTitle": "Sparkvey | Einnahmen",
-    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben."
+    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben.",
+    "promocodesTitle": "Sparkvey | Promocodes",
+    "promocodesDescription": "Promocodes erstellen und verwalten."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1259,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Einnahmen",
-      "withdrawals": "Auszahlungen"
+      "withdrawals": "Auszahlungen",
+      "promocodes": "Promocodes"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1716,42 @@
     "errors": {
       "loadFailed": "Einnahmen konnten nicht geladen werden.",
       "releaseFailed": "Diese Einnahme konnte nicht freigegeben werden."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Noch keine Promocodes.",
+    "na": "—",
+    "table": {
+      "code": "Code",
+      "uses": "Nutzungen",
+      "reward": "Belohnung",
+      "expiry": "Ablauf",
+      "created": "Erstellt",
+      "claimedBy": "Eingeloest von",
+      "actions": "Aktionen"
+    },
+    "form": {
+      "code": "Code",
+      "rewardValue": "Sparks",
+      "totalUses": "Nutzungen gesamt",
+      "expiryDate": "Ablaufdatum",
+      "create": "Promocode erstellen",
+      "creating": "Wird erstellt…"
+    },
+    "actions": {
+      "delete": "Loeschen",
+      "deleting": "Wird geloescht…"
+    },
+    "success": {
+      "created": "Promocode erstellt.",
+      "deleted": "Promocode geloescht."
+    },
+    "errors": {
+      "loadFailed": "Promocodes konnten nicht geladen werden.",
+      "alreadyExists": "Dieser Promocode existiert bereits.",
+      "invalidExpiry": "Das Ablaufdatum muss in der Zukunft liegen.",
+      "createFailed": "Der Promocode konnte nicht erstellt werden.",
+      "deleteFailed": "Der Promocode konnte nicht geloescht werden."
     }
   },
   "AdminUserRiskModal": {

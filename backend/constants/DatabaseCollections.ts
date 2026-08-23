@@ -12,6 +12,7 @@ const DatabaseCollections = {
   withdrawalAttestations: 'withdrawalAttestations',
   rewards: 'rewards',
   affiliateCodes: 'affiliateCodes',
+  promocodes: 'promocodes',
   offers: 'offers',
   offerHistory: 'offerHistory',
   siteStatistics: 'siteStatistics',

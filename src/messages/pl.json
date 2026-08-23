@@ -419,7 +419,18 @@
     "title": "Zrealizuj kod promocyjny",
     "description": "Kody promocyjne publikujemy w naszych social mediach i sa dostepne dla ograniczonej liczby uzytkownikow.",
     "placeholder": "Kod promocyjny",
-    "redeemCode": "Zrealizuj kod"
+    "redeemCode": "Zrealizuj kod",
+    "redeeming": "Realizacja…",
+    "close": "Zamknij",
+    "success": "Zrealizowano {amount} sparks.",
+    "errors": {
+      "notFound": "Ten kod promocyjny jest nieprawidlowy lub wygasl.",
+      "alreadyClaimed": "Juz zrealizowales ten kod promocyjny.",
+      "expired": "Ten kod promocyjny wygasl.",
+      "noUsesLeft": "Ten kod promocyjny nie ma juz uzyc.",
+      "invalid": "Wpisz prawidlowy kod promocyjny.",
+      "generic": "Nie udalo sie zrealizowac kodu. Sprobuj ponownie pozniej."
+    }
   },
   "UserWithdrawalModal": {
     "title": "Wyplata",
@@ -470,6 +481,7 @@
     "redemptions": "Wypłaty",
     "settings": "Ustawienia",
     "affiliates": "Program partnerski",
+    "promocodes": "Kody promocyjne",
     "signOut": "Wyloguj sie"
   },
   "Notifications": {
@@ -1233,7 +1245,9 @@
     "withdrawalsTitle": "Sparkvey | Wypłaty",
     "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty.",
     "earningsTitle": "Sparkvey | Zarobki",
-    "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj."
+    "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj.",
+    "promocodesTitle": "Sparkvey | Kody promocyjne",
+    "promocodesDescription": "Twórz i zarządzaj kodami promocyjnymi."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1259,8 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Zarobki",
-      "withdrawals": "Wypłaty"
+      "withdrawals": "Wypłaty",
+      "promocodes": "Kody promocyjne"
     }
   },
   "AdminDashboard": {
@@ -1701,6 +1716,42 @@
     "errors": {
       "loadFailed": "Nie udało się wczytać zarobków.",
       "releaseFailed": "Nie udało się zwolnić tego zarobku."
+    }
+  },
+  "AdminPromocodes": {
+    "empty": "Nie ma jeszcze kodow promocyjnych.",
+    "na": "—",
+    "table": {
+      "code": "Kod",
+      "uses": "Uzycia",
+      "reward": "Nagroda",
+      "expiry": "Waznosc",
+      "created": "Utworzono",
+      "claimedBy": "Wykorzystany przez",
+      "actions": "Akcje"
+    },
+    "form": {
+      "code": "Kod",
+      "rewardValue": "Sparks",
+      "totalUses": "Liczba uzyc",
+      "expiryDate": "Data waznosci",
+      "create": "Utworz kod",
+      "creating": "Tworzenie…"
+    },
+    "actions": {
+      "delete": "Usun",
+      "deleting": "Usuwanie…"
+    },
+    "success": {
+      "created": "Kod promocyjny utworzony.",
+      "deleted": "Kod promocyjny usuniety."
+    },
+    "errors": {
+      "loadFailed": "Nie udalo sie wczytac kodow promocyjnych.",
+      "alreadyExists": "Ten kod promocyjny juz istnieje.",
+      "invalidExpiry": "Data waznosci musi byc w przyszlosci.",
+      "createFailed": "Nie udalo sie utworzyc kodu promocyjnego.",
+      "deleteFailed": "Nie udalo sie usunac kodu promocyjnego."
     }
   },
   "AdminUserRiskModal": {

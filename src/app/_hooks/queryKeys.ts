@@ -118,5 +118,9 @@ export const queryKeys = {
         page: number,
       }) => [ ...queryKeys.admin.earnings.all(), 'list', filters ] as const,
     },
+    promocodes: {
+      all: () => [ ...queryKeys.admin.all, 'promocodes' ] as const,
+      list: (page: number) => [ ...queryKeys.admin.promocodes.all(), 'list', page ] as const,
+    },
   },
 };
