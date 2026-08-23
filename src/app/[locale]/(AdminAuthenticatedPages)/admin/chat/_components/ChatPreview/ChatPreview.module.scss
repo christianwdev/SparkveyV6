@@ -1,0 +1,105 @@
+@use '@styles/variables.scss' as *;
+
+.conversation {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  border-bottom: 1px solid $border-light;
+  padding: 12px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+
+  &:hover {
+    background: $light-gray;
+  }
+
+  &.selected {
+    background: color-mix(in srgb, $primary 10%, transparent);
+
+    > .conversationInfo > h3 {
+      color: $text-bold;
+    }
+  }
+
+  > .avatar,
+  > .avatarFallback {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  > .avatarFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  > .conversationInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+
+    > h3,
+    > p {
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-bold;
+    }
+
+    > p {
+      font-size: 13px;
+      font-weight: 400;
+      color: $text-light;
+    }
+  }
+
+  > .meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+
+    > .timestamp {
+      margin: 0;
+      font-size: 11px;
+      font-weight: 500;
+      color: $text-light;
+      white-space: nowrap;
+    }
+
+    > .unreadCount {
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: white;
+      background: $red;
+      border-radius: 999px;
+      box-sizing: border-box;
+    }
+  }
+}

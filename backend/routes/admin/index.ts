@@ -9,6 +9,7 @@ import dashboardRouteInvoker from './dashboard';
 import withdrawalsRouteInvoker from './withdrawals';
 import earningsRouteInvoker from './earnings';
 import announcementsRouteInvoker from './announcements';
+import chatRouteInvoker from './chat';
 
 // Types
 import type InternalUser from 'types/User/InternalUser';
@@ -23,6 +24,7 @@ export default function routesInvoker() {
   app.route('/withdrawals', withdrawalsRouteInvoker());
   app.route('/earnings', earningsRouteInvoker());
   app.route('/announcements', announcementsRouteInvoker());
+  app.route('/chat', chatRouteInvoker());
 
   return app;
 }

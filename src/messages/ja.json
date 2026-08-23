@@ -376,7 +376,11 @@
     "talkingTo": "対応担当",
     "supportAgent": "サポート担当者",
     "typeMessage": "メッセージを入力...",
-    "send": "送信"
+    "send": "送信",
+    "open": "サポートチャットを開く",
+    "close": "閉じる",
+    "empty": "メッセージを送っていただければ対応します。",
+    "hereToHelp": "サポートが対応します"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +463,8 @@
       "earn": "稼ぐ",
       "shop": "ショップ",
       "leaders": "リーダー",
-      "refer": "紹介"
+      "refer": "紹介",
+      "support": "サポート"
     },
     "a11y": {
       "avatarAlt": "アバター"
@@ -1238,7 +1243,9 @@
     "earningsTitle": "Sparkvey | 収益",
     "earningsDescription": "保留中のオファー収益を確認して解放します。",
     "announcementsTitle": "Sparkvey | お知らせ管理",
-    "announcementsDescription": "サイト全体のお知らせバナーを管理します。"
+    "announcementsDescription": "サイト全体のお知らせバナーを管理します。",
+    "chatTitle": "Sparkvey | サポートチャット",
+    "chatDescription": "ユーザーのサポート会話を確認して返信します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1251,7 +1258,29 @@
       "users": "Users",
       "earnings": "収益",
       "withdrawals": "出金",
-      "announcements": "お知らせ"
+      "announcements": "お知らせ",
+      "chat": "サポート"
+    }
+  },
+  "AdminChat": {
+    "title": "会話",
+    "searchPlaceholder": "絞り込み、またはユーザーIDで開く",
+    "search": "開く",
+    "chatTitle": "サポートスレッド",
+    "emptyTitle": "会話を選択",
+    "emptyDescription": "リストからスレッドを選ぶか、ユーザーIDで開いてください。",
+    "typeMessage": "返信を入力…",
+    "send": "送信",
+    "noMessages": "まだメッセージはありません",
+    "emptyInbox": "まだ会話はありません",
+    "emptyFilter": "一致する会話はありません",
+    "back": "戻る",
+    "viewUser": "プロフィールを見る",
+    "viewOnly": "このスレッドは閲覧できますが、返信はできません。",
+    "errors": {
+      "notFound": "ユーザーが見つかりません。",
+      "cannotCreate": "会話を開始する権限がありません。",
+      "generic": "会話を開けませんでした。"
     }
   },
   "AdminDashboard": {
@@ -1485,10 +1514,37 @@
       "limitsDescription": "オファー、出金、アフィリエイトコードの上限。",
       "moderationTitle": "モデレーション",
       "moderationDescription": "BAN、解除、または全セッションを切断します。",
-      "permanentBan": "無期限BAN"
+      "permanentBan": "無期限BAN",
+      "permissionsTitle": "スタッフ権限",
+      "permissionsDescription": "付与できるのは自分が持っている権限だけです。全権限のスタッフはチャットなどの新規権限も付与できます。",
+      "permissions": {
+        "viewUsers": "ユーザー閲覧",
+        "viewEarnings": "収益閲覧",
+        "viewWithdrawals": "出金閲覧",
+        "viewPromocodes": "プロモコード閲覧",
+        "viewSettings": "設定閲覧",
+        "viewOffers": "オファー閲覧",
+        "viewLeaderboards": "ランキング閲覧",
+        "viewPostbacks": "ポストバック閲覧",
+        "viewStatistics": "統計閲覧",
+        "viewAnnouncements": "お知らせ閲覧",
+        "modifyUsers": "ユーザー変更",
+        "modifyEarnings": "収益変更",
+        "modifyWithdrawals": "出金変更",
+        "modifyPromocodes": "プロモコード変更",
+        "modifySettings": "設定変更",
+        "modifyOffers": "オファー変更",
+        "modifyLeaderboards": "ランキング変更",
+        "modifyPostbacks": "ポストバック変更",
+        "modifyAnnouncements": "お知らせ変更",
+        "viewChat": "チャット閲覧",
+        "replyChat": "チャット返信"
+      }
     },
     "actions": {
       "saveAccount": "アカウントを保存",
+      "savePermissions": "権限を保存",
+      "grantAllPermissions": "付与できる権限をすべて選択",
       "applyBalance": "残高を適用",
       "saveLimits": "上限を保存",
       "ban": "ユーザーをBAN",

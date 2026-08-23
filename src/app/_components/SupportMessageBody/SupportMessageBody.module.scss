@@ -1,0 +1,43 @@
+@use '@styles/variables.scss' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  > .messageText {
+    margin: 0;
+    word-break: break-word;
+    line-height: 1.4;
+
+    > a {
+      color: inherit;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  > .imageEmbeds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    > a {
+      display: inline-flex;
+      max-width: 160px;
+      max-height: 160px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba($text-bold, 0.05);
+
+      > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}

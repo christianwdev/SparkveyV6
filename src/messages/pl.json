@@ -376,7 +376,11 @@
     "talkingTo": "Rozmawiasz z",
     "supportAgent": "Agentem wsparcia",
     "typeMessage": "Wpisz wiadomosc...",
-    "send": "Wyslij"
+    "send": "Wyslij",
+    "open": "Otwórz czat wsparcia",
+    "close": "Zamknij",
+    "empty": "Napisz wiadomość, a odezwiemy się do Ciebie.",
+    "hereToHelp": "Jesteśmy tu, żeby pomóc"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +463,8 @@
       "earn": "Zarabiaj",
       "shop": "Sklep",
       "leaders": "Liderzy",
-      "refer": "Polecaj"
+      "refer": "Polecaj",
+      "support": "Wsparcie"
     },
     "a11y": {
       "avatarAlt": "Awatar"
@@ -1238,7 +1243,9 @@
     "earningsTitle": "Sparkvey | Zarobki",
     "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj.",
     "announcementsTitle": "Sparkvey | Ogłoszenia admin",
-    "announcementsDescription": "Zarządzaj banerem ogłoszenia na stronie."
+    "announcementsDescription": "Zarządzaj banerem ogłoszenia na stronie.",
+    "chatTitle": "Sparkvey | Czat wsparcia",
+    "chatDescription": "Czytaj i odpowiadaj na rozmowy wsparcia."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1251,7 +1258,29 @@
       "users": "Users",
       "earnings": "Zarobki",
       "withdrawals": "Wypłaty",
-      "announcements": "Ogłoszenia"
+      "announcements": "Ogłoszenia",
+      "chat": "Wsparcie"
+    }
+  },
+  "AdminChat": {
+    "title": "Rozmowy",
+    "searchPlaceholder": "Filtruj lub otwórz po ID użytkownika",
+    "search": "Otwórz",
+    "chatTitle": "Wątek wsparcia",
+    "emptyTitle": "Wybierz rozmowę",
+    "emptyDescription": "Wybierz wątek z listy albo otwórz go po ID użytkownika.",
+    "typeMessage": "Napisz odpowiedź…",
+    "send": "Wyślij",
+    "noMessages": "Brak wiadomości",
+    "emptyInbox": "Brak rozmów",
+    "emptyFilter": "Brak pasujących rozmów",
+    "back": "Wstecz",
+    "viewUser": "Zobacz profil",
+    "viewOnly": "Możesz czytać ten wątek, ale nie możesz odpowiadać.",
+    "errors": {
+      "notFound": "Nie znaleziono użytkownika.",
+      "cannotCreate": "Nie masz uprawnień, aby rozpocząć rozmowę.",
+      "generic": "Nie udało się otworzyć tej rozmowy."
     }
   },
   "AdminDashboard": {
@@ -1485,10 +1514,37 @@
       "limitsDescription": "Limity ofert, wypłat i kodów afiliacyjnych.",
       "moderationTitle": "Moderacja",
       "moderationDescription": "Zablokuj, odblokuj lub wyloguj wszędzie.",
-      "permanentBan": "Blokada stała"
+      "permanentBan": "Blokada stała",
+      "permissionsTitle": "Uprawnienia staffu",
+      "permissionsDescription": "Możesz nadać tylko uprawnienia, które sam masz. Pełny staff może też nadawać nowe, np. czat.",
+      "permissions": {
+        "viewUsers": "Przeglądaj użytkowników",
+        "viewEarnings": "Przeglądaj zarobki",
+        "viewWithdrawals": "Przeglądaj wypłaty",
+        "viewPromocodes": "Przeglądaj kody promo",
+        "viewSettings": "Przeglądaj ustawienia",
+        "viewOffers": "Przeglądaj oferty",
+        "viewLeaderboards": "Przeglądaj rankingi",
+        "viewPostbacks": "Przeglądaj postbacki",
+        "viewStatistics": "Przeglądaj statystyki",
+        "viewAnnouncements": "Przeglądaj ogłoszenia",
+        "modifyUsers": "Modyfikuj użytkowników",
+        "modifyEarnings": "Modyfikuj zarobki",
+        "modifyWithdrawals": "Modyfikuj wypłaty",
+        "modifyPromocodes": "Modyfikuj kody promo",
+        "modifySettings": "Modyfikuj ustawienia",
+        "modifyOffers": "Modyfikuj oferty",
+        "modifyLeaderboards": "Modyfikuj rankingi",
+        "modifyPostbacks": "Modyfikuj postbacki",
+        "modifyAnnouncements": "Modyfikuj ogłoszenia",
+        "viewChat": "Przeglądaj czat",
+        "replyChat": "Odpowiadaj na czacie"
+      }
     },
     "actions": {
       "saveAccount": "Zapisz konto",
+      "savePermissions": "Zapisz uprawnienia",
+      "grantAllPermissions": "Nadaj wszystkie możliwe",
       "applyBalance": "Zastosuj saldo",
       "saveLimits": "Zapisz limity",
       "ban": "Zablokuj użytkownika",

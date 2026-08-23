@@ -6,6 +6,7 @@ import Footer from '@components/Footer/Footer';
 import IsolateErrorBoundary from '@components/IsolateErrorBoundary/IsolateErrorBoundary';
 import Navbar from '@components/Navbar/Navbar';
 import AnnouncementBanner from '@components/AnnouncementBanner/AnnouncementBanner';
+import SupportChat from '@components/SupportChat/SupportChat';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import Carousel from '../Carousel/Carousel';
 import { getUsersHomepage } from '@utils/homepage';
@@ -39,6 +40,9 @@ export default function HomePage() {
       </main>
       <IsolateErrorBoundary source="homepage-footer">
         <Footer />
+      </IsolateErrorBoundary>
+      <IsolateErrorBoundary source="support-chat">
+        <SupportChat />
       </IsolateErrorBoundary>
     </>
   );

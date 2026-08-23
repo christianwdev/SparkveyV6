@@ -363,12 +363,14 @@ export async function updateAdminUserRequest(
     username,
     email,
     emailVerified,
+    staffPermissions,
     userConfiguration,
   }: {
     userID: string,
     username?: string,
     email?: string,
     emailVerified?: boolean,
+    staffPermissions?: number,
     userConfiguration?: Partial<InternalUser['userConfiguration']>,
   },
 ): Promise<AdminMutationResult<AdminUser>> {
@@ -376,12 +378,14 @@ export async function updateAdminUserRequest(
     username?: string,
     email?: string,
     emailVerified?: boolean,
+    staffPermissions?: number,
     userConfiguration?: Partial<InternalUser['userConfiguration']>,
   } = {};
 
   if (username !== undefined) body.username = username;
   if (email !== undefined) body.email = email;
   if (emailVerified !== undefined) body.emailVerified = emailVerified;
+  if (staffPermissions !== undefined) body.staffPermissions = staffPermissions;
   if (userConfiguration !== undefined) body.userConfiguration = userConfiguration;
 
   return mutateAdminUser<AdminUser>({

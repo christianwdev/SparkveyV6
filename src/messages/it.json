@@ -376,7 +376,11 @@
     "talkingTo": "Stai parlando con",
     "supportAgent": "Agente di supporto",
     "typeMessage": "Scrivi il tuo messaggio...",
-    "send": "Invia"
+    "send": "Invia",
+    "open": "Apri chat di supporto",
+    "close": "Chiudi",
+    "empty": "Invia un messaggio e ti risponderemo.",
+    "hereToHelp": "Siamo qui per aiutarti"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +463,8 @@
       "earn": "Guadagna",
       "shop": "Shop",
       "leaders": "Leader",
-      "refer": "Invita"
+      "refer": "Invita",
+      "support": "Supporto"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1238,7 +1243,9 @@
     "earningsTitle": "Sparkvey | Guadagni",
     "earningsDescription": "Esamina i guadagni in attesa e rilasciali.",
     "announcementsTitle": "Sparkvey | Annunci admin",
-    "announcementsDescription": "Gestisci il banner di annuncio del sito."
+    "announcementsDescription": "Gestisci il banner di annuncio del sito.",
+    "chatTitle": "Sparkvey | Chat di supporto",
+    "chatDescription": "Leggi e rispondi alle conversazioni di supporto."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1251,7 +1258,29 @@
       "users": "Users",
       "earnings": "Guadagni",
       "withdrawals": "Prelievi",
-      "announcements": "Annunci"
+      "announcements": "Annunci",
+      "chat": "Supporto"
+    }
+  },
+  "AdminChat": {
+    "title": "Conversazioni",
+    "searchPlaceholder": "Filtra o apri per ID utente",
+    "search": "Apri",
+    "chatTitle": "Thread di supporto",
+    "emptyTitle": "Seleziona una conversazione",
+    "emptyDescription": "Scegli un thread dalla lista oppure aprilo con l’ID utente.",
+    "typeMessage": "Scrivi una risposta…",
+    "send": "Invia",
+    "noMessages": "Nessun messaggio ancora",
+    "emptyInbox": "Nessuna conversazione ancora",
+    "emptyFilter": "Nessuna conversazione corrispondente",
+    "back": "Indietro",
+    "viewUser": "Vedi profilo",
+    "viewOnly": "Puoi leggere questo thread, ma non rispondere.",
+    "errors": {
+      "notFound": "Utente non trovato.",
+      "cannotCreate": "Non hai il permesso di avviare una conversazione.",
+      "generic": "Impossibile aprire quella conversazione."
     }
   },
   "AdminDashboard": {
@@ -1485,10 +1514,37 @@
       "limitsDescription": "Limiti di offerte, prelievi e codici affiliato.",
       "moderationTitle": "Moderazione",
       "moderationDescription": "Banna, sbanna o disconnetti ovunque.",
-      "permanentBan": "Ban permanente"
+      "permanentBan": "Ban permanente",
+      "permissionsTitle": "Permessi staff",
+      "permissionsDescription": "Puoi assegnare solo i permessi che hai già. Lo staff completo può anche assegnare quelli nuovi, come la chat.",
+      "permissions": {
+        "viewUsers": "Vedi utenti",
+        "viewEarnings": "Vedi guadagni",
+        "viewWithdrawals": "Vedi prelievi",
+        "viewPromocodes": "Vedi codici promo",
+        "viewSettings": "Vedi impostazioni",
+        "viewOffers": "Vedi offerte",
+        "viewLeaderboards": "Vedi classifiche",
+        "viewPostbacks": "Vedi postback",
+        "viewStatistics": "Vedi statistiche",
+        "viewAnnouncements": "Vedi annunci",
+        "modifyUsers": "Modifica utenti",
+        "modifyEarnings": "Modifica guadagni",
+        "modifyWithdrawals": "Modifica prelievi",
+        "modifyPromocodes": "Modifica codici promo",
+        "modifySettings": "Modifica impostazioni",
+        "modifyOffers": "Modifica offerte",
+        "modifyLeaderboards": "Modifica classifiche",
+        "modifyPostbacks": "Modifica postback",
+        "modifyAnnouncements": "Modifica annunci",
+        "viewChat": "Vedi chat",
+        "replyChat": "Rispondi in chat"
+      }
     },
     "actions": {
       "saveAccount": "Salva account",
+      "savePermissions": "Salva permessi",
+      "grantAllPermissions": "Assegna tutti i miei",
       "applyBalance": "Applica saldo",
       "saveLimits": "Salva limiti",
       "ban": "Banna utente",
