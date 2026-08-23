@@ -1233,7 +1233,9 @@
     "withdrawalsTitle": "Sparkvey | Auszahlungen",
     "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten.",
     "earningsTitle": "Sparkvey | Einnahmen",
-    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben."
+    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben.",
+    "postbacksTitle": "Sparkvey | Postbacks",
+    "postbacksDescription": "Eingehende Postback-Protokolle prüfen und fehlgeschlagene Gutschriften erneut versuchen."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,6 +1247,7 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Einnahmen",
+      "postbacks": "Postbacks",
       "withdrawals": "Auszahlungen"
     }
   },
@@ -1701,6 +1704,54 @@
     "errors": {
       "loadFailed": "Einnahmen konnten nicht geladen werden.",
       "releaseFailed": "Diese Einnahme konnte nicht freigegeben werden."
+    }
+  },
+  "AdminPostbacks": {
+    "na": "—",
+    "empty": "Keine Postbacks passen zu diesen Filtern.",
+    "searchLabel": "Postbacks suchen",
+    "table": {
+      "date": "Datum",
+      "provider": "Anbieter",
+      "status": "Status",
+      "remoteIP": "Remote-IP",
+      "requestID": "Request-ID",
+      "actions": "Aktionen"
+    },
+    "filters": {
+      "all": "Alle",
+      "status": "Status",
+      "searchBy": "Suchen nach"
+    },
+    "searchBy": {
+      "provider": "Anbieter",
+      "requestID": "Request-ID",
+      "remoteIP": "Remote-IP"
+    },
+    "searchPlaceholder": {
+      "provider": "Nach Anbieter suchen",
+      "requestID": "Nach Request-ID suchen",
+      "remoteIP": "Nach Remote-IP suchen"
+    },
+    "statuses": {
+      "pending": "Ausstehend",
+      "completed": "Abgeschlossen",
+      "failed": "Fehlgeschlagen"
+    },
+    "actions": {
+      "retry": "Erneut versuchen",
+      "retrying": "Wird wiederholt…"
+    },
+    "success": {
+      "retried": "Postback erfolgreich wiederholt."
+    },
+    "errors": {
+      "loadFailed": "Postbacks konnten nicht geladen werden.",
+      "retryFailed": "Dieser Postback konnte nicht wiederholt werden.",
+      "notFound": "Postback nicht gefunden.",
+      "alreadyCompleted": "Dieser Postback ist bereits abgeschlossen.",
+      "validationFailed": "Wiederholung hat die Prüfung nicht bestanden.",
+      "processingFailed": "Wiederholung ist bei der Verarbeitung fehlgeschlagen."
     }
   },
   "AdminUserRiskModal": {

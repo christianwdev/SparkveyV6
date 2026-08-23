@@ -1233,7 +1233,9 @@
     "withdrawalsTitle": "Sparkvey | 出金",
     "withdrawalsDescription": "保留中の出金を確認して処理します。",
     "earningsTitle": "Sparkvey | 収益",
-    "earningsDescription": "保留中のオファー収益を確認して解放します。"
+    "earningsDescription": "保留中のオファー収益を確認して解放します。",
+    "postbacksTitle": "Sparkvey | ポストバック",
+    "postbacksDescription": "受信ポストバックのログを確認し、失敗した付与を再試行します。"
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,6 +1247,7 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "収益",
+      "postbacks": "ポストバック",
       "withdrawals": "出金"
     }
   },
@@ -1701,6 +1704,54 @@
     "errors": {
       "loadFailed": "収益を読み込めませんでした。",
       "releaseFailed": "この収益を解放できませんでした。"
+    }
+  },
+  "AdminPostbacks": {
+    "na": "—",
+    "empty": "条件に一致するポストバックはありません。",
+    "searchLabel": "ポストバックを検索",
+    "table": {
+      "date": "日時",
+      "provider": "プロバイダー",
+      "status": "ステータス",
+      "remoteIP": "リモートIP",
+      "requestID": "リクエストID",
+      "actions": "操作"
+    },
+    "filters": {
+      "all": "すべて",
+      "status": "ステータス",
+      "searchBy": "検索対象"
+    },
+    "searchBy": {
+      "provider": "プロバイダー",
+      "requestID": "リクエストID",
+      "remoteIP": "リモートIP"
+    },
+    "searchPlaceholder": {
+      "provider": "プロバイダーで検索",
+      "requestID": "リクエストIDで検索",
+      "remoteIP": "リモートIPで検索"
+    },
+    "statuses": {
+      "pending": "保留中",
+      "completed": "完了",
+      "failed": "失敗"
+    },
+    "actions": {
+      "retry": "再試行",
+      "retrying": "再試行中…"
+    },
+    "success": {
+      "retried": "ポストバックの再実行に成功しました。"
+    },
+    "errors": {
+      "loadFailed": "ポストバックを読み込めませんでした。",
+      "retryFailed": "このポストバックを再試行できませんでした。",
+      "notFound": "ポストバックが見つかりません。",
+      "alreadyCompleted": "このポストバックは完了済みです。",
+      "validationFailed": "再実行は検証に失敗しました。",
+      "processingFailed": "再実行は処理に失敗しました。"
     }
   },
   "AdminUserRiskModal": {

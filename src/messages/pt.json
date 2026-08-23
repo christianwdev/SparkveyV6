@@ -1233,7 +1233,9 @@
     "withdrawalsTitle": "Sparkvey | Levantamentos",
     "withdrawalsDescription": "Reveja e processe levantamentos pendentes.",
     "earningsTitle": "Sparkvey | Ganhos",
-    "earningsDescription": "Reveja ganhos de ofertas em espera e liberte-os."
+    "earningsDescription": "Reveja ganhos de ofertas em espera e liberte-os.",
+    "postbacksTitle": "Sparkvey | Postbacks",
+    "postbacksDescription": "Reveja os registos de postbacks e tente novamente créditos falhados."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,6 +1247,7 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Ganhos",
+      "postbacks": "Postbacks",
       "withdrawals": "Levantamentos"
     }
   },
@@ -1701,6 +1704,54 @@
     "errors": {
       "loadFailed": "Não foi possível carregar os ganhos.",
       "releaseFailed": "Não foi possível libertar este ganho."
+    }
+  },
+  "AdminPostbacks": {
+    "na": "—",
+    "empty": "Nenhum postback corresponde a estes filtros.",
+    "searchLabel": "Pesquisar postbacks",
+    "table": {
+      "date": "Data",
+      "provider": "Fornecedor",
+      "status": "Estado",
+      "remoteIP": "IP remoto",
+      "requestID": "ID do pedido",
+      "actions": "Ações"
+    },
+    "filters": {
+      "all": "Todos",
+      "status": "Estado",
+      "searchBy": "Pesquisar por"
+    },
+    "searchBy": {
+      "provider": "Fornecedor",
+      "requestID": "ID do pedido",
+      "remoteIP": "IP remoto"
+    },
+    "searchPlaceholder": {
+      "provider": "Pesquisar por fornecedor",
+      "requestID": "Pesquisar por ID do pedido",
+      "remoteIP": "Pesquisar por IP remoto"
+    },
+    "statuses": {
+      "pending": "Pendente",
+      "completed": "Concluído",
+      "failed": "Falhado"
+    },
+    "actions": {
+      "retry": "Tentar novamente",
+      "retrying": "A tentar…"
+    },
+    "success": {
+      "retried": "O postback foi reprocessado."
+    },
+    "errors": {
+      "loadFailed": "Não foi possível carregar os postbacks.",
+      "retryFailed": "Não foi possível repetir este postback.",
+      "notFound": "Postback não encontrado.",
+      "alreadyCompleted": "Este postback já está concluído.",
+      "validationFailed": "A repetição falhou na validação.",
+      "processingFailed": "A repetição falhou no processamento."
     }
   },
   "AdminUserRiskModal": {

@@ -1233,7 +1233,9 @@
     "withdrawalsTitle": "Sparkvey | 출금",
     "withdrawalsDescription": "대기 중인 출금을 검토하고 처리합니다.",
     "earningsTitle": "Sparkvey | 수익",
-    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다."
+    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다.",
+    "postbacksTitle": "Sparkvey | 포스트백",
+    "postbacksDescription": "수신 포스트백 로그를 검토하고 실패한 적립을 재시도합니다."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,6 +1247,7 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "수익",
+      "postbacks": "포스트백",
       "withdrawals": "출금"
     }
   },
@@ -1701,6 +1704,54 @@
     "errors": {
       "loadFailed": "수익을 불러오지 못했습니다.",
       "releaseFailed": "이 수익을 해제하지 못했습니다."
+    }
+  },
+  "AdminPostbacks": {
+    "na": "—",
+    "empty": "이 필터에 맞는 포스트백이 없습니다.",
+    "searchLabel": "포스트백 검색",
+    "table": {
+      "date": "날짜",
+      "provider": "제공자",
+      "status": "상태",
+      "remoteIP": "원격 IP",
+      "requestID": "요청 ID",
+      "actions": "작업"
+    },
+    "filters": {
+      "all": "전체",
+      "status": "상태",
+      "searchBy": "검색 기준"
+    },
+    "searchBy": {
+      "provider": "제공자",
+      "requestID": "요청 ID",
+      "remoteIP": "원격 IP"
+    },
+    "searchPlaceholder": {
+      "provider": "제공자로 검색",
+      "requestID": "요청 ID로 검색",
+      "remoteIP": "원격 IP로 검색"
+    },
+    "statuses": {
+      "pending": "대기 중",
+      "completed": "완료",
+      "failed": "실패"
+    },
+    "actions": {
+      "retry": "재시도",
+      "retrying": "재시도 중…"
+    },
+    "success": {
+      "retried": "포스트백을 다시 처리했습니다."
+    },
+    "errors": {
+      "loadFailed": "포스트백을 불러오지 못했습니다.",
+      "retryFailed": "이 포스트백을 재시도하지 못했습니다.",
+      "notFound": "포스트백을 찾을 수 없습니다.",
+      "alreadyCompleted": "이 포스트백은 이미 완료되었습니다.",
+      "validationFailed": "재실행이 검증에 실패했습니다.",
+      "processingFailed": "재실행이 처리에 실패했습니다."
     }
   },
   "AdminUserRiskModal": {

@@ -1233,7 +1233,9 @@
     "withdrawalsTitle": "Sparkvey | Withdrawals",
     "withdrawalsDescription": "Review and process pending withdrawals.",
     "earningsTitle": "Sparkvey | Earnings",
-    "earningsDescription": "Review held offer earnings and release credits."
+    "earningsDescription": "Review held offer earnings and release credits.",
+    "postbacksTitle": "Sparkvey | Postbacks",
+    "postbacksDescription": "Review inbound postback logs and retry failed credits."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,6 +1247,7 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Earnings",
+      "postbacks": "Postbacks",
       "withdrawals": "Withdrawals"
     }
   },
@@ -1701,6 +1704,54 @@
     "errors": {
       "loadFailed": "Earnings could not be loaded.",
       "releaseFailed": "Could not release this earning."
+    }
+  },
+  "AdminPostbacks": {
+    "na": "—",
+    "empty": "No postbacks match these filters.",
+    "searchLabel": "Search postbacks",
+    "table": {
+      "date": "Date",
+      "provider": "Provider",
+      "status": "Status",
+      "remoteIP": "Remote IP",
+      "requestID": "Request ID",
+      "actions": "Actions"
+    },
+    "filters": {
+      "all": "All",
+      "status": "Status",
+      "searchBy": "Search by"
+    },
+    "searchBy": {
+      "provider": "Provider",
+      "requestID": "Request ID",
+      "remoteIP": "Remote IP"
+    },
+    "searchPlaceholder": {
+      "provider": "Search by provider",
+      "requestID": "Search by request ID",
+      "remoteIP": "Search by remote IP"
+    },
+    "statuses": {
+      "pending": "Pending",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "actions": {
+      "retry": "Retry",
+      "retrying": "Retrying…"
+    },
+    "success": {
+      "retried": "Postback replay succeeded."
+    },
+    "errors": {
+      "loadFailed": "Postbacks could not be loaded.",
+      "retryFailed": "Could not retry this postback.",
+      "notFound": "Postback not found.",
+      "alreadyCompleted": "This postback is already completed.",
+      "validationFailed": "Replay failed validation.",
+      "processingFailed": "Replay failed processing."
     }
   },
   "AdminUserRiskModal": {
