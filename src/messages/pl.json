@@ -376,7 +376,9 @@
     "talkingTo": "Rozmawiasz z",
     "supportAgent": "Agentem wsparcia",
     "typeMessage": "Wpisz wiadomosc...",
-    "send": "Wyslij"
+    "send": "Wyslij",
+    "open": "Otwórz czat wsparcia",
+    "close": "Zamknij"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +461,8 @@
       "earn": "Zarabiaj",
       "shop": "Sklep",
       "leaders": "Liderzy",
-      "refer": "Polecaj"
+      "refer": "Polecaj",
+      "support": "Wsparcie"
     },
     "a11y": {
       "avatarAlt": "Awatar"
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Wypłaty",
     "withdrawalsDescription": "Przeglądaj i realizuj oczekujące wypłaty.",
     "earningsTitle": "Sparkvey | Zarobki",
-    "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj."
+    "earningsDescription": "Przeglądaj wstrzymane zarobki z ofert i je zwalniaj.",
+    "chatTitle": "Sparkvey | Czat wsparcia",
+    "chatDescription": "Czytaj i odpowiadaj na rozmowy wsparcia."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,8 +1250,21 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Zarobki",
-      "withdrawals": "Wypłaty"
+      "withdrawals": "Wypłaty",
+      "chat": "Czat"
     }
+  },
+  "AdminChat": {
+    "title": "Rozmowy wsparcia",
+    "searchPlaceholder": "Szukaj po ID użytkownika",
+    "search": "Otwórz",
+    "chatTitle": "Czat wsparcia",
+    "emptyTitle": "Nie wybrano rozmowy",
+    "emptyDescription": "Wybierz rozmowę, aby rozpocząć czat.",
+    "typeMessage": "Napisz wiadomość...",
+    "send": "Wyślij",
+    "noMessages": "Brak wiadomości",
+    "emptyInbox": "Brak rozmów"
   },
   "AdminDashboard": {
     "eyebrow": "Growth",

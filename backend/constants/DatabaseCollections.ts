@@ -16,6 +16,8 @@ const DatabaseCollections = {
   offerHistory: 'offerHistory',
   siteStatistics: 'siteStatistics',
   leaderboards: 'leaderboards',
+  chatConversations: 'chatConversations',
+  chatMessages: 'chatMessages',
 };
 
 export default DatabaseCollections;

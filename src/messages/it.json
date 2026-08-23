@@ -376,7 +376,9 @@
     "talkingTo": "Stai parlando con",
     "supportAgent": "Agente di supporto",
     "typeMessage": "Scrivi il tuo messaggio...",
-    "send": "Invia"
+    "send": "Invia",
+    "open": "Apri chat di supporto",
+    "close": "Chiudi"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +461,8 @@
       "earn": "Guadagna",
       "shop": "Shop",
       "leaders": "Leader",
-      "refer": "Invita"
+      "refer": "Invita",
+      "support": "Supporto"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Prelievi",
     "withdrawalsDescription": "Esamina ed elabora i prelievi in sospeso.",
     "earningsTitle": "Sparkvey | Guadagni",
-    "earningsDescription": "Esamina i guadagni in attesa e rilasciali."
+    "earningsDescription": "Esamina i guadagni in attesa e rilasciali.",
+    "chatTitle": "Sparkvey | Chat di supporto",
+    "chatDescription": "Leggi e rispondi alle conversazioni di supporto."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,8 +1250,21 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Guadagni",
-      "withdrawals": "Prelievi"
+      "withdrawals": "Prelievi",
+      "chat": "Chat"
     }
+  },
+  "AdminChat": {
+    "title": "Conversazioni di supporto",
+    "searchPlaceholder": "Cerca per ID utente",
+    "search": "Apri",
+    "chatTitle": "Chat di supporto",
+    "emptyTitle": "Nessuna conversazione selezionata",
+    "emptyDescription": "Seleziona una conversazione per iniziare a chattare.",
+    "typeMessage": "Scrivi il tuo messaggio...",
+    "send": "Invia",
+    "noMessages": "Nessun messaggio ancora",
+    "emptyInbox": "Nessuna conversazione ancora"
   },
   "AdminDashboard": {
     "eyebrow": "Growth",

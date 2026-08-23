@@ -376,7 +376,9 @@
     "talkingTo": "Talking to",
     "supportAgent": "Support Agent",
     "typeMessage": "Type your message...",
-    "send": "Send"
+    "send": "Send",
+    "open": "Open support chat",
+    "close": "Close"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +461,8 @@
       "earn": "Earn",
       "shop": "Shop",
       "leaders": "Leaders",
-      "refer": "Refer"
+      "refer": "Refer",
+      "support": "Support"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Withdrawals",
     "withdrawalsDescription": "Review and process pending withdrawals.",
     "earningsTitle": "Sparkvey | Earnings",
-    "earningsDescription": "Review held offer earnings and release credits."
+    "earningsDescription": "Review held offer earnings and release credits.",
+    "chatTitle": "Sparkvey | Support Chat",
+    "chatDescription": "Read and reply to user support conversations."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,8 +1250,21 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Earnings",
-      "withdrawals": "Withdrawals"
+      "withdrawals": "Withdrawals",
+      "chat": "Chat"
     }
+  },
+  "AdminChat": {
+    "title": "Support conversations",
+    "searchPlaceholder": "Search by user ID",
+    "search": "Open",
+    "chatTitle": "Support chat",
+    "emptyTitle": "No conversation selected",
+    "emptyDescription": "Select a conversation to start chatting.",
+    "typeMessage": "Type your message...",
+    "send": "Send",
+    "noMessages": "No messages yet",
+    "emptyInbox": "No conversations yet"
   },
   "AdminDashboard": {
     "eyebrow": "Growth",

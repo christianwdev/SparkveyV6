@@ -376,7 +376,9 @@
     "talkingTo": "대화 중",
     "supportAgent": "지원 에이전트",
     "typeMessage": "메시지를 입력하세요...",
-    "send": "보내기"
+    "send": "보내기",
+    "open": "지원 채팅 열기",
+    "close": "닫기"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +461,8 @@
       "earn": "적립",
       "shop": "상점",
       "leaders": "리더",
-      "refer": "추천"
+      "refer": "추천",
+      "support": "지원"
     },
     "a11y": {
       "avatarAlt": "아바타"
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | 출금",
     "withdrawalsDescription": "대기 중인 출금을 검토하고 처리합니다.",
     "earningsTitle": "Sparkvey | 수익",
-    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다."
+    "earningsDescription": "보류 중인 오퍼 수익을 검토하고 해제합니다.",
+    "chatTitle": "Sparkvey | 지원 채팅",
+    "chatDescription": "사용자 지원 대화를 읽고 답장합니다."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,8 +1250,21 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "수익",
-      "withdrawals": "출금"
+      "withdrawals": "출금",
+      "chat": "채팅"
     }
+  },
+  "AdminChat": {
+    "title": "지원 대화",
+    "searchPlaceholder": "사용자 ID로 검색",
+    "search": "열기",
+    "chatTitle": "지원 채팅",
+    "emptyTitle": "선택된 대화가 없습니다",
+    "emptyDescription": "대화를 선택해 채팅을 시작하세요.",
+    "typeMessage": "메시지를 입력하세요...",
+    "send": "보내기",
+    "noMessages": "아직 메시지가 없습니다",
+    "emptyInbox": "아직 대화가 없습니다"
   },
   "AdminDashboard": {
     "eyebrow": "Growth",

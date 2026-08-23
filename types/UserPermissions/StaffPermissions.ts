@@ -21,4 +21,6 @@ export enum StaffPermissions {
   MODIFY_OFFERS = 1 << 14,
   MODIFY_LEADERBOARDS = 1 << 15,
   MODIFY_POSTBACKS = 1 << 16,
+  VIEW_CHAT = 1 << 17,
+  REPLY_CHAT = 1 << 18,
 }

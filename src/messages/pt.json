@@ -376,7 +376,9 @@
     "talkingTo": "Falando com",
     "supportAgent": "Agente de suporte",
     "typeMessage": "Digite sua mensagem...",
-    "send": "Enviar"
+    "send": "Enviar",
+    "open": "Abrir chat de suporte",
+    "close": "Fechar"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +461,8 @@
       "earn": "Ganhar",
       "shop": "Loja",
       "leaders": "Líderes",
-      "refer": "Indicar"
+      "refer": "Indicar",
+      "support": "Suporte"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Levantamentos",
     "withdrawalsDescription": "Reveja e processe levantamentos pendentes.",
     "earningsTitle": "Sparkvey | Ganhos",
-    "earningsDescription": "Reveja ganhos de ofertas em espera e liberte-os."
+    "earningsDescription": "Reveja ganhos de ofertas em espera e liberte-os.",
+    "chatTitle": "Sparkvey | Chat de suporte",
+    "chatDescription": "Leia e responda conversas de suporte."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,8 +1250,21 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Ganhos",
-      "withdrawals": "Levantamentos"
+      "withdrawals": "Levantamentos",
+      "chat": "Chat"
     }
+  },
+  "AdminChat": {
+    "title": "Conversas de suporte",
+    "searchPlaceholder": "Pesquisar por ID de usuário",
+    "search": "Abrir",
+    "chatTitle": "Chat de suporte",
+    "emptyTitle": "Nenhuma conversa selecionada",
+    "emptyDescription": "Selecione uma conversa para começar a conversar.",
+    "typeMessage": "Digite sua mensagem...",
+    "send": "Enviar",
+    "noMessages": "Ainda não há mensagens",
+    "emptyInbox": "Ainda não há conversas"
   },
   "AdminDashboard": {
     "eyebrow": "Growth",

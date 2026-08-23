@@ -1,0 +1,115 @@
+@use '@styles/variables.scss' as *;
+
+.conversation {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border: none;
+  border-bottom: 1px solid $border-light;
+  padding: 20px;
+  position: relative;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+
+  &:hover {
+    background-color: $light-blue;
+  }
+
+  &.selected {
+    background-color: $primary;
+
+    > .conversationInfo {
+      > h3 {
+        color: white;
+      }
+
+      > p {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    > .timestamp {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    > .avatarFallback {
+      background: white;
+      color: $primary;
+    }
+  }
+
+  > .avatar,
+  > .avatarFallback {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid $border-light;
+  }
+
+  > .avatarFallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  > .conversationInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+
+    > h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: $text-bold;
+    }
+
+    > p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 400;
+      color: $text-light;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+    }
+  }
+
+  > .timestamp {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    margin: 0;
+    font-size: 10px;
+    font-weight: 400;
+    color: $text-light;
+  }
+
+  > .unreadCount {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    margin: 0;
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+    background-color: $red;
+    padding: 2px 5px;
+    border-radius: 999px;
+  }
+}

@@ -376,7 +376,9 @@
     "talkingTo": "Du chattest mit",
     "supportAgent": "Support-Mitarbeiter",
     "typeMessage": "Nachricht eingeben...",
-    "send": "Senden"
+    "send": "Senden",
+    "open": "Support-Chat öffnen",
+    "close": "Schließen"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +461,8 @@
       "earn": "Verdienen",
       "shop": "Shop",
       "leaders": "Top-Nutzer",
-      "refer": "Empfehlen"
+      "refer": "Empfehlen",
+      "support": "Support"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1233,7 +1236,9 @@
     "withdrawalsTitle": "Sparkvey | Auszahlungen",
     "withdrawalsDescription": "Ausstehende Auszahlungen prüfen und bearbeiten.",
     "earningsTitle": "Sparkvey | Einnahmen",
-    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben."
+    "earningsDescription": "Gehaltene Angebotseinnahmen prüfen und freigeben.",
+    "chatTitle": "Sparkvey | Support-Chat",
+    "chatDescription": "Support-Unterhaltungen lesen und beantworten."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,8 +1250,21 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Einnahmen",
-      "withdrawals": "Auszahlungen"
+      "withdrawals": "Auszahlungen",
+      "chat": "Chat"
     }
+  },
+  "AdminChat": {
+    "title": "Support-Unterhaltungen",
+    "searchPlaceholder": "Nach Benutzer-ID suchen",
+    "search": "Öffnen",
+    "chatTitle": "Support-Chat",
+    "emptyTitle": "Keine Unterhaltung ausgewählt",
+    "emptyDescription": "Wähle eine Unterhaltung aus, um zu chatten.",
+    "typeMessage": "Nachricht eingeben...",
+    "send": "Senden",
+    "noMessages": "Noch keine Nachrichten",
+    "emptyInbox": "Noch keine Unterhaltungen"
   },
   "AdminDashboard": {
     "eyebrow": "Growth",
