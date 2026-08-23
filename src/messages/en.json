@@ -376,7 +376,11 @@
     "talkingTo": "Talking to",
     "supportAgent": "Support Agent",
     "typeMessage": "Type your message...",
-    "send": "Send"
+    "send": "Send",
+    "open": "Open support chat",
+    "close": "Close",
+    "empty": "Send a message and we'll get back to you.",
+    "hereToHelp": "We're here to help"
   },
   "PurchaseModals": {
     "common": {
@@ -459,7 +463,8 @@
       "earn": "Earn",
       "shop": "Shop",
       "leaders": "Leaders",
-      "refer": "Refer"
+      "refer": "Refer",
+      "support": "Support"
     },
     "a11y": {
       "avatarAlt": "Avatar"
@@ -1233,7 +1238,9 @@
     "withdrawalsTitle": "Sparkvey | Withdrawals",
     "withdrawalsDescription": "Review and process pending withdrawals.",
     "earningsTitle": "Sparkvey | Earnings",
-    "earningsDescription": "Review held offer earnings and release credits."
+    "earningsDescription": "Review held offer earnings and release credits.",
+    "chatTitle": "Sparkvey | Support Chat",
+    "chatDescription": "Read and reply to user support conversations."
   },
   "AdminLayout": {
     "brand": "Sparkvey",
@@ -1245,7 +1252,29 @@
       "dashboard": "Overview",
       "users": "Users",
       "earnings": "Earnings",
-      "withdrawals": "Withdrawals"
+      "withdrawals": "Withdrawals",
+      "chat": "Support"
+    }
+  },
+  "AdminChat": {
+    "title": "Conversations",
+    "searchPlaceholder": "Filter or open by user ID",
+    "search": "Open",
+    "chatTitle": "Support thread",
+    "emptyTitle": "Select a conversation",
+    "emptyDescription": "Pick a thread from the inbox, or open one by user ID.",
+    "typeMessage": "Write a reply…",
+    "send": "Send",
+    "noMessages": "No messages yet",
+    "emptyInbox": "No conversations yet",
+    "emptyFilter": "No matching conversations",
+    "back": "Back",
+    "viewUser": "View profile",
+    "viewOnly": "You can read this thread, but you cannot reply.",
+    "errors": {
+      "notFound": "User not found.",
+      "cannotCreate": "You do not have permission to start a conversation.",
+      "generic": "Could not open that conversation."
     }
   },
   "AdminDashboard": {
@@ -1479,10 +1508,35 @@
       "limitsDescription": "Offer, withdrawal, and affiliate code limits.",
       "moderationTitle": "Moderation",
       "moderationDescription": "Ban, unban, or sign this user out everywhere.",
-      "permanentBan": "Permanent ban"
+      "permanentBan": "Permanent ban",
+      "permissionsTitle": "Staff permissions",
+      "permissionsDescription": "You can only grant permissions you already have. Full staff can also grant newly added ones such as chat.",
+      "permissions": {
+        "viewUsers": "View users",
+        "viewEarnings": "View earnings",
+        "viewWithdrawals": "View withdrawals",
+        "viewPromocodes": "View promo codes",
+        "viewSettings": "View settings",
+        "viewOffers": "View offers",
+        "viewLeaderboards": "View leaderboards",
+        "viewPostbacks": "View postbacks",
+        "viewStatistics": "View statistics",
+        "modifyUsers": "Modify users",
+        "modifyEarnings": "Modify earnings",
+        "modifyWithdrawals": "Modify withdrawals",
+        "modifyPromocodes": "Modify promo codes",
+        "modifySettings": "Modify settings",
+        "modifyOffers": "Modify offers",
+        "modifyLeaderboards": "Modify leaderboards",
+        "modifyPostbacks": "Modify postbacks",
+        "viewChat": "View chat",
+        "replyChat": "Reply to chat"
+      }
     },
     "actions": {
       "saveAccount": "Save account",
+      "savePermissions": "Save permissions",
+      "grantAllPermissions": "Grant all I can",
       "applyBalance": "Apply balance",
       "saveLimits": "Save limits",
       "ban": "Ban user",

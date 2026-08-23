@@ -1,0 +1,47 @@
+@use '@styles/variables.scss' as *;
+
+.chatMessage {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  max-width: 78%;
+  gap: 4px;
+
+  &.admin {
+    align-self: flex-end;
+
+    > .messageContent {
+      background: $primary;
+      color: white;
+      border-radius: 16px 16px 4px 16px;
+    }
+
+    > .messageTime {
+      text-align: right;
+    }
+  }
+
+  &.user {
+    align-self: flex-start;
+
+    > .messageContent {
+      background: $light-gray;
+      color: $text-bold;
+      border-radius: 16px 16px 16px 4px;
+    }
+  }
+
+  > .messageContent {
+    padding: 10px 12px;
+    word-wrap: break-word;
+    font-size: 14px;
+    line-height: 1.4;
+    width: fit-content;
+  }
+
+  > .messageTime {
+    font-size: 11px;
+    font-weight: 500;
+    color: $text-light;
+  }
+}

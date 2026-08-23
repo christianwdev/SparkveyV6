@@ -13,6 +13,7 @@ import offerwallsRouteInvoker from './offerwalls';
 import wallsRouteInvoker from './walls';
 import adminRouteInvoker from './admin';
 import webhooksRouteInvoker from './webhooks';
+import supportRouteInvoker from './support';
 
 const app = new Hono();
 
@@ -30,6 +31,7 @@ export default function routesInvoker() {
   app.route('/offerwalls', offerwallsRouteInvoker());
   app.route('/walls', wallsRouteInvoker());
   app.route('/admin', adminRouteInvoker());
+  app.route('/support', supportRouteInvoker());
   app.route('/webhooks', webhooksRouteInvoker());
 
   return app;

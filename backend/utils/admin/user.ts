@@ -2,7 +2,12 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 
 // Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
-import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
+import SocketRooms from 'backend/constants/SocketRooms';
+import {
+  allStaffPermissionsMask,
+  grantableStaffPermissionsMask,
+  StaffPermissions,
+} from 'types/UserPermissions/StaffPermissions';
 
 // Utils
 import { getAffiliateCodesByUserID } from 'backend/utils/affiliateCode';
@@ -391,6 +396,7 @@ export async function updateAdminUser(
     username,
     email,
     emailVerified,
+    staffPermissions,
     userConfiguration,
   }: {
     actor: InternalUser;
@@ -398,6 +404,7 @@ export async function updateAdminUser(
     username?: string;
     email?: string;
     emailVerified?: boolean;
+    staffPermissions?: number;
     userConfiguration?: Partial<InternalUser['userConfiguration']>;
   },
 ): Promise<FunctionResponse<AdminUser, UpdateAdminUserError>> {
@@ -442,6 +449,22 @@ export async function updateAdminUser(
       $unset['emailInformation.verifiedAt'] = '';
     }
 
+    if (staffPermissions !== undefined) {
+      const grantable = grantableStaffPermissionsMask(actor.staffPermissions ?? StaffPermissions.NONE);
+      if (
+        (staffPermissions & ~allStaffPermissionsMask()) !== 0
+        || (staffPermissions & grantable) !== staffPermissions
+      ) {
+        return { ok: false, error: 'forbidden' };
+      }
+
+      if (staffPermissions === StaffPermissions.NONE) {
+        $unset.staffPermissions = '';
+      } else {
+        $set.staffPermissions = staffPermissions;
+      }
+    }
+
     if (userConfiguration) {
       if (userConfiguration.instantEarnOfferLimit !== undefined) {
         $set['userConfiguration.instantEarnOfferLimit'] = userConfiguration.instantEarnOfferLimit;
@@ -470,6 +493,28 @@ export async function updateAdminUser(
     );
 
     if (!user) return { ok: false, error: 'notFound' };
+
+    if (staffPermissions !== undefined) {
+      try {
+        const { io } = getGlobalObject();
+        const sockets = await io.in(userID).fetchSockets();
+        for (const socket of sockets) {
+          if ((staffPermissions & StaffPermissions.VIEW_CHAT) === StaffPermissions.VIEW_CHAT) {
+            await socket.join(SocketRooms.adminChat);
+          } else {
+            await socket.leave(SocketRooms.adminChat);
+          }
+
+          if (staffPermissions === StaffPermissions.NONE) {
+            delete socket.data.staffPermissions;
+          } else {
+            socket.data.staffPermissions = staffPermissions;
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
     if (emailChanged) {
       const expireResult = await expireUserSessions(userID);

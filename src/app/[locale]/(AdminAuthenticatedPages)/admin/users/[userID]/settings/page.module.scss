@@ -1,5 +1,10 @@
 @use '@styles/variables.scss' as *;
 
+$switch-width: 44px;
+$switch-height: 26px;
+$switch-knob: 20px;
+$switch-pad: 3px;
+
 .settings {
   display: flex;
   flex-direction: column;
@@ -29,6 +34,10 @@
       background: $background;
       min-width: 0;
 
+      &.sectionWide {
+        grid-column: 1 / -1;
+      }
+
       > .sectionHeader {
         display: flex;
         flex-direction: column;
@@ -54,17 +63,87 @@
         flex-direction: column;
         gap: 12px;
 
-        > .checkboxRow {
+        > .toggleRow,
+        > .toggleGrid > .toggleRow {
           display: flex;
           align-items: center;
-          gap: 8px;
-          font-size: 13px;
-          font-weight: 500;
-          color: $text-bold;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 12px 14px;
+          border-radius: 10px;
+          background: $light-gray;
+          cursor: pointer;
 
-          > input {
-            width: 16px;
-            height: 16px;
+          > .toggleCopy {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+
+            > span {
+              font-size: 14px;
+              font-weight: 500;
+              color: $text-bold;
+            }
+          }
+
+          > .switch {
+            appearance: none;
+            flex-shrink: 0;
+            width: $switch-width;
+            height: $switch-height;
+            margin: 0;
+            border: none;
+            border-radius: 999px;
+            background: rgba(111, 116, 135, 0.35);
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+
+            &::after {
+              content: '';
+              position: absolute;
+              top: $switch-pad;
+              left: $switch-pad;
+              width: $switch-knob;
+              height: $switch-knob;
+              border-radius: 50%;
+              background: white;
+              box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+              transition: transform 0.2s ease;
+            }
+
+            &:checked {
+              background: $primary;
+
+              &::after {
+                transform: translateX($switch-width - $switch-knob - ($switch-pad * 2));
+              }
+            }
+
+            &:focus-visible {
+              outline: 2px solid $primary;
+              outline-offset: 2px;
+            }
+
+            &:disabled {
+              opacity: 0.45;
+              cursor: not-allowed;
+            }
+          }
+
+          &:has(.switch:disabled) {
+            cursor: not-allowed;
+          }
+        }
+
+        > .toggleGrid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+
+          @media screen and (max-width: $large-phone) {
+            grid-template-columns: 1fr;
           }
         }
 
