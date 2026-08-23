@@ -28,6 +28,18 @@ export enum StaffPermissions {
 /** Bits 0–16: every permission that existed before chat. */
 const LEGACY_FULL_STAFF_PERMISSIONS = (1 << 17) - 1;
 
+export function hasPermissions(
+  {
+    userPermissions,
+    required,
+  }: {
+    userPermissions?: number,
+    required: number,
+  },
+): boolean {
+  return ((userPermissions ?? StaffPermissions.NONE) & required) === required;
+}
+
 export function allStaffPermissionsMask(): number {
   let mask = 0;
   for (const value of Object.values(StaffPermissions)) {

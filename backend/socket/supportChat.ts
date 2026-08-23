@@ -12,7 +12,7 @@ import {
   createUserSupportMessage,
   markSupportChatRead,
 } from 'backend/utils/supportChat';
-import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
+import { hasPermissions, StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 // Types
 import type { AdminChatMessagePayload } from 'types/ChatMessage';
@@ -60,7 +60,10 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
     try {
       const admin = await assertChatSession(socket);
       if (!admin) return;
-      if (!hasPermission(admin.staffPermissions, StaffPermissions.VIEW_CHAT | StaffPermissions.REPLY_CHAT)) return;
+      if (!hasPermissions({
+        userPermissions: admin.staffPermissions,
+        required: StaffPermissions.VIEW_CHAT | StaffPermissions.REPLY_CHAT,
+      })) return;
       if (!data || typeof data !== 'object') return;
       if (typeof data.message !== 'string') return;
       if (typeof data.conversationID !== 'string') return;
@@ -100,7 +103,10 @@ export function registerSupportChatHandlers(socket: TypedSocket): void {
       if (!user) return;
 
       if (asAdmin) {
-        if (!hasPermission(user.staffPermissions, StaffPermissions.VIEW_CHAT)) return;
+        if (!hasPermissions({
+          userPermissions: user.staffPermissions,
+          required: StaffPermissions.VIEW_CHAT,
+        })) return;
         if (typeof conversationID !== 'string' || !conversationID) return;
 
         await markSupportChatRead({
@@ -151,7 +157,10 @@ async function assertChatSession(socket: TypedSocket): Promise<InternalUser | nu
 
   socket.data.staffPermissions = userResult.data.staffPermissions;
 
-  if (hasPermission(userResult.data.staffPermissions, StaffPermissions.VIEW_CHAT)) {
+  if (hasPermissions({
+    userPermissions: userResult.data.staffPermissions,
+    required: StaffPermissions.VIEW_CHAT,
+  })) {
     await socket.join(SocketRooms.adminChat);
   } else {
     await socket.leave(SocketRooms.adminChat);
@@ -180,8 +189,4 @@ async function allowChatSend(userID: string): Promise<boolean> {
   });
 
   return result.allowed;
-}
-
-function hasPermission(staffPermissions: number | undefined, required: StaffPermissions): boolean {
-  return ((staffPermissions ?? StaffPermissions.NONE) & required) === required;
 }

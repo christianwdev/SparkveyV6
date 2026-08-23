@@ -6,7 +6,7 @@ import { SESSION_COOKIE_NAME } from 'backend/utils/cookies';
 import { getSessionByID } from 'backend/utils/session';
 import { getRawUser } from 'backend/utils/user';
 import { registerSupportChatHandlers } from 'backend/socket/supportChat';
-import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
+import { hasPermissions, StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 // Types
 import type { TypedSocket } from 'types/SocketEvents';
@@ -41,8 +41,10 @@ async function joinAuthenticatedUserRoom(socket: TypedSocket) {
   socket.data.userID = userResult.data.userID;
   socket.data.staffPermissions = userResult.data.staffPermissions;
 
-  const staffPermissions = userResult.data.staffPermissions ?? StaffPermissions.NONE;
-  if ((staffPermissions & StaffPermissions.VIEW_CHAT) === StaffPermissions.VIEW_CHAT) {
+  if (hasPermissions({
+    userPermissions: userResult.data.staffPermissions,
+    required: StaffPermissions.VIEW_CHAT,
+  })) {
     await socket.join(SocketRooms.adminChat);
   }
 }
