@@ -43,7 +43,10 @@ function isFilterOperator(value: MemoryField | MemoryFilterOperator | undefined)
   if (Array.isArray(value) || value instanceof Date) return false;
   if (value.constructor !== Object) return false;
 
-  return '$exists' in value || '$ne' in value || '$in' in value || '$gt' in value;
+  // SAFETY: constructor === Object excludes primitives, arrays, and Date.
+  const operator = value as MemoryFilterOperator;
+
+  return '$exists' in operator || '$ne' in operator || '$in' in operator || '$gt' in operator;
 }
 
 function matchesFilter(doc: MemoryDocument, filter: MemoryFilter): boolean {
@@ -164,6 +167,6 @@ export class MemoryCollection {
 
 export function createEarningsDb(collection: MemoryCollection) {
   return {
-    collection: (_name: string) => collection,
+    collection: () => collection,
   };
 }

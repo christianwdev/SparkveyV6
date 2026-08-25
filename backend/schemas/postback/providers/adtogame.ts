@@ -42,7 +42,7 @@ export class AdtogamePostbackProvider extends PostbackProvider<AdtogameQuery> {
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext, _data: AdtogameQuery, _c: Context): boolean {
+  validateSecurity(ctx: PostbackValidationContext): boolean {
     return secretsEqual(ctx.query.secret, config.walls.adtowall.security.secret);
   }
 

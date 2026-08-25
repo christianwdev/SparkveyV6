@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, use, useEffect, useRef } from 'react';
 import { useQueryStates } from 'nuqs';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
@@ -9,6 +9,7 @@ import Dropdown from '@components/Dropdown/Dropdown';
 import EmptyState from '@components/EmptyState/EmptyState';
 import { useBrowseOffers } from '@hooks/useBrowseOffers';
 import type { BrowseOffersSort } from 'types/Offer/BrowseOffersSort';
+import type TasksPageClientProps from 'types/TasksPageClientProps';
 import { tasksSearchParams } from '@utils/tasksSearchParams';
 import SearchIcon from '~icons/mdi/magnify.jsx';
 import styles from './page.module.scss';
@@ -57,11 +58,15 @@ function TasksPageFallback() {
   );
 }
 
-function TasksPageContent() {
+function TasksPageContent({
+  initialOffersPromise,
+  initialFilters,
+}: TasksPageClientProps) {
   const t = useTranslations('TasksPage');
   const urlSearchParams = useSearchParams();
   const [ filters, setFilters ] = useQueryStates(tasksSearchParams);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const initialOffers = use(initialOffersPromise);
 
   // Debounced in the URL via nuqs — query against the committed value, not every keystroke.
   const committedSearch = urlSearchParams.get('search') ?? '';
@@ -78,9 +83,12 @@ function TasksPageContent() {
     sort: filters.sort,
     categories: filters.categories,
     providers: filters.providers,
+    initialOffers: initialOffers ?? undefined,
+    initialFilters,
   });
 
   const offers = data?.pages.flatMap(page => page) ?? [];
+
   // Avoid stacking skeletons over SSR-hydrated offers during a background refetch.
   const showInitialLoading = (isPending || isFetching) && !isFetchingNextPage && offers.length === 0;
   const canScrollLoad = Boolean(hasNextPage) && offers.length < INFINITE_SCROLL_CAP;
@@ -212,10 +220,10 @@ function TasksPageContent() {
   );
 }
 
-export default function TasksPageClient() {
+export default function TasksPageClient(props: TasksPageClientProps) {
   return (
     <Suspense fallback={<TasksPageFallback />}>
-      <TasksPageContent />
+      <TasksPageContent {...props} />
     </Suspense>
   );
 }

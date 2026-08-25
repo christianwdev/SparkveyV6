@@ -33,14 +33,14 @@ export class AyetstudiosPostbackProvider extends PostbackProvider<AyetstudiosQue
     return c.text(ok ? '1' : '0', 200);
   }
 
-  validateSecurity(ctx: PostbackValidationContext, _data: AyetstudiosQuery, c: Context): boolean {
+  validateSecurity(ctx: PostbackValidationContext, data: AyetstudiosQuery, c: Context): boolean {
     const { security } = config.walls.ayetstudios;
     if (isIPWhitelisted(ctx.remoteIP, security.whitelistedIPs)) {
       return true;
     }
 
     const providedHash =
-      c.req.header('x-ayetstudios-security-hash') ?? ctx.query.hash;
+      c.req.header('x-ayetstudios-security-hash') ?? data.hash ?? ctx.query.hash;
 
     return this.verifyHmac(ctx.query, security.secret, providedHash);
   }

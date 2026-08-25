@@ -2,31 +2,17 @@
 
 import {
   useEffect,
-  useEffectEvent,
   useId,
   useState,
   type CSSProperties,
-  type ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
+
+// Types
+import type PortalTooltipProps from 'types/PortalTooltipProps';
+import type TooltipCoords from 'types/TooltipCoords';
+
 import styles from '../profilePage.module.scss';
-
-type PortalTooltipProps = {
-  content: ReactNode;
-  children: (props: {
-    'aria-describedby'?: string,
-    onBlur: () => void,
-    onFocus: () => void,
-    onMouseEnter: () => void,
-    onMouseLeave: () => void,
-    ref: (node: HTMLElement | null) => void,
-  }) => ReactNode;
-};
-
-type TooltipCoords = {
-  left: number;
-  top: number;
-};
 
 export default function PortalTooltip({ content, children }: PortalTooltipProps) {
   const tooltipId = useId();
@@ -42,31 +28,22 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
   function show() {
     if (!anchor) return;
 
-    const rect = anchor.getBoundingClientRect();
-    setCoords({
-      left: rect.left + (rect.width / 2),
-      top: rect.top - 8,
-    });
+    setCoords(tooltipCoordsFromAnchor(anchor));
   }
 
   function hide() {
     setCoords(null);
   }
 
-  const onReposition = useEffectEvent(() => {
-    if (!anchor) return;
-
-    const rect = anchor.getBoundingClientRect();
-    setCoords({
-      left: rect.left + (rect.width / 2),
-      top: rect.top - 8,
-    });
-  });
-
   useEffect(() => {
-    if (!coords) return;
+    if (!coords || !anchor) return;
 
-    const handleReposition = () => onReposition();
+    const node = anchor;
+
+    function handleReposition() {
+      setCoords(tooltipCoordsFromAnchor(node));
+    }
+
     window.addEventListener('scroll', handleReposition, true);
     window.addEventListener('resize', handleReposition);
 
@@ -74,7 +51,7 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
       window.removeEventListener('scroll', handleReposition, true);
       window.removeEventListener('resize', handleReposition);
     };
-  }, [ coords ]);
+  }, [ coords, anchor ]);
 
   const tooltipStyle: CSSProperties | undefined = coords
     ? {
@@ -108,4 +85,13 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
         : null}
     </>
   );
+}
+
+function tooltipCoordsFromAnchor(anchor: HTMLElement): TooltipCoords {
+  const rect = anchor.getBoundingClientRect();
+
+  return {
+    left: rect.left + (rect.width / 2),
+    top: rect.top - 8,
+  };
 }

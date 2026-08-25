@@ -36,7 +36,7 @@ export class ToroxPostbackProvider extends PostbackProvider<ToroxQuery> {
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext, _data: ToroxQuery, _c: Context): boolean {
+  validateSecurity(ctx: PostbackValidationContext): boolean {
     return isIPWhitelisted(ctx.remoteIP, config.walls.torox.security.whitelistedIPs);
   }
 

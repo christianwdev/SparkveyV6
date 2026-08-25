@@ -5,7 +5,7 @@ export type ColorTheme = 'light' | 'dark';
 export const THEME_COOKIE_NAME = 'theme';
 const THEME_COOKIE_MAX_AGE_DAYS = 365;
 
-export function isColorTheme(value: string): value is ColorTheme {
+export function isColorTheme(value: string | null | undefined): value is ColorTheme {
   return value === 'light' || value === 'dark';
 }
 

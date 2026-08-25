@@ -1,8 +1,8 @@
-import type OfferDevice from '../OfferDevice';
-import type OperatingSystem from '../OperatingSystem';
-import type OfferType from '../OfferType';
+import type OfferDevice from './OfferDevice';
+import type OperatingSystem from './OperatingSystem';
+import type OfferType from './OfferType';
 import type SanitizedOfferReward from './SanitizedOfferReward';
-import type InternalOffer from '../InternalOffer';
+import type InternalOffer from './InternalOffer';
 
 type SanitizedOffer = {
   offerID: string,

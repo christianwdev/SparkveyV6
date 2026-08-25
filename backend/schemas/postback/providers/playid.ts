@@ -29,7 +29,7 @@ export class PlayidPostbackProvider extends PostbackProvider<PlayidQuery> {
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext, _data: PlayidQuery, _c: Context): boolean {
+  validateSecurity(ctx: PostbackValidationContext): boolean {
     return secretsEqual(ctx.query.secret, config.walls.playid.security.secret);
   }
 

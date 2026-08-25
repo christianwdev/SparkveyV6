@@ -5,7 +5,9 @@ export type ErrorReportSource =
   | 'error-boundary'
   | 'global-error'
   | 'react-query'
-  | 'isolate-boundary';
+  | 'isolate-boundary'
+  | 'shell-footer'
+  | 'homepage-footer';
 
 export type AppError = Error & {
   digest?: string,

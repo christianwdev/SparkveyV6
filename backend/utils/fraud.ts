@@ -13,6 +13,7 @@ import type InternalUser from 'types/User/InternalUser';
 import type UserSession from 'types/UserSession';
 
 const LINKED_ACCOUNT_SCAN_LIMIT = 25;
+
 export const IMPOSSIBLE_TRAVEL_WINDOW_MS = 2 * 60 * 60 * 1000; // 2 hours
 
 export function normalizeWalletAddress(address: string): string {

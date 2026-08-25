@@ -434,6 +434,8 @@ function WithdrawalsPageContent() {
 
       <Pagination
         page={filters.page}
+        pageSize={ADMIN_WITHDRAWALS_PAGE_SIZE}
+        itemCount={rows.length}
         hasNextPage={rows.length >= ADMIN_WITHDRAWALS_PAGE_SIZE}
         onPageChange={(page) => {
           setFilters({ page }).catch(error => {
