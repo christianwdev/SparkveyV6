@@ -3,7 +3,7 @@ import config from 'backend/config/config';
 import { AdtogamePostbackProvider } from 'backend/schemas/postback/providers/adtogame';
 import { HangmyadsPostbackProvider } from 'backend/schemas/postback/providers/hangmyads';
 import { PlayidPostbackProvider } from 'backend/schemas/postback/providers/playid';
-import { mockContext, validationContext } from './helpers';
+import { mockContext, UNUSED_POSTBACK_QUERY, validationContext } from './helpers';
 
 describe('secret query postback providers', () => {
   describe('AdtogamePostbackProvider (adtowall)', () => {
@@ -23,20 +23,20 @@ describe('secret query postback providers', () => {
     test('accepts matching secret and rejects mismatch / missing config', () => {
       expect(provider.validateSecurity(
         validationContext({ secret }),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(true);
 
       expect(provider.validateSecurity(
         validationContext({ secret: 'wrong' }),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(false);
 
       config.walls.adtowall.security.secret = undefined;
       expect(provider.validateSecurity(
         validationContext({ secret }),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(false);
     });
@@ -59,13 +59,13 @@ describe('secret query postback providers', () => {
     test('accepts matching secret and rejects mismatch', () => {
       expect(provider.validateSecurity(
         validationContext({ secret }),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(true);
 
       expect(provider.validateSecurity(
         validationContext({ secret: 'wrong' }),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(false);
     });
@@ -88,13 +88,13 @@ describe('secret query postback providers', () => {
     test('accepts matching secret and rejects mismatch', () => {
       expect(provider.validateSecurity(
         validationContext({ secret }),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(true);
 
       expect(provider.validateSecurity(
         validationContext({ secret: 'wrong' }),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(false);
     });

@@ -19,11 +19,11 @@ const FALLBACK_ISO_3166_ALPHA2 = new Set([
 
 function getIso3166Alpha2Codes(): Set<string> {
   try {
-    const supportedValuesOf = Intl.supportedValuesOf as unknown as ((key: string) => string[]) | undefined;
-    if (typeof supportedValuesOf === 'function') {
-      return new Set(
-        supportedValuesOf('region').filter((code) => /^[A-Z]{2}$/.test(code)),
-      );
+    if (Intl.supportedValuesOf instanceof Function) {
+      // SAFETY: Runtime Intl.supportedValuesOf accepts "region"; TS's key union omits it.
+      const codes = (Intl as { supportedValuesOf: (key: string) => string[] }).supportedValuesOf('region');
+
+      return new Set(codes.filter((code) => /^[A-Z]{2}$/.test(code)));
     }
   } catch {
     // Some runtimes expose supportedValuesOf but reject the "region" key.

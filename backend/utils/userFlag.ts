@@ -1,4 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
+import { MongoServerError } from 'mongodb';
 
 // Constants
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
@@ -44,7 +45,7 @@ export async function createFlagIfAbsent(
 
     return { ok: true, data: flag };
   } catch (error) {
-    if (isDuplicateKeyError(error)) {
+    if (error instanceof MongoServerError && error.code === 11000) {
       try {
         const { db } = getGlobalObject();
         const existing = await db.collection<UserFlag>(DatabaseCollections.userFlags).findOne({

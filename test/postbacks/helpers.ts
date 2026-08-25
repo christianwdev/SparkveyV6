@@ -2,16 +2,55 @@ import { createHash, createHmac } from 'crypto';
 import type { Context } from 'hono';
 import type { PostbackQuery, PostbackValidationContext } from 'types/Postback/PostbackValidation';
 
-export function mockContext(headers: Record<string, string> = {}): Context {
-  const normalized = Object.fromEntries(
-    Object.entries(headers).map(([ key, value ]) => [ key.toLowerCase(), value ]),
-  );
+type MockHeaderMap = {
+  [name: string]: string,
+};
 
-  return {
+/** Dummy parsed query for validateSecurity's unused `data` argument. */
+export type UnusedPostbackQuery = {
+  user: string,
+  userID: string,
+  value: string,
+  reward: string,
+  offerID: string,
+  offerName: string,
+  conversionID: string,
+  usdValue: string,
+  status: string,
+  secret: string,
+  clickid: string,
+  event: 'reg',
+};
+
+export const UNUSED_POSTBACK_QUERY: UnusedPostbackQuery = {
+  user: 'unused',
+  userID: 'unused',
+  value: '0',
+  reward: '0',
+  offerID: 'unused',
+  offerName: 'unused',
+  conversionID: 'unused',
+  usdValue: '0',
+  status: '1',
+  secret: 'unused',
+  clickid: 'unused',
+  event: 'reg',
+};
+
+export function mockContext(headers: MockHeaderMap = {}): Context {
+  const normalized: MockHeaderMap = {};
+  for (const [ key, value ] of Object.entries(headers)) {
+    normalized[key.toLowerCase()] = value;
+  }
+
+  const context = {
     req: {
       header: (name: string) => normalized[name.toLowerCase()],
     },
-  } as unknown as Context;
+  };
+
+  // SAFETY: test double only implements the Context.req.header method this suite calls
+  return context as Context;
 }
 
 export function validationContext(

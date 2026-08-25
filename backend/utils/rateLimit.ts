@@ -40,7 +40,7 @@ async function attemptRateLimit(
   const now = Date.now();
   const member = `${now}:${memberSuffix ?? Math.random().toString(36).slice(2)}`;
 
-  const result = (await redis.eval(
+  const result = await redis.eval(
     SLIDING_WINDOW_RATE_LIMIT_LUA_SCRIPT,
     1,
     key,
@@ -48,7 +48,16 @@ async function attemptRateLimit(
     windowSeconds.toString(),
     now.toString(),
     member,
-  )) as Array<string | number>;
+  );
+
+  if (!Array.isArray(result)) {
+    return {
+      allowed: false,
+      remaining: 0,
+      limit: maxRequests,
+      retryAfter: windowSeconds,
+    };
+  }
 
   const allowed = Number(result[0]) === 1;
   const remaining = Number(result[1]) || 0;

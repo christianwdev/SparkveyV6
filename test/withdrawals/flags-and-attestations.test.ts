@@ -3,7 +3,7 @@ import { DuplicateKeyError, MemoryCollection } from '../helpers/memoryCollection
 import type UserFlag from 'types/UserFlag';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
 
-const flags = new MemoryCollection<Record<string, unknown>>({
+const flags = new MemoryCollection({
   uniqueFields: [ 'userID', 'type', 'instanceKey' ],
 });
 

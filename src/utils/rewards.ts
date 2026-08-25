@@ -17,7 +17,11 @@ type RequestFn = typeof clientRequest | typeof serverRequest;
 export const REDEEM_CATEGORY_IDS: RedeemCategoryID[] = [ 'cash', 'giftcards', 'crypto' ];
 
 export function isRedeemCategoryID(value: string): value is RedeemCategoryID {
-  return (REDEEM_CATEGORY_IDS as string[]).includes(value);
+  for (const categoryID of REDEEM_CATEGORY_IDS) {
+    if (categoryID === value) return true;
+  }
+
+  return false;
 }
 
 /** rewardID is only unique per provider — key/dedupe on both to avoid cross-provider collisions. */
@@ -119,7 +123,7 @@ export async function purchaseReward(
       body: JSON.stringify(body),
     });
 
-    const payload = await response.json() as APIResponse<PurchaseRedemptionResponse>;
+    const payload: APIResponse<PurchaseRedemptionResponse> = await response.json();
 
     if (!payload?.success || !payload.data) {
       return {

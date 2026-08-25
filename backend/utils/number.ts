@@ -25,12 +25,16 @@
  *   "1.2.3"      → 0        (invalid grouping)
  *   "12-34"      → 0        (mid-string minus)
  */
-export function parseRevenue(value: string | number): number {
-  if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : 0;
+export function parseRevenue(value: string | number | null | undefined): number {
+  if (value === undefined || value === null) return 0;
+
+  if (value.constructor === Number) {
+    const numericValue = Number(value);
+
+    return Number.isFinite(numericValue) ? numericValue : 0;
   }
 
-  const trimmed = value.trim();
+  const trimmed = String(value).trim();
   if (!trimmed) return 0;
 
   // Capture a leading sign before any stripping.

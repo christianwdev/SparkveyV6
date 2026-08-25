@@ -238,8 +238,9 @@ export default function routeInvoker() {
       }
 
       const user = userResult.ok ? userResult.data : undefined;
-      const passwordHash = typeof user?.password === 'string' && user.password.length > 0
-        ? user.password
+      const storedPassword = user?.password ?? '';
+      const passwordHash = storedPassword.length > 0
+        ? storedPassword
         : DUMMY_PASSWORD_HASH;
       const hasPassword = !!user && passwordHash !== DUMMY_PASSWORD_HASH;
 

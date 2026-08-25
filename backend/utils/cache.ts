@@ -19,6 +19,7 @@ export async function withCache<T>(
   const cached = await redisClient.get(key);
   if (cached) {
     try {
+      // SAFETY: Cache entries are JSON written by this helper for the same generic T.
       return JSON.parse(cached) as T;
     } catch {
       // corrupted entry — fall through to rebuild

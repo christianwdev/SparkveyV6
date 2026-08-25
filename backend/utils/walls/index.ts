@@ -83,13 +83,15 @@ export function getOfferwallEmbed(
       };
     }
 
+    const data: OfferwallEmbed = {
+      wall: toCatalogOfferwall(wall),
+      wallUrl: wall.wallLink.replaceAll('{userID}', user.userID),
+    };
+    if (wall.additionalParameters) data.iframeExtra = wall.additionalParameters;
+
     return {
       ok: true,
-      data: {
-        wall: toCatalogOfferwall(wall),
-        wallUrl: wall.wallLink.replaceAll('{userID}', user.userID),
-        ...(wall.additionalParameters ? { iframeExtra: wall.additionalParameters } : {}),
-      },
+      data,
     };
   } catch (error) {
     console.error(error);

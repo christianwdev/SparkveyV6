@@ -22,7 +22,9 @@ const iconifyJsxExtensionRule = {
         const source = node.source.value;
 
         if (
-          typeof source === "string"
+          source !== null
+          && source !== undefined
+          && source.constructor === String
           && source.startsWith("~icons/")
           && !source.endsWith(".jsx")
         ) {

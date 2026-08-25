@@ -92,7 +92,7 @@ export default function AffiliateGraph(
             size: 12,
           },
           callback(value) {
-            const numeric = typeof value === 'number' ? value : Number(value);
+            const numeric = Number(value);
 
             if (numeric >= 1000000) return `${numeric / 1000000}M`;
             if (numeric >= 1000) return `${numeric / 1000}k`;

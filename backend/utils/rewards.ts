@@ -21,7 +21,12 @@ export const SPARKS_PER_USD = 1000;
 const GIFTCARD_PRESET_FIAT = [ 1, 3, 5, 10, 25, 50, 75, 100, 250, 500, 1000 ];
 const CRYPTO_PRESET_SPARKS = [ 1000, 5000, 10000, 25000, 50000, 100000 ];
 
-export const REDEEM_CATEGORY_META: Record<RedeemCategoryID, { categoryID: RedeemCategoryID, categoryName: string }> = {
+type RedeemCategoryMeta = {
+  categoryID: RedeemCategoryID,
+  categoryName: string,
+};
+
+export const REDEEM_CATEGORY_META = {
   cash: {
     categoryID: 'cash',
     categoryName: 'Cash',
@@ -34,9 +39,9 @@ export const REDEEM_CATEGORY_META: Record<RedeemCategoryID, { categoryID: Redeem
     categoryID: 'crypto',
     categoryName: 'Crypto',
   },
-};
+} satisfies Record<RedeemCategoryID, RedeemCategoryMeta>;
 
-export const REDEEM_CATEGORY_IDS = Object.keys(REDEEM_CATEGORY_META) as RedeemCategoryID[];
+export const REDEEM_CATEGORY_IDS: RedeemCategoryID[] = [ 'cash', 'giftcards', 'crypto' ];
 
 export function isRedeemCategoryID(value: string): value is RedeemCategoryID {
   return value in REDEEM_CATEGORY_META;
@@ -55,7 +60,8 @@ export type ValidateUserBalanceError = 'insufficientBalance';
 const CASH_DEFAULT_FEE_RATE = 0.05;
 
 export function getRewardFeeRate(reward: InternalReward): number {
-  if (typeof reward.feeRate === 'number') return reward.feeRate;
+  const feeRate = reward.feeRate;
+  if (feeRate !== undefined && Number.isFinite(feeRate)) return feeRate;
   if (reward.categories?.includes('cash')) return CASH_DEFAULT_FEE_RATE;
   if (
     reward.providerName === 'tremendous'
@@ -93,7 +99,7 @@ export function getTremendousFaceSparks(
 
     const mapped = reward.meta.denominationSparksValues?.[index];
 
-    if (typeof mapped !== 'number' || !Number.isFinite(mapped) || mapped <= 0) {
+    if (!Number.isFinite(mapped) || mapped <= 0) {
       return null;
     }
 
@@ -109,7 +115,6 @@ export function getTremendousFaceSparks(
 
   if (
     referenceValue <= 0
-    || typeof referenceSparks !== 'number'
     || !Number.isFinite(referenceSparks)
     || referenceSparks <= 0
   ) {
@@ -183,7 +188,12 @@ export function validateRewardValue({
   reward: InternalReward,
   value: unknown,
 }): FunctionResponse<{ sparksCost: number }, ValidateRewardValueError> {
-  if (typeof value !== 'number' || !Number.isFinite(value) || value <= 0) {
+  if (!Number.isFinite(value)) {
+    return { ok: false, error: 'invalidValue' };
+  }
+
+  const numericValue = Number(value);
+  if (numericValue <= 0) {
     return { ok: false, error: 'invalidValue' };
   }
 
@@ -194,11 +204,11 @@ export function validateRewardValue({
   switch (reward.providerName) {
     case 'ccpayment':
       {
-      if (value < reward.meta.minimumAmount) {
+      if (numericValue < reward.meta.minimumAmount) {
         return { ok: false, error: 'valueTooLow' };
       }
 
-      if (value > reward.meta.maximumAmount) {
+      if (numericValue > reward.meta.maximumAmount) {
         return { ok: false, error: 'valueTooHigh' };
       }
 
@@ -208,14 +218,14 @@ export function validateRewardValue({
     case 'tremendous':
       {
       if (reward.meta.type === 'variable') {
-        if (value < reward.meta.minimumValue) {
+        if (numericValue < reward.meta.minimumValue) {
           return { ok: false, error: 'valueTooLow' };
         }
 
-        if (value > reward.meta.maximumValue) {
+        if (numericValue > reward.meta.maximumValue) {
           return { ok: false, error: 'valueTooHigh' };
         }
-      } else if (!reward.meta.denominations.includes(value)) {
+      } else if (!reward.meta.denominations.includes(numericValue)) {
         return { ok: false, error: 'valueNotAllowed' };
       }
 
@@ -223,7 +233,7 @@ export function validateRewardValue({
     }
   }
 
-  const sparksCost = getRedemptionSparksCost(reward, value);
+  const sparksCost = getRedemptionSparksCost(reward, numericValue);
 
   if (sparksCost === null) {
     return { ok: false, error: 'currencyRateUnavailable' };
@@ -263,7 +273,7 @@ function getTremendousSparksPerUnit(
   const denomination = reward.meta.denominations[0];
   const sparks = reward.meta.denominationSparksValues[0];
 
-  if (typeof denomination === 'number' && denomination > 0 && typeof sparks === 'number') {
+  if (Number.isFinite(denomination) && denomination > 0 && Number.isFinite(sparks)) {
     return sparks / denomination;
   }
 
@@ -306,13 +316,11 @@ function hasTremendousFxPricing(
     return Array.isArray(reward.meta.denominationSparksValues)
       && reward.meta.denominationSparksValues.length === reward.meta.denominations.length
       && reward.meta.denominationSparksValues.every(
-        sparks => typeof sparks === 'number' && Number.isFinite(sparks) && sparks > 0,
+        sparks => Number.isFinite(sparks) && sparks > 0,
       );
   }
 
-  return typeof reward.meta.minimumSparksValue === 'number'
-    && typeof reward.meta.maximumSparksValue === 'number'
-    && Number.isFinite(reward.meta.minimumSparksValue)
+  return Number.isFinite(reward.meta.minimumSparksValue)
     && Number.isFinite(reward.meta.maximumSparksValue)
     && reward.meta.minimumSparksValue > 0
     && reward.meta.maximumSparksValue > 0;
@@ -373,14 +381,13 @@ export function toCatalogReward(reward: InternalReward): CatalogReward | null {
   if (!displayRange) return null;
 
   if (reward.providerName === 'ccpayment') {
-    return {
+    const catalog: CatalogReward = {
       rewardID: reward.rewardID,
       rewardName: reward.rewardName,
       description: reward.description,
       disclosure: reward.disclosure,
       providerName: 'ccpayment',
       feeRate,
-      ...(image ? { image } : {}),
       displayRange,
       purchase: {
         valueUnit: 'sparks',
@@ -392,6 +399,9 @@ export function toCatalogReward(reward: InternalReward): CatalogReward | null {
         requiresWalletAddress: true,
       },
     };
+    if (image) catalog.image = image;
+
+    return catalog;
   }
 
   const sparksPerUnit = getTremendousSparksPerUnit(reward);
@@ -399,18 +409,21 @@ export function toCatalogReward(reward: InternalReward): CatalogReward | null {
 
   if (reward.meta.type === 'variable') {
     const denominations = getGiftcardDenominations(reward);
-    const sparksValues = denominations.map(denom => getTremendousFaceSparks(reward, denom));
+    const sparksValues: number[] = [];
 
-    if (sparksValues.some(sparks => sparks === null)) return null;
+    for (const denom of denominations) {
+      const sparks = getTremendousFaceSparks(reward, denom);
+      if (sparks === null) return null;
+      sparksValues.push(sparks);
+    }
 
-    return {
+    const catalog: CatalogReward = {
       rewardID: reward.rewardID,
       rewardName: reward.rewardName,
       description: reward.description,
       disclosure: reward.disclosure,
       providerName: 'tremendous',
       feeRate,
-      ...(image ? { image } : {}),
       displayRange,
       purchase: {
         valueUnit: 'fiat',
@@ -419,21 +432,23 @@ export function toCatalogReward(reward: InternalReward): CatalogReward | null {
         minimumValue: reward.meta.minimumValue,
         maximumValue: reward.meta.maximumValue,
         sparksPerUnit,
-        sparksValues: sparksValues as number[],
+        sparksValues,
         currencyCode,
         requiresWalletAddress: false,
       },
     };
+    if (image) catalog.image = image;
+
+    return catalog;
   }
 
-  return {
+  const catalog: CatalogReward = {
     rewardID: reward.rewardID,
     rewardName: reward.rewardName,
     description: reward.description,
     disclosure: reward.disclosure,
     providerName: 'tremendous',
     feeRate,
-    ...(image ? { image } : {}),
     displayRange,
     purchase: {
       valueUnit: 'fiat',
@@ -445,6 +460,9 @@ export function toCatalogReward(reward: InternalReward): CatalogReward | null {
       requiresWalletAddress: false,
     },
   };
+  if (image) catalog.image = image;
+
+  return catalog;
 }
 
 export function toCatalogRewards(rewards: InternalReward[]): CatalogReward[] {

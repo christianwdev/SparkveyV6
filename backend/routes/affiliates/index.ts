@@ -73,7 +73,7 @@ export default function routesInvoker() {
     const user = c.get('user');
     const period = c.req.param('period');
 
-    if (!(AFFILIATE_PERIODS as readonly string[]).includes(period)) {
+    if (!isAffiliatePeriod(period)) {
       return sendResponse({
         c,
         status: 400,
@@ -84,7 +84,7 @@ export default function routesInvoker() {
 
     const timeseriesResult = await getAffiliateTimeseries({
       userID: user.userID,
-      period: period as AffiliatePeriod,
+      period,
     });
 
     if (!timeseriesResult.ok) {
@@ -187,4 +187,12 @@ export default function routesInvoker() {
   });
 
   return app;
+}
+
+function isAffiliatePeriod(value: string): value is AffiliatePeriod {
+  for (const period of AFFILIATE_PERIODS) {
+    if (period === value) return true;
+  }
+
+  return false;
 }

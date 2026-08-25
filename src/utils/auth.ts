@@ -2,9 +2,17 @@ import { getScope } from '@utils/scope';
 import type APIResponse from 'types/APIResponse';
 import type SanitizedUser from 'types/User/SanitizedUser';
 
+type AuthRequestBody = {
+  email?: string,
+  username?: string,
+  password?: string,
+  referralCode?: string,
+  code?: string,
+};
+
 async function postAuth<T>(
   path: string,
-  data: object,
+  data: AuthRequestBody,
 ): Promise<APIResponse<T> | null> {
   try {
     const response = await fetch(`${getScope()}/auth${path}`, {
@@ -14,7 +22,7 @@ async function postAuth<T>(
       body: JSON.stringify(data),
     });
 
-    const payload = await response.json() as APIResponse<T>;
+    const payload: APIResponse<T> = await response.json();
 
     return payload ?? null;
   } catch {

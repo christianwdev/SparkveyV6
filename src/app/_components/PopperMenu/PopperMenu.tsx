@@ -61,7 +61,8 @@ export default function PopperMenu({
 
     function handlePointerDown(e: PointerEvent) {
       if (!dropdownRef.current) return;
-      if (dropdownRef.current.contains(e.target as Node)) return;
+      const target = e.target;
+      if (!(target instanceof Node) || dropdownRef.current.contains(target)) return;
 
       onOpenChange(false);
     }

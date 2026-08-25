@@ -207,7 +207,8 @@ function AffiliatesPageContent({ initialDataPromise }: AffiliatesPageClientProps
       }
 
       toast.success(response.message ?? t('toasts.claimSuccess'));
-      if (typeof response.data?.sparks === 'number') {
+      const claimedSparks = response.data?.sparks;
+      if (claimedSparks !== undefined) {
         setUser((current) => {
           if (!current) return null;
 
@@ -215,7 +216,7 @@ function AffiliatesPageContent({ initialDataPromise }: AffiliatesPageClientProps
             ...current,
             balance: {
               ...current.balance,
-              sparks: response.data!.sparks,
+              sparks: claimedSparks,
             },
           };
         });

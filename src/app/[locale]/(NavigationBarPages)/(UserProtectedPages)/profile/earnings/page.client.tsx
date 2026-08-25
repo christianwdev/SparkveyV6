@@ -81,6 +81,9 @@ function EarningsPageContent({ initialEarningsPromise }: EarningsPageClientProps
     type: 'offer',
     initialData: page === 1 ? initialEarnings : undefined,
   });
+  const offerEarnings = earnings.filter(
+    (earning): earning is InternalOfferEarning => earning.type === 'offer',
+  );
 
   const copyActivityId = async (conversionID: string) => {
     try {
@@ -194,8 +197,8 @@ function EarningsPageContent({ initialEarningsPromise }: EarningsPageClientProps
     },
   ];
 
-  const hasNextPage = earnings.length >= PROFILE_HISTORY_PAGE_SIZE;
-  const loading = isPending || (isFetching && earnings.length === 0);
+  const hasNextPage = offerEarnings.length >= PROFILE_HISTORY_PAGE_SIZE;
+  const loading = isPending || (isFetching && offerEarnings.length === 0);
 
   return (
     <div className={styles.profilePage}>
@@ -206,7 +209,7 @@ function EarningsPageContent({ initialEarningsPromise }: EarningsPageClientProps
 
       <DataTable
         columns={columns}
-        rows={earnings as InternalOfferEarning[]}
+        rows={offerEarnings}
         getRowKey={(row) => `${row.conversionID}-${String(row.createdAt)}`}
         loading={loading}
         emptyMessage={t('empty')}
@@ -215,7 +218,7 @@ function EarningsPageContent({ initialEarningsPromise }: EarningsPageClientProps
       <Pagination
         page={page}
         pageSize={PROFILE_HISTORY_PAGE_SIZE}
-        itemCount={earnings.length}
+        itemCount={offerEarnings.length}
         hasNextPage={hasNextPage}
         onPageChange={setPage}
         disabled={isFetching}

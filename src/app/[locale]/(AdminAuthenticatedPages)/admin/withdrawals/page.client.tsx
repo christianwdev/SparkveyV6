@@ -31,6 +31,7 @@ import {
   ADMIN_WITHDRAWALS_PAGE_SIZE,
 } from '@utils/adminWithdrawals';
 import { toDate } from '@utils/date';
+import type { AdminMutationResult } from '@utils/adminUsers';
 
 // Types
 import type {
@@ -71,12 +72,25 @@ function statusTone(status: InternalRedemptionStatus) {
 }
 
 function destination(row: AdminWithdrawalRow): string {
-  const meta = row.redemption.meta;
-  if (row.redemption.providerName === 'ccpayment' && meta && typeof meta === 'object' && 'walletAddress' in meta) {
-    return String(meta.walletAddress);
+  if (row.redemption.providerName === 'ccpayment') {
+    return row.redemption.meta.walletAddress;
   }
 
   return row.redemption.itemName;
+}
+
+function isAttestationRequired(
+  result: AdminMutationResult<AdminWithdrawalBatchResult | AdminWithdrawalAttestationRequired>,
+): result is AdminMutationResult<AdminWithdrawalAttestationRequired> {
+  return result.code === 'attestationRequired'
+    && result.data !== undefined
+    && 'flaggedUsers' in result.data;
+}
+
+function isBatchResult(
+  data: AdminWithdrawalBatchResult | AdminWithdrawalAttestationRequired | undefined,
+): data is AdminWithdrawalBatchResult {
+  return data !== undefined && 'results' in data;
 }
 
 function toastBatchOutcome(
@@ -217,9 +231,8 @@ function WithdrawalsPageContent() {
         reason,
       });
 
-      if (result.code === 'attestationRequired') {
-        const payload = result.data as AdminWithdrawalAttestationRequired | undefined;
-        setAttestationUsers(payload?.flaggedUsers ?? flaggedUsersFromRows(
+      if (isAttestationRequired(result)) {
+        setAttestationUsers(result.data?.flaggedUsers ?? flaggedUsersFromRows(
           rows.filter(row => selectedPending.includes(row.redemption.redemptionID)),
         ));
 
@@ -234,7 +247,7 @@ function WithdrawalsPageContent() {
 
       toastBatchOutcome({
         t,
-        results: (result.data as AdminWithdrawalBatchResult | undefined)?.results,
+        results: isBatchResult(result.data) ? result.data.results : undefined,
         successKey: 'success.accepted',
         failKey: 'errors.acceptFailed',
       });

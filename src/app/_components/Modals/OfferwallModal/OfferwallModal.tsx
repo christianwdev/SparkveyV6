@@ -7,6 +7,9 @@ import ModalShell from '@components/ModalShell/ModalShell';
 import OpenInNewIcon from '~icons/mdi/open-in-new.jsx';
 import CloseIcon from '~icons/mdi/close.jsx';
 
+// Utils
+import { canUseDom } from '@utils/dom';
+
 import styles from './OfferwallModal.module.scss';
 
 type OfferwallModalProps = {
@@ -16,7 +19,7 @@ type OfferwallModalProps = {
 };
 
 export default function OfferwallModal({ wallID, wallName, onClose }: OfferwallModalProps) {
-  const iframeSrc = typeof window !== 'undefined'
+  const iframeSrc = canUseDom()
     ? `${window.location.origin}/walls/${wallID}`
     : `/walls/${wallID}`;
   const popoutUrl = `/walls/${wallID}`;

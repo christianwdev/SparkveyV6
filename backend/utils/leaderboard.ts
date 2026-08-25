@@ -43,10 +43,11 @@ function normalizeLeaderboardUsers(
   const byUserID = new Map<string, number>();
 
   for (const entry of entries) {
-    if (!entry || typeof entry !== 'object') continue;
+    if (entry === undefined || entry === null || entry.constructor !== Object) continue;
+    if (entry.userID === undefined || entry.userID === null || entry.userID.constructor !== String) continue;
 
-    const userID = typeof entry.userID === 'string' ? entry.userID : undefined;
-    const earned = typeof entry.earned === 'number' && Number.isFinite(entry.earned) ? entry.earned : 0;
+    const userID = entry.userID;
+    const earned = Number.isFinite(entry.earned) ? entry.earned : 0;
 
     if (!userID) continue;
 
@@ -261,7 +262,7 @@ export async function payoutLeaderboardEarnings(
           const user = topUsers[i];
           const prize = prizes[i];
 
-          if (typeof prize !== 'number' || Number.isNaN(prize) || prize <= 0) continue;
+          if (!Number.isFinite(prize) || prize <= 0) continue;
           if (paidUserIDs.has(user.userID)) continue;
 
           const payResult = await updateUserBalance({

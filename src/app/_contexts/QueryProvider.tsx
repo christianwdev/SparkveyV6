@@ -20,7 +20,7 @@ export default function QueryProvider({ children }: QueryProviderProps) {
       onError: (error, query) => {
         reportError(error, {
           source: 'react-query',
-          queryKey: query.queryKey,
+          queryKey: JSON.stringify(query.queryKey),
         });
       },
     }),

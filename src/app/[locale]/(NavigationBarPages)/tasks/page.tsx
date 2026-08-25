@@ -10,7 +10,7 @@ import TasksPageClient from './page.client';
 import styles from './page.module.scss';
 
 type PageProps = {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: AppLocale }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
@@ -33,7 +33,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const user = await getUser({ request: serverRequest });
 
   if (!user) {
-    redirect({ href: FrontendRedirectPaths.login, locale: locale as AppLocale });
+    redirect({ href: FrontendRedirectPaths.login, locale });
   }
 
   const filters = await tasksSearchParamsCache.parse(searchParams);

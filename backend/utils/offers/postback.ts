@@ -243,7 +243,9 @@ async function handleNewOfferPostback(
 
     if (!insertResult.acknowledged) return { ok: false, error: 'internalError' };
   } catch (error) {
-    if (isDuplicateKeyError(error)) return { ok: false, error: 'alreadyHandled' };
+    if (error instanceof Error && 'code' in error && error.code === 11000) {
+      return { ok: false, error: 'alreadyHandled' };
+    }
 
     throw error;
   }

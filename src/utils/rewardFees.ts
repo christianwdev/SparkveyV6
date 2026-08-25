@@ -29,9 +29,10 @@ export function getFaceSparksCost(
 ): number {
   if (sparksValues && denominations) {
     const index = denominations.indexOf(value);
+    const sparksValue = sparksValues[index];
 
-    if (index >= 0 && typeof sparksValues[index] === 'number') {
-      return sparksValues[index];
+    if (index >= 0 && sparksValue !== undefined) {
+      return sparksValue;
     }
   }
 

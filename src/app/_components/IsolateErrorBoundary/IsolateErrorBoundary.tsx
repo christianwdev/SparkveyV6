@@ -1,16 +1,16 @@
 'use client';
 
 import { Component, type ReactNode } from 'react';
-import { reportError } from '@utils/reportError';
+import { reportError, type ErrorReportSource } from '@utils/reportError';
 
 type IsolateErrorBoundaryProps = {
-  children: ReactNode;
-  fallback?: ReactNode;
-  source?: string;
+  children: ReactNode,
+  fallback?: ReactNode,
+  source?: ErrorReportSource,
 };
 
 type IsolateErrorBoundaryState = {
-  hasError: boolean;
+  hasError: boolean,
 };
 
 /**

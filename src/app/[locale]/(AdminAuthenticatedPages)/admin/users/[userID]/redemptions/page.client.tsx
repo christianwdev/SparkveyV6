@@ -36,7 +36,6 @@ function statusTone(status: InternalRedemptionStatus) {
 
 function rewardLink(row: InternalRedemption): string | null {
   if (row.providerName !== 'tremendous' || row.status !== 'completed') return null;
-  if (!('link' in row.meta) || typeof row.meta.link !== 'string') return null;
 
   return row.meta.link;
 }

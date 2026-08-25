@@ -26,9 +26,16 @@ export default async function FastAskWorker(): Promise<[ error: true ] | [ error
       return [ true ];
     }
 
-    const offersJSON: FastAskOffer[] = await httpRequest.json();
+    const offersJSON = await httpRequest.json();
 
-    if (typeof offersJSON !== 'object') {
+    if (
+      offersJSON === null
+      || offersJSON === undefined
+      || (
+        !Array.isArray(offersJSON)
+        && offersJSON.constructor !== Object
+      )
+    ) {
       if (process.env.NODE_ENV === 'development') {
         console.error('FastAsk/Waxrewards API returned unexpected response type');
       }
@@ -36,7 +43,7 @@ export default async function FastAskWorker(): Promise<[ error: true ] | [ error
       return [ true ];
     }
 
-    const offers = Object.values(offersJSON);
+    const offers = Array.isArray(offersJSON) ? offersJSON : Object.values(offersJSON);
 
     if (!Array.isArray(offers)) {
       if (process.env.NODE_ENV === 'development') {
@@ -180,14 +187,18 @@ function convertOS(offer: FastAskOffer): OperatingSystem[] {
   return [ ...osList ];
 }
 
-function parseValue(value: string | number): number {
-  if (typeof value === 'number') {
-    return isNaN(value) || !isFinite(value) ? 0 : Math.floor(value * 100) / 100;
+function parseValue(value: string | number | null | undefined): number {
+  if (value === undefined || value === null) return 0;
+
+  if (value.constructor === Number) {
+    return Number.isFinite(value) ? Math.floor(value * 100) / 100 : 0;
   }
+
+  if (value.constructor !== String) return 0;
 
   const parsed = parseFloat(value);
 
-  return isNaN(parsed) ? 0 : parsed;
+  return Number.isNaN(parsed) ? 0 : parsed;
 }
 
 function convertRewards(offer: FastAskOffer): OfferReward[] {

@@ -10,7 +10,7 @@ type BalanceCall = {
 
 const balanceCalls: BalanceCall[] = [];
 const siteStatDeltas: number[] = [];
-const earnings = new MemoryCollection<Record<string, unknown>>({
+const earnings = new MemoryCollection({
   uniqueFields: [ 'provider', 'conversionID' ],
   yieldBeforeWrite: true,
 });

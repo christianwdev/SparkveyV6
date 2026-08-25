@@ -54,7 +54,7 @@ function getPeriodConfig(period: AffiliatePeriod): AggregationConfig {
   const monthStart = now.clone().startOf('month');
   const yearStart = now.clone().startOf('year');
 
-  const configs: Record<AffiliatePeriod, AggregationConfig> = {
+  const configs = {
     day: {
       startDate: dayStart,
       endDate: dayEnd,
@@ -111,7 +111,7 @@ function getPeriodConfig(period: AffiliatePeriod): AggregationConfig {
         truncateUnit: 'month',
       },
     },
-  };
+  } satisfies Record<AffiliatePeriod, AggregationConfig>;
 
   return configs[period];
 }

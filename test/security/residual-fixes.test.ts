@@ -4,7 +4,7 @@ import { join } from 'path';
 import type UserSession from 'types/UserSession';
 import { createEarningsDb, MemoryCollection } from '../helpers/memoryCollection';
 
-const store = new MemoryCollection<Record<string, unknown>>();
+const store = new MemoryCollection();
 
 mock.module('backend/utils/globalObject', () => ({
   getGlobalObject: () => ({

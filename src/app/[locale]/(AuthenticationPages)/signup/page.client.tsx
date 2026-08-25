@@ -38,6 +38,13 @@ type FormValues = {
   referralCode: string,
 };
 
+type RegisterBody = {
+  email: string,
+  username: string,
+  password: string,
+  referralCode?: string,
+};
+
 type FieldName = keyof FormValues;
 
 type Feedback = {
@@ -52,6 +59,19 @@ const INITIAL_VALUES: FormValues = {
   username: '',
   referralCode: '',
 };
+
+function isFieldName(value: string): value is FieldName {
+  switch (value) {
+    case 'email':
+    case 'password':
+    case 'confirmPassword':
+    case 'username':
+    case 'referralCode':
+      return true;
+    default:
+      return false;
+  }
+}
 
 function validateField(
   field: FieldName,
@@ -157,7 +177,9 @@ function SignupPageContent() {
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    const fieldName = name as FieldName;
+    if (!isFieldName(name)) return;
+
+    const fieldName = name;
     const updatedValues = {
       ...formValues,
       [fieldName]: value,
@@ -213,7 +235,9 @@ function SignupPageContent() {
   }
 
   function handleBlur(event: FocusEvent<HTMLInputElement>) {
-    const fieldName = event.target.name as FieldName;
+    if (!isFieldName(event.target.name)) return;
+
+    const fieldName = event.target.name;
     const value = event.target.value;
     const isDirty = Boolean(dirty[fieldName] || value !== '');
 
@@ -391,12 +415,14 @@ function SignupPageContent() {
     const normalizedReferral = formValues.referralCode.trim();
 
     try {
-      const response = await register({
+      const registerBody: RegisterBody = {
         email: formValues.email.trim(),
         username: formValues.username.trim(),
         password: formValues.password,
-        ...(normalizedReferral ? { referralCode: normalizedReferral } : {}),
-      });
+      };
+      if (normalizedReferral) registerBody.referralCode = normalizedReferral;
+
+      const response = await register(registerBody);
 
       if (!response?.success || !response.data) {
         setFeedback({

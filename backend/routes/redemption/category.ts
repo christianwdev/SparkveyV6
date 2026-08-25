@@ -6,7 +6,6 @@ import {
   fetchFeaturedRewardsByCategory,
   fetchRewardsByCategory,
   isRedeemCategoryID,
-  REDEEM_CATEGORY_IDS,
   REDEEM_CATEGORY_META,
   toCatalogRewards,
 } from 'backend/utils/rewards';
@@ -14,8 +13,9 @@ import { getCountryFromRequest, normalizeQuery, withRouteErrorHandling } from 'b
 import { sendResponse } from 'backend/utils/response';
 
 // Types
-import type FeaturedRewardsResponse from 'types/API/Redemption/FeaturedRewards';
+import type { FeaturedRewardsCategory, FeaturedRewardsResponse } from 'types/API/Redemption/FeaturedRewards';
 import type CategoryRewardsResponse from 'types/API/Redemption/CategoryRewards';
+import type RedeemCategoryID from 'types/Reward/RedeemCategoryID';
 import RouteResponseError from 'types/RouteResponseError';
 
 const app = new Hono();
@@ -24,20 +24,17 @@ export default function routeInvoker() {
   app.get('/featured', withRouteErrorHandling, async (c) => {
     const country = getCountryFromRequest(c);
 
-    const categoriesWithTopRewards = await Promise.all(
-      REDEEM_CATEGORY_IDS.map(async (categoryID) => {
-        const topRewards = await fetchFeaturedRewardsByCategory(categoryID, { country });
+    const [ cash, giftcards, crypto ] = await Promise.all([
+      featuredCategory('cash', country),
+      featuredCategory('giftcards', country),
+      featuredCategory('crypto', country),
+    ]);
 
-        return {
-          ...REDEEM_CATEGORY_META[categoryID],
-          rewards: toCatalogRewards(topRewards),
-        };
-      }),
-    );
-
-    const categories = Object.fromEntries(
-      categoriesWithTopRewards.map((category) => [ category.categoryID, category ]),
-    ) as FeaturedRewardsResponse;
+    const categories: FeaturedRewardsResponse = {
+      cash,
+      giftcards,
+      crypto,
+    };
 
     return sendResponse({ c, status: 200, success: true, data: categories });
   });
@@ -74,8 +71,11 @@ export default function routeInvoker() {
       ...category,
       rewards: toCatalogRewards(consumedRewards),
       hasMore,
-      ...(hasMore ? { nextSkip: skip + consumedRewards.length } : {}),
     };
+
+    if (hasMore) {
+      data.nextSkip = skip + consumedRewards.length;
+    }
 
     return sendResponse({
       c,
@@ -86,4 +86,16 @@ export default function routeInvoker() {
   });
 
   return app;
+}
+
+async function featuredCategory(
+  categoryID: RedeemCategoryID,
+  country: string | undefined,
+): Promise<FeaturedRewardsCategory> {
+  const topRewards = await fetchFeaturedRewardsByCategory(categoryID, { country });
+
+  return {
+    ...REDEEM_CATEGORY_META[categoryID],
+    rewards: toCatalogRewards(topRewards),
+  };
 }

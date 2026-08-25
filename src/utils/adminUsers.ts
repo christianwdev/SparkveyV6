@@ -327,6 +327,24 @@ export async function fetchAdminUserEmails(
   }
 }
 
+type AdminUserUpdateBody = {
+  username?: string,
+  email?: string,
+  emailVerified?: boolean,
+  staffPermissions?: number,
+  userConfiguration?: Partial<InternalUser['userConfiguration']>,
+};
+
+type AdminUserBanBody = {
+  until?: string,
+};
+
+type AdminUserBalanceBody = {
+  amount: number,
+};
+
+type AdminUserMutationBody = AdminUserUpdateBody | AdminUserBanBody | AdminUserBalanceBody;
+
 async function mutateAdminUser<T>(
   {
     method,
@@ -335,7 +353,7 @@ async function mutateAdminUser<T>(
   }: {
     method: 'PATCH' | 'POST' | 'DELETE',
     path: string,
-    data?: object,
+    data?: AdminUserMutationBody,
   },
 ): Promise<AdminMutationResult<T>> {
   try {
@@ -374,13 +392,7 @@ export async function updateAdminUserRequest(
     userConfiguration?: Partial<InternalUser['userConfiguration']>,
   },
 ): Promise<AdminMutationResult<AdminUser>> {
-  const body: {
-    username?: string,
-    email?: string,
-    emailVerified?: boolean,
-    staffPermissions?: number,
-    userConfiguration?: Partial<InternalUser['userConfiguration']>,
-  } = {};
+  const body: AdminUserUpdateBody = {};
 
   if (username !== undefined) body.username = username;
   if (email !== undefined) body.email = email;
@@ -420,7 +432,7 @@ export async function banAdminUserRequest(
     until?: string,
   },
 ): Promise<AdminMutationResult<AdminUser>> {
-  const data: { until?: string } = {};
+  const data: AdminUserBanBody = {};
   if (until) data.until = until;
 
   return mutateAdminUser<AdminUser>({

@@ -29,7 +29,7 @@ export async function getSiteStatistics(
   try {
     const response = await request<{ usdEarned?: number }>({ url: `${getScope()}/landing/statistics` });
 
-    return response.data.usdEarned ?? 0;
+    return response.data?.usdEarned ?? 0;
   } catch {
     return 0;
   }

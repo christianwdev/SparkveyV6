@@ -1,7 +1,7 @@
 import { describe, expect, test, beforeEach, afterEach } from 'bun:test';
 import config from 'backend/config/config';
 import { LootablyPostbackProvider } from 'backend/schemas/postback/providers/lootably';
-import { lootablyHash, mockContext, validationContext } from './helpers';
+import { lootablyHash, mockContext, UNUSED_POSTBACK_QUERY, validationContext } from './helpers';
 
 const TEST_SECRET = 'test-lootably-postback-secret';
 
@@ -40,7 +40,7 @@ describe('LootablyPostbackProvider security', () => {
 
     const ok = provider.validateSecurity(
       validationContext({ ...query, hash }),
-      query as never,
+      query,
       mockContext(),
     );
 
@@ -67,7 +67,7 @@ describe('LootablyPostbackProvider security', () => {
 
     expect(provider.validateSecurity(
       validationContext({ ...query, hash }),
-      query as never,
+      query,
       mockContext(),
     )).toBe(true);
   });
@@ -83,13 +83,13 @@ describe('LootablyPostbackProvider security', () => {
 
     expect(provider.validateSecurity(
       validationContext(query),
-      query as never,
+      UNUSED_POSTBACK_QUERY,
       mockContext(),
     )).toBe(false);
 
     expect(provider.validateSecurity(
       validationContext({ ...query, hash: undefined }),
-      query as never,
+      UNUSED_POSTBACK_QUERY,
       mockContext(),
     )).toBe(false);
 
@@ -104,7 +104,7 @@ describe('LootablyPostbackProvider security', () => {
 
     expect(provider.validateSecurity(
       validationContext({ ...query, hash: validHash }),
-      query as never,
+      UNUSED_POSTBACK_QUERY,
       mockContext(),
     )).toBe(false);
   });
@@ -120,19 +120,19 @@ describe('LootablyPostbackProvider security', () => {
 
     expect(provider.validateSecurity(
       validationContext({ ...base, value: '9999', hash }),
-      base as never,
+      UNUSED_POSTBACK_QUERY,
       mockContext(),
     )).toBe(false);
 
     expect(provider.validateSecurity(
       validationContext({ ...base, usdValue: '9.99', hash }),
-      base as never,
+      UNUSED_POSTBACK_QUERY,
       mockContext(),
     )).toBe(false);
 
     expect(provider.validateSecurity(
       validationContext({ ...base, user: 'other_user', hash }),
-      base as never,
+      UNUSED_POSTBACK_QUERY,
       mockContext(),
     )).toBe(false);
   });

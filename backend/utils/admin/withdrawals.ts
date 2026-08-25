@@ -22,8 +22,6 @@ import type {
   InternalRedemptionProvider,
   InternalRedemptionStatus,
 } from 'types/Redemption/BaseInternalRedemption';
-import type { RequestedCCPaymentInternalRedemption } from 'types/Redemption/CCPaymentInternalRedemption';
-import type { RequestedTremendousInternalRedemption } from 'types/Redemption/TremendousInternalRedemption';
 import type InternalUser from 'types/User/InternalUser';
 import type UserFlag from 'types/UserFlag';
 import type { UserFlagType } from 'types/UserFlag';
@@ -56,7 +54,9 @@ export type AcceptAdminWithdrawalsResult =
   | { ok: false, error: 'internalServerError' };
 
 export function attestationReasonIsValid(reason: string | undefined): boolean {
-  return typeof reason === 'string' && reason.trim().length >= ATTESTATION_REASON_MIN_LENGTH;
+  if (reason === undefined || reason === null || reason.constructor !== String) return false;
+
+  return reason.trim().length >= ATTESTATION_REASON_MIN_LENGTH;
 }
 
 function uniqueTypes(flags: UserFlag[]): UserFlagType[] {
@@ -249,7 +249,7 @@ async function acceptOneRedemption(
 
   if (redemption.providerName === 'tremendous') {
     const result = await handleTremendousRedemptionApproval({
-      redemption: redemption as RequestedTremendousInternalRedemption,
+      redemption,
       approvedBy,
     });
 
@@ -272,7 +272,7 @@ async function acceptOneRedemption(
   }
 
   const result = await handleCCPaymentRedemptionApproval({
-    redemption: redemption as RequestedCCPaymentInternalRedemption,
+    redemption,
     approvedBy,
   });
 
@@ -331,12 +331,12 @@ export async function acceptAdminWithdrawals(
 
     for (const redemption of redemptions) {
       if (redemption.providerName !== 'ccpayment') continue;
-      if (!redemption.meta || typeof redemption.meta !== 'object') continue;
+      if (redemption.meta === undefined || redemption.meta === null) continue;
       if (!('walletAddress' in redemption.meta)) continue;
 
       await detectSharedWithdrawalAddress({
         userID: redemption.userID,
-        walletAddress: String(redemption.meta.walletAddress),
+        walletAddress: redemption.meta.walletAddress,
       });
     }
 
@@ -356,7 +356,10 @@ export async function acceptAdminWithdrawals(
 
     const flagsByUserID = groupFlagsByUserID(flagsResult.data);
     const flaggedUsers = collectFlaggedUsersForAccept({
-      users,
+      users: users.map(user => ({
+        userID: user.userID,
+        username: user.username,
+      })),
       flagsByUserID,
     });
 

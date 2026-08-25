@@ -1,4 +1,102 @@
-const SiteConfig = {
+type WallIpSecurity = {
+  whitelistedIPs: string[],
+};
+
+type WallSecretSecurity = {
+  secret: string | undefined,
+};
+
+type AdtowallCurrencyRates = Record<string, number>;
+
+type SiteConfig = {
+  postback: {
+    disableSecurityChecks: boolean,
+  },
+  server: {
+    backendURL: string | undefined,
+    frontendURL: string | undefined,
+    domains: string[] | undefined,
+    cookieDomain: string | undefined,
+  },
+  database: {
+    name: string | undefined,
+  },
+  walls: {
+    adgatemedia: {
+      security: WallIpSecurity,
+    },
+    ayetstudios: {
+      security: WallIpSecurity & WallSecretSecurity,
+    },
+    lootably: {
+      security: WallSecretSecurity,
+    },
+    waxrewards: {
+      security: WallIpSecurity,
+    },
+    adtowall: {
+      security: WallSecretSecurity,
+      currencyRates: AdtowallCurrencyRates,
+    },
+    mmwall: {
+      security: WallIpSecurity,
+    },
+    torox: {
+      security: WallIpSecurity,
+      placementID: string | undefined,
+      appToken: string | undefined,
+    },
+    timewall: {
+      security: WallIpSecurity,
+    },
+    monlix: {
+      security: WallSecretSecurity,
+    },
+    hangmyads: {
+      security: WallSecretSecurity,
+      rate: number,
+    },
+    gemiads: {
+      security: WallIpSecurity,
+    },
+    adscend: {
+      security: WallIpSecurity,
+    },
+    playfina: {
+      security: WallSecretSecurity,
+    },
+    affilirise: {
+      security: WallSecretSecurity,
+    },
+    kong: {
+      security: WallSecretSecurity,
+    },
+    bitstarz: {
+      security: WallSecretSecurity,
+    },
+    playid: {
+      security: WallSecretSecurity,
+    },
+  },
+  surveys: {
+    cpxresearch: {
+      appId: string | undefined,
+      secureHash: string | undefined,
+      endpoint: string,
+      defaultLimit: number,
+    },
+  },
+  referral: {
+    rate: number,
+  },
+  leaderboard: {
+    prizes: number[],
+  },
+};
+
+const adtowallCurrencyRates: AdtowallCurrencyRates = {};
+
+const SiteConfig: SiteConfig = {
   postback: {
     /** Local dev only: requires NODE_ENV !== 'production' and POSTBACK_DISABLE_SECURITY=true */
     disableSecurityChecks:
@@ -17,12 +115,12 @@ const SiteConfig = {
   walls: {
     adgatemedia: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [],
       },
     },
     ayetstudios: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [],
         secret: process.env.AYETSTUDIOS_POSTBACK_SECRET,
       },
     },
@@ -33,30 +131,30 @@ const SiteConfig = {
     },
     waxrewards: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [],
       },
     },
     adtowall: {
       security: {
         secret: process.env.ADTOWALL_POSTBACK_SECRET,
       },
-      currencyRates: {} as Record<string, number>,
+      currencyRates: adtowallCurrencyRates,
     },
     mmwall: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [],
       },
     },
     torox: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [],
       },
       placementID: process.env.TOROX_PLACEMENT_ID,
       appToken: process.env.TOROX_APP_TOKEN,
     },
     timewall: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [],
       },
     },
     monlix: {
@@ -72,12 +170,12 @@ const SiteConfig = {
     },
     gemiads: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [],
       },
     },
     adscend: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [],
       },
     },
     playfina: {

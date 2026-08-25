@@ -52,7 +52,7 @@ export default async function AyetStudioWorker(): Promise<[ error: true ] | [ er
 
     if (offersJSON.status !== 'success') {
       if (process.env.NODE_ENV === 'development') {
-        console.error(`AyetStudio API error: ${(offersJSON as ErrorResponse).message}`);
+        console.error(`AyetStudio API error: ${offersJSON.message}`);
       }
 
       return [ true ];
@@ -95,7 +95,7 @@ export default async function AyetStudioWorker(): Promise<[ error: true ] | [ er
         operatingSystemRequirements,
         browsers: [],
         browserRequirements: [],
-        geos: offer.countries as string[],
+        geos: offer.countries,
         geosBlacklist: [],
         geoRequirements: [],
         multiReward: false,

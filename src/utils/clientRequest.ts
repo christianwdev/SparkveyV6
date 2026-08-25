@@ -1,8 +1,20 @@
 import { CSRF_HEADER_NAME, ensureCsrfToken } from '@utils/csrf';
 
-type RequestConfig = Omit<RequestInit, 'headers'> & {
+type JsonRequestValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonRequestValue[]
+  | { [key: string]: JsonRequestValue | undefined };
+
+type JsonRequestBody = {
+  [key: string]: JsonRequestValue | undefined,
+};
+
+type RequestConfig = Omit<RequestInit, 'headers' | 'body'> & {
   url: string,
-  data?: object,
+  data?: JsonRequestBody,
   headers?: Record<string, string | undefined>,
   credentials?: 'include' | 'omit',
 };
@@ -43,15 +55,17 @@ async function clientRequest<ReturnType>(config: RequestConfig): Promise<ClientS
     resolvedHeaders[CSRF_HEADER_NAME] = csrfToken;
   }
 
-  const response = await fetch(url, {
+  const init: RequestInit = {
     ...fetchConfig,
     method,
-    ...(hasBody ? { body: JSON.stringify(data) } : {}),
     credentials: credentialsMode,
     headers: resolvedHeaders,
-  });
+  };
+  if (hasBody) init.body = JSON.stringify(data);
 
-  const responseData = await response.json() as ReturnType;
+  const response = await fetch(url, init);
+
+  const responseData: ReturnType = await response.json();
 
   return {
     data: responseData,
