@@ -238,10 +238,16 @@ function redactPostbackUrl(url: string): string {
   try {
     const parsed = new URL(url);
 
-    for (const key of [ ...parsed.searchParams.keys() ]) {
+    const keysToRedact: string[] = [];
+
+    for (const key of parsed.searchParams.keys()) {
       if (SENSITIVE_QUERY_KEYS.has(key.toLowerCase())) {
-        parsed.searchParams.set(key, '[REDACTED]');
+        keysToRedact.push(key);
       }
+    }
+
+    for (const key of keysToRedact) {
+      parsed.searchParams.set(key, '[REDACTED]');
     }
 
     return parsed.toString();

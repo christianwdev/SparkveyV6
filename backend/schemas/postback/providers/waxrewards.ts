@@ -37,7 +37,7 @@ export class WaxrewardsPostbackProvider extends PostbackProvider<WaxrewardsQuery
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext, _data: WaxrewardsQuery, _c: Context): boolean {
+  validateSecurity(ctx: PostbackValidationContext): boolean {
     return isIPWhitelisted(ctx.remoteIP, config.walls.waxrewards.security.whitelistedIPs);
   }
 

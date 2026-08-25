@@ -8,10 +8,11 @@ import { useTranslations } from 'next-intl';
 import OfferItem from '@components/OfferItem/OfferItem';
 import Dropdown from '@components/Dropdown/Dropdown';
 import EmptyState from '@components/EmptyState/EmptyState';
-import { useBrowseOffers, type BrowseOffersFilters } from '@hooks/useBrowseOffers';
+import { useBrowseOffers } from '@hooks/useBrowseOffers';
 import { queryKeys } from '@hooks/queryKeys';
 import type { BrowseOffersSort } from 'types/Offer/BrowseOffersSort';
 import type SanitizedOffer from 'types/Offer/SanitizedOffer';
+import type TasksPageClientProps from 'types/TasksPageClientProps';
 import { tasksSearchParams } from '@utils/tasksSearchParams';
 import SearchIcon from '~icons/mdi/magnify.jsx';
 import styles from './page.module.scss';
@@ -60,12 +61,10 @@ function TasksPageFallback() {
   );
 }
 
-type TasksPageContentProps = {
-  initialOffersPromise: Promise<SanitizedOffer[] | null>,
-  initialFilters: BrowseOffersFilters,
-};
-
-function TasksPageContent({ initialOffersPromise, initialFilters }: TasksPageContentProps) {
+function TasksPageContent({
+  initialOffersPromise,
+  initialFilters,
+}: TasksPageClientProps) {
   const t = useTranslations('TasksPage');
   const urlSearchParams = useSearchParams();
   const [ filters, setFilters ] = useQueryStates(tasksSearchParams);
@@ -101,6 +100,7 @@ function TasksPageContent({ initialOffersPromise, initialFilters }: TasksPageCon
   });
 
   const offers = data?.pages.flatMap(page => page) ?? [];
+
   // Avoid stacking skeletons over SSR-hydrated offers during a background refetch.
   const showInitialLoading = (isPending || isFetching) && !isFetchingNextPage && offers.length === 0;
   const canScrollLoad = Boolean(hasNextPage) && offers.length < INFINITE_SCROLL_CAP;
@@ -235,11 +235,6 @@ function TasksPageContent({ initialOffersPromise, initialFilters }: TasksPageCon
     </div>
   );
 }
-
-type TasksPageClientProps = {
-  initialOffersPromise: Promise<SanitizedOffer[] | null>,
-  initialFilters: BrowseOffersFilters,
-};
 
 export default function TasksPageClient({ initialOffersPromise, initialFilters }: TasksPageClientProps) {
   return (

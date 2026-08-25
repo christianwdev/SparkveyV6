@@ -23,6 +23,8 @@ import type SanitizedLeaderboard from 'types/SanitizedLeaderboard';
 
 dayjs.extend(utc);
 
+const TRAILING_TABLE_SLOTS = 7; // places 4–10
+
 type LeaderboardPageClientProps = {
   initialLeaderboardPromise: Promise<SanitizedLeaderboard | null>,
 };
@@ -112,23 +114,11 @@ function LeaderboardPageContent({ initialLeaderboardPromise }: LeaderboardPageCl
   const secondPlaceUser = leaderboard?.users[1];
   const thirdPlaceUser = leaderboard?.users[2];
 
-  const remainingUsers = (() => {
-    const filledArray = new Array(7).fill(null);
+  const remainingUsers = Array.from({ length: TRAILING_TABLE_SLOTS }, (_, index) => {
+    if (!leaderboard || leaderboard.users.length < 3) return null;
 
-    if (!leaderboard || leaderboard.users.length < 3) return filledArray;
-
-    const trailingUsers = leaderboard.users.slice(3);
-
-    for (let index = 0; index < trailingUsers.length; index++) {
-      const user = trailingUsers[index];
-
-      if (!user) continue;
-
-      filledArray[index] = user;
-    }
-
-    return filledArray;
-  })();
+    return leaderboard.users[index + 3] ?? null;
+  });
 
   const totalSparks = leaderboard?.prizes.reduce((acc, prize) => acc + prize, 0) ?? 0;
   const totalPrize = totalSparks / 1000;

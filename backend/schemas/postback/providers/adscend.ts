@@ -37,7 +37,7 @@ export class AdscendPostbackProvider extends PostbackProvider<AdscendQuery> {
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext, _data: AdscendQuery, _c: Context): boolean {
+  validateSecurity(ctx: PostbackValidationContext): boolean {
     return isIPWhitelisted(ctx.remoteIP, config.walls.adscend.security.whitelistedIPs);
   }
 

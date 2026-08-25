@@ -137,7 +137,7 @@ export class MemoryCollection<T extends Record<string, unknown>> {
 
 export function createEarningsDb(collection: MemoryCollection<Record<string, unknown>>) {
   return {
-    collection: (_name: string) => collection,
+    collection: () => collection,
   };
 }
 

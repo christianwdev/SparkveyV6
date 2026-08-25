@@ -42,7 +42,7 @@ export class CpxresearchPostbackProvider extends PostbackProvider<CpxresearchQue
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext, _data: CpxresearchQuery, _c: Context): boolean {
+  validateSecurity(ctx: PostbackValidationContext): boolean {
     return isIPWhitelisted(ctx.remoteIP, CPXRESEARCH_WHITELIST);
   }
 

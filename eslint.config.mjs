@@ -149,6 +149,8 @@ const eslintConfig = [
       "**/node_modules/**",
       "next-env.d.ts",
       "src/next-env.d.ts",
+      ".agents/**",
+      "tools/oxlint/anti-slop/**",
     ],
   },
   ...nextCoreWebVitals,

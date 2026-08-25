@@ -40,7 +40,7 @@ export const UserProvider = (props: UserProviderProps) => {
 
   useEffect(() => {
     const theme = user?.userPreferences?.colorTheme;
-    if (isColorTheme(theme)) {
+    if (theme && isColorTheme(theme)) {
       applyColorTheme(theme);
 
       return;

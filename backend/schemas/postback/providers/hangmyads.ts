@@ -36,7 +36,7 @@ export class HangmyadsPostbackProvider extends PostbackProvider<HangmyadsQuery> 
     return c.json({ success: false }, 400);
   }
 
-  validateSecurity(ctx: PostbackValidationContext, _data: HangmyadsQuery, _c: Context): boolean {
+  validateSecurity(ctx: PostbackValidationContext): boolean {
     return secretsEqual(ctx.query.secret, config.walls.hangmyads.security.secret);
   }
 

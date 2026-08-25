@@ -357,6 +357,7 @@ export async function handleTremendousRedemptionApproval({
     name: userResult.data.username,
     email: userResult.data.emailInformation.emailAddress ?? undefined,
     amount: redemption.meta.requestRewardAmount,
+
     // SAFETY: requestCurrencyCode is the Tremendous ISO code stored on the reward at ingest.
     currencyCode: redemption.meta.requestCurrencyCode as ListRewards200ResponseRewardsInnerValueCurrencyCodeEnum,
     rewardID: redemption.rewardID,

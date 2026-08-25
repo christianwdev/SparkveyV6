@@ -2,6 +2,7 @@
 
 import { useState, type KeyboardEvent, type MouseEvent } from 'react';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { toast } from 'react-toastify';
 
 // Contexts
@@ -11,21 +12,18 @@ import { useOfferwall } from '@contexts/OfferwallProvider';
 // Icons
 import LockIcon from '~icons/mdi/lock.jsx';
 
-import styles from './WallItem.module.scss';
+// Types
+import type WallItemProps from 'types/WallItemProps';
 
-type WallItemProps = {
-  wallID: string,
-  wallName: string,
-  wallDescription: string,
-  wallImage: string,
-  earnRequirement?: number,
-};
+import styles from './WallItem.module.scss';
 
 export default function WallItem({
   wallID,
   wallName,
   wallDescription,
   wallImage,
+  imageWidth,
+  imageHeight,
   earnRequirement,
 }: WallItemProps) {
   const { user } = useUser();
@@ -95,16 +93,20 @@ export default function WallItem({
       onKeyDown={handleKeyDown}
     >
       <div className={styles.imageContainer}>
-        <img
+        <Image
           src={wallImage}
           className={styles.blurredImage}
           alt=""
           aria-hidden
+          width={imageWidth}
+          height={imageHeight}
         />
-        <img
+        <Image
           src={wallImage}
           className={styles.wallImage}
           alt=""
+          width={imageWidth}
+          height={imageHeight}
         />
 
         {sparksShortfall != null && (

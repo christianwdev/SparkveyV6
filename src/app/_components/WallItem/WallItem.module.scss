@@ -30,6 +30,8 @@
     > .blurredImage {
       position: absolute;
       filter: blur(30px);
+      width: auto;
+      height: auto;
       max-width: 60%;
       max-height: 60%;
       opacity: 0.5;
@@ -37,6 +39,8 @@
 
     > .wallImage {
       position: relative;
+      width: auto;
+      height: auto;
       max-width: 60%;
       max-height: 60%;
       object-fit: contain;

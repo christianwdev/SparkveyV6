@@ -72,6 +72,8 @@ function HomeOfferwallsContent({ initialWallsPromise }: HomeOfferwallsProps) {
             wallName={wall.wallName}
             wallDescription={wall.wallDescription}
             wallImage={wall.wallImage}
+            imageWidth={wall.imageWidth}
+            imageHeight={wall.imageHeight}
             earnRequirement={wall.earnRequirement}
           />
         ))}

@@ -4,22 +4,15 @@ import { useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { browseOffers, BROWSE_OFFERS_PAGE_SIZE } from '@utils/offers';
 import { clientRequest } from '@utils/clientRequest';
+import type BrowseOffersFilters from 'types/BrowseOffersFilters';
 import type SanitizedOffer from 'types/Offer/SanitizedOffer';
-import type { BrowseOffersSort } from 'types/Offer/BrowseOffersSort';
 import { queryKeys } from './queryKeys';
 
-export type BrowseOffersFilters = {
-  search: string;
-  sort: BrowseOffersSort;
-  categories: string[];
-  providers: string[];
-};
-
 type UseBrowseOffersParams = BrowseOffersFilters & {
-  initialOffers?: SanitizedOffer[];
+  initialOffers?: SanitizedOffer[],
 
   /** Filters used when `initialOffers` was fetched on the server. */
-  initialFilters?: BrowseOffersFilters;
+  initialFilters?: BrowseOffersFilters,
 };
 
 function sameFilters(a: BrowseOffersFilters, b: BrowseOffersFilters) {

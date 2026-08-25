@@ -4,14 +4,17 @@ import RedisKeys from '../constants/RedisKeys';
 // Utils
 import { getGlobalObject } from './globalObject';
 
+// Types
+import type CurrencyRateMap from 'types/CurrencyRateMap';
+
 const CURRENCY_RATE_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
-let cachedCurrencyRates: Record<string, number> | null = null;
+let cachedCurrencyRates: CurrencyRateMap | null = null;
 let cachedCurrencyRatesAt = 0;
-let currencyRatesFetchInFlight: Promise<Record<string, number> | null> | null = null;
+let currencyRatesFetchInFlight: Promise<CurrencyRateMap | null> | null = null;
 
-function normalizeCurrencyRates(rates: Record<string, number>): Record<string, number> | null {
-  const normalizedRates = Object.entries(rates).reduce<Record<string, number>>((acc, [ currencyCode, currencyRate ]) => {
+function normalizeCurrencyRates(rates: CurrencyRateMap): CurrencyRateMap | null {
+  const normalizedRates = Object.entries(rates).reduce<CurrencyRateMap>((acc, [ currencyCode, currencyRate ]) => {
     if (!Number.isFinite(currencyRate) || currencyRate <= 0) return acc;
 
     acc[currencyCode.toUpperCase()] = currencyRate;
@@ -24,7 +27,7 @@ function normalizeCurrencyRates(rates: Record<string, number>): Record<string, n
   return normalizedRates;
 }
 
-export async function getCurrencyRates(): Promise<Record<string, number> | null> {
+export async function getCurrencyRates(): Promise<CurrencyRateMap | null> {
   if (
     cachedCurrencyRates
     && cachedCurrencyRatesAt + CURRENCY_RATE_CACHE_TTL_MS > Date.now()
@@ -44,7 +47,8 @@ export async function getCurrencyRates(): Promise<Record<string, number> | null>
       const parsedRates = JSON.parse(currencyRatesRaw);
       if (parsedRates === null || parsedRates.constructor !== Object) return cachedCurrencyRates;
 
-      const normalizedRates = normalizeCurrencyRates(parsedRates);
+      // SAFETY: Redis JSON is written by the currency worker as a CurrencyRateMap.
+      const normalizedRates = normalizeCurrencyRates(parsedRates as CurrencyRateMap);
 
       if (!normalizedRates) return cachedCurrencyRates;
 
@@ -73,7 +77,7 @@ export function convertCurrencyToUSD(
   }: {
     amount: number,
     currencyCode: string,
-    rates: Record<string, number>,
+    rates: CurrencyRateMap,
   },
 ): number | null {
   const normalizedCode = currencyCode.toUpperCase();
