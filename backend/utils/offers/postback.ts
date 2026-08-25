@@ -61,13 +61,6 @@ async function creditOfferConversion(
   });
 }
 
-function isDuplicateKeyError(error: unknown): boolean {
-  return typeof error === 'object'
-    && error !== null
-    && 'code' in error
-    && (error as { code: unknown }).code === 11000;
-}
-
 /** Provider sent a chargeback for a conversion we already credited. */
 async function reverseOfferConversion(
   conversion: InternalOfferEarning,
@@ -248,7 +241,9 @@ async function handleNewOfferPostback(
 
     if (!insertResult.acknowledged) return { ok: false, error: 'internalError' };
   } catch (error) {
-    if (isDuplicateKeyError(error)) return { ok: false, error: 'alreadyHandled' };
+    if (error instanceof Error && 'code' in error && error.code === 11000) {
+      return { ok: false, error: 'alreadyHandled' };
+    }
 
     throw error;
   }

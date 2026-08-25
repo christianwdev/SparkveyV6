@@ -4,7 +4,7 @@ import SiteConfig from 'backend/config/config';
 import { SPARKS_PER_USD } from 'backend/utils/rewards';
 
 import type InternalUser from 'types/User/InternalUser';
-import type { CpxSurvey, CpxSurveysResponse } from 'types/CPX/CpxSurveysResponse';
+import type { CpxSurvey } from 'types/CPX/CpxSurveysResponse';
 import type SanitizedCPXSurvey from 'types/CPX/SanitizedCPXSurvey';
 import type FunctionResponse from 'types/FunctionResponse';
 
@@ -139,7 +139,7 @@ export async function fetchCpxSurveys({
       return { ok: false, error: 'upstreamError' };
     }
 
-    const payload = await response.json() as CpxSurveysResponse;
+    const payload = await response.json();
 
     if (payload.status !== 'success' || !Array.isArray(payload.surveys)) {
       return { ok: false, error: 'invalidResponse' };

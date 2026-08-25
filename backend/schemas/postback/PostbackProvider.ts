@@ -11,7 +11,13 @@ import type {
   PostbackValidationSuccess,
 } from 'types/Postback/PostbackValidation';
 
-export abstract class PostbackProvider<TQuery extends Record<string, unknown> = Record<string, unknown>> {
+type PostbackQueryValue = string;
+
+type PostbackQueryMap = {
+  [field: string]: PostbackQueryValue | undefined,
+};
+
+export abstract class PostbackProvider<TQuery extends PostbackQueryMap = PostbackQueryMap> {
   abstract readonly id: string;
   readonly aliases: readonly string[] = [];
   abstract readonly querySchema: z.ZodType<TQuery>;

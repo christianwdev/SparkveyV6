@@ -9,25 +9,61 @@ export class DuplicateKeyError extends Error {
   }
 }
 
-type Filter = Record<string, unknown>;
+type MemoryScalar = string | number | boolean | Date | null;
+type MemoryList = MemoryScalar[];
 
-function matchesFilter(doc: Record<string, unknown>, filter: Filter): boolean {
-  for (const [ key, expected ] of Object.entries(filter)) {
+export type MemoryDocument = {
+  [key: string]: MemoryField | undefined,
+};
+
+type MemoryField = MemoryScalar | MemoryList | MemoryDocument;
+
+type MemoryFilterOperator = {
+  $exists?: boolean,
+  $ne?: MemoryField,
+  $in?: MemoryField[],
+  $gt?: Date,
+};
+
+type MemoryFilter = {
+  [key: string]: MemoryField | MemoryFilterOperator | undefined,
+};
+
+type MemoryUnset = {
+  [key: string]: string,
+};
+
+type MemoryUpdate = {
+  $set?: MemoryDocument,
+  $unset?: MemoryUnset,
+};
+
+function isFilterOperator(value: MemoryField | MemoryFilterOperator | undefined): value is MemoryFilterOperator {
+  if (value === null || value === undefined) return false;
+  if (Array.isArray(value) || value instanceof Date) return false;
+  if (value.constructor !== Object) return false;
+
+  return '$exists' in value || '$ne' in value || '$in' in value || '$gt' in value;
+}
+
+function matchesFilter(doc: MemoryDocument, filter: MemoryFilter): boolean {
+  for (const key of Object.keys(filter)) {
+    const expected = filter[key];
     const actual = doc[key];
 
-    if (expected && typeof expected === 'object' && !Array.isArray(expected) && !(expected instanceof Date)) {
-      const ops = expected as Record<string, unknown>;
-
-      if ('$exists' in ops) {
+    if (isFilterOperator(expected)) {
+      if ('$exists' in expected) {
         const present = Object.prototype.hasOwnProperty.call(doc, key);
-        if (ops.$exists === true && !present) return false;
-        if (ops.$exists === false && present) return false;
+        if (expected.$exists === true && !present) return false;
+        if (expected.$exists === false && present) return false;
       }
 
-      if ('$ne' in ops && actual === ops.$ne) return false;
-      if ('$in' in ops && Array.isArray(ops.$in) && !ops.$in.includes(actual)) return false;
-      if ('$gt' in ops && !(actual instanceof Date && ops.$gt instanceof Date && actual > ops.$gt)) {
-        if ('$gt' in ops && !('$ne' in ops || '$in' in ops)) return false;
+      if ('$ne' in expected && actual === expected.$ne) return false;
+      if ('$in' in expected && Array.isArray(expected.$in) && (actual === undefined || !expected.$in.includes(actual))) {
+        return false;
+      }
+      if ('$gt' in expected && !(actual instanceof Date && expected.$gt instanceof Date && actual > expected.$gt)) {
+        if ('$gt' in expected && !('$ne' in expected || '$in' in expected)) return false;
       }
 
       continue;
@@ -39,10 +75,7 @@ function matchesFilter(doc: Record<string, unknown>, filter: Filter): boolean {
   return true;
 }
 
-function applyUpdate(
-  doc: Record<string, unknown>,
-  update: { $set?: Record<string, unknown>, $unset?: Record<string, string> },
-): Record<string, unknown> {
+function applyUpdate(doc: MemoryDocument, update: MemoryUpdate) {
   const next = { ...doc };
 
   if (update.$set) {
@@ -67,8 +100,8 @@ export type MemoryCollectionOptions = {
   yieldBeforeWrite?: boolean,
 };
 
-export class MemoryCollection<T extends Record<string, unknown>> {
-  docs: T[] = [];
+export class MemoryCollection {
+  docs: MemoryDocument[] = [];
 
   constructor(private readonly options: MemoryCollectionOptions = {}) {}
 
@@ -76,11 +109,11 @@ export class MemoryCollection<T extends Record<string, unknown>> {
     this.docs = [];
   }
 
-  async findOne(filter: Filter): Promise<T | null> {
+  async findOne(filter: MemoryFilter): Promise<MemoryDocument | null> {
     return this.docs.find(doc => matchesFilter(doc, filter)) ?? null;
   }
 
-  async insertOne(doc: T): Promise<{ acknowledged: true }> {
+  async insertOne(doc: MemoryDocument): Promise<{ acknowledged: true }> {
     if (this.options.yieldBeforeWrite) {
       await Promise.resolve();
     }
@@ -99,37 +132,37 @@ export class MemoryCollection<T extends Record<string, unknown>> {
   }
 
   async findOneAndUpdate(
-    filter: Filter,
-    update: { $set?: Record<string, unknown>, $unset?: Record<string, string> },
+    filter: MemoryFilter,
+    update: MemoryUpdate,
     options?: { returnDocument?: 'before' | 'after' },
-  ): Promise<T | null> {
+  ): Promise<MemoryDocument | null> {
     // Atomic like MongoDB findOneAndUpdate — do not yield between match and write.
     const index = this.docs.findIndex(doc => matchesFilter(doc, filter));
     if (index === -1) return null;
 
     const before = this.docs[index];
-    const after = applyUpdate(before, update) as T;
+    const after = applyUpdate(before, update);
     this.docs[index] = after;
 
     return options?.returnDocument === 'before' ? before : after;
   }
 
   async updateOne(
-    filter: Filter,
-    update: { $set?: Record<string, unknown>, $unset?: Record<string, string> },
+    filter: MemoryFilter,
+    update: MemoryUpdate,
   ): Promise<{ acknowledged: true, matchedCount: number, modifiedCount: number }> {
     const index = this.docs.findIndex(doc => matchesFilter(doc, filter));
     if (index === -1) {
       return { acknowledged: true, matchedCount: 0, modifiedCount: 0 };
     }
 
-    this.docs[index] = applyUpdate(this.docs[index], update) as T;
+    this.docs[index] = applyUpdate(this.docs[index], update);
 
     return { acknowledged: true, matchedCount: 1, modifiedCount: 1 };
   }
 }
 
-export function createEarningsDb(collection: MemoryCollection<Record<string, unknown>>) {
+export function createEarningsDb(collection: MemoryCollection) {
   return {
     collection: (_name: string) => collection,
   };

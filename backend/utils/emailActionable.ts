@@ -201,6 +201,13 @@ export async function markEmailActionableAccessed(
   }
 }
 
+type EmailActionableDeactivateFilter = {
+  userID: string,
+  deactivatedAt: { $exists: false },
+  accessedDate: { $exists: false },
+  type?: { $in: EmailActionable['type'][] },
+};
+
 export async function deactivateUserEmailActionables(
   {
     userID,
@@ -212,7 +219,7 @@ export async function deactivateUserEmailActionables(
 ): Promise<FunctionResponse<void>> {
   try {
     const { db } = getGlobalObject();
-    const filter: Record<string, unknown> = {
+    const filter: EmailActionableDeactivateFilter = {
       userID,
       deactivatedAt: { $exists: false },
       accessedDate: { $exists: false },

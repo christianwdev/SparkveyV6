@@ -1,3 +1,5 @@
+import { canUseDom } from '@utils/dom';
+
 export const AUTH_REDIRECT_STORAGE_KEY = 'sparkveyAuthRedirect';
 
 /** Same-site relative path only; disallows open redirects and auth loops. */
@@ -18,7 +20,7 @@ export function buildPathWithSearch(pathname: string, searchParams: URLSearchPar
 
 export function storeAuthRedirectPath(path: string): void {
   const sanitized = sanitizeAuthRedirectPath(path);
-  if (!sanitized || typeof window === 'undefined') return;
+  if (!sanitized || !canUseDom()) return;
 
   try {
     sessionStorage.setItem(AUTH_REDIRECT_STORAGE_KEY, sanitized);
@@ -28,7 +30,7 @@ export function storeAuthRedirectPath(path: string): void {
 }
 
 export function clearStoredAuthRedirect(): void {
-  if (typeof window === 'undefined') return;
+  if (!canUseDom()) return;
 
   try {
     sessionStorage.removeItem(AUTH_REDIRECT_STORAGE_KEY);

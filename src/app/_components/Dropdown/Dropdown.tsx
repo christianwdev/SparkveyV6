@@ -48,7 +48,8 @@ export default function Dropdown<T extends string | number = string>(props: Drop
     if (!active) return;
 
     const handleClick = (event: MouseEvent) => {
-      if (!dropdownRef.current?.contains(event.target as Node)) {
+      const target = event.target;
+      if (!(target instanceof Node) || !dropdownRef.current?.contains(target)) {
         setActive(false);
       }
     };

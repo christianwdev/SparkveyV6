@@ -5,17 +5,17 @@ import type { HomepageOffersResponse } from 'types/HomepageOffersResponse';
 
 type RequestFn = typeof clientRequest | typeof serverRequest;
 
-function isHomepagePayload(value: unknown): value is HomepageOffersResponse {
-  if (!value || typeof value !== 'object') return false;
-
-  const payload = value as Partial<HomepageOffersResponse>;
+function isHomepagePayload(
+  value: HomepageOffersResponse | null | undefined,
+): value is HomepageOffersResponse {
+  if (!value) return false;
 
   return (
-    Array.isArray(payload.featured)
-    && Array.isArray(payload.popular)
-    && Array.isArray(payload.game)
-    && Array.isArray(payload.finance)
-    && Array.isArray(payload.surveys)
+    Array.isArray(value.featured)
+    && Array.isArray(value.popular)
+    && Array.isArray(value.game)
+    && Array.isArray(value.finance)
+    && Array.isArray(value.surveys)
   );
 }
 

@@ -105,9 +105,9 @@ export async function getOfferCompletionSteps(
       ));
 
       // Historical earnings may lack event metadata — fall back to unique value match.
-      if (!matchedReward && typeof earning.value === 'number') {
+      if (!matchedReward && Number.isFinite(earning.value)) {
         const valueMatches = offer.reward.filter(reward => (
-          typeof reward.value === 'number'
+          Number.isFinite(reward.value)
           && reward.value === earning.value
           && !usedRewardIDs.has(reward.rewardID)
         ));

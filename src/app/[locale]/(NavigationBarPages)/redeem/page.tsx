@@ -9,7 +9,7 @@ import RedeemPageClient from './page.client';
 import styles from './page.module.scss';
 
 type PageProps = {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: AppLocale }>;
 };
 
 export async function generateMetadata({ params }: PageProps) {
@@ -31,7 +31,7 @@ export default async function Page({ params }: PageProps) {
   const user = await getUser({ request: serverRequest });
 
   if (!user) {
-    redirect({ href: FrontendRedirectPaths.login, locale: locale as AppLocale });
+    redirect({ href: FrontendRedirectPaths.login, locale });
   }
 
   const featured = await getFeaturedRewards({ request: serverRequest });

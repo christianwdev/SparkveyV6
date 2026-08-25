@@ -41,7 +41,7 @@ export default function WithdrawalSentEmail({
   kinguinDeliveryState,
   kinguinDeliveredAt,
 }: Props) {
-  const isTremendous = typeof tremendousRedeemUrl === 'string' && tremendousRedeemUrl.length > 0;
+  const isTremendous = tremendousRedeemUrl !== undefined && tremendousRedeemUrl.length > 0;
   const isKinguinPending = kinguinDeliveryState === 'pending';
   const hasKinguinKeys = kinguinDeliveryState === 'delivered' && kinguinKeys.length > 0;
   const normalizedKeys = kinguinKeys.slice(0, 10).map((key, idx) => {

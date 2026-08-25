@@ -52,7 +52,7 @@ function getPeriodConfig(period: AffiliatePeriod): AggregationConfig {
   const isoWeekStart = now.clone().subtract(mondayOffset, 'day').startOf('day');
   const isoWeekEnd = isoWeekStart.clone().add(6, 'day').endOf('day');
 
-  const configs: Record<AffiliatePeriod, AggregationConfig> = {
+  const configs = {
     day: {
       startDate: now.clone().startOf('day'),
       endDate: now.clone().endOf('day'),
@@ -93,7 +93,7 @@ function getPeriodConfig(period: AffiliatePeriod): AggregationConfig {
       stepAmount: 1,
       truncateUnit: 'month',
     },
-  };
+  } satisfies Record<AffiliatePeriod, AggregationConfig>;
 
   return configs[period];
 }

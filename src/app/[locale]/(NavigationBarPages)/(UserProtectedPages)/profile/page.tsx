@@ -3,7 +3,7 @@ import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import type { AppLocale } from '@i18n/routing';
 
 type PageProps = {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: AppLocale }>;
 };
 
 export default async function ProfilePage({ params }: PageProps) {
@@ -11,6 +11,6 @@ export default async function ProfilePage({ params }: PageProps) {
 
   redirect({
     href: FrontendRedirectPaths.profileSettings,
-    locale: locale as AppLocale,
+    locale,
   });
 }

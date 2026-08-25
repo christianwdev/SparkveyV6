@@ -125,7 +125,7 @@ export default function PurchaseModalLayout({
             {reward.description}
           </p>
 
-          {typeof showMoreDescription === 'boolean' && (
+          {showMoreDescription !== 'disabled' && (
             <button
               type="button"
               className={styles.showMoreButton}
@@ -146,7 +146,7 @@ export default function PurchaseModalLayout({
               {reward.disclosure}
             </p>
 
-            {typeof showMoreActivationDetails === 'boolean' && (
+            {showMoreActivationDetails !== 'disabled' && (
               <button
                 type="button"
                 className={styles.showMoreButton}

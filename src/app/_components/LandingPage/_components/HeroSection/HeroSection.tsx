@@ -34,7 +34,7 @@ export default function HeroSection({ initialHomepagePromise }: LandingProps) {
 
   return (
     <div className={styles.heroContainer}>
-      <div className={styles.shapesWrapper}>
+      <div className={styles.decoLayer}>
         <Image
           src='/img/stocks/macaroni.webp'
           alt='Decorative Macaroni'

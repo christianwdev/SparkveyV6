@@ -56,7 +56,7 @@ export function fillTimeSeries<TValue>(
     date: bucket.date,
     label: bucket.label,
     value: valuesByBucket.has(bucket.date)
-      ? valuesByBucket.get(bucket.date) as TValue
+      ? valuesByBucket.get(bucket.date)!
       : emptyValue,
   }));
 }

@@ -24,15 +24,18 @@ export function earningToLiveActivityItem(
 ): LandingLiveActivityItem {
   const isAnonymous = user?.userPreferences?.anonymous ?? false;
 
-  return {
+  const item: LandingLiveActivityItem = {
     id: earning.conversionID,
     username: isAnonymous || !user ? 'Anonymous' : user.username,
-    ...(isAnonymous || !user?.avatar ? {} : { avatar: user.avatar }),
     type: earning.type,
     label: earning.type === 'offer' ? earning.offerDisplayName : earning.storeDisplayName,
     value: earning.value,
     createdAt: earning.createdAt,
   };
+
+  if (!isAnonymous && user?.avatar) item.avatar = user.avatar;
+
+  return item;
 }
 
 export async function emitLiveActivity(earning: InternalEarning): Promise<void> {

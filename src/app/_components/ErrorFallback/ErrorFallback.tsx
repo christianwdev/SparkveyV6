@@ -6,12 +6,13 @@ import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import {
   getErrorReferenceId,
   reportError,
+  type AppError,
   type ErrorReportSource,
 } from '@utils/reportError';
 import styles from './ErrorFallback.module.scss';
 
 type ErrorFallbackProps = {
-  error: unknown;
+  error: AppError;
   source: ErrorReportSource;
   onReset?: () => void;
   showHome?: boolean;

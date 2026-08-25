@@ -6,6 +6,7 @@ import SocketEmits from '../constants/SocketEmits';
 
 // Utils
 import { checkCCPAddressValidity, getCoinList, withdrawCCP } from './ccpayment';
+import type { CCPaymentCoinList, CCPaymentCoinListItem } from './ccpayment';
 import { detectSharedWithdrawalAddress } from './fraud';
 import { getGlobalObject } from './globalObject';
 import { createUserNotification } from './notifications';
@@ -100,11 +101,14 @@ async function buildRedemption({
   switch (reward.providerName) {
     case 'ccpayment':
       {
-      if (typeof walletAddress !== 'string' || walletAddress.trim().length === 0) {
+      if (walletAddress === undefined || walletAddress === null || walletAddress.constructor !== String) {
         return { ok: false, error: 'invalidWalletAddress' };
       }
 
-      const trimmedAddress = walletAddress.trim();
+      const trimmedAddress = String(walletAddress).trim();
+      if (trimmedAddress.length === 0) {
+        return { ok: false, error: 'invalidWalletAddress' };
+      }
       const validityResult = await checkCCPAddressValidity({
         chain: reward.meta.currencyNetwork,
         address: trimmedAddress,
@@ -140,12 +144,14 @@ async function buildRedemption({
         ?? 'USD';
 
       // Pricing is baked for the primary currency only — ignore client overrides.
-      if (
-        typeof currencyCode === 'string'
-        && currencyCode.length > 0
-        && currencyCode.toUpperCase() !== primaryCurrencyCode.toUpperCase()
-      ) {
-        return { ok: false, error: 'invalidCurrencyCode' };
+      if (currencyCode !== undefined && currencyCode !== null && currencyCode.constructor === String) {
+        const requestedCurrencyCode = String(currencyCode);
+        if (
+          requestedCurrencyCode.length > 0
+          && requestedCurrencyCode.toUpperCase() !== primaryCurrencyCode.toUpperCase()
+        ) {
+          return { ok: false, error: 'invalidCurrencyCode' };
+        }
       }
 
       const redemption: RequestedTremendousInternalRedemption = {
@@ -351,6 +357,7 @@ export async function handleTremendousRedemptionApproval({
     name: userResult.data.username,
     email: userResult.data.emailInformation.emailAddress ?? undefined,
     amount: redemption.meta.requestRewardAmount,
+    // SAFETY: requestCurrencyCode is the Tremendous ISO code stored on the reward at ingest.
     currencyCode: redemption.meta.requestCurrencyCode as ListRewards200ResponseRewardsInnerValueCurrencyCodeEnum,
     rewardID: redemption.rewardID,
     externalID: redemption.redemptionID,
@@ -439,7 +446,7 @@ export async function handleTremendousRedemptionApproval({
       return { ok: false, error: 'redemptionNotFound' };
     }
 
-    return { ok: true, data: redemptionUpdateResult as AcceptedTremendousInternalRedemption };
+    return { ok: true, data: acceptedRedemption };
   } catch (error) {
     console.error(error);
 
@@ -452,22 +459,11 @@ export async function handleTremendousRedemptionApproval({
   }
 }
 
-type CCPaymentCoinListItem = {
-  coinId?: string,
-  coin_id?: string,
-  symbol?: string,
-  coinSymbol?: string,
-  chain?: string,
-};
-
 const coinIdCache = new Map<string, string>();
 
-function coinListItems(payload: unknown): CCPaymentCoinListItem[] {
-  if (Array.isArray(payload)) return payload as CCPaymentCoinListItem[];
-  if (payload && typeof payload === 'object' && 'coins' in payload) {
-    const coins = (payload as { coins?: unknown }).coins;
-    if (Array.isArray(coins)) return coins as CCPaymentCoinListItem[];
-  }
+function coinListItems(payload: CCPaymentCoinListItem[] | CCPaymentCoinList): CCPaymentCoinListItem[] {
+  if (Array.isArray(payload)) return payload;
+  if (payload.coins !== undefined && Array.isArray(payload.coins)) return payload.coins;
 
   return [];
 }
@@ -574,7 +570,7 @@ export async function handleCCPaymentRedemptionApproval(
     return { ok: false, error: 'redemptionNotFound' };
   }
 
-  const claimedRedemption = claimed as RequestedCCPaymentInternalRedemption;
+  const claimedRedemption = claimed;
   const rewardResult = await getRewardByID(redemption.rewardID);
   const rewardCoinId = rewardResult.ok && rewardResult.data.providerName === 'ccpayment'
     ? rewardResult.data.meta.coinId
@@ -640,10 +636,13 @@ export async function handleCCPaymentRedemptionApproval(
   return { ok: true, data: updated };
 }
 
-function webhookField(data: Record<string, unknown>, keys: string[]): string | undefined {
+type CCPaymentWebhookData = Record<string, string | number | boolean | null>;
+
+function webhookField(data: CCPaymentWebhookData, keys: string[]): string | undefined {
   for (const key of keys) {
     const value = data[key];
-    if (typeof value === 'string' && value.trim().length > 0) return value.trim();
+    if (value === undefined || value === null || value.constructor !== String) continue;
+    if (value.trim().length > 0) return value.trim();
   }
 
   return undefined;
@@ -693,9 +692,11 @@ export async function completeCCPaymentRedemptionFromWebhook(
   },
 ): Promise<FunctionResponse<AcceptedCCPaymentInternalRedemption | InternalRedemption>> {
   try {
-    const data = payload.data && typeof payload.data === 'object' && !Array.isArray(payload.data)
-      ? payload.data as Record<string, unknown>
-      : {};
+    let data: CCPaymentWebhookData = {};
+    if (payload.data instanceof Object && !Array.isArray(payload.data)) {
+      // SAFETY: CCPayment webhook data is a JSON object of scalar fields; webhookField only reads known string keys.
+      data = payload.data as CCPaymentWebhookData;
+    }
     const orderId = webhookField(data, [ 'orderId', 'order_id', 'merchantOrderId' ]);
     const recordId = webhookField(data, [ 'recordId', 'record_id' ]);
     const status = webhookField(data, [ 'status', 'orderStatus' ]);
@@ -716,7 +717,7 @@ export async function completeCCPaymentRedemptionFromWebhook(
     }
 
     if (existing.status === 'completed') {
-      return { ok: true, data: existing as AcceptedCCPaymentInternalRedemption };
+      return { ok: true, data: existing };
     }
 
     if (existing.status !== 'processing' && existing.status !== 'approved') {
@@ -789,7 +790,7 @@ export async function completeCCPaymentRedemptionFromWebhook(
 
     if (!completed) return { ok: false, error: 'notFound' };
 
-    return { ok: true, data: completed as AcceptedCCPaymentInternalRedemption };
+    return { ok: true, data: completed };
   } catch (error) {
     console.error(error);
 
@@ -906,6 +907,14 @@ async function releaseRejectedClaim(redemptionID: string) {
   );
 }
 
+type RejectionUpdate = {
+  status: 'rejected',
+  rejectedAt: Date,
+  rejectedBy: string,
+  updatedAt: Date,
+  rejectionReason?: string,
+};
+
 export async function handleRedemptionRejection(
   {
     redemptionID,
@@ -920,13 +929,7 @@ export async function handleRedemptionRejection(
   const { db } = getGlobalObject();
   const now = new Date();
 
-  const rejectedUpdate: {
-    status: 'rejected',
-    rejectedAt: Date,
-    rejectedBy: string,
-    updatedAt: Date,
-    rejectionReason?: string,
-  } = {
+  const rejectedUpdate: RejectionUpdate = {
     status: 'rejected',
     rejectedAt: now,
     rejectedBy,

@@ -54,7 +54,7 @@ export async function recordDeletedAccountFingerprints(
   const uniqueEmails = [ ...new Set(
     emails
       .map((email) => {
-        if (!email || typeof email !== 'string' || email.trim().length === 0) return undefined;
+        if (!email || email.constructor !== String || email.trim().length === 0) return undefined;
 
         return normalizeEmailForHash(email);
       })

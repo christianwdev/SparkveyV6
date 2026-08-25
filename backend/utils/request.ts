@@ -10,17 +10,17 @@ import type { TypedSocket } from 'types/SocketEvents';
 // Hono's compose catches Error subclasses and routes them to app.onError
 // before middleware try/catch around await next() can see them. Prefer
 // handleRouteError from app.onError; this middleware only covers non-Error throws.
-export async function handleRouteError(err: unknown, c: Context) {
-  if (err instanceof RouteResponseError) {
+export async function handleRouteError(cause: unknown, c: Context) {
+  if (cause instanceof RouteResponseError) {
     return sendResponse({
       c,
-      status: err.status,
-      success: err.response.success,
-      message: err.response.message,
+      status: cause.status,
+      success: cause.response.success,
+      message: cause.response.message,
     });
   }
 
-  console.error(err);
+  console.error(cause);
 
   return sendResponse({ c, status: 500, success: false, message: 'Internal server error.' });
 }
@@ -35,7 +35,7 @@ export const withRouteErrorHandling = createMiddleware(async (c, next) => {
 
 export function normalizeQuery(
   query: Record<string, string | string[] | undefined>,
-): Record<string, string | undefined> {
+) {
   const normalized: Record<string, string | undefined> = {};
   for (const [ key, value ] of Object.entries(query)) {
     if (value === undefined) {
@@ -121,7 +121,7 @@ export function getCityFromRequest(c: Context): string | undefined {
 
   const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
   const passthrough = c.req.header('nextjs-passthrough-ip-city');
-  const cfIPCity = c.req.header('cf-ipcity') as string;
+  const cfIPCity = c.req.header('cf-ipcity');
   const city = (
     passthrough && hasValidPassthroughToken(passthroughToken)
       ? passthrough
@@ -139,7 +139,9 @@ export function getCityFromRequest(c: Context): string | undefined {
 
 export function getIPFromSocket(socket: TypedSocket): string | undefined {
   const cfIp = socket.handshake.headers['cf-connecting-ip'];
-  if (typeof cfIp === 'string' && cfIp.trim()) return cfIp.trim();
+  if (cfIp !== undefined && cfIp !== null && cfIp.constructor === String && cfIp.trim()) {
+    return cfIp.trim();
+  }
 
   // Socket handshakes should not honor client-spoofable forwarded headers.
   return undefined;

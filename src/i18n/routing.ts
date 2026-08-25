@@ -11,5 +11,9 @@ export const DEFAULT_LOCALE = routing.defaultLocale;
 export type AppLocale = (typeof LOCALES)[number];
 
 export function isSupportedLocale(locale: string): locale is AppLocale {
-  return LOCALES.includes(locale as AppLocale);
+  for (const supported of LOCALES) {
+    if (supported === locale) return true;
+  }
+
+  return false;
 }

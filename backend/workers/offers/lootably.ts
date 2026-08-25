@@ -48,7 +48,7 @@ export default async function LootablyWorker(): Promise<[ error: true ] | [ erro
 
     if (!offersJSON.success) {
       if (process.env.NODE_ENV === 'development') {
-        console.error(`Lootably API error: ${(offersJSON as ErrorResponse).message}`);
+        console.error(`Lootably API error: ${offersJSON.message}`);
       }
 
       return [ true ];
@@ -57,7 +57,7 @@ export default async function LootablyWorker(): Promise<[ error: true ] | [ erro
     const convertedOffers: IngestedOffer[] = [];
 
     for (const offer of offersJSON.data.offers) {
-      const paymentModel: PaymentModel[] = offer.paymentModel ? [ offer.paymentModel as PaymentModel ] : [];
+      const paymentModel: PaymentModel[] = offer.paymentModel ? [ offer.paymentModel ] : [];
       const offerType: OfferType[] = convertOfferType(offer);
       const devices: OfferDevice[] = convertDevices(offer);
       const operatingSystem: OperatingSystem[] = convertOS(offer);
@@ -228,8 +228,8 @@ function convertRewards(offer: LootablyOffer): OfferReward[] {
     {
       rewardID: createRewardID({ externalID: offer.offerID, provider: PROVIDER }),
       externalID: offer.offerID,
-      value: offer.currencyReward as number | 'variable',
-      revenue: offer.revenue as number | 'variable',
+      value: offer.currencyReward,
+      revenue: offer.revenue,
       description: offer.description,
     },
   ];
@@ -240,12 +240,21 @@ function convertOSRequirements(offer: LootablyOffer): OperatingSystemRequirement
 
   const requirements: OperatingSystemRequirement[] = [];
 
-  for (const os of Object.keys(offer.restrictions.os)) {
-    const versions = offer.restrictions.os[os as 'android' | 'ios'] ?? [];
+  const osRestrictions = offer.restrictions.os;
 
-    for (const version of versions) {
+  if (osRestrictions.android) {
+    for (const version of osRestrictions.android) {
       requirements.push({
-        operatingSystem: os === 'ios' ? 'ios' : 'android',
+        operatingSystem: 'android',
+        minVersion: version.replaceAll('>', ''),
+      });
+    }
+  }
+
+  if (osRestrictions.ios) {
+    for (const version of osRestrictions.ios) {
+      requirements.push({
+        operatingSystem: 'ios',
         minVersion: version.replaceAll('>', ''),
       });
     }

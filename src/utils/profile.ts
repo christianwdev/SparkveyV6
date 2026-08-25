@@ -128,25 +128,30 @@ export async function revokeSession(
   }
 }
 
+type SettingsRequestBody = {
+  [key: string]: string | number | boolean | null | undefined,
+};
+
 async function postSettings<T>(
   path: string,
-  data?: object,
+  data?: SettingsRequestBody,
 ): Promise<APIResponse<T> | null> {
   try {
     const csrfToken = await ensureCsrfToken();
     if (!csrfToken) return null;
 
+    const requestHeaders = new Headers();
+    requestHeaders.set(CSRF_HEADER_NAME, csrfToken);
+    if (data) requestHeaders.set('Content-Type', 'application/json');
+
     const response = await fetch(`${getScope()}/profile/settings${path}`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        ...(data ? { 'Content-Type': 'application/json' } : {}),
-        [CSRF_HEADER_NAME]: csrfToken,
-      },
+      headers: requestHeaders,
       body: data ? JSON.stringify(data) : undefined,
     });
 
-    const payload = await response.json() as APIResponse<T>;
+    const payload: APIResponse<T> = await response.json();
 
     return payload ?? null;
   } catch {

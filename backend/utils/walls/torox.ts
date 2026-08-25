@@ -8,11 +8,6 @@ export type CreateToroxSessionError =
   | 'providerError'
   | 'internalServerError';
 
-type ToroxSessionSuccess = {
-  ok: true,
-  wall_url: string,
-};
-
 export async function createToroxWallSession(
   {
     userID,
@@ -44,7 +39,7 @@ export async function createToroxWallSession(
 
     if (!response.ok) return { ok: false, error: 'providerError' };
 
-    const data = await response.json() as ToroxSessionSuccess;
+    const data = await response.json();
 
     if (!data?.ok || !data.wall_url) return { ok: false, error: 'providerError' };
 

@@ -93,13 +93,25 @@ export async function fetchAdminUserRisk(
   }
 }
 
+type AcceptWithdrawalsBody = {
+  redemptionIDs: string[],
+  attestation?: { reason: string },
+};
+
+type RejectWithdrawalsBody = {
+  redemptionIDs: string[],
+  reason?: string,
+};
+
+type WithdrawalsMutationBody = AcceptWithdrawalsBody | RejectWithdrawalsBody;
+
 async function mutateAdminWithdrawals<T>(
   {
     path,
     data,
   }: {
     path: string,
-    data: object,
+    data: WithdrawalsMutationBody,
   },
 ): Promise<AdminMutationResult<T>> {
   try {
@@ -130,10 +142,7 @@ export async function acceptAdminWithdrawalsRequest(
     reason?: string,
   },
 ): Promise<AdminMutationResult<AdminWithdrawalBatchResult | AdminWithdrawalAttestationRequired>> {
-  const body: {
-    redemptionIDs: string[],
-    attestation?: { reason: string },
-  } = { redemptionIDs };
+  const body: AcceptWithdrawalsBody = { redemptionIDs };
 
   if (reason) body.attestation = { reason };
 
@@ -152,10 +161,7 @@ export async function rejectAdminWithdrawalsRequest(
     reason?: string,
   },
 ): Promise<AdminMutationResult<AdminWithdrawalBatchResult>> {
-  const body: {
-    redemptionIDs: string[],
-    reason?: string,
-  } = { redemptionIDs };
+  const body: RejectWithdrawalsBody = { redemptionIDs };
 
   if (reason) body.reason = reason;
 

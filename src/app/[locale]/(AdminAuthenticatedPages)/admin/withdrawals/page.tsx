@@ -10,7 +10,6 @@ import { createQueryClient } from '@contexts/queryClient';
 import { adminWithdrawalsListQueryOptions } from '@hooks/adminUserQueries';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 import type { AppLocale } from '@i18n/routing';
-import type { InternalRedemptionProvider } from 'types/Redemption/BaseInternalRedemption';
 import AdminWithdrawalsClient from './page.client';
 import styles from './page.module.scss';
 
@@ -51,7 +50,7 @@ export default async function AdminWithdrawalsPage({ params, searchParams }: Pag
   await queryClient.prefetchQuery(adminWithdrawalsListQueryOptions({
     request: serverRequest,
     status: filters.status,
-    provider: filters.provider === 'all' ? undefined : filters.provider as InternalRedemptionProvider,
+    provider: filters.provider === 'all' ? undefined : filters.provider,
     page: filters.page,
   }));
 

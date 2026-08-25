@@ -7,14 +7,13 @@ import { serverRequest } from '@utils/serverRequest';
 import {
   getCategoryRewards,
   isRedeemCategoryID,
-  type RedeemCategoryID,
 } from '@utils/rewards';
 import type { AppLocale } from '@i18n/routing';
 import RedeemCategoryPageClient from './page.client';
 import styles from './page.module.scss';
 
 type PageProps = {
-  params: Promise<{ locale: string, categoryID: string }>;
+  params: Promise<{ locale: AppLocale, categoryID: string }>;
 };
 
 export async function generateMetadata({ params }: PageProps) {
@@ -44,29 +43,28 @@ export default async function Page({ params }: PageProps) {
   const user = await getUser({ request: serverRequest });
 
   if (!user) {
-    redirect({ href: FrontendRedirectPaths.login, locale: locale as AppLocale });
+    redirect({ href: FrontendRedirectPaths.login, locale });
   }
 
   if (!isRedeemCategoryID(categoryID)) {
     notFound();
   }
 
-  const typedCategoryID = categoryID as RedeemCategoryID;
   const initialPage = await getCategoryRewards({
     request: serverRequest,
-    categoryID: typedCategoryID,
+    categoryID,
     skip: 0,
   });
 
   return (
     <main className={styles.redeemCategoryPage}>
       <div className={styles.header}>
-        <h1>{t(`sections.${typedCategoryID}.title`)}</h1>
-        <p>{t(`sections.${typedCategoryID}.description`)}</p>
+        <h1>{t(`sections.${categoryID}.title`)}</h1>
+        <p>{t(`sections.${categoryID}.description`)}</p>
       </div>
 
       <RedeemCategoryPageClient
-        categoryID={typedCategoryID}
+        categoryID={categoryID}
         initialPage={initialPage === null ? undefined : initialPage}
       />
     </main>

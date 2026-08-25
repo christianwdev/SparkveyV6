@@ -27,7 +27,7 @@ function toDateOnly(date: Date): string {
 
 function useIsCompactViewport() {
   const [ compact, setCompact ] = useState(() => {
-    if (typeof window === 'undefined') return false;
+    if (globalThis.window === undefined) return false;
 
     return window.matchMedia(`(max-width: ${LARGE_PHONE_MAX_WIDTH}px)`).matches;
   });
@@ -61,7 +61,8 @@ function AdminDateRangePickerOpen({
   useEffect(() => {
     function onPointerDown(event: MouseEvent) {
       if (!rootRef.current) return;
-      if (rootRef.current.contains(event.target as Node)) return;
+      const target = event.target;
+      if (!(target instanceof Node) || rootRef.current.contains(target)) return;
       onClose();
     }
 

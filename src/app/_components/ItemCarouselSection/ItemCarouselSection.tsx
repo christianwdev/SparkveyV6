@@ -30,6 +30,11 @@ const SCROLL_TOLERANCE = 2;
 const DEFAULT_ITEMS_PER_VIEW = 5;
 const DEFAULT_MAX_ROWS = 1;
 
+type CarouselCssVars = CSSProperties & {
+  '--items-per-view': number,
+  '--rows': number,
+};
+
 function resolveRowCount(itemCount: number, itemsPerView: number, maxRows: number) {
   if (maxRows <= 1 || itemCount <= itemsPerView) {
     return 1;
@@ -98,6 +103,11 @@ export default function ItemCarouselSection({
 
   if (!loading && itemCount === 0 && !hasLeadingSlot) return null;
 
+  const carouselStyle: CarouselCssVars = {
+    '--items-per-view': itemsPerView,
+    '--rows': rowCount,
+  };
+
   const scrollByPage = (direction: 1 | -1) => {
     const carousel = carouselRef.current;
     if (!carousel) return;
@@ -151,10 +161,7 @@ export default function ItemCarouselSection({
       <div
         ref={carouselRef}
         className={styles.carousel}
-        style={{
-          '--items-per-view': itemsPerView,
-          '--rows': rowCount,
-        } as CSSProperties}
+        style={carouselStyle}
       >
         {leadingSlot}
         {loading

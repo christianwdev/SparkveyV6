@@ -12,7 +12,7 @@ let currencyRatesFetchInFlight: Promise<Record<string, number> | null> | null = 
 
 function normalizeCurrencyRates(rates: Record<string, number>): Record<string, number> | null {
   const normalizedRates = Object.entries(rates).reduce<Record<string, number>>((acc, [ currencyCode, currencyRate ]) => {
-    if (typeof currencyRate !== 'number' || currencyRate <= 0) return acc;
+    if (!Number.isFinite(currencyRate) || currencyRate <= 0) return acc;
 
     acc[currencyCode.toUpperCase()] = currencyRate;
 
@@ -41,7 +41,9 @@ export async function getCurrencyRates(): Promise<Record<string, number> | null>
 
       if (!currencyRatesRaw) return cachedCurrencyRates;
 
-      const parsedRates = JSON.parse(currencyRatesRaw) as Record<string, number>;
+      const parsedRates = JSON.parse(currencyRatesRaw);
+      if (parsedRates === null || parsedRates.constructor !== Object) return cachedCurrencyRates;
+
       const normalizedRates = normalizeCurrencyRates(parsedRates);
 
       if (!normalizedRates) return cachedCurrencyRates;

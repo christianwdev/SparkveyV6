@@ -76,13 +76,32 @@ async function consumeOAuthState(state: string): Promise<GoogleOAuthState | null
   await redisClient.del(key);
 
   try {
-    return JSON.parse(raw) as GoogleOAuthState;
+    const parsed = JSON.parse(raw);
+    if (parsed === null || Array.isArray(parsed) || parsed.constructor !== Object) return null;
+
+    const state: GoogleOAuthState = {};
+    const affiliateCode = parsed.affiliateCode;
+    if (affiliateCode !== undefined && affiliateCode !== null && affiliateCode.constructor === String) {
+      state.affiliateCode = String(affiliateCode);
+    }
+
+    const redirect = parsed.redirect;
+    if (redirect !== undefined && redirect !== null && redirect.constructor === String) {
+      state.redirect = String(redirect);
+    }
+
+    return state;
   } catch {
     return null;
   }
 }
 
-function fail(path: string, error: string): { ok: false, redirectURL: string } {
+type GoogleOAuthFailure = {
+  ok: false,
+  redirectURL: string,
+};
+
+function fail(path: string, error: string): GoogleOAuthFailure {
   return { ok: false, redirectURL: buildFrontendURL(path, { error }) };
 }
 
@@ -243,7 +262,7 @@ export async function completeGoogleOAuthLogin({
       idToken: tokens.id_token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
-    const data = ticket.getPayload() as GoogleAPIUser | undefined;
+    const data = ticket.getPayload();
 
     if (!data?.sub || !data.email || !data.picture) {
       return fail('/', 'google_user');

@@ -200,7 +200,7 @@ export async function getRawUser(partialUser: Filter<InternalUser>): Promise<Fun
 }
 
 export function userHasPassword(user: Pick<InternalUser, 'password'>): boolean {
-  return typeof user.password === 'string' && user.password.length > 0;
+  return (user.password ?? '').length > 0;
 }
 
 export function sanitizeUser(user: InternalUser | WithId<InternalUser>): SanitizedUser {
@@ -393,10 +393,46 @@ export async function getUserEarningsHistory(
 }
 
 export function sanitizeEmail(email?: string): string | undefined {
-  if (typeof email !== 'string' || email.trim().length === 0) return undefined;
+  if (email === undefined || email === null || email.constructor !== String || email.trim().length === 0) {
+    return undefined;
+  }
 
   return email.trim().toLowerCase().trim();
 }
+
+type GoogleLinkSetFields = {
+  'socialInformation.google.id': string,
+  'socialInformation.google.emailAddress': string,
+  'socialInformation.google.verifiedAt': Date,
+  'emailInformation.emailAddress': string,
+  'emailInformation.verifiedAt': Date,
+  avatar?: string,
+};
+
+type GoogleLinkUpdate = {
+  $set: GoogleLinkSetFields,
+  $unset?: { password: '' },
+};
+
+type EmailUpdateSetFields = {
+  'emailInformation.emailAddress': string,
+  'emailInformation.verifiedAt': Date,
+  'socialInformation.google.emailAddress'?: string,
+};
+
+type NotificationPreferencesSetFields = {
+  'notificationPreferences.preferredMethod'?: InternalUser['notificationPreferences']['preferredMethod'],
+  'notificationPreferences.securityAlerts'?: boolean,
+  'notificationPreferences.marketingAlerts'?: boolean,
+  'notificationPreferences.promotionalAlerts'?: boolean,
+  'notificationPreferences.newsletterAlerts'?: boolean,
+};
+
+type UserPreferencesSetFields = {
+  'userPreferences.anonymous'?: boolean,
+  'userPreferences.hideStats'?: boolean,
+  'userPreferences.colorTheme'?: InternalUser['userPreferences']['colorTheme'],
+};
 
 const USERNAME_CHANGE_COOLDOWN_MS = 24 * 60 * 60 * 1000;
 
@@ -459,7 +495,7 @@ export async function linkGoogleAccount(
     const sanitized = sanitizeEmail(email);
     if (!sanitized) return { ok: false, error: 'internalServerError' };
 
-    const $set: Record<string, unknown> = {
+    const $set: GoogleLinkSetFields = {
       'socialInformation.google.id': googleID,
       'socialInformation.google.emailAddress': sanitized,
       'socialInformation.google.verifiedAt': new Date(),
@@ -469,7 +505,7 @@ export async function linkGoogleAccount(
 
     if (avatar) $set.avatar = avatar;
 
-    const update: Record<string, unknown> = { $set };
+    const update: GoogleLinkUpdate = { $set };
     if (clearPassword) {
       update.$unset = { password: '' };
     }
@@ -523,7 +559,7 @@ export async function updateUserEmail(
 
     if (!existing) return { ok: false, error: 'notFound' };
 
-    const $set: Record<string, unknown> = {
+    const $set: EmailUpdateSetFields = {
       'emailInformation.emailAddress': sanitized,
       'emailInformation.verifiedAt': new Date(),
     };
@@ -566,12 +602,22 @@ export async function updateNotificationPreferences(
 ): Promise<FunctionResponse<InternalUser>> {
   try {
     const { db } = getGlobalObject();
-    const $set: Record<string, unknown> = {};
+    const $set: NotificationPreferencesSetFields = {};
 
-    for (const [ key, value ] of Object.entries(notificationPreferences)) {
-      if (value !== undefined) {
-        $set[`notificationPreferences.${key}`] = value;
-      }
+    if (notificationPreferences.preferredMethod !== undefined) {
+      $set['notificationPreferences.preferredMethod'] = notificationPreferences.preferredMethod;
+    }
+    if (notificationPreferences.securityAlerts !== undefined) {
+      $set['notificationPreferences.securityAlerts'] = notificationPreferences.securityAlerts;
+    }
+    if (notificationPreferences.marketingAlerts !== undefined) {
+      $set['notificationPreferences.marketingAlerts'] = notificationPreferences.marketingAlerts;
+    }
+    if (notificationPreferences.promotionalAlerts !== undefined) {
+      $set['notificationPreferences.promotionalAlerts'] = notificationPreferences.promotionalAlerts;
+    }
+    if (notificationPreferences.newsletterAlerts !== undefined) {
+      $set['notificationPreferences.newsletterAlerts'] = notificationPreferences.newsletterAlerts;
     }
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
@@ -601,12 +647,16 @@ export async function updateUserPreferences(
 ): Promise<FunctionResponse<InternalUser>> {
   try {
     const { db } = getGlobalObject();
-    const $set: Record<string, unknown> = {};
+    const $set: UserPreferencesSetFields = {};
 
-    for (const [ key, value ] of Object.entries(userPreferences)) {
-      if (value !== undefined) {
-        $set[`userPreferences.${key}`] = value;
-      }
+    if (userPreferences.anonymous !== undefined) {
+      $set['userPreferences.anonymous'] = userPreferences.anonymous;
+    }
+    if (userPreferences.hideStats !== undefined) {
+      $set['userPreferences.hideStats'] = userPreferences.hideStats;
+    }
+    if (userPreferences.colorTheme !== undefined) {
+      $set['userPreferences.colorTheme'] = userPreferences.colorTheme;
     }
 
     const user = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(

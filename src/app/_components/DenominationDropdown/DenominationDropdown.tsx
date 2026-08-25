@@ -42,8 +42,11 @@ const sameWidthModifier: Partial<Modifier<'sameWidth', object>> = {
     state.styles.popper.width = `${state.rects.reference.width}px`;
   },
   effect({ state }) {
-    (state.elements.popper as HTMLElement).style.width =
-      `${(state.elements.reference as HTMLElement).offsetWidth}px`;
+    const popper = state.elements.popper;
+    const reference = state.elements.reference;
+    if (!(popper instanceof HTMLElement) || !(reference instanceof HTMLElement)) return;
+
+    popper.style.width = `${reference.offsetWidth}px`;
   },
 };
 

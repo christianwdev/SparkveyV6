@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { z } from 'zod';
 
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import { processCCPWebhook } from 'backend/utils/ccpayment';
@@ -12,6 +13,17 @@ import { withRouteErrorHandling } from 'backend/utils/request';
 // Types
 import type UserSession from 'types/UserSession';
 
+type CCPaymentWebhookHeaders = {
+  timestamp: string | undefined,
+  sign: string | undefined,
+  appid: string | undefined,
+};
+
+const proxyDetectIdentitySchema = z.object({
+  userID: z.string().trim().min(1),
+  ipAddress: z.string().trim().min(1),
+});
+
 const app = new Hono();
 
 export default function routesInvoker() {
@@ -20,7 +32,7 @@ export default function routesInvoker() {
     withRouteErrorHandling,
     async (c) => {
       const rawBody = await c.req.text();
-      const headers: Record<string, string | undefined> = {
+      const headers: CCPaymentWebhookHeaders = {
         timestamp: c.req.header('timestamp') ?? c.req.header('Timestamp'),
         sign: c.req.header('sign') ?? c.req.header('Sign'),
         appid: c.req.header('appid') ?? c.req.header('Appid'),
@@ -92,7 +104,14 @@ export default function routesInvoker() {
       }
 
       const body = await c.req.json().catch(() => null);
-      if (!body || typeof body !== 'object') {
+      if (
+        body === null
+        || body === undefined
+        || body.constructor === String
+        || body.constructor === Number
+        || body.constructor === Boolean
+        || body.constructor === Function
+      ) {
         return sendResponse({
           c,
           status: 400,
@@ -102,17 +121,8 @@ export default function routesInvoker() {
         });
       }
 
-      const record = body as {
-        userID?: unknown,
-        ipAddress?: unknown,
-        proxy?: unknown,
-        isProxy?: unknown,
-      };
-      const userID = typeof record.userID === 'string' ? record.userID.trim() : '';
-      const ipAddress = typeof record.ipAddress === 'string' ? record.ipAddress.trim() : '';
-      const isProxy = record.proxy === true || record.isProxy === true;
-
-      if (!userID || !ipAddress) {
+      const parsedBody = proxyDetectIdentitySchema.safeParse(body);
+      if (!parsedBody.success) {
         return sendResponse({
           c,
           status: 400,
@@ -121,6 +131,10 @@ export default function routesInvoker() {
           message: 'userID and ipAddress are required',
         });
       }
+
+      const userID = parsedBody.data.userID;
+      const ipAddress = parsedBody.data.ipAddress;
+      const isProxy = body.proxy === true || body.isProxy === true;
 
       if (isProxy) {
         const { db } = getGlobalObject();

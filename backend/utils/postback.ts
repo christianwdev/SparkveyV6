@@ -86,12 +86,19 @@ function postbackLogs() {
 }
 
 /** Minimal context for replay; providers that need request headers may require a live retry via GET. */
+function asReplayContext<T>(
+  value: { req: { header: () => string | undefined } },
+): T {
+  // SAFETY: Replay only implements req.header(); live GET is required when providers need more request state.
+  return value as T;
+}
+
 function createReplayContext(): Context {
-  return {
+  return asReplayContext<Context>({
     req: {
       header: () => undefined,
     },
-  } as unknown as Context;
+  });
 }
 
 export function processPostback({
@@ -122,15 +129,19 @@ export function processPostback({
   const result = provider.validate({ query, remoteIP }, context);
 
   if (result.ok) {
+    const logUpdate: UpdatePostbackLogFields = {
+      status: 'completed',
+      resolvedProviderId: provider.id,
+      normalized: result.normalized,
+    };
+    if (SiteConfig.postback.disableSecurityChecks) {
+      logUpdate.securityChecksSkipped = true;
+    }
+
     return {
       provider,
       ok: true,
-      logUpdate: {
-        status: 'completed',
-        resolvedProviderId: provider.id,
-        normalized: result.normalized,
-        ...(SiteConfig.postback.disableSecurityChecks && { securityChecksSkipped: true }),
-      },
+      logUpdate,
     };
   }
 
@@ -211,7 +222,7 @@ const SENSITIVE_QUERY_KEYS = new Set([
 
 function redactPostbackQuery(
   query: Record<string, string | undefined>,
-): Record<string, string | undefined> {
+) {
   const redacted: Record<string, string | undefined> = {};
 
   for (const [ key, value ] of Object.entries(query)) {
@@ -257,6 +268,11 @@ export async function logPendingPostback(c: Context) {
   await postbackLogs().insertOne(logObject);
 }
 
+type PostbackLogMongoUpdate = {
+  $set: UpdatePostbackLogFields & { completedAt: Date },
+  $unset?: Record<string, ''>,
+};
+
 export async function updatePostbackLog(
   requestID: string | undefined,
   fields: UpdatePostbackLogFields,
@@ -264,17 +280,16 @@ export async function updatePostbackLog(
 ) {
   if (!requestID) return;
 
-  const update: {
-    $set: UpdatePostbackLogFields & { completedAt: Date };
-    $unset?: Record<string, ''>;
-  } = {
+  const update: PostbackLogMongoUpdate = {
     $set: { ...fields, completedAt: new Date() },
   };
 
   if (options?.unsetFailureFields) {
-    update.$unset = Object.fromEntries(
-      FAILURE_FIELDS_TO_CLEAR.map(key => [ key, '' ]),
-    ) as Record<string, ''>;
+    const unset: Record<string, ''> = {};
+    for (const key of FAILURE_FIELDS_TO_CLEAR) {
+      unset[key] = '';
+    }
+    update.$unset = unset;
   }
 
   await postbackLogs().updateOne({ requestID }, update);

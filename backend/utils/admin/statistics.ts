@@ -274,7 +274,7 @@ function sumLeaderboardBonusSparks(
 
     for (let i = 0; i < paidCount && i < prizes.length; i++) {
       const prize = prizes[i];
-      if (typeof prize === 'number' && Number.isFinite(prize)) total += prize;
+      if (Number.isFinite(prize)) total += prize;
     }
   }
 

@@ -20,7 +20,7 @@ import { clientRequest } from '@utils/clientRequest';
 import { getOfferDetails, getOfferRedirectURL } from '@utils/offers';
 import stripHtml from '@utils/stripHtml';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
-import OfferProviderBaseLinks from '@constants/OfferProviderBaseLinks';
+import { getOfferProviderBaseLink } from '@constants/OfferProviderBaseLinks';
 
 // Types
 import type SanitizedOffer from 'types/Offer/SanitizedOffer';
@@ -120,7 +120,7 @@ export default function OfferDetailsModal(
   const hasVariableReward = offer?.reward.some(reward => reward.value === 'variable') ?? false;
   const totalPayout = !offer || hasVariableReward
     ? null
-    : offer.reward.reduce((sum, reward) => sum + (typeof reward.value === 'number' ? reward.value : 0), 0);
+    : offer.reward.reduce((sum, reward) => sum + (reward.value === 'variable' ? 0 : reward.value), 0);
   const completedReward = completion.reduce((sum, step) => sum + step.value, 0);
   const percentageCompleted = hasVariableReward
     ? (completedReward > 0 ? 100 : 0)
@@ -128,8 +128,8 @@ export default function OfferDetailsModal(
 
   const sortedRewards = offer
     ? [ ...offer.reward ].sort((a, b) => {
-      if (typeof a.value === 'string') return -1;
-      if (typeof b.value === 'string') return 1;
+      if (a.value === 'variable') return -1;
+      if (b.value === 'variable') return 1;
 
       return a.value - b.value;
     })
@@ -154,7 +154,7 @@ export default function OfferDetailsModal(
   }
 
   const providerLink = offer
-    ? OfferProviderBaseLinks[offer.provider]
+    ? getOfferProviderBaseLink(offer.provider)
     : undefined;
 
   const operatingSystem = offer?.operatingSystem ?? [];
@@ -345,9 +345,9 @@ export default function OfferDetailsModal(
                         <div className={styles.status} />
                         <p>{stripHtml(reward.description)}</p>
                         <p className={styles.reward}>
-                          +{typeof reward.value === 'number'
-                            ? reward.value.toLocaleString(locale)
-                            : reward.value}
+                          +{reward.value === 'variable'
+                            ? reward.value
+                            : reward.value.toLocaleString(locale)}
                           <Image
                             src="/img/logo.svg"
                             alt={t('sparksAlt')}

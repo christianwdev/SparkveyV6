@@ -29,7 +29,6 @@ import type {
   AdminUserSession,
   AdminUserSort,
   AdminEmailActionable,
-  AdminReferredUser,
 } from 'types/AdminUser';
 
 const PERMANENT_BAN_UNTIL = new Date('9999-12-31T23:59:59.999Z');
@@ -322,7 +321,11 @@ export async function getUserAffiliateData(
       data: {
         codes: codesResult.data,
         referralInformation: userResult.data.referralInformation,
-        referredUsers: referredUsers as AdminReferredUser[],
+        referredUsers: referredUsers.map(user => ({
+          userID: user.userID,
+          username: user.username,
+          creationDate: user.creationDate,
+        })),
       },
     };
   } catch (error) {
@@ -357,6 +360,21 @@ async function loadModifiableUser(
   }
 }
 
+type AdminUserSetFields = {
+  username?: string,
+  usernameChangedAt?: Date,
+  'emailInformation.emailAddress'?: string,
+  'emailInformation.verifiedAt'?: Date,
+  'socialInformation.google.emailAddress'?: string,
+  'userConfiguration.instantEarnOfferLimit'?: number,
+  'userConfiguration.dailyInstantWithdrawalLimit'?: number,
+  'userConfiguration.maxAffiliateCodes'?: number,
+};
+
+type AdminUserUnsetFields = {
+  'emailInformation.verifiedAt'?: '',
+};
+
 export async function updateAdminUser(
   {
     actor,
@@ -384,8 +402,8 @@ export async function updateAdminUser(
       if (inUse.data) return { ok: false, error: 'emailInUse' };
     }
 
-    const $set: Record<string, unknown> = {};
-    const $unset: Record<string, ''> = {};
+    const $set: AdminUserSetFields = {};
+    const $unset: AdminUserUnsetFields = {};
     let emailChanged = false;
 
     if (username !== undefined) {

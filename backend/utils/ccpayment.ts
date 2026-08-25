@@ -31,9 +31,32 @@ function generateSignature(timestamp: string, body: string): string {
     .digest('hex');
 }
 
+type CCPaymentRequestBody = {
+  orderId?: string,
+  coinId?: string,
+  amount?: string,
+  address?: string,
+  chain?: string,
+  merchantPayNetworkFee?: boolean,
+  memo?: string,
+  token_id?: string,
+};
+
+export type CCPaymentCoinListItem = {
+  coinId?: string,
+  coin_id?: string,
+  symbol?: string,
+  coinSymbol?: string,
+  chain?: string,
+};
+
+export type CCPaymentCoinList = {
+  coins?: CCPaymentCoinListItem[],
+};
+
 async function ccpRequest<T>(
   endpoint: string,
-  body: object = {},
+  body: CCPaymentRequestBody = {},
 ): Promise<FunctionResponse<T, CCPaymentRequestError>> {
   if (!appID || !appSecret) {
     return { ok: false, error: 'internalServerError' };
@@ -62,6 +85,7 @@ async function ccpRequest<T>(
       throw new Error(`CCPayment HTTP error: ${response.status} ${response.statusText}`);
     }
 
+    // SAFETY: CCPayment JSON envelope is checked for code === 10000 before data is returned.
     const resData = (await response.json()) as CCPaymentResponse<T>;
 
     if (resData.code !== 10000) {
@@ -113,8 +137,8 @@ export async function checkCCPAddressValidity(
   });
 }
 
-export async function getCoinList(): Promise<FunctionResponse<unknown, CCPaymentRequestError>> {
-  return ccpRequest<unknown>('getCoinList');
+export async function getCoinList(): Promise<FunctionResponse<CCPaymentCoinListItem[] | CCPaymentCoinList, CCPaymentRequestError>> {
+  return ccpRequest<CCPaymentCoinListItem[] | CCPaymentCoinList>('getCoinList');
 }
 
 export async function processCCPWebhook(
@@ -145,6 +169,7 @@ export async function processCCPWebhook(
   }
 
   try {
+    // SAFETY: HMAC signature already matched; body is CCPayment's webhook JSON envelope.
     const payload = JSON.parse(rawBody) as CCPaymentWebhookPayload;
 
     return { ok: true, data: payload };

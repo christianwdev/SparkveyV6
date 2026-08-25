@@ -6,9 +6,28 @@ import { GemiadsPostbackProvider } from 'backend/schemas/postback/providers/gemi
 import { TimewallPostbackProvider } from 'backend/schemas/postback/providers/timewall';
 import { ToroxPostbackProvider } from 'backend/schemas/postback/providers/torox';
 import { WaxrewardsPostbackProvider } from 'backend/schemas/postback/providers/waxrewards';
-import { mockContext, validationContext } from './helpers';
+import type { Context } from 'hono';
+import type { PostbackValidationContext } from 'types/Postback/PostbackValidation';
+import {
+  mockContext,
+  UNUSED_POSTBACK_QUERY,
+  validationContext,
+  type UnusedPostbackQuery,
+} from './helpers';
 
 type WallKey = 'waxrewards' | 'torox' | 'timewall' | 'gemiads' | 'adscend';
+
+type WhitelistCase = {
+  name: string,
+  wall: WallKey,
+  provider: {
+    validateSecurity: (
+      ctx: PostbackValidationContext,
+      data: UnusedPostbackQuery,
+      c: Context,
+    ) => boolean,
+  },
+};
 
 function withWhitelist(wall: WallKey, ips: string[], run: () => void) {
   const previous = [ ...config.walls[wall].security.whitelistedIPs ];
@@ -21,11 +40,7 @@ function withWhitelist(wall: WallKey, ips: string[], run: () => void) {
 }
 
 describe('IP-whitelist postback providers', () => {
-  const cases: {
-    name: string,
-    wall: WallKey,
-    provider: { validateSecurity: (ctx: ReturnType<typeof validationContext>, data: never, c: ReturnType<typeof mockContext>) => boolean },
-  }[] = [
+  const cases: WhitelistCase[] = [
     { name: 'waxrewards', wall: 'waxrewards', provider: new WaxrewardsPostbackProvider() },
     { name: 'torox', wall: 'torox', provider: new ToroxPostbackProvider() },
     { name: 'timewall', wall: 'timewall', provider: new TimewallPostbackProvider() },
@@ -38,13 +53,13 @@ describe('IP-whitelist postback providers', () => {
       withWhitelist(wall, [ '203.0.113.50' ], () => {
         expect(provider.validateSecurity(
           validationContext({}, '203.0.113.50'),
-          {} as never,
+          UNUSED_POSTBACK_QUERY,
           mockContext(),
         )).toBe(true);
 
         expect(provider.validateSecurity(
           validationContext({}, '198.51.100.1'),
-          {} as never,
+          UNUSED_POSTBACK_QUERY,
           mockContext(),
         )).toBe(false);
       });
@@ -52,7 +67,7 @@ describe('IP-whitelist postback providers', () => {
       withWhitelist(wall, [], () => {
         expect(provider.validateSecurity(
           validationContext({}, '203.0.113.50'),
-          {} as never,
+          UNUSED_POSTBACK_QUERY,
           mockContext(),
         )).toBe(false);
       });
@@ -65,19 +80,19 @@ describe('IP-whitelist postback providers', () => {
     test('allows documented CPX IPs and matching IPv6 /64', () => {
       expect(provider.validateSecurity(
         validationContext({}, '188.40.3.73'),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(true);
 
       expect(provider.validateSecurity(
         validationContext({}, '157.90.97.92'),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(true);
 
       expect(provider.validateSecurity(
         validationContext({}, '2a01:4f8:d0a:30ff:1:2:3:4'),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(true);
     });
@@ -85,7 +100,7 @@ describe('IP-whitelist postback providers', () => {
     test('rejects non-whitelisted IP', () => {
       expect(provider.validateSecurity(
         validationContext({}, '203.0.113.1'),
-        {} as never,
+        UNUSED_POSTBACK_QUERY,
         mockContext(),
       )).toBe(false);
     });
@@ -109,7 +124,7 @@ describe('IP whitelist edge cases via waxrewards', () => {
 
     expect(provider.validateSecurity(
       validationContext({}, '::ffff:203.0.113.50'),
-      {} as never,
+      UNUSED_POSTBACK_QUERY,
       mockContext(),
     )).toBe(true);
   });

@@ -77,12 +77,12 @@ export default function routesInvoker() {
   app.get('/category/:slug', withRouteErrorHandling, async (c) => {
     const slug = c.req.param('slug');
 
-    if (!OfferTypeSet.has(slug)) {
+    if (!isOfferType(slug)) {
       return sendResponse({ c, status: 400, success: false, message: 'Invalid category' });
     }
 
     const country = getCountryFromRequest(c) ?? '';
-    const offers = await getOffersByCategory({ slug: slug as OfferType, country });
+    const offers = await getOffersByCategory({ slug, country });
 
     return c.json(offers);
   });
@@ -100,21 +100,21 @@ export default function routesInvoker() {
       const categories: OfferType[] = [];
 
       for (const category of body.categories) {
-        if (!OfferTypeSet.has(category)) {
+        if (!isOfferType(category)) {
           return sendResponse({ c, status: 400, success: false, message: 'Invalid category' });
         }
 
-        categories.push(category as OfferType);
+        categories.push(category);
       }
 
       const providers: OfferWallType[] = [];
 
       for (const provider of body.providers) {
-        if (!(BROWSE_PROVIDERS as readonly string[]).includes(provider)) {
+        if (!isBrowseProvider(provider)) {
           return sendResponse({ c, status: 400, success: false, message: 'Invalid provider' });
         }
 
-        providers.push(provider as OfferWallType);
+        providers.push(provider);
       }
 
       const offers = await browseOffers({
@@ -237,4 +237,18 @@ export default function routesInvoker() {
   );
 
   return app;
+}
+
+function isOfferType(value: string): value is OfferType {
+  return OfferTypeSet.has(value);
+}
+
+type BrowseProvider = (typeof BROWSE_PROVIDERS)[number];
+
+function isBrowseProvider(value: string): value is BrowseProvider {
+  for (const provider of BROWSE_PROVIDERS) {
+    if (provider === value) return true;
+  }
+
+  return false;
 }

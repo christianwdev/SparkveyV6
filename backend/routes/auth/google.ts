@@ -12,8 +12,8 @@ export default function routeInvoker() {
     const redirect = c.req.query('redirect');
 
     const authURL = await beginGoogleOAuthLogin({
-      affiliateCode: typeof ref === 'string' ? ref : undefined,
-      redirect: typeof redirect === 'string' ? redirect : undefined,
+      affiliateCode: ref,
+      redirect,
     });
 
     return c.redirect(authURL);

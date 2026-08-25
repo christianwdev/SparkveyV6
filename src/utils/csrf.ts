@@ -1,10 +1,11 @@
 import { getScope } from '@utils/scope';
+import { canUseDom } from '@utils/dom';
 
 export const CSRF_COOKIE_NAME = 'csrfToken';
 export const CSRF_HEADER_NAME = 'x-csrf-token';
 
 export function getCsrfTokenFromCookie(): string | undefined {
-  if (typeof document === 'undefined') return undefined;
+  if (!canUseDom()) return undefined;
 
   const match = document.cookie
     .split('; ')

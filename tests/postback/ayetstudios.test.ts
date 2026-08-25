@@ -38,7 +38,7 @@ describe('AyetstudiosPostbackProvider security', () => {
 
     expect(provider.validateSecurity(
       validationContext({ ...baseQuery, hash }, '203.0.113.99'),
-      baseQuery as never,
+      baseQuery,
       mockContext(),
     )).toBe(true);
   });
@@ -48,7 +48,7 @@ describe('AyetstudiosPostbackProvider security', () => {
 
     expect(provider.validateSecurity(
       validationContext(baseQuery, '203.0.113.99'),
-      baseQuery as never,
+      baseQuery,
       mockContext({ 'x-ayetstudios-security-hash': hash }),
     )).toBe(true);
   });
@@ -56,7 +56,7 @@ describe('AyetstudiosPostbackProvider security', () => {
   test('allows whitelisted IP without a valid hash', () => {
     expect(provider.validateSecurity(
       validationContext(baseQuery, TRUSTED_IP),
-      baseQuery as never,
+      baseQuery,
       mockContext(),
     )).toBe(true);
   });
@@ -64,7 +64,7 @@ describe('AyetstudiosPostbackProvider security', () => {
   test('rejects invalid HMAC when IP is not whitelisted', () => {
     expect(provider.validateSecurity(
       validationContext({ ...baseQuery, hash: 'nope' }, '203.0.113.99'),
-      baseQuery as never,
+      baseQuery,
       mockContext(),
     )).toBe(false);
   });

@@ -17,10 +17,12 @@ const SPARKS_PER_USD = 1000;
 const TREMENDOUS_CASH_PRODUCT_IDS = new Set<string>(TremendousCashProductIDs);
 const CASH_FEE_RATE = 0.05;
 
-function mapTremendousRewardDefaults(rewardID: string): {
+type TremendousRewardDefaults = {
   categories: RedeemCategoryID[],
   feeRate: number,
-} {
+};
+
+function mapTremendousRewardDefaults(rewardID: string): TremendousRewardDefaults {
   if (TREMENDOUS_CASH_PRODUCT_IDS.has(rewardID)) {
     return {
       categories: [ 'cash' ],
@@ -104,8 +106,8 @@ async function fetchTremendousRewards(): Promise<[ error: true ] | [ error: fals
     if (reward.category === 'charity') continue;
 
     const normalizedSkus = reward.skus.filter(sku => (
-      typeof sku.min === 'number'
-      && typeof sku.max === 'number'
+      Number.isFinite(sku.min)
+      && Number.isFinite(sku.max)
       && sku.min > 0
       && sku.max > 0
     ));
@@ -145,7 +147,9 @@ function mapTremendousImages(
 ): VariableTremendousReward['image'] {
   const mapped = images
     .filter((image): image is { src: string, type: 'card' | 'logo' } => (
-      typeof image.src === 'string'
+      image.src !== undefined
+      && image.src !== null
+      && image.src.constructor === String
       && image.src.length > 0
       && (image.type === 'card' || image.type === 'logo')
     ))
@@ -186,7 +190,7 @@ function buildVariableTremendousReward(
     return null;
   }
 
-  return {
+  const built: VariableTremendousReward = {
     rewardID: reward.id,
     rewardName: reward.name,
     description: reward.description,
@@ -194,7 +198,6 @@ function buildVariableTremendousReward(
     countries: reward.countries.map(country => country.abbr),
     categories,
     feeRate,
-    ...(image ? { image } : {}),
     meta: {
       type: 'variable',
       rewardID: reward.id,
@@ -210,6 +213,10 @@ function buildVariableTremendousReward(
     updatedAt: new Date(),
     providerName: 'tremendous',
   };
+
+  if (image) built.image = image;
+
+  return built;
 }
 
 function buildDenominationTremendousReward(
@@ -239,7 +246,7 @@ function buildDenominationTremendousReward(
     denominationSparksValues.push(Math.round(valueInUSD * SPARKS_PER_USD));
   }
 
-  return {
+  const built: DenominationTremendousReward = {
     rewardID: reward.id,
     rewardName: reward.name,
     description: reward.description,
@@ -247,7 +254,6 @@ function buildDenominationTremendousReward(
     countries: reward.countries.map(country => country.abbr),
     categories,
     feeRate,
-    ...(image ? { image } : {}),
     meta: {
       type: 'denomination',
       currencyCodes: reward.currency_codes,
@@ -260,4 +266,8 @@ function buildDenominationTremendousReward(
     updatedAt: new Date(),
     providerName: 'tremendous',
   };
+
+  if (image) built.image = image;
+
+  return built;
 }

@@ -8,6 +8,8 @@ const MAIN_CURRENCY_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-ap
 const BACKUP_CURRENCY_URL = 'https://latest.currency-api.pages.dev/v1/currencies/usd.min.json';
 const POLLING_INTERVAL_MS = 60 * 60 * 1000; // 1 hour
 
+type CurrencyRateMap = Record<string, number>;
+
 async function cacheCurrencyRates(): Promise<[ err: true ] | [ err: false ]> {
   try {
     let currencyReq = await fetch(MAIN_CURRENCY_URL);
@@ -18,25 +20,32 @@ async function cacheCurrencyRates(): Promise<[ err: true ] | [ err: false ]> {
       if (!currencyReq.ok) return [ true ];
     }
 
-    type CurrencyResponseType = {
-      [currencyCode: string]: number | Record<string, number> | string,
-      usd: Record<string, number>,
-    };
+    const currenciesResponse = await currencyReq.json();
 
-    const currenciesResponse = await currencyReq.json() as CurrencyResponseType;
+    if (
+      currenciesResponse === null
+      || currenciesResponse === undefined
+      || Array.isArray(currenciesResponse)
+      || currenciesResponse.constructor !== Object
+    ) {
+      return [ true ];
+    }
+
+    const usdField = currenciesResponse.usd;
     const rawCurrencies = (
-      typeof currenciesResponse.usd === 'object'
-      && currenciesResponse.usd !== null
+      usdField !== null
+      && usdField !== undefined
+      && !Array.isArray(usdField)
+      && usdField.constructor === Object
     )
-      ? currenciesResponse.usd
+      ? usdField
       : currenciesResponse;
 
-    const currencyRates: Record<string, number> = {
-      USD: 1,
-    };
+    const currencyRates: CurrencyRateMap = {};
+    currencyRates.USD = 1;
 
     for (const [ currencyCode, currencyRate ] of Object.entries(rawCurrencies)) {
-      if (typeof currencyRate !== 'number') continue;
+      if (!Number.isFinite(currencyRate)) continue;
       if (currencyRate <= 0) continue;
 
       currencyRates[currencyCode.toUpperCase()] = currencyRate;

@@ -41,6 +41,11 @@ type MutationErrorKey =
   | 'errors.selfBan'
   | 'errors.insufficientBalance'
   | 'errors.generic';
+type AccountUpdatePayload = {
+  username?: string,
+  email?: string,
+  emailVerified?: boolean,
+};
 
 function mutationErrorKey(code?: string): MutationErrorKey {
   switch (code) {
@@ -73,7 +78,12 @@ function toastMutationError(
   toast.error(result.message || t(mutationErrorKey(result.code)));
 }
 
-function banFormFromUser(user: AdminUser): { permanent: boolean, until: string } {
+type BanFormState = {
+  permanent: boolean,
+  until: string,
+};
+
+function banFormFromUser(user: AdminUser): BanFormState {
   const bannedUntil = toDate(user.bannedUntil);
   if (!bannedUntil || !isCurrentlyBanned(bannedUntil)) {
     return { permanent: true, until: '' };
@@ -143,11 +153,7 @@ function AdminUserSettingsForm({ user }: { user: AdminUser }) {
   async function saveAccount(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const payload: {
-      username?: string,
-      email?: string,
-      emailVerified?: boolean,
-    } = {};
+    const payload: AccountUpdatePayload = {};
 
     if (username.trim() !== user.username) payload.username = username.trim();
     if (email.trim() !== (user.emailInformation?.emailAddress ?? '')) payload.email = email.trim();

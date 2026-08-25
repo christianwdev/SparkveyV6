@@ -97,7 +97,7 @@ export default function AdminSignupsChart({ points }: AdminSignupsChartProps) {
             weight: 600 as const,
           },
           callback(value) {
-            const numeric = typeof value === 'number' ? value : Number(value);
+            const numeric = Number(value);
 
             return formatChartUsd(formatter, numeric, 0);
           },

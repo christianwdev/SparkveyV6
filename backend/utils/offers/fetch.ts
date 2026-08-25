@@ -8,6 +8,7 @@ import { withCache } from '../cache';
 import { sanitizeOffers } from 'backend/utils/offers/sanitize';
 
 // Types
+import type { Filter } from 'mongodb';
 import type InternalOffer from 'types/Offer/InternalOffer';
 import type { InternalOfferEarning } from 'types/Earnings/InternalEarning';
 import type OfferType from 'types/Offer/OfferType';
@@ -116,7 +117,7 @@ async function recentGeoFill(
   if (limit <= 0) return [];
   const { db } = getGlobalObject();
 
-  const base: Record<string, unknown> = { status: 'active' };
+  const base: Filter<InternalOffer> = { status: 'active' };
 
   if (offerType) {
     base.offerType = offerType;
@@ -308,8 +309,8 @@ export async function getHomepageOffers({
   ]);
 
   const popularFromWeekly = weeklyPopular.slice(0, SECTION_LIMIT);
-  const gameFromWeekly = weeklyPopular.filter(o => (o.offerType as string[]).includes('game'));
-  const financeFromWeekly = weeklyPopular.filter(o => (o.offerType as string[]).includes('finance'));
+  const gameFromWeekly = weeklyPopular.filter(o => o.offerType.includes('game'));
+  const financeFromWeekly = weeklyPopular.filter(o => o.offerType.includes('finance'));
 
   return {
     featured: sanitizeOffers(fillFromBag(featuredRaw, popularFill, SECTION_LIMIT)),
@@ -334,7 +335,7 @@ export async function browseOffers({
   const safeSkip = Math.max(0, skip);
   const safeLimit = Math.min(Math.max(1, limit), 50);
 
-  const match: Record<string, unknown> = {
+  const match: Filter<InternalOffer> = {
     status: 'active',
     geosBlacklist: { $nin: [ country ] },
     $and: [
@@ -360,16 +361,28 @@ export async function browseOffers({
   if (trimmedSearch) {
     // Escape regex metacharacters so user input is matched literally.
     const pattern = trimmedSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    (match.$and as Record<string, unknown>[]).push({
-      $or: [
-        { name: { $regex: pattern, $options: 'i' } },
-        { displayName: { $regex: pattern, $options: 'i' } },
-        { description: { $regex: pattern, $options: 'i' } },
-      ],
-    });
+    const andClauses = match.$and;
+    if (Array.isArray(andClauses)) {
+      andClauses.push({
+        $or: [
+          { name: { $regex: pattern, $options: 'i' } },
+          { displayName: { $regex: pattern, $options: 'i' } },
+          { description: { $regex: pattern, $options: 'i' } },
+        ],
+      });
+    }
   }
 
-  let sortStage: Record<string, 1 | -1>;
+  type OfferSortStage = {
+    sortReward?: 1 | -1,
+    updatedAt?: 1 | -1,
+    offerID?: 1 | -1,
+    hasFeatured?: 1 | -1,
+    featuredPriority?: 1 | -1,
+    name?: 1 | -1,
+  };
+
+  let sortStage: OfferSortStage;
 
   switch (sort) {
     case 'low_to_high_reward':

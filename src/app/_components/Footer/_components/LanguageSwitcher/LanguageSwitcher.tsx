@@ -104,7 +104,8 @@ export default function LanguageSwitcher() {
 
     function handleClick(e: MouseEvent) {
       if (!dropdownRef.current) return;
-      if (dropdownRef.current.contains(e.target as Node)) return;
+      const target = e.target;
+      if (!(target instanceof Node) || dropdownRef.current.contains(target)) return;
 
       setActive(false);
     }

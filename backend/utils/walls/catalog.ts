@@ -148,7 +148,7 @@ export function isOfferWallType(value: string): value is OfferWallType {
 }
 
 export function toCatalogOfferwall(wall: InternalOfferwall): CatalogOfferwall {
-  return {
+  const catalog: CatalogOfferwall = {
     wallID: wall.wallID,
     wallName: wall.wallName,
     wallDescription: wall.wallDescription,
@@ -156,6 +156,9 @@ export function toCatalogOfferwall(wall: InternalOfferwall): CatalogOfferwall {
     imageWidth: wall.imageWidth,
     imageHeight: wall.imageHeight,
     rating: wall.rating,
-    ...(wall.earnRequirement != null ? { earnRequirement: wall.earnRequirement } : {}),
   };
+
+  if (wall.earnRequirement != null) catalog.earnRequirement = wall.earnRequirement;
+
+  return catalog;
 }

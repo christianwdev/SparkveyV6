@@ -181,7 +181,8 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
       }
 
       toast.success(response.message ?? t('toasts.claimSuccess'));
-      if (typeof response.data?.sparks === 'number') {
+      const claimedSparks = response.data?.sparks;
+      if (claimedSparks !== undefined) {
         setUser((current) => {
           if (!current) return null;
 
@@ -189,7 +190,7 @@ export default function AffiliatesPageClient({ initialData }: AffiliatesPageClie
             ...current,
             balance: {
               ...current.balance,
-              sparks: response.data!.sparks,
+              sparks: claimedSparks,
             },
           };
         });
