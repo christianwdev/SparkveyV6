@@ -14,7 +14,7 @@ COPY schemas ./schemas
 
 ENV NODE_ENV=production
 
-EXPOSE 6060
+EXPOSE 8080
 
 USER bun
 
