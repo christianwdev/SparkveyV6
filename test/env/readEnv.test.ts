@@ -30,6 +30,16 @@ describe('readEnv', () => {
     expect(readEnv(KEY)).toBe('mongodb+srv://example.net/db');
   });
 
+  test('strips nested quotes and encoded quotes', () => {
+    process.env[KEY] = '""rediss://example.upstash.io:6379""';
+
+    expect(readEnv(KEY)).toBe('rediss://example.upstash.io:6379');
+
+    process.env[KEY] = '%22mongodb+srv://example.net/db%22';
+
+    expect(readEnv(KEY)).toBe('mongodb+srv://example.net/db');
+  });
+
   test('unquoteProcessEnv strips quotes on process.env', () => {
     process.env[KEY] = '"quoted-secret"';
     unquoteProcessEnv();

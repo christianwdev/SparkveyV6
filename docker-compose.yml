@@ -6,7 +6,7 @@
 configs:
   sparkvey_env:
     file: .env
-    name: sparkvey_env_v2
+    name: sparkvey_env_v4
 
 networks:
   app:

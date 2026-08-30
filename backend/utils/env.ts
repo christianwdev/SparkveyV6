@@ -1,21 +1,36 @@
 /** Swarm configs and bun --env-file keep wrapping quotes that Compose strips. */
 export function stripEnvQuotes(raw: string): string {
-  const trimmed = raw.trim();
-  if (trimmed.length < 2) return trimmed;
+  let value = raw.replace(/^\uFEFF/, '').trim();
 
-  const quote = trimmed[0];
-  if ((quote === '"' || quote === "'") && trimmed.endsWith(quote)) {
-    return trimmed.slice(1, -1);
+  for (let pass = 0; pass < 3; pass += 1) {
+    if (value.startsWith('%22') && value.endsWith('%22') && value.length > 6) {
+      value = value.slice(3, -3).trim();
+      continue;
+    }
+
+    const quote = value[0];
+    if (
+      value.length >= 2
+      && (quote === '"' || quote === "'")
+      && value.endsWith(quote)
+    ) {
+      value = value.slice(1, -1).trim();
+      continue;
+    }
+
+    break;
   }
 
-  return trimmed;
+  return value;
 }
 
 export function readEnv(name: string): string | undefined {
   const raw = process.env[name];
   if (raw === undefined) return undefined;
 
-  return stripEnvQuotes(raw);
+  const value = stripEnvQuotes(raw);
+
+  return value || undefined;
 }
 
 export function unquoteProcessEnv(): void {

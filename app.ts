@@ -155,4 +155,9 @@ registerProcessShutdown(async () => {
   });
 });
 
+const googleClientID = readEnv('GOOGLE_CLIENT_ID');
 console.log('Backend is running on port', BACKEND_PORT);
+console.log(
+  'Google OAuth:',
+  googleClientID?.endsWith('.apps.googleusercontent.com') ? 'configured' : 'missing or invalid',
+);

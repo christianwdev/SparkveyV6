@@ -1,9 +1,8 @@
 import { randomBytes } from 'crypto';
 import { OAuth2Client } from 'google-auth-library';
 
-import config from 'backend/config/config';
 import { isDeletedEmail } from 'backend/utils/deletedAccountFingerprint';
-import { buildFrontendURL } from 'backend/utils/url';
+import { buildFrontendURL, getBackendURL } from 'backend/utils/url';
 import { getGlobalObject } from 'backend/utils/globalObject';
 import {
   createUser,
@@ -36,11 +35,15 @@ type GoogleUserResolveResult =
   | { ok: false, redirectURL: string };
 
 function getOAuthClient() {
-  return new OAuth2Client(
-    readEnv('GOOGLE_CLIENT_ID'),
-    readEnv('GOOGLE_CLIENT_SECRET'),
-    `${config.server.backendURL}/auth/google/callback`,
-  );
+  const clientID = readEnv('GOOGLE_CLIENT_ID');
+  const clientSecret = readEnv('GOOGLE_CLIENT_SECRET');
+  const redirectURL = `${getBackendURL()}/auth/google/callback`;
+
+  if (!clientID || !clientSecret) {
+    throw new Error('GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET must be configured');
+  }
+
+  return new OAuth2Client(clientID, clientSecret, redirectURL);
 }
 
 export function getSafeRedirectPath(redirectPath?: string): string {
