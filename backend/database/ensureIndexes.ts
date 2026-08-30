@@ -1,10 +1,17 @@
+// Constants
 import DatabaseCollections from '../constants/DatabaseCollections';
-import { ensureSiteStatistics } from '../utils/siteStatistics';
 
-import type { Db } from 'mongodb';
+// Utils
+import { ensureSiteStatistics } from '../utils/siteStatistics';
+import { isDuplicateKeyError } from '../utils/mongo';
+
+// Types
+import type { Db, IndexDescription } from 'mongodb';
+
+const DUPLICATE_EMAIL_LOG_LIMIT = 20;
 
 export default async function ensureIndexes(db: Db): Promise<void> {
-  await db.collection(DatabaseCollections.users).createIndexes([
+  await createIndexes(db, DatabaseCollections.users, [
     {
       key: { userID: 1 },
       unique: true,
@@ -38,7 +45,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.deletedAccountFingerprints).createIndexes([
+  await createIndexes(db, DatabaseCollections.deletedAccountFingerprints, [
     {
       key: { emailHash: 1 },
       unique: true,
@@ -50,7 +57,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.postbackLogs).createIndexes([
+  await createIndexes(db, DatabaseCollections.postbackLogs, [
     {
       key: { requestID: 1 },
       name: 'requestID',
@@ -65,7 +72,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.rewards).createIndexes([
+  await createIndexes(db, DatabaseCollections.rewards, [
     {
       key: { rewardID: 1, providerName: 1 },
       unique: true,
@@ -73,7 +80,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.emailActionables).createIndexes([
+  await createIndexes(db, DatabaseCollections.emailActionables, [
     {
       key: { actionableID: 1 },
       unique: true,
@@ -85,7 +92,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.promocodes).createIndexes([
+  await createIndexes(db, DatabaseCollections.promocodes, [
     {
       key: { code: 1 },
       unique: true,
@@ -97,7 +104,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.affiliateCodes).createIndexes([
+  await createIndexes(db, DatabaseCollections.affiliateCodes, [
     {
       key: { code: 1 },
       unique: true,
@@ -114,7 +121,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.userRedemptions).createIndexes([
+  await createIndexes(db, DatabaseCollections.userRedemptions, [
     {
       key: { redemptionID: 1 },
       unique: true,
@@ -135,7 +142,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.userSessions).createIndexes([
+  await createIndexes(db, DatabaseCollections.userSessions, [
     {
       key: { userID: 1, issueDate: 1 },
       name: 'userID_issueDate',
@@ -146,7 +153,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.userFlags).createIndexes([
+  await createIndexes(db, DatabaseCollections.userFlags, [
     {
       key: { userID: 1, type: 1, instanceKey: 1 },
       unique: true,
@@ -158,7 +165,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.withdrawalAttestations).createIndexes([
+  await createIndexes(db, DatabaseCollections.withdrawalAttestations, [
     {
       key: { attestationID: 1 },
       unique: true,
@@ -180,7 +187,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     ),
   ]);
 
-  await db.collection(DatabaseCollections.offers).createIndexes([
+  await createIndexes(db, DatabaseCollections.offers, [
     {
       key: { offerID: 1, provider: 1 },
       unique: true,
@@ -226,9 +233,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  const userEarnings = db.collection(DatabaseCollections.userEarnings);
-
-  await userEarnings.createIndexes([
+  await createIndexes(db, DatabaseCollections.userEarnings, [
     {
       key: { provider: 1, conversionID: 1 },
       name: 'provider_conversionID_unique',
@@ -246,17 +251,14 @@ export default async function ensureIndexes(db: Db): Promise<void> {
       key: { status: 1, createdAt: -1 },
       name: 'status_createdAt',
     },
-  ]);
-
-  await userEarnings.createIndex(
-    { type: 1, status: 1, heldUntil: 1 },
     {
+      key: { type: 1, status: 1, heldUntil: 1 },
       name: 'type_status_heldUntil',
       partialFilterExpression: { type: 'offer', status: 'held', heldUntil: { $exists: true } },
     },
-  );
+  ]);
 
-  await db.collection(DatabaseCollections.chatConversations).createIndexes([
+  await createIndexes(db, DatabaseCollections.chatConversations, [
     {
       key: { conversationID: 1 },
       unique: true,
@@ -273,7 +275,7 @@ export default async function ensureIndexes(db: Db): Promise<void> {
     },
   ]);
 
-  await db.collection(DatabaseCollections.chatMessages).createIndexes([
+  await createIndexes(db, DatabaseCollections.chatMessages, [
     {
       key: { messageID: 1 },
       unique: true,
@@ -286,4 +288,73 @@ export default async function ensureIndexes(db: Db): Promise<void> {
   ]);
 
   await ensureSiteStatistics(db);
+}
+
+async function createIndexes(
+  db: Db,
+  collectionName: string,
+  indexes: IndexDescription[],
+): Promise<void> {
+  const collection = db.collection(collectionName);
+
+  for (const index of indexes) {
+    const { key, ...options } = index;
+
+    try {
+      await collection.createIndex(key, options);
+    } catch (error) {
+      if (!isDuplicateKeyError(error)) throw error;
+
+      const indexName = options.name ?? JSON.stringify(key);
+      const message = error instanceof Error ? error.message : String(error);
+      console.error(
+        `Skipped unique index ${collectionName}.${indexName}: existing documents violate uniqueness. ${message}`,
+      );
+
+      if (
+        collectionName === DatabaseCollections.users
+        && options.name === 'emailAddress_unique'
+      ) {
+        await logDuplicateUserEmails(db);
+      }
+    }
+  }
+}
+
+async function logDuplicateUserEmails(db: Db): Promise<void> {
+  try {
+    const duplicates = await db.collection(DatabaseCollections.users).aggregate<{
+      _id: string,
+      count: number,
+      userIDs: string[],
+    }>([
+      {
+        $match: {
+          'emailInformation.emailAddress': { $type: 'string' },
+        },
+      },
+      {
+        $group: {
+          _id: '$emailInformation.emailAddress',
+          count: { $sum: 1 },
+          userIDs: { $push: '$userID' },
+        },
+      },
+      { $match: { count: { $gt: 1 } } },
+      { $limit: DUPLICATE_EMAIL_LOG_LIMIT },
+    ]).toArray();
+
+    if (duplicates.length === 0) return;
+
+    console.error(
+      `Found ${duplicates.length} duplicate emailAddress value(s) (showing up to ${DUPLICATE_EMAIL_LOG_LIMIT}):`,
+      duplicates.map(row => ({
+        email: row._id,
+        count: row.count,
+        userIDs: row.userIDs,
+      })),
+    );
+  } catch (error) {
+    console.error(error);
+  }
 }

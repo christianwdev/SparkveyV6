@@ -1,39 +1,66 @@
 import { Resend } from 'resend';
+import { render } from '@react-email/render';
 import config from '../config/config';
 import { buildFrontendURL } from './url';
 import { readEnv } from './env';
 
-// Types
-import type { ReactElement } from 'react';
+// Email Templates
+import ForgotPassword from 'backend/emails/ForgotPassword';
+import VerifyEmail from 'backend/emails/VerifyEmail';
+import ConfirmEmailChange from 'backend/emails/ConfirmEmailChange';
+import ConfirmAccountDeletion from 'backend/emails/ConfirmAccountDeletion';
+import EmailChangedNotice from 'backend/emails/EmailChangedNotice';
+import OfferReleased from 'backend/emails/OfferReleased';
+import WithdrawalSent from 'backend/emails/WithdrawalSent';
 
 const resend = new Resend(readEnv('RESEND_API_KEY'));
 
-// React 19's development JSX runtime calls dispatcher.getOwner(), which
-// react-dom/server production does not implement. Load templates only after
-// NODE_ENV=production so Bun picks react-jsx-runtime.production.js.
-function setNodeEnv(value: string | undefined): void {
-  const env = process.env as { NODE_ENV?: string };
-  if (value === undefined) {
-    delete env.NODE_ENV;
+type ReactInternals = {
+  A?: { getOwner?: () => unknown } | null,
+};
 
-    return;
-  }
+let jsxOwnerPatched = false;
 
-  env.NODE_ENV = value;
+// Bun's production react-dom/server has no dispatcher.getOwner(). React 19's
+// development JSX runtime calls it while rendering email templates.
+function patchReactJsxOwner(): void {
+  if (jsxOwnerPatched) return;
+
+  const internals = (
+    require('react') as {
+      __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE?: ReactInternals,
+    }
+  ).__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+
+  if (!internals) return;
+
+  const assignOwner = (dispatcher: ReactInternals['A']) => {
+    if (dispatcher && typeof dispatcher.getOwner !== 'function') {
+      dispatcher.getOwner = () => null;
+    }
+
+    return dispatcher;
+  };
+
+  let dispatcher = assignOwner(internals.A);
+
+  Object.defineProperty(internals, 'A', {
+    configurable: true,
+    get() {
+      return dispatcher;
+    },
+    set(next: ReactInternals['A']) {
+      dispatcher = assignOwner(next);
+    },
+  });
+
+  jsxOwnerPatched = true;
 }
 
-async function renderEmail(loadElement: () => Promise<ReactElement>): Promise<string> {
-  const previous = process.env.NODE_ENV;
-  setNodeEnv('production');
+export async function renderEmail(element: Parameters<typeof render>[0]): Promise<string> {
+  patchReactJsxOwner();
 
-  try {
-    const { render } = await import('@react-email/render');
-    const element = await loadElement();
-
-    return await render(element);
-  } finally {
-    setNodeEnv(previous);
-  }
+  return render(element);
 }
 
 export async function sendForgottenPassword(
@@ -46,13 +73,11 @@ export async function sendForgottenPassword(
   },
 ): Promise<[err: true, message: string] | [err: false]> {
   try {
-    const renderedEmail = await renderEmail(async () => {
-      const { default: ForgotPassword } = await import('backend/emails/ForgotPassword');
-
-      return ForgotPassword({
+    const renderedEmail = await renderEmail(
+      ForgotPassword({
         redirectURL: buildFrontendURL('/forgot-password', { code }),
-      });
-    });
+      }),
+    );
 
     const response = await resend.emails.send({
       from: 'noreply@sparkvey.com',
@@ -82,13 +107,11 @@ export async function sendVerificationEmail(
   },
 ): Promise<[err: true, message: string] | [err: false]> {
   try {
-    const renderedEmail = await renderEmail(async () => {
-      const { default: VerifyEmail } = await import('backend/emails/VerifyEmail');
-
-      return VerifyEmail({
+    const renderedEmail = await renderEmail(
+      VerifyEmail({
         verifyLink: `${config.server.backendURL}/auth/email/verify/${code}`,
-      });
-    });
+      }),
+    );
 
     const response = await resend.emails.send({
       from: 'noreply@sparkvey.com',
@@ -118,13 +141,11 @@ export async function sendEmailChangeConfirmation(
   },
 ): Promise<[err: true, message: string] | [err: false]> {
   try {
-    const renderedEmail = await renderEmail(async () => {
-      const { default: ConfirmEmailChange } = await import('backend/emails/ConfirmEmailChange');
-
-      return ConfirmEmailChange({
+    const renderedEmail = await renderEmail(
+      ConfirmEmailChange({
         confirmLink: buildFrontendURL('/confirm-email-change', { code }),
-      });
-    });
+      }),
+    );
 
     const response = await resend.emails.send({
       from: 'noreply@sparkvey.com',
@@ -152,13 +173,11 @@ export async function sendEmailChangedNotice(
   },
 ): Promise<[err: true, message: string] | [err: false]> {
   try {
-    const renderedEmail = await renderEmail(async () => {
-      const { default: EmailChangedNotice } = await import('backend/emails/EmailChangedNotice');
-
-      return EmailChangedNotice({
+    const renderedEmail = await renderEmail(
+      EmailChangedNotice({
         settingsLink: buildFrontendURL('/profile/settings'),
-      });
-    });
+      }),
+    );
 
     const response = await resend.emails.send({
       from: 'noreply@sparkvey.com',
@@ -207,11 +226,9 @@ export async function sendOfferReleased(
 
     if (offerImageUrl) templateProps.offerImageUrl = offerImageUrl;
 
-    const renderedEmail = await renderEmail(async () => {
-      const { default: OfferReleased } = await import('backend/emails/OfferReleased');
-
-      return OfferReleased(templateProps);
-    });
+    const renderedEmail = await renderEmail(
+      OfferReleased(templateProps),
+    );
 
     const response = await resend.emails.send({
       from: 'noreply@sparkvey.com',
@@ -259,11 +276,9 @@ export async function sendWithdrawalSent(
     if (estimatedArrival) templateProps.estimatedArrival = estimatedArrival;
     if (tremendousRedeemUrl) templateProps.tremendousRedeemUrl = tremendousRedeemUrl;
 
-    const renderedEmail = await renderEmail(async () => {
-      const { default: WithdrawalSent } = await import('backend/emails/WithdrawalSent');
-
-      return WithdrawalSent(templateProps);
-    });
+    const renderedEmail = await renderEmail(
+      WithdrawalSent(templateProps),
+    );
 
     const response = await resend.emails.send({
       from: 'noreply@sparkvey.com',
@@ -293,14 +308,12 @@ export async function sendAccountDeletionConfirmation(
   },
 ): Promise<[err: true, message: string] | [err: false]> {
   try {
-    const renderedEmail = await renderEmail(async () => {
-      const { default: ConfirmAccountDeletion } = await import('backend/emails/ConfirmAccountDeletion');
-
-      return ConfirmAccountDeletion({
+    const renderedEmail = await renderEmail(
+      ConfirmAccountDeletion({
         // Frontend interstitial + POST — never mutate on GET (mail scanners).
         confirmLink: buildFrontendURL('/confirm-account-deletion', { code }),
-      });
-    });
+      }),
+    );
 
     const response = await resend.emails.send({
       from: 'noreply@sparkvey.com',
