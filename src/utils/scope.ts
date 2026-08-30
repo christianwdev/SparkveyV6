@@ -3,7 +3,7 @@ export function getScope() {
     case 'production':
       return 'https://api.sparkvey.com';
     case 'staging':
-      return 'https://api.sparkveystaging.com';
+      return 'https://stagingapi.sparkvey.com';
     case 'development':
       return 'http://localhost:6060';
   }

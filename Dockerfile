@@ -40,7 +40,7 @@ COPY --from=oven/bun:1.4 /usr/local/bin/bun /usr/local/bin/bun
 
 WORKDIR /app
 
-ARG NEXT_PUBLIC_ENV=production
+ARG NEXT_PUBLIC_ENV=staging
 ARG NEXT_PUBLIC_GA4_MEASUREMENT_ID
 ARG NEXT_PUBLIC_CF_BEACON_TOKEN
 
