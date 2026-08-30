@@ -24,7 +24,7 @@ const SiteConfig = {
     },
     lootably: {
       security: {
-        secret: 'imKri5w8AOaTmC5Xs8ddSp2I4q027nb6yJrbsXdXa3EAOD21e8ej5swxyME4pZo2kkyap1E5ycxsKaNFeUbg',
+        secret: readEnv('NODE_ENV') === 'production' ? 'imKri5w8AOaTmC5Xs8ddSp2I4q027nb6yJrbsXdXa3EAOD21e8ej5swxyME4pZo2kkyap1E5ycxsKaNFeUbg' : 'aE0GtVN5aSZFp160wbceWvpUy8xRuXIl81hrA201vbG99KliJtn4IkEOax6n6pfn51AUtfLzSBhwr7Uj9jiQ',
       },
     },
     waxrewards: {
