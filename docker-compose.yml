@@ -1,0 +1,38 @@
+services:
+  backend:
+    image: sparkvey-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    env_file:
+      - .env
+    ports:
+      - "6060:6060"
+    restart: unless-stopped
+
+  worker:
+    image: sparkvey-worker:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  nextjs:
+    image: sparkvey-nextjs:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: nextjs
+      args:
+        NEXT_PUBLIC_ENV: ${NEXT_PUBLIC_ENV:-production}
+        NEXT_PUBLIC_GA4_MEASUREMENT_ID: ${NEXT_PUBLIC_GA4_MEASUREMENT_ID:-}
+        NEXT_PUBLIC_CF_BEACON_TOKEN: ${NEXT_PUBLIC_CF_BEACON_TOKEN:-}
+    env_file:
+      - .env
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
