@@ -63,10 +63,7 @@ $textColorDarkAlways: var(--textColorDarkAlways);
 @mixin pageBelowNavbar {
   margin: calc(#{$navbar-offset} + var(--announcement-banner-height, 0px)) auto 0;
   min-height: calc(100vh - #{$navbar-offset} - var(--announcement-banner-height, 0px));
-
-  @media screen and (max-width: $large-phone) {
-    padding-bottom: calc(var(--mobile-nav-offset, 0px) + env(safe-area-inset-bottom, 0px));
-  }
+  min-height: calc(100dvh - #{$navbar-offset} - var(--announcement-banner-height, 0px));
 }
 
 @mixin thin-scrollbar {

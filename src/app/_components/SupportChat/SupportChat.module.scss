@@ -71,10 +71,13 @@
     transform-origin: bottom right;
 
     &.mobile {
-      inset: 0;
-      bottom: $mobile-nav-height;
+      top: 0;
+      right: 0;
+      left: 0;
+      bottom: auto;
       width: 100%;
-      height: calc(100dvh - #{$mobile-nav-height});
+      height: calc(100vh - var(--mobile-nav-offset, #{$mobile-nav-height}));
+      height: calc(100dvh - var(--mobile-nav-offset, #{$mobile-nav-height}));
       max-width: none;
       border-radius: 0;
       border: none;
