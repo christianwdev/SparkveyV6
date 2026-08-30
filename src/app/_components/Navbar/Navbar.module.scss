@@ -218,7 +218,8 @@
     cursor: pointer;
     transition: background 0.2s ease;
 
-    > .mobileIcon {
+    > .mobileIcon,
+    > svg {
       width: 20px;
       height: 20px;
       flex-shrink: 0;
@@ -234,6 +235,17 @@
     &:hover,
     &.active {
       background: $light-blue;
+    }
+
+    &.supportTab {
+      min-width: 0;
+      min-height: 0;
+
+      > .mobileIcon,
+      > svg {
+        width: 16px;
+        height: 16px;
+      }
     }
 
     @media screen and (max-width: $small-phone) {

@@ -167,7 +167,7 @@ export default function Navbar({ showLinks }: NavbarProps) {
 
           <button
             type="button"
-            className={styles.mobileTab}
+            className={[ styles.mobileTab, styles.supportTab ].join(' ')}
             onClick={() => {
               document.dispatchEvent(new Event('toggleSupportChat'));
             }}

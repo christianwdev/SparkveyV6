@@ -16,7 +16,8 @@
     "lint:fix": "eslint . --fix",
     "import-v5-sample": "bun --env-file=.env ./scripts/import-v5-sample.ts",
     "start-frontend": "NEXT_PUBLIC_ENV=production next start src/ -p 4000",
-    "start-backend": "NODE_ENV=production bun run app.ts"
+    "start-backend": "NODE_ENV=production bun run app.ts",
+    "deploy-swarm": "bash ./scripts/deploy-swarm.sh"
   },
   "dependencies": {
     "@google/genai": "2.11.0",

@@ -1,5 +1,6 @@
 # Swarm ignores env_file. The .env config is uploaded at deploy time
 # and bun/next load it from disk. Create the overlay once, then deploy:
+#   ./scripts/deploy-swarm.sh
 #   docker network create -d overlay --attachable sparkvey_net
 #   docker stack deploy -c docker-compose.yml sparkvey
 
@@ -15,7 +16,7 @@ networks:
 
 services:
   backend:
-    image: sparkvey-backend:latest
+    image: sparkvey-backend:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile
@@ -59,7 +60,7 @@ services:
         delay: 5s
 
   worker:
-    image: sparkvey-worker:latest
+    image: sparkvey-worker:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile
@@ -81,19 +82,19 @@ services:
       replicas: 1
       update_config:
         parallelism: 1
-        order: stop-first
+        order: start-first
         failure_action: rollback
         delay: 10s
         monitor: 30s
       rollback_config:
         parallelism: 1
-        order: stop-first
+        order: start-first
       restart_policy:
         condition: on-failure
         delay: 5s
 
   nextjs:
-    image: sparkvey-nextjs:latest
+    image: sparkvey-nextjs:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile
