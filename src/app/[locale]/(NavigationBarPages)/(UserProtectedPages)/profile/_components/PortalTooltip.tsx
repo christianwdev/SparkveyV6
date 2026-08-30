@@ -55,8 +55,10 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
   useEffect(() => {
     if (!coords || !anchor) return;
 
+    const currentAnchor = anchor;
+
     function handleReposition() {
-      const rect = anchor.getBoundingClientRect();
+      const rect = currentAnchor.getBoundingClientRect();
       setCoords({
         left: rect.left + (rect.width / 2),
         top: rect.top - 8,
