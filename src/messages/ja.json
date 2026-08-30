@@ -932,6 +932,20 @@
       "completed": "完了",
       "failed": "失敗",
       "rejected": "拒否"
+    },
+    "details": {
+      "title": "報酬の詳細",
+      "close": "閉じる",
+      "reward": "報酬",
+      "status": "ステータス",
+      "amount": "金額",
+      "network": "ネットワーク",
+      "wallet": "ウォレット",
+      "txid": "トランザクションID",
+      "txidPending": "出金がチェーン上で確認されると、ここにトランザクションIDが表示されます。",
+      "copy": "コピー",
+      "copied": "コピーしました",
+      "viewOnExplorer": "エクスプローラーで見る"
     }
   },
   "ProfileSettings": {

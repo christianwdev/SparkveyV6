@@ -932,6 +932,20 @@
       "completed": "Terminé",
       "failed": "Échoué",
       "rejected": "Refusé"
+    },
+    "details": {
+      "title": "Détails de la récompense",
+      "close": "Fermer",
+      "reward": "Récompense",
+      "status": "Statut",
+      "amount": "Montant",
+      "network": "Réseau",
+      "wallet": "Portefeuille",
+      "txid": "ID de transaction",
+      "txidPending": "L’ID de transaction apparaîtra ici une fois le retrait confirmé on-chain.",
+      "copy": "Copier",
+      "copied": "Copié",
+      "viewOnExplorer": "Voir sur l’explorateur"
     }
   },
   "ProfileSettings": {

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useFormatter, useTranslations } from 'next-intl';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
 import Pagination from '@components/Pagination/Pagination';
+import RedemptionDetailsModal from '@components/Modals/RedemptionDetailsModal/RedemptionDetailsModal';
 import { useRedemptionsHistoryQuery } from '@hooks/useRedemptionsHistoryQuery';
 import { useCachedQuerySeed } from '@hooks/useCachedQuerySeed';
 import { queryKeys } from '@hooks/queryKeys';
@@ -33,6 +34,10 @@ function getRewardLink(row: InternalRedemption): string | null {
   if (!('link' in row.meta) || typeof row.meta.link !== 'string') return null;
 
   return row.meta.link;
+}
+
+function canViewDetails(row: InternalRedemption): boolean {
+  return row.providerName === 'ccpayment' || Boolean(getRewardLink(row));
 }
 
 type RedemptionsPageClientProps = {
@@ -64,6 +69,7 @@ function RedemptionsPageContent({ initialRedemptionsPromise }: RedemptionsPageCl
   const t = useTranslations('ProfileRewards');
   const formatter = useFormatter();
   const [ page, setPage ] = useState(1);
+  const [ details, setDetails ] = useState<InternalRedemption | null>(null);
   const initialRedemptions = useCachedQuerySeed({
     queryKey: queryKeys.profile.redemptionsHistory({ page: 1 }),
     promise: initialRedemptionsPromise,
@@ -122,18 +128,16 @@ function RedemptionsPageContent({ initialRedemptionsPromise }: RedemptionsPageCl
       id: 'actions',
       header: t('table.actions'),
       cell: (row) => {
-        const link = getRewardLink(row);
-        if (!link) return '—';
+        if (!canViewDetails(row)) return '—';
 
         return (
-          <a
+          <button
+            type="button"
             className={styles.actionLink}
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => setDetails(row)}
           >
             {t('viewDetails')}
-          </a>
+          </button>
         );
       },
     },
@@ -165,6 +169,13 @@ function RedemptionsPageContent({ initialRedemptionsPromise }: RedemptionsPageCl
         onPageChange={setPage}
         disabled={isFetching}
       />
+
+      {details ? (
+        <RedemptionDetailsModal
+          redemption={details}
+          onClose={() => setDetails(null)}
+        />
+      ) : null}
     </div>
   );
 }

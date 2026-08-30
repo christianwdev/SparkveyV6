@@ -932,6 +932,20 @@
       "completed": "Completato",
       "failed": "Fallito",
       "rejected": "Rifiutato"
+    },
+    "details": {
+      "title": "Dettagli ricompensa",
+      "close": "Chiudi",
+      "reward": "Ricompensa",
+      "status": "Stato",
+      "amount": "Importo",
+      "network": "Rete",
+      "wallet": "Wallet",
+      "txid": "ID transazione",
+      "txidPending": "L’ID transazione comparirà qui quando il prelievo sarà confermato on-chain.",
+      "copy": "Copia",
+      "copied": "Copiato",
+      "viewOnExplorer": "Apri nell’explorer"
     }
   },
   "ProfileSettings": {

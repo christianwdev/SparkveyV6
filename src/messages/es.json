@@ -932,6 +932,20 @@
       "completed": "Completado",
       "failed": "Fallido",
       "rejected": "Rechazado"
+    },
+    "details": {
+      "title": "Detalles de la recompensa",
+      "close": "Cerrar",
+      "reward": "Recompensa",
+      "status": "Estado",
+      "amount": "Importe",
+      "network": "Red",
+      "wallet": "Cartera",
+      "txid": "ID de transacción",
+      "txidPending": "El ID de transacción aparecerá aquí cuando el retiro se confirme en la cadena.",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "viewOnExplorer": "Ver en el explorador"
     }
   },
   "ProfileSettings": {

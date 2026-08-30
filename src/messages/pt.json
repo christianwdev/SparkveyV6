@@ -932,6 +932,20 @@
       "completed": "Concluído",
       "failed": "Falhou",
       "rejected": "Rejeitado"
+    },
+    "details": {
+      "title": "Detalhes da recompensa",
+      "close": "Fechar",
+      "reward": "Recompensa",
+      "status": "Estado",
+      "amount": "Valor",
+      "network": "Rede",
+      "wallet": "Carteira",
+      "txid": "ID da transação",
+      "txidPending": "O ID da transação aparece aqui quando o saque for confirmado on-chain.",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "viewOnExplorer": "Ver no explorador"
     }
   },
   "ProfileSettings": {

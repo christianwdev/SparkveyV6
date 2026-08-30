@@ -935,6 +935,20 @@
       "completed": "Completed",
       "failed": "Failed",
       "rejected": "Rejected"
+    },
+    "details": {
+      "title": "Reward details",
+      "close": "Close",
+      "reward": "Reward",
+      "status": "Status",
+      "amount": "Amount",
+      "network": "Network",
+      "wallet": "Wallet",
+      "txid": "Transaction ID",
+      "txidPending": "The transaction ID will appear here once the withdrawal is confirmed on-chain.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "viewOnExplorer": "View on explorer"
     }
   },
   "ProfileSettings": {

@@ -932,6 +932,20 @@
       "completed": "Abgeschlossen",
       "failed": "Fehlgeschlagen",
       "rejected": "Abgelehnt"
+    },
+    "details": {
+      "title": "Belohnungsdetails",
+      "close": "Schließen",
+      "reward": "Belohnung",
+      "status": "Status",
+      "amount": "Betrag",
+      "network": "Netzwerk",
+      "wallet": "Wallet",
+      "txid": "Transaktions-ID",
+      "txidPending": "Die Transaktions-ID erscheint hier, sobald die Auszahlung on-chain bestätigt ist.",
+      "copy": "Kopieren",
+      "copied": "Kopiert",
+      "viewOnExplorer": "Im Explorer anzeigen"
     }
   },
   "ProfileSettings": {

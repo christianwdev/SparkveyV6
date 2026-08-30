@@ -1,0 +1,80 @@
+@use '@styles/variables.scss' as *;
+
+.redemptionDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  > h2 {
+    margin: 0;
+    padding-right: 32px;
+    color: $text-bold;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  > dl {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      > dt {
+        margin: 0;
+        color: $text-light;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      > dd {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin: 0;
+        color: $text-bold;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.4;
+        word-break: break-all;
+
+        > button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          padding: 0;
+          border: none;
+          background: transparent;
+          color: $text-light;
+          cursor: pointer;
+
+          > svg {
+            width: 16px;
+            height: 16px;
+          }
+
+          &:hover,
+          &:focus-visible {
+            color: $primary;
+          }
+        }
+      }
+    }
+  }
+
+  > .explorerLink {
+    color: $primary;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

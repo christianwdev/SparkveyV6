@@ -932,6 +932,20 @@
       "completed": "Ukończone",
       "failed": "Nieudane",
       "rejected": "Odrzucone"
+    },
+    "details": {
+      "title": "Szczegóły nagrody",
+      "close": "Zamknij",
+      "reward": "Nagroda",
+      "status": "Status",
+      "amount": "Kwota",
+      "network": "Sieć",
+      "wallet": "Portfel",
+      "txid": "ID transakcji",
+      "txidPending": "ID transakcji pojawi się tutaj po potwierdzeniu wypłaty w sieci.",
+      "copy": "Kopiuj",
+      "copied": "Skopiowano",
+      "viewOnExplorer": "Zobacz w eksploratorze"
     }
   },
   "ProfileSettings": {

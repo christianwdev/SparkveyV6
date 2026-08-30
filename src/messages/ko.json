@@ -932,6 +932,20 @@
       "completed": "완료",
       "failed": "실패",
       "rejected": "거절됨"
+    },
+    "details": {
+      "title": "리워드 상세",
+      "close": "닫기",
+      "reward": "리워드",
+      "status": "상태",
+      "amount": "금액",
+      "network": "네트워크",
+      "wallet": "지갑",
+      "txid": "트랜잭션 ID",
+      "txidPending": "출금이 온체인에서 확인되면 여기에 트랜잭션 ID가 표시됩니다.",
+      "copy": "복사",
+      "copied": "복사됨",
+      "viewOnExplorer": "탐색기에서 보기"
     }
   },
   "ProfileSettings": {
