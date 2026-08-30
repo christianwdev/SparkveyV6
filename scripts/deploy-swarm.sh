@@ -3,6 +3,7 @@
 # Run on a Swarm manager from the repo root (or anywhere; we cd to the repo).
 #
 #   ./scripts/deploy-swarm.sh
+#   ./scripts/deploy-swarm.sh --frontend
 #   ./scripts/deploy-swarm.sh --skip-build
 #   ./scripts/deploy-swarm.sh --force
 set -euo pipefail
@@ -16,14 +17,16 @@ COMPOSE_FILE="docker-compose.yml"
 WAIT_SECONDS=240
 SKIP_BUILD=0
 FORCE=0
+FRONTEND_ONLY=0
 
 usage() {
   cat <<'EOF'
 Build Sparkvey images and rolling-update the Swarm stack (one replica at a time).
 
 Usage:
-  ./scripts/deploy-swarm.sh [--skip-build] [--force] [--tag TAG]
+  ./scripts/deploy-swarm.sh [--frontend] [--skip-build] [--force] [--tag TAG]
 
+  --frontend     Build and rolling-update nextjs only (backend/worker unchanged)
   --skip-build   Deploy the existing IMAGE_TAG (or --tag) without building
   --force        Force a roll even if the service spec looks unchanged
   --tag TAG      Image tag (default: git short SHA, or "latest")
@@ -32,6 +35,7 @@ EOF
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --frontend|--frontend-only) FRONTEND_ONLY=1; shift ;;
     --skip-build) SKIP_BUILD=1; shift ;;
     --force) FORCE=1; shift ;;
     --tag)
@@ -127,13 +131,25 @@ ensure_network() {
   docker network create -d overlay --attachable "$NETWORK_NAME"
 }
 
-build_images() {
+build_nextjs() {
   local next_env next_ga4 next_cf
 
   next_env="$(read_env NEXT_PUBLIC_ENV)"
   next_ga4="$(read_env NEXT_PUBLIC_GA4_MEASUREMENT_ID)"
   next_cf="$(read_env NEXT_PUBLIC_CF_BEACON_TOKEN)"
 
+  echo "Building sparkvey-nextjs:${IMAGE_TAG}"
+  docker build \
+    --target nextjs \
+    --build-arg "NEXT_PUBLIC_ENV=${next_env:-production}" \
+    --build-arg "NEXT_PUBLIC_GA4_MEASUREMENT_ID=${next_ga4}" \
+    --build-arg "NEXT_PUBLIC_CF_BEACON_TOKEN=${next_cf}" \
+    -t "sparkvey-nextjs:${IMAGE_TAG}" \
+    -t sparkvey-nextjs:latest \
+    .
+}
+
+build_images() {
   echo "Building sparkvey-backend:${IMAGE_TAG}"
   docker build \
     --target backend \
@@ -148,15 +164,35 @@ build_images() {
     -t sparkvey-worker:latest \
     .
 
-  echo "Building sparkvey-nextjs:${IMAGE_TAG}"
-  docker build \
-    --target nextjs \
-    --build-arg "NEXT_PUBLIC_ENV=${next_env:-production}" \
-    --build-arg "NEXT_PUBLIC_GA4_MEASUREMENT_ID=${next_ga4}" \
-    --build-arg "NEXT_PUBLIC_CF_BEACON_TOKEN=${next_cf}" \
-    -t "sparkvey-nextjs:${IMAGE_TAG}" \
-    -t sparkvey-nextjs:latest \
-    .
+  build_nextjs
+}
+
+deploy_frontend() {
+  local service="${STACK_NAME}_nextjs"
+  local update_args=( --image "sparkvey-nextjs:${IMAGE_TAG}" )
+
+  if ! docker service inspect "$service" >/dev/null 2>&1; then
+    echo "error: ${service} is not deployed yet; run a full deploy first" >&2
+    exit 1
+  fi
+
+  if [[ "$SKIP_BUILD" -eq 0 ]]; then
+    build_nextjs
+  else
+    echo "Skipping image build (IMAGE_TAG=${IMAGE_TAG})"
+  fi
+
+  if [[ "$FORCE" -eq 1 ]]; then
+    update_args+=( --force )
+  fi
+
+  echo "Updating ${service} to sparkvey-nextjs:${IMAGE_TAG}"
+  docker service update "${update_args[@]}" "$service"
+
+  wait_for_service "$service"
+
+  echo "Frontend ${service} is rolled out (IMAGE_TAG=${IMAGE_TAG})"
+  docker service ls --filter "name=${service}"
 }
 
 service_update_state() {
@@ -222,6 +258,11 @@ if [[ ! -f .env ]]; then
 fi
 
 ensure_network
+
+if [[ "$FRONTEND_ONLY" -eq 1 ]]; then
+  deploy_frontend
+  exit 0
+fi
 
 if [[ "$SKIP_BUILD" -eq 0 ]]; then
   build_images

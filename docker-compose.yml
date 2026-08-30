@@ -1,6 +1,7 @@
 # Swarm ignores env_file. The .env config is uploaded at deploy time
 # and bun/next load it from disk. Create the overlay once, then deploy:
 #   ./scripts/deploy-swarm.sh
+#   ./scripts/deploy-swarm.sh --frontend
 #   docker network create -d overlay --attachable sparkvey_net
 #   docker stack deploy -c docker-compose.yml sparkvey
 
