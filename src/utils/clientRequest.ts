@@ -19,6 +19,12 @@ function isMutatingMethod(method: string): boolean {
   return method !== 'GET' && method !== 'HEAD' && method !== 'OPTIONS';
 }
 
+function isCsrfRejection(status: number, data: unknown): boolean {
+  if (status !== 403 || !data || typeof data !== 'object') return false;
+
+  return (data as { message?: string }).message === 'Invalid or missing CSRF token';
+}
+
 async function clientRequest<ReturnType>(config: RequestConfig): Promise<ClientSideResponse<ReturnType>> {
   const { url, credentials, data, headers, ...fetchConfig } = config;
   const method = (fetchConfig.method ?? 'GET').toUpperCase();
@@ -34,7 +40,9 @@ async function clientRequest<ReturnType>(config: RequestConfig): Promise<ClientS
     resolvedHeaders['Content-Type'] = 'application/json';
   }
 
-  if (isMutatingMethod(method) && credentialsMode === 'include') {
+  const needsCsrf = isMutatingMethod(method) && credentialsMode === 'include';
+
+  if (needsCsrf) {
     const csrfToken = await ensureCsrfToken();
     if (!csrfToken) {
       throw new Error('Unable to obtain CSRF token. Refresh the page and try again.');
@@ -43,17 +51,71 @@ async function clientRequest<ReturnType>(config: RequestConfig): Promise<ClientS
     resolvedHeaders[CSRF_HEADER_NAME] = csrfToken;
   }
 
-  const response = await fetch(url, {
-    ...fetchConfig,
+  const response = await fetch(url, buildFetchInit({
+    fetchConfig,
     method,
-    ...(hasBody ? { body: JSON.stringify(data) } : {}),
-    credentials: credentialsMode,
-    headers: resolvedHeaders,
-  });
+    hasBody,
+    data,
+    credentialsMode,
+    resolvedHeaders,
+  }));
 
   const responseData = await response.json() as ReturnType;
+
+  if (needsCsrf && isCsrfRejection(response.status, responseData)) {
+    const csrfToken = await ensureCsrfToken({ refresh: true });
+    if (!csrfToken) {
+      throw new Error('Unable to obtain CSRF token. Refresh the page and try again.');
+    }
+
+    resolvedHeaders[CSRF_HEADER_NAME] = csrfToken;
+
+    const retryResponse = await fetch(url, buildFetchInit({
+      fetchConfig,
+      method,
+      hasBody,
+      data,
+      credentialsMode,
+      resolvedHeaders,
+    }));
+
+    return {
+      data: await retryResponse.json() as ReturnType,
+    };
+  }
 
   return {
     data: responseData,
   };
+}
+
+function buildFetchInit(
+  {
+    fetchConfig,
+    method,
+    hasBody,
+    data,
+    credentialsMode,
+    resolvedHeaders,
+  }: {
+    fetchConfig: Omit<RequestInit, 'headers'>,
+    method: string,
+    hasBody: boolean,
+    data?: object,
+    credentialsMode: RequestCredentials,
+    resolvedHeaders: Record<string, string>,
+  },
+): RequestInit {
+  const init: RequestInit = {
+    ...fetchConfig,
+    method,
+    credentials: credentialsMode,
+    headers: resolvedHeaders,
+  };
+
+  if (hasBody) {
+    init.body = JSON.stringify(data);
+  }
+
+  return init;
 }

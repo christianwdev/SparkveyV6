@@ -55,6 +55,10 @@ function hasValidPassthroughToken(token: string | undefined): boolean {
   return secretsEqual(token, expected);
 }
 
+export function isTrustedNextPassthrough(c: Context): boolean {
+  return hasValidPassthroughToken(c.req.header('nextjs-passthrough-token') ?? undefined);
+}
+
 export function getIPFromRequest(c: Context): string | undefined {
   if (process.env.NODE_ENV !== 'production') return '140.174.21.171';
 

@@ -17,6 +17,7 @@ import SearchIcon from '~icons/mdi/magnify.jsx';
 import styles from './page.module.scss';
 
 const INFINITE_SCROLL_CAP = 100;
+const TASKS_SKELETON_COUNT = 12; // two full desktop rows (6-wide grid)
 
 const SORT_OPTIONS: { label: string; value: BrowseOffersSort }[] = [
   { label: 'highToLow', value: 'high_to_low_reward' },
@@ -52,7 +53,7 @@ function TasksPageFallback() {
   return (
     <div className={styles.tasksContent}>
       <div className={styles.tasksWrapper} aria-hidden>
-        {Array.from({ length: 12 }, (_, index) => (
+        {Array.from({ length: TASKS_SKELETON_COUNT }, (_, index) => (
           <OfferItem key={index} loading />
         ))}
       </div>
@@ -206,7 +207,7 @@ function TasksPageContent({ initialOffersPromise, initialFilters }: TasksPageCon
           />
         ))}
 
-        {(showInitialLoading || isFetchingNextPage) && Array.from({ length: 8 }, (_, index) => (
+        {(showInitialLoading || isFetchingNextPage) && Array.from({ length: TASKS_SKELETON_COUNT }, (_, index) => (
           <OfferItem key={`loading-${index}`} loading />
         ))}
       </div>

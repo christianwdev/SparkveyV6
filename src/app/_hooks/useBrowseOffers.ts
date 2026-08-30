@@ -76,6 +76,7 @@ export function useBrowseOffers({
     },
     initialData,
     initialDataUpdatedAt: initialData ? seededAt : undefined,
+    refetchOnMount: !initialData,
   });
 }
 

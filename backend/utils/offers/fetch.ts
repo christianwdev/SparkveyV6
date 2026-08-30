@@ -328,7 +328,7 @@ export async function browseOffers({
   search,
   sort = DEFAULT_BROWSE_OFFERS_SORT,
   skip = 0,
-  limit = 28,
+  limit = 40,
 }: BrowseOffersParams): Promise<SanitizedOffer[]> {
   const { db } = getGlobalObject();
   const safeSkip = Math.max(0, skip);

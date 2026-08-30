@@ -6,6 +6,7 @@ import { browseOffers, BROWSE_OFFERS_PAGE_SIZE } from '@utils/offers';
 import { tasksSearchParamsCache } from '@utils/tasksSearchParams';
 import { serverRequest } from '@utils/serverRequest';
 import type { AppLocale } from '@i18n/routing';
+import type SanitizedOffer from 'types/Offer/SanitizedOffer';
 import TasksPageClient from './page.client';
 import styles from './page.module.scss';
 
@@ -43,15 +44,22 @@ export default async function Page({ params, searchParams }: PageProps) {
     categories: filters.categories,
     providers: filters.providers,
   };
-  const initialOffersPromise = browseOffers({
-    request: serverRequest,
-    limit: BROWSE_OFFERS_PAGE_SIZE,
-    skip: 0,
-    sort: initialFilters.sort,
-    search: initialFilters.search || undefined,
-    categories: initialFilters.categories,
-    providers: initialFilters.providers,
-  });
+
+  // Without the shared secret, SSR browse would geo-match the Next host
+  // (often US) and then the client refetch snaps to the user's country.
+  let initialOffersPromise: Promise<SanitizedOffer[] | null> = Promise.resolve(null);
+
+  if (process.env.NEXTJS_PASSTHROUGH_TOKEN) {
+    initialOffersPromise = browseOffers({
+      request: serverRequest,
+      limit: BROWSE_OFFERS_PAGE_SIZE,
+      skip: 0,
+      sort: initialFilters.sort,
+      search: initialFilters.search || undefined,
+      categories: initialFilters.categories,
+      providers: initialFilters.providers,
+    });
+  }
 
   return (
     <main className={styles.tasksPage}>
