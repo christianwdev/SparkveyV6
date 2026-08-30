@@ -39,6 +39,7 @@ type DropdownProps<T = string> = {
 
 export default function Dropdown<T extends string | number = string>(props: DropdownProps<T>) {
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [ active, setActive ] = useState(false);
@@ -75,7 +76,10 @@ export default function Dropdown<T extends string | number = string>(props: Drop
     : props.values.filter(item => matchesQuery(item.label, String(item.value), query));
 
   function measureTrigger() {
-    const trigger = dropdownRef.current;
+    // Field chrome includes the label/error; pin the menu to the select box.
+    // Filter chips include the inline label ("Status"), so use the full control.
+    const trigger = (props.field ? triggerRef.current : dropdownRef.current)
+      ?? dropdownRef.current;
     if (!trigger) return;
 
     setMenuStyle(measureMenuStyle(trigger));
@@ -188,7 +192,7 @@ export default function Dropdown<T extends string | number = string>(props: Drop
       }}
     >
       {!props.hideLabel && !props.field && <p className={styles.label}>{props.label}</p>}
-      <div className={styles.selected}>
+      <div ref={triggerRef} className={styles.selected}>
         {selectedItem?.leading ? (
           <span className={styles.leading}>{selectedItem.leading}</span>
         ) : null}
