@@ -1,9 +1,11 @@
 import Redis from 'ioredis';
+import { readEnv } from '../utils/env';
 
 export default async function startRedis(): Promise<[ redisClient: Redis, redisSubscriber: Redis, redisPublisher: Redis ]> {
-  if (!process.env.REDIS_URI) throw new Error('No redis provided.');
+  const redisUri = readEnv('REDIS_URI');
+  if (!redisUri) throw new Error('No redis provided.');
 
-  const client = new Redis(process.env.REDIS_URI);
+  const client = new Redis(redisUri);
 
   const publisher = client.duplicate();
   const subscriber = client.duplicate();

@@ -6,6 +6,7 @@
 configs:
   sparkvey_env:
     file: .env
+    name: sparkvey_env_v2
 
 networks:
   app:
@@ -23,10 +24,12 @@ services:
       - .env
     environment:
       PORT: ${PORT:-8080}
-    command: ["bun", "--env-file=/app/.env", "run", "app.ts"]
+    command: ["bun", "--env-file=/run/sparkvey.env", "app.ts"]
     configs:
       - source: sparkvey_env
-        target: /app/.env
+        target: /run/sparkvey.env
+        uid: "1000"
+        gid: "1000"
         mode: 0444
     ports:
       - "8080:8080"
@@ -63,10 +66,12 @@ services:
       target: worker
     env_file:
       - .env
-    command: ["bun", "--env-file=/app/.env", "run", "./backend/workers/index.ts"]
+    command: ["bun", "--env-file=/run/sparkvey.env", "./backend/workers/index.ts"]
     configs:
       - source: sparkvey_env
-        target: /app/.env
+        target: /run/sparkvey.env
+        uid: "1000"
+        gid: "1000"
         mode: 0444
     networks:
       - app
