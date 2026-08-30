@@ -47,7 +47,7 @@ export default function routesInvoker() {
       });
 
       if (!result.ok && result.error === 'notFound') {
-        return sendResponse({ c, status: 200, success: true });
+        return sendResponse({ c, status: 200, success: true, message: 'Success' });
       }
 
       if (!result.ok) {
@@ -60,7 +60,7 @@ export default function routesInvoker() {
         });
       }
 
-      return sendResponse({ c, status: 200, success: true });
+      return sendResponse({ c, status: 200, success: true, message: 'Success' });
     },
   );
 

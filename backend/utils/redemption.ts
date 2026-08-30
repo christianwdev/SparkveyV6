@@ -659,10 +659,23 @@ export async function handleCCPaymentRedemptionApproval(
   return { ok: true, data: updated };
 }
 
+function webhookRecord(payload: { data?: unknown, msg?: unknown }): Record<string, unknown> {
+  if (payload.msg && typeof payload.msg === 'object' && !Array.isArray(payload.msg)) {
+    return payload.msg as Record<string, unknown>;
+  }
+
+  if (payload.data && typeof payload.data === 'object' && !Array.isArray(payload.data)) {
+    return payload.data as Record<string, unknown>;
+  }
+
+  return {};
+}
+
 function webhookField(data: Record<string, unknown>, keys: string[]): string | undefined {
   for (const key of keys) {
     const value = data[key];
     if (typeof value === 'string' && value.trim().length > 0) return value.trim();
+    if (typeof value === 'number' && Number.isFinite(value)) return String(value);
   }
 
   return undefined;
@@ -708,13 +721,11 @@ export async function completeCCPaymentRedemptionFromWebhook(
   {
     payload,
   }: {
-    payload: { msg_type?: string, data?: unknown },
+    payload: { msg_type?: string, type?: string, data?: unknown, msg?: unknown },
   },
 ): Promise<FunctionResponse<AcceptedCCPaymentInternalRedemption | InternalRedemption>> {
   try {
-    const data = payload.data && typeof payload.data === 'object' && !Array.isArray(payload.data)
-      ? payload.data as Record<string, unknown>
-      : {};
+    const data = webhookRecord(payload);
     const orderId = webhookField(data, [ 'orderId', 'order_id', 'merchantOrderId' ]);
     const recordId = webhookField(data, [ 'recordId', 'record_id' ]);
     const status = webhookField(data, [ 'status', 'orderStatus' ]);
