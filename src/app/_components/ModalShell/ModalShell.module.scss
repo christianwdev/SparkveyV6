@@ -4,35 +4,49 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  right: 0;
+  width: 100%;
   height: 100vh;
+  height: 100dvh;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
   display: flex;
   align-items: center;
+  align-items: safe center;
   justify-content: center;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  box-sizing: border-box;
+
+  @media screen and (max-width: $large-phone) {
+    padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  }
 
   > .contentWrapper {
     background-color: $off-white;
     border-radius: 8px;
     position: relative;
     width: 100%;
+    min-height: 0;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
 
     &.defaultPanel {
       padding: 36px;
       max-width: 640px;
       max-height: min(85vh, 720px);
+      max-height: min(85dvh, 720px);
       height: fit-content;
       gap: 18px;
 
       @media screen and (max-width: $large-phone) {
-        margin: 16px;
         padding: 24px;
-        max-height: calc(100vh - 32px);
+        max-height: 100%;
       }
     }
 
@@ -40,9 +54,9 @@
       padding: 28px;
       max-width: 560px;
       max-height: min(85vh, 680px);
+      max-height: min(85dvh, 680px);
       height: fit-content;
       gap: 18px;
-      overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: $border-light transparent;
 
@@ -56,9 +70,8 @@
       }
 
       @media screen and (max-width: $large-phone) {
-        margin: 16px;
         padding: 20px;
-        max-height: calc(100vh - 32px);
+        max-height: 100%;
       }
 
       > .closeButton {
