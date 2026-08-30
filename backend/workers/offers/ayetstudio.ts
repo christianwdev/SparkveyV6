@@ -1,4 +1,5 @@
 import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers/ingest';
+import { readEnv } from '../../utils/env';
 
 import type AyetOffer from 'types/External/AyetStudios/AyetOffer';
 import type { IngestedOffer } from 'types/Offer/InternalOffer';
@@ -10,8 +11,8 @@ import type OperatingSystemRequirement from 'types/Offer/OperatingSystemRequirem
 import type PaymentModel from 'types/Offer/PaymentModel';
 
 const AYET_ENDPOINT = 'https://www.ayetstudios.com';
-const AYET_API_KEY = process.env.AYET_API_KEY;
-const AYET_PLACEMENT_ID = process.env.AYET_PLACEMENT_ID;
+const AYET_API_KEY = readEnv('AYET_API_KEY');
+const AYET_PLACEMENT_ID = readEnv('AYET_PLACEMENT_ID');
 const PROVIDER = 'ayetstudios' as const;
 
 export default async function AyetStudioWorker(): Promise<[ error: true ] | [ error: false, data: IngestedOffer[] ]> {

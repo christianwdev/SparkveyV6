@@ -1,3 +1,4 @@
+import './backend/utils/unquoteEnv';
 import { Hono } from 'hono';
 import { createId } from '@paralleldrive/cuid2';
 import { cors } from 'hono/cors';
@@ -18,6 +19,7 @@ import startSocketServer from './backend/socket';
 import { createDistributedLock } from './backend/utils/distributedLock';
 import { handleRouteError } from './backend/utils/request';
 import { sendResponse } from './backend/utils/response';
+import { readEnv } from './backend/utils/env';
 import {
   closeSharedConnections,
   drainBackend,
@@ -31,7 +33,8 @@ import RouteResponseError from 'types/RouteResponseError';
 // Types
 import type GlobalObject from 'types/GlobalObject';
 
-const BACKEND_PORT = process.env.PORT ? +process.env.PORT : 6060;
+const portValue = readEnv('PORT');
+const BACKEND_PORT = portValue ? +portValue : 6060;
 const isProduction = process.env.NODE_ENV === 'production';
 const corsOrigins = config.server.domains?.filter(Boolean) ?? [];
 

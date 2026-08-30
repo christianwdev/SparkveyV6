@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from 'crypto';
+import { readEnv } from './env';
 
 /** Constant-time compare for shared secrets / hashes of equal encoding. */
 export function secretsEqual(provided: string | undefined, expected: string | undefined): boolean {
@@ -13,7 +14,7 @@ export function secretsEqual(provided: string | undefined, expected: string | un
 }
 
 function getEmailHashPepper(): string {
-  const pepper = process.env.EMAIL_HASH_PEPPER;
+  const pepper = readEnv('EMAIL_HASH_PEPPER');
 
   if (!pepper) {
     if (process.env.NODE_ENV === 'production') {

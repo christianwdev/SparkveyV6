@@ -24,6 +24,7 @@ import { cookies } from 'next/headers';
 import { resolveColorTheme, THEME_COOKIE_NAME } from '@utils/theme';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { GA4_MEASUREMENT_ID } from '@utils/analytics';
+import { readEnv } from '@utils/env';
 
 // Types
 import type { ReactNode } from 'react';
@@ -86,15 +87,16 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     user?.userPreferences?.colorTheme,
     cookieStore.get(THEME_COOKIE_NAME)?.value,
   );
+  const verisoulProjectID = readEnv('VERISOUL_PROJECT_ID');
 
   return (
     <html lang={locale} data-theme={theme} className={`${inter.variable} ${roboto.variable} ${sedgwickAve.variable} ${parkinsans.variable}`}>
       <head>
-        {process.env.VERISOUL_PROJECT_ID ? (
+        {verisoulProjectID ? (
           <Script
             strategy="afterInteractive"
             src={`https://v.sparkvey.com/${process.env.NODE_ENV === 'production' ? 'prod' : 'sandbox'}/bundle.js`}
-            verisoul-project-id={process.env.VERISOUL_PROJECT_ID}
+            verisoul-project-id={verisoulProjectID}
           />
         ) : null}
         {process.env.NEXT_PUBLIC_CF_BEACON_TOKEN ? (

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from 'bun:test';
-import { readEnv } from 'backend/utils/env';
+import { readEnv, unquoteProcessEnv } from 'backend/utils/env';
 
 const KEY = 'READ_ENV_TEST_VALUE';
 
@@ -28,5 +28,12 @@ describe('readEnv', () => {
     process.env[KEY] = 'mongodb+srv://example.net/db';
 
     expect(readEnv(KEY)).toBe('mongodb+srv://example.net/db');
+  });
+
+  test('unquoteProcessEnv strips quotes on process.env', () => {
+    process.env[KEY] = '"quoted-secret"';
+    unquoteProcessEnv();
+
+    expect(process.env[KEY]).toBe('quoted-secret');
   });
 });

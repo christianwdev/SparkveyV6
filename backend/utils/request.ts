@@ -3,6 +3,7 @@ import { createMiddleware } from 'hono/factory';
 // Utils
 import { sendResponse } from './response';
 import { secretsEqual } from './secrets';
+import { readEnv } from './env';
 import { preferIPv4 } from './ip';
 import RouteResponseError from 'types/RouteResponseError';
 
@@ -52,7 +53,7 @@ export function normalizeQuery(
 }
 
 function hasValidPassthroughToken(token: string | undefined): boolean {
-  const expected = process.env.NEXTJS_PASSTHROUGH_TOKEN;
+  const expected = readEnv('NEXTJS_PASSTHROUGH_TOKEN');
   if (!expected || !token) return false;
 
   return secretsEqual(token, expected);

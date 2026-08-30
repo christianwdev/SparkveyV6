@@ -2,6 +2,7 @@ import { Resend } from 'resend';
 import { render } from '@react-email/render';
 import config from '../config/config';
 import { buildFrontendURL } from './url';
+import { readEnv } from './env';
 
 // Email Templates
 import ForgotPassword from 'backend/emails/ForgotPassword';
@@ -11,7 +12,7 @@ import ConfirmAccountDeletion from 'backend/emails/ConfirmAccountDeletion';
 import EmailChangedNotice from 'backend/emails/EmailChangedNotice';
 import OfferReleased from 'backend/emails/OfferReleased';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(readEnv('RESEND_API_KEY'));
 
 export async function sendForgottenPassword(
   {

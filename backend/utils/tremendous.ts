@@ -4,9 +4,11 @@ import { Configuration, Environments, OrdersApi } from 'tremendous';
 // Types
 import type FunctionResponse from 'types/FunctionResponse';
 
+import { readEnv } from './env';
+
 const configuration = new Configuration({
   basePath: Environments.production,
-  accessToken: process.env.TREMENDOUS_API_KEY,
+  accessToken: readEnv('TREMENDOUS_API_KEY'),
 });
 
 const orders = new OrdersApi(configuration);
@@ -51,7 +53,7 @@ export async function createTremendousOrder(
         products: [
           rewardID,
         ],
-        campaign_id: process.env.TREMENDOUS_CAMPAIGN_ID,
+        campaign_id: readEnv('TREMENDOUS_CAMPAIGN_ID'),
       },
     };
     const { data } = await orders.createOrder(requestPayload);

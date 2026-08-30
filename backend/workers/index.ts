@@ -1,3 +1,4 @@
+import '../utils/unquoteEnv';
 import { Server } from 'socket.io';
 import { createAdapter } from '@socket.io/redis-adapter';
 

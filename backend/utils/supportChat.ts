@@ -12,6 +12,7 @@ import {
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { isDuplicateKeyError } from 'backend/utils/mongo';
 import { getUserAvatarURL } from 'backend/utils/url';
+import { readEnv } from 'backend/utils/env';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -42,7 +43,7 @@ const IMAGE_EXTENSION_REGEX = /\.(png|jpe?g|webp|gif|bmp)$/i;
 const URL_REGEX = /https?:\/\/[^\s<>"']+/gi;
 const TRAILING_PUNCTUATION_REGEX = /[)\],.:;!?]+$/;
 
-const genai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const genai = new GoogleGenAI({ apiKey: readEnv('GEMINI_API_KEY') });
 
 export async function getUserSupportConversation(
   {
@@ -720,7 +721,7 @@ async function matchAutomaticSupportResponse(
   userMessage: string,
 ): Promise<keyof typeof automaticSupportResponses | null> {
   const trimmed = userMessage.trim();
-  if (!trimmed || !process.env.GEMINI_API_KEY) return null;
+  if (!trimmed || !readEnv('GEMINI_API_KEY')) return null;
 
   try {
     const response = await genai.models.generateContent({

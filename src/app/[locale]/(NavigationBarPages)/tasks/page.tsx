@@ -5,6 +5,7 @@ import { getUser } from '@utils/user';
 import { browseOffers, BROWSE_OFFERS_PAGE_SIZE } from '@utils/offers';
 import { tasksSearchParamsCache } from '@utils/tasksSearchParams';
 import { serverRequest } from '@utils/serverRequest';
+import { readEnv } from '@utils/env';
 import type { AppLocale } from '@i18n/routing';
 import type SanitizedOffer from 'types/Offer/SanitizedOffer';
 import TasksPageClient from './page.client';
@@ -49,7 +50,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   // (often US) and then the client refetch snaps to the user's country.
   let initialOffersPromise: Promise<SanitizedOffer[] | null> = Promise.resolve(null);
 
-  if (process.env.NEXTJS_PASSTHROUGH_TOKEN) {
+  if (readEnv('NEXTJS_PASSTHROUGH_TOKEN')) {
     initialOffersPromise = browseOffers({
       request: serverRequest,
       limit: BROWSE_OFFERS_PAGE_SIZE,

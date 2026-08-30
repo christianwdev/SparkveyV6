@@ -6,6 +6,7 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 import { completeCCPaymentRedemptionFromWebhook } from 'backend/utils/redemption';
 import { detectProxy } from 'backend/utils/fraud';
 import { secretsEqual } from 'backend/utils/secrets';
+import { readEnv } from 'backend/utils/env';
 import { sendResponse } from 'backend/utils/response';
 import { withRouteErrorHandling } from 'backend/utils/request';
 
@@ -67,7 +68,7 @@ export default function routesInvoker() {
     '/proxydetect',
     withRouteErrorHandling,
     async (c) => {
-      const expected = process.env.PROXYDETECT_WEBHOOK_SECRET;
+      const expected = readEnv('PROXYDETECT_WEBHOOK_SECRET');
       if (!expected) {
         return sendResponse({
           c,

@@ -1,4 +1,5 @@
 import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers/ingest';
+import { readEnv } from '../../utils/env';
 
 import type LootablyOffer from 'types/External/Lootably/LootablyOffer';
 import type { IngestedOffer } from 'types/Offer/InternalOffer';
@@ -11,8 +12,8 @@ import type GeoRequirement from 'types/Offer/GeoRequirement';
 import type PaymentModel from 'types/Offer/PaymentModel';
 
 const LOOTABLY_ENDPOINT = 'https://api.lootably.com/api/v2';
-const LOOTABLY_API_KEY = process.env.LOOTABLY_API_KEY;
-const LOOTABLY_PLACEMENT_ID = process.env.LOOTABLY_PLACEMENT_ID;
+const LOOTABLY_API_KEY = readEnv('LOOTABLY_API_KEY');
+const LOOTABLY_PLACEMENT_ID = readEnv('LOOTABLY_PLACEMENT_ID');
 const PROVIDER = 'lootably' as const;
 
 export default async function LootablyWorker(): Promise<[ error: true ] | [ error: false, data: IngestedOffer[] ]> {

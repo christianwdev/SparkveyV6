@@ -3,6 +3,7 @@ import TremendousCashProductIDs from '../../constants/TremendousCashProductIDs';
 
 // Utils
 import { convertCurrencyToUSD, getCurrencyRates } from '../../utils/currency';
+import { readEnv } from '../../utils/env';
 
 // Types
 import type ExternalTremendousReward from 'types/External/Tremendous/TremendousReward';
@@ -11,7 +12,7 @@ import type RedeemCategoryID from 'types/Reward/RedeemCategoryID';
 import type { TremendousReward as InternalTremendousReward, DenominationTremendousReward, VariableTremendousReward } from 'types/Reward/TremendousReward';
 
 const TREMENDOUS_ENDPOINT = 'https://api.tremendous.com';
-const TREMENDOUS_API_KEY = process.env.TREMENDOUS_API_KEY;
+const TREMENDOUS_API_KEY = readEnv('TREMENDOUS_API_KEY');
 const SPARKS_PER_USD = 1000;
 
 const TREMENDOUS_CASH_PRODUCT_IDS = new Set<string>(TremendousCashProductIDs);

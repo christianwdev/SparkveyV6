@@ -3,6 +3,7 @@ import { GoogleGenAI } from '@google/genai';
 
 import DatabaseCollections from '../../constants/DatabaseCollections';
 import { getGlobalObject } from '../globalObject';
+import { readEnv } from '../env';
 
 import type { AnyBulkWriteOperation, UpdateFilter } from 'mongodb';
 import type InternalOffer from 'types/Offer/InternalOffer';
@@ -18,7 +19,7 @@ const PRELOAD_CHUNK_SIZE = 500;
 
 const offerNamespace = uuidv5('null', 'sparkvey-offer-namespace', true);
 
-const genai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const genai = new GoogleGenAI({ apiKey: readEnv('GEMINI_API_KEY') });
 
 // ─── ID / Hash helpers ────────────────────────────────────────────────────────
 

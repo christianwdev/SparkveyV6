@@ -13,6 +13,7 @@ import {
   userHasPassword,
 } from 'backend/utils/user';
 import { expireUserSessions } from 'backend/utils/session';
+import { readEnv } from 'backend/utils/env';
 
 import type GoogleAPIUser from 'types/External/Google/GoogleAPIUser';
 import type InternalUser from 'types/User/InternalUser';
@@ -36,8 +37,8 @@ type GoogleUserResolveResult =
 
 function getOAuthClient() {
   return new OAuth2Client(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
+    readEnv('GOOGLE_CLIENT_ID'),
+    readEnv('GOOGLE_CLIENT_SECRET'),
     `${config.server.backendURL}/auth/google/callback`,
   );
 }
@@ -241,7 +242,7 @@ export async function completeGoogleOAuthLogin({
 
     const ticket = await client.verifyIdToken({
       idToken: tokens.id_token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: readEnv('GOOGLE_CLIENT_ID'),
     });
     const data = ticket.getPayload() as GoogleAPIUser | undefined;
 

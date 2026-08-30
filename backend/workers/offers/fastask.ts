@@ -1,4 +1,5 @@
 import { createOfferID, createOfferHash, createRewardID } from '../../utils/offers/ingest';
+import { readEnv } from '../../utils/env';
 
 import type FastAskOffer from 'types/External/FastAsk/FastAskOffer';
 import type { IngestedOffer } from 'types/Offer/InternalOffer';
@@ -8,7 +9,7 @@ import type OfferType from 'types/Offer/OfferType';
 import type OperatingSystem from 'types/Offer/OperatingSystem';
 
 const ENDPOINT = 'https://waxrewards.com';
-const API_KEY = process.env.FASTASK_API_KEY;
+const API_KEY = readEnv('FASTASK_API_KEY');
 const PROVIDER = 'waxrewards' as const;
 
 export default async function FastAskWorker(): Promise<[ error: true ] | [ error: false, data: IngestedOffer[] ]> {

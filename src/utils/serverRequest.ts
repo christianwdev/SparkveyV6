@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 
 // Constants
 import NextJSPassthroughHeaders from '../constants/NextJSPassthroughHeaders';
+import { readEnv } from '@utils/env';
 
 type RequestConfig = Omit<RequestInit, 'headers'> & {
   url: string,
@@ -47,7 +48,7 @@ async function serverRequest<ReturnType>(config: RequestConfig): Promise<ServerS
         'User-Agent': 'sparkvey-ssr/1',
         'Content-Type': 'application/json',
         cookie: cookieHeader ?? '',
-        [NextJSPassthroughHeaders.token]: process.env.NEXTJS_PASSTHROUGH_TOKEN ?? '',
+        [NextJSPassthroughHeaders.token]: readEnv('NEXTJS_PASSTHROUGH_TOKEN') ?? '',
         [NextJSPassthroughHeaders.ip]: pickClientIP(nextHeaders),
         [NextJSPassthroughHeaders.userAgent]: nextHeaders.get('user-agent') ?? '',
         [NextJSPassthroughHeaders.ipCountry]: nextHeaders.get('cf-ipcountry') ?? '',

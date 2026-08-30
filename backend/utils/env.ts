@@ -1,8 +1,5 @@
 /** Swarm configs and bun --env-file keep wrapping quotes that Compose strips. */
-export function readEnv(name: string): string | undefined {
-  const raw = process.env[name];
-  if (raw === undefined) return undefined;
-
+export function stripEnvQuotes(raw: string): string {
   const trimmed = raw.trim();
   if (trimmed.length < 2) return trimmed;
 
@@ -12,4 +9,20 @@ export function readEnv(name: string): string | undefined {
   }
 
   return trimmed;
+}
+
+export function readEnv(name: string): string | undefined {
+  const raw = process.env[name];
+  if (raw === undefined) return undefined;
+
+  return stripEnvQuotes(raw);
+}
+
+export function unquoteProcessEnv(): void {
+  for (const [ key, value ] of Object.entries(process.env)) {
+    if (value === undefined) continue;
+
+    const unquoted = stripEnvQuotes(value);
+    if (unquoted !== value) process.env[key] = unquoted;
+  }
 }

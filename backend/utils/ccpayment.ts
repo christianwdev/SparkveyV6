@@ -1,5 +1,8 @@
 import crypto from 'crypto';
 
+// Utils
+import { readEnv } from './env';
+
 // Types
 import type { CCPaymentAddressValidity } from 'types/External/CCPayment/Address';
 import type { CCPaymentBalance } from 'types/External/CCPayment/Balance';
@@ -12,8 +15,8 @@ import type {
 } from 'types/External/CCPayment/Withdraw';
 import type FunctionResponse from 'types/FunctionResponse';
 
-const appID = process.env.CCPAYMENT_APP_ID;
-const appSecret = process.env.CCPAYMENT_APP_SECRET;
+const appID = readEnv('CCPAYMENT_APP_ID');
+const appSecret = readEnv('CCPAYMENT_APP_SECRET');
 const baseURL = 'https://ccpayment.com/ccpayment/v2/';
 
 export type CCPaymentRequestError = 'internalServerError';
