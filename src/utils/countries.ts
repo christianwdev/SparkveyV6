@@ -19,13 +19,22 @@ const ISO_3166_ALPHA2 = [
 
 export type CountryCode = (typeof ISO_3166_ALPHA2)[number];
 
-export function getCountryOptions(locale: string): { value: CountryCode, label: string }[] {
+export function getCountryFlagUrl(code: string): string {
+  return `https://worldflags.io/${code.toUpperCase()}`;
+}
+
+export function getCountryOptions(locale: string): {
+  value: CountryCode,
+  label: string,
+  flagUrl: string,
+}[] {
   const displayNames = new Intl.DisplayNames([ locale ], { type: 'region' });
 
   return ISO_3166_ALPHA2
     .map(value => ({
       value,
       label: displayNames.of(value) ?? value,
+      flagUrl: getCountryFlagUrl(value),
     }))
     .sort((left, right) => left.label.localeCompare(right.label, locale));
 }

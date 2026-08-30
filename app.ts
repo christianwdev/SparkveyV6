@@ -17,6 +17,15 @@ import startRedis from './backend/database/redis';
 import startSocketServer from './backend/socket';
 import { createDistributedLock } from './backend/utils/distributedLock';
 import { handleRouteError } from './backend/utils/request';
+import { sendResponse } from './backend/utils/response';
+import {
+  closeSharedConnections,
+  drainBackend,
+  isHealthPath,
+  isShuttingDown,
+  registerProcessShutdown,
+  trackInFlight,
+} from './backend/utils/shutdown';
 import RouteResponseError from 'types/RouteResponseError';
 
 // Types
@@ -45,6 +54,7 @@ const redisSubClient = redisClient.duplicate();
 
 const io: TypedServer = new Server({
   pingTimeout: 5000,
+  transports: [ 'websocket' ],
   adapter: createAdapter(redisPubClient, redisSubClient),
   cors: {
     origin: corsOrigins.length > 0 ? corsOrigins : false,
@@ -74,6 +84,14 @@ app.use(cors({
   origin: corsOrigins.length > 0 ? corsOrigins : [],
   credentials: true,
 }));
+
+app.use(async (c, next) => {
+  if (isShuttingDown() && !isHealthPath(c.req.path)) {
+    return sendResponse({ c, status: 503, success: false, code: 'shuttingDown' });
+  }
+
+  await next();
+});
 
 // Allows us to pass in our DB instance to all our middleware
 app.use(async (c, next) => {
@@ -109,19 +127,29 @@ app.onError(async (err, c) => {
 
 const { websocket } = engine.handler();
 
-serve({
+const server = serve({
   port: BACKEND_PORT,
   idleTimeout: 30, // Must be greater than Engine pingInterval (defaults to 25s)
-  fetch(req, server) {
+  fetch(req, bunServer) {
     const url = new URL(req.url);
 
     if (url.pathname === '/socket.io/') {
-      return engine.handleRequest(req, server);
+      return trackInFlight(engine.handleRequest(req, bunServer));
     }
 
-    return app.fetch(req, server);
+    return trackInFlight(app.fetch(req, bunServer));
   },
   websocket,
+});
+
+registerProcessShutdown(async () => {
+  await drainBackend({ server, engine });
+  await closeSharedConnections({
+    mongoClient: client,
+    redisClient,
+    redisPubClient,
+    redisSubClient,
+  });
 });
 
 console.log('Backend is running on port', BACKEND_PORT);

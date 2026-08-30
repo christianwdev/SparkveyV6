@@ -43,16 +43,16 @@
     color: $text-light;
 
     &.error {
-      color: $red;
+      color: $error;
     }
   }
 
   &.invalid {
     > input {
-      border-color: $red;
+      border-color: $error;
 
       &:focus {
-        border-color: $red;
+        border-color: $error;
       }
     }
   }

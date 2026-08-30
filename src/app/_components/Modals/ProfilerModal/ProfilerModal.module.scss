@@ -3,80 +3,101 @@
 .profilerModal {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 
-  > h2 {
-    margin: 0;
-    padding-right: 32px;
-    color: $text-bold;
-    font-size: 22px;
-    font-weight: 700;
-  }
+  > .header {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-right: 28px;
 
-  > .lede {
-    margin: 0;
-    color: $text-light;
-    font-size: 14px;
-    line-height: 1.45;
-  }
+    > h2 {
+      margin: 0;
+      color: $text-bold;
+      font-size: 22px;
+      font-weight: 700;
+    }
 
-  > .section {
-    margin: 0;
-    color: $text-bold;
-    font-size: 13px;
-    font-weight: 600;
-  }
+    > .progress {
+      display: flex;
+      gap: 6px;
 
-  > .sectionDescription {
-    margin: -8px 0 0;
-    color: $text-light;
-    font-size: 13px;
-    line-height: 1.4;
-  }
+      > span {
+        width: 20px;
+        height: 3px;
+        border-radius: 99px;
+        background: $border-light;
 
-  > .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+        &.current,
+        &.done {
+          background: $primary;
+        }
 
-    @media screen and (max-width: $large-phone) {
-      grid-template-columns: 1fr;
+        &.done {
+          opacity: 0.4;
+        }
+      }
+    }
+
+    > .lede {
+      margin: 0;
+      color: $text-light;
+      font-size: 14px;
+      line-height: 1.45;
     }
   }
 
-  > .birthday {
+  > .step {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 14px;
 
-    > .groupLabel {
+    > .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+
+      > .groupLabel {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: $text-light;
+      }
+
+      > .birthdayRow {
+        display: grid;
+        align-items: start;
+        grid-template-columns: 1.5fr 0.8fr 1fr;
+        gap: 8px;
+
+        @media screen and (max-width: $phone) {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+
+    > .hint,
+    > .ageError {
       margin: 0;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
+      line-height: 1.4;
+    }
+
+    > .hint {
       color: $text-light;
     }
 
-    > .birthdayRow {
-      display: grid;
-      grid-template-columns: 1.4fr 0.8fr 1fr;
-      gap: 8px;
-
-      @media screen and (max-width: $phone) {
-        grid-template-columns: 1fr;
-      }
+    > .ageError {
+      color: $error;
     }
-  }
-
-  > .errorMessage {
-    margin: 0;
-    color: $red;
-    font-size: 13px;
-    font-weight: 600;
   }
 
   > .actions {
     display: flex;
     justify-content: flex-end;
+    gap: 8px;
     padding-top: 4px;
   }
 }

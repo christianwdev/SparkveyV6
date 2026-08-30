@@ -1,6 +1,9 @@
 import { createMiddleware } from 'hono/factory';
+
+// Utils
 import { sendResponse } from './response';
 import { secretsEqual } from './secrets';
+import { preferIPv4 } from './ip';
 import RouteResponseError from 'types/RouteResponseError';
 
 // Types
@@ -66,15 +69,16 @@ export function getIPFromRequest(c: Context): string | undefined {
   const passthroughIp = c.req.header('nextjs-passthrough-ip')?.trim();
 
   // Only trust Next SSR-forwarded client IP when the shared secret matches.
+  // Do not mix with CF headers on this hop — those would be the Next server, or spoofable.
   if (passthroughIp && hasValidPassthroughToken(passthroughToken)) {
-    return passthroughIp;
+    return preferIPv4([ passthroughIp ]);
   }
 
-  const cfIp = c.req.header('cf-connecting-ip')?.trim();
-  if (cfIp) return cfIp;
-
   // Ignore spoofable X-Forwarded-For / X-Real-IP from untrusted clients.
-  return undefined;
+  return preferIPv4([
+    c.req.header('cf-connecting-ip')?.trim(),
+    c.req.header('cf-connecting-ipv6')?.trim(),
+  ]);
 }
 
 export function getUserAgentFromRequest(c: Context): string | undefined {
@@ -143,8 +147,10 @@ export function getCityFromRequest(c: Context): string | undefined {
 
 export function getIPFromSocket(socket: TypedSocket): string | undefined {
   const cfIp = socket.handshake.headers['cf-connecting-ip'];
-  if (typeof cfIp === 'string' && cfIp.trim()) return cfIp.trim();
+  const cfIpv6 = socket.handshake.headers['cf-connecting-ipv6'];
 
-  // Socket handshakes should not honor client-spoofable forwarded headers.
-  return undefined;
+  return preferIPv4([
+    typeof cfIp === 'string' ? cfIp : undefined,
+    typeof cfIpv6 === 'string' ? cfIpv6 : undefined,
+  ]);
 }

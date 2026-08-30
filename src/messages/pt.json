@@ -64,6 +64,16 @@
     "title": "Profiler",
     "subtitle": "Responda algumas perguntas para encontrar mais pesquisas.",
     "subtitleCompleted": "Seu profiler está completo. Você pode atualizar os dados a qualquer momento.",
+    "steps": {
+      "name": "Seu nome",
+      "about": "Sobre você",
+      "location": "Onde você mora"
+    },
+    "stepDescriptions": {
+      "name": "Isso fica na Sparkvey e ajuda a combinar pesquisas.",
+      "about": "Usamos para mostrar pesquisas que você pode fazer.",
+      "location": "Alguns dados de local para pesquisas da região."
+    },
     "sections": {
       "details": "Dados pessoais"
     },
@@ -85,10 +95,14 @@
     "placeholders": {
       "gender": "Selecione o gênero",
       "country": "Selecione o país",
+      "searchCountry": "Buscar países",
       "month": "Mês",
       "day": "Dia",
       "year": "Ano",
       "dateOfBirth": "Selecionar data"
+    },
+    "empty": {
+      "countrySearch": "Nenhum país corresponde à busca."
     },
     "gender": {
       "male": "Masculino",
@@ -99,8 +113,10 @@
       "age": "Você precisa ter pelo menos 18 anos."
     },
     "actions": {
-      "save": "Salvar profiler",
-      "update": "Atualizar profiler",
+      "next": "Continuar",
+      "back": "Voltar",
+      "save": "Salvar",
+      "update": "Atualizar",
       "saving": "Salvando...",
       "close": "Fechar"
     },
@@ -108,7 +124,16 @@
       "saved": "Profiler salvo."
     },
     "errors": {
-      "required": "Preencha todos os campos obrigatórios.",
+      "firstName": "Preencha seu nome.",
+      "lastName": "Preencha seu sobrenome.",
+      "month": "Selecione um mês.",
+      "day": "Selecione um dia.",
+      "year": "Selecione um ano.",
+      "gender": "Selecione seu gênero.",
+      "country": "Selecione seu país.",
+      "city": "Preencha sua cidade.",
+      "zipCode": "Preencha o código postal.",
+      "age": "Você precisa ter pelo menos 18 anos.",
       "save": "Não foi possível salvar o profiler. Tente novamente."
     }
   },

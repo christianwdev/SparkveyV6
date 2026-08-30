@@ -4,6 +4,7 @@ import FastAskWorker from './fastask';
 import { processConvertedWorkersOffers } from '../../utils/offers/ingest';
 import { getGlobalObject } from '../../utils/globalObject';
 import { LockError } from '../../utils/distributedLock';
+import { isShuttingDown, trackInFlight } from '../../utils/shutdown';
 
 import type { IngestedOffer } from 'types/Offer/InternalOffer';
 import type InternalOffer from 'types/Offer/InternalOffer';
@@ -87,15 +88,16 @@ async function ingestOffers() {
 }
 
 export default async function startOffersWorkers() {
-  await ingestOffers();
+  await trackInFlight(ingestOffers());
 
   lastPollDate = Date.now();
 
   setInterval(async () => {
+    if (isShuttingDown()) return;
     if (lastPollDate + POLLING_INTERVAL > Date.now()) return;
 
     lastPollDate = Date.now();
 
-    await ingestOffers();
+    await trackInFlight(ingestOffers());
   }, 60_000);
 }

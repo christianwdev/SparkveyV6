@@ -1,10 +1,42 @@
+import { isIP } from 'node:net';
+
+const CLASS_E_MIN_OCTET = 240; // Cloudflare Pseudo IPv4 uses 240.0.0.0/4
+
 export function normalizeIP(ip: string): string {
-  const trimmed = ip.trim();
-  if (trimmed.startsWith('::ffff:')) {
-    return trimmed.slice(7);
+  let trimmed = ip.trim();
+  if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+    trimmed = trimmed.slice(1, -1);
   }
 
+  const mapped = trimmed.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/i);
+  if (mapped) return mapped[1];
+
   return trimmed;
+}
+
+function isClassEAddress(ip: string): boolean {
+  const firstOctet = Number(ip.split('.')[0]);
+
+  return firstOctet >= CLASS_E_MIN_OCTET;
+}
+
+export function preferIPv4(candidates: Array<string | undefined>): string | undefined {
+  const ips: string[] = [];
+  for (const candidate of candidates) {
+    if (!candidate) continue;
+    for (const part of candidate.split(',')) {
+      const ip = normalizeIP(part);
+      if (ip) ips.push(ip);
+    }
+  }
+
+  const ipv4 = ips.find(ip => isIP(ip) === 4 && !isClassEAddress(ip));
+  if (ipv4) return ipv4;
+
+  const ipv6 = ips.find(ip => isIP(ip) === 6);
+  if (ipv6) return ipv6;
+
+  return ips.find(ip => isIP(ip) === 4);
 }
 
 function expandIPv6(ip: string): string | null {

@@ -64,6 +64,16 @@
     "title": "Profiler",
     "subtitle": "Answer a few questions so we can match you with more surveys.",
     "subtitleCompleted": "Your profiler is complete. You can update your details anytime.",
+    "steps": {
+      "name": "Your name",
+      "about": "About you",
+      "location": "Where you live"
+    },
+    "stepDescriptions": {
+      "name": "This stays on Sparkvey and helps match you with surveys.",
+      "about": "We use this to show surveys you can actually take.",
+      "location": "A few location details so we can match local surveys."
+    },
     "sections": {
       "details": "Personal details"
     },
@@ -88,7 +98,11 @@
       "day": "Day",
       "year": "Year",
       "gender": "Select gender",
-      "country": "Select country"
+      "country": "Select country",
+      "searchCountry": "Search countries"
+    },
+    "empty": {
+      "countrySearch": "No countries match that search."
     },
     "gender": {
       "male": "Male",
@@ -99,8 +113,10 @@
       "age": "You must be at least 18 years old."
     },
     "actions": {
-      "save": "Save profiler",
-      "update": "Update profiler",
+      "next": "Continue",
+      "back": "Back",
+      "save": "Save",
+      "update": "Update",
       "saving": "Saving...",
       "close": "Close"
     },
@@ -108,7 +124,16 @@
       "saved": "Profiler saved."
     },
     "errors": {
-      "required": "Please fill in all required fields.",
+      "firstName": "Please fill in your first name.",
+      "lastName": "Please fill in your last name.",
+      "month": "Please select a month.",
+      "day": "Please select a day.",
+      "year": "Please select a year.",
+      "gender": "Please select your gender.",
+      "country": "Please select your country.",
+      "city": "Please fill in your city.",
+      "zipCode": "Please fill in your ZIP / postal code.",
+      "age": "You must be at least 18 years old.",
       "save": "Couldn't save your profiler. Please try again."
     }
   },

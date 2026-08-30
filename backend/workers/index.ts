@@ -7,6 +7,12 @@ import startDatabase from '../database/database';
 // Utils
 import startRedis from '../database/redis';
 import { createDistributedLock } from '../utils/distributedLock';
+import {
+  closeSharedConnections,
+  closeSocketServer,
+  drainInFlight,
+  registerProcessShutdown,
+} from '../utils/shutdown';
 
 // Workers
 import startCurrencyWorker from './currency';
@@ -44,6 +50,17 @@ global.globalObject = {
   io,
   distributedLock: createDistributedLock(redisClient),
 } satisfies GlobalObject;
+
+registerProcessShutdown(async () => {
+  await closeSocketServer(io);
+  await drainInFlight();
+  await closeSharedConnections({
+    mongoClient: client,
+    redisClient,
+    redisPubClient,
+    redisSubClient,
+  });
+});
 
 await startCurrencyWorker();
 startRewardsWorkers();

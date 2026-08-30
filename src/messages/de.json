@@ -64,6 +64,16 @@
     "title": "Profiler",
     "subtitle": "Beantworte ein paar Fragen, damit wir dich besser matchen können.",
     "subtitleCompleted": "Dein Profiler ist vollständig. Du kannst deine Angaben jederzeit aktualisieren.",
+    "steps": {
+      "name": "Dein Name",
+      "about": "Über dich",
+      "location": "Dein Wohnort"
+    },
+    "stepDescriptions": {
+      "name": "Das bleibt bei Sparkvey und hilft bei der Umfrage-Zuordnung.",
+      "about": "Damit zeigen wir dir Umfragen, die du wirklich machen kannst.",
+      "location": "Ein paar Ortsangaben für lokale Umfragen."
+    },
     "sections": {
       "details": "Persönliche Angaben"
     },
@@ -85,10 +95,14 @@
     "placeholders": {
       "gender": "Geschlecht wählen",
       "country": "Land wählen",
+      "searchCountry": "Länder suchen",
       "month": "Monat",
       "day": "Tag",
       "year": "Jahr",
       "dateOfBirth": "Datum auswählen"
+    },
+    "empty": {
+      "countrySearch": "Kein Land passt zu dieser Suche."
     },
     "gender": {
       "male": "Männlich",
@@ -99,8 +113,10 @@
       "age": "Du musst mindestens 18 Jahre alt sein."
     },
     "actions": {
-      "save": "Profiler speichern",
-      "update": "Profiler aktualisieren",
+      "next": "Weiter",
+      "back": "Zurück",
+      "save": "Speichern",
+      "update": "Aktualisieren",
       "saving": "Speichern...",
       "close": "Schließen"
     },
@@ -108,7 +124,16 @@
       "saved": "Profiler gespeichert."
     },
     "errors": {
-      "required": "Bitte fülle alle Pflichtfelder aus.",
+      "firstName": "Bitte gib deinen Vornamen ein.",
+      "lastName": "Bitte gib deinen Nachnamen ein.",
+      "month": "Bitte wähle einen Monat.",
+      "day": "Bitte wähle einen Tag.",
+      "year": "Bitte wähle ein Jahr.",
+      "gender": "Bitte wähle dein Geschlecht.",
+      "country": "Bitte wähle dein Land.",
+      "city": "Bitte gib deine Stadt ein.",
+      "zipCode": "Bitte gib deine Postleitzahl ein.",
+      "age": "Du musst mindestens 18 Jahre alt sein.",
       "save": "Profiler konnte nicht gespeichert werden. Bitte versuche es erneut."
     }
   },

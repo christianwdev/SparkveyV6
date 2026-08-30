@@ -18,6 +18,9 @@ EXPOSE 8080
 
 USER bun
 
+HEALTHCHECK --interval=10s --timeout=5s --start-period=40s --retries=3 \
+  CMD bun -e "fetch('http://127.0.0.1:'+(process.env.PORT||'8080')+'/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+
 CMD ["bun", "run", "app.ts"]
 
 FROM deps AS worker
@@ -67,5 +70,8 @@ RUN chown -R node:node /app
 EXPOSE 4000
 
 USER node
+
+HEALTHCHECK --interval=10s --timeout=5s --start-period=40s --retries=3 \
+  CMD node -e "fetch('http://127.0.0.1:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
 CMD ["node", "./node_modules/next/dist/bin/next", "start", "src/", "-p", "4000"]

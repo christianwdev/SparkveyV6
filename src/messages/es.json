@@ -64,6 +64,16 @@
     "title": "Perfilador",
     "subtitle": "Responde unas preguntas para encontrar más encuestas.",
     "subtitleCompleted": "Tu perfilador está completo. Puedes actualizar tus datos cuando quieras.",
+    "steps": {
+      "name": "Tu nombre",
+      "about": "Sobre ti",
+      "location": "Dónde vives"
+    },
+    "stepDescriptions": {
+      "name": "Esto se guarda en Sparkvey y ayuda a emparejarte con encuestas.",
+      "about": "Lo usamos para mostrarte encuestas que puedes hacer.",
+      "location": "Unos datos de ubicación para encuestas locales."
+    },
     "sections": {
       "details": "Datos personales"
     },
@@ -85,10 +95,14 @@
     "placeholders": {
       "gender": "Selecciona género",
       "country": "Selecciona país",
+      "searchCountry": "Buscar países",
       "month": "Mes",
       "day": "Día",
       "year": "Año",
       "dateOfBirth": "Seleccionar fecha"
+    },
+    "empty": {
+      "countrySearch": "Ningún país coincide con esa búsqueda."
     },
     "gender": {
       "male": "Masculino",
@@ -99,8 +113,10 @@
       "age": "Debes tener al menos 18 años."
     },
     "actions": {
-      "save": "Guardar perfilador",
-      "update": "Actualizar perfilador",
+      "next": "Continuar",
+      "back": "Atrás",
+      "save": "Guardar",
+      "update": "Actualizar",
       "saving": "Guardando...",
       "close": "Cerrar"
     },
@@ -108,7 +124,16 @@
       "saved": "Perfilador guardado."
     },
     "errors": {
-      "required": "Completa todos los campos obligatorios.",
+      "firstName": "Completa tu nombre.",
+      "lastName": "Completa tu apellido.",
+      "month": "Selecciona un mes.",
+      "day": "Selecciona un día.",
+      "year": "Selecciona un año.",
+      "gender": "Selecciona tu género.",
+      "country": "Selecciona tu país.",
+      "city": "Completa tu ciudad.",
+      "zipCode": "Completa tu código postal.",
+      "age": "Debes tener al menos 18 años.",
       "save": "No se pudo guardar el perfilador. Inténtalo de nuevo."
     }
   },

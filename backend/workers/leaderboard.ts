@@ -4,6 +4,7 @@ import DatabaseCollections from '../constants/DatabaseCollections';
 // Utils
 import { getGlobalObject } from '../utils/globalObject';
 import { payoutLeaderboardEarnings } from '../utils/leaderboard';
+import { isShuttingDown, trackInFlight } from '../utils/shutdown';
 
 // Types
 import type InternalLeaderboard from 'types/InternalLeaderboard';
@@ -16,16 +17,24 @@ export default function startLeaderboardWorker() {
   let lastPollDate = Date.now();
 
   setInterval(() => {
+    if (isShuttingDown()) return;
     if (lastPollDate + POLLING_INTERVAL > Date.now()) return;
 
     lastPollDate = Date.now();
 
-    void pollLeaderboard().then((failed) => {
-      if (failed) lastPollDate = 0;
-    });
+    trackInFlight(pollLeaderboard())
+      .then(failed => {
+        if (failed) lastPollDate = 0;
+      })
+      .catch(error => {
+        console.error(error);
+        lastPollDate = 0;
+      });
   }, 1000);
 
-  void pollLeaderboard();
+  trackInFlight(pollLeaderboard()).catch(error => {
+    console.error(error);
+  });
 }
 
 async function pollLeaderboard(): Promise<boolean> {

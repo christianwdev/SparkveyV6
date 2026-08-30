@@ -64,6 +64,16 @@
     "title": "Profil",
     "subtitle": "Répondez à quelques questions pour trouver plus de sondages.",
     "subtitleCompleted": "Votre profil est complet. Vous pouvez mettre à jour vos infos à tout moment.",
+    "steps": {
+      "name": "Votre nom",
+      "about": "À propos de vous",
+      "location": "Où vous habitez"
+    },
+    "stepDescriptions": {
+      "name": "Ces infos restent sur Sparkvey et aident à vous matcher.",
+      "about": "On s’en sert pour afficher des sondages que vous pouvez faire.",
+      "location": "Quelques infos de lieu pour les sondages locaux."
+    },
     "sections": {
       "details": "Informations personnelles"
     },
@@ -85,10 +95,14 @@
     "placeholders": {
       "gender": "Sélectionner le genre",
       "country": "Sélectionner le pays",
+      "searchCountry": "Rechercher un pays",
       "month": "Mois",
       "day": "Jour",
       "year": "Année",
       "dateOfBirth": "Sélectionner une date"
+    },
+    "empty": {
+      "countrySearch": "Aucun pays ne correspond."
     },
     "gender": {
       "male": "Homme",
@@ -99,8 +113,10 @@
       "age": "Vous devez avoir au moins 18 ans."
     },
     "actions": {
-      "save": "Enregistrer le profil",
-      "update": "Mettre à jour le profil",
+      "next": "Continuer",
+      "back": "Retour",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
       "saving": "Enregistrement...",
       "close": "Fermer"
     },
@@ -108,7 +124,16 @@
       "saved": "Profil enregistré."
     },
     "errors": {
-      "required": "Veuillez remplir tous les champs obligatoires.",
+      "firstName": "Indiquez votre prénom.",
+      "lastName": "Indiquez votre nom.",
+      "month": "Sélectionnez un mois.",
+      "day": "Sélectionnez un jour.",
+      "year": "Sélectionnez une année.",
+      "gender": "Sélectionnez votre genre.",
+      "country": "Sélectionnez votre pays.",
+      "city": "Indiquez votre ville.",
+      "zipCode": "Indiquez votre code postal.",
+      "age": "Vous devez avoir au moins 18 ans.",
       "save": "Impossible d'enregistrer le profil. Réessayez."
     }
   },

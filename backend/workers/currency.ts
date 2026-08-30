@@ -3,6 +3,7 @@ import RedisKeys from '../constants/RedisKeys';
 
 // Utils
 import { getGlobalObject } from '../utils/globalObject';
+import { isShuttingDown, trackInFlight } from '../utils/shutdown';
 
 const MAIN_CURRENCY_URL = 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.min.json';
 const BACKUP_CURRENCY_URL = 'https://latest.currency-api.pages.dev/v1/currencies/usd.min.json';
@@ -75,11 +76,12 @@ export default async function startCurrencyWorker() {
     console.info('Currency rates cached.');
   };
 
-  await poll();
+  await trackInFlight(poll());
 
   setInterval(async () => {
+    if (isShuttingDown()) return;
     if (lastPollDate + POLLING_INTERVAL_MS > Date.now()) return;
 
-    await poll();
+    await trackInFlight(poll());
   }, 60_000);
 }

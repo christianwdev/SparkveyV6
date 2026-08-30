@@ -3,6 +3,7 @@ import TremendousWorker from './tremendous';
 
 // Utils
 import { processConvertedWorkersRewards } from '../../utils/rewards';
+import { isShuttingDown, trackInFlight } from '../../utils/shutdown';
 
 // Types
 import type InternalReward from 'types/Reward/InternalReward';
@@ -36,15 +37,16 @@ async function ingestRewards() {
 }
 
 export default async function startRewardsWorkers() {
-  await ingestRewards();
+  await trackInFlight(ingestRewards());
 
   lastPollDate = Date.now();
 
   setInterval(async () => {
+    if (isShuttingDown()) return;
     if (lastPollDate + POLLING_INTERVAL > Date.now()) return;
 
     lastPollDate = Date.now();
 
-    await ingestRewards();
+    await trackInFlight(ingestRewards());
   }, 60_000);
 }

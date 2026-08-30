@@ -1,3 +1,4 @@
+import { isIP } from 'node:net';
 import { headers } from 'next/headers';
 
 // Constants
@@ -8,6 +9,21 @@ type RequestConfig = Omit<RequestInit, 'headers'> & {
   data?: object,
   headers?: Record<string, string | undefined>,
 };
+
+function pickClientIP(nextHeaders: Headers): string {
+  const connecting = (nextHeaders.get('cf-connecting-ip') ?? '').trim();
+  const connectingV6 = (nextHeaders.get('cf-connecting-ipv6') ?? '').trim();
+  const mapped = connecting.match(/^\[?::ffff:(\d+\.\d+\.\d+\.\d+)\]?$/i);
+  if (mapped) return mapped[1];
+
+  if (isIP(connecting) === 4 && Number(connecting.split('.')[0]) < 240) {
+    return connecting;
+  }
+
+  if (connectingV6) return connectingV6;
+
+  return connecting;
+}
 
 export {
   serverRequest,
@@ -32,7 +48,7 @@ async function serverRequest<ReturnType>(config: RequestConfig): Promise<ServerS
         'Content-Type': 'application/json',
         cookie: cookieHeader ?? '',
         [NextJSPassthroughHeaders.token]: process.env.NEXTJS_PASSTHROUGH_TOKEN ?? '',
-        [NextJSPassthroughHeaders.ip]: nextHeaders.get('cf-connecting-ip') ?? '',
+        [NextJSPassthroughHeaders.ip]: pickClientIP(nextHeaders),
         [NextJSPassthroughHeaders.userAgent]: nextHeaders.get('user-agent') ?? '',
         [NextJSPassthroughHeaders.ipCountry]: nextHeaders.get('cf-ipcountry') ?? '',
         [NextJSPassthroughHeaders.ipCity]: nextHeaders.get('cf-ipcity') ?? '',

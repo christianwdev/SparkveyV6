@@ -1,5 +1,6 @@
 // Utils
 import { pollExpiredHeldOfferEarnings } from 'backend/utils/earnings';
+import { isShuttingDown, trackInFlight } from 'backend/utils/shutdown';
 
 const POLLING_INTERVAL = 15_000; // idle polls are a cheap indexed find
 
@@ -10,13 +11,14 @@ export default function startHoldsWorker() {
   let polling = false;
 
   setInterval(() => {
+    if (isShuttingDown()) return;
     if (polling) return;
     if (lastPollDate + POLLING_INTERVAL > Date.now()) return;
 
     polling = true;
     lastPollDate = Date.now();
 
-    pollExpiredHeldOfferEarnings()
+    trackInFlight(pollExpiredHeldOfferEarnings())
       .then(failed => {
         if (failed) lastPollDate = 0;
       })
@@ -30,7 +32,7 @@ export default function startHoldsWorker() {
   }, 1000);
 
   polling = true;
-  pollExpiredHeldOfferEarnings()
+  trackInFlight(pollExpiredHeldOfferEarnings())
     .catch(error => {
       console.error(error);
     })

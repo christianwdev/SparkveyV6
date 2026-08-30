@@ -10,6 +10,13 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    stop_grace_period: 30s
+    healthcheck:
+      test: ["CMD", "bun", "-e", "fetch('http://127.0.0.1:'+(process.env.PORT||'8080')+'/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
 
   worker:
     image: sparkvey-worker:latest
@@ -20,6 +27,7 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+    stop_grace_period: 30s
 
   nextjs:
     image: sparkvey-nextjs:latest
@@ -36,3 +44,10 @@ services:
     ports:
       - "4000:4000"
     restart: unless-stopped
+    stop_grace_period: 30s
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 40s

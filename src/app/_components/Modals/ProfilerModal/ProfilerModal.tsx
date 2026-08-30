@@ -24,8 +24,10 @@ type ProfilerModalProps = {
 };
 
 type GenderValue = 'male' | 'female' | 'other';
+type ProfilerStep = 0 | 1 | 2;
 
 const GENDER_KEYS = [ 'male', 'female', 'other' ] as const satisfies readonly GenderValue[];
+const STEP_KEYS = [ 'name', 'about', 'location' ] as const;
 const MIN_AGE_YEARS = 18;
 const MAX_AGE_YEARS = 120;
 
@@ -56,15 +58,14 @@ function daysInMonth(year: number, month: number): number {
 
 function ageFromParts(year: number, month: number, day: number): number {
   const now = new Date();
-  const age = now.getUTCFullYear() - year
+
+  return now.getUTCFullYear() - year
     - (
       now.getUTCMonth() < month - 1
       || (now.getUTCMonth() === month - 1 && now.getUTCDate() < day)
         ? 1
         : 0
     );
-
-  return age;
 }
 
 export default function ProfilerModal({ onClose }: ProfilerModalProps) {
@@ -74,6 +75,7 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
   const personal = user?.personalInformation;
   const storedDate = parseStoredDate(personal?.dateOfBirth);
 
+  const [ step, setStep ] = useState<ProfilerStep>(0);
   const [ firstName, setFirstName ] = useState(personal?.firstName ?? '');
   const [ lastName, setLastName ] = useState(personal?.lastName ?? '');
   const [ month, setMonth ] = useState(storedDate.month);
@@ -85,7 +87,6 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
   const [ zipCode, setZipCode ] = useState(personal?.zipCode ?? '');
   const [ pending, setPending ] = useState(false);
   const [ submitted, setSubmitted ] = useState(false);
-  const [ formError, setFormError ] = useState<string | null>(null);
 
   const completed = Boolean(personal?.completedAt);
   const currentYear = new Date().getUTCFullYear();
@@ -96,6 +97,7 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
   const dayCount = Number.isInteger(selectedYear) && Number.isInteger(selectedMonth) && selectedMonth > 0
     ? daysInMonth(selectedYear, selectedMonth)
     : 31;
+  const stepKey = STEP_KEYS[step];
 
   const monthValues = Array.from({ length: 12 }, (_, index) => {
     const value = String(index + 1);
@@ -118,9 +120,14 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
     return { value, label: value };
   });
 
+  const dateComplete = Boolean(month && day && year);
+  const age = dateComplete
+    ? ageFromParts(Number(year), Number(month), Number(day))
+    : null;
+  const ageInvalid = age !== null && (age < MIN_AGE_YEARS || age > MAX_AGE_YEARS);
+
   function setBirthdayMonth(nextMonth: string) {
     setMonth(nextMonth);
-    setFormError(null);
 
     const nextDayCount = Number.isInteger(selectedYear)
       ? daysInMonth(selectedYear, Number(nextMonth))
@@ -131,12 +138,34 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
 
   function setBirthdayYear(nextYear: string) {
     setYear(nextYear);
-    setFormError(null);
 
     if (!selectedMonth) return;
 
     const nextDayCount = daysInMonth(Number(nextYear), selectedMonth);
     if (Number(day) > nextDayCount) setDay(String(nextDayCount));
+  }
+
+  function validateStep(current: ProfilerStep): boolean {
+    if (current === 0) {
+      return Boolean(firstName.trim() && lastName.trim());
+    }
+
+    if (current === 1) {
+      if (!month || !day || !year || !gender) return false;
+
+      const age = ageFromParts(Number(year), Number(month), Number(day));
+
+      return age >= MIN_AGE_YEARS && age <= MAX_AGE_YEARS;
+    }
+
+    return Boolean(country && city.trim() && zipCode.trim());
+  }
+
+  function goBack() {
+    if (step === 0) return;
+
+    setSubmitted(false);
+    setStep(current => (current - 1) as ProfilerStep);
   }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -145,54 +174,30 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
 
     setSubmitted(true);
 
-    const trimmedFirst = firstName.trim();
-    const trimmedLast = lastName.trim();
-    const trimmedCity = city.trim();
-    const trimmedZip = zipCode.trim();
+    if (!validateStep(step)) return;
 
-    if (
-      !trimmedFirst
-      || !trimmedLast
-      || !month
-      || !day
-      || !year
-      || !gender
-      || !country
-      || !trimmedCity
-      || !trimmedZip
-    ) {
-      setFormError(t('errors.required'));
-
-      return;
-    }
-
-    const numericYear = Number(year);
-    const numericMonth = Number(month);
-    const numericDay = Number(day);
-    const age = ageFromParts(numericYear, numericMonth, numericDay);
-
-    if (age < MIN_AGE_YEARS || age > MAX_AGE_YEARS) {
-      setFormError(t('hints.age'));
+    if (step < 2) {
+      setSubmitted(false);
+      setStep(current => (current + 1) as ProfilerStep);
 
       return;
     }
 
     setPending(true);
-    setFormError(null);
 
     try {
       const response = await updatePersonalInformationSetting({
-        firstName: trimmedFirst,
-        lastName: trimmedLast,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         dateOfBirth: `${year}-${padDatePart(month)}-${padDatePart(day)}`,
-        gender,
+        gender: gender as GenderValue,
         country,
-        city: trimmedCity,
-        zipCode: trimmedZip,
+        city: city.trim(),
+        zipCode: zipCode.trim(),
       });
 
       if (!response?.success || !response.data) {
-        setFormError(response?.message || t('errors.save'));
+        toast.error(response?.message || t('errors.save'), { toastId: 'profiler-save' });
 
         return;
       }
@@ -202,7 +207,7 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
       onClose();
     } catch (error) {
       console.error(error);
-      setFormError(t('errors.save'));
+      toast.error(t('errors.save'), { toastId: 'profiler-save' });
     } finally {
       setPending(false);
     }
@@ -211,142 +216,173 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
   return (
     <ModalShell onClose={onClose} closeLabel={t('actions.close')} compact>
       <form className={styles.profilerModal} onSubmit={onSubmit}>
-        <h2>{t('title')}</h2>
-        <p className={styles.lede}>
-          {completed ? t('subtitleCompleted') : t('subtitle')}
-        </p>
-        <p className={styles.section}>{t('sections.details')}</p>
-        <p className={styles.sectionDescription}>{t('sectionDescriptions.details')}</p>
-
-        <div className={styles.row}>
-          <TextField
-            id="profiler-first-name"
-            label={t('fields.firstName')}
-            value={firstName}
-            autoComplete="given-name"
-            maxLength={64}
-            forceShowError={submitted}
-            error={!firstName.trim() ? t('errors.required') : undefined}
-            onChange={event => {
-              setFirstName(event.target.value);
-              setFormError(null);
-            }}
-          />
-          <TextField
-            id="profiler-last-name"
-            label={t('fields.lastName')}
-            value={lastName}
-            autoComplete="family-name"
-            maxLength={64}
-            forceShowError={submitted}
-            error={!lastName.trim() ? t('errors.required') : undefined}
-            onChange={event => {
-              setLastName(event.target.value);
-              setFormError(null);
-            }}
-          />
+        <div className={styles.header}>
+          <h2>{t(`steps.${stepKey}`)}</h2>
+          <div className={styles.progress} aria-hidden>
+            {STEP_KEYS.map((key, index) => (
+              <span
+                key={key}
+                className={[
+                  index === step ? styles.current : '',
+                  index < step ? styles.done : '',
+                ].filter(Boolean).join(' ')}
+              />
+            ))}
+          </div>
+          <p className={styles.lede}>
+            {completed && step === 0 ? t('subtitleCompleted') : t(`stepDescriptions.${stepKey}`)}
+          </p>
         </div>
 
-        <div className={styles.birthday}>
-          <p className={styles.groupLabel}>{t('fields.dateOfBirth')}</p>
-          <div className={styles.birthdayRow}>
-            <Dropdown
-              label={t('fields.month')}
-              hideLabel
-              fullWidth
-              selected={month}
-              defaultValue={t('placeholders.month')}
-              setValue={setBirthdayMonth}
-              values={monthValues}
+        {step === 0 && (
+          <div className={styles.step}>
+            <TextField
+              id="profiler-first-name"
+              label={t('fields.firstName')}
+              value={firstName}
+              autoComplete="given-name"
+              maxLength={64}
+              forceShowError={submitted}
+              error={!firstName.trim() ? t('errors.firstName') : undefined}
+              onChange={event => setFirstName(event.target.value)}
             />
-            <Dropdown
-              label={t('fields.day')}
-              hideLabel
-              fullWidth
-              selected={day}
-              defaultValue={t('placeholders.day')}
-              setValue={value => {
-                setDay(value);
-                setFormError(null);
-              }}
-              values={dayValues}
-            />
-            <Dropdown
-              label={t('fields.year')}
-              hideLabel
-              fullWidth
-              selected={year}
-              defaultValue={t('placeholders.year')}
-              setValue={setBirthdayYear}
-              values={yearValues}
+            <TextField
+              id="profiler-last-name"
+              label={t('fields.lastName')}
+              value={lastName}
+              autoComplete="family-name"
+              maxLength={64}
+              forceShowError={submitted}
+              error={!lastName.trim() ? t('errors.lastName') : undefined}
+              onChange={event => setLastName(event.target.value)}
             />
           </div>
-        </div>
+        )}
 
-        <div className={styles.row}>
-          <Dropdown
-            label={t('fields.gender')}
-            fullWidth
-            selected={gender}
-            defaultValue={t('placeholders.gender')}
-            setValue={value => {
-              setGender(value);
-              setFormError(null);
-            }}
-            values={GENDER_KEYS.map(value => ({
-              value,
-              label: t(`gender.${value}`),
-            }))}
-          />
-          <Dropdown
-            label={t('fields.country')}
-            fullWidth
-            selected={country}
-            defaultValue={t('placeholders.country')}
-            setValue={value => {
-              setCountry(value);
-              setFormError(null);
-            }}
-            values={getCountryOptions(locale)}
-          />
-        </div>
+        {step === 1 && (
+          <div className={styles.step}>
+            <div className={styles.field}>
+              <p className={styles.groupLabel}>{t('fields.dateOfBirth')}</p>
+              <div className={styles.birthdayRow}>
+                <Dropdown
+                  label={t('fields.month')}
+                  hideLabel
+                  field
+                  selected={month}
+                  defaultValue={t('placeholders.month')}
+                  setValue={setBirthdayMonth}
+                  values={monthValues}
+                  error={submitted && !month ? t('errors.month') : undefined}
+                />
+                <Dropdown
+                  label={t('fields.day')}
+                  hideLabel
+                  field
+                  selected={day}
+                  defaultValue={t('placeholders.day')}
+                  setValue={setDay}
+                  values={dayValues}
+                  error={submitted && !day ? t('errors.day') : undefined}
+                />
+                <Dropdown
+                  label={t('fields.year')}
+                  hideLabel
+                  field
+                  selected={year}
+                  defaultValue={t('placeholders.year')}
+                  setValue={setBirthdayYear}
+                  values={yearValues}
+                  error={submitted && !year ? t('errors.year') : undefined}
+                />
+              </div>
+            </div>
+            <div className={styles.field}>
+              <p className={styles.groupLabel}>{t('fields.gender')}</p>
+              <Dropdown
+                label={t('fields.gender')}
+                hideLabel
+                field
+                selected={gender}
+                defaultValue={t('placeholders.gender')}
+                setValue={setGender}
+                values={GENDER_KEYS.map(value => ({
+                  value,
+                  label: t(`gender.${value}`),
+                }))}
+                error={submitted && !gender ? t('errors.gender') : undefined}
+              />
+            </div>
+            <p className={submitted && ageInvalid ? styles.ageError : styles.hint}>
+              {submitted && ageInvalid ? t('errors.age') : t('hints.age')}
+            </p>
+          </div>
+        )}
 
-        <div className={styles.row}>
-          <TextField
-            id="profiler-city"
-            label={t('fields.city')}
-            value={city}
-            autoComplete="address-level2"
-            maxLength={96}
-            forceShowError={submitted}
-            error={!city.trim() ? t('errors.required') : undefined}
-            onChange={event => {
-              setCity(event.target.value);
-              setFormError(null);
-            }}
-          />
-          <TextField
-            id="profiler-zip"
-            label={t('fields.zipCode')}
-            value={zipCode}
-            autoComplete="postal-code"
-            maxLength={32}
-            forceShowError={submitted}
-            error={!zipCode.trim() ? t('errors.required') : undefined}
-            onChange={event => {
-              setZipCode(event.target.value);
-              setFormError(null);
-            }}
-          />
-        </div>
-
-        <p className={styles.sectionDescription}>{t('hints.age')}</p>
-
-        {formError ? <p className={styles.errorMessage}>{formError}</p> : null}
+        {step === 2 && (
+          <div className={styles.step}>
+            <div className={styles.field}>
+              <p className={styles.groupLabel}>{t('fields.country')}</p>
+              <Dropdown
+                label={t('fields.country')}
+                hideLabel
+                field
+                selected={country}
+                defaultValue={t('placeholders.country')}
+                setValue={setCountry}
+                searchable
+                searchPlaceholder={t('placeholders.searchCountry')}
+                emptyLabel={t('empty.countrySearch')}
+                error={submitted && !country ? t('errors.country') : undefined}
+                values={getCountryOptions(locale).map(option => ({
+                  value: option.value,
+                  label: option.label,
+                  leading: (
+                    <img
+                      src={option.flagUrl}
+                      alt=""
+                      width={18}
+                      height={18}
+                      loading="lazy"
+                    />
+                  ),
+                }))}
+              />
+            </div>
+            <TextField
+              id="profiler-city"
+              label={t('fields.city')}
+              value={city}
+              autoComplete="address-level2"
+              maxLength={96}
+              forceShowError={submitted}
+              error={!city.trim() ? t('errors.city') : undefined}
+              onChange={event => setCity(event.target.value)}
+            />
+            <TextField
+              id="profiler-zip"
+              label={t('fields.zipCode')}
+              value={zipCode}
+              autoComplete="postal-code"
+              maxLength={32}
+              forceShowError={submitted}
+              error={!zipCode.trim() ? t('errors.zipCode') : undefined}
+              onChange={event => setZipCode(event.target.value)}
+            />
+          </div>
+        )}
 
         <div className={styles.actions}>
+          {step > 0 && (
+            <PrimaryButton type="button" variant="secondary" onClick={goBack} disabled={pending}>
+              {t('actions.back')}
+            </PrimaryButton>
+          )}
           <PrimaryButton type="submit" disabled={pending}>
-            {pending ? t('actions.saving') : (completed ? t('actions.update') : t('actions.save'))}
+            {step < 2
+              ? t('actions.next')
+              : pending
+                ? t('actions.saving')
+                : (completed ? t('actions.update') : t('actions.save'))}
           </PrimaryButton>
         </div>
       </form>

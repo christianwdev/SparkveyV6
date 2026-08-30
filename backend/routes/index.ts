@@ -16,10 +16,12 @@ import announcementsRouteInvoker from './announcements';
 import webhooksRouteInvoker from './webhooks';
 import supportRouteInvoker from './support';
 import imgRouteInvoker from './img';
+import healthRouteInvoker from './health';
 
 const app = new Hono();
 
 export default function routesInvoker() {
+  app.route('/health', healthRouteInvoker());
   app.route('/auth', authRouteInvoker());
   app.route('/user', userRouteInvoker());
   app.route('/postback', postbackRouteInvoker());
