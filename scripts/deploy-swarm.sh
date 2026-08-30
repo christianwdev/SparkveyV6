@@ -64,6 +64,32 @@ fi
 
 export IMAGE_TAG
 
+hash_env_file() {
+  if command -v sha256sum >/dev/null; then
+    sha256sum "$ROOT/.env" | awk '{ print substr($1, 1, 12) }'
+  elif command -v shasum >/dev/null; then
+    shasum -a 256 "$ROOT/.env" | awk '{ print substr($1, 1, 12) }'
+  else
+    echo "error: need sha256sum or shasum to version the Swarm env config" >&2
+    exit 1
+  fi
+}
+
+prune_old_env_configs() {
+  local keep="$1"
+  local name
+
+  docker config ls --format '{{.Name}}' | grep -E '^sparkvey_env' | while read -r name; do
+    if [[ "$name" == "$keep" ]]; then
+      continue
+    fi
+
+    if docker config rm "$name" >/dev/null 2>&1; then
+      echo "Removed unused config ${name}"
+    fi
+  done
+}
+
 read_env() {
   local key="$1"
   local line
@@ -203,7 +229,10 @@ else
   echo "Skipping image build (IMAGE_TAG=${IMAGE_TAG})"
 fi
 
-echo "Deploying stack ${STACK_NAME} with IMAGE_TAG=${IMAGE_TAG}"
+SPARKVEY_ENV_CONFIG="sparkvey_env_$(hash_env_file)"
+export SPARKVEY_ENV_CONFIG
+
+echo "Deploying stack ${STACK_NAME} with IMAGE_TAG=${IMAGE_TAG} ${SPARKVEY_ENV_CONFIG}"
 docker stack deploy -c "$COMPOSE_FILE" "$STACK_NAME"
 
 if [[ "$FORCE" -eq 1 ]]; then
@@ -217,5 +246,7 @@ wait_for_service "${STACK_NAME}_backend"
 wait_for_service "${STACK_NAME}_nextjs"
 wait_for_service "${STACK_NAME}_worker"
 
-echo "Stack ${STACK_NAME} is rolled out (IMAGE_TAG=${IMAGE_TAG})"
+prune_old_env_configs "$SPARKVEY_ENV_CONFIG"
+
+echo "Stack ${STACK_NAME} is rolled out (IMAGE_TAG=${IMAGE_TAG} ${SPARKVEY_ENV_CONFIG})"
 docker service ls --filter "label=com.docker.stack.namespace=${STACK_NAME}"

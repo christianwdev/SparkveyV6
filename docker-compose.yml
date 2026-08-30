@@ -7,7 +7,8 @@
 configs:
   sparkvey_env:
     file: .env
-    name: sparkvey_env_v5
+    # Swarm configs are immutable. The deploy script sets this to sparkvey_env_<hash>.
+    name: ${SPARKVEY_ENV_CONFIG:-sparkvey_env}
 
 networks:
   app:
