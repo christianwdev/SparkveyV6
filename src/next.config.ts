@@ -29,6 +29,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'www.sparkvey.com' },
       { protocol: 'https', hostname: 'api.sparkvey.com' },
       { protocol: 'https', hostname: 'api.sparkveystaging.com' },
+      { protocol: 'https', hostname: 'stagingapi.sparkvey.com' },
       { protocol: 'https', hostname: 'avatars.sparkvey.com' },
       { protocol: 'http', hostname: 'localhost' },
     ],
