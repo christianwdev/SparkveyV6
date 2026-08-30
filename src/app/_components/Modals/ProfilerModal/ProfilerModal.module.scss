@@ -1,0 +1,82 @@
+@use '@styles/variables.scss' as *;
+
+.profilerModal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  > h2 {
+    margin: 0;
+    padding-right: 32px;
+    color: $text-bold;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  > .lede {
+    margin: 0;
+    color: $text-light;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  > .section {
+    margin: 0;
+    color: $text-bold;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  > .sectionDescription {
+    margin: -8px 0 0;
+    color: $text-light;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  > .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+
+    @media screen and (max-width: $large-phone) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  > .birthday {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    > .groupLabel {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: $text-light;
+    }
+
+    > .birthdayRow {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr 1fr;
+      gap: 8px;
+
+      @media screen and (max-width: $phone) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  > .errorMessage {
+    margin: 0;
+    color: $red;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  > .actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 4px;
+  }
+}

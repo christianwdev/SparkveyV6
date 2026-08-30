@@ -14,6 +14,10 @@
   text-align: left;
   font: inherit;
   color: inherit;
+  appearance: none;
+  cursor: pointer;
+  margin: 0;
+  outline: none;
   border: 1px solid rgba(158, 56, 208, 0.28);
   background:
     linear-gradient(165deg, rgba(158, 56, 208, 0.14) 0%, rgba(158, 56, 208, 0.04) 42%, $off-white 100%);
@@ -81,12 +85,15 @@
     height: 36px;
     padding: 0 14px;
     border-radius: 8px;
-    background: rgba(158, 56, 208, 0.45);
+    background: $primary;
     color: white;
     font-size: 13px;
     font-weight: 600;
     line-height: 1;
-    opacity: 0.85;
+  }
+
+  &:hover > .cta {
+    filter: brightness(1.06);
   }
 
   @media screen and (max-width: $large-phone) {

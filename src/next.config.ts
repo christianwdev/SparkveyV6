@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
   },
 
   images: {
-    dangerouslyAllowLocalIP: process.env.NODE_ENV !== 'production',
+    dangerouslyAllowLocalIP: process.env.NODE_ENV === 'development',
 
     // Offer-wall creatives use arbitrary CDNs — those render via <img>, not next/image.
     remotePatterns: [

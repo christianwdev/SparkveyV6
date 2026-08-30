@@ -1,8 +1,7 @@
 const SiteConfig = {
   postback: {
-    /** Local dev only: requires NODE_ENV !== 'production' and POSTBACK_DISABLE_SECURITY=true */
     disableSecurityChecks:
-      process.env.NODE_ENV !== 'production'
+      process.env.NODE_ENV === 'development'
       && process.env.POSTBACK_DISABLE_SECURITY === 'true',
   },
   server: {

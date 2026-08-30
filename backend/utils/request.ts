@@ -60,7 +60,7 @@ export function isTrustedNextPassthrough(c: Context): boolean {
 }
 
 export function getIPFromRequest(c: Context): string | undefined {
-  if (process.env.NODE_ENV !== 'production') return '140.174.21.171';
+  if (process.env.NODE_ENV === 'development') return '140.174.21.171';
 
   const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
   const passthroughIp = c.req.header('nextjs-passthrough-ip')?.trim();
@@ -92,7 +92,7 @@ const CLOUDFLARE_UNKNOWN_COUNTRY = 'XX';
 const CLOUDFLARE_TOR_COUNTRY = 'T1';
 
 export function getRawIpCountryFromRequest(c: Context): string | undefined {
-  if (process.env.NODE_ENV !== 'production') return 'US';
+  if (process.env.NODE_ENV === 'development') return 'US';
 
   const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
   const passthrough = c.req.header('nextjs-passthrough-ip-country')?.trim();
@@ -121,7 +121,7 @@ export function getCountryFromRequest(c: Context): string | undefined {
 }
 
 export function getCityFromRequest(c: Context): string | undefined {
-  if (process.env.NODE_ENV !== 'production') return 'Dallas';
+  if (process.env.NODE_ENV === 'development') return 'Dallas';
 
   const passthroughToken = c.req.header('nextjs-passthrough-token') ?? undefined;
   const passthrough = c.req.header('nextjs-passthrough-ip-city');
