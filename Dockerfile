@@ -1,4 +1,4 @@
-FROM oven/bun:1.3 AS deps
+FROM oven/bun:1.4 AS deps
 
 WORKDIR /app
 
@@ -36,7 +36,7 @@ CMD ["bun", "run", "./backend/workers/index.ts"]
 # Next's SWC binary SIGILL (exit 132) under Bun. Build and start with Node.
 FROM node:22-bookworm AS nextjs
 
-COPY --from=oven/bun:1.3 /usr/local/bin/bun /usr/local/bin/bun
+COPY --from=oven/bun:1.4 /usr/local/bin/bun /usr/local/bin/bun
 
 WORKDIR /app
 
