@@ -16,94 +16,66 @@ const SiteConfig = {
     name: readEnv('MONGODB_DATABASE_NAME'),
   },
   walls: {
-    adgatemedia: {
-      security: {
-        whitelistedIPs: [] as string[],
-      },
-    },
     ayetstudios: {
       security: {
-        whitelistedIPs: [] as string[],
-        secret: readEnv('AYETSTUDIOS_POSTBACK_SECRET'),
+        secret: 'edf8e4ae8ec1acd4cc8b85a15ae6e0c1',
+        whitelistedIPs: [ '51.79.101.241', '158.69.185.134', '158.69.185.154', '35.165.166.40', '35.166.159.131', '52.40.3.140' ],
       },
     },
     lootably: {
       security: {
-        secret: readEnv('LOOTABLY_POSTBACK_SECRET'),
+        secret: 'imKri5w8AOaTmC5Xs8ddSp2I4q027nb6yJrbsXdXa3EAOD21e8ej5swxyME4pZo2kkyap1E5ycxsKaNFeUbg',
       },
     },
     waxrewards: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [ '78.46.179.15' ],
       },
     },
     adtowall: {
       security: {
-        secret: readEnv('ADTOWALL_POSTBACK_SECRET'),
+        secret: 'CYq3AXZGYeHABVWRARxFrwzMr0yA6M0dU13HCXVdjuNHcyxMTP6McSfhr7fWBXjF',
       },
-      currencyRates: {} as Record<string, number>,
     },
     mmwall: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [ '63.32.127.99' ],
       },
     },
     torox: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [ '44.212.211.226' ],
       },
-      placementID: readEnv('TOROX_PLACEMENT_ID'),
-      appToken: readEnv('TOROX_APP_TOKEN'),
+      rate: 0.75,
+      placementID: '12164',
+      appToken: 'cca23ecf04bdcefd40104dd177535d44',
     },
     timewall: {
       security: {
-        whitelistedIPs: [] as string[],
+        secret: 'd3a6b3b4f3c168c94258ee10844ba713',
+        whitelistedIPs: [ '51.81.120.73', '142.111.248.18' ],
       },
     },
     monlix: {
       security: {
-        secret: readEnv('MONLIX_POSTBACK_SECRET'),
+        secret: '5fb0cb36c34366557074cefeb3e1205a199399015df302910d09ad0c885fb83a',
       },
     },
     hangmyads: {
       security: {
-        secret: readEnv('HANGMYADS_POSTBACK_SECRET'),
+        secret: '54c5e19373ffa5611ac3c112a2dfe3c5',
+        whitelistedIPs: [ '52.10.12.101', '162.254.255.120', '216.137.182.154' ],
       },
-      rate: Number(readEnv('HANGMYADS_RATE')),
+      rate: 0.75,
     },
     gemiads: {
       security: {
-        whitelistedIPs: [] as string[],
+        whitelistedIPs: [ '64.226.92.208' ],
       },
     },
     adscend: {
       security: {
-        whitelistedIPs: [] as string[],
-      },
-    },
-    playfina: {
-      security: {
-        secret: readEnv('PLAYFINA_POSTBACK_SECRET'),
-      },
-    },
-    affilirise: {
-      security: {
-        secret: readEnv('AFFILIRISE_POSTBACK_SECRET'),
-      },
-    },
-    kong: {
-      security: {
-        secret: readEnv('KONG_POSTBACK_SECRET'),
-      },
-    },
-    bitstarz: {
-      security: {
-        secret: readEnv('BITSTARZ_POSTBACK_SECRET'),
-      },
-    },
-    playid: {
-      security: {
-        secret: readEnv('PLAYID_POSTBACK_SECRET'),
+        whitelistedIPs: [ '52.117.122.183', '52.117.127.192', '52.117.121.196', '54.204.57.82', '3.235.151.36' ],
       },
     },
   },
