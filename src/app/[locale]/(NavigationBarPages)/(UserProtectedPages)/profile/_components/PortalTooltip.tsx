@@ -2,7 +2,6 @@
 
 import {
   useEffect,
-  useEffectEvent,
   useId,
   useState,
   type CSSProperties,
@@ -53,20 +52,17 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
     setCoords(null);
   }
 
-  const onReposition = useEffectEvent(() => {
-    if (!anchor) return;
-
-    const rect = anchor.getBoundingClientRect();
-    setCoords({
-      left: rect.left + (rect.width / 2),
-      top: rect.top - 8,
-    });
-  });
-
   useEffect(() => {
-    if (!coords) return;
+    if (!coords || !anchor) return;
 
-    const handleReposition = () => onReposition();
+    function handleReposition() {
+      const rect = anchor.getBoundingClientRect();
+      setCoords({
+        left: rect.left + (rect.width / 2),
+        top: rect.top - 8,
+      });
+    }
+
     window.addEventListener('scroll', handleReposition, true);
     window.addEventListener('resize', handleReposition);
 
@@ -74,7 +70,7 @@ export default function PortalTooltip({ content, children }: PortalTooltipProps)
       window.removeEventListener('scroll', handleReposition, true);
       window.removeEventListener('resize', handleReposition);
     };
-  }, [ coords ]);
+  }, [ coords, anchor ]);
 
   const tooltipStyle: CSSProperties | undefined = coords
     ? {

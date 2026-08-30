@@ -77,7 +77,6 @@ export default function AppToastContainer() {
       icon={ToastIcon}
       closeButton={ToastCloseButton}
       toastClassName="spark-toast"
-      bodyClassName="spark-toast-body"
       progressClassName="spark-toast-progress"
     />
   );
