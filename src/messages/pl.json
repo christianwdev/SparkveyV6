@@ -951,6 +951,9 @@
   "ProfileSettings": {
     "sections": {
       "accountInformation": "Account Information",
+      "username": "Nazwa użytkownika",
+      "email": "E-mail",
+      "password": "Hasło",
       "emailPreferences": "Email Preferences",
       "sitePreferences": "Site Preferences",
       "personalPreferences": "Personal Preferences",
@@ -1005,6 +1008,9 @@
     "subtitle": "Manage your account, preferences, and security.",
     "sectionDescriptions": {
       "account": "Update your username, email, and password.",
+      "username": "Widoczna na profilu i w publicznej aktywności.",
+      "email": "Do logowania i wiadomości dotyczących konta.",
+      "password": "Do logowania i potwierdzania ważnych zmian.",
       "emailPreferences": "Choose which emails you want to receive.",
       "personalPreferences": "Control how you appear across Sparkvey.",
       "appearance": "Choose a light or dark theme.",

@@ -951,6 +951,9 @@
   "ProfileSettings": {
     "sections": {
       "accountInformation": "Account Information",
+      "username": "사용자 이름",
+      "email": "이메일",
+      "password": "비밀번호",
       "emailPreferences": "Email Preferences",
       "sitePreferences": "Site Preferences",
       "personalPreferences": "Personal Preferences",
@@ -1005,6 +1008,9 @@
     "subtitle": "Manage your account, preferences, and security.",
     "sectionDescriptions": {
       "account": "Update your username, email, and password.",
+      "username": "프로필과 공개 활동에 표시됩니다.",
+      "email": "로그인과 계정 안내에 사용됩니다.",
+      "password": "로그인과 중요 변경 확인에 사용됩니다.",
       "emailPreferences": "Choose which emails you want to receive.",
       "personalPreferences": "Control how you appear across Sparkvey.",
       "appearance": "Choose a light or dark theme.",

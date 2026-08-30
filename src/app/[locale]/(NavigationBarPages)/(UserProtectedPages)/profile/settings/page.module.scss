@@ -71,44 +71,18 @@ $switch-pad: 3px;
       }
     }
 
-    > .accountGrid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 20px;
-      align-items: start;
-
-      @media screen and (max-width: $large-phone) {
-        grid-template-columns: 1fr;
-      }
-
-      > .accountWide {
-        grid-column: 1 / -1;
-      }
-
-      > .form {
-        > .passwordFields {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 12px;
-
-          @media screen and (max-width: $small-tablet) {
-            grid-template-columns: 1fr;
-          }
-        }
-      }
-    }
-
-    > .form,
-    > .accountGrid > .form {
+    > .form {
       display: flex;
       flex-direction: column;
       gap: 12px;
       width: 100%;
+      max-width: 440px;
 
       > .actions {
         display: flex;
         align-items: center;
         gap: 10px;
+        margin-top: 4px;
       }
     }
 

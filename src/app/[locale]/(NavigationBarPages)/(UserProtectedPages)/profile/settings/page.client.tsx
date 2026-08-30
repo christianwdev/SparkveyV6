@@ -106,196 +106,203 @@ function SettingsPageContent() {
 
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
-          <h2>{t('sections.accountInformation')}</h2>
-          <p>{t('sectionDescriptions.account')}</p>
+          <h2>{t('sections.username')}</h2>
+          <p>{t('sectionDescriptions.username')}</p>
         </div>
+        <form
+          className={styles.form}
+          onSubmit={async (event) => {
+            event.preventDefault();
+            await run(
+              'username',
+              () => updateUsernameSetting({ username: username.trim() }),
+              t('errors.updateUsername'),
+            );
+          }}
+        >
+          <TextField
+            id="settings-username"
+            label={t('labels.username')}
+            value={username}
+            onChange={event => setUsername(event.target.value)}
+            placeholder={t('placeholders.username')}
+            disabled={pending === 'username'}
+            minLength={3}
+            maxLength={32}
+            required
+            hint={t('hints.usernameLimit')}
+          />
+          <div className={styles.actions}>
+            <PrimaryButton
+              type="submit"
+              disabled={pending === 'username' || username.trim() === user.username}
+            >
+              {t('actions.saveUsername')}
+            </PrimaryButton>
+          </div>
+        </form>
+      </section>
 
-        <div className={styles.accountGrid}>
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <h2>{t('sections.email')}</h2>
+          <p>{t('sectionDescriptions.email')}</p>
+        </div>
+        {user.hasPassword ? (
           <form
             className={styles.form}
-            onSubmit={(event) => {
+            onSubmit={async (event) => {
               event.preventDefault();
-              void run(
-                'username',
-                () => updateUsernameSetting({ username: username.trim() }),
-                t('errors.updateUsername'),
+              await run(
+                'email',
+                async () => {
+                  const response = await requestEmailChange({
+                    email: email.trim(),
+                    currentPassword: emailPassword,
+                  });
+                  if (response?.success) {
+                    setEmail('');
+                    setEmailPassword('');
+                  }
+
+                  return response;
+                },
+                t('errors.updateEmail'),
               );
             }}
           >
             <TextField
-              id="settings-username"
-              label={t('labels.username')}
-              value={username}
-              onChange={event => setUsername(event.target.value)}
-              placeholder={t('placeholders.username')}
-              disabled={pending === 'username'}
-              minLength={3}
-              maxLength={32}
+              id="settings-current-email"
+              label={t('labels.currentEmail')}
+              value={user.emailInformation.emailAddress ?? ''}
+              disabled
+              readOnly
+            />
+            <TextField
+              id="settings-new-email"
+              label={t('labels.newEmail')}
+              type="email"
+              value={email}
+              onChange={event => setEmail(event.target.value)}
+              placeholder={t('placeholders.newEmail')}
+              disabled={pending === 'email'}
               required
-              hint={t('hints.usernameLimit')}
+              hint={t('hints.emailChange')}
+            />
+            <TextField
+              id="settings-email-password"
+              label={t('labels.currentPassword')}
+              type="password"
+              value={emailPassword}
+              onChange={event => setEmailPassword(event.target.value)}
+              disabled={pending === 'email'}
+              required
+              autoComplete="current-password"
+              hint={t('hints.emailPasswordConfirm')}
             />
             <div className={styles.actions}>
               <PrimaryButton
                 type="submit"
-                disabled={pending === 'username' || username.trim() === user.username}
+                disabled={pending === 'email' || !email.trim() || !emailPassword}
               >
-                {t('actions.saveUsername')}
+                {t('actions.changeEmail')}
               </PrimaryButton>
             </div>
           </form>
+        ) : (
+          <div className={styles.form}>
+            <TextField
+              id="settings-current-email"
+              label={t('labels.currentEmail')}
+              value={user.emailInformation.emailAddress ?? ''}
+              disabled
+              readOnly
+              hint={t('hints.oauthEmailLocked')}
+            />
+          </div>
+        )}
+      </section>
 
-          {user.hasPassword ? (
-            <form
-              className={styles.form}
-              onSubmit={(event) => {
-                event.preventDefault();
-                void run(
-                  'email',
-                  async () => {
-                    const response = await requestEmailChange({
-                      email: email.trim(),
-                      currentPassword: emailPassword,
-                    });
-                    if (response?.success) {
-                      setEmail('');
-                      setEmailPassword('');
-                    }
-
-                    return response;
-                  },
-                  t('errors.updateEmail'),
-                );
-              }}
-            >
-              <TextField
-                id="settings-current-email"
-                label={t('labels.currentEmail')}
-                value={user.emailInformation.emailAddress ?? ''}
-                disabled
-                readOnly
-              />
-              <TextField
-                id="settings-new-email"
-                label={t('labels.newEmail')}
-                type="email"
-                value={email}
-                onChange={event => setEmail(event.target.value)}
-                placeholder={t('placeholders.newEmail')}
-                disabled={pending === 'email'}
-                required
-                hint={t('hints.emailChange')}
-              />
-              <TextField
-                id="settings-email-password"
-                label={t('labels.currentPassword')}
-                type="password"
-                value={emailPassword}
-                onChange={event => setEmailPassword(event.target.value)}
-                disabled={pending === 'email'}
-                required
-                autoComplete="current-password"
-                hint={t('hints.emailPasswordConfirm')}
-              />
-              <div className={styles.actions}>
-                <PrimaryButton
-                  type="submit"
-                  disabled={pending === 'email' || !email.trim() || !emailPassword}
-                >
-                  {t('actions.changeEmail')}
-                </PrimaryButton>
-              </div>
-            </form>
-          ) : (
-            <div className={styles.form}>
-              <TextField
-                id="settings-current-email"
-                label={t('labels.currentEmail')}
-                value={user.emailInformation.emailAddress ?? ''}
-                disabled
-                readOnly
-                hint={t('hints.oauthEmailLocked')}
-              />
-            </div>
-          )}
-
-          {user.hasPassword ? (
-            <form
-              className={`${styles.form} ${styles.accountWide}`}
-              onSubmit={async (event) => {
-                event.preventDefault();
-                if (newPassword !== confirmPassword) {
-                  toast.error(t('errors.passwordMismatch'));
-
-                  return;
-                }
-
-                if (!isValidNewPassword(newPassword)) {
-                  toast.error(t('errors.passwordRules'));
-
-                  return;
-                }
-
-                await run(
-                  'password',
-                  async () => {
-                    const response = await updatePassword({
-                      currentPassword,
-                      newPassword,
-                    });
-                    if (response?.success) {
-                      setCurrentPassword('');
-                      setNewPassword('');
-                      setConfirmPassword('');
-                    }
-
-                    return response;
-                  },
-                  t('errors.updatePassword'),
-                );
-              }}
-            >
-              <div className={styles.passwordFields}>
-                <TextField
-                  id="settings-current-password"
-                  label={t('labels.currentPassword')}
-                  type="password"
-                  value={currentPassword}
-                  onChange={event => setCurrentPassword(event.target.value)}
-                  disabled={pending === 'password'}
-                  required
-                />
-                <TextField
-                  id="settings-new-password"
-                  label={t('labels.newPassword')}
-                  type="password"
-                  value={newPassword}
-                  onChange={event => setNewPassword(event.target.value)}
-                  disabled={pending === 'password'}
-                  required
-                  minLength={8}
-                  hint={t('hints.passwordRules')}
-                />
-                <TextField
-                  id="settings-confirm-password"
-                  label={t('labels.confirmPassword')}
-                  type="password"
-                  value={confirmPassword}
-                  onChange={event => setConfirmPassword(event.target.value)}
-                  disabled={pending === 'password'}
-                  required
-                  minLength={8}
-                />
-              </div>
-              <div className={styles.actions}>
-                <PrimaryButton type="submit" disabled={pending === 'password'}>
-                  {t('actions.updatePassword')}
-                </PrimaryButton>
-              </div>
-            </form>
-          ) : (
-            <p className={`${styles.statusMessage} ${styles.accountWide}`}>{t('hints.oauthPassword')}</p>
-          )}
+      <section className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <h2>{t('sections.password')}</h2>
+          <p>{t('sectionDescriptions.password')}</p>
         </div>
+        {user.hasPassword ? (
+          <form
+            className={styles.form}
+            onSubmit={async (event) => {
+              event.preventDefault();
+              if (newPassword !== confirmPassword) {
+                toast.error(t('errors.passwordMismatch'));
+
+                return;
+              }
+
+              if (!isValidNewPassword(newPassword)) {
+                toast.error(t('errors.passwordRules'));
+
+                return;
+              }
+
+              await run(
+                'password',
+                async () => {
+                  const response = await updatePassword({
+                    currentPassword,
+                    newPassword,
+                  });
+                  if (response?.success) {
+                    setCurrentPassword('');
+                    setNewPassword('');
+                    setConfirmPassword('');
+                  }
+
+                  return response;
+                },
+                t('errors.updatePassword'),
+              );
+            }}
+          >
+            <TextField
+              id="settings-current-password"
+              label={t('labels.currentPassword')}
+              type="password"
+              value={currentPassword}
+              onChange={event => setCurrentPassword(event.target.value)}
+              disabled={pending === 'password'}
+              required
+            />
+            <TextField
+              id="settings-new-password"
+              label={t('labels.newPassword')}
+              type="password"
+              value={newPassword}
+              onChange={event => setNewPassword(event.target.value)}
+              disabled={pending === 'password'}
+              required
+              minLength={8}
+              hint={t('hints.passwordRules')}
+            />
+            <TextField
+              id="settings-confirm-password"
+              label={t('labels.confirmPassword')}
+              type="password"
+              value={confirmPassword}
+              onChange={event => setConfirmPassword(event.target.value)}
+              disabled={pending === 'password'}
+              required
+              minLength={8}
+            />
+            <div className={styles.actions}>
+              <PrimaryButton type="submit" disabled={pending === 'password'}>
+                {t('actions.updatePassword')}
+              </PrimaryButton>
+            </div>
+          </form>
+        ) : (
+          <p className={styles.statusMessage}>{t('hints.oauthPassword')}</p>
+        )}
       </section>
 
       <section className={styles.section}>
@@ -325,12 +332,14 @@ function SettingsPageContent() {
                 disabled={pending === `notify-${key}`}
                 onChange={(event) => {
                   const checked = event.target.checked;
-                  void run(
+                  run(
                     `notify-${key}`,
                     () => updateNotificationPreferencesSetting({ [key]: checked }),
                     t('errors.updateEmailPreferences'),
                     { quiet: true },
-                  );
+                  ).catch(error => {
+                    console.error(error);
+                  });
                 }}
               />
             </label>
@@ -358,12 +367,14 @@ function SettingsPageContent() {
                 disabled={pending === 'pref-anonymous'}
                 onChange={(event) => {
                   const checked = event.target.checked;
-                  void run(
+                  run(
                     'pref-anonymous',
                     () => updateUserPreferencesSetting({ anonymous: checked }),
                     t('errors.updatePreferences'),
                     { quiet: true },
-                  );
+                  ).catch(error => {
+                    console.error(error);
+                  });
                 }}
               />
             </label>
@@ -380,12 +391,14 @@ function SettingsPageContent() {
                 disabled={pending === 'pref-hideStats'}
                 onChange={(event) => {
                   const checked = event.target.checked;
-                  void run(
+                  run(
                     'pref-hideStats',
                     () => updateUserPreferencesSetting({ hideStats: checked }),
                     t('errors.updatePreferences'),
                     { quiet: true },
-                  );
+                  ).catch(error => {
+                    console.error(error);
+                  });
                 }}
               />
             </label>
@@ -409,28 +422,30 @@ function SettingsPageContent() {
                 className={styles.switch}
                 checked={userPreferences.colorTheme === 'dark'}
                 disabled={pending === 'pref-theme'}
-                  onChange={(event) => {
-                    const previousTheme = userPreferences.colorTheme;
-                    const colorTheme = event.target.checked ? 'dark' : 'light';
-                    applyColorTheme(colorTheme);
-                    void run(
-                      'pref-theme',
-                      async () => {
-                        const response = await updateUserPreferencesSetting({ colorTheme });
-                        if (!response?.success) {
-                          if (isColorTheme(previousTheme)) {
-                            applyColorTheme(previousTheme);
-                          } else {
-                            applyColorTheme('light');
-                          }
+                onChange={(event) => {
+                  const previousTheme = userPreferences.colorTheme;
+                  const colorTheme = event.target.checked ? 'dark' : 'light';
+                  applyColorTheme(colorTheme);
+                  run(
+                    'pref-theme',
+                    async () => {
+                      const response = await updateUserPreferencesSetting({ colorTheme });
+                      if (!response?.success) {
+                        if (isColorTheme(previousTheme)) {
+                          applyColorTheme(previousTheme);
+                        } else {
+                          applyColorTheme('light');
                         }
+                      }
 
-                        return response;
-                      },
-                      t('errors.updatePreferences'),
-                      { quiet: true },
-                    );
-                  }}
+                      return response;
+                    },
+                    t('errors.updatePreferences'),
+                    { quiet: true },
+                  ).catch(error => {
+                    console.error(error);
+                  });
+                }}
               />
             </label>
           </div>
@@ -458,7 +473,7 @@ function SettingsPageContent() {
                   variant="danger"
                   disabled={pending === 'delete'}
                   onClick={() => {
-                    void run(
+                    run(
                       'delete',
                       async () => {
                         const response = await requestAccountDeletion();
@@ -467,7 +482,9 @@ function SettingsPageContent() {
                         return response;
                       },
                       t('errors.deleteAccount'),
-                    );
+                    ).catch(error => {
+                      console.error(error);
+                    });
                   }}
                 >
                   {t('actions.confirmDelete')}
