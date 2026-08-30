@@ -40,6 +40,7 @@ yarn-error.log*
 # local scripts (sample importers, one-off jobs)
 /scripts/*
 !/scripts/generate-icons.ts
+!/scripts/deploy-swarm.sh
 
 # vercel
 .vercel
