@@ -21,7 +21,7 @@ USER bun
 HEALTHCHECK --interval=10s --timeout=5s --start-period=40s --retries=3 \
   CMD bun -e "fetch('http://127.0.0.1:'+(process.env.PORT||'8080')+'/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
-CMD ["bun", "run", "./backend/boot.ts"]
+CMD ["bun", "run", "app.ts"]
 
 FROM deps AS worker
 
@@ -34,7 +34,7 @@ ENV NODE_ENV=production
 
 USER bun
 
-CMD ["bun", "run", "./backend/workers/boot.ts"]
+CMD ["bun", "run", "./backend/workers/index.ts"]
 
 # Next's SWC binary SIGILL (exit 132) under Bun. Build and start with Node.
 FROM node:22-bookworm AS nextjs
