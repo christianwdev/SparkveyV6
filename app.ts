@@ -22,7 +22,7 @@ import RouteResponseError from 'types/RouteResponseError';
 // Types
 import type GlobalObject from 'types/GlobalObject';
 
-const BACKEND_PORT = process.env.PORT ? +process.env.PORT : 6060;
+const BACKEND_PORT = process.env.PORT ? +process.env.PORT : 8080;
 const isProduction = process.env.NODE_ENV === 'production';
 const corsOrigins = config.server.domains?.filter(Boolean) ?? [];
 
