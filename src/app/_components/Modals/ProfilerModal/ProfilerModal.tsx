@@ -145,6 +145,20 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
     if (Number(day) > nextDayCount) setDay(String(nextDayCount));
   }
 
+  function setBirthdayDay(nextDay: string) {
+    setDay(nextDay);
+  }
+
+  function setProfilerGender(nextGender: string) {
+    if (nextGender === 'male' || nextGender === 'female' || nextGender === 'other') {
+      setGender(nextGender);
+    }
+  }
+
+  function setProfilerCountry(nextCountry: string) {
+    setCountry(nextCountry);
+  }
+
   function validateStep(current: ProfilerStep): boolean {
     if (current === 0) {
       return Boolean(firstName.trim() && lastName.trim());
@@ -280,7 +294,7 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
                   field
                   selected={day}
                   defaultValue={t('placeholders.day')}
-                  setValue={setDay}
+                  setValue={setBirthdayDay}
                   values={dayValues}
                   error={submitted && !day ? t('errors.day') : undefined}
                 />
@@ -304,7 +318,7 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
                 field
                 selected={gender}
                 defaultValue={t('placeholders.gender')}
-                setValue={setGender}
+                setValue={setProfilerGender}
                 values={GENDER_KEYS.map(value => ({
                   value,
                   label: t(`gender.${value}`),
@@ -328,7 +342,7 @@ export default function ProfilerModal({ onClose }: ProfilerModalProps) {
                 field
                 selected={country}
                 defaultValue={t('placeholders.country')}
-                setValue={setCountry}
+                setValue={setProfilerCountry}
                 searchable
                 searchPlaceholder={t('placeholders.searchCountry')}
                 emptyLabel={t('empty.countrySearch')}

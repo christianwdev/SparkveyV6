@@ -22,7 +22,7 @@ type DropdownItem<T> = {
 type DropdownProps<T = string> = {
   label: string,
   selected: T | T[],
-  setValue: (value: T) => void,
+  setValue: (value: NoInfer<T>) => void,
   defaultValue?: string,
   values: DropdownItem<T>[],
   className?: string,
