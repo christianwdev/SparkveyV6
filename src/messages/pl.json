@@ -928,6 +928,7 @@
     "statuses": {
       "pending": "Oczekujące",
       "approved": "Zatwierdzone",
+      "processing": "W toku",
       "completed": "Ukończone",
       "failed": "Nieudane",
       "rejected": "Odrzucone"

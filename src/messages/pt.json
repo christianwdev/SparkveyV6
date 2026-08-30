@@ -928,6 +928,7 @@
     "statuses": {
       "pending": "Pendente",
       "approved": "Aprovado",
+      "processing": "A processar",
       "completed": "Concluído",
       "failed": "Falhou",
       "rejected": "Rejeitado"

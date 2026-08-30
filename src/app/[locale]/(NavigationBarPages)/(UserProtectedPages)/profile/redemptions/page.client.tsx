@@ -20,6 +20,7 @@ function statusTone(status: InternalRedemptionStatus) {
     case 'approved':
       return 'positive';
     case 'pending':
+    case 'processing':
       return 'warning';
     case 'failed':
     case 'rejected':

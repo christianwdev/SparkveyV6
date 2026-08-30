@@ -928,6 +928,7 @@
     "statuses": {
       "pending": "대기 중",
       "approved": "승인됨",
+      "processing": "처리 중",
       "completed": "완료",
       "failed": "실패",
       "rejected": "거절됨"

@@ -928,6 +928,7 @@
     "statuses": {
       "pending": "保留中",
       "approved": "承認済み",
+      "processing": "処理中",
       "completed": "完了",
       "failed": "失敗",
       "rejected": "拒否"
