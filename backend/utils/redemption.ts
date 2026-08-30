@@ -6,6 +6,7 @@ import SocketEmits from '../constants/SocketEmits';
 
 // Utils
 import { checkCCPAddressValidity, getCoinList, withdrawCCP } from './ccpayment';
+import { convertUSDToCurrency, getCurrencyRates } from './currency';
 import { detectSharedWithdrawalAddress } from './fraud';
 import { getGlobalObject } from './globalObject';
 import { createUserNotification } from './notifications';
@@ -38,6 +39,7 @@ export type HandleCCPaymentRedemptionApprovalError =
   | 'internalServerError'
   | 'invalidRedemptionStatus'
   | 'missingCoinId'
+  | 'currencyRateUnavailable'
   | 'redemptionNotFound';
 
 export type HandleRedemptionRejectionError =
@@ -591,12 +593,28 @@ export async function handleCCPaymentRedemptionApproval(
     return { ok: false, error: 'missingCoinId' };
   }
 
+  const rates = await getCurrencyRates();
+  const coinAmount = rates
+    ? convertUSDToCurrency({
+      amount: claimedRedemption.usdValue,
+      currencyCode: claimedRedemption.meta.currencySymbol,
+      rates,
+    })
+    : null;
+
+  if (coinAmount === null || coinAmount <= 0 || claimedRedemption.usdValue <= 0) {
+    await releaseCCPaymentClaim(claimedRedemption.redemptionID, previousStatus);
+
+    return { ok: false, error: 'currencyRateUnavailable' };
+  }
+
+  const currencyRate = coinAmount / claimedRedemption.usdValue;
   const withdrawResult = await withdrawCCP({
-    orderId: redemption.redemptionID,
+    orderId: claimedRedemption.redemptionID,
     coinId,
-    amount: String(redemption.meta.requestRewardAmount),
-    address: redemption.meta.walletAddress,
-    chain: redemption.meta.currencyNetwork,
+    amount: formatCryptoWithdrawAmount(coinAmount),
+    address: claimedRedemption.meta.walletAddress,
+    chain: claimedRedemption.meta.currencyNetwork,
     merchantPayNetworkFee: true,
   });
 
@@ -620,6 +638,7 @@ export async function handleCCPaymentRedemptionApproval(
         approvedAt: claimedRedemption.approvedAt ?? now,
         meta: {
           ...claimedRedemption.meta,
+          currencyRate,
           recordId,
         },
       },
@@ -967,4 +986,10 @@ export async function handleRedemptionRejection(
   });
 
   return { ok: true, data: claimed };
+}
+
+const CRYPTO_WITHDRAW_DECIMALS = 8;
+
+function formatCryptoWithdrawAmount(amount: number): string {
+  return amount.toFixed(CRYPTO_WITHDRAW_DECIMALS).replace(/\.?0+$/, '');
 }

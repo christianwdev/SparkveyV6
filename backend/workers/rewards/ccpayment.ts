@@ -1,6 +1,14 @@
+// Utils
+import { SPARKS_PER_USD } from 'backend/utils/rewards';
+
 // Types
 import type { CCPaymentReward } from 'types/Reward/CCPaymentReward';
 import type InternalReward from 'types/Reward/InternalReward';
+
+const CRYPTO_MINIMUM_USD = 1;
+const CRYPTO_MAXIMUM_USD = 1000;
+const CRYPTO_MINIMUM_SPARKS = CRYPTO_MINIMUM_USD * SPARKS_PER_USD;
+const CRYPTO_MAXIMUM_SPARKS = CRYPTO_MAXIMUM_USD * SPARKS_PER_USD;
 
 type PredefinedCrypto = Omit<CCPaymentReward, 'status' | 'createdAt' | 'updatedAt'>;
 
@@ -24,8 +32,8 @@ const PREDEFINED_CRYPTOS: PredefinedCrypto[] = [
       currencyCode: 'SOL',
       currencySymbol: 'SOL',
       currencyNetwork: 'SOL',
-      minimumAmount: 1,
-      maximumAmount: 1000,
+      minimumAmount: CRYPTO_MINIMUM_SPARKS,
+      maximumAmount: CRYPTO_MAXIMUM_SPARKS,
     },
   },
   {
@@ -47,8 +55,8 @@ const PREDEFINED_CRYPTOS: PredefinedCrypto[] = [
       currencyCode: 'LTC',
       currencySymbol: 'LTC',
       currencyNetwork: 'LTC',
-      minimumAmount: 1,
-      maximumAmount: 1000,
+      minimumAmount: CRYPTO_MINIMUM_SPARKS,
+      maximumAmount: CRYPTO_MAXIMUM_SPARKS,
     },
   },
 ];

@@ -129,25 +129,33 @@ async function resolveGoogleUser(
       }
 
       if (!linkedGoogleId && userHasPassword(existing)) {
-        // Verified password accounts must sign in with password (no silent link).
-        if (existing.emailInformation.verifiedAt) {
+        const primaryEmail = sanitizeEmail(existing.emailInformation.emailAddress);
+        const primaryMatchesGoogle = primaryEmail === email;
+
+        // Verified password account whose primary email is not the Google-proven
+        // address (matched via leftover google email): do not rewrite identity.
+        if (existing.emailInformation.verifiedAt && !primaryMatchesGoogle) {
           return fail('/login', 'google_account_exists');
         }
 
-        // Unverified squatter: Google proof reclaims the address.
+        // Same email (v5 Google users with a leftover password hash) or
+        // unverified squat: Google proof attaches. Clear password only on reclaim.
         const linkResult = await linkGoogleAccount({
           userID: existing.userID,
           googleID: data.sub,
           email,
           avatar: data.picture,
-          clearPassword: true,
+          clearPassword: !existing.emailInformation.verifiedAt,
         });
 
         if (!linkResult.ok) {
           return fail('/', 'google_link');
         }
 
-        await expireUserSessions(existing.userID);
+        if (!existing.emailInformation.verifiedAt) {
+          await expireUserSessions(existing.userID);
+        }
+
         user = linkResult.data;
       } else if (!linkedGoogleId) {
         const linkResult = await linkGoogleAccount({

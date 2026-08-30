@@ -46,6 +46,7 @@ function LoginPageContent() {
   const accountDeleted = searchParams.get('accountDeleted');
   const emailChange = searchParams.get('emailChange');
   const passwordReset = searchParams.get('passwordReset');
+  const oauthError = searchParams.get('error');
 
   let banner: { tone: 'positive' | 'negative', message: string } | null = null;
 
@@ -59,6 +60,8 @@ function LoginPageContent() {
     banner = { tone: 'positive', message: t('banners.emailChangeSuccess') };
   } else if (passwordReset === 'success') {
     banner = { tone: 'positive', message: t('banners.passwordResetSuccess') };
+  } else if (oauthError) {
+    banner = { tone: 'negative', message: t('errors.googleSignInFailed') };
   }
 
   function emailMessage(value: string) {

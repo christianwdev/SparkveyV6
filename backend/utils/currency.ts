@@ -84,3 +84,26 @@ export function convertCurrencyToUSD(
 
   return amount / currencyRate;
 }
+
+/** Rates are USD→currency (e.g. SOL: 0.007 means 1 USD = 0.007 SOL). */
+export function convertUSDToCurrency(
+  {
+    amount,
+    currencyCode,
+    rates,
+  }: {
+    amount: number,
+    currencyCode: string,
+    rates: Record<string, number>,
+  },
+): number | null {
+  const normalizedCode = currencyCode.toUpperCase();
+
+  if (normalizedCode === 'USD') return amount;
+
+  const currencyRate = rates[normalizedCode];
+
+  if (!currencyRate || currencyRate <= 0) return null;
+
+  return amount * currencyRate;
+}

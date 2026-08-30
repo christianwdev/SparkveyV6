@@ -145,7 +145,7 @@ describe('residual security fixes', () => {
       && email.includes('Bun.password.verify(password, passwordHash)');
     const loginBlocksUnverified = loginBlock.includes('Please verify your email before signing in')
       || /if\s*\(\s*!user\.emailInformation\.verifiedAt\s*\)/.test(loginBlock);
-    const googleReclaim = google.includes('clearPassword: true')
+    const googleReclaim = google.includes('clearPassword: !existing.emailInformation.verifiedAt')
       && google.includes('google_account_exists');
     const tremendousNoRollbackAfterOrder = redemption.includes('failTremendousProcessing')
       && redemption.indexOf('const orderResult = await createTremendousOrder')
