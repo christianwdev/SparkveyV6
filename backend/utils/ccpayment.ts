@@ -2,6 +2,8 @@ import crypto from 'crypto';
 
 // Utils
 import { readEnv } from './env';
+import { isIPWhitelisted } from './ip';
+import { secretsEqual } from './secrets';
 
 // Types
 import type { CCPaymentAddressValidity } from 'types/External/CCPayment/Address';
@@ -10,6 +12,7 @@ import type { CCPaymentFee } from 'types/External/CCPayment/Fee';
 import type { CCPaymentResponse } from 'types/External/CCPayment/Response';
 import type { CCPaymentWebhookPayload } from 'types/External/CCPayment/Webhook';
 import type {
+  CCPaymentWithdrawRecordResponse,
   CCPaymentWithdrawRequest,
   CCPaymentWithdrawResponse,
 } from 'types/External/CCPayment/Withdraw';
@@ -18,6 +21,7 @@ import type FunctionResponse from 'types/FunctionResponse';
 const appID = readEnv('CCPAYMENT_APP_ID');
 const appSecret = readEnv('CCPAYMENT_APP_SECRET');
 const baseURL = 'https://ccpayment.com/ccpayment/v2/';
+const WEBHOOK_SOURCE_IPS = [ '54.150.123.157' ] as const; // Official CCPayment webhook sender
 
 export type CCPaymentRequestError = 'internalServerError';
 
@@ -25,7 +29,8 @@ export type ProcessCCPWebhookError =
   | 'missingHeaders'
   | 'invalidAppId'
   | 'invalidSignature'
-  | 'invalidBody';
+  | 'invalidBody'
+  | 'invalidIP';
 
 function generateSignature(timestamp: string, body: string): string {
   const signText = `${appID}${timestamp}${body}`;
@@ -120,30 +125,67 @@ export async function getCoinList(): Promise<FunctionResponse<unknown, CCPayment
   return ccpRequest<unknown>('getCoinList');
 }
 
+export async function getAppWithdrawRecord(
+  {
+    recordId,
+    orderId,
+  }: {
+    recordId?: string,
+    orderId?: string,
+  },
+): Promise<FunctionResponse<CCPaymentWithdrawRecordResponse, CCPaymentRequestError>> {
+  const body: Record<string, string> = {};
+  if (recordId) body.recordId = recordId;
+  if (orderId) body.orderId = orderId;
+
+  return ccpRequest<CCPaymentWithdrawRecordResponse>('getAppWithdrawRecord', body);
+}
+
+function webhookHeader(
+  headers: Record<string, string | string[] | undefined>,
+  keys: string[],
+): string | undefined {
+  for (const key of keys) {
+    const value = headers[key];
+    if (typeof value === 'string' && value.trim().length > 0) return value.trim();
+    if (Array.isArray(value) && typeof value[0] === 'string' && value[0].trim().length > 0) {
+      return value[0].trim();
+    }
+  }
+
+  return undefined;
+}
+
 export async function processCCPWebhook(
   {
     rawBody,
     headers,
+    remoteIP,
   }: {
     rawBody: string,
     headers: Record<string, string | string[] | undefined>,
+    remoteIP?: string,
   },
 ): Promise<FunctionResponse<CCPaymentWebhookPayload, ProcessCCPWebhookError>> {
-  const timestamp = headers.timestamp || headers.Timestamp;
-  const sign = headers.sign || headers.Sign;
-  const appIdHeader = headers.appid || headers.Appid;
+  if (process.env.NODE_ENV !== 'development' && !isIPWhitelisted(remoteIP, WEBHOOK_SOURCE_IPS)) {
+    return { ok: false, error: 'invalidIP' };
+  }
+
+  const timestamp = webhookHeader(headers, [ 'timestamp', 'Timestamp' ]);
+  const sign = webhookHeader(headers, [ 'sign', 'Sign' ]);
+  const appIdHeader = webhookHeader(headers, [ 'appid', 'Appid' ]);
 
   if (!timestamp || !sign || !appIdHeader) {
     return { ok: false, error: 'missingHeaders' };
   }
 
-  if (appIdHeader !== appID) {
+  if (!secretsEqual(appIdHeader, appID)) {
     return { ok: false, error: 'invalidAppId' };
   }
 
-  const generatedSign = generateSignature(timestamp.toString(), rawBody);
+  const generatedSign = generateSignature(timestamp, rawBody);
 
-  if (generatedSign !== sign) {
+  if (!secretsEqual(generatedSign, sign)) {
     return { ok: false, error: 'invalidSignature' };
   }
 

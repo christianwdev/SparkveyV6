@@ -8,7 +8,7 @@ import { detectProxy } from 'backend/utils/fraud';
 import { secretsEqual } from 'backend/utils/secrets';
 import { readEnv } from 'backend/utils/env';
 import { sendResponse } from 'backend/utils/response';
-import { withRouteErrorHandling } from 'backend/utils/request';
+import { getIPFromRequest, withRouteErrorHandling } from 'backend/utils/request';
 
 // Types
 import type UserSession from 'types/UserSession';
@@ -30,6 +30,7 @@ export default function routesInvoker() {
       const verified = await processCCPWebhook({
         rawBody,
         headers,
+        remoteIP: getIPFromRequest(c),
       });
 
       if (!verified.ok) {
@@ -38,7 +39,7 @@ export default function routesInvoker() {
           status: 401,
           success: false,
           code: verified.error,
-          message: 'Invalid webhook signature',
+          message: 'Invalid webhook request',
         });
       }
 
@@ -47,7 +48,7 @@ export default function routesInvoker() {
       });
 
       if (!result.ok && result.error === 'notFound') {
-        return sendResponse({ c, status: 200, success: true, message: 'Success' });
+        return c.text('Success', 200);
       }
 
       if (!result.ok) {
@@ -60,7 +61,7 @@ export default function routesInvoker() {
         });
       }
 
-      return sendResponse({ c, status: 200, success: true, message: 'Success' });
+      return c.text('Success', 200);
     },
   );
 

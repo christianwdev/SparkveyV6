@@ -5,7 +5,7 @@ import DatabaseCollections from '../constants/DatabaseCollections';
 import SocketEmits from '../constants/SocketEmits';
 
 // Utils
-import { checkCCPAddressValidity, getCoinList, withdrawCCP } from './ccpayment';
+import { checkCCPAddressValidity, getAppWithdrawRecord, getCoinList, withdrawCCP } from './ccpayment';
 import { convertUSDToCurrency, getCurrencyRates } from './currency';
 import { detectSharedWithdrawalAddress } from './fraud';
 import { getGlobalObject } from './globalObject';
@@ -717,6 +717,53 @@ function isFailedWithdrawStatus(status: string | undefined): boolean {
     || normalized === 'rejected';
 }
 
+function isOnChainTxId(value: string | undefined): boolean {
+  if (!value) return false;
+
+  const hex = value.replace(/^0x/i, '');
+  if (/^[a-fA-F0-9]{64}$/.test(hex)) return true;
+
+  return /^[1-9A-HJ-NP-Za-km-z]{80,90}$/.test(value);
+}
+
+function withdrawRecordTxId(payload: unknown): string | undefined {
+  if (!payload || typeof payload !== 'object') return undefined;
+
+  const root = payload as Record<string, unknown>;
+  const record = root.record && typeof root.record === 'object' && !Array.isArray(root.record)
+    ? root.record as Record<string, unknown>
+    : root;
+
+  return webhookField(record, [ 'txId', 'txid', 'tx_id', 'transactionHash' ]);
+}
+
+async function resolveWithdrawTxId(
+  {
+    recordId,
+    orderId,
+    webhookTxId,
+  }: {
+    recordId?: string,
+    orderId: string,
+    webhookTxId?: string,
+  },
+): Promise<string | undefined> {
+  if (isOnChainTxId(webhookTxId)) return webhookTxId;
+
+  if (!recordId && !orderId) return undefined;
+
+  const recordResult = await getAppWithdrawRecord({
+    recordId,
+    orderId,
+  });
+
+  if (!recordResult.ok) return undefined;
+
+  const txId = withdrawRecordTxId(recordResult.data);
+
+  return isOnChainTxId(txId) ? txId : undefined;
+}
+
 export async function completeCCPaymentRedemptionFromWebhook(
   {
     payload,
@@ -746,7 +793,43 @@ export async function completeCCPaymentRedemptionFromWebhook(
     }
 
     if (existing.status === 'completed') {
-      return { ok: true, data: existing as AcceptedCCPaymentInternalRedemption };
+      const currentHash = 'transactionHash' in existing.meta
+        ? existing.meta.transactionHash
+        : undefined;
+      if (isOnChainTxId(currentHash)) {
+        return { ok: true, data: existing as AcceptedCCPaymentInternalRedemption };
+      }
+
+      const resolvedHash = await resolveWithdrawTxId({
+        recordId: recordId ?? existing.meta.recordId,
+        orderId: existing.redemptionID,
+        webhookTxId: transactionHash,
+      });
+
+      if (!resolvedHash) {
+        return { ok: true, data: existing as AcceptedCCPaymentInternalRedemption };
+      }
+
+      const backfilled = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).findOneAndUpdate(
+        {
+          redemptionID: existing.redemptionID,
+          providerName: 'ccpayment',
+          status: 'completed',
+        },
+        {
+          $set: {
+            updatedAt: new Date(),
+            'meta.transactionHash': resolvedHash,
+            'meta.recordId': recordId ?? existing.meta.recordId,
+          },
+        },
+        { returnDocument: 'after' },
+      );
+
+      return {
+        ok: true,
+        data: (backfilled ?? existing) as AcceptedCCPaymentInternalRedemption,
+      };
     }
 
     if (existing.status !== 'processing' && existing.status !== 'approved') {
@@ -797,23 +880,33 @@ export async function completeCCPaymentRedemptionFromWebhook(
       return { ok: true, data: failed };
     }
 
+    const resolvedHash = await resolveWithdrawTxId({
+      recordId: recordId ?? existing.meta.recordId,
+      orderId: existing.redemptionID,
+      webhookTxId: transactionHash,
+    });
+
+    const completedSet: {
+      status: 'completed',
+      updatedAt: Date,
+      'meta.recordId'?: string,
+      'meta.transactionHash'?: string,
+    } = {
+      status: 'completed',
+      updatedAt: now,
+    };
+
+    const nextRecordId = recordId ?? existing.meta.recordId;
+    if (nextRecordId) completedSet['meta.recordId'] = nextRecordId;
+    if (resolvedHash) completedSet['meta.transactionHash'] = resolvedHash;
+
     const completed = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).findOneAndUpdate(
       {
         redemptionID: existing.redemptionID,
         providerName: 'ccpayment',
         status: { $in: [ 'processing', 'approved' ] },
       },
-      {
-        $set: {
-          status: 'completed',
-          updatedAt: now,
-          meta: {
-            ...existing.meta,
-            recordId: recordId ?? existing.meta.recordId,
-            transactionHash: transactionHash ?? recordId ?? existing.redemptionID,
-          },
-        },
-      },
+      { $set: completedSet },
       { returnDocument: 'after' },
     );
 

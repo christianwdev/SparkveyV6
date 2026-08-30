@@ -13,3 +13,15 @@ export type CCPaymentWithdrawResponse = {
     recordId: string,
   };
 };
+
+export type CCPaymentWithdrawRecord = {
+  recordId?: string,
+  txId?: string,
+  status?: string,
+  orderId?: string,
+  chain?: string,
+};
+
+export type CCPaymentWithdrawRecordResponse = {
+  record?: CCPaymentWithdrawRecord,
+};

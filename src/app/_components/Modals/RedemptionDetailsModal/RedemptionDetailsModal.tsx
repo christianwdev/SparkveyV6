@@ -28,11 +28,21 @@ function isCCPaymentRedemption(row: InternalRedemption): row is CCPaymentInterna
   return row.providerName === 'ccpayment';
 }
 
+function isOnChainTxId(value: string): boolean {
+  const hex = value.replace(/^0x/i, '');
+  if (/^[a-fA-F0-9]{64}$/.test(hex)) return true;
+
+  return /^[1-9A-HJ-NP-Za-km-z]{80,90}$/.test(value);
+}
+
 function explorerTxURL(network: string, txid: string): string | null {
+  if (!isOnChainTxId(txid)) return null;
+
   const key = network.toUpperCase();
+  const hash = txid.replace(/^0x/i, '');
 
   if (key === 'LTC' || key === 'LITECOIN') {
-    return `https://blockchair.com/litecoin/transaction/${encodeURIComponent(txid)}`;
+    return `https://blockchair.com/litecoin/transaction/${hash.toLowerCase()}`;
   }
 
   if (key === 'SOL' || key === 'SOLANA') {
@@ -54,9 +64,10 @@ export default function RedemptionDetailsModal(
   const copiedTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const crypto = isCCPaymentRedemption(redemption) ? redemption : null;
-  const txid = crypto && 'transactionHash' in crypto.meta && typeof crypto.meta.transactionHash === 'string'
+  const storedHash = crypto && 'transactionHash' in crypto.meta && typeof crypto.meta.transactionHash === 'string'
     ? crypto.meta.transactionHash
     : undefined;
+  const txid = storedHash && isOnChainTxId(storedHash) ? storedHash : undefined;
   const explorerURL = crypto && txid
     ? explorerTxURL(crypto.meta.currencyNetwork || crypto.meta.currencySymbol, txid)
     : null;
