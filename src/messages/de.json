@@ -829,7 +829,7 @@
     "loadingTitle": "Bestenliste",
     "weekly": "Woechentlich",
     "monthly": "Monatlich",
-    "title": "{prize} {period} Bestenliste",
+    "title": "<highlight>{prize}</highlight> {period} Bestenliste",
     "endsIn": "Endet in",
     "emptyTimer": "00d 00h 00m 00s",
     "timerTemplate": "{days}d {hours}h {minutes}m {seconds}s",

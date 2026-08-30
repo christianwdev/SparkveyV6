@@ -26,7 +26,7 @@ import HomeIcon from '~icons/mdi/home.jsx';
 import ChecklistIcon from '~icons/solar/checklist-linear.jsx';
 import TrophyIcon from '~icons/mdi/trophy.jsx';
 import UsersIcon from '~icons/solar/users-group-rounded-linear.jsx';
-import ChatIcon from '~icons/mdi/chat.jsx';
+import ChatIcon from '~icons/solar/chat-round-linear.jsx';
 
 type NavbarProps = {
   showLinks?: boolean,

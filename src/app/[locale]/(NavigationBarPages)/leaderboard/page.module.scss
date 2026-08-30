@@ -1,10 +1,9 @@
 @use '@styles/variables.scss' as *;
 
 .leaderboardPage {
-  padding: 0 min(10%, 160px);
-  padding-bottom: 100px;
+  padding: 0 0 80px;
   width: 100%;
-  max-width: $max-width;
+  max-width: $content-max-width;
   margin: 0 auto;
   gap: 40px;
 
@@ -16,18 +15,25 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 4px;
+    gap: 8px;
 
     > h1 {
       margin: 0;
-      font-size: 48px;
+      font-size: 36px;
       font-weight: 600;
-      color: $primary;
+      color: $text-bold;
+      line-height: 1.2;
+      overflow-wrap: anywhere;
+      text-wrap: balance;
+
+      > span {
+        color: $primary;
+      }
     }
 
     > p {
       margin: 0;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 400;
       color: $text-light;
       font-variant-numeric: tabular-nums;
@@ -35,18 +41,18 @@
   }
 
   > .podiumWrapper {
-    gap: 80px;
+    gap: 24px;
     width: 100%;
 
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding-top: 30px;
 
     > .columnWrapper {
       display: flex;
       flex-direction: column;
-      width: 256px;
+      width: min(256px, 100%);
       gap: 24px;
 
       &.firstPlace {
@@ -91,6 +97,7 @@
           font-size: 16px;
           font-weight: 600;
           color: $text-bold;
+          font-variant-numeric: tabular-nums;
         }
       }
     }
@@ -99,34 +106,35 @@
   > .tableWrapper {
     width: 100%;
     overflow-x: auto;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    border: 1px solid $border-light;
+    border-radius: 12px;
+    background: $offbackground;
+    @include thin-scrollbar;
 
     > .placementsTable {
       width: 100%;
-      border-spacing: 0 12px;
+      border-collapse: collapse;
+      min-width: 560px;
 
       > thead {
         > tr {
           > th {
-            padding: 20px 24px;
+            padding: 14px 20px;
             box-sizing: border-box;
             text-align: start;
+            background: $light-blue;
+            white-space: nowrap;
 
-            font-size: 16px;
-            font-weight: 400;
+            font-size: 13px;
+            font-weight: 500;
             color: $text-light;
 
             &:first-child {
-              width: 100px;
-              padding-left: 50px;
+              width: 88px;
             }
 
             &:last-child {
               text-align: right;
-              padding-right: 50px;
             }
           }
         }
@@ -135,29 +143,24 @@
       > tbody {
         > tr {
           > td {
-            padding: 20px 0;
+            padding: 16px 20px;
             box-sizing: border-box;
+            white-space: nowrap;
 
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             color: $text-bold;
-
-            background: $off-white;
+            background: $offbackground;
+            border-top: 1px solid $border-light;
+            vertical-align: middle;
 
             &:first-child {
-              width: 100px;
-              padding-left: 50px;
-
-              border-top-left-radius: 10px;
-              border-bottom-left-radius: 10px;
+              width: 88px;
+              color: $text-light;
             }
 
             &:last-child {
               text-align: right;
-              padding-right: 50px;
-
-              border-top-right-radius: 10px;
-              border-bottom-right-radius: 10px;
 
               > .horizontalWrapper {
                 justify-content: flex-end;
@@ -168,6 +171,7 @@
               display: flex;
               align-items: center;
               gap: 4px;
+              min-width: 0;
 
               > .avatar {
                 width: 36px;
@@ -175,8 +179,11 @@
                 border-radius: 50%;
                 overflow: hidden;
                 margin-right: 8px;
+                flex-shrink: 0;
+                object-fit: cover;
 
-                background: $background;
+                background: $light-gray;
+                border: 1px solid $border-light;
 
                 display: flex;
                 align-items: center;
@@ -192,12 +199,14 @@
 
               > .username {
                 margin: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
               }
 
               > .loading {
                 width: 100px;
                 height: 20px;
-                background: $background;
+                background: $light-gray;
                 border-radius: 2525px;
 
                 @include pulse;
@@ -212,11 +221,13 @@
   @media screen and (max-width: $tablet) {
     > .podiumWrapper {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 60px 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+      gap: 48px 16px;
 
       > .columnWrapper {
         display: flex;
+        align-items: stretch;
         width: 100%;
 
         &.firstPlace {
@@ -234,16 +245,30 @@
   }
 
   @media screen and (max-width: $large-phone) {
+    padding-bottom: 48px;
+    gap: 28px;
+
+    > .titleWrapper > h1 {
+      font-size: 28px;
+    }
+
     > .podiumWrapper {
-      gap: 60px;
+      gap: 48px;
       grid-template-columns: 1fr;
-      padding-top: 0;
+      padding-top: 30px;
 
       > .columnWrapper {
         &.firstPlace {
           grid-column: span 1;
           grid-row: 1;
         }
+      }
+    }
+
+    > .tableWrapper > .placementsTable {
+      > thead > tr > th,
+      > tbody > tr > td {
+        padding: 12px 14px;
       }
     }
   }

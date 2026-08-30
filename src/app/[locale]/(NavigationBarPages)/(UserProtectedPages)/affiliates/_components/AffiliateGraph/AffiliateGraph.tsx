@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   Chart as ChartJS,
@@ -45,6 +46,17 @@ export default function AffiliateGraph(
 ) {
   const t = useTranslations('AffiliatesPage');
   const { tooltipBackground, tooltipText, tickColor, gridColor, accentColor, accentFill } = useChartTheme();
+  const [ compact, setCompact ] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)');
+    const sync = () => setCompact(media.matches);
+
+    sync();
+    media.addEventListener('change', sync);
+
+    return () => media.removeEventListener('change', sync);
+  }, []);
 
   const graphOptions: ChartOptions<'line'> = {
     responsive: true,
@@ -87,9 +99,9 @@ export default function AffiliateGraph(
         },
         ticks: {
           color: tickColor,
-          padding: 20,
+          padding: compact ? 8 : 20,
           font: {
-            size: 12,
+            size: compact ? 10 : 12,
           },
           callback(value) {
             const numeric = typeof value === 'number' ? value : Number(value);
@@ -110,9 +122,11 @@ export default function AffiliateGraph(
         },
         ticks: {
           color: tickColor,
-          padding: 35,
+          padding: compact ? 8 : 16,
+          maxRotation: compact ? 45 : 0,
+          autoSkip: true,
           font: {
-            size: 14,
+            size: compact ? 10 : 14,
           },
         },
       },
@@ -138,6 +152,7 @@ export default function AffiliateGraph(
             value: period,
           }))}
           className={styles.periodDropdown}
+          fullWidth={compact}
         />
       </div>
 
@@ -158,9 +173,9 @@ export default function AffiliateGraph(
                   cubicInterpolationMode: 'monotone',
                   borderColor: accentColor,
                   backgroundColor: accentFill,
-                  pointRadius: 6,
+                  pointRadius: compact ? 3 : 6,
                   tension: 0.4,
-                  pointHoverRadius: 6,
+                  pointHoverRadius: compact ? 4 : 6,
                   pointHoverBorderWidth: 2,
                 },
               ],

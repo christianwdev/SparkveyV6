@@ -59,4 +59,16 @@
     font-weight: 500;
     color: $text-light;
   }
+
+  @media screen and (max-width: $large-phone) {
+    > .control {
+      > .prefix {
+        display: none;
+      }
+
+      > input {
+        padding: 0 12px;
+      }
+    }
+  }
 }

@@ -18,19 +18,22 @@ type PodiumPlacementProps = {
 
 export default function PodiumPlacement(props: PodiumPlacementProps) {
   const t = useTranslations('LeaderboardPage');
+  const placementClass = props.placement === 1
+    ? styles.firstPlace
+    : props.placement === 2
+      ? styles.secondPlace
+      : styles.thirdPlace;
 
   return (
     <div
       className={[
         styles.podiumItem,
+        placementClass,
         props.className ?? '',
       ].join(' ')}
     >
       <div className={styles.placementWrapper}>
-        <div className={[
-          styles.iconWrapper,
-          props.placement === 1 ? styles.firstPlace : props.placement === 2 ? styles.secondPlace : styles.thirdPlace,
-        ].join(' ')}>
+        <div className={[ styles.iconWrapper, placementClass ].join(' ')}>
           <TrophyIcon aria-hidden />
         </div>
       </div>

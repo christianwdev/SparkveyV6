@@ -55,4 +55,21 @@
       }
     }
   }
+
+  @media screen and (max-width: $large-phone) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+
+    > .giftcardDescription {
+      max-width: none;
+    }
+
+    > .divider {
+      width: 100%;
+      height: 1px;
+      margin-right: 0;
+    }
+  }
 }

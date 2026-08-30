@@ -14,4 +14,23 @@
   > .offersContainer {
     @include horizontal-scroll-grid(4, 16px);
   }
+
+  @media screen and (max-width: $small-tablet) {
+    padding: 72px 0;
+
+    > .offersContainer {
+      grid-auto-columns: calc((100% - 16px) / 2);
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    padding: 56px 0;
+    gap: 28px;
+  }
+
+  @media screen and (max-width: $phone) {
+    > .offersContainer {
+      grid-auto-columns: min(260px, 78%);
+    }
+  }
 }

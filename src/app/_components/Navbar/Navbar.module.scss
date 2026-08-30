@@ -193,23 +193,42 @@
   }
 
   > .mobileTab {
+    appearance: none;
+    -webkit-appearance: none;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     flex: 1;
-    padding: 6px 12px;
+    min-width: 0;
+    padding: 6px 8px;
+    border: none;
     border-radius: 6px;
+    background: transparent;
     color: $text-light-link;
+    font: inherit;
     font-size: 14px;
     font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: inherit;
+    text-align: center;
     text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
     transition: background 0.2s ease;
 
     > .mobileIcon {
       width: 20px;
       height: 20px;
+      flex-shrink: 0;
       color: $primary;
+    }
+
+    > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     &:hover,
@@ -217,16 +236,9 @@
       background: $light-blue;
     }
 
-    &:is(button) {
-      font: inherit;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-    }
-
     @media screen and (max-width: $small-phone) {
-      padding: 6px 4px;
-      font-size: 12px;
+      padding: 6px 2px;
+      font-size: 11px;
     }
   }
 }

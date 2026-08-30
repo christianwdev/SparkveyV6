@@ -20,4 +20,9 @@
   * {
     font-family: var(--font-inter), sans-serif;
   }
+
+  @media screen and (max-width: $large-phone) {
+    gap: 16px;
+    padding-top: $navbar-height;
+  }
 }

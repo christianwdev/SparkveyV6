@@ -829,7 +829,7 @@
     "loadingTitle": "Classement",
     "weekly": "Hebdomadaire",
     "monthly": "Mensuel",
-    "title": "Classement {prize} {period}",
+    "title": "Classement <highlight>{prize}</highlight> {period}",
     "endsIn": "Se termine dans",
     "emptyTimer": "00d 00h 00m 00s",
     "timerTemplate": "{days}d {hours}h {minutes}m {seconds}s",

@@ -40,6 +40,12 @@ describe('readEnv', () => {
     expect(readEnv(KEY)).toBe('mongodb+srv://example.net/db');
   });
 
+  test('strips a leftover trailing double quote', () => {
+    process.env[KEY] = '123-xxxx.apps.googleusercontent.com"';
+
+    expect(readEnv(KEY)).toBe('123-xxxx.apps.googleusercontent.com');
+  });
+
   test('unquoteProcessEnv strips quotes on process.env', () => {
     process.env[KEY] = '"quoted-secret"';
     unquoteProcessEnv();

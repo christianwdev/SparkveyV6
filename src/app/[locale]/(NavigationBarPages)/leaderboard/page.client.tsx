@@ -142,9 +142,10 @@ function LeaderboardPageContent({ initialLeaderboardPromise }: LeaderboardPageCl
   return (
     <div className={styles.leaderboardPage}>
       <div className={styles.titleWrapper}>
-        <h1>{t('title', {
+        <h1>{t.rich('title', {
           prize: prizeLabel,
           period: t('monthly'),
+          highlight: (chunks) => <span>{chunks}</span>,
         })}</h1>
       </div>
 

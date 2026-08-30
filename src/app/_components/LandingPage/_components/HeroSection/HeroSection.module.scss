@@ -187,4 +187,35 @@
       overflow-wrap: anywhere;
     }
   }
+
+  @media screen and (max-width: $large-phone) {
+    padding: 48px 0 24px;
+    gap: 24px;
+
+    > .shapesWrapper {
+      display: none;
+    }
+
+    > .titleContainer {
+      > h1 {
+        font-size: 32px;
+      }
+    }
+
+    > .earnedStat {
+      margin-top: 8px;
+
+      > h2 {
+        font-size: 1.75em;
+      }
+    }
+  }
+
+  @media screen and (max-width: $phone) {
+    padding: 36px 0 16px;
+
+    > .titleContainer > h1 {
+      font-size: 28px;
+    }
+  }
 }

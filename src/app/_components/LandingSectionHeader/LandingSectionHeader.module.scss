@@ -25,6 +25,8 @@
     font-weight: 600;
     font-size: 48px;
     color: $text-bold;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
 
     > span {
       font-family: var(--font-sedgwick-ave), sans-serif;
@@ -39,6 +41,7 @@
     color: $text-light;
     font-weight: 400;
     max-width: 700px;
+    overflow-wrap: anywhere;
   }
 
   &.alignStart > p {
@@ -49,5 +52,26 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     max-width: 500px;
+  }
+
+  @media screen and (max-width: $large-phone) {
+    > h2 {
+      font-size: 32px;
+    }
+
+    > p {
+      font-size: 15px;
+    }
+
+    &.alignStart > h2,
+    &.alignStart > p {
+      max-width: none;
+    }
+  }
+
+  @media screen and (max-width: $phone) {
+    > h2 {
+      font-size: 28px;
+    }
   }
 }

@@ -38,7 +38,8 @@
         font-weight: 600;
         font-size: 40px;
         color: $text-bold;
-        text-wrap: nowrap;
+        text-wrap: balance;
+        overflow-wrap: anywhere;
         
         > span {
           font-family: var(--font-sedgwick-ave), sans-serif;
@@ -78,17 +79,68 @@
         }
 
         > .activityMessage {
+          flex: 1;
+          min-width: 0;
           font-weight: 500;
           font-size: 24px;
           color: $text-light;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
 
         > .activityAmount {
+          flex-shrink: 0;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
           font-weight: 500;
           font-size: 24px;
           color: $primary;
+          white-space: nowrap;
         }
       }
     }
+  }
+
+  @media screen and (max-width: $small-tablet) {
+    padding: 72px 0;
+
+    > .liveActivityContent {
+      flex-direction: column;
+      align-items: stretch;
+      height: auto;
+      gap: 24px;
+
+      > .activityTitle {
+        padding-right: 0;
+
+        > .funArrow {
+          display: none;
+        }
+
+        > h2 {
+          font-size: 28px;
+        }
+      }
+
+      > .activityCards {
+        height: 320px;
+        margin-left: 0;
+
+        > .activityCard,
+        > .activityCardSkeleton {
+          > .activityMessage,
+          > .activityAmount {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $large-phone) {
+    padding: 56px 0;
+    gap: 28px;
   }
 }

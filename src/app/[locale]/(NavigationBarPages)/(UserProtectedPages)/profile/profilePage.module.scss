@@ -107,7 +107,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 
     > .deviceIcon {
       display: inline-flex;

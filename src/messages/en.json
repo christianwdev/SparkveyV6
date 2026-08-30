@@ -832,7 +832,7 @@
     "loadingTitle": "Leaderboard",
     "weekly": "Weekly",
     "monthly": "Monthly",
-    "title": "{prize} {period} Leaderboard",
+    "title": "<highlight>{prize}</highlight> {period} Leaderboard",
     "endsIn": "Ends in",
     "emptyTimer": "00d 00h 00m 00s",
     "timerTemplate": "{days}d {hours}h {minutes}m {seconds}s",

@@ -829,7 +829,7 @@
     "loadingTitle": "Ranking",
     "weekly": "Semanal",
     "monthly": "Mensal",
-    "title": "Ranking {prize} {period}",
+    "title": "Ranking <highlight>{prize}</highlight> {period}",
     "endsIn": "Termina em",
     "emptyTimer": "00d 00h 00m 00s",
     "timerTemplate": "{days}d {hours}h {minutes}m {seconds}s",

@@ -57,14 +57,22 @@
         font-size: 16px;
         font-weight: 500;
         color: $text-bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       > .userID {
         display: flex;
         align-items: center;
         gap: 6px;
+        min-width: 0;
 
         > p {
+          min-width: 0;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           font-size: 16px;
           font-weight: 500;
           color: $text-light;
@@ -74,6 +82,7 @@
           display: inline-flex;
           align-items: center;
           justify-content: center;
+          flex-shrink: 0;
           padding: 0;
           border: none;
           background: transparent;
@@ -186,13 +195,59 @@
       }
 
       @media screen and (max-width: $large-phone) {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 100%;
         margin-left: 0;
         width: 100%;
+        gap: 8px;
 
         > .statCard {
-          flex: 1;
+          flex: none;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
           min-width: 0;
+          padding: 12px 14px;
+          gap: 12px;
+
+          > .statCardHeader {
+            min-width: 0;
+
+            > p {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+
+          > .statCardValue {
+            flex-shrink: 0;
+
+            > p {
+              overflow: visible;
+              white-space: nowrap;
+            }
+          }
         }
+      }
+    }
+
+    @media screen and (max-width: $large-phone) {
+      align-items: flex-start;
+      padding: 16px;
+
+      > .avatar,
+      > .avatarFallback {
+        width: 64px;
+        height: 64px;
+      }
+
+      > .userInformation {
+        flex: 1;
+        height: auto;
+        margin-right: 0;
+        min-width: 0;
       }
     }
   }

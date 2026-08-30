@@ -91,7 +91,10 @@ export default function ProfileLayout({ children }: { children: React.ReactNode 
               <p className={style.xpValue}>{earned.total} / {earned.total}</p>
             </div>
             <div className={style.xpProgress}>
-              <div className={style.xpProgressBar} style={{ width: `${earned.total / earned.total * 100}%` }} />
+              <div
+                className={style.xpProgressBar}
+                style={{ width: earned.total > 0 ? '100%' : '0%' }}
+              />
             </div>
           </div>
         </div>

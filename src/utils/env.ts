@@ -1,8 +1,8 @@
 /** Swarm configs keep wrapping quotes that Compose strips. */
 export function stripEnvQuotes(raw: string): string {
-  let value = raw.replace(/^\uFEFF/, '').trim();
+  let value = raw.replace(/^\uFEFF/, '').replace(/\r/g, '').trim();
 
-  for (let pass = 0; pass < 3; pass += 1) {
+  for (let pass = 0; pass < 4; pass += 1) {
     if (value.startsWith('%22') && value.endsWith('%22') && value.length > 6) {
       value = value.slice(3, -3).trim();
       continue;
@@ -15,6 +15,26 @@ export function stripEnvQuotes(raw: string): string {
       && value.endsWith(quote)
     ) {
       value = value.slice(1, -1).trim();
+      continue;
+    }
+
+    if (value.endsWith('%22') && value.length > 3) {
+      value = value.slice(0, -3).trim();
+      continue;
+    }
+
+    if (value.endsWith('"')) {
+      value = value.slice(0, -1).trim();
+      continue;
+    }
+
+    if (value.startsWith('%22')) {
+      value = value.slice(3).trim();
+      continue;
+    }
+
+    if (value.startsWith('"')) {
+      value = value.slice(1).trim();
       continue;
     }
 
