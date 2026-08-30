@@ -11,6 +11,7 @@ import ConfirmEmailChange from 'backend/emails/ConfirmEmailChange';
 import ConfirmAccountDeletion from 'backend/emails/ConfirmAccountDeletion';
 import EmailChangedNotice from 'backend/emails/EmailChangedNotice';
 import OfferReleased from 'backend/emails/OfferReleased';
+import WithdrawalSent from 'backend/emails/WithdrawalSent';
 
 const resend = new Resend(readEnv('RESEND_API_KEY'));
 
@@ -185,6 +186,56 @@ export async function sendOfferReleased(
       from: 'noreply@sparkvey.com',
       to: email,
       subject: 'Your Sparkvey offer has been released',
+      html: renderedEmail,
+      replyTo: 'support@sparkvey.com',
+    });
+
+    if (response.error) return [ true, 'We encountered an error when trying to send your email.' ];
+
+    return [ false ];
+  } catch (err) {
+    console.error(err);
+
+    return [ true, 'Internal server error' ];
+  }
+}
+
+export async function sendWithdrawalSent(
+  {
+    email,
+    withdrawalAmount,
+    withdrawalMethod,
+    estimatedArrival,
+    tremendousRedeemUrl,
+  }: {
+    email: string,
+    withdrawalAmount: string,
+    withdrawalMethod: string,
+    estimatedArrival?: string,
+    tremendousRedeemUrl?: string,
+  },
+): Promise<[err: true, message: string] | [err: false]> {
+  try {
+    const templateProps: {
+      withdrawalAmount: string,
+      withdrawalMethod: string,
+      estimatedArrival?: string,
+      tremendousRedeemUrl?: string,
+    } = {
+      withdrawalAmount,
+      withdrawalMethod,
+    };
+    if (estimatedArrival) templateProps.estimatedArrival = estimatedArrival;
+    if (tremendousRedeemUrl) templateProps.tremendousRedeemUrl = tremendousRedeemUrl;
+
+    const renderedEmail = await render(
+      WithdrawalSent(templateProps),
+    );
+
+    const response = await resend.emails.send({
+      from: 'noreply@sparkvey.com',
+      to: email,
+      subject: 'Your Sparkvey withdrawal is on its way',
       html: renderedEmail,
       replyTo: 'support@sparkvey.com',
     });

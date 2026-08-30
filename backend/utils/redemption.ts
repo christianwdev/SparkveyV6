@@ -7,6 +7,7 @@ import SocketEmits from '../constants/SocketEmits';
 // Utils
 import { checkCCPAddressValidity, getAppWithdrawRecord, getCoinList, withdrawCCP } from './ccpayment';
 import { convertUSDToCurrency, getCurrencyRates } from './currency';
+import { sendWithdrawalSent } from './email';
 import { detectSharedWithdrawalAddress } from './fraud';
 import { getGlobalObject } from './globalObject';
 import { createUserNotification } from './notifications';
@@ -440,6 +441,10 @@ export async function handleTremendousRedemptionApproval({
 
       return { ok: false, error: 'redemptionNotFound' };
     }
+
+    notifyWithdrawalSent(redemptionUpdateResult).catch(error => {
+      console.error(error);
+    });
 
     return { ok: true, data: redemptionUpdateResult as AcceptedTremendousInternalRedemption };
   } catch (error) {
@@ -912,6 +917,10 @@ export async function completeCCPaymentRedemptionFromWebhook(
 
     if (!completed) return { ok: false, error: 'notFound' };
 
+    notifyWithdrawalSent(completed).catch(error => {
+      console.error(error);
+    });
+
     return { ok: true, data: completed as AcceptedCCPaymentInternalRedemption };
   } catch (error) {
     console.error(error);
@@ -1090,6 +1099,38 @@ export async function handleRedemptionRejection(
   });
 
   return { ok: true, data: claimed };
+}
+
+async function notifyWithdrawalSent(redemption: InternalRedemption): Promise<void> {
+  const userResult = await getRawUser({ userID: redemption.userID });
+  const email = userResult.ok ? userResult.data.emailInformation?.emailAddress?.trim() : undefined;
+  if (!email) return;
+
+  const payload: {
+    email: string,
+    withdrawalAmount: string,
+    withdrawalMethod: string,
+    tremendousRedeemUrl?: string,
+  } = {
+    email,
+    withdrawalAmount: `${redemption.value.toLocaleString('en-US')} Sparks`,
+    withdrawalMethod: redemption.itemName,
+  };
+
+  if (
+    redemption.providerName === 'tremendous'
+    && redemption.status === 'completed'
+    && 'link' in redemption.meta
+    && typeof redemption.meta.link === 'string'
+    && redemption.meta.link.startsWith('https://')
+  ) {
+    payload.tremendousRedeemUrl = redemption.meta.link;
+  }
+
+  const [ emailError ] = await sendWithdrawalSent(payload);
+  if (emailError) {
+    console.error(`Failed to send withdrawal-sent email for ${redemption.redemptionID}`);
+  }
 }
 
 const CRYPTO_WITHDRAW_DECIMALS = 8;
