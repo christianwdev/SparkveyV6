@@ -26,7 +26,8 @@ services:
       - .env
     environment:
       PORT: ${PORT:-8080}
-    command: ["bun", "--env-file=/run/sparkvey.env", "app.ts"]
+      NODE_ENV: production
+    command: ["bun", "--env-file=/run/sparkvey.env", "./backend/boot.ts"]
     configs:
       - source: sparkvey_env
         target: /run/sparkvey.env
@@ -68,7 +69,9 @@ services:
       target: worker
     env_file:
       - .env
-    command: ["bun", "--env-file=/run/sparkvey.env", "./backend/workers/index.ts"]
+    environment:
+      NODE_ENV: production
+    command: ["bun", "--env-file=/run/sparkvey.env", "./backend/workers/boot.ts"]
     configs:
       - source: sparkvey_env
         target: /run/sparkvey.env
