@@ -1,6 +1,9 @@
+import { cookies } from 'next/headers';
+
 import styles from './HomePage.module.scss';
 import OffersView from './_components/OffersView/OffersView';
 import HomeOfferwalls from './_components/HomeOfferwalls/HomeOfferwalls';
+import HomeCarousel from './_components/HomeCarousel/HomeCarousel';
 
 import Footer from '@components/Footer/Footer';
 import IsolateErrorBoundary from '@components/IsolateErrorBoundary/IsolateErrorBoundary';
@@ -8,12 +11,19 @@ import Navbar from '@components/Navbar/Navbar';
 import AnnouncementBanner from '@components/AnnouncementBanner/AnnouncementBanner';
 import SupportChat from '@components/SupportChat/SupportChat';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
-import Carousel from '../Carousel/Carousel';
 import { getUsersHomepage } from '@utils/homepage';
 import { getWalls } from '@utils/walls';
+import { getUser } from '@utils/user';
 import { serverRequest } from '@utils/serverRequest';
+import { resolveColorTheme, THEME_COOKIE_NAME } from '@utils/theme';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const user = await getUser({ request: serverRequest });
+  const cookieStore = await cookies();
+  const initialTheme = resolveColorTheme(
+    user?.userPreferences?.colorTheme,
+    cookieStore.get(THEME_COOKIE_NAME)?.value,
+  );
   const initialHomepagePromise = getUsersHomepage({ request: serverRequest });
   const initialWallsPromise = getWalls({ request: serverRequest });
 
@@ -23,11 +33,7 @@ export default function HomePage() {
       <AnnouncementBanner />
       <main className={styles.homePage}>
         <div className={styles.content}>
-          <Carousel autoPlay={15_000}>
-            <p key="one">one</p>
-            <p key="two">two</p>
-            <p key="three">three</p>
-          </Carousel>
+          <HomeCarousel initialTheme={initialTheme} />
           <OffersView
             initialHomepagePromise={initialHomepagePromise}
             viewAllHref={FrontendRedirectPaths.tasks}

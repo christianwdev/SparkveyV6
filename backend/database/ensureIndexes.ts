@@ -303,20 +303,18 @@ async function createIndexes(
     try {
       await collection.createIndex(key, options);
     } catch (error) {
-      if (!isDuplicateKeyError(error)) throw error;
+      const canSkipEmailIndex = collectionName === DatabaseCollections.users
+        && options.name === 'emailAddress_unique'
+        && isDuplicateKeyError(error);
 
-      const indexName = options.name ?? JSON.stringify(key);
+      if (!canSkipEmailIndex) throw error;
+
       const message = error instanceof Error ? error.message : String(error);
       console.error(
-        `Skipped unique index ${collectionName}.${indexName}: existing documents violate uniqueness. ${message}`,
+        `Skipped unique index ${collectionName}.emailAddress_unique: existing documents violate uniqueness. ${message}`,
       );
 
-      if (
-        collectionName === DatabaseCollections.users
-        && options.name === 'emailAddress_unique'
-      ) {
-        await logDuplicateUserEmails(db);
-      }
+      await logDuplicateUserEmails(db);
     }
   }
 }

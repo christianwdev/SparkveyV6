@@ -1,5 +1,10 @@
 {
   "HomePage": {
+    "carousel": {
+      "label": "프로모션 배너",
+      "tasksAlt": "태스크를 완료하고 보상을 받으세요",
+      "cheddarAlt": "Cheddar를 시청하고 보상을 받으세요"
+    },
     "sections": {
       "featured": {
         "title": "추천",

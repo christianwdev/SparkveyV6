@@ -1,0 +1,18 @@
+@use '@styles/variables.scss' as *;
+
+.root {
+  margin-bottom: 8px;
+}
+
+.slide {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  > img {
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+  }
+}

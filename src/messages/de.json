@@ -1,5 +1,10 @@
 {
   "HomePage": {
+    "carousel": {
+      "label": "Werbebanner",
+      "tasksAlt": "Aufgaben abschließen und Belohnungen verdienen",
+      "cheddarAlt": "Cheddar ansehen und Belohnungen verdienen"
+    },
     "sections": {
       "featured": {
         "title": "Empfohlen",

@@ -10,6 +10,7 @@ import ChevronIcon from '~icons/mdi/chevron-right.jsx';
 
 const MENU_GAP = 4;
 const MENU_MAX_HEIGHT = 280;
+const MENU_MIN_WIDTH = 200;
 const VIEWPORT_PAD = 8;
 const FLIP_THRESHOLD = 140; // flip above the trigger when there is not enough room below
 
@@ -38,7 +39,6 @@ type DropdownProps<T = string> = {
 
 export default function Dropdown<T extends string | number = string>(props: DropdownProps<T>) {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [ active, setActive ] = useState(false);
@@ -75,8 +75,9 @@ export default function Dropdown<T extends string | number = string>(props: Drop
     : props.values.filter(item => matchesQuery(item.label, String(item.value), query));
 
   function measureTrigger() {
-    const trigger = triggerRef.current ?? dropdownRef.current;
+    const trigger = dropdownRef.current;
     if (!trigger) return;
+
     setMenuStyle(measureMenuStyle(trigger));
   }
 
@@ -187,7 +188,7 @@ export default function Dropdown<T extends string | number = string>(props: Drop
       }}
     >
       {!props.hideLabel && !props.field && <p className={styles.label}>{props.label}</p>}
-      <div ref={triggerRef} className={styles.selected}>
+      <div className={styles.selected}>
         {selectedItem?.leading ? (
           <span className={styles.leading}>{selectedItem.leading}</span>
         ) : null}
@@ -221,13 +222,16 @@ function measureMenuStyle(trigger: HTMLElement): CSSProperties {
   const openBelow = spaceBelow >= FLIP_THRESHOLD || spaceBelow >= spaceAbove;
   const available = openBelow ? spaceBelow : spaceAbove;
   const maxHeight = Math.min(MENU_MAX_HEIGHT, Math.max(80, available));
-  const width = rect.width;
-  const maxLeft = window.innerWidth - width - VIEWPORT_PAD;
+  const minWidth = Math.max(rect.width, MENU_MIN_WIDTH);
+  const maxWidth = window.innerWidth - VIEWPORT_PAD * 2;
+  const maxLeft = window.innerWidth - minWidth - VIEWPORT_PAD;
   const left = Math.min(Math.max(VIEWPORT_PAD, rect.left), Math.max(VIEWPORT_PAD, maxLeft));
 
   const style: CSSProperties = {
     left,
-    width,
+    minWidth,
+    width: 'max-content',
+    maxWidth,
     maxHeight,
   };
 

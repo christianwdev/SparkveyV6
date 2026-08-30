@@ -1,5 +1,10 @@
 {
   "HomePage": {
+    "carousel": {
+      "label": "Banners promocionais",
+      "tasksAlt": "Conclua tarefas e ganhe recompensas",
+      "cheddarAlt": "Assista ao Cheddar e ganhe recompensas"
+    },
     "sections": {
       "featured": {
         "title": "Em destaque",

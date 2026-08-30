@@ -1,5 +1,10 @@
 {
   "HomePage": {
+    "carousel": {
+      "label": "プロモーションバナー",
+      "tasksAlt": "タスクを完了して報酬を獲得",
+      "cheddarAlt": "Cheddarを視聴して報酬を獲得"
+    },
     "sections": {
       "featured": {
         "title": "注目",

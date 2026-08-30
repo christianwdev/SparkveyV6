@@ -1,5 +1,10 @@
 {
   "HomePage": {
+    "carousel": {
+      "label": "Bannery promocyjne",
+      "tasksAlt": "Wykonuj zadania i zdobywaj nagrody",
+      "cheddarAlt": "Oglądaj Cheddar i zdobywaj nagrody"
+    },
     "sections": {
       "featured": {
         "title": "Polecane",

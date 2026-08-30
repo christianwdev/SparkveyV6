@@ -1,5 +1,10 @@
 {
   "HomePage": {
+    "carousel": {
+      "label": "Bannières promotionnelles",
+      "tasksAlt": "Complétez des tâches et gagnez des récompenses",
+      "cheddarAlt": "Regardez Cheddar et gagnez des récompenses"
+    },
     "sections": {
       "featured": {
         "title": "En vedette",
