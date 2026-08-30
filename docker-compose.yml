@@ -6,6 +6,11 @@ configs:
   sparkvey_env:
     file: .env
 
+networks:
+  app:
+    driver: overlay
+    attachable: true
+
 services:
   backend:
     image: sparkvey-backend:latest
@@ -24,6 +29,8 @@ services:
         mode: 0444
     ports:
       - "8080:8080"
+    networks:
+      - app
     restart: unless-stopped
     stop_grace_period: 30s
     healthcheck:
@@ -60,6 +67,8 @@ services:
       - source: sparkvey_env
         target: /app/.env
         mode: 0444
+    networks:
+      - app
     restart: unless-stopped
     stop_grace_period: 30s
     deploy:
@@ -95,6 +104,8 @@ services:
         mode: 0444
     ports:
       - "4000:4000"
+    networks:
+      - app
     restart: unless-stopped
     stop_grace_period: 30s
     healthcheck:
