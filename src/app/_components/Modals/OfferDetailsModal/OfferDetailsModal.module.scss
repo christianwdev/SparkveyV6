@@ -179,8 +179,11 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   padding-bottom: 72px;
 
   &::-webkit-scrollbar {

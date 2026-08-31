@@ -72,15 +72,24 @@ body {
 body {
   height: auto;
   min-height: 100vh;
+  min-height: 100dvh;
   max-width: 100%;
   background: $background;
   color: $text-bold;
   display: flex;
   flex-direction: column;
+  // Home indicator when the bottom nav is hidden
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 html[data-mobile-nav='true'] {
-  --mobile-nav-offset: #{$mobile-nav-height};
+  --mobile-nav-offset: calc(#{$mobile-nav-height} + env(safe-area-inset-bottom, 0px));
+
+  @media screen and (max-width: $large-phone) {
+    > body {
+      padding-bottom: var(--mobile-nav-offset);
+    }
+  }
 }
 
 main {

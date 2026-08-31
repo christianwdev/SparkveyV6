@@ -30,8 +30,14 @@
 }
 
 .Toastify__toast-container--bottom-right {
-  bottom: var(--toastify-toast-offset);
-  right: var(--toastify-toast-offset);
+  bottom: calc(var(--toastify-toast-offset) + env(safe-area-inset-bottom, 0px));
+  right: calc(var(--toastify-toast-offset) + env(safe-area-inset-right, 0px));
+}
+
+html[data-mobile-nav='true'] .Toastify__toast-container--bottom-right {
+  @media screen and (max-width: $large-phone) {
+    bottom: calc(var(--toastify-toast-offset) + var(--mobile-nav-offset, 0px));
+  }
 }
 
 .spark-toast.Toastify__toast {
