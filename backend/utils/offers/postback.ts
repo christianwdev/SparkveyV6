@@ -13,6 +13,7 @@ import { emitLiveActivity } from 'backend/utils/liveActivity';
 import DatabaseCollections from "backend/constants/DatabaseCollections";
 
 // Types
+import type { UpdateFilter } from 'mongodb';
 import type { InternalOfferEarning } from "types/Earnings/InternalEarning";
 import type { NormalizedPostback } from "types/Postback/NormalizedPostback";
 import type FunctionResponse from "types/FunctionResponse";
@@ -172,21 +173,14 @@ async function confirmAdvertiserOffer(
   });
 
   const status = heldUntil ? 'held' : 'completed';
-  const update: {
-    $set: Record<string, unknown>,
-    $unset?: { heldUntil: string },
-  } = {
-    $set: {
-      status,
-      updatedAt: new Date(),
-    },
+  const $set: UpdateFilter<InternalOfferEarning> = {
+    status,
+    updatedAt: new Date(),
   };
+  if (heldUntil) $set.heldUntil = heldUntil;
 
-  if (heldUntil) {
-    update.$set.heldUntil = heldUntil;
-  } else {
-    update.$unset = { heldUntil: '' };
-  }
+  const update: UpdateFilter<InternalOfferEarning> = { $set };
+  if (!heldUntil) update.$unset = { heldUntil: '' };
 
   const updatedConversion = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOneAndUpdate(
     {
