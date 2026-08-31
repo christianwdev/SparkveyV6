@@ -36,6 +36,10 @@
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
 
+    &.containScroll {
+      overflow-y: hidden;
+    }
+
     &.defaultPanel {
       padding: 36px;
       max-width: 640px;

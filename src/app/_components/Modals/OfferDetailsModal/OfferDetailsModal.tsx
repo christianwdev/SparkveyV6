@@ -210,6 +210,7 @@ export default function OfferDetailsModal(
     <ModalShell
       onClose={onClose}
       closeLabel={t('close')}
+      containScroll
     >
       {loading && (
         <div className={styles.loadingState} aria-busy="true" aria-live="polite">

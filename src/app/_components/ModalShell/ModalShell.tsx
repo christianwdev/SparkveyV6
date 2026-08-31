@@ -18,6 +18,7 @@ type ModalShellProps = {
   contentClassName?: string,
   showCloseButton?: boolean,
   compact?: boolean,
+  containScroll?: boolean,
 };
 
 export default function ModalShell({
@@ -28,6 +29,7 @@ export default function ModalShell({
   contentClassName,
   showCloseButton = true,
   compact = false,
+  containScroll = false,
 }: ModalShellProps) {
   return (
     <div className={styles.modal} onClick={onClose}>
@@ -37,6 +39,7 @@ export default function ModalShell({
         className={[
           styles.contentWrapper,
           contentClassName || (compact ? styles.compactPanel : styles.defaultPanel),
+          containScroll ? styles.containScroll : '',
         ].filter(Boolean).join(' ')}
         onClick={e => e.stopPropagation()}
       >

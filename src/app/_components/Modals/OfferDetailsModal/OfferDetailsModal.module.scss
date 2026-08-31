@@ -185,6 +185,7 @@
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 72px;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;
