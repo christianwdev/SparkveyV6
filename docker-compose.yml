@@ -125,15 +125,18 @@ services:
       start_period: 40s
     deploy:
       replicas: 2
+      # Next hashes CSS/JS per image. start-first + 2 replicas lets the
+      # ingress mesh pair new HTML with old /_next/static (or the reverse)
+      # and the page renders without styles. Replace every replica together.
       update_config:
-        parallelism: 1
-        order: start-first
+        parallelism: 2
+        order: stop-first
         failure_action: rollback
         delay: 10s
         monitor: 60s
       rollback_config:
-        parallelism: 1
-        order: start-first
+        parallelism: 2
+        order: stop-first
       restart_policy:
         condition: on-failure
         delay: 5s
