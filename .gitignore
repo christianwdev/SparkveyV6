@@ -41,6 +41,7 @@ yarn-error.log*
 /scripts/*
 !/scripts/generate-icons.ts
 !/scripts/deploy-swarm.sh
+!/scripts/nextjs-entrypoint.sh
 
 # vercel
 .vercel
