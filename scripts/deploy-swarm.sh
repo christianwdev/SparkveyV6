@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Build images with a unique tag and rolling-update the sparkvey stack.
-# nextjs is cut over without overlapping builds (hashed CSS/JS 404 otherwise).
 # Run on a Swarm manager from the repo root (or anywhere; we cd to the repo).
 #
 #   ./scripts/deploy-swarm.sh
@@ -22,9 +21,7 @@ FRONTEND_ONLY=0
 
 usage() {
   cat <<'EOF'
-Build Sparkvey images and rolling-update the Swarm stack.
-nextjs scales to 1 replica for the image cutover so HTML and /_next/static
-never come from two different builds (that serves a page with broken CSS).
+Build Sparkvey images and rolling-update the Swarm stack (one replica at a time).
 
 Usage:
   ./scripts/deploy-swarm.sh [--frontend] [--skip-build] [--force] [--tag TAG]
@@ -170,54 +167,14 @@ build_images() {
   build_nextjs
 }
 
-# One Next build at a time. Two replicas with different hashed CSS/JS lets the
-# mesh serve HTML from A and /_next/static from B — the page looks unstyled.
-update_nextjs() {
+deploy_frontend() {
   local service="${STACK_NAME}_nextjs"
-  local extra_args=( "$@" )
-  local desired
+  local update_args=( --image "sparkvey-nextjs:${IMAGE_TAG}" )
 
   if ! docker service inspect "$service" >/dev/null 2>&1; then
     echo "error: ${service} is not deployed yet; run a full deploy first" >&2
     exit 1
   fi
-
-  desired="$(docker service inspect "$service" --format '{{.Spec.Mode.Replicated.Replicas}}')"
-
-  if [[ "$desired" -gt 1 ]]; then
-    echo "Scaling ${service} ${desired} → 1 so HTML and CSS stay on one build"
-    docker service scale "${service}=1"
-    wait_for_service "$service"
-  fi
-
-  echo "Updating ${service} to sparkvey-nextjs:${IMAGE_TAG}"
-  if [[ ${#extra_args[@]} -gt 0 ]]; then
-    docker service update \
-      --image "sparkvey-nextjs:${IMAGE_TAG}" \
-      --update-order stop-first \
-      --update-parallelism 1 \
-      "${extra_args[@]}" \
-      "$service"
-  else
-    docker service update \
-      --image "sparkvey-nextjs:${IMAGE_TAG}" \
-      --update-order stop-first \
-      --update-parallelism 1 \
-      "$service"
-  fi
-
-  wait_for_service "$service"
-
-  if [[ "$desired" -gt 1 ]]; then
-    echo "Scaling ${service} 1 → ${desired}"
-    docker service scale "${service}=${desired}"
-    wait_for_service "$service"
-  fi
-}
-
-deploy_frontend() {
-  local service="${STACK_NAME}_nextjs"
-  local update_args=()
 
   if [[ "$SKIP_BUILD" -eq 0 ]]; then
     build_nextjs
@@ -229,7 +186,10 @@ deploy_frontend() {
     update_args+=( --force )
   fi
 
-  update_nextjs "${update_args[@]}"
+  echo "Updating ${service} to sparkvey-nextjs:${IMAGE_TAG}"
+  docker service update "${update_args[@]}" "$service"
+
+  wait_for_service "$service"
 
   echo "Frontend ${service} is rolled out (IMAGE_TAG=${IMAGE_TAG})"
   docker service ls --filter "name=${service}"
@@ -319,7 +279,7 @@ docker stack deploy -c "$COMPOSE_FILE" "$STACK_NAME"
 if [[ "$FORCE" -eq 1 ]]; then
   echo "Forcing a rolling update"
   docker service update --force "${STACK_NAME}_backend" >/dev/null
-  update_nextjs --force
+  docker service update --force "${STACK_NAME}_nextjs" >/dev/null
   docker service update --force "${STACK_NAME}_worker" >/dev/null
 fi
 

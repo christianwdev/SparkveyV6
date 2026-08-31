@@ -65,13 +65,16 @@ COPY src ./src
 RUN bun run generate-icons
 RUN NODE_OPTIONS=--max-old-space-size=4096 node ./node_modules/next/dist/bin/next build src/
 
-RUN chown -R node:node /app
+COPY scripts/nextjs-entrypoint.sh /usr/local/bin/nextjs-entrypoint.sh
+RUN chmod 755 /usr/local/bin/nextjs-entrypoint.sh \
+  && chown -R node:node /app
 
 EXPOSE 4000
 
-USER node
-
+# Entrypoint runs as root so it can merge /_next/static into the shared volume,
+# then drops to node before `next start`.
 HEALTHCHECK --interval=10s --timeout=5s --start-period=40s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:4000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
+ENTRYPOINT ["/usr/local/bin/nextjs-entrypoint.sh"]
 CMD ["node", "./node_modules/next/dist/bin/next", "start", "src/", "-p", "4000"]

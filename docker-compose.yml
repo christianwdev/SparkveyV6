@@ -11,6 +11,11 @@ configs:
     # Swarm configs are immutable. The deploy script sets this to sparkvey_env_<hash>.
     name: ${SPARKVEY_ENV_CONFIG:-sparkvey_env}
 
+volumes:
+  # Node-local. Keep both nextjs tasks on the same machine (single-node
+  # swarm, or pin them) so they actually share hashed CSS/JS.
+  next_static:
+
 networks:
   app:
     external: true
@@ -113,6 +118,8 @@ services:
         mode: 0444
     ports:
       - "4000:4000"
+    volumes:
+      - next_static:/mnt/next-static
     networks:
       - app
     restart: unless-stopped
@@ -125,18 +132,15 @@ services:
       start_period: 40s
     deploy:
       replicas: 2
-      # Next hashes CSS/JS per image. start-first + 2 replicas lets the
-      # ingress mesh pair new HTML with old /_next/static (or the reverse)
-      # and the page renders without styles. Replace every replica together.
       update_config:
-        parallelism: 2
-        order: stop-first
+        parallelism: 1
+        order: start-first
         failure_action: rollback
         delay: 10s
         monitor: 60s
       rollback_config:
-        parallelism: 2
-        order: stop-first
+        parallelism: 1
+        order: start-first
       restart_policy:
         condition: on-failure
         delay: 5s
