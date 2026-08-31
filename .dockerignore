@@ -38,3 +38,4 @@ docker-compose*.yml
 
 /scripts/*
 !/scripts/generate-icons.ts
+!/scripts/nextjs-entrypoint.sh
