@@ -220,8 +220,8 @@
       "title": "<highlight>リアルタイム</highlight>で報酬を確認",
       "description": "Sparkveyユーザーは毎日、タスク完了、ボーナス獲得、報酬交換を行っています。",
       "watchTitle": "<highlight>ライブ収益</highlight>を見る",
-      "shoppedAt": "{username} が {label} で買い物しました",
-      "completed": "{username} が {label} を完了しました",
+      "shoppedAt": "<name>{username}</name> が <offer>{label}</offer> で買い物しました",
+      "completed": "<name>{username}</name> が <offer>{label}</offer> を完了しました",
       "avatarAlt": "アバター",
       "sparkAlt": "Spark",
       "funArrowAlt": "装飾の矢印"

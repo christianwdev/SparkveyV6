@@ -220,8 +220,8 @@
       "title": "Mira recompensas en <highlight>tiempo real</highlight>",
       "description": "Los usuarios de Sparkvey completan tareas, ganan bonos y canjean recompensas todos los días.",
       "watchTitle": "Mira ganancias <highlight>en vivo</highlight>",
-      "shoppedAt": "{username} compró en {label}",
-      "completed": "{username} completó {label}",
+      "shoppedAt": "<name>{username}</name> compró en <offer>{label}</offer>",
+      "completed": "<name>{username}</name> completó <offer>{label}</offer>",
       "avatarAlt": "Avatar",
       "sparkAlt": "Spark",
       "funArrowAlt": "Flecha decorativa"

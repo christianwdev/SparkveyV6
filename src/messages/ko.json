@@ -220,8 +220,8 @@
       "title": "<highlight>실시간</highlight>으로 보상 확인",
       "description": "Sparkvey 사용자들은 매일 작업을 완료하고, 보너스를 받으며, 보상을 교환합니다.",
       "watchTitle": "<highlight>실시간 수익</highlight> 보기",
-      "shoppedAt": "{username}님이 {label}에서 쇼핑했습니다",
-      "completed": "{username}님이 {label}을(를) 완료했습니다",
+      "shoppedAt": "<name>{username}</name>님이 <offer>{label}</offer>에서 쇼핑했습니다",
+      "completed": "<name>{username}</name>님이 <offer>{label}</offer>을(를) 완료했습니다",
       "avatarAlt": "아바타",
       "sparkAlt": "Spark",
       "funArrowAlt": "장식 화살표"

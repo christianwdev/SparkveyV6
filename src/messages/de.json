@@ -220,8 +220,8 @@
       "title": "Sieh Belohnungen in <highlight>Echtzeit</highlight>",
       "description": "Sparkvey-Nutzer erledigen jeden Tag Aufgaben, verdienen Boni und lösen Belohnungen ein.",
       "watchTitle": "Live-<highlight>Einnahmen</highlight> beobachten",
-      "shoppedAt": "{username} hat bei {label} eingekauft",
-      "completed": "{username} hat {label} abgeschlossen",
+      "shoppedAt": "<name>{username}</name> hat bei <offer>{label}</offer> eingekauft",
+      "completed": "<name>{username}</name> hat <offer>{label}</offer> abgeschlossen",
       "avatarAlt": "Avatar",
       "sparkAlt": "Spark",
       "funArrowAlt": "Pfeil"

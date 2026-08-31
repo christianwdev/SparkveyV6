@@ -220,8 +220,8 @@
       "title": "See rewards happening in <highlight>Real Time</highlight>",
       "description": "Sparkvey users are completing tasks, earning bonuses, and redeeming rewards every day.",
       "watchTitle": "Watch Live <highlight>Earnings</highlight>",
-      "shoppedAt": "{username} shopped at {label}",
-      "completed": "{username} completed {label}",
+      "shoppedAt": "<name>{username}</name> shopped at <offer>{label}</offer>",
+      "completed": "<name>{username}</name> completed <offer>{label}</offer>",
       "avatarAlt": "Avatar",
       "sparkAlt": "Spark",
       "funArrowAlt": "Fun arrow"

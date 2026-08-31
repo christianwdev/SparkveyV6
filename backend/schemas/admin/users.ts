@@ -80,7 +80,7 @@ export const adminUpdateUserBodySchema = z.object({
     { message: 'Unknown staff permission bits' },
   ).optional(),
   userConfiguration: z.object({
-    instantEarnOfferLimit: z.number().int().min(0).max(10_000).optional(),
+    instantEarnOfferLimit: z.number().int().min(0).max(100_000).optional(),
     dailyInstantWithdrawalLimit: z.number().int().min(0).max(100_000_000).optional(),
     maxAffiliateCodes: z.number().int().min(0).max(100).optional(),
   }).optional(),

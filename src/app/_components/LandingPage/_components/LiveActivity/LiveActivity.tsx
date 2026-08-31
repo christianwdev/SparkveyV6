@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, use, useRef, useEffect, useState } from 'react';
+import { Suspense, use, useRef, useEffect, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
@@ -16,11 +16,13 @@ import { useSocket } from '@contexts/SocketContext';
 import SocketEmits from '@constants/SocketEmits';
 
 type Activity = {
-  id: string;
-  avatar: string;
-  message: string;
-  amount: number;
-  animateIn: boolean;
+  id: string,
+  avatar: string,
+  username: string,
+  label: string,
+  type: LandingLiveActivityItem['type'],
+  amount: number,
+  animateIn: boolean,
 };
 
 type LiveActivityProps = {
@@ -51,26 +53,38 @@ function LiveActivityFallback() {
   );
 }
 
+function wrapActivityName(chunks: ReactNode) {
+  return <span className={styles.activityName}>{chunks}</span>;
+}
+
 function formatActivityMessage(
   t: ReturnType<typeof useTranslations<'Landing.liveActivity'>>,
-  item: LandingLiveActivityItem,
-): string {
+  item: Pick<LandingLiveActivityItem, 'type' | 'username' | 'label'>,
+): ReactNode {
+  const values = {
+    username: item.username,
+    label: item.label,
+    name: wrapActivityName,
+    offer: wrapActivityName,
+  };
+
   if (item.type === 'shopping') {
-    return t('shoppedAt', { username: item.username, label: item.label });
+    return t.rich('shoppedAt', values);
   }
 
-  return t('completed', { username: item.username, label: item.label });
+  return t.rich('completed', values);
 }
 
 function toActivity(
-  t: ReturnType<typeof useTranslations<'Landing.liveActivity'>>,
   item: LandingLiveActivityItem,
   animateIn = false,
 ): Activity {
   return {
     id: item.id,
     avatar: item.avatar || avatarUrl(item.username),
-    message: formatActivityMessage(t, item),
+    username: item.username,
+    label: item.label,
+    type: item.type,
     amount: item.value,
     animateIn,
   };
@@ -81,7 +95,7 @@ function LiveActivityFeed({ initialHomepagePromise }: LiveActivityProps) {
   const { liveActivity: initialActivities } = use(initialHomepagePromise);
   const { socket } = useSocket();
   const [ activities, setActivities ] = useState<Activity[]>(() =>
-    initialActivities.slice(0, MAX_ACTIVITIES).map((item) => toActivity(t, item)),
+    initialActivities.slice(0, MAX_ACTIVITIES).map(item => toActivity(item)),
   );
   const trimTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -90,7 +104,7 @@ function LiveActivityFeed({ initialHomepagePromise }: LiveActivityProps) {
       setActivities((prev) => {
         if (prev.some((activity) => activity.id === item.id)) return prev;
 
-        return [ toActivity(t, item, true), ...prev ].slice(0, MAX_ACTIVITIES + 1);
+        return [ toActivity(item, true), ...prev ].slice(0, MAX_ACTIVITIES + 1);
       });
 
       if (trimTimer.current) clearTimeout(trimTimer.current);
@@ -106,7 +120,7 @@ function LiveActivityFeed({ initialHomepagePromise }: LiveActivityProps) {
       if (socket) socket.off(SocketEmits.liveActivity, onLiveActivity);
       if (trimTimer.current) clearTimeout(trimTimer.current);
     };
-  }, [ socket, t ]);
+  }, [ socket ]);
 
   if (activities.length === 0) return null;
 
@@ -135,7 +149,9 @@ function LiveActivityFeed({ initialHomepagePromise }: LiveActivityProps) {
               height={40}
               sizes="100%"
             />
-            <p className={styles.activityMessage}>{activity.message}</p>
+            <p className={styles.activityMessage}>
+              {formatActivityMessage(t, activity)}
+            </p>
             <p className={styles.activityAmount}>
               +
               <Image src="/img/logo.svg" alt={t('sparkAlt')} width={16} height={16} />
