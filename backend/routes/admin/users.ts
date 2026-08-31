@@ -39,6 +39,7 @@ import {
   getUserEarningsHistory,
   getUserRedemptionHistory,
 } from 'backend/utils/user';
+import { sanitizeAdminEarning } from 'backend/utils/admin/earnings';
 import { getAdminUserRiskProfile } from 'backend/utils/admin/withdrawals';
 import { clearUserFlag } from 'backend/utils/userFlag';
 import { sendResponse } from 'backend/utils/response';
@@ -370,7 +371,12 @@ export default function routesInvoker() {
 
       if (!earnings.ok) return sendAdminUserError(c, earnings.error);
 
-      return sendResponse({ c, status: 200, success: true, data: earnings.data });
+      return sendResponse({
+        c,
+        status: 200,
+        success: true,
+        data: earnings.data.map(sanitizeAdminEarning),
+      });
     },
   );
 

@@ -4,6 +4,7 @@ import styles from './AdminDetailsList.module.scss';
 export type AdminDetailsListRow = {
   label: string,
   value: ReactNode,
+  mono?: boolean,
 };
 
 type AdminDetailsListProps = {
@@ -16,7 +17,7 @@ export default function AdminDetailsList({ rows }: AdminDetailsListProps) {
       {rows.map(row => (
         <div key={row.label} className={styles.row}>
           <dt>{row.label}</dt>
-          <dd>{row.value}</dd>
+          <dd className={row.mono ? styles.mono : undefined}>{row.value}</dd>
         </div>
       ))}
     </dl>

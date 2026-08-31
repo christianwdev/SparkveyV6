@@ -947,7 +947,7 @@
       "network": "Rete",
       "wallet": "Wallet",
       "txid": "ID transazione",
-      "txidPending": "L’ID transazione comparirà qui quando il prelievo sarà confermato on-chain.",
+      "txidPending": "L’ID transazione comparirà qui quando il prelievo sarà inviato on-chain.",
       "copy": "Copia",
       "copied": "Copiato",
       "viewOnExplorer": "Apri nell’explorer"
@@ -1714,7 +1714,20 @@
       "clickID": "ID clic",
       "postback": "Postback",
       "event": "Evento",
-      "heldUntil": "In attesa fino al"
+      "heldUntil": "In attesa fino al",
+      "offerName": "Nome offerta",
+      "offerDisplayName": "Nome visualizzato",
+      "eventID": "ID evento",
+      "eventName": "Nome evento",
+      "updated": "Aggiornato",
+      "reversedAt": "Annullato il",
+      "referralCode": "Codice referral",
+      "referralEarned": "Guadagno referral",
+      "storeID": "ID negozio",
+      "storeName": "Nome negozio",
+      "storeDisplayName": "Nome visualizzato negozio",
+      "orderID": "ID ordine",
+      "purchaseUsd": "Acquisto in USD"
     },
     "details": {
       "expand": "Mostra dettagli guadagno",
@@ -1830,7 +1843,24 @@
       "externalID": "ID offerta del provider",
       "clickID": "ID clic",
       "postback": "Postback",
-      "event": "Evento"
+      "event": "Evento",
+      "userID": "ID utente",
+      "type": "Tipo",
+      "usd": "USD",
+      "transactionID": "ID transazione",
+      "offerName": "Nome offerta",
+      "offerDisplayName": "Nome visualizzato",
+      "eventID": "ID evento",
+      "eventName": "Nome evento",
+      "updated": "Aggiornato",
+      "reversedAt": "Annullato il",
+      "referralCode": "Codice referral",
+      "referralEarned": "Guadagno referral",
+      "storeID": "ID negozio",
+      "storeName": "Nome negozio",
+      "storeDisplayName": "Nome visualizzato negozio",
+      "orderID": "ID ordine",
+      "purchaseUsd": "Acquisto in USD"
     },
     "details": {
       "expand": "Mostra dettagli guadagno",
@@ -1845,15 +1875,23 @@
       "userID": "ID utente",
       "conversionID": "ID conversione",
       "offerName": "Nome offerta",
+      "offerID": "ID offerta",
       "clickID": "ID clic",
-      "transactionID": "ID transazione"
+      "transactionID": "ID transazione",
+      "postbackLogID": "ID postback"
     },
     "searchPlaceholder": {
       "userID": "Cerca per ID utente",
       "conversionID": "Cerca per ID conversione",
       "offerName": "Cerca per nome offerta",
+      "offerID": "Cerca per ID offerta",
       "clickID": "Cerca per ID clic",
-      "transactionID": "Cerca per ID transazione"
+      "transactionID": "Cerca per ID transazione",
+      "postbackLogID": "Cerca per ID postback"
+    },
+    "earningTypes": {
+      "offer": "Offerta",
+      "shopping": "Shopping"
     },
     "statuses": {
       "completed": "Completato",
@@ -1890,7 +1928,11 @@
       "user": "Utente",
       "url": "URL",
       "query": "Query",
-      "normalized": "Normalizzato"
+      "normalized": "Normalizzato",
+      "clickID": "ID clic",
+      "eventID": "ID evento",
+      "eventName": "Nome evento",
+      "usdValue": "USD"
     },
     "details": {
       "expand": "Mostra dettagli postback",

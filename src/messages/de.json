@@ -947,7 +947,7 @@
       "network": "Netzwerk",
       "wallet": "Wallet",
       "txid": "Transaktions-ID",
-      "txidPending": "Die Transaktions-ID erscheint hier, sobald die Auszahlung on-chain bestätigt ist.",
+      "txidPending": "Die Transaktions-ID erscheint hier, sobald die Auszahlung on-chain gesendet wurde.",
       "copy": "Kopieren",
       "copied": "Kopiert",
       "viewOnExplorer": "Im Explorer anzeigen"
@@ -1714,7 +1714,20 @@
       "clickID": "Click-ID",
       "postback": "Postback",
       "event": "Event",
-      "heldUntil": "Gehalten bis"
+      "heldUntil": "Gehalten bis",
+      "offerName": "Angebotsname",
+      "offerDisplayName": "Anzeigename",
+      "eventID": "Event-ID",
+      "eventName": "Eventname",
+      "updated": "Aktualisiert",
+      "reversedAt": "Storniert am",
+      "referralCode": "Empfehlungscode",
+      "referralEarned": "Empfehlung verdient",
+      "storeID": "Shop-ID",
+      "storeName": "Shopname",
+      "storeDisplayName": "Shop-Anzeigename",
+      "orderID": "Bestell-ID",
+      "purchaseUsd": "Kauf in USD"
     },
     "details": {
       "expand": "Einnahmedetails anzeigen",
@@ -1830,7 +1843,24 @@
       "externalID": "Anbieter-Angebots-ID",
       "clickID": "Click-ID",
       "postback": "Postback",
-      "event": "Event"
+      "event": "Event",
+      "userID": "Nutzer-ID",
+      "type": "Typ",
+      "usd": "USD",
+      "transactionID": "Transaktions-ID",
+      "offerName": "Angebotsname",
+      "offerDisplayName": "Anzeigename",
+      "eventID": "Event-ID",
+      "eventName": "Eventname",
+      "updated": "Aktualisiert",
+      "reversedAt": "Storniert am",
+      "referralCode": "Empfehlungscode",
+      "referralEarned": "Empfehlung verdient",
+      "storeID": "Shop-ID",
+      "storeName": "Shopname",
+      "storeDisplayName": "Shop-Anzeigename",
+      "orderID": "Bestell-ID",
+      "purchaseUsd": "Kauf in USD"
     },
     "details": {
       "expand": "Einnahmedetails anzeigen",
@@ -1845,15 +1875,23 @@
       "userID": "Nutzer-ID",
       "conversionID": "Conversion-ID",
       "offerName": "Angebotsname",
+      "offerID": "Angebots-ID",
       "clickID": "Click-ID",
-      "transactionID": "Transaktions-ID"
+      "transactionID": "Transaktions-ID",
+      "postbackLogID": "Postback-ID"
     },
     "searchPlaceholder": {
       "userID": "Nach Nutzer-ID suchen",
       "conversionID": "Nach Conversion-ID suchen",
       "offerName": "Nach Angebotsname suchen",
+      "offerID": "Nach Angebots-ID suchen",
       "clickID": "Nach Click-ID suchen",
-      "transactionID": "Nach Transaktions-ID suchen"
+      "transactionID": "Nach Transaktions-ID suchen",
+      "postbackLogID": "Nach Postback-ID suchen"
+    },
+    "earningTypes": {
+      "offer": "Angebot",
+      "shopping": "Shopping"
     },
     "statuses": {
       "completed": "Abgeschlossen",
@@ -1890,7 +1928,11 @@
       "user": "Nutzer",
       "url": "URL",
       "query": "Query",
-      "normalized": "Normalisiert"
+      "normalized": "Normalisiert",
+      "clickID": "Click-ID",
+      "eventID": "Event-ID",
+      "eventName": "Eventname",
+      "usdValue": "USD"
     },
     "details": {
       "expand": "Postback-Details anzeigen",

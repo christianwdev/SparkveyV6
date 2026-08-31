@@ -39,6 +39,29 @@ function matchesFilter(doc: Record<string, unknown>, filter: Filter): boolean {
   return true;
 }
 
+function setDotted(
+  target: Record<string, unknown>,
+  path: string,
+  value: unknown,
+): void {
+  const parts = path.split('.');
+  let current = target;
+
+  for (let index = 0; index < parts.length - 1; index++) {
+    const key = parts[index];
+    if (!key) continue;
+
+    const existing = current[key];
+    current[key] = existing && typeof existing === 'object' && !Array.isArray(existing)
+      ? { ...existing as Record<string, unknown> }
+      : {};
+    current = current[key] as Record<string, unknown>;
+  }
+
+  const leaf = parts[parts.length - 1];
+  if (leaf) current[leaf] = value;
+}
+
 function applyUpdate(
   doc: Record<string, unknown>,
   update: { $set?: Record<string, unknown>, $unset?: Record<string, string> },
@@ -46,7 +69,13 @@ function applyUpdate(
   const next = { ...doc };
 
   if (update.$set) {
-    Object.assign(next, update.$set);
+    for (const [ key, value ] of Object.entries(update.$set)) {
+      if (key.includes('.')) {
+        setDotted(next, key, value);
+      } else {
+        next[key] = value;
+      }
+    }
   }
 
   if (update.$unset) {

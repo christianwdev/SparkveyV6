@@ -18,8 +18,10 @@ export const ADMIN_EARNING_SEARCH_BY = [
   'userID',
   'conversionID',
   'offerName',
+  'offerID',
   'clickID',
   'transactionID',
+  'postbackLogID',
 ] as const;
 
 export const adminEarningsSearchParams = {

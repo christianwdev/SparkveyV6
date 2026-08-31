@@ -947,7 +947,7 @@
       "network": "Réseau",
       "wallet": "Portefeuille",
       "txid": "ID de transaction",
-      "txidPending": "L’ID de transaction apparaîtra ici une fois le retrait confirmé on-chain.",
+      "txidPending": "L’ID de transaction apparaîtra ici une fois le retrait envoyé on-chain.",
       "copy": "Copier",
       "copied": "Copié",
       "viewOnExplorer": "Voir sur l’explorateur"
@@ -1714,7 +1714,20 @@
       "clickID": "ID de clic",
       "postback": "Postback",
       "event": "Événement",
-      "heldUntil": "Retenu jusqu’au"
+      "heldUntil": "Retenu jusqu’au",
+      "offerName": "Nom de l’offre",
+      "offerDisplayName": "Nom affiché",
+      "eventID": "ID d’événement",
+      "eventName": "Nom de l’événement",
+      "updated": "Mis à jour",
+      "reversedAt": "Annulé le",
+      "referralCode": "Code de parrainage",
+      "referralEarned": "Gain de parrainage",
+      "storeID": "ID du magasin",
+      "storeName": "Nom du magasin",
+      "storeDisplayName": "Nom affiché du magasin",
+      "orderID": "ID de commande",
+      "purchaseUsd": "Achat en USD"
     },
     "details": {
       "expand": "Afficher les détails du gain",
@@ -1830,7 +1843,24 @@
       "externalID": "ID d’offre du fournisseur",
       "clickID": "ID de clic",
       "postback": "Postback",
-      "event": "Événement"
+      "event": "Événement",
+      "userID": "ID utilisateur",
+      "type": "Type",
+      "usd": "USD",
+      "transactionID": "ID de transaction",
+      "offerName": "Nom de l’offre",
+      "offerDisplayName": "Nom affiché",
+      "eventID": "ID d’événement",
+      "eventName": "Nom de l’événement",
+      "updated": "Mis à jour",
+      "reversedAt": "Annulé le",
+      "referralCode": "Code de parrainage",
+      "referralEarned": "Gain de parrainage",
+      "storeID": "ID du magasin",
+      "storeName": "Nom du magasin",
+      "storeDisplayName": "Nom affiché du magasin",
+      "orderID": "ID de commande",
+      "purchaseUsd": "Achat en USD"
     },
     "details": {
       "expand": "Afficher les détails du gain",
@@ -1845,15 +1875,23 @@
       "userID": "ID utilisateur",
       "conversionID": "ID de conversion",
       "offerName": "Nom de l’offre",
+      "offerID": "ID de l’offre",
       "clickID": "ID de clic",
-      "transactionID": "ID de transaction"
+      "transactionID": "ID de transaction",
+      "postbackLogID": "ID de postback"
     },
     "searchPlaceholder": {
       "userID": "Rechercher par ID utilisateur",
       "conversionID": "Rechercher par ID de conversion",
       "offerName": "Rechercher par nom d’offre",
+      "offerID": "Rechercher par ID d’offre",
       "clickID": "Rechercher par ID de clic",
-      "transactionID": "Rechercher par ID de transaction"
+      "transactionID": "Rechercher par ID de transaction",
+      "postbackLogID": "Rechercher par ID de postback"
+    },
+    "earningTypes": {
+      "offer": "Offre",
+      "shopping": "Shopping"
     },
     "statuses": {
       "completed": "Terminé",
@@ -1890,7 +1928,11 @@
       "user": "Utilisateur",
       "url": "URL",
       "query": "Requête",
-      "normalized": "Normalisé"
+      "normalized": "Normalisé",
+      "clickID": "ID de clic",
+      "eventID": "ID d’événement",
+      "eventName": "Nom de l’événement",
+      "usdValue": "USD"
     },
     "details": {
       "expand": "Afficher les détails du postback",

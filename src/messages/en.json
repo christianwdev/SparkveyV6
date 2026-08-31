@@ -950,7 +950,7 @@
       "network": "Network",
       "wallet": "Wallet",
       "txid": "Transaction ID",
-      "txidPending": "The transaction ID will appear here once the withdrawal is confirmed on-chain.",
+      "txidPending": "The transaction ID will appear here once the withdrawal is sent on-chain.",
       "copy": "Copy",
       "copied": "Copied",
       "viewOnExplorer": "View on explorer"
@@ -1714,7 +1714,20 @@
       "clickID": "Click ID",
       "postback": "Postback",
       "event": "Event",
-      "heldUntil": "Held until"
+      "heldUntil": "Held until",
+      "offerName": "Offer name",
+      "offerDisplayName": "Display name",
+      "eventID": "Event ID",
+      "eventName": "Event name",
+      "updated": "Updated",
+      "reversedAt": "Reversed",
+      "referralCode": "Referral code",
+      "referralEarned": "Referral earned",
+      "storeID": "Store ID",
+      "storeName": "Store name",
+      "storeDisplayName": "Store display name",
+      "orderID": "Order ID",
+      "purchaseUsd": "Purchase USD"
     },
     "details": {
       "expand": "Show earning details",
@@ -1830,7 +1843,24 @@
       "externalID": "Provider offer ID",
       "clickID": "Click ID",
       "postback": "Postback",
-      "event": "Event"
+      "event": "Event",
+      "userID": "User ID",
+      "type": "Type",
+      "usd": "USD",
+      "transactionID": "Transaction ID",
+      "offerName": "Offer name",
+      "offerDisplayName": "Display name",
+      "eventID": "Event ID",
+      "eventName": "Event name",
+      "updated": "Updated",
+      "reversedAt": "Reversed",
+      "referralCode": "Referral code",
+      "referralEarned": "Referral earned",
+      "storeID": "Store ID",
+      "storeName": "Store name",
+      "storeDisplayName": "Store display name",
+      "orderID": "Order ID",
+      "purchaseUsd": "Purchase USD"
     },
     "details": {
       "expand": "Show earning details",
@@ -1845,15 +1875,23 @@
       "userID": "User ID",
       "conversionID": "Conversion ID",
       "offerName": "Offer name",
+      "offerID": "Offer ID",
       "clickID": "Click ID",
-      "transactionID": "Transaction ID"
+      "transactionID": "Transaction ID",
+      "postbackLogID": "Postback ID"
     },
     "searchPlaceholder": {
       "userID": "Search by user ID",
       "conversionID": "Search by conversion ID",
       "offerName": "Search by offer name",
+      "offerID": "Search by offer ID",
       "clickID": "Search by click ID",
-      "transactionID": "Search by transaction ID"
+      "transactionID": "Search by transaction ID",
+      "postbackLogID": "Search by postback ID"
+    },
+    "earningTypes": {
+      "offer": "Offer",
+      "shopping": "Shopping"
     },
     "statuses": {
       "completed": "Completed",
@@ -1890,7 +1928,11 @@
       "user": "User",
       "url": "URL",
       "query": "Query",
-      "normalized": "Normalized"
+      "normalized": "Normalized",
+      "clickID": "Click ID",
+      "eventID": "Event ID",
+      "eventName": "Event name",
+      "usdValue": "USD"
     },
     "details": {
       "expand": "Show postback details",

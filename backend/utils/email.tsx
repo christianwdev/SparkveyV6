@@ -288,7 +288,13 @@ export async function sendWithdrawalSent(
       replyTo: 'support@sparkvey.com',
     });
 
-    if (response.error) return [ true, 'We encountered an error when trying to send your email.' ];
+    if (response.error) {
+      console.error(
+        `Resend rejected withdrawal-sent email: ${response.error.name}: ${response.error.message}`,
+      );
+
+      return [ true, 'We encountered an error when trying to send your email.' ];
+    }
 
     return [ false ];
   } catch (err) {

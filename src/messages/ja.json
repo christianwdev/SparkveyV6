@@ -947,7 +947,7 @@
       "network": "ネットワーク",
       "wallet": "ウォレット",
       "txid": "トランザクションID",
-      "txidPending": "出金がチェーン上で確認されると、ここにトランザクションIDが表示されます。",
+      "txidPending": "出金がチェーン上に送信されると、ここにトランザクションIDが表示されます。",
       "copy": "コピー",
       "copied": "コピーしました",
       "viewOnExplorer": "エクスプローラーで見る"
@@ -1714,7 +1714,20 @@
       "clickID": "クリックID",
       "postback": "ポストバック",
       "event": "イベント",
-      "heldUntil": "保留期限"
+      "heldUntil": "保留期限",
+      "offerName": "オファー名",
+      "offerDisplayName": "表示名",
+      "eventID": "イベントID",
+      "eventName": "イベント名",
+      "updated": "更新日時",
+      "reversedAt": "取消日時",
+      "referralCode": "紹介コード",
+      "referralEarned": "紹介獲得",
+      "storeID": "ストアID",
+      "storeName": "ストア名",
+      "storeDisplayName": "ストア表示名",
+      "orderID": "注文ID",
+      "purchaseUsd": "購入USD"
     },
     "details": {
       "expand": "収益の詳細を表示",
@@ -1830,7 +1843,24 @@
       "externalID": "プロバイダーのオファーID",
       "clickID": "クリックID",
       "postback": "ポストバック",
-      "event": "イベント"
+      "event": "イベント",
+      "userID": "ユーザーID",
+      "type": "タイプ",
+      "usd": "USD",
+      "transactionID": "取引ID",
+      "offerName": "オファー名",
+      "offerDisplayName": "表示名",
+      "eventID": "イベントID",
+      "eventName": "イベント名",
+      "updated": "更新日時",
+      "reversedAt": "取消日時",
+      "referralCode": "紹介コード",
+      "referralEarned": "紹介獲得",
+      "storeID": "ストアID",
+      "storeName": "ストア名",
+      "storeDisplayName": "ストア表示名",
+      "orderID": "注文ID",
+      "purchaseUsd": "購入USD"
     },
     "details": {
       "expand": "収益の詳細を表示",
@@ -1845,15 +1875,23 @@
       "userID": "ユーザーID",
       "conversionID": "コンバージョンID",
       "offerName": "オファー名",
+      "offerID": "オファーID",
       "clickID": "クリックID",
-      "transactionID": "取引ID"
+      "transactionID": "取引ID",
+      "postbackLogID": "ポストバックID"
     },
     "searchPlaceholder": {
       "userID": "ユーザーIDで検索",
       "conversionID": "コンバージョンIDで検索",
       "offerName": "オファー名で検索",
+      "offerID": "オファーIDで検索",
       "clickID": "クリックIDで検索",
-      "transactionID": "取引IDで検索"
+      "transactionID": "取引IDで検索",
+      "postbackLogID": "ポストバックIDで検索"
+    },
+    "earningTypes": {
+      "offer": "オファー",
+      "shopping": "ショッピング"
     },
     "statuses": {
       "completed": "完了",
@@ -1890,7 +1928,11 @@
       "user": "ユーザー",
       "url": "URL",
       "query": "クエリ",
-      "normalized": "正規化"
+      "normalized": "正規化",
+      "clickID": "クリックID",
+      "eventID": "イベントID",
+      "eventName": "イベント名",
+      "usdValue": "USD"
     },
     "details": {
       "expand": "ポストバックの詳細を表示",

@@ -11,7 +11,8 @@ import { escapeRegex } from 'backend/utils/mongo';
 // Types
 import type { Filter } from 'mongodb';
 import type FunctionResponse from 'types/FunctionResponse';
-import type { InternalOfferEarning } from 'types/Earnings/InternalEarning';
+import type InternalEarning from 'types/Earnings/InternalEarning';
+import type { InternalOfferEarning, InternalShoppingEarning } from 'types/Earnings/InternalEarning';
 import type InternalUser from 'types/User/InternalUser';
 import type {
   AdminEarningListFilters,
@@ -60,6 +61,12 @@ export async function listAdminEarnings(
         case 'transactionID':
           query.correspondingTransactionID = trimmedSearch;
           break;
+        case 'offerID':
+          query.offerID = trimmedSearch;
+          break;
+        case 'postbackLogID':
+          query.postbackLogID = trimmedSearch;
+          break;
         case 'offerName':
           {
           const pattern = escapeRegex(trimmedSearch);
@@ -92,7 +99,7 @@ export async function listAdminEarnings(
       const user = usersByID.get(earning.userID);
 
       return {
-        earning,
+        earning: sanitizeAdminOfferEarning(earning),
         user: {
           userID: earning.userID,
           username: user?.username ?? '',
@@ -124,15 +131,16 @@ export async function releaseAdminHeldEarning(
 
   if (!result.ok) return result;
 
-  const userResult = await getRawUser({ userID: result.data.userID });
+  const sanitized = sanitizeAdminOfferEarning(result.data);
+  const userResult = await getRawUser({ userID: sanitized.userID });
   const email = userResult.ok ? userResult.data.emailInformation?.emailAddress : undefined;
-  if (!email) return result;
+  if (!email) return { ok: true, data: sanitized };
 
-  const offerName = result.data.offerDisplayName || result.data.offerName;
+  const offerName = sanitized.offerDisplayName || sanitized.offerName;
   sendOfferReleased({
     email,
     offerName,
-    offerAmount: formatSparksAmount(result.data.value),
+    offerAmount: formatSparksAmount(sanitized.value),
     releaseDate: new Date().toLocaleString('en-US', {
       dateStyle: 'medium',
       timeStyle: 'short',
@@ -145,5 +153,84 @@ export async function releaseAdminHeldEarning(
     console.error(`Failed to send offer-released email for ${provider}/${conversionID}`, error);
   });
 
-  return result;
+  return { ok: true, data: sanitized };
+}
+
+export function sanitizeAdminEarning(earning: InternalEarning): InternalEarning {
+  if (earning.type === 'shopping') return sanitizeAdminShoppingEarning(earning);
+
+  return sanitizeAdminOfferEarning(earning);
+}
+
+function sanitizeAdminOfferEarning(earning: InternalOfferEarning): InternalOfferEarning {
+  const sanitized: InternalOfferEarning = {
+    type: 'offer',
+    userID: earning.userID,
+    conversionID: earning.conversionID,
+    value: earning.value,
+    usdValue: earning.usdValue,
+    status: earning.status,
+    createdAt: earning.createdAt,
+    updatedAt: earning.updatedAt,
+    postbackLogID: earning.postbackLogID,
+    offerID: earning.offerID,
+    provider: earning.provider,
+    externalID: earning.externalID,
+    offerName: earning.offerName,
+    offerDisplayName: earning.offerDisplayName,
+  };
+
+  if (earning.correspondingTransactionID) {
+    sanitized.correspondingTransactionID = earning.correspondingTransactionID;
+  }
+  if (earning.reversedAt) sanitized.reversedAt = earning.reversedAt;
+  if (earning.heldUntil) sanitized.heldUntil = earning.heldUntil;
+  if (earning.referral) {
+    sanitized.referral = {
+      referralCode: earning.referral.referralCode,
+      referralEarned: earning.referral.referralEarned,
+    };
+  }
+  if (earning.clickID) sanitized.clickID = earning.clickID;
+  if (earning.event) {
+    sanitized.event = {
+      eventID: earning.event.eventID,
+      eventName: earning.event.eventName,
+    };
+  }
+
+  return sanitized;
+}
+
+function sanitizeAdminShoppingEarning(earning: InternalShoppingEarning): InternalShoppingEarning {
+  const sanitized: InternalShoppingEarning = {
+    type: 'shopping',
+    userID: earning.userID,
+    conversionID: earning.conversionID,
+    value: earning.value,
+    usdValue: earning.usdValue,
+    status: earning.status,
+    createdAt: earning.createdAt,
+    updatedAt: earning.updatedAt,
+    storeID: earning.storeID,
+    storeName: earning.storeName,
+    storeDisplayName: earning.storeDisplayName,
+  };
+
+  if (earning.correspondingTransactionID) {
+    sanitized.correspondingTransactionID = earning.correspondingTransactionID;
+  }
+  if (earning.reversedAt) sanitized.reversedAt = earning.reversedAt;
+  if (earning.heldUntil) sanitized.heldUntil = earning.heldUntil;
+  if (earning.referral) {
+    sanitized.referral = {
+      referralCode: earning.referral.referralCode,
+      referralEarned: earning.referral.referralEarned,
+    };
+  }
+  if (earning.clickID) sanitized.clickID = earning.clickID;
+  if (earning.orderID) sanitized.orderID = earning.orderID;
+  if (earning.purchaseUsdValue !== undefined) sanitized.purchaseUsdValue = earning.purchaseUsdValue;
+
+  return sanitized;
 }

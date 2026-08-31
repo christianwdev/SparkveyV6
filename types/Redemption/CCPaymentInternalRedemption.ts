@@ -9,6 +9,7 @@ type CCPaymentRequestMeta = {
   requestRewardAmount: number,
   requestFeeAmount: number,
   recordId?: string,
+  transactionHash?: string,
   failureReason?: string,
 };
 

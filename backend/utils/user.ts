@@ -15,6 +15,7 @@ import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
 import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
 import type AffiliateCode from 'types/AffiliateCode';
+import { DEFAULT_INSTANT_EARN_OFFER_LIMIT } from 'types/User/Parts/UserConfiguration';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
 function sanitizeSocialLink(link?: { id?: string, verifiedAt?: Date }): SanitizedUser['socialInformation'][keyof SanitizedUser['socialInformation']] {
@@ -146,7 +147,7 @@ export async function createUser(
       },
 
       userConfiguration: {
-        instantEarnOfferLimit: 0,
+        instantEarnOfferLimit: DEFAULT_INSTANT_EARN_OFFER_LIMIT,
         dailyInstantWithdrawalLimit: 0,
         maxAffiliateCodes: 2,
       },

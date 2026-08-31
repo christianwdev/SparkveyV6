@@ -17,24 +17,45 @@ import type { InternalOfferEarning } from "types/Earnings/InternalEarning";
 import type { NormalizedPostback } from "types/Postback/NormalizedPostback";
 import type FunctionResponse from "types/FunctionResponse";
 import type { UserNotificationMeta } from 'types/UserNotification/UserNotifications';
+import type InternalUser from 'types/User/InternalUser';
+
+import { DEFAULT_INSTANT_EARN_OFFER_LIMIT } from 'types/User/Parts/UserConfiguration';
+
+const HOLD_ONE_DAY_MS = 86_400_000; // 1 day
+const HOLD_SEVEN_DAYS_MS = 7 * HOLD_ONE_DAY_MS;
+const HOLD_THIRTY_DAYS_MS = 30 * HOLD_ONE_DAY_MS;
 
 async function getHoldDuration({
   value,
+  userID,
 }: {
   offerID: string;
   value: number;
   userID: string;
   userIP?: string;
 }): Promise<Date | undefined> {
-  if (value < 3_000) {
-    return new Date(Date.now() + 24 * 60 * 60 * 1000);
+  const { db } = getGlobalObject();
+
+  const user = await db.collection<InternalUser>(DatabaseCollections.users).findOne(
+    { userID },
+    { projection: { 'userConfiguration.instantEarnOfferLimit': 1 } },
+  );
+
+  const instantLimit = user?.userConfiguration?.instantEarnOfferLimit || DEFAULT_INSTANT_EARN_OFFER_LIMIT;
+
+  if (user && value <= instantLimit) {
+    return undefined;
   }
 
-  if (value < 5000) {
-    return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  if (value < DEFAULT_INSTANT_EARN_OFFER_LIMIT) {
+    return new Date(Date.now() + HOLD_ONE_DAY_MS);
   }
 
-  return new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  if (value < 5_000) {
+    return new Date(Date.now() + HOLD_SEVEN_DAYS_MS);
+  }
+
+  return new Date(Date.now() + HOLD_THIRTY_DAYS_MS);
 }
 
 async function creditOfferConversion(
@@ -151,6 +172,21 @@ async function confirmAdvertiserOffer(
   });
 
   const status = heldUntil ? 'held' : 'completed';
+  const update: {
+    $set: Record<string, unknown>,
+    $unset?: { heldUntil: string },
+  } = {
+    $set: {
+      status,
+      updatedAt: new Date(),
+    },
+  };
+
+  if (heldUntil) {
+    update.$set.heldUntil = heldUntil;
+  } else {
+    update.$unset = { heldUntil: '' };
+  }
 
   const updatedConversion = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOneAndUpdate(
     {
@@ -158,13 +194,7 @@ async function confirmAdvertiserOffer(
       conversionID: conversion.conversionID,
       status: 'providerPending',
     },
-    {
-      $set: {
-        status,
-        heldUntil,
-        updatedAt: new Date(),
-      },
-    },
+    update,
     {
       returnDocument: 'after',
     },

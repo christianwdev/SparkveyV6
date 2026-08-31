@@ -947,7 +947,7 @@
       "network": "네트워크",
       "wallet": "지갑",
       "txid": "트랜잭션 ID",
-      "txidPending": "출금이 온체인에서 확인되면 여기에 트랜잭션 ID가 표시됩니다.",
+      "txidPending": "출금이 온체인으로 전송되면 여기에 트랜잭션 ID가 표시됩니다.",
       "copy": "복사",
       "copied": "복사됨",
       "viewOnExplorer": "탐색기에서 보기"
@@ -1714,7 +1714,20 @@
       "clickID": "클릭 ID",
       "postback": "포스트백",
       "event": "이벤트",
-      "heldUntil": "보류 기한"
+      "heldUntil": "보류 기한",
+      "offerName": "오퍼 이름",
+      "offerDisplayName": "표시 이름",
+      "eventID": "이벤트 ID",
+      "eventName": "이벤트 이름",
+      "updated": "업데이트",
+      "reversedAt": "취소됨",
+      "referralCode": "추천 코드",
+      "referralEarned": "추천 수익",
+      "storeID": "스토어 ID",
+      "storeName": "스토어 이름",
+      "storeDisplayName": "스토어 표시 이름",
+      "orderID": "주문 ID",
+      "purchaseUsd": "구매 USD"
     },
     "details": {
       "expand": "수익 상세 보기",
@@ -1830,7 +1843,24 @@
       "externalID": "제공자 오퍼 ID",
       "clickID": "클릭 ID",
       "postback": "포스트백",
-      "event": "이벤트"
+      "event": "이벤트",
+      "userID": "사용자 ID",
+      "type": "유형",
+      "usd": "USD",
+      "transactionID": "거래 ID",
+      "offerName": "오퍼 이름",
+      "offerDisplayName": "표시 이름",
+      "eventID": "이벤트 ID",
+      "eventName": "이벤트 이름",
+      "updated": "업데이트",
+      "reversedAt": "취소됨",
+      "referralCode": "추천 코드",
+      "referralEarned": "추천 수익",
+      "storeID": "스토어 ID",
+      "storeName": "스토어 이름",
+      "storeDisplayName": "스토어 표시 이름",
+      "orderID": "주문 ID",
+      "purchaseUsd": "구매 USD"
     },
     "details": {
       "expand": "수익 상세 보기",
@@ -1845,15 +1875,23 @@
       "userID": "사용자 ID",
       "conversionID": "전환 ID",
       "offerName": "오퍼 이름",
+      "offerID": "오퍼 ID",
       "clickID": "클릭 ID",
-      "transactionID": "거래 ID"
+      "transactionID": "거래 ID",
+      "postbackLogID": "포스트백 ID"
     },
     "searchPlaceholder": {
       "userID": "사용자 ID로 검색",
       "conversionID": "전환 ID로 검색",
       "offerName": "오퍼 이름으로 검색",
+      "offerID": "오퍼 ID로 검색",
       "clickID": "클릭 ID로 검색",
-      "transactionID": "거래 ID로 검색"
+      "transactionID": "거래 ID로 검색",
+      "postbackLogID": "포스트백 ID로 검색"
+    },
+    "earningTypes": {
+      "offer": "오퍼",
+      "shopping": "쇼핑"
     },
     "statuses": {
       "completed": "완료",
@@ -1890,7 +1928,11 @@
       "user": "사용자",
       "url": "URL",
       "query": "쿼리",
-      "normalized": "정규화"
+      "normalized": "정규화",
+      "clickID": "클릭 ID",
+      "eventID": "이벤트 ID",
+      "eventName": "이벤트 이름",
+      "usdValue": "USD"
     },
     "details": {
       "expand": "포스트백 상세 보기",

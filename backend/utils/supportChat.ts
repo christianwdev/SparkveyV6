@@ -13,6 +13,7 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 import { isDuplicateKeyError } from 'backend/utils/mongo';
 import { getUserAvatarURL } from 'backend/utils/url';
 import { readEnv } from 'backend/utils/env';
+import { notifySupportMessageFromUser } from 'backend/utils/discord';
 
 // Types
 import type { Filter, UpdateFilter } from 'mongodb';
@@ -256,6 +257,14 @@ export async function createUserSupportMessage(
     };
 
     await db.collection<ChatMessage>(DatabaseCollections.chatMessages).insertOne(chatMessage);
+
+    notifySupportMessageFromUser({
+      user,
+      conversationID: conversation.conversationID,
+      message: trimmedMessage,
+    }).catch(error => {
+      console.error(error);
+    });
 
     return {
       ok: true,

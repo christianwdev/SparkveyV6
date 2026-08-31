@@ -8,12 +8,11 @@ import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
-import AdminDetailsList from '@components/AdminDetailsList/AdminDetailsList';
+import AdminEarningDetails from '@components/AdminEarningDetails/AdminEarningDetails';
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
 import AdminUserCell from '@components/AdminUserCell/AdminUserCell';
-import { Link } from '@i18n/navigation';
 import { useUser } from '@contexts/UserProvider';
 import { useAdminEarningsQuery } from '@hooks/useAdminUsers';
 import { queryKeys } from '@hooks/queryKeys';
@@ -209,6 +208,18 @@ function EarningsPageContent() {
   const hasNextPage = rows.length >= ADMIN_EARNINGS_PAGE_SIZE;
   const loading = isPending || (isFetching && rows.length === 0);
 
+  function formatDate(value: Date | string | undefined) {
+    const date = toDate(value);
+
+    return date
+      ? formatter.dateTime(date, { dateStyle: 'medium', timeStyle: 'short' })
+      : t('na');
+  }
+
+  function formatUsd(value: number) {
+    return formatter.number(value, { style: 'currency', currency: 'USD' });
+  }
+
   return (
     <>
       <div className={styles.controls}>
@@ -277,41 +288,16 @@ function EarningsPageContent() {
             emptyMessage={t('empty')}
             expandLabel={t('details.expand')}
             collapseLabel={t('details.collapse')}
-            renderExpanded={row => {
-              const earning = row.earning;
-              const eventLabel = [ earning.event?.eventName, earning.event?.eventID ]
-                .filter(Boolean)
-                .join(' · ');
-
-              return (
-                <AdminDetailsList
-                  rows={[
-                    { label: t('table.provider'), value: earning.provider },
-                    {
-                      label: t('table.offerID'),
-                      value: (
-                        <Link href={`${FrontendRedirectPaths.adminOffers}/${earning.offerID}`}>
-                          {earning.offerID}
-                        </Link>
-                      ),
-                    },
-                    { label: t('table.externalID'), value: earning.externalID || t('na') },
-                    { label: t('table.clickID'), value: earning.clickID || t('na') },
-                    {
-                      label: t('table.postback'),
-                      value: earning.postbackLogID ? (
-                        <Link
-                          href={`${FrontendRedirectPaths.adminPostbacks}?searchBy=requestID&search=${encodeURIComponent(earning.postbackLogID)}`}
-                        >
-                          {earning.postbackLogID}
-                        </Link>
-                      ) : t('na'),
-                    },
-                    { label: t('table.event'), value: eventLabel || t('na') },
-                  ]}
-                />
-              );
-            }}
+            renderExpanded={row => (
+              <AdminEarningDetails
+                earning={row.earning}
+                namespace="AdminEarnings"
+                formatDate={formatDate}
+                formatUsd={formatUsd}
+                statusLabel={t(`statuses.${row.earning.status}`)}
+                typeLabel={t(`earningTypes.${row.earning.type}`)}
+              />
+            )}
           />
           <Pagination
             page={filters.page}

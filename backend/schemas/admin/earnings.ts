@@ -14,8 +14,10 @@ const adminEarningSearchBy = [
   'userID',
   'conversionID',
   'offerName',
+  'offerID',
   'clickID',
   'transactionID',
+  'postbackLogID',
 ] as const satisfies readonly AdminEarningSearchBy[];
 
 export const adminEarningsQuerySchema = z.object({

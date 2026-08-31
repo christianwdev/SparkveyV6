@@ -4,8 +4,10 @@ export type AdminEarningSearchBy =
   | 'userID'
   | 'conversionID'
   | 'offerName'
+  | 'offerID'
   | 'clickID'
-  | 'transactionID';
+  | 'transactionID'
+  | 'postbackLogID';
 
 export type AdminEarningUser = {
   userID: string,

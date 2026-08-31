@@ -120,14 +120,14 @@ describe('withdrawal flags and attestation', () => {
     expect(getRefundAmount(transaction)).toBe(2500);
   });
 
-  test('isCCPaymentWebhookSuccess ignores a hash when status is failed', () => {
+  test('isCCPaymentWebhookSuccess requires a success status, not a hash', () => {
     expect(isCCPaymentWebhookSuccess({
       status: 'failed',
-      transactionHash: '0xabc',
     })).toBe(false);
     expect(isCCPaymentWebhookSuccess({
-      transactionHash: '0xabc',
-    })).toBe(true);
+      status: 'Processing',
+    })).toBe(false);
+    expect(isCCPaymentWebhookSuccess({})).toBe(false);
     expect(isCCPaymentWebhookSuccess({
       status: 'Success',
     })).toBe(true);

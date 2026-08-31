@@ -31,6 +31,7 @@ type BaseInternalRedemption = {
   rejectionReason?: string;
   attestationID?: string;
   refundedAt?: Date;
+  withdrawalEmailSentAt?: Date;
 
   meta: unknown;
 };

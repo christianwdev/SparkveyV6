@@ -260,6 +260,7 @@ function PostbacksPageContent() {
               return (
                 <AdminDetailsList
                   rows={[
+                    { label: t('table.requestID'), value: row.requestID, mono: true },
                     {
                       label: t('table.offerName'),
                       value: normalized?.offerName || query.offerName || query.offername || t('na'),
@@ -267,14 +268,37 @@ function PostbacksPageContent() {
                     {
                       label: t('table.offerID'),
                       value: normalized?.offerID || query.offerID || query.offerid || t('na'),
+                      mono: true,
                     },
                     {
                       label: t('table.conversionID'),
                       value: normalized?.conversionID || query.conversionID || query.transaction_id || t('na'),
+                      mono: true,
+                    },
+                    {
+                      label: t('table.clickID'),
+                      value: normalized?.clickID || query.clickID || query.clickid || t('na'),
+                      mono: true,
+                    },
+                    {
+                      label: t('table.eventID'),
+                      value: normalized?.eventID || query.eventID || query.eventid || t('na'),
+                      mono: true,
+                    },
+                    {
+                      label: t('table.eventName'),
+                      value: normalized?.eventName || query.eventName || query.eventname || t('na'),
                     },
                     {
                       label: t('table.user'),
                       value: normalized?.user || query.user || query.user_id || t('na'),
+                      mono: true,
+                    },
+                    {
+                      label: t('table.usdValue'),
+                      value: normalized
+                        ? formatter.number(normalized.usdValue, { style: 'currency', currency: 'USD' })
+                        : t('na'),
                     },
                     { label: t('table.url'), value: row.originalURL || t('na') },
                     {

@@ -5,12 +5,10 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
-import AdminDetailsList from '@components/AdminDetailsList/AdminDetailsList';
+import AdminEarningDetails from '@components/AdminEarningDetails/AdminEarningDetails';
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
-import { Link } from '@i18n/navigation';
-import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { useUser } from '@contexts/UserProvider';
 import { useAdminUserEarningsQuery } from '@hooks/useAdminUsers';
 import { queryKeys } from '@hooks/queryKeys';
@@ -189,6 +187,18 @@ export default function AdminUserEarningsClient(
   const hasNextPage = earnings.length >= ADMIN_USER_HISTORY_PAGE_SIZE;
   const loading = isPending || (isFetching && earnings.length === 0);
 
+  function formatDate(value: Date | string | undefined) {
+    const date = toDate(value);
+
+    return date
+      ? formatter.dateTime(date, { dateStyle: 'medium', timeStyle: 'short' })
+      : t('na');
+  }
+
+  function formatUsd(value: number) {
+    return formatter.number(value, { style: 'currency', currency: 'USD' });
+  }
+
   return (
     <div className={styles.historyPage}>
       <div className={styles.header}>
@@ -232,58 +242,16 @@ export default function AdminUserEarningsClient(
         emptyMessage={t('history.earningsEmpty')}
         expandLabel={t('details.expand')}
         collapseLabel={t('details.collapse')}
-        renderExpanded={row => {
-          if (row.type !== 'offer') {
-            return (
-              <AdminDetailsList
-                rows={[
-                  { label: t('table.conversionID'), value: row.conversionID || t('na') },
-                ]}
-              />
-            );
-          }
-
-          const heldUntil = toDate(row.heldUntil);
-          const eventLabel = [ row.event?.eventName, row.event?.eventID ]
-            .filter(Boolean)
-            .join(' · ');
-
-          return (
-            <AdminDetailsList
-              rows={[
-                { label: t('table.provider'), value: row.provider },
-                {
-                  label: t('table.offerID'),
-                  value: (
-                    <Link href={`${FrontendRedirectPaths.adminOffers}/${row.offerID}`}>
-                      {row.offerID}
-                    </Link>
-                  ),
-                },
-                { label: t('table.externalID'), value: row.externalID || t('na') },
-                { label: t('table.conversionID'), value: row.conversionID || t('na') },
-                { label: t('table.clickID'), value: row.clickID || t('na') },
-                {
-                  label: t('table.postback'),
-                  value: row.postbackLogID ? (
-                    <Link
-                      href={`${FrontendRedirectPaths.adminPostbacks}?searchBy=requestID&search=${encodeURIComponent(row.postbackLogID)}`}
-                    >
-                      {row.postbackLogID}
-                    </Link>
-                  ) : t('na'),
-                },
-                { label: t('table.event'), value: eventLabel || t('na') },
-                {
-                  label: t('table.heldUntil'),
-                  value: heldUntil
-                    ? formatter.dateTime(heldUntil, { dateStyle: 'medium', timeStyle: 'short' })
-                    : t('na'),
-                },
-              ]}
-            />
-          );
-        }}
+        renderExpanded={row => (
+          <AdminEarningDetails
+            earning={row}
+            namespace="AdminUser"
+            formatDate={formatDate}
+            formatUsd={formatUsd}
+            statusLabel={t(`earningStatuses.${row.status}`)}
+            typeLabel={t(`earningTypes.${row.type}`)}
+          />
+        )}
       />
       <Pagination
         page={page}

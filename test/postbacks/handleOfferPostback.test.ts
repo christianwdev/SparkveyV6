@@ -1,7 +1,9 @@
 import { afterEach, beforeEach, describe, expect, mock, test } from 'bun:test';
+import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import type { InternalOfferEarning } from 'types/Earnings/InternalEarning';
 import type { NormalizedPostback } from 'types/Postback/NormalizedPostback';
-import { createEarningsDb, MemoryCollection } from '../helpers/memoryCollection';
+import { DEFAULT_INSTANT_EARN_OFFER_LIMIT } from 'types/User/Parts/UserConfiguration';
+import { createMemoryDb, MemoryCollection } from '../helpers/memoryCollection';
 
 type BalanceCall = {
   userID: string,
@@ -14,10 +16,14 @@ const earnings = new MemoryCollection<Record<string, unknown>>({
   uniqueFields: [ 'provider', 'conversionID' ],
   yieldBeforeWrite: true,
 });
+const users = new MemoryCollection<Record<string, unknown>>();
 
 mock.module('backend/utils/globalObject', () => ({
   getGlobalObject: () => ({
-    db: createEarningsDb(earnings),
+    db: createMemoryDb({
+      [DatabaseCollections.userEarnings]: earnings,
+      [DatabaseCollections.users]: users,
+    }),
   }),
 }));
 
@@ -61,6 +67,23 @@ function basePostback(overrides: Partial<NormalizedPostback> = {}): NormalizedPo
   };
 }
 
+function seedUser(
+  {
+    userID = 'user_1',
+    instantEarnOfferLimit = DEFAULT_INSTANT_EARN_OFFER_LIMIT,
+  }: {
+    userID?: string,
+    instantEarnOfferLimit?: number,
+  } = {},
+): void {
+  users.docs.push({
+    userID,
+    userConfiguration: {
+      instantEarnOfferLimit,
+    },
+  });
+}
+
 function seedEarning(overrides: Partial<InternalOfferEarning> = {}): InternalOfferEarning {
   const now = new Date();
   const earning: InternalOfferEarning = {
@@ -88,12 +111,14 @@ function seedEarning(overrides: Partial<InternalOfferEarning> = {}): InternalOff
 
 beforeEach(() => {
   earnings.reset();
+  users.reset();
   balanceCalls.length = 0;
   siteStatDeltas.length = 0;
 });
 
 afterEach(() => {
   earnings.reset();
+  users.reset();
   balanceCalls.length = 0;
   siteStatDeltas.length = 0;
 });
@@ -250,5 +275,78 @@ describe('handleOfferPostback — reversals', () => {
     expect(result.ok).toBe(true);
     expect(earnings.docs[0].status).toBe('held');
     expect(balanceCalls).toEqual([]);
+  });
+
+  test('providerPending confirmation credits immediately when under the user instant limit', async () => {
+    seedUser();
+    seedEarning({ status: 'providerPending' });
+
+    const result = await handleOfferPostback({
+      postbackInformation: basePostback({ status: 'completed' }),
+      requestID: 'req-confirm-instant',
+    });
+
+    expect(result.ok).toBe(true);
+    expect(earnings.docs[0].status).toBe('completed');
+    expect(earnings.docs[0].heldUntil).toBeUndefined();
+    expect(balanceCalls).toEqual([ { userID: 'user_1', balanceChange: 1000 } ]);
+  });
+});
+
+describe('handleOfferPostback — instant earn limit', () => {
+  test('credits a default user immediately for an offer at or under 3k', async () => {
+    seedUser();
+
+    const result = await handleOfferPostback({
+      postbackInformation: basePostback({ value: DEFAULT_INSTANT_EARN_OFFER_LIMIT }),
+      requestID: 'req-instant-default',
+    });
+
+    expect(result.ok).toBe(true);
+    expect(earnings.docs[0].status).toBe('completed');
+    expect(earnings.docs[0].heldUntil).toBeUndefined();
+    expect(balanceCalls).toEqual([
+      { userID: 'user_1', balanceChange: DEFAULT_INSTANT_EARN_OFFER_LIMIT },
+    ]);
+  });
+
+  test('holds an offer above the user instant earn limit', async () => {
+    seedUser();
+
+    const result = await handleOfferPostback({
+      postbackInformation: basePostback({ value: DEFAULT_INSTANT_EARN_OFFER_LIMIT + 1 }),
+      requestID: 'req-held-over-limit',
+    });
+
+    expect(result.ok).toBe(true);
+    expect(earnings.docs[0].status).toBe('held');
+    expect(earnings.docs[0].heldUntil).toBeInstanceOf(Date);
+    expect(balanceCalls).toEqual([]);
+  });
+
+  test('treats a stored instant limit of 0 as the 3k product default', async () => {
+    seedUser({ instantEarnOfferLimit: 0 });
+
+    const result = await handleOfferPostback({
+      postbackInformation: basePostback({ value: 2_500 }),
+      requestID: 'req-zero-means-default',
+    });
+
+    expect(result.ok).toBe(true);
+    expect(earnings.docs[0].status).toBe('completed');
+    expect(balanceCalls).toEqual([ { userID: 'user_1', balanceChange: 2_500 } ]);
+  });
+
+  test('honors a raised instant earn limit', async () => {
+    seedUser({ instantEarnOfferLimit: 5_000 });
+
+    const result = await handleOfferPostback({
+      postbackInformation: basePostback({ value: 4_999 }),
+      requestID: 'req-raised-limit',
+    });
+
+    expect(result.ok).toBe(true);
+    expect(earnings.docs[0].status).toBe('completed');
+    expect(balanceCalls).toEqual([ { userID: 'user_1', balanceChange: 4_999 } ]);
   });
 });
