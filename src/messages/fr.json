@@ -1599,6 +1599,7 @@
       "balanceHint": "Utilisez un nombre négatif pour retrancher des sparks.",
       "limitsTitle": "Limites",
       "limitsDescription": "Limites d’offres, de retraits et de codes d’affiliation.",
+      "dailyInstantWithdrawalLimitHint": "Sparks versés automatiquement par jour UTC. 0 laisse chaque retrait dans la file de revue.",
       "moderationTitle": "Modération",
       "moderationDescription": "Bannir, débannir ou déconnecter partout.",
       "permanentBan": "Bannissement permanent",

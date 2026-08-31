@@ -1599,6 +1599,7 @@
       "balanceHint": "Usa un número negativo para restar sparks.",
       "limitsTitle": "Límites",
       "limitsDescription": "Límites de ofertas, retiros y códigos de afiliado.",
+      "dailyInstantWithdrawalLimitHint": "Sparks que se pagan automáticamente por día UTC. 0 deja cada retiro en la cola de revisión.",
       "moderationTitle": "Moderación",
       "moderationDescription": "Bloquea, desbloquea o cierra todas las sesiones.",
       "permanentBan": "Bloqueo permanente",

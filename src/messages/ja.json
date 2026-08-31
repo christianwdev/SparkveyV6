@@ -1599,6 +1599,7 @@
       "balanceHint": "Sparksを減らすには負の数を入力します。",
       "limitsTitle": "上限",
       "limitsDescription": "オファー、出金、アフィリエイトコードの上限。",
+      "dailyInstantWithdrawalLimitHint": "UTC日ごとに自動送金されるSparks。0はすべての出金を審査キューに残します。",
       "moderationTitle": "モデレーション",
       "moderationDescription": "BAN、解除、または全セッションを切断します。",
       "permanentBan": "無期限BAN",

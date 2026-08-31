@@ -1599,6 +1599,7 @@
       "balanceHint": "Usa un numero negativo per togliere sparks.",
       "limitsTitle": "Limiti",
       "limitsDescription": "Limiti di offerte, prelievi e codici affiliato.",
+      "dailyInstantWithdrawalLimitHint": "Sparks pagati automaticamente per giorno UTC. 0 lascia ogni prelievo in coda di revisione.",
       "moderationTitle": "Moderazione",
       "moderationDescription": "Banna, sbanna o disconnetti ovunque.",
       "permanentBan": "Ban permanente",

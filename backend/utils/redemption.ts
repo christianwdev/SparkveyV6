@@ -14,10 +14,11 @@ import { createUserNotification } from './notifications';
 import { getRedemptionSparksValue, getRedemptionUsdValue, getRewardByID, getRewardFeeAmount, getRewardFeeRate } from './rewards';
 import { createTremendousOrder } from './tremendous';
 import { getRawUser } from './user';
-import { scheduleFraudCheck } from './userFlag';
+import { getActiveFlagsByUserIDs, scheduleFraudCheck } from './userFlag';
 import { updateUserBalance } from './userBalance';
 
 // Types
+import type { ClientSession } from 'mongodb';
 import type InternalUser from 'types/User/InternalUser';
 import type InternalReward from 'types/Reward/InternalReward';
 import type InternalRedemption from 'types/Redemption/InternalRedemption';
@@ -167,8 +168,110 @@ async function buildRedemption({
   }
 }
 
-async function shouldRedemptionBeInstant(): Promise<boolean> {
-  return false;
+export function getUtcDayStart(now: Date): Date {
+  return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+}
+
+export function shouldApplyDailyInstantWithdrawal(
+  {
+    dailyLimit,
+    spentToday,
+    sparksCost,
+    hasActiveFlags,
+  }: {
+    dailyLimit: number,
+    spentToday: number,
+    sparksCost: number,
+    hasActiveFlags: boolean,
+  },
+): boolean {
+  if (hasActiveFlags) return false;
+  if (dailyLimit <= 0) return false;
+  if (sparksCost <= 0) return false;
+
+  return spentToday + sparksCost <= dailyLimit;
+}
+
+async function getTodayInstantWithdrawalSpend(
+  {
+    userID,
+    session,
+  }: {
+    userID: string,
+    session?: ClientSession,
+  },
+): Promise<number> {
+  const { db } = getGlobalObject();
+  const rows = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions)
+    .find(
+      {
+        userID,
+        instant: true,
+        createdAt: { $gte: getUtcDayStart(new Date()) },
+        status: { $ne: 'rejected' },
+        refundedAt: { $exists: false },
+      },
+      {
+        session,
+        projection: { value: 1 },
+      },
+    )
+    .toArray();
+
+  let spent = 0;
+  for (const row of rows) {
+    spent += row.value;
+  }
+
+  return spent;
+}
+
+async function shouldRedemptionBeInstant(
+  {
+    user,
+    sparksCost,
+    session,
+  }: {
+    user: InternalUser,
+    sparksCost: number,
+    session?: ClientSession,
+  },
+): Promise<boolean> {
+  if (user.deletedAt) return false;
+  if (user.bannedUntil && user.bannedUntil > new Date()) return false;
+
+  const dailyLimit = user.userConfiguration?.dailyInstantWithdrawalLimit ?? 0;
+  if (dailyLimit <= 0) return false;
+
+  const flagsResult = await getActiveFlagsByUserIDs({ userIDs: [ user.userID ] });
+  const hasActiveFlags = !flagsResult.ok || flagsResult.data.length > 0;
+  const spentToday = await getTodayInstantWithdrawalSpend({
+    userID: user.userID,
+    session,
+  });
+
+  return shouldApplyDailyInstantWithdrawal({
+    dailyLimit,
+    spentToday,
+    sparksCost,
+    hasActiveFlags,
+  });
+}
+
+async function fulfillInstantRedemption(redemption: NewInternalRedemption): Promise<boolean> {
+  if (redemption.providerName === 'tremendous') {
+    const result = await handleTremendousRedemptionApproval({
+      redemption: redemption as RequestedTremendousInternalRedemption,
+    });
+
+    return result.ok;
+  }
+
+  const result = await handleCCPaymentRedemptionApproval({
+    redemption: redemption as RequestedCCPaymentInternalRedemption,
+  });
+
+  return result.ok;
 }
 
 export async function handlePurchase({
@@ -214,13 +317,18 @@ export async function handlePurchase({
 
     if (!balanceResult.ok) throw new Error(balanceResult.error);
 
-    const isInstant = await shouldRedemptionBeInstant();
+    const isInstant = await shouldRedemptionBeInstant({
+      user,
+      sparksCost,
+      session,
+    });
 
     const redemption: NewInternalRedemption = {
       ...redemptionResult.data,
-      status: isInstant ? 'approved' : 'pending',
+      status: 'pending',
       correspondingTransactionID: balanceResult.data.transaction.transactionID,
     };
+    if (isInstant) redemption.instant = true;
 
     const redemptionInsertResult = await db.collection<InternalRedemption>(DatabaseCollections.userRedemptions).insertOne(
       redemption,
@@ -242,10 +350,19 @@ export async function handlePurchase({
 
     io.to(user.userID).emit(SocketEmits.userBalanceChange, balanceResult.data.user.balance.sparks);
 
+    let instantFulfilled = false;
+    if (isInstant) {
+      try {
+        instantFulfilled = await fulfillInstantRedemption(redemption);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     createUserNotification({
       userID: user.userID,
       meta: {
-        type: 'redemptionSubmitted',
+        type: instantFulfilled ? 'redemptionApproved' : 'redemptionSubmitted',
         rewardName: reward.rewardName,
         value: redemption.value,
       },

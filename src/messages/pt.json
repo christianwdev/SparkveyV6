@@ -1599,6 +1599,7 @@
       "balanceHint": "Use um número negativo para subtrair sparks.",
       "limitsTitle": "Limites",
       "limitsDescription": "Limites de ofertas, levantamentos e códigos de afiliado.",
+      "dailyInstantWithdrawalLimitHint": "Sparks pagos automaticamente por dia UTC. 0 deixa cada levantamento na fila de revisão.",
       "moderationTitle": "Moderação",
       "moderationDescription": "Banir, desbanir ou terminar todas as sessões.",
       "permanentBan": "Banimento permanente",

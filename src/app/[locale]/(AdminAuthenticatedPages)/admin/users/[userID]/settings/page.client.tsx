@@ -597,6 +597,7 @@ function AdminUserSettingsForm({ user }: { user: AdminUser }) {
             <TextField
               id="admin-daily-withdraw"
               label={t('fields.dailyInstantWithdrawalLimit')}
+              hint={t('settings.dailyInstantWithdrawalLimitHint')}
               type="number"
               min={0}
               value={dailyInstantWithdrawalLimit}

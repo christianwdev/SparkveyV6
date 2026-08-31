@@ -1599,6 +1599,7 @@
       "balanceHint": "Use a negative number to subtract sparks.",
       "limitsTitle": "Limits",
       "limitsDescription": "Offer, withdrawal, and affiliate code limits.",
+      "dailyInstantWithdrawalLimitHint": "Sparks that auto-payout per UTC day. 0 keeps every cashout in the review queue.",
       "moderationTitle": "Moderation",
       "moderationDescription": "Ban, unban, or sign this user out everywhere.",
       "permanentBan": "Permanent ban",

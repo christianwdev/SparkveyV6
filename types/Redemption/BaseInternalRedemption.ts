@@ -21,6 +21,7 @@ type BaseInternalRedemption = {
 
   status: InternalRedemptionStatus;
 
+  instant?: boolean;
   createdAt: Date;
   updatedAt: Date;
 

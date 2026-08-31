@@ -1599,6 +1599,7 @@
       "balanceHint": "Użyj liczby ujemnej, aby odjąć sparks.",
       "limitsTitle": "Limity",
       "limitsDescription": "Limity ofert, wypłat i kodów afiliacyjnych.",
+      "dailyInstantWithdrawalLimitHint": "Sparks wypłacane automatycznie na dobę UTC. 0 zostawia każdą wypłatę w kolejce do weryfikacji.",
       "moderationTitle": "Moderacja",
       "moderationDescription": "Zablokuj, odblokuj lub wyloguj wszędzie.",
       "permanentBan": "Blokada stała",

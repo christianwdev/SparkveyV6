@@ -1599,6 +1599,7 @@
       "balanceHint": "Sparks를 빼려면 음수를 입력하세요.",
       "limitsTitle": "한도",
       "limitsDescription": "오퍼, 출금, 제휴 코드 한도.",
+      "dailyInstantWithdrawalLimitHint": "UTC 하루 동안 자동 지급되는 Sparks. 0이면 모든 출금이 검토 대기열에 남습니다.",
       "moderationTitle": "운영",
       "moderationDescription": "차단, 해제 또는 모든 세션을 종료합니다.",
       "permanentBan": "영구 차단",

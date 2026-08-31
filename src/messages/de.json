@@ -1599,6 +1599,7 @@
       "balanceHint": "Negative Zahl zum Abziehen von Sparks.",
       "limitsTitle": "Limits",
       "limitsDescription": "Limits für Angebote, Auszahlungen und Partnercodes.",
+      "dailyInstantWithdrawalLimitHint": "Sparks, die pro UTC-Tag automatisch ausgezahlt werden. 0 lässt jede Auszahlung in der Prüfungsschlange.",
       "moderationTitle": "Moderation",
       "moderationDescription": "Sperren, entsperren oder überall abmelden.",
       "permanentBan": "Dauerhafte Sperre",
