@@ -14,7 +14,7 @@ import { createUserNotification } from './notifications';
 import { getRedemptionSparksValue, getRedemptionUsdValue, getRewardByID, getRewardFeeAmount, getRewardFeeRate } from './rewards';
 import { createTremendousOrder } from './tremendous';
 import { getRawUser } from './user';
-import { getActiveFlagsByUserIDs, scheduleFraudCheck } from './userFlag';
+import { getActiveFlagsByUserIDs } from './userFlag';
 import { updateUserBalance } from './userBalance';
 
 // Types
@@ -176,20 +176,20 @@ export function shouldApplyDailyInstantWithdrawal(
   {
     dailyLimit,
     spentToday,
-    sparksCost,
+    sparks,
     hasActiveFlags,
   }: {
     dailyLimit: number,
     spentToday: number,
-    sparksCost: number,
+    sparks: number,
     hasActiveFlags: boolean,
   },
 ): boolean {
   if (hasActiveFlags) return false;
   if (dailyLimit <= 0) return false;
-  if (sparksCost <= 0) return false;
+  if (sparks <= 0) return false;
 
-  return spentToday + sparksCost <= dailyLimit;
+  return spentToday + sparks <= dailyLimit;
 }
 
 async function getTodayInstantWithdrawalSpend(
@@ -229,20 +229,21 @@ async function getTodayInstantWithdrawalSpend(
 async function shouldRedemptionBeInstant(
   {
     user,
-    sparksCost,
+    sparks,
     session,
+    forceManualReview,
   }: {
     user: InternalUser,
-    sparksCost: number,
+    sparks: number,
     session?: ClientSession,
+    forceManualReview: boolean,
   },
 ): Promise<boolean> {
+  if (forceManualReview) return false;
   if (user.deletedAt) return false;
   if (user.bannedUntil && user.bannedUntil > new Date()) return false;
 
   const dailyLimit = user.userConfiguration?.dailyInstantWithdrawalLimit ?? 0;
-  if (dailyLimit <= 0) return false;
-
   const flagsResult = await getActiveFlagsByUserIDs({ userIDs: [ user.userID ] });
   const hasActiveFlags = !flagsResult.ok || flagsResult.data.length > 0;
   const spentToday = await getTodayInstantWithdrawalSpend({
@@ -253,7 +254,7 @@ async function shouldRedemptionBeInstant(
   return shouldApplyDailyInstantWithdrawal({
     dailyLimit,
     spentToday,
-    sparksCost,
+    sparks,
     hasActiveFlags,
   });
 }
@@ -299,6 +300,19 @@ export async function handlePurchase({
 
   if (!redemptionResult.ok) return redemptionResult;
 
+  let forceManualReview = false;
+  if (redemptionResult.data.providerName === 'ccpayment') {
+    try {
+      await detectSharedWithdrawalAddress({
+        userID: user.userID,
+        walletAddress: redemptionResult.data.meta.walletAddress,
+      });
+    } catch (error) {
+      console.error(error);
+      forceManualReview = true;
+    }
+  }
+
   const { db, mongoClient, io } = getGlobalObject();
   const session = mongoClient.startSession();
 
@@ -319,8 +333,9 @@ export async function handlePurchase({
 
     const isInstant = await shouldRedemptionBeInstant({
       user,
-      sparksCost,
+      sparks: redemptionResult.data.value,
       session,
+      forceManualReview,
     });
 
     const redemption: NewInternalRedemption = {
@@ -340,13 +355,6 @@ export async function handlePurchase({
     if (!redemptionInsertResult.acknowledged) throw new Error('internalServerError');
 
     await session.commitTransaction();
-
-    if (redemption.providerName === 'ccpayment') {
-      scheduleFraudCheck(detectSharedWithdrawalAddress({
-        userID: user.userID,
-        walletAddress: redemption.meta.walletAddress,
-      }));
-    }
 
     io.to(user.userID).emit(SocketEmits.userBalanceChange, balanceResult.data.user.balance.sparks);
 

@@ -25,7 +25,7 @@ describe('shouldApplyDailyInstantWithdrawal', () => {
     expect(shouldApplyDailyInstantWithdrawal({
       dailyLimit: 0,
       spentToday: 0,
-      sparksCost: 500,
+      sparks: 500,
       hasActiveFlags: false,
     })).toBe(false);
   });
@@ -34,7 +34,7 @@ describe('shouldApplyDailyInstantWithdrawal', () => {
     expect(shouldApplyDailyInstantWithdrawal({
       dailyLimit: 3_000,
       spentToday: 2_000,
-      sparksCost: 1_000,
+      sparks: 1_000,
       hasActiveFlags: false,
     })).toBe(true);
   });
@@ -43,7 +43,16 @@ describe('shouldApplyDailyInstantWithdrawal', () => {
     expect(shouldApplyDailyInstantWithdrawal({
       dailyLimit: 3_000,
       spentToday: 2_500,
-      sparksCost: 1_000,
+      sparks: 1_000,
+      hasActiveFlags: false,
+    })).toBe(false);
+  });
+
+  test('queues a single cashout larger than the daily cap', () => {
+    expect(shouldApplyDailyInstantWithdrawal({
+      dailyLimit: 3_000,
+      spentToday: 0,
+      sparks: 3_300,
       hasActiveFlags: false,
     })).toBe(false);
   });
@@ -52,7 +61,7 @@ describe('shouldApplyDailyInstantWithdrawal', () => {
     expect(shouldApplyDailyInstantWithdrawal({
       dailyLimit: 10_000,
       spentToday: 0,
-      sparksCost: 500,
+      sparks: 500,
       hasActiveFlags: true,
     })).toBe(false);
   });
