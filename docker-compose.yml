@@ -14,6 +14,8 @@ configs:
 volumes:
   # Node-local. Keep both nextjs tasks on the same machine (single-node
   # swarm, or pin them) so they actually share hashed CSS/JS.
+  # The nextjs entrypoint keeps the last NEXT_STATIC_KEEP_BUILDS builds
+  # (default 3) and deletes files no remaining build still serves.
   next_static:
 
 networks:
@@ -112,6 +114,8 @@ services:
         NEXT_PUBLIC_CF_BEACON_TOKEN: ${NEXT_PUBLIC_CF_BEACON_TOKEN:-}
     env_file:
       - .env
+    environment:
+      NEXT_STATIC_KEEP_BUILDS: ${NEXT_STATIC_KEEP_BUILDS:-3}
     configs:
       - source: sparkvey_env
         target: /app/.env
