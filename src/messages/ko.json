@@ -1707,7 +1707,18 @@
       "username": "사용자 이름",
       "userID": "사용자 ID",
       "issued": "발급",
-      "actionableID": "ID"
+      "actionableID": "ID",
+      "offerID": "오퍼 ID",
+      "externalID": "제공자 오퍼 ID",
+      "conversionID": "전환 ID",
+      "clickID": "클릭 ID",
+      "postback": "포스트백",
+      "event": "이벤트",
+      "heldUntil": "보류 기한"
+    },
+    "details": {
+      "expand": "수익 상세 보기",
+      "collapse": "수익 상세 숨기기"
     },
     "filters": {
       "all": "전체",
@@ -1813,7 +1824,17 @@
       "sparks": "Sparks",
       "heldUntil": "보류 종료",
       "created": "생성일",
-      "actions": "작업"
+      "actions": "작업",
+      "provider": "제공자",
+      "offerID": "오퍼 ID",
+      "externalID": "제공자 오퍼 ID",
+      "clickID": "클릭 ID",
+      "postback": "포스트백",
+      "event": "이벤트"
+    },
+    "details": {
+      "expand": "수익 상세 보기",
+      "collapse": "수익 상세 숨기기"
     },
     "filters": {
       "all": "전체",
@@ -1862,7 +1883,18 @@
       "status": "상태",
       "remoteIP": "원격 IP",
       "requestID": "요청 ID",
-      "actions": "작업"
+      "actions": "작업",
+      "offerName": "오퍼",
+      "offerID": "오퍼 ID",
+      "conversionID": "전환 ID",
+      "user": "사용자",
+      "url": "URL",
+      "query": "쿼리",
+      "normalized": "정규화"
+    },
+    "details": {
+      "expand": "포스트백 상세 보기",
+      "collapse": "포스트백 상세 숨기기"
     },
     "filters": {
       "all": "전체",

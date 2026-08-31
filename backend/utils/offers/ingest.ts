@@ -125,12 +125,17 @@ type ProcessResult = {
 
 type ExistingOffer = {
   offerID: string,
+  provider: InternalOffer['provider'],
   hash: string,
   offerType: OfferType[],
   status: InternalOffer['status'],
   totalReward: number,
   customRewards?: InternalOffer['customRewards'],
 };
+
+function existingOfferKey(offer: { provider: string, offerID: string }): string {
+  return `${offer.provider}:${offer.offerID}`;
+}
 
 export async function processConvertedWorkersOffers({
   convertedOffers,
@@ -153,22 +158,27 @@ export async function processConvertedWorkersOffers({
   }
 
   const existingMap = new Map<string, ExistingOffer>();
-  const allIds = convertedOffers.map(o => o.offerID);
+  const allKeys = convertedOffers.map(offer => ({
+    provider: offer.provider,
+    offerID: offer.offerID,
+  }));
 
-  for (let i = 0; i < allIds.length; i += PRELOAD_CHUNK_SIZE) {
-    const chunk = allIds.slice(i, i + PRELOAD_CHUNK_SIZE);
+  for (let i = 0; i < allKeys.length; i += PRELOAD_CHUNK_SIZE) {
+    const chunk = allKeys.slice(i, i + PRELOAD_CHUNK_SIZE);
 
     const docs = await db
       .collection<InternalOffer>(DatabaseCollections.offers)
       .find(
         {
-          offerID: {
-            $in: chunk
-          }
+          $or: chunk.map(key => ({
+            provider: key.provider,
+            offerID: key.offerID,
+          })),
         },
         {
           projection: {
             offerID: 1,
+            provider: 1,
             hash: 1,
             offerType: 1,
             status: 1,
@@ -180,8 +190,9 @@ export async function processConvertedWorkersOffers({
       .toArray();
 
     for (const doc of docs) {
-      existingMap.set(doc.offerID, {
+      existingMap.set(existingOfferKey(doc), {
         offerID: doc.offerID,
+        provider: doc.provider,
         hash: doc.hash,
         offerType: doc.offerType ?? [],
         status: doc.status,
@@ -198,7 +209,7 @@ export async function processConvertedWorkersOffers({
   for (const offer of convertedOffers) {
     const { description, offerType, ...rest } = offer;
 
-    const existing = existingMap.get(offer.offerID);
+    const existing = existingMap.get(existingOfferKey(offer));
 
     if (!existing || existing.offerType.length === 0) {
       needsCategories.push(offer);
@@ -331,7 +342,7 @@ export async function enrichOfferCategories(offers: IngestedOffer[]): Promise<nu
           existingCategories: offer.offerType ?? [],
         });
 
-        return { offerID: offer.offerID, categories };
+        return { offerID: offer.offerID, provider: offer.provider, categories };
       }),
     );
 
@@ -340,7 +351,7 @@ export async function enrichOfferCategories(offers: IngestedOffer[]): Promise<nu
 
       categoryOps.push({
         updateOne: {
-          filter: { offerID: result.value.offerID },
+          filter: { offerID: result.value.offerID, provider: result.value.provider },
           update: { $set: { offerType: result.value.categories } },
         },
       });

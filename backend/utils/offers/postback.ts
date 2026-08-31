@@ -4,6 +4,7 @@ import { createUserNotification } from 'backend/utils/notifications';
 import { updateUserBalance } from 'backend/utils/userBalance';
 import { applySparksEarningsSideEffects } from 'backend/utils/earnings';
 import { createOfferID } from 'backend/utils/offers/ingest';
+import { resolveCatalogOffer } from 'backend/utils/offers/resolve';
 import { isDuplicateKeyError } from 'backend/utils/mongo';
 import { adjustTotalEarnedUsd } from 'backend/utils/siteStatistics';
 import { emitLiveActivity } from 'backend/utils/liveActivity';
@@ -207,6 +208,12 @@ async function handleNewOfferPostback(
   });
 
   const now = new Date();
+  const catalogOffer = await resolveCatalogOffer({
+    provider: postback.provider,
+    externalID: postback.offerID,
+  });
+  const offerID = catalogOffer?.offerID
+    ?? createOfferID({ provider: postback.provider, externalID: postback.offerID });
 
   const conversion: InternalOfferEarning = {
     type: 'offer',
@@ -222,11 +229,13 @@ async function handleNewOfferPostback(
         ? 'held'
         : 'completed',
     postbackLogID: requestID,
-    offerID: createOfferID({ provider: postback.provider, externalID: postback.offerID }),
+    offerID,
     provider: postback.provider,
     externalID: postback.offerID,
     offerName: postback.offerName,
-    offerDisplayName: postback.offerDisplayName ?? postback.offerName,
+    offerDisplayName: catalogOffer?.displayName
+      ?? postback.offerDisplayName
+      ?? postback.offerName,
   };
 
   if (heldUntil) conversion.heldUntil = heldUntil;

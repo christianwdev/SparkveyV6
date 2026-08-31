@@ -1707,7 +1707,18 @@
       "username": "Utilizador",
       "userID": "ID de utilizador",
       "issued": "Emitido",
-      "actionableID": "ID"
+      "actionableID": "ID",
+      "offerID": "ID da oferta",
+      "externalID": "ID da oferta do provedor",
+      "conversionID": "ID de conversão",
+      "clickID": "ID do clique",
+      "postback": "Postback",
+      "event": "Evento",
+      "heldUntil": "Retido até"
+    },
+    "details": {
+      "expand": "Mostrar detalhes do ganho",
+      "collapse": "Ocultar detalhes do ganho"
     },
     "filters": {
       "all": "Todos",
@@ -1813,7 +1824,17 @@
       "sparks": "Sparks",
       "heldUntil": "Retido até",
       "created": "Criado",
-      "actions": "Ações"
+      "actions": "Ações",
+      "provider": "Provedor",
+      "offerID": "ID da oferta",
+      "externalID": "ID da oferta do provedor",
+      "clickID": "ID do clique",
+      "postback": "Postback",
+      "event": "Evento"
+    },
+    "details": {
+      "expand": "Mostrar detalhes do ganho",
+      "collapse": "Ocultar detalhes do ganho"
     },
     "filters": {
       "all": "Todos",
@@ -1862,7 +1883,18 @@
       "status": "Estado",
       "remoteIP": "IP remoto",
       "requestID": "ID do pedido",
-      "actions": "Ações"
+      "actions": "Ações",
+      "offerName": "Oferta",
+      "offerID": "ID da oferta",
+      "conversionID": "ID de conversão",
+      "user": "Utilizador",
+      "url": "URL",
+      "query": "Consulta",
+      "normalized": "Normalizado"
+    },
+    "details": {
+      "expand": "Mostrar detalhes do postback",
+      "collapse": "Ocultar detalhes do postback"
     },
     "filters": {
       "all": "Todos",

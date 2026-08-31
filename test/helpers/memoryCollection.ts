@@ -81,8 +81,13 @@ export class MemoryCollection<T extends Record<string, unknown>> {
   }
 
   find(filter: Filter = {}) {
+    const matched = this.docs.filter(doc => matchesFilter(doc, filter));
+
     return {
-      toArray: async () => this.docs.filter(doc => matchesFilter(doc, filter)),
+      limit: (_count: number) => ({
+        toArray: async () => matched,
+      }),
+      toArray: async () => matched,
     };
   }
 

@@ -7,6 +7,7 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
+import AdminDetailsList from '@components/AdminDetailsList/AdminDetailsList';
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
 import { useUser } from '@contexts/UserProvider';
@@ -250,6 +251,40 @@ function PostbacksPageContent() {
             getRowKey={row => row.requestID}
             loading={loading}
             emptyMessage={t('empty')}
+            expandLabel={t('details.expand')}
+            collapseLabel={t('details.collapse')}
+            renderExpanded={row => {
+              const normalized = row.normalized;
+              const query = row.query ?? {};
+
+              return (
+                <AdminDetailsList
+                  rows={[
+                    {
+                      label: t('table.offerName'),
+                      value: normalized?.offerName || query.offerName || query.offername || t('na'),
+                    },
+                    {
+                      label: t('table.offerID'),
+                      value: normalized?.offerID || query.offerID || query.offerid || t('na'),
+                    },
+                    {
+                      label: t('table.conversionID'),
+                      value: normalized?.conversionID || query.conversionID || query.transaction_id || t('na'),
+                    },
+                    {
+                      label: t('table.user'),
+                      value: normalized?.user || query.user || query.user_id || t('na'),
+                    },
+                    { label: t('table.url'), value: row.originalURL || t('na') },
+                    {
+                      label: t('table.query'),
+                      value: <pre>{JSON.stringify(query, null, 2)}</pre>,
+                    },
+                  ]}
+                />
+              );
+            }}
           />
           <Pagination
             page={filters.page}

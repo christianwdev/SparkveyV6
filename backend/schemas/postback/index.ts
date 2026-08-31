@@ -5,6 +5,7 @@ import { CpxresearchPostbackProvider } from './providers/cpxresearch';
 import { GemiadsPostbackProvider } from './providers/gemiads';
 import { HangmyadsPostbackProvider } from './providers/hangmyads';
 import { LootablyPostbackProvider } from './providers/lootably';
+import { MmwallPostbackProvider } from './providers/mmwall';
 import { PlayidPostbackProvider } from './providers/playid';
 import { TimewallPostbackProvider } from './providers/timewall';
 import { ToroxPostbackProvider } from './providers/torox';
@@ -40,6 +41,7 @@ const providers: PostbackProvider[] = [
   new GemiadsPostbackProvider(),
   new AdscendPostbackProvider(),
   new PlayidPostbackProvider(),
+  new MmwallPostbackProvider(),
 ];
 
 const providerByRouteKey = new Map<string, PostbackProvider>();

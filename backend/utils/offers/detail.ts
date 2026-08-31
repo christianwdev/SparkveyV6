@@ -1,5 +1,6 @@
 import DatabaseCollections from 'backend/constants/DatabaseCollections';
 import { getGlobalObject } from 'backend/utils/globalObject';
+import { findOfferByOfferID } from 'backend/utils/offers/resolve';
 import { sanitizeOffer } from 'backend/utils/offers/sanitize';
 
 // Types
@@ -29,8 +30,7 @@ export async function getSanitizedOfferByID(
   },
 ): Promise<FunctionResponse<SanitizedOffer, GetOfferError>> {
   try {
-    const { db } = getGlobalObject();
-    const offer = await db.collection<InternalOffer>(DatabaseCollections.offers).findOne({ offerID });
+    const offer = await findOfferByOfferID({ offerID });
 
     if (!offer) return { ok: false, error: 'notFound' };
     if (!isOfferAvailableInCountry(offer, country)) return { ok: false, error: 'unavailable' };
@@ -53,8 +53,7 @@ export async function getInternalOfferByID(
   },
 ): Promise<FunctionResponse<InternalOffer, GetOfferError>> {
   try {
-    const { db } = getGlobalObject();
-    const offer = await db.collection<InternalOffer>(DatabaseCollections.offers).findOne({ offerID });
+    const offer = await findOfferByOfferID({ offerID });
 
     if (!offer) return { ok: false, error: 'notFound' };
     if (!isOfferAvailableInCountry(offer, country)) return { ok: false, error: 'unavailable' };
@@ -86,7 +85,7 @@ export async function getOfferCompletionSteps(
         offerID,
         status: { $in: [ 'completed', 'held', 'providerPending' ] },
       }).toArray(),
-      db.collection<InternalOffer>(DatabaseCollections.offers).findOne({ offerID }),
+      findOfferByOfferID({ offerID }),
     ]);
 
     if (!offer) return { ok: true, data: [] };

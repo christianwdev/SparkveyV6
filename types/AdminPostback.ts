@@ -10,6 +10,9 @@ export type AdminPostbackRow = {
   provider: string,
   status: AdminPostbackStatus,
   remoteIP: string | null,
+  originalURL?: string,
+  query?: InternalPostbackRequest['query'],
+  normalized?: InternalPostbackRequest['normalized'],
   failureReason?: InternalPostbackRequest['failureReason'],
   failureDetail?: string,
 };

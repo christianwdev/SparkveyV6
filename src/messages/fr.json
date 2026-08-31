@@ -1707,7 +1707,18 @@
       "username": "Identifiant",
       "userID": "ID utilisateur",
       "issued": "Émis",
-      "actionableID": "ID"
+      "actionableID": "ID",
+      "offerID": "ID de l’offre",
+      "externalID": "ID d’offre du fournisseur",
+      "conversionID": "ID de conversion",
+      "clickID": "ID de clic",
+      "postback": "Postback",
+      "event": "Événement",
+      "heldUntil": "Retenu jusqu’au"
+    },
+    "details": {
+      "expand": "Afficher les détails du gain",
+      "collapse": "Masquer les détails du gain"
     },
     "filters": {
       "all": "Tous",
@@ -1813,7 +1824,17 @@
       "sparks": "Sparks",
       "heldUntil": "Retenu jusqu’au",
       "created": "Créé",
-      "actions": "Actions"
+      "actions": "Actions",
+      "provider": "Fournisseur",
+      "offerID": "ID de l’offre",
+      "externalID": "ID d’offre du fournisseur",
+      "clickID": "ID de clic",
+      "postback": "Postback",
+      "event": "Événement"
+    },
+    "details": {
+      "expand": "Afficher les détails du gain",
+      "collapse": "Masquer les détails du gain"
     },
     "filters": {
       "all": "Tous",
@@ -1862,7 +1883,18 @@
       "status": "Statut",
       "remoteIP": "IP distante",
       "requestID": "ID de requête",
-      "actions": "Actions"
+      "actions": "Actions",
+      "offerName": "Offre",
+      "offerID": "ID de l’offre",
+      "conversionID": "ID de conversion",
+      "user": "Utilisateur",
+      "url": "URL",
+      "query": "Requête",
+      "normalized": "Normalisé"
+    },
+    "details": {
+      "expand": "Afficher les détails du postback",
+      "collapse": "Masquer les détails du postback"
     },
     "filters": {
       "all": "Tous",

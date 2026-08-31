@@ -15,6 +15,7 @@ describe('getPostbackProvider registry', () => {
       'gemiads',
       'adscend',
       'playid',
+      'mmwall',
     ];
 
     for (const id of ids) {

@@ -1707,7 +1707,18 @@
       "username": "ユーザー名",
       "userID": "ユーザーID",
       "issued": "発行",
-      "actionableID": "ID"
+      "actionableID": "ID",
+      "offerID": "オファーID",
+      "externalID": "プロバイダーのオファーID",
+      "conversionID": "コンバージョンID",
+      "clickID": "クリックID",
+      "postback": "ポストバック",
+      "event": "イベント",
+      "heldUntil": "保留期限"
+    },
+    "details": {
+      "expand": "収益の詳細を表示",
+      "collapse": "収益の詳細を隠す"
     },
     "filters": {
       "all": "すべて",
@@ -1813,7 +1824,17 @@
       "sparks": "Sparks",
       "heldUntil": "保留期限",
       "created": "作成日",
-      "actions": "操作"
+      "actions": "操作",
+      "provider": "プロバイダー",
+      "offerID": "オファーID",
+      "externalID": "プロバイダーのオファーID",
+      "clickID": "クリックID",
+      "postback": "ポストバック",
+      "event": "イベント"
+    },
+    "details": {
+      "expand": "収益の詳細を表示",
+      "collapse": "収益の詳細を隠す"
     },
     "filters": {
       "all": "すべて",
@@ -1862,7 +1883,18 @@
       "status": "ステータス",
       "remoteIP": "リモートIP",
       "requestID": "リクエストID",
-      "actions": "操作"
+      "actions": "操作",
+      "offerName": "オファー",
+      "offerID": "オファーID",
+      "conversionID": "コンバージョンID",
+      "user": "ユーザー",
+      "url": "URL",
+      "query": "クエリ",
+      "normalized": "正規化"
+    },
+    "details": {
+      "expand": "ポストバックの詳細を表示",
+      "collapse": "ポストバックの詳細を隠す"
     },
     "filters": {
       "all": "すべて",

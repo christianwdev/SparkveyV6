@@ -31,6 +31,11 @@
             background: $light-gray;
             white-space: nowrap;
           }
+
+          > .expandColumn {
+            width: 40px;
+            padding-right: 0;
+          }
         }
       }
 
@@ -46,6 +51,42 @@
             border-top: 1px solid $border-light;
             vertical-align: middle;
             white-space: nowrap;
+          }
+
+          > .expandColumn {
+            width: 40px;
+            padding-right: 0;
+
+            > .expandButton {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              width: 28px;
+              height: 28px;
+              padding: 0;
+              border: none;
+              border-radius: 6px;
+              background: transparent;
+              color: $text-light;
+              cursor: pointer;
+
+              > svg {
+                width: 18px;
+                height: 18px;
+                transition: transform 0.15s ease;
+              }
+
+              &.expanded > svg {
+                transform: rotate(180deg);
+              }
+            }
+          }
+
+          &.expandedDetails > td {
+            padding: 16px 20px 20px;
+            white-space: normal;
+            overflow: visible;
+            background: $light-gray;
           }
         }
       }

@@ -6,6 +6,7 @@ import DatabaseCollections from 'backend/constants/DatabaseCollections';
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { createOfferHash, createRewardID } from 'backend/utils/offers/ingest';
+import { findOfferByOfferID } from 'backend/utils/offers/resolve';
 import { escapeRegex } from 'backend/utils/mongo';
 
 // Types
@@ -152,8 +153,7 @@ export async function getAdminOffer(
   },
 ): Promise<FunctionResponse<AdminOfferDetail, GetAdminOfferError>> {
   try {
-    const { db } = getGlobalObject();
-    const offer = await db.collection<InternalOffer>(DatabaseCollections.offers).findOne({ offerID });
+    const offer = await findOfferByOfferID({ offerID });
 
     if (!offer) return { ok: false, error: 'notFound' };
 
@@ -255,9 +255,7 @@ export async function updateAdminOffer(
 ): Promise<FunctionResponse<AdminOfferDetail, UpdateAdminOfferError>> {
   try {
     const { db } = getGlobalObject();
-    const offer = await db.collection<InternalOffer>(DatabaseCollections.offers).findOne({
-      offerID: input.offerID,
-    });
+    const offer = await findOfferByOfferID({ offerID: input.offerID });
 
     if (!offer) return { ok: false, error: 'notFound' };
 
@@ -371,7 +369,7 @@ export async function updateAdminOffer(
     if (Object.keys($unset).length > 0) update.$unset = $unset;
 
     const updated = await db.collection<InternalOffer>(DatabaseCollections.offers).findOneAndUpdate(
-      { offerID: input.offerID },
+      { offerID: input.offerID, provider: offer.provider },
       update,
       { returnDocument: 'after' },
     );

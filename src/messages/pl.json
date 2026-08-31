@@ -1707,7 +1707,18 @@
       "username": "Nazwa użytkownika",
       "userID": "ID użytkownika",
       "issued": "Wystawiono",
-      "actionableID": "ID"
+      "actionableID": "ID",
+      "offerID": "ID oferty",
+      "externalID": "ID oferty dostawcy",
+      "conversionID": "ID konwersji",
+      "clickID": "ID kliknięcia",
+      "postback": "Postback",
+      "event": "Zdarzenie",
+      "heldUntil": "Wstrzymane do"
+    },
+    "details": {
+      "expand": "Pokaż szczegóły zarobku",
+      "collapse": "Ukryj szczegóły zarobku"
     },
     "filters": {
       "all": "Wszystkie",
@@ -1813,7 +1824,17 @@
       "sparks": "Sparks",
       "heldUntil": "Wstrzymane do",
       "created": "Utworzono",
-      "actions": "Akcje"
+      "actions": "Akcje",
+      "provider": "Dostawca",
+      "offerID": "ID oferty",
+      "externalID": "ID oferty dostawcy",
+      "clickID": "ID kliknięcia",
+      "postback": "Postback",
+      "event": "Zdarzenie"
+    },
+    "details": {
+      "expand": "Pokaż szczegóły zarobku",
+      "collapse": "Ukryj szczegóły zarobku"
     },
     "filters": {
       "all": "Wszystkie",
@@ -1862,7 +1883,18 @@
       "status": "Status",
       "remoteIP": "Zdalne IP",
       "requestID": "ID żądania",
-      "actions": "Akcje"
+      "actions": "Akcje",
+      "offerName": "Oferta",
+      "offerID": "ID oferty",
+      "conversionID": "ID konwersji",
+      "user": "Użytkownik",
+      "url": "URL",
+      "query": "Zapytanie",
+      "normalized": "Znormalizowane"
+    },
+    "details": {
+      "expand": "Pokaż szczegóły postbacku",
+      "collapse": "Ukryj szczegóły postbacku"
     },
     "filters": {
       "all": "Wszystkie",

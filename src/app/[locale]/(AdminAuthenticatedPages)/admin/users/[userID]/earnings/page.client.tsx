@@ -5,9 +5,12 @@ import { useFormatter, useTranslations } from 'next-intl';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
 import DataTable, { type DataTableColumn } from '@components/DataTable/DataTable';
+import AdminDetailsList from '@components/AdminDetailsList/AdminDetailsList';
 import Dropdown from '@components/Dropdown/Dropdown';
 import Pagination from '@components/Pagination/Pagination';
 import SparksAmount from '@components/SparksAmount/SparksAmount';
+import { Link } from '@i18n/navigation';
+import FrontendRedirectPaths from '@constants/FrontendRedirectPaths';
 import { useUser } from '@contexts/UserProvider';
 import { useAdminUserEarningsQuery } from '@hooks/useAdminUsers';
 import { queryKeys } from '@hooks/queryKeys';
@@ -112,6 +115,11 @@ export default function AdminUserEarningsClient(
       id: 'name',
       header: t('table.name'),
       cell: (row) => earningName(row),
+    },
+    {
+      id: 'provider',
+      header: t('table.provider'),
+      cell: (row) => row.type === 'offer' ? row.provider : t('na'),
     },
     {
       id: 'type',
@@ -222,6 +230,60 @@ export default function AdminUserEarningsClient(
         getRowKey={earningRowKey}
         loading={loading}
         emptyMessage={t('history.earningsEmpty')}
+        expandLabel={t('details.expand')}
+        collapseLabel={t('details.collapse')}
+        renderExpanded={row => {
+          if (row.type !== 'offer') {
+            return (
+              <AdminDetailsList
+                rows={[
+                  { label: t('table.conversionID'), value: row.conversionID || t('na') },
+                ]}
+              />
+            );
+          }
+
+          const heldUntil = toDate(row.heldUntil);
+          const eventLabel = [ row.event?.eventName, row.event?.eventID ]
+            .filter(Boolean)
+            .join(' · ');
+
+          return (
+            <AdminDetailsList
+              rows={[
+                { label: t('table.provider'), value: row.provider },
+                {
+                  label: t('table.offerID'),
+                  value: (
+                    <Link href={`${FrontendRedirectPaths.adminOffers}/${row.offerID}`}>
+                      {row.offerID}
+                    </Link>
+                  ),
+                },
+                { label: t('table.externalID'), value: row.externalID || t('na') },
+                { label: t('table.conversionID'), value: row.conversionID || t('na') },
+                { label: t('table.clickID'), value: row.clickID || t('na') },
+                {
+                  label: t('table.postback'),
+                  value: row.postbackLogID ? (
+                    <Link
+                      href={`${FrontendRedirectPaths.adminPostbacks}?searchBy=requestID&search=${encodeURIComponent(row.postbackLogID)}`}
+                    >
+                      {row.postbackLogID}
+                    </Link>
+                  ) : t('na'),
+                },
+                { label: t('table.event'), value: eventLabel || t('na') },
+                {
+                  label: t('table.heldUntil'),
+                  value: heldUntil
+                    ? formatter.dateTime(heldUntil, { dateStyle: 'medium', timeStyle: 'short' })
+                    : t('na'),
+                },
+              ]}
+            />
+          );
+        }}
       />
       <Pagination
         page={page}
