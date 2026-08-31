@@ -7,7 +7,6 @@ import { getGlobalObject } from 'backend/utils/globalObject';
 import {
   createUser,
   getRawUser,
-  isSteamID64,
   linkGoogleAccount,
   sanitizeEmail,
   userHasPassword,
@@ -34,57 +33,6 @@ export type GoogleOAuthResult =
 type GoogleUserResolveResult =
   | { ok: true, user: InternalUser }
   | { ok: false, redirectURL: string };
-
-export type GoogleLinkDecision =
-  | { action: 'useExisting' }
-  | { action: 'conflict' }
-  | { action: 'accountExists' }
-  | { action: 'link', clearPassword: boolean, legacySteamID?: string };
-
-export function decideGoogleLink(
-  existing: InternalUser,
-  googleSub: string,
-  googleEmail: string,
-): GoogleLinkDecision {
-  const storedGoogleId = existing.socialInformation?.google?.id;
-  const legacySteamID = isSteamID64(storedGoogleId) ? storedGoogleId : undefined;
-  const linkedGoogleId = legacySteamID ? undefined : storedGoogleId;
-
-  if (linkedGoogleId && linkedGoogleId !== googleSub) {
-    return { action: 'conflict' };
-  }
-
-  if (linkedGoogleId) {
-    return { action: 'useExisting' };
-  }
-
-  if (userHasPassword(existing)) {
-    const primaryEmail = sanitizeEmail(existing.emailInformation.emailAddress);
-    const primaryMatchesGoogle = primaryEmail === googleEmail;
-
-    // Verified password account whose primary email is not the Google-proven
-    // address (matched via leftover google email): do not rewrite identity.
-    if (existing.emailInformation.verifiedAt && !primaryMatchesGoogle) {
-      return { action: 'accountExists' };
-    }
-
-    const decision: GoogleLinkDecision = {
-      action: 'link',
-      clearPassword: !existing.emailInformation.verifiedAt,
-    };
-    if (legacySteamID) decision.legacySteamID = legacySteamID;
-
-    return decision;
-  }
-
-  const decision: GoogleLinkDecision = {
-    action: 'link',
-    clearPassword: false,
-  };
-  if (legacySteamID) decision.legacySteamID = legacySteamID;
-
-  return decision;
-}
 
 function getOAuthClient() {
   const clientID = readEnv('GOOGLE_CLIENT_ID');
@@ -174,32 +122,51 @@ async function resolveGoogleUser(
 
     if (byEmail.ok) {
       const existing = byEmail.data;
-      const decision = decideGoogleLink(existing, data.sub, email);
+      const linkedGoogleId = existing.socialInformation?.google?.id;
 
-      if (decision.action === 'conflict') {
+      if (linkedGoogleId && linkedGoogleId !== data.sub) {
         return fail('/', 'google_conflict');
       }
 
-      if (decision.action === 'accountExists') {
-        return fail('/login', 'google_account_exists');
-      }
+      if (!linkedGoogleId && userHasPassword(existing)) {
+        const primaryEmail = sanitizeEmail(existing.emailInformation.emailAddress);
+        const primaryMatchesGoogle = primaryEmail === email;
 
-      if (decision.action === 'link') {
+        // Verified password account whose primary email is not the Google-proven
+        // address (matched via leftover google email): do not rewrite identity.
+        if (existing.emailInformation.verifiedAt && !primaryMatchesGoogle) {
+          return fail('/login', 'google_account_exists');
+        }
+
+        // Same email (v5 Google users with a leftover password hash) or
+        // unverified squat: Google proof attaches. Clear password only on reclaim.
         const linkResult = await linkGoogleAccount({
           userID: existing.userID,
           googleID: data.sub,
           email,
           avatar: data.picture,
-          clearPassword: decision.clearPassword,
-          legacySteamID: decision.legacySteamID,
+          clearPassword: !existing.emailInformation.verifiedAt,
         });
 
         if (!linkResult.ok) {
           return fail('/', 'google_link');
         }
 
-        if (decision.clearPassword) {
+        if (!existing.emailInformation.verifiedAt) {
           await expireUserSessions(existing.userID);
+        }
+
+        user = linkResult.data;
+      } else if (!linkedGoogleId) {
+        const linkResult = await linkGoogleAccount({
+          userID: existing.userID,
+          googleID: data.sub,
+          email,
+          avatar: data.picture,
+        });
+
+        if (!linkResult.ok) {
+          return fail('/', 'google_link');
         }
 
         user = linkResult.data;
