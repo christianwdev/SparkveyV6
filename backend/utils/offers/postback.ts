@@ -86,6 +86,40 @@ async function creditOfferConversion(
   });
 }
 
+/** Move held → completed only if still held, then credit. A concurrent reversal wins the row instead. */
+async function claimInstantOfferCredit(
+  conversion: InternalOfferEarning,
+  postback: NormalizedPostback,
+): Promise<InternalOfferEarning> {
+  const { db } = getGlobalObject();
+
+  const claimed = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOneAndUpdate(
+    {
+      provider: conversion.provider,
+      conversionID: conversion.conversionID,
+      status: 'held',
+    },
+    {
+      $set: {
+        status: 'completed',
+        updatedAt: new Date(),
+      },
+      $unset: {
+        heldUntil: '',
+      },
+    },
+    {
+      returnDocument: 'after',
+    },
+  );
+
+  if (!claimed) return conversion;
+
+  await creditOfferConversion(claimed, postback);
+
+  return claimed;
+}
+
 /** Provider sent a chargeback for a conversion we already credited. */
 async function reverseOfferConversion(
   conversion: InternalOfferEarning,
@@ -214,11 +248,78 @@ async function confirmAdvertiserOffer(
   return { ok: true, data: updatedConversion };
 }
 
+async function recordOrphanReversal(
+  postback: NormalizedPostback,
+  requestID: string,
+): Promise<FunctionResponse<InternalOfferEarning>> {
+  if (!postback.user) return { ok: false, error: 'invalidUser' };
+
+  const { db } = getGlobalObject();
+  const now = new Date();
+  const catalogOffer = await resolveCatalogOffer({
+    provider: postback.provider,
+    externalID: postback.offerID,
+  });
+  const offerID = catalogOffer?.offerID
+    ?? createOfferID({ provider: postback.provider, externalID: postback.offerID });
+
+  const conversion: InternalOfferEarning = {
+    type: 'offer',
+    userID: postback.user,
+    conversionID: postback.conversionID,
+    value: Math.abs(postback.value),
+    usdValue: Math.abs(postback.usdValue),
+    createdAt: now,
+    updatedAt: now,
+    reversedAt: now,
+    status: 'reversed',
+    postbackLogID: requestID,
+    offerID,
+    provider: postback.provider,
+    externalID: postback.offerID,
+    offerName: postback.offerName,
+    offerDisplayName: catalogOffer?.displayName
+      ?? postback.offerDisplayName
+      ?? postback.offerName,
+  };
+
+  if (postback.clickID) conversion.clickID = postback.clickID;
+  if (postback.eventID || postback.eventName) {
+    conversion.event = {
+      eventID: postback.eventID ?? '',
+      eventName: postback.eventName ?? '',
+    };
+  }
+
+  try {
+    const insertResult = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).insertOne(conversion);
+
+    if (!insertResult.acknowledged) return { ok: false, error: 'internalError' };
+  } catch (error) {
+    if (isDuplicateKeyError(error)) {
+      const existing = await db.collection<InternalOfferEarning>(DatabaseCollections.userEarnings).findOne({
+        provider: postback.provider,
+        conversionID: postback.conversionID,
+      });
+
+      if (!existing || existing.status === 'reversed') {
+        return { ok: false, error: 'alreadyHandled' };
+      }
+
+      return reverseOfferConversion(existing, postback);
+    }
+
+    throw error;
+  }
+
+  return { ok: true, data: conversion };
+}
+
 async function handleNewOfferPostback(
   postback: NormalizedPostback,
   requestID: string,
 ): Promise<FunctionResponse<InternalOfferEarning>> {
-  if (postback.status === 'reversed') return { ok: false, error: 'invalidStatus' };
+  if (postback.status === 'reversed') return recordOrphanReversal(postback, requestID);
   if (!postback.user) return { ok: false, error: 'invalidUser' };
 
   const { db } = getGlobalObject();
@@ -232,6 +333,7 @@ async function handleNewOfferPostback(
   });
 
   const now = new Date();
+  const instantCredit = !awaitingAdvertiser && !heldUntil;
   const catalogOffer = await resolveCatalogOffer({
     provider: postback.provider,
     externalID: postback.offerID,
@@ -249,9 +351,7 @@ async function handleNewOfferPostback(
     updatedAt: now,
     status: awaitingAdvertiser
       ? 'providerPending'
-      : heldUntil
-        ? 'held'
-        : 'completed',
+      : 'held',
     postbackLogID: requestID,
     offerID,
     provider: postback.provider,
@@ -262,7 +362,7 @@ async function handleNewOfferPostback(
       ?? postback.offerName,
   };
 
-  if (heldUntil) conversion.heldUntil = heldUntil;
+  if (!awaitingAdvertiser) conversion.heldUntil = heldUntil ?? now;
   if (postback.clickID) conversion.clickID = postback.clickID;
   if (postback.eventID || postback.eventName) {
     conversion.event = {
@@ -300,7 +400,11 @@ async function handleNewOfferPostback(
         releaseDate: heldUntil ?? now,
       },
     });
-  } else if (heldUntil) {
+
+    return { ok: true, data: conversion };
+  }
+
+  if (!instantCredit) {
     notifyUser({
       userID: postback.user,
       meta: {
@@ -308,14 +412,16 @@ async function handleNewOfferPostback(
         offerValue: postback.value,
         provider: postback.provider,
         offerName: postback.offerName,
-        releaseDate: heldUntil,
+        releaseDate: heldUntil ?? now,
       },
     });
-  } else {
-    await creditOfferConversion(conversion, postback);
+
+    return { ok: true, data: conversion };
   }
 
-  return { ok: true, data: conversion };
+  const credited = await claimInstantOfferCredit(conversion, postback);
+
+  return { ok: true, data: credited };
 }
 
 export async function handleOfferPostback({

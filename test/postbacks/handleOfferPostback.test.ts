@@ -137,15 +137,61 @@ describe('handleOfferPostback — new conversions', () => {
     expect(siteStatDeltas).toEqual([ 1 ]);
   });
 
-  test('rejects a brand-new reversed postback without inserting or crediting', async () => {
-    const result = await handleOfferPostback({
-      postbackInformation: basePostback({ status: 'reversed' }),
-      requestID: 'req-rev-new',
+  test('records an unmatched reversal so a later credit cannot pay out', async () => {
+    const reversed = await handleOfferPostback({
+      postbackInformation: basePostback({
+        status: 'reversed',
+        value: -814,
+        usdValue: -1.085,
+        conversionID: 'txn9e2e8-4f01-4471-8dab-5229c3dba9b3',
+        provider: 'timewall',
+      }),
+      requestID: 'req-rev-orphan',
     });
 
-    expect(result).toEqual({ ok: false, error: 'invalidStatus' });
-    expect(earnings.docs).toHaveLength(0);
+    expect(reversed.ok).toBe(true);
+    expect(earnings.docs).toHaveLength(1);
+    expect(earnings.docs[0].status).toBe('reversed');
+    expect(earnings.docs[0].value).toBe(814);
+    expect(earnings.docs[0].usdValue).toBe(1.085);
     expect(balanceCalls).toEqual([]);
+    expect(siteStatDeltas).toEqual([]);
+
+    const credit = await handleOfferPostback({
+      postbackInformation: basePostback({
+        conversionID: 'txn9e2e8-4f01-4471-8dab-5229c3dba9b3',
+        provider: 'timewall',
+      }),
+      requestID: 'req-credit-after-rev',
+    });
+
+    expect(credit).toEqual({ ok: false, error: 'alreadyHandled' });
+    expect(earnings.docs).toHaveLength(1);
+    expect(balanceCalls).toEqual([]);
+  });
+
+  test('concurrent credit and unmatched reversal leave a reversed row with no net credit', async () => {
+    seedUser();
+
+    const conversionID = 'conv-credit-rev-race';
+    const credit = basePostback({ conversionID, value: 2_500 });
+    const reversal = basePostback({
+      conversionID,
+      status: 'reversed',
+      value: -2_500,
+      usdValue: -1,
+    });
+
+    await Promise.all([
+      handleOfferPostback({ postbackInformation: credit, requestID: 'req-credit-race' }),
+      handleOfferPostback({ postbackInformation: reversal, requestID: 'req-rev-race' }),
+    ]);
+
+    expect(earnings.docs).toHaveLength(1);
+    expect(earnings.docs[0].status).toBe('reversed');
+
+    const netBalance = balanceCalls.reduce((sum, call) => sum + call.balanceChange, 0);
+    expect(netBalance).toBe(0);
   });
 
   test('second postback for the same conversionID is alreadyHandled (no double insert)', async () => {
