@@ -115,7 +115,7 @@
       "other": "Otro"
     },
     "hints": {
-      "age": "Debes tener al menos 18 años."
+      "age": "Debes tener al menos 13 años."
     },
     "actions": {
       "next": "Continuar",
@@ -138,7 +138,7 @@
       "country": "Selecciona tu país.",
       "city": "Completa tu ciudad.",
       "zipCode": "Completa tu código postal.",
-      "age": "Debes tener al menos 18 años.",
+      "age": "Debes tener al menos 13 años.",
       "save": "No se pudo guardar el perfilador. Inténtalo de nuevo."
     }
   },

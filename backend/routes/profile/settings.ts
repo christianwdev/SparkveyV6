@@ -41,6 +41,8 @@ import type InternalUser from 'types/User/InternalUser';
 import type UserSession from 'types/UserSession';
 
 const EMAIL_UNAVAILABLE_MESSAGE = 'This email cannot be used.';
+const MIN_PERSONAL_INFORMATION_AGE_YEARS = 13;
+const MAX_PERSONAL_INFORMATION_AGE_YEARS = 120;
 
 const settingsMutationRateLimit = rateLimit({
   keyPrefix: 'profile-settings',
@@ -329,14 +331,14 @@ export default function routesInvoker() {
             : 0
         );
 
-      if (ageYears < 18) {
+      if (ageYears < MIN_PERSONAL_INFORMATION_AGE_YEARS) {
         throw new RouteResponseError({
           status: 400,
-          message: 'You must be at least 18 years old.',
+          message: 'You must be at least 13 years old.',
         });
       }
 
-      if (ageYears > 120) {
+      if (ageYears > MAX_PERSONAL_INFORMATION_AGE_YEARS) {
         throw new RouteResponseError({ status: 400, message: 'Invalid date of birth.' });
       }
 

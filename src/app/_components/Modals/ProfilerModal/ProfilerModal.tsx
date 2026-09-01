@@ -28,7 +28,7 @@ type ProfilerStep = 0 | 1 | 2;
 
 const GENDER_KEYS = [ 'male', 'female', 'other' ] as const satisfies readonly GenderValue[];
 const STEP_KEYS = [ 'name', 'about', 'location' ] as const;
-const MIN_AGE_YEARS = 18;
+const MIN_AGE_YEARS = 13;
 const MAX_AGE_YEARS = 120;
 
 function padDatePart(value: string): string {

@@ -41,15 +41,33 @@ export default async function TermsOfService({ params }: { params: Promise<{ loc
       <header>
         <h1>Terms of Service</h1>
         <p>
-          <strong>Effective Date:</strong> 1/15/2025
+          <strong>Effective Date:</strong> 9/1/2026
         </p>
         {locale !== 'en' && <p>{tLegal('message')}</p>}
       </header>
 
       <section>
         <h2>1. Eligibility</h2>
+        <p>
+          You must be at least 13 years old to use our Services. We do not permit users under 13. When you
+          complete your profile, you must provide your date of birth.
+        </p>
+        <p>
+          If you are 13 to 17 years old, by agreeing to these Terms you represent that your parent or legal
+          guardian has reviewed these Terms and our Privacy Policy and consents to your use of the Services,
+          including earning and redeeming rewards. Your parent or guardian may withdraw consent at any time by
+          contacting us at support@sparkvey.com, in which case we will close your account.
+        </p>
+        <p>
+          If you misrepresent your age or the existence of parental consent, we may suspend or close your
+          account and void unredeemed rewards.
+        </p>
+        <p>
+          Some offers, surveys, and payout methods are provided by third parties whose own terms impose higher
+          age requirements; those will not be available to you if you do not meet the third party&apos;s
+          requirements.
+        </p>
         <ul>
-          <li>Be at least 18 years old or have parental consent if you are between 13 and 17 years old.</li>
           <li>Reside in a country where the use of our Services does not violate local laws.</li>
           <li>Have a valid account created on our platform (“Account”).</li>
           <li>
@@ -194,17 +212,14 @@ export default async function TermsOfService({ params }: { params: Promise<{ loc
 
       <section>
         <h2>12. Governing Law and Dispute Resolution</h2>
-        <ul>
-          <li>
-            These Terms are governed by and construed in accordance with the laws of the State of Wyoming, USA,
-            without regard to its conflict of law principles.
-          </li>
-          <li>
-            Any disputes arising out of or relating to these Terms or the Services shall be resolved through binding
-            arbitration in accordance with the rules of the American Arbitration Association.
-          </li>
-          <li>Arbitration proceedings will take place in Texas and will be conducted in English.</li>
-        </ul>
+        <p>
+          These Terms are governed by the laws of the State of Wyoming, USA, without regard to conflict-of-law
+          principles. Any dispute arising out of or relating to these Terms or the Services shall be resolved by
+          binding arbitration administered by JAMS under its applicable rules before a single arbitrator. The
+          seat of arbitration is Wyoming; hearings may be conducted remotely by videoconference, and proceedings
+          are in English. Judgment on the award may be entered in any court of competent jurisdiction. Either
+          party may seek injunctive relief in aid of arbitration in any court of competent jurisdiction.
+        </p>
       </section>
 
       <section>
@@ -225,6 +240,18 @@ export default async function TermsOfService({ params }: { params: Promise<{ loc
           <br />
           Email: support@sparkvey.com
         </address>
+      </section>
+
+      <section>
+        <h2>15. Assignment and Change of Control</h2>
+        <p>
+          We may assign or transfer these Terms, your Account, and our rights and obligations under them, in
+          whole or in part, to any successor of our business, including in connection with a merger, acquisition,
+          reorganization, or sale of Sparkable LLC or of all or substantially all of its assets. Your Account,
+          reward balance, and personal information may be transferred to and continued by the new owner as part
+          of any such transaction, subject to these Terms and our Privacy Policy. You may not assign or transfer
+          your Account or these Terms.
+        </p>
       </section>
     </div>
   );

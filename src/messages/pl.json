@@ -115,7 +115,7 @@
       "other": "Inna"
     },
     "hints": {
-      "age": "Musisz mieć co najmniej 18 lat."
+      "age": "Musisz mieć co najmniej 13 lat."
     },
     "actions": {
       "next": "Dalej",
@@ -138,7 +138,7 @@
       "country": "Wybierz kraj.",
       "city": "Podaj miasto.",
       "zipCode": "Podaj kod pocztowy.",
-      "age": "Musisz mieć co najmniej 18 lat.",
+      "age": "Musisz mieć co najmniej 13 lat.",
       "save": "Nie udało się zapisać profilera. Spróbuj ponownie."
     }
   },

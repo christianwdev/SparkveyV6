@@ -115,7 +115,7 @@
       "other": "Outro"
     },
     "hints": {
-      "age": "Você precisa ter pelo menos 18 anos."
+      "age": "Você precisa ter pelo menos 13 anos."
     },
     "actions": {
       "next": "Continuar",
@@ -138,7 +138,7 @@
       "country": "Selecione seu país.",
       "city": "Preencha sua cidade.",
       "zipCode": "Preencha o código postal.",
-      "age": "Você precisa ter pelo menos 18 anos.",
+      "age": "Você precisa ter pelo menos 13 anos.",
       "save": "Não foi possível salvar o profiler. Tente novamente."
     }
   },

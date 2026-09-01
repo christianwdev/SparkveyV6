@@ -115,7 +115,7 @@
       "other": "Autre"
     },
     "hints": {
-      "age": "Vous devez avoir au moins 18 ans."
+      "age": "Vous devez avoir au moins 13 ans."
     },
     "actions": {
       "next": "Continuer",
@@ -138,7 +138,7 @@
       "country": "Sélectionnez votre pays.",
       "city": "Indiquez votre ville.",
       "zipCode": "Indiquez votre code postal.",
-      "age": "Vous devez avoir au moins 18 ans.",
+      "age": "Vous devez avoir au moins 13 ans.",
       "save": "Impossible d'enregistrer le profil. Réessayez."
     }
   },

@@ -115,7 +115,7 @@
       "other": "Divers"
     },
     "hints": {
-      "age": "Du musst mindestens 18 Jahre alt sein."
+      "age": "Du musst mindestens 13 Jahre alt sein."
     },
     "actions": {
       "next": "Weiter",
@@ -138,7 +138,7 @@
       "country": "Bitte wähle dein Land.",
       "city": "Bitte gib deine Stadt ein.",
       "zipCode": "Bitte gib deine Postleitzahl ein.",
-      "age": "Du musst mindestens 18 Jahre alt sein.",
+      "age": "Du musst mindestens 13 Jahre alt sein.",
       "save": "Profiler konnte nicht gespeichert werden. Bitte versuche es erneut."
     }
   },

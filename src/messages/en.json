@@ -115,7 +115,7 @@
       "other": "Other"
     },
     "hints": {
-      "age": "You must be at least 18 years old."
+      "age": "You must be at least 13 years old."
     },
     "actions": {
       "next": "Continue",
@@ -138,7 +138,7 @@
       "country": "Please select your country.",
       "city": "Please fill in your city.",
       "zipCode": "Please fill in your ZIP / postal code.",
-      "age": "You must be at least 18 years old.",
+      "age": "You must be at least 13 years old.",
       "save": "Couldn't save your profiler. Please try again."
     }
   },
