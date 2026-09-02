@@ -171,4 +171,20 @@ describe('LootablyPostbackProvider security', () => {
     });
     expect(chargeback.status).toBe('reversed');
   });
+
+  test('normalize keeps mill-precision usdValue (0.889 is not $889)', () => {
+    const normalized = provider.normalize({
+      user: 's0cucqfayidn6vdkth1vdiys',
+      value: '666',
+      offerID: '81-262285',
+      offerName: 'Bingo Vacation - Bingo Games',
+      conversionID: 'cmtkaas000bm001wcf5xb6yc2',
+      usdValue: '0.889',
+      status: '1',
+      userIP: '174.208.160.156',
+    });
+
+    expect(normalized.value).toBe(666);
+    expect(normalized.usdValue).toBe(0.889);
+  });
 });

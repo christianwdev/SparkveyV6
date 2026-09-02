@@ -4,9 +4,10 @@
  *
  * Detection rules:
  *   - Mixed separators (e.g. "1,234.56" or "1.234,56"): the last separator is the decimal point.
- *   - Single separator with exactly 3 trailing digits (e.g. "1,234" or "1.234"): treated as a
- *     thousands separator → integer result.
- *   - Single separator with any other digit count: treated as the decimal point.
+ *   - A lone `.` is always a decimal point (offer walls send mill-precision USD like "0.889").
+ *   - A lone `,` with exactly 3 trailing digits is a thousands separator, except when the
+ *     integer part is only zeros ("0,889" is a European decimal).
+ *   - A lone `,` with any other digit count is a decimal point.
  *   - Multiple identical separators: validated as thousands (each group after the first must be
  *     exactly 3 digits). Invalid groupings like "1.2.3" or "1,2,3" return 0.
  *   - A leading minus sign is preserved; a minus sign anywhere else causes rejection.
@@ -14,11 +15,13 @@
  *
  * Examples:
  *   "1234.56"    → 1234.56
+ *   "0.889"      → 0.889
+ *   "1.085"      → 1.085
  *   "1,234.56"   → 1234.56
  *   "1.234,56"   → 1234.56
  *   "1234,56"    → 1234.56
- *   "1.234"      → 1234     (3 trailing digits → thousands separator)
  *   "1,234"      → 1234     (3 trailing digits → thousands separator)
+ *   "0,889"      → 0.889    (leading-zero integer part → decimal)
  *   "-1,234.56"  → -1234.56
  *   "$1,50"      → 1.5
  *   "1.5EUR"     → 1.5
@@ -68,11 +71,14 @@ export function parseRevenue(value: string | number): number {
     if (!hasValidThousandsGrouping(cleaned, ',')) return 0;
     normalized = cleaned.replace(/,/g, '');
   } else if (dotCount === 1) {
-    const afterDot = cleaned.slice(lastDot + 1);
-    normalized = afterDot.length === 3 ? cleaned.replace('.', '') : cleaned;
+    normalized = cleaned;
   } else if (commaCount === 1) {
+    const integerPart = cleaned.slice(0, lastComma);
     const afterComma = cleaned.slice(lastComma + 1);
-    normalized = afterComma.length === 3
+    const thousands = afterComma.length === 3
+      && integerPart.length > 0
+      && !/^0+$/.test(integerPart);
+    normalized = thousands
       ? cleaned.replace(',', '')
       : cleaned.replace(',', '.');
   } else {
