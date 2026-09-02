@@ -192,6 +192,39 @@ async function reverseOfferConversion(
   return { ok: true, data: reversedConversion };
 }
 
+async function applyUnmatchedReversalEffects(
+  conversion: InternalOfferEarning,
+  postback: NormalizedPostback,
+): Promise<void> {
+  notifyUser({
+    userID: conversion.userID,
+    meta: {
+      type: 'offerReversal',
+      offerValue: conversion.value,
+      provider: postback.provider,
+      offerName: postback.offerName,
+    },
+  });
+
+  await updateUserBalance({
+    userID: conversion.userID,
+    balanceChange: -conversion.value,
+    inc: {
+      'statistics.earned.offers': -conversion.value,
+      'statistics.earned.total': -conversion.value,
+    },
+    afterCommit: ({ userID, balanceChange }) => (
+      applySparksEarningsSideEffects({ userID, amount: balanceChange })
+    ),
+  });
+
+  try {
+    await adjustTotalEarnedUsd(-conversion.usdValue);
+  } catch (error) {
+    console.error('Failed to adjust site totalEarnedUsd on reversal', error);
+  }
+}
+
 /** Advertiser approved a provider-pending conversion; credit immediately or move onto our hold queue. */
 async function confirmAdvertiserOffer(
   conversion: InternalOfferEarning,
@@ -311,6 +344,8 @@ async function recordOrphanReversal(
 
     throw error;
   }
+
+  await applyUnmatchedReversalEffects(conversion, postback);
 
   return { ok: true, data: conversion };
 }

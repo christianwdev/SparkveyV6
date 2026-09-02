@@ -137,7 +137,7 @@ describe('handleOfferPostback — new conversions', () => {
     expect(siteStatDeltas).toEqual([ 1 ]);
   });
 
-  test('records an unmatched reversal so a later credit cannot pay out', async () => {
+  test('debits an unmatched reversal so Timewall CBs with a new conversion ID claw back sparks', async () => {
     const reversed = await handleOfferPostback({
       postbackInformation: basePostback({
         status: 'reversed',
@@ -154,8 +154,8 @@ describe('handleOfferPostback — new conversions', () => {
     expect(earnings.docs[0].status).toBe('reversed');
     expect(earnings.docs[0].value).toBe(814);
     expect(earnings.docs[0].usdValue).toBe(1.085);
-    expect(balanceCalls).toEqual([]);
-    expect(siteStatDeltas).toEqual([]);
+    expect(balanceCalls).toEqual([ { userID: 'user_1', balanceChange: -814 } ]);
+    expect(siteStatDeltas).toEqual([ -1.085 ]);
 
     const credit = await handleOfferPostback({
       postbackInformation: basePostback({
@@ -167,10 +167,39 @@ describe('handleOfferPostback — new conversions', () => {
 
     expect(credit).toEqual({ ok: false, error: 'alreadyHandled' });
     expect(earnings.docs).toHaveLength(1);
-    expect(balanceCalls).toEqual([]);
+    expect(balanceCalls).toEqual([ { userID: 'user_1', balanceChange: -814 } ]);
   });
 
-  test('concurrent credit and unmatched reversal leave a reversed row with no net credit', async () => {
+  test('unmatched Timewall chargeback does not reverse a different conversion ID', async () => {
+    seedEarning({
+      provider: 'timewall',
+      conversionID: 'conv-original',
+      value: 814,
+      usdValue: 1.085,
+      status: 'completed',
+    });
+
+    const reversed = await handleOfferPostback({
+      postbackInformation: basePostback({
+        status: 'reversed',
+        value: -814,
+        usdValue: -1.085,
+        conversionID: 'conv-chargeback',
+        provider: 'timewall',
+        offerID: 'timewall',
+        offerName: 'TimeWall',
+      }),
+      requestID: 'req-rev-new-id',
+    });
+
+    expect(reversed.ok).toBe(true);
+    expect(earnings.docs).toHaveLength(2);
+    expect(earnings.docs.find(doc => doc.conversionID === 'conv-original')?.status).toBe('completed');
+    expect(earnings.docs.find(doc => doc.conversionID === 'conv-chargeback')?.status).toBe('reversed');
+    expect(balanceCalls).toEqual([ { userID: 'user_1', balanceChange: -814 } ]);
+  });
+
+  test('concurrent credit and unmatched reversal leave a single reversed row', async () => {
     seedUser();
 
     const conversionID = 'conv-credit-rev-race';
@@ -191,7 +220,7 @@ describe('handleOfferPostback — new conversions', () => {
     expect(earnings.docs[0].status).toBe('reversed');
 
     const netBalance = balanceCalls.reduce((sum, call) => sum + call.balanceChange, 0);
-    expect(netBalance).toBe(0);
+    expect([ 0, -2_500 ]).toContain(netBalance);
   });
 
   test('second postback for the same conversionID is alreadyHandled (no double insert)', async () => {
