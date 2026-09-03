@@ -14,7 +14,6 @@ import type InternalRedemption from 'types/Redemption/InternalRedemption';
 import type InternalEarning from 'types/Earnings/InternalEarning';
 import type { InternalEarningStatus } from 'types/Earnings/InternalEarning';
 import type { InternalRedemptionProvider, InternalRedemptionStatus } from 'types/Redemption/BaseInternalRedemption';
-import type AffiliateCode from 'types/AffiliateCode';
 import { DEFAULT_INSTANT_EARN_OFFER_LIMIT } from 'types/User/Parts/UserConfiguration';
 import { StaffPermissions } from 'types/UserPermissions/StaffPermissions';
 
@@ -22,10 +21,6 @@ function sanitizeSocialLink(link?: { id?: string, verifiedAt?: Date }): Sanitize
   if (!link?.id) return undefined;
 
   return { verifiedAt: link.verifiedAt };
-}
-
-function sanitizeReferralCode(code: string): string {
-  return code.trim().toLowerCase();
 }
 
 export async function createUser(
@@ -60,20 +55,20 @@ export async function createUser(
       verifiedAt: new Date(),
     } : undefined;
 
+    const {
+      resolveActiveAffiliateCode,
+      ensureDefaultAffiliateCode,
+    } = await import('backend/utils/affiliateCode');
+
     let referredBy: string | undefined;
     let referredByID: string | undefined;
 
     if (referralCode?.trim()) {
-      const affiliateCode = await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).findOne({
-        code: sanitizeReferralCode(referralCode),
-        disabledAt: {
-          $exists: false,
-        },
-      });
+      const affiliateCodeResult = await resolveActiveAffiliateCode(referralCode);
 
-      if (affiliateCode && affiliateCode.userID !== userID) {
-        referredBy = affiliateCode.code;
-        referredByID = affiliateCode.userID;
+      if (affiliateCodeResult.ok && affiliateCodeResult.data.userID !== userID) {
+        referredBy = affiliateCodeResult.data.code;
+        referredByID = affiliateCodeResult.data.userID;
       }
     }
 
@@ -170,7 +165,6 @@ export async function createUser(
     }
 
     // Default referral code is the userID (counts toward maxAffiliateCodes).
-    const { ensureDefaultAffiliateCode } = await import('backend/utils/affiliateCode');
     const defaultCodeResult = await ensureDefaultAffiliateCode({ userID });
 
     if (!defaultCodeResult.ok && defaultCodeResult.error !== 'alreadyExists') {

@@ -60,8 +60,8 @@ export default function routesInvoker() {
         codes: codesResult.data,
         stats: {
           totalReferrals: referralsResult.data,
-          totalEarnings: user.referralInformation.totalEarnings,
-          pendingEarnings: user.referralInformation.pendingEarnings,
+          totalEarnings: user.referralInformation?.totalEarnings ?? 0,
+          pendingEarnings: user.referralInformation?.pendingEarnings ?? 0,
           maxAffiliateCodes: user.userConfiguration.maxAffiliateCodes,
         },
         timeseries: timeseriesResult.data,
@@ -155,7 +155,17 @@ export default function routesInvoker() {
       code,
     });
 
-    if (!useCodeResult.ok) throw new RouteResponseError({ status: 500, message: useCodeResult.error });
+    if (!useCodeResult.ok) {
+      if (
+        useCodeResult.error === 'alreadyClaimed'
+        || useCodeResult.error === 'ownCode'
+        || useCodeResult.error === 'notFound'
+      ) {
+        throw new RouteResponseError({ status: 400, message: useCodeResult.error });
+      }
+
+      throw new RouteResponseError({ status: 500, message: useCodeResult.error });
+    }
 
     return sendResponse({ c, status: 200, success: true, message: `You are now using referral code: ${useCodeResult.data.code}` });
   });

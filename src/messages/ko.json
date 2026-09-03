@@ -1169,7 +1169,7 @@
     "inputs": {
       "enterReferralCode": "추천 코드를 입력하세요",
       "createReferralCode": "추천 코드 만들기",
-      "referralPrefix": "https://sparkvey.com?ref="
+      "referralPrefix": "https://sparkvey.com/signup?ref="
     },
     "actions": {
       "useCode": "코드 사용",

@@ -12,6 +12,11 @@ import { getScope } from '@utils/scope';
 import { register } from '@utils/auth';
 import { clearStoredAuthRedirect, storeAuthRedirectPath } from '@utils/authRedirect';
 import {
+  clearStoredReferralCode,
+  getStoredReferralCode,
+  persistReferralCode,
+} from '@utils/referral';
+import {
   isValidEmail,
   isValidNewPassword,
   isValidReferralCode,
@@ -133,25 +138,17 @@ function SignupPageContent() {
 
   useEffect(() => {
     if (refFromUrl) {
-      try {
-        localStorage.setItem('refCode', refFromUrl);
-      } catch {
-        // ignore storage failures
-      }
+      persistReferralCode(refFromUrl);
 
       return;
     }
 
-    try {
-      const stored = localStorage.getItem('refCode');
-      if (stored) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setFormValues(prev => (
-          prev.referralCode ? prev : { ...prev, referralCode: stored }
-        ));
-      }
-    } catch {
-      // ignore storage failures
+    const stored = getStoredReferralCode();
+    if (stored) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setFormValues(prev => (
+        prev.referralCode ? prev : { ...prev, referralCode: stored }
+      ));
     }
   }, [ refFromUrl ]);
 
@@ -388,7 +385,7 @@ function SignupPageContent() {
     setFeedback(null);
     setPending(true);
 
-    const normalizedReferral = formValues.referralCode.trim();
+    const normalizedReferral = formValues.referralCode.trim() || getStoredReferralCode();
 
     try {
       const response = await register({
@@ -410,6 +407,7 @@ function SignupPageContent() {
 
       setUser(response.data);
       clearStoredAuthRedirect();
+      clearStoredReferralCode();
       router.push(redirectPath);
     } catch {
       setFeedback({
@@ -424,7 +422,7 @@ function SignupPageContent() {
     if (pending) return;
 
     const params = new URLSearchParams({ redirect: redirectPath });
-    const normalizedReferral = formValues.referralCode.trim();
+    const normalizedReferral = formValues.referralCode.trim() || getStoredReferralCode();
     if (normalizedReferral) params.set('ref', normalizedReferral);
 
     clearStoredAuthRedirect();

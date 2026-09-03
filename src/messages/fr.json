@@ -1169,7 +1169,7 @@
     "inputs": {
       "enterReferralCode": "Saisissez un code de parrainage",
       "createReferralCode": "Creer un code de parrainage",
-      "referralPrefix": "https://sparkvey.com?ref="
+      "referralPrefix": "https://sparkvey.com/signup?ref="
     },
     "actions": {
       "useCode": "Utiliser le code",

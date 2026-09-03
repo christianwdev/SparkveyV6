@@ -4,6 +4,7 @@ import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server
 import { notFound } from 'next/navigation';
 import { routing } from '@i18n/routing';
 import Ga4LocaleTracker from '@components/GoogleAnalytics/Ga4LocaleTracker';
+import ReferralCapture from '@components/ReferralCapture/ReferralCapture';
 import { OfferDetailsProvider } from '@contexts/OfferDetailsProvider';
 
 // Types
@@ -44,6 +45,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <Ga4LocaleTracker />
+      <ReferralCapture />
       <OfferDetailsProvider>
         {children}
       </OfferDetailsProvider>

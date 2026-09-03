@@ -11,23 +11,66 @@ export class DuplicateKeyError extends Error {
 
 type Filter = Record<string, unknown>;
 
+function getDotted(doc: Record<string, unknown>, path: string): unknown {
+  if (!path.includes('.')) return doc[path];
+
+  let current: unknown = doc;
+
+  for (const part of path.split('.')) {
+    if (!current || typeof current !== 'object') return undefined;
+
+    current = (current as Record<string, unknown>)[part];
+  }
+
+  return current;
+}
+
+function hasDotted(doc: Record<string, unknown>, path: string): boolean {
+  let current: unknown = doc;
+
+  for (const part of path.split('.')) {
+    if (!current || typeof current !== 'object' || !Object.prototype.hasOwnProperty.call(current, part)) {
+      return false;
+    }
+
+    current = (current as Record<string, unknown>)[part];
+  }
+
+  return true;
+}
+
 function matchesFilter(doc: Record<string, unknown>, filter: Filter): boolean {
+  if (Array.isArray(filter.$and)) {
+    if (!(filter.$and as Filter[]).every(part => matchesFilter(doc, part))) return false;
+  }
+
+  if (Array.isArray(filter.$or)) {
+    if (!(filter.$or as Filter[]).some(part => matchesFilter(doc, part))) return false;
+  }
+
   for (const [ key, expected ] of Object.entries(filter)) {
-    const actual = doc[key];
+    if (key === '$and' || key === '$or') continue;
+
+    const actual = getDotted(doc, key);
 
     if (expected && typeof expected === 'object' && !Array.isArray(expected) && !(expected instanceof Date)) {
       const ops = expected as Record<string, unknown>;
 
       if ('$exists' in ops) {
-        const present = Object.prototype.hasOwnProperty.call(doc, key);
+        const present = hasDotted(doc, key);
         if (ops.$exists === true && !present) return false;
         if (ops.$exists === false && present) return false;
       }
 
       if ('$ne' in ops && actual === ops.$ne) return false;
       if ('$in' in ops && Array.isArray(ops.$in) && !ops.$in.includes(actual)) return false;
+      if ('$regex' in ops) {
+        const pattern = String(ops.$regex);
+        const flags = typeof ops.$options === 'string' ? ops.$options : '';
+        if (!new RegExp(pattern, flags).test(String(actual ?? ''))) return false;
+      }
       if ('$gt' in ops && !(actual instanceof Date && ops.$gt instanceof Date && actual > ops.$gt)) {
-        if ('$gt' in ops && !('$ne' in ops || '$in' in ops)) return false;
+        if ('$gt' in ops && !('$ne' in ops || '$in' in ops || '$regex' in ops)) return false;
       }
 
       continue;
@@ -64,7 +107,11 @@ function setDotted(
 
 function applyUpdate(
   doc: Record<string, unknown>,
-  update: { $set?: Record<string, unknown>, $unset?: Record<string, string> },
+  update: {
+    $set?: Record<string, unknown>,
+    $unset?: Record<string, string>,
+    $inc?: Record<string, number>,
+  },
 ): Record<string, unknown> {
   const next = { ...doc };
 
@@ -74,6 +121,18 @@ function applyUpdate(
         setDotted(next, key, value);
       } else {
         next[key] = value;
+      }
+    }
+  }
+
+  if (update.$inc) {
+    for (const [ key, value ] of Object.entries(update.$inc)) {
+      const current = getDotted(next, key);
+      const nextValue = (typeof current === 'number' ? current : 0) + Number(value);
+      if (key.includes('.')) {
+        setDotted(next, key, nextValue);
+      } else {
+        next[key] = nextValue;
       }
     }
   }
@@ -140,7 +199,11 @@ export class MemoryCollection<T extends Record<string, unknown>> {
 
   async findOneAndUpdate(
     filter: Filter,
-    update: { $set?: Record<string, unknown>, $unset?: Record<string, string> },
+    update: {
+      $set?: Record<string, unknown>,
+      $unset?: Record<string, string>,
+      $inc?: Record<string, number>,
+    },
     options?: { returnDocument?: 'before' | 'after' },
   ): Promise<T | null> {
     // Atomic like MongoDB findOneAndUpdate — do not yield between match and write.
@@ -156,7 +219,11 @@ export class MemoryCollection<T extends Record<string, unknown>> {
 
   async updateOne(
     filter: Filter,
-    update: { $set?: Record<string, unknown>, $unset?: Record<string, string> },
+    update: {
+      $set?: Record<string, unknown>,
+      $unset?: Record<string, string>,
+      $inc?: Record<string, number>,
+    },
   ): Promise<{ acknowledged: true, matchedCount: number, modifiedCount: number }> {
     const index = this.docs.findIndex(doc => matchesFilter(doc, filter));
     if (index === -1) {

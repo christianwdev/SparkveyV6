@@ -11,6 +11,7 @@ import { Link, useRouter } from '@i18n/navigation';
 import { getScope } from '@utils/scope';
 import { login } from '@utils/auth';
 import { clearStoredAuthRedirect, storeAuthRedirectPath } from '@utils/authRedirect';
+import { getStoredReferralCode } from '@utils/referral';
 import { getEmailIssue, getLoginPasswordIssue } from 'schemas/auth';
 
 // Hooks
@@ -128,6 +129,9 @@ function LoginPageContent() {
 
     clearStoredAuthRedirect();
     const params = new URLSearchParams({ redirect: redirectPath });
+    const storedReferral = getStoredReferralCode();
+    if (storedReferral) params.set('ref', storedReferral);
+
     window.location.href = `${getScope()}/auth/google/login?${params.toString()}`;
   }
 

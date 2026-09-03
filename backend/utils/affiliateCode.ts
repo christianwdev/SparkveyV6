@@ -8,7 +8,7 @@ import SiteConfig from 'backend/config/config';
 // Utils
 import { getGlobalObject } from 'backend/utils/globalObject';
 import { getRawUser } from 'backend/utils/user';
-import { isDuplicateKeyError } from 'backend/utils/mongo';
+import { escapeRegex, isDuplicateKeyError } from 'backend/utils/mongo';
 
 // Types
 import type { Filter } from 'mongodb';
@@ -16,6 +16,7 @@ import type AffiliateCode from 'types/AffiliateCode';
 import type FunctionResponse from 'types/FunctionResponse';
 import type InternalUser from 'types/User/InternalUser';
 import type InternalTransaction from 'types/Transactions/InternalTransaction';
+import type ReferralInformation from 'types/User/Parts/ReferralInformation';
 
 export type CreateAffiliateCodeError = 'alreadyExists' | 'internalServerError';
 
@@ -73,6 +74,10 @@ export async function createAffiliateCode(
       if (reservedUser) return { ok: false, error: 'alreadyExists' };
     }
 
+    const caseCollision = await resolveActiveAffiliateCode(sanitized);
+    if (caseCollision.ok) return { ok: false, error: 'alreadyExists' };
+    if (caseCollision.error !== 'notFound') return { ok: false, error: 'internalServerError' };
+
     const affiliateCode: AffiliateCode = {
       userID,
       code: sanitized,
@@ -105,19 +110,15 @@ export async function ensureDefaultAffiliateCode(
   },
 ): Promise<FunctionResponse<AffiliateCode, CreateAffiliateCodeError>> {
   try {
-    const { db } = getGlobalObject();
-    const code = sanitizeCode(userID);
+    const existing = await resolveActiveAffiliateCode(userID);
 
-    const existing = await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).findOne({
-      code,
-      disabledAt: { $exists: false },
-    });
+    if (existing.ok) {
+      if (existing.data.userID !== userID) return { ok: false, error: 'alreadyExists' };
 
-    if (existing) {
-      if (existing.userID !== userID) return { ok: false, error: 'alreadyExists' };
-
-      return { ok: true, data: existing };
+      return { ok: true, data: existing.data };
     }
+
+    if (existing.error !== 'notFound') return { ok: false, error: 'internalServerError' };
 
     // Default code is mandatory and may exceed maxAffiliateCodes for legacy accounts.
     return await createAffiliateCode({ userID, code: userID });
@@ -176,10 +177,18 @@ export async function disableAffiliateCode(
   try {
     const { db } = getGlobalObject();
 
+    const resolved = await resolveActiveAffiliateCode(code);
+
+    if (!resolved.ok) {
+      return { ok: false, error: resolved.error === 'notFound' ? 'notFound' : 'internalServerError' };
+    }
+
+    if (resolved.data.userID !== userID) return { ok: false, error: 'notFound' };
+
     const affiliateCode = await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).findOneAndUpdate(
       {
         userID,
-        code: sanitizeCode(code),
+        code: resolved.data.code,
         disabledAt: {
           $exists: false,
         },
@@ -204,6 +213,41 @@ export async function disableAffiliateCode(
   }
 }
 
+export async function resolveActiveAffiliateCode(
+  code: string,
+): Promise<FunctionResponse<AffiliateCode>> {
+  try {
+    const { db } = getGlobalObject();
+    const sanitized = sanitizeCode(code);
+    const matches = await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).find({
+      code: {
+        $regex: `^${escapeRegex(sanitized)}$`,
+        $options: 'i',
+      },
+      disabledAt: {
+        $exists: false,
+      },
+    }).toArray();
+
+    if (matches.length === 0) return { ok: false, error: 'notFound' };
+
+    // Case-sensitive unique index allows PromoCode + promocode. Prefer the oldest
+    // (typically the v5 original) so a later lowercase squat cannot steal credit.
+    const resolved = matches.reduce((oldest, current) => {
+      const oldestTime = oldest.createdAt instanceof Date ? oldest.createdAt.getTime() : 0;
+      const currentTime = current.createdAt instanceof Date ? current.createdAt.getTime() : 0;
+
+      return currentTime < oldestTime ? current : oldest;
+    });
+
+    return { ok: true, data: resolved };
+  } catch (error) {
+    console.error(error);
+
+    return { ok: false, error: 'internalServerError' };
+  }
+}
+
 export async function useAffiliateCode(
   {
     userID,
@@ -215,40 +259,33 @@ export async function useAffiliateCode(
 ): Promise<FunctionResponse<AffiliateCode, UseAffiliateCodeError>> {
   try {
     const { db } = getGlobalObject();
-    const sanitizedCode = sanitizeCode(code);
 
     const userResult = await getRawUser({ userID });
 
     if (!userResult.ok) return { ok: false, error: 'notFound' };
 
-    if (userResult.data.referralInformation.referredBy || userResult.data.referralInformation.referredByID) {
+    if (isAttributedReferral(userResult.data.referralInformation)) {
       return { ok: false, error: 'alreadyClaimed' };
     }
 
-    const affiliateCode = await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).findOne({
-      code: sanitizedCode,
-      disabledAt: {
-        $exists: false,
-      },
-    });
+    const affiliateCodeResult = await resolveActiveAffiliateCode(code);
 
-    if (!affiliateCode) return { ok: false, error: 'notFound' };
+    if (!affiliateCodeResult.ok) {
+      return { ok: false, error: affiliateCodeResult.error === 'notFound' ? 'notFound' : 'internalServerError' };
+    }
+
+    const affiliateCode = affiliateCodeResult.data;
 
     if (affiliateCode.userID === userID) return { ok: false, error: 'ownCode' };
 
     const updatedUser = await db.collection<InternalUser>(DatabaseCollections.users).findOneAndUpdate(
       {
         userID,
-        'referralInformation.referredBy': {
-          $exists: false,
-        },
-        'referralInformation.referredByID': {
-          $exists: false,
-        },
+        ...unattributedReferralFilter(),
       },
       {
         $set: {
-          'referralInformation.referredBy': sanitizedCode,
+          'referralInformation.referredBy': affiliateCode.code,
           'referralInformation.referredByID': affiliateCode.userID,
         },
       },
@@ -294,6 +331,18 @@ export async function claimReferralEarnings(
         {
           $set: {
             'balance.sparks': { $add: [ '$balance.sparks', { $floor: '$referralInformation.pendingEarnings' } ] },
+            'statistics.earned.affiliates': {
+              $add: [
+                { $ifNull: [ '$statistics.earned.affiliates', 0 ] },
+                { $floor: '$referralInformation.pendingEarnings' },
+              ],
+            },
+            'statistics.earned.total': {
+              $add: [
+                { $ifNull: [ '$statistics.earned.total', 0 ] },
+                { $floor: '$referralInformation.pendingEarnings' },
+              ],
+            },
             'referralInformation.pendingEarnings': {
               $subtract: [ '$referralInformation.pendingEarnings', { $floor: '$referralInformation.pendingEarnings' } ],
             },
@@ -353,6 +402,31 @@ function sanitizeCode(code: string): string {
   return code.trim().toLowerCase();
 }
 
+function isAttributedReferral(referral?: ReferralInformation | null): boolean {
+  return Boolean(referral?.referredBy?.trim() || referral?.referredByID?.trim());
+}
+
+function unattributedReferralFilter(): Filter<InternalUser> {
+  return {
+    $and: [
+      {
+        $or: [
+          { 'referralInformation.referredBy': { $exists: false } },
+          { 'referralInformation.referredBy': null },
+          { 'referralInformation.referredBy': '' },
+        ],
+      },
+      {
+        $or: [
+          { 'referralInformation.referredByID': { $exists: false } },
+          { 'referralInformation.referredByID': null },
+          { 'referralInformation.referredByID': '' },
+        ],
+      },
+    ],
+  };
+}
+
 export async function getReferralCountByUserID(
   {
     userID,
@@ -403,12 +477,24 @@ export async function creditReferrerPendingEarnings(
 
     if (!referredUserResult.ok) return { ok: true, data: null };
 
-    const {
-      referredByID,
-      referredBy,
-    } = referredUserResult.data.referralInformation;
+    const referral = referredUserResult.data.referralInformation;
+    let referredByID = referral?.referredByID?.trim() || undefined;
+    const referredBy = referral?.referredBy?.trim() || undefined;
+    const resolvedCode = referredBy
+      ? await resolveActiveAffiliateCode(referredBy)
+      : { ok: false as const, error: 'notFound' as const };
 
-    if (!referredByID || !referredBy) return { ok: true, data: null };
+    if (!referredByID && resolvedCode.ok) {
+      referredByID = resolvedCode.data.userID;
+    }
+
+    if (!referredByID) return { ok: true, data: null };
+
+    const tasksCompletedDelta = amount > 0
+      ? 1
+      : amount < 0
+        ? -1
+        : 0;
 
     await db.collection<InternalUser>(DatabaseCollections.users).updateOne(
       {
@@ -418,31 +504,32 @@ export async function creditReferrerPendingEarnings(
         $inc: {
           'referralInformation.pendingEarnings': commission,
           'referralInformation.totalEarnings': commission,
+          'referralInformation.tasksCompleted': tasksCompletedDelta,
         },
       },
     );
 
-    const tasksCompletedDelta = amount > 0
-      ? 1
-      : amount < 0
-        ? -1
-        : 0;
+    const codeToCredit = resolvedCode.ok && resolvedCode.data.userID === referredByID
+      ? resolvedCode.data.code
+      : referredBy;
 
-    await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).updateOne(
-      {
-        userID: referredByID,
-        code: sanitizeCode(referredBy),
-        disabledAt: {
-          $exists: false,
+    if (codeToCredit) {
+      await db.collection<AffiliateCode>(DatabaseCollections.affiliateCodes).updateOne(
+        {
+          userID: referredByID,
+          code: codeToCredit,
+          disabledAt: {
+            $exists: false,
+          },
         },
-      },
-      {
-        $inc: {
-          totalEarnings: commission,
-          tasksCompleted: tasksCompletedDelta,
+        {
+          $inc: {
+            totalEarnings: commission,
+            tasksCompleted: tasksCompletedDelta,
+          },
         },
-      },
-    );
+      );
+    }
 
     return { ok: true, data: null };
   } catch (error) {

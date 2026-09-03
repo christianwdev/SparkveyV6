@@ -1169,7 +1169,7 @@
     "inputs": {
       "enterReferralCode": "Wpisz kod polecajacy",
       "createReferralCode": "Utworz kod polecajacy",
-      "referralPrefix": "https://sparkvey.com?ref="
+      "referralPrefix": "https://sparkvey.com/signup?ref="
     },
     "actions": {
       "useCode": "Uzyj kodu",

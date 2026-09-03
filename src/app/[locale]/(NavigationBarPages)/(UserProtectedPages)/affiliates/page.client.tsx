@@ -38,7 +38,7 @@ import type { AffiliatePeriod, AffiliateTimeseriesPoint } from 'types/AffiliateT
 const CODE_PATTERN = /^[a-zA-Z0-9]+$/;
 const MIN_CODE_LENGTH = 1;
 const MAX_CODE_LENGTH = 36;
-const REFERRAL_LINK_ORIGIN = 'https://sparkvey.com?ref=';
+const REFERRAL_LINK_ORIGIN = 'https://sparkvey.com/signup?ref=';
 
 type AffiliatesPageClientProps = {
   initialDataPromise: Promise<AffiliatePageData | null>,

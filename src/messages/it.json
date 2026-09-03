@@ -1169,7 +1169,7 @@
     "inputs": {
       "enterReferralCode": "Inserisci un codice referral",
       "createReferralCode": "Crea un codice referral",
-      "referralPrefix": "https://sparkvey.com?ref="
+      "referralPrefix": "https://sparkvey.com/signup?ref="
     },
     "actions": {
       "useCode": "Usa codice",
