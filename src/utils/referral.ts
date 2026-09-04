@@ -33,6 +33,14 @@ export function getStoredReferralCode(): string {
   return '';
 }
 
+/** Prefer a valid URL `ref`, then localStorage. Safe to call before persist effects run. */
+export function resolveReferralCode(fromUrl?: string | null): string {
+  const trimmed = fromUrl?.trim() ?? '';
+  if (trimmed && isValidReferralCode(trimmed)) return trimmed;
+
+  return getStoredReferralCode();
+}
+
 export function clearStoredReferralCode(): void {
   if (typeof window === 'undefined') return;
 

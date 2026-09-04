@@ -11,7 +11,6 @@ import {
   sanitizeEmail,
   userHasPassword,
 } from 'backend/utils/user';
-import { useAffiliateCode } from 'backend/utils/affiliateCode';
 import { expireUserSessions } from 'backend/utils/session';
 import { readEnv } from 'backend/utils/env';
 import { isValidReferralCode } from 'schemas/auth';
@@ -90,27 +89,6 @@ async function consumeOAuthState(state: string): Promise<GoogleOAuthState | null
 
 function fail(path: string, error: string): { ok: false, redirectURL: string } {
   return { ok: false, redirectURL: buildFrontendURL(path, { error }) };
-}
-
-async function applyAffiliateCodeIfEligible(
-  user: InternalUser,
-  affiliateCode?: string,
-): Promise<InternalUser> {
-  if (!affiliateCode?.trim()) return user;
-
-  const referral = user.referralInformation;
-  if (referral?.referredBy?.trim() || referral?.referredByID?.trim()) return user;
-
-  const useResult = await useAffiliateCode({
-    userID: user.userID,
-    code: affiliateCode,
-  });
-
-  if (!useResult.ok) return user;
-
-  const refreshed = await getRawUser({ userID: user.userID });
-
-  return refreshed.ok ? refreshed.data : user;
 }
 
 async function resolveGoogleUser(
@@ -202,8 +180,6 @@ async function resolveGoogleUser(
   if (user) {
     if (user.deletedAt) return fail('/', 'banned');
     if (user.bannedUntil && user.bannedUntil > new Date()) return fail('/', 'banned');
-
-    user = await applyAffiliateCodeIfEligible(user, affiliateCode);
 
     return { ok: true, user };
   }

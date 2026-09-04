@@ -15,6 +15,7 @@ import {
   clearStoredReferralCode,
   getStoredReferralCode,
   persistReferralCode,
+  resolveReferralCode,
 } from '@utils/referral';
 import {
   isValidEmail,
@@ -385,7 +386,7 @@ function SignupPageContent() {
     setFeedback(null);
     setPending(true);
 
-    const normalizedReferral = formValues.referralCode.trim() || getStoredReferralCode();
+    const normalizedReferral = resolveReferralCode(formValues.referralCode);
 
     try {
       const response = await register({
@@ -422,7 +423,7 @@ function SignupPageContent() {
     if (pending) return;
 
     const params = new URLSearchParams({ redirect: redirectPath });
-    const normalizedReferral = formValues.referralCode.trim() || getStoredReferralCode();
+    const normalizedReferral = resolveReferralCode(formValues.referralCode);
     if (normalizedReferral) params.set('ref', normalizedReferral);
 
     clearStoredAuthRedirect();

@@ -31,13 +31,13 @@ import GraphUpIcon from '~icons/solar/graph-up-linear.jsx';
 import TicketOutlineIcon from '~icons/mdi/ticket-outline.jsx';
 import CopyIcon from '~icons/solar/copy-linear.jsx';
 
+// Utils
+import { isValidReferralCode } from 'schemas/auth';
+
 // Types
 import type AffiliateCode from 'types/AffiliateCode';
 import type { AffiliatePeriod, AffiliateTimeseriesPoint } from 'types/AffiliateTimeseries';
 
-const CODE_PATTERN = /^[a-zA-Z0-9]+$/;
-const MIN_CODE_LENGTH = 1;
-const MAX_CODE_LENGTH = 36;
 const REFERRAL_LINK_ORIGIN = 'https://sparkvey.com/signup?ref=';
 
 type AffiliatesPageClientProps = {
@@ -58,11 +58,7 @@ function AffiliatesFallback() {
 }
 
 function isValidCode(value: string) {
-  const trimmed = value.trim();
-
-  return trimmed.length >= MIN_CODE_LENGTH
-    && trimmed.length <= MAX_CODE_LENGTH
-    && CODE_PATTERN.test(trimmed);
+  return isValidReferralCode(value.trim());
 }
 
 function copyReferralLink(code: string) {

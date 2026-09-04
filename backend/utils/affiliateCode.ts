@@ -406,23 +406,22 @@ function isAttributedReferral(referral?: ReferralInformation | null): boolean {
   return Boolean(referral?.referredBy?.trim() || referral?.referredByID?.trim());
 }
 
+function blankReferralFieldFilter(field: 'referredBy' | 'referredByID'): Filter<InternalUser> {
+  return {
+    $or: [
+      { [`referralInformation.${field}`]: { $exists: false } },
+      { [`referralInformation.${field}`]: null },
+      { [`referralInformation.${field}`]: '' },
+      { [`referralInformation.${field}`]: { $regex: '^\\s+$' } },
+    ],
+  };
+}
+
 function unattributedReferralFilter(): Filter<InternalUser> {
   return {
     $and: [
-      {
-        $or: [
-          { 'referralInformation.referredBy': { $exists: false } },
-          { 'referralInformation.referredBy': null },
-          { 'referralInformation.referredBy': '' },
-        ],
-      },
-      {
-        $or: [
-          { 'referralInformation.referredByID': { $exists: false } },
-          { 'referralInformation.referredByID': null },
-          { 'referralInformation.referredByID': '' },
-        ],
-      },
+      blankReferralFieldFilter('referredBy'),
+      blankReferralFieldFilter('referredByID'),
     ],
   };
 }

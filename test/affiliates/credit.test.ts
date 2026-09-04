@@ -184,6 +184,36 @@ describe('affiliate attribution and credit', () => {
     if (!result.ok) expect(result.error).toBe('alreadyExists');
   });
 
+  test('useAffiliateCode attributes a v5 user with whitespace-only referral fields', async () => {
+    users.docs.push({
+      userID: 'referred_1',
+      referralInformation: {
+        referredBy: '   ',
+        referredByID: '\t',
+        totalEarnings: 0,
+        tasksCompleted: 0,
+        pendingEarnings: 0,
+      },
+    });
+    codes.docs.push(affiliateCodeDoc());
+
+    const result = await useAffiliateCode({
+      userID: 'referred_1',
+      code: 'promo',
+    });
+
+    expect(result.ok).toBe(true);
+
+    const user = users.docs.find(doc => doc.userID === 'referred_1');
+    const referral = user?.referralInformation as {
+      referredBy: string,
+      referredByID: string,
+    };
+
+    expect(referral.referredBy).toBe('promo');
+    expect(referral.referredByID).toBe('referrer_1');
+  });
+
   test('useAffiliateCode attributes a v5 user with null referral fields', async () => {
     users.docs.push({
       userID: 'referred_1',

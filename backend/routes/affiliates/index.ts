@@ -25,6 +25,7 @@ import type { AffiliatePeriod } from 'types/AffiliateTimeseries';
 import { sendResponse } from 'backend/utils/response';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
+import { referralCodeSchema } from 'schemas/auth';
 
 const AFFILIATE_PERIODS = [ 'day', 'week', 'month', 'year' ] as const satisfies readonly AffiliatePeriod[];
 
@@ -102,7 +103,7 @@ export default function routesInvoker() {
   app.use(requireCsrf);
 
   const codeBodySchema = z.object({
-    code: z.string().min(1).max(36).regex(/^[a-zA-Z0-9]+$/),
+    code: referralCodeSchema,
   });
 
   app.post('/create', withRouteErrorHandling, zValidator('json', codeBodySchema), async (c) => {

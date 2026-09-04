@@ -5,6 +5,7 @@ import {
   getStoredReferralCode,
   persistReferralCode,
   persistReferralCodeFromSearch,
+  resolveReferralCode,
 } from '../../src/utils/referral';
 
 const memory = new Map<string, string>();
@@ -54,5 +55,13 @@ describe('referral storage', () => {
     clearStoredReferralCode();
 
     expect(getStoredReferralCode()).toBe('');
+  });
+
+  test('resolveReferralCode prefers a valid URL ref over storage', () => {
+    persistReferralCode('stored_code');
+
+    expect(resolveReferralCode('Url_Code')).toBe('Url_Code');
+    expect(resolveReferralCode('not a code!!')).toBe('stored_code');
+    expect(resolveReferralCode(null)).toBe('stored_code');
   });
 });
